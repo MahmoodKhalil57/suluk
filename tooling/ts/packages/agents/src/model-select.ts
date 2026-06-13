@@ -18,7 +18,7 @@ import { policiesFor } from "./policy";
  */
 export type ResolvedTarget =
   | { kind: "pinned"; model: string }
-  | { kind: "router"; model: "openrouter/auto"; allowedModels: string[]; costQualityTradeoff: number }
+  | { kind: "router"; model: "openrouter/auto"; allowedModels: string[]; costQualityTradeoff: number; provider?: { zdr: true } }
   | { kind: "latest"; model: string; note: string };
 
 export interface SkillModelResolution {
@@ -92,13 +92,23 @@ export function skillModels(doc: OpenAPIv4Document, agentName: string, skillName
   const snapshotHash = declared ? null : catalog.snapshotHash;
 
   const mode = skill?.modelResolve ?? "pinned";
+  const governed = isGoverned(doc, agentName);
+  // ZDR (C030, verified 2026-06-13 — `provider:{zdr:true}` combines with `model:"openrouter/auto"`, 200 live): we have no
+  // per-model ZDR FACT to pin against, so ZDR is enforceable ONLY at runtime via the router → a `zdr` skill resolves to the
+  // ROUTER regardless of `modelResolve`. Authors who pinned get it: the pin can't honor ZDR, the router can.
+  const wantsZdr = !!skill?.modelRequire?.zdr;
   // GOVERNANCE GATE (mechanical): a governed skill MUST pin — router/latest are non-reproducible + cannot bind an endpoint.
-  if (isGoverned(doc, agentName) && mode !== "pinned")
+  if (governed && mode !== "pinned")
     throw new Error(`@suluk/agents: skill "${skillName}" of agent "${agentName}" is GOVERNED by an operator policy — modelResolve:"${mode}" is inadmissible (a governed skill must be "pinned" for reproducible, auditable, endpoint-bindable selection). Remove the policy or use "pinned".`);
+  // ZDR-under-governance is unsatisfiable via OpenRouter: ZDR needs the router (`provider.zdr`), governance forces a pin, and
+  // region/license have NO endpoint knob — fail loud rather than silently dropping the ZDR constraint or the governance pin.
+  if (governed && wantsZdr)
+    throw new Error(`@suluk/agents: skill "${skillName}" of agent "${agentName}" requires ZDR (modelRequire.zdr) AND is GOVERNED by an operator policy — unsatisfiable: ZDR is enforced only via the router's provider.zdr, but a governed skill must pin (region/license have no OpenRouter endpoint knob). Drop one.`);
 
   let target: ResolvedTarget;
   let pickPinned: boolean;
-  if (mode === "router") { target = { kind: "router", model: "openrouter/auto", allowedModels: ids, costQualityTradeoff: deriveCQT(skill) }; pickPinned = false; }
+  if (wantsZdr) { target = { kind: "router", model: "openrouter/auto", allowedModels: ids, costQualityTradeoff: deriveCQT(skill), provider: { zdr: true } }; pickPinned = false; }
+  else if (mode === "router") { target = { kind: "router", model: "openrouter/auto", allowedModels: ids, costQualityTradeoff: deriveCQT(skill) }; pickPinned = false; }
   else if (mode === "latest") { target = { kind: "latest", model: toLatestAlias(ids[0] ?? ""), note: "~-latest defers the concrete version to request time — NOT reproducible (recorded in the why-explainer)" }; pickPinned = false; }
   else { target = { kind: "pinned", model: ids[0] ?? "" }; pickPinned = true; }
 

@@ -96,3 +96,24 @@ describe("C030 resolution target — pin (default) / router (delegate) / latest,
     expect(deriveCQT({ modelProfile: "max-reasoning" })).toBe(0);
   });
 });
+
+describe("C030 ZDR — verified 2026-06-13 (provider.zdr + openrouter/auto combine, 200 live)", () => {
+  test("a modelRequire.zdr skill resolves to the ROUTER with provider:{zdr:true} EVEN at the default (pinned) mode — no per-model ZDR fact to pin against", () => {
+    const d = doc();
+    d["x-suluk-agents"]!.conin.skills!.operate = { modelProfile: "balanced", modelRequire: { zdr: true } }; // no modelResolve ⇒ default pinned
+    const r = skillModels(d, "conin", "operate", SEED_CATALOG);
+    expect(r.target.kind).toBe("router");
+    if (r.target.kind === "router") {
+      expect(r.target.provider).toEqual({ zdr: true });
+      expect(r.target.allowedModels).toEqual(r.ids); // ZDR is enforced at the endpoint; the fence still enumerates survivors
+    }
+    expect(r.pickPinned).toBe(false); // the served id is logged-not-pinned (ZDR endpoint chosen at runtime)
+  });
+
+  test("ZDR + an operator policy is UNSATISFIABLE via OpenRouter — fails loud (ZDR needs the router, governance forces a pin)", () => {
+    const d = doc();
+    d["x-suluk-policy"] = { fleet: { appliesTo: ["#/x-suluk-agents/conin"], modelAllowlist: ["google/gemini-2.5-flash"] } };
+    d["x-suluk-agents"]!.conin.skills!.operate = { modelProfile: "balanced", modelRequire: { zdr: true } };
+    expect(() => skillModels(d, "conin", "operate", SEED_CATALOG)).toThrow(/ZDR|unsatisfiable/i);
+  });
+});

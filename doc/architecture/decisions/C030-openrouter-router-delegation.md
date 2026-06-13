@@ -76,14 +76,18 @@ link out, do not absorb). `latest-resolution` is the opt-in above. `pareto` is a
 
 - The **`endpoints[]`** sub-list — build when a real fleet needs per-endpoint **region** governance OpenRouter can't
   express, AND we have endpoint gov data.
-- The **governed-router path** (`provider.zdr` for retention). _(Verified 2026-06-13 against OpenRouter's
-  provider-routing doc: the `provider` object exposes `zdr` (a real hard "restrict to ZDR endpoints" constraint),
-  `data_collection`, `only`/`ignore`/`order`, `quantizations` — but **NO region/residency field** (so region-governed
-  selection MUST pin, permanently — this strengthens the gate), and the docs do **NOT** state `provider:{zdr:true}`
-  combines with `model:"openrouter/auto"` (the auto-router uses a separate `plugins.allowed_models`). With no
-  OpenRouter API key available to test it empirically, the combination stays UNVERIFIED → **force-pin all governed**
-  remains correct.)_ **Sharpened reopen-trigger:** a LIVE empirical request confirming `provider:{zdr:true}` +
-  `model:"openrouter/auto"` routes only to ZDR endpoints — then retention-governed (ZDR-only) skills may delegate
-  with `provider:{zdr:true}` on the target; region/license-governed still pin.
+- ~~The **governed-router path** (`provider.zdr` for retention).~~ **REOPEN-TRIGGER FIRED + SHIPPED 2026-06-13.** The
+  live probe (saasuluk `OPENROUTER_API_KEY`) confirmed the previously-unverified combination: `POST /chat/completions`
+  with `{model:"openrouter/auto", provider:{zdr:true}}` returns **200 with a real completion** (`google/gemini-2.5-flash-lite`),
+  with **and** without `allow_fallbacks:false` — provider preferences **do** combine with the auto-router (the docs'
+  silence had left this open; it is not mutually exclusive). **Shipped** the ungoverned ZDR-router path:
+  `SulukSkillRef.modelRequire.zdr` → `skillModels` resolves to `{kind:"router", model:"openrouter/auto",
+  provider:{zdr:true}}` **regardless of `modelResolve`** — there is no per-model ZDR *fact* to pin against, so ZDR is
+  runtime-only via `provider.zdr`; `pickPinned:false`. **ZDR + an operator policy is unsatisfiable** (ZDR needs the
+  router; governance forces a pin; region/license have no endpoint knob) → **fails loud**. _Honest caveat:_ the 200
+  proves the combination is **accepted and routes**; one response does not prove strict **exclusion** of non-ZDR
+  endpoints (the same model came back with/without `zdr` — flash-lite is ZDR-eligible on Google). OpenRouter's doc
+  asserts the restriction; the probe confirms acceptance. Region/license-governed still pin (no endpoint field —
+  permanent).
 - The full **Class-B tier curation** — superseded as a *ranker* input; revisit only if tiers are wanted as filter
   floors at scale.

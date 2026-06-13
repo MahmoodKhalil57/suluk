@@ -139,8 +139,14 @@ export interface SulukSkillRef {
   modelProfile?: "tool-reliable" | "cheap-fast" | "balanced" | "max-reasoning" | "long-context" | "vision";
   /** escape-hatch preference weights (0-3) over the 4 author-facing axes. */
   modelPrefer?: { intelligence?: 0 | 1 | 2 | 3; cost?: 0 | 1 | 2 | 3; speed?: 0 | 1 | 2 | 3; context?: 0 | 1 | 2 | 3 };
-  /** explicit hard requirements the author adds (beyond what's derived from the agent + the context analyzer). */
-  modelRequire?: { needsStructured?: boolean; inputModalities?: string[]; minContext?: number };
+  /**
+   * explicit hard requirements the author adds (beyond what's derived from the agent + the context analyzer). `zdr`
+   * (C030, verified 2026-06-13): require zero-data-retention serving — enforced at runtime via the router's
+   * `provider:{zdr:true}` (which combines with `openrouter/auto`, confirmed by a live probe), since we have no
+   * per-model ZDR fact to pin against; so a `zdr` skill resolves to the ROUTER, and conflicts with a region/license
+   * operator policy that forces a pin.
+   */
+  modelRequire?: { needsStructured?: boolean; inputModalities?: string[]; minContext?: number; zdr?: boolean };
   /**
    * How the model is RESOLVED from the survivor set (C030): `pinned` (default) — a concrete reproducible id; `router`
    * — delegate the per-request pick to OpenRouter's auto-router fenced by our enumerated survivor allowlist (opt-in,
