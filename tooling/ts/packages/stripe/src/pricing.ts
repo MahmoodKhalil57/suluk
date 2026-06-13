@@ -26,6 +26,17 @@ export interface Discount {
   value: number;
   /** the discount only applies at/above this subtotal (cents). */
   minSubtotalCents?: number;
+  /** cap the amount removed (cents) — e.g. "30% off, up to $50". Applied before the [0, subtotal] clamp. */
+  maxDiscountCents?: number;
+}
+
+/** Stripe's minimum chargeable amount (USD). Below it, a charge is impossible — the order must go the free path. */
+export const STRIPE_MIN_CHARGE_CENTS = 50;
+
+/** Does this total require a real Stripe charge, or can it complete as a free order? Centralizes the $0.50 floor
+ *  decision so the free-checkout branch and the Stripe branch can never disagree about where $0–$0.49 goes. */
+export function requiresStripe(totalCents: number): boolean {
+  return Math.max(0, Math.round(fin(totalCents))) >= STRIPE_MIN_CHARGE_CENTS;
 }
 
 export interface DiscountResult { valid: boolean; amountCents: number; reason?: DiscountRejection }
@@ -53,7 +64,9 @@ export function computeDiscountAmount(subtotalCents: number, d: Discount): numbe
   const base = Math.max(0, Math.round(fin(subtotalCents)));
   if (base === 0 || !Number.isFinite(d.value) || d.value <= 0) return 0; // a non-finite/non-positive value buys nothing
   const raw = d.type === "percent" ? (base * d.value) / 100 : d.value;
-  return Math.min(base, Math.max(0, Math.round(raw)));
+  // cap a percentage (or fixed) discount at maxDiscountCents if set ("30% off, up to $50"), then clamp to [0, subtotal].
+  const capped = d.maxDiscountCents != null && Number.isFinite(d.maxDiscountCents) ? Math.min(raw, Math.max(0, d.maxDiscountCents)) : raw;
+  return Math.min(base, Math.max(0, Math.round(capped)));
 }
 
 /**

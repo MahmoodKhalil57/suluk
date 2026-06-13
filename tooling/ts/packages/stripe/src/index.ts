@@ -12,7 +12,7 @@ export {
 } from "./stripe";
 export {
   subtotal, computeDiscountAmount, validateDiscount, prorateDiscount, orderTotal, verifyAmount,
-  cartFingerprint, idempotencyKey,
+  cartFingerprint, idempotencyKey, requiresStripe, STRIPE_MIN_CHARGE_CENTS,
   type CartLine, type Discount, type DiscountResult, type DiscountRejection, type OrderTotal, type AmountVerdict,
 } from "./pricing";
 // the checkout money-path (Phase 1): the pure anti-double-charge / anti-tampering core + the Stripe binding.

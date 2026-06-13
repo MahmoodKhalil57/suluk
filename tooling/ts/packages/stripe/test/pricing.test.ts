@@ -1,7 +1,7 @@
 import { test, expect, describe } from "bun:test";
 import {
   subtotal, computeDiscountAmount, validateDiscount, prorateDiscount, orderTotal, verifyAmount,
-  cartFingerprint, idempotencyKey, type CartLine, type Discount,
+  cartFingerprint, idempotencyKey, requiresStripe, STRIPE_MIN_CHARGE_CENTS, type CartLine, type Discount,
 } from "../src/index";
 
 const lines = (xs: [number, number][]): CartLine[] => xs.map(([unitCents, qty], i) => ({ unitCents, qty, id: i + 1 }));
@@ -115,6 +115,36 @@ describe("@suluk/stripe money — pure pricing primitives (the trust layer)", ()
     });
     test("a different principal → a different key (no cross-tenant intent reuse)", () => {
       expect(idempotencyKey("user-1", a)).not.toBe(idempotencyKey("user-2", a));
+    });
+  });
+
+  describe("maxDiscountCents — capping a percentage discount", () => {
+    test("a percent discount is capped at maxDiscountCents", () => {
+      expect(computeDiscountAmount(30000, { type: "percent", value: 30, maxDiscountCents: 5000 })).toBe(5000); // 9000 → capped 5000
+    });
+    test("under the cap, the full percent applies", () => {
+      expect(computeDiscountAmount(10000, { type: "percent", value: 30, maxDiscountCents: 5000 })).toBe(3000);
+    });
+    test("no cap → uncapped (back-compat)", () => {
+      expect(computeDiscountAmount(30000, { type: "percent", value: 30 })).toBe(9000);
+    });
+    test("the cap still respects the [0, subtotal] clamp", () => {
+      expect(computeDiscountAmount(2000, { type: "fixed", value: 9999, maxDiscountCents: 5000 })).toBe(2000);
+    });
+  });
+
+  describe("requiresStripe — the $0.50 floor / free-order decision", () => {
+    test("a chargeable total requires Stripe", () => {
+      expect(requiresStripe(2900)).toBe(true);
+      expect(requiresStripe(STRIPE_MIN_CHARGE_CENTS)).toBe(true);
+    });
+    test("$0 and sub-floor totals go the free path", () => {
+      expect(requiresStripe(0)).toBe(false);
+      expect(requiresStripe(49)).toBe(false);
+    });
+    test("poison totals never require a charge", () => {
+      expect(requiresStripe(NaN)).toBe(false);
+      expect(requiresStripe(-100)).toBe(false);
     });
   });
 });
