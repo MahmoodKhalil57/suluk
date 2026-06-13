@@ -57,6 +57,29 @@ export function residentSurface(doc: OpenAPIv4Document, agentName: string): stri
 }
 
 /**
+ * The RESIDENT served-tool NAMES across an agent's whole REACHABLE surface (C027 tier-trim serving) — every route key
+ * (the served wire id) whose `tier` is not `cold-tail`, across the agent AND its transitively-reachable sub-agents.
+ * Feed this to `@suluk/mcp` `mcpApp({ resident })`: the cold-tail is then withheld from the default `tools/list` and
+ * revealed on demand via `discover_tools`, never widening the declared surface. This is the runtime SERVING
+ * counterpart to `projectOpenRouter`'s resident/discoverable split — together they make the over-serve gap closeable.
+ * (Cycle-safe; mirrors `reachableSurface`.)
+ */
+export function residentToolNames(doc: OpenAPIv4Document, agentName: string): string[] {
+  const map = agentMap(doc);
+  const resident = new Set<string>();
+  const seen = new Set<string>();
+  const walk = (key: string) => {
+    const a = map[key];
+    if (!a || seen.has(key)) return;
+    seen.add(key);
+    for (const [rk, route] of Object.entries(a.routes ?? {})) if (route.tier !== "cold-tail") resident.add(rk);
+    for (const c of childKeys(a)) if (c.key) walk(c.key);
+  };
+  walk(agentName);
+  return [...resident].sort();
+}
+
+/**
  * TIER-TRIM CONFORMANCE: the DEFAULT served tool set must contain NO cold-tail tool (those belong behind
  * `discover_tools`). A cold-tail tool in the default list is a silent no-op of the tier label — the reduction the
  * tiering thesis promises is not actually being delivered on the served path.

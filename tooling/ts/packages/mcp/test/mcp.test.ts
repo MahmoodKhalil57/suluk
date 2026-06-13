@@ -169,3 +169,35 @@ describe("review-hardening regressions", () => {
     expect(new URL(seen!.url).pathname).toBe("/product/7"); // routed in-process, origin preserved
   });
 });
+
+describe("tier-trim serving (C027) — resident default surface + discover_tools cold-tail", () => {
+  const tools = toolsFrom(doc, { include: "all" }); // listProduct, createProduct, getProduct
+  const mk = (resident?: Set<string>): RpcContext => ({ tools, info: { name: "t", version: "9" }, exec: async (op, args) => ({ ran: op.name, args }), resident });
+  const list = async (ctx: RpcContext) => ((await handleRpc({ jsonrpc: "2.0", id: 1, method: "tools/list" }, ctx))!.result as { tools: { name: string }[] }).tools.map((t) => t.name);
+
+  test("no resident set ⇒ full surface, no discover_tools", async () => {
+    expect(await list(mk())).toEqual(["listProduct", "createProduct", "getProduct"]);
+  });
+  test("resident set ⇒ tools/list serves only resident + discover_tools (cold-tail withheld)", async () => {
+    const names = await list(mk(new Set(["listProduct"])));
+    expect(names).toContain("listProduct");
+    expect(names).toContain("discover_tools");
+    expect(names).not.toContain("createProduct");
+    expect(names).not.toContain("getProduct");
+  });
+  test("discover_tools reveals the cold-tail (filtered by intent), never routed to exec", async () => {
+    const ctx = mk(new Set(["listProduct"]));
+    const all = await handleRpc({ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "discover_tools" } }, ctx);
+    expect((all!.result as { structuredContent: { tools: { name: string }[] } }).structuredContent.tools.map((t) => t.name).sort()).toEqual(["createProduct", "getProduct"]);
+    const filtered = await handleRpc({ jsonrpc: "2.0", id: 3, method: "tools/call", params: { name: "discover_tools", arguments: { intent: "create" } } }, ctx);
+    expect((filtered!.result as { structuredContent: { tools: { name: string }[] } }).structuredContent.tools.map((t) => t.name)).toEqual(["createProduct"]);
+  });
+  test("a cold-tail tool is still CALLABLE by name (lossless — withheld, not removed)", async () => {
+    const r = await handleRpc({ jsonrpc: "2.0", id: 4, method: "tools/call", params: { name: "getProduct", arguments: { id: 7 } } }, mk(new Set(["listProduct"])));
+    expect((r!.result as { structuredContent: { ran: string } }).structuredContent.ran).toBe("getProduct");
+  });
+  test("discover_tools is inert when there is NO cold-tail (all resident)", async () => {
+    const names = await list(mk(new Set(["listProduct", "createProduct", "getProduct"])));
+    expect(names).not.toContain("discover_tools");
+  });
+});

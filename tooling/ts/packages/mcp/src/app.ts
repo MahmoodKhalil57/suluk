@@ -29,6 +29,13 @@ export interface McpOptions extends ToolsOptions {
   exec?: (c: Context, op: McpOp, args: Record<string, unknown>) => Promise<unknown>;
   /** Send permissive CORS so browser-based MCP clients can reach a public read-only server (default: true). */
   cors?: boolean;
+  /**
+   * TIER-TRIM serving (C027): the names of the RESIDENT tools (a value or a per-request resolver). When provided,
+   * `tools/list` serves only these + a `discover_tools` meta-tool, withholding the cold-tail from the default surface
+   * (revealed on demand) — the real, lossless context reduction the agent layer promises. Derive these from an
+   * agent's route tiers, e.g. `@suluk/agents` `residentToolNames(doc, agentName)`. Absent ⇒ the full surface is served.
+   */
+  resident?: string[] | ((c: Context) => string[] | undefined | Promise<string[] | undefined>);
 }
 
 const CORS = { "access-control-allow-origin": "*", "access-control-allow-methods": "POST, OPTIONS", "access-control-allow-headers": "content-type, mcp-protocol-version, mcp-session-id, authorization" };
@@ -62,8 +69,10 @@ export function mcpApp(opts: McpOptions): Hono {
     const doc = await docFor(c);
     const tools = toolsFrom(doc, opts);
     const exec = opts.exec ? (op: McpOp, args: Record<string, unknown>) => opts.exec!(c, op, args) : (op: McpOp, args: Record<string, unknown>) => originExec(c, op, args);
+    const residentList = typeof opts.resident === "function" ? await opts.resident(c) : opts.resident;
+    const resident = residentList && residentList.length ? new Set(residentList) : undefined;
 
-    const response = await handleRpc(payload as RpcRequest, { tools, info, exec, protocolVersion: undefined, instructions: opts.instructions });
+    const response = await handleRpc(payload as RpcRequest, { tools, info, exec, protocolVersion: undefined, instructions: opts.instructions, resident });
     if (response === null) return c.body(null, 202, cors); // a notification → accepted, no body
     return c.json(response, 200, cors);
   });

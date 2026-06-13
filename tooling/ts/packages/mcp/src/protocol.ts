@@ -22,7 +22,28 @@ export interface RpcContext {
   protocolVersion?: string;
   /** Optional free-text usage guidance surfaced to the model on `initialize`. */
   instructions?: string;
+  /**
+   * TIER-TRIM (C027 tier-trim serving) — the names of the RESIDENT tools. When set, `tools/list` serves only those
+   * plus a synthetic `discover_tools` meta-tool; the COLD-TAIL (every other tool) is withheld from the default
+   * surface and revealed on demand when the model calls `discover_tools`. `tools/call` still executes ANY tool by
+   * name (cold-tail tools are servable, just not advertised up front) — so the context reduction is real, lossless,
+   * and self-healing. Absent ⇒ the full surface is served (no trim).
+   */
+  resident?: Set<string>;
 }
+
+/** The synthetic meta-tool that reveals the cold-tail. It is NEVER routed to `exec` — handled in `tools/call`. */
+export const DISCOVER_TOOL = {
+  name: "discover_tools",
+  description:
+    "Reveal additional specialized tools available on demand beyond the resident set shown in tools/list. Call this " +
+    "with an optional `intent` (free text describing what you are trying to do) to filter to the most relevant ones. " +
+    "Any revealed tool can then be called directly by its name.",
+  inputSchema: {
+    type: "object",
+    properties: { intent: { type: "string", description: "what you are trying to do — filters the cold-tail tools (omit to list all)" } },
+  },
+} as const;
 
 const err = (id: RpcRequest["id"], code: number, message: string, data?: unknown): RpcResponse =>
   ({ jsonrpc: "2.0", id: id ?? null, error: { code, message, ...(data !== undefined ? { data } : {}) } });
@@ -52,12 +73,28 @@ export async function handleRpc(msg: RpcRequest, ctx: RpcContext): Promise<RpcRe
     }
     case "ping":
       return ok(msg.id, {});
-    case "tools/list":
-      return ok(msg.id, { tools: ctx.tools.map((t) => ({ name: t.name, description: t.description, inputSchema: t.inputSchema })) });
+    case "tools/list": {
+      // Tier-trim: serve resident tools + the discover_tools meta-tool (only if a cold-tail actually exists).
+      const listed = ctx.resident ? ctx.tools.filter((t) => ctx.resident!.has(t.name)) : ctx.tools;
+      const out = listed.map((t) => ({ name: t.name, description: t.description, inputSchema: t.inputSchema }));
+      if (ctx.resident && ctx.tools.some((t) => !ctx.resident!.has(t.name))) out.push(DISCOVER_TOOL as unknown as (typeof out)[number]);
+      return ok(msg.id, { tools: out });
+    }
     case "tools/call": {
       const name = msg.params?.name;
       const args = (msg.params?.arguments as Record<string, unknown> | undefined) ?? {};
       if (typeof name !== "string") return err(msg.id, -32602, "Invalid params: 'name' is required");
+      // The discover_tools meta-tool reveals the cold-tail (never routed to exec). Only active under tier-trim.
+      if (name === DISCOVER_TOOL.name && ctx.resident) {
+        const intent = typeof args.intent === "string" ? args.intent.toLowerCase().trim() : "";
+        const coldTail = ctx.tools.filter((t) => !ctx.resident!.has(t.name));
+        const matched = intent ? coldTail.filter((t) => `${t.name} ${t.description ?? ""}`.toLowerCase().includes(intent)) : coldTail;
+        const revealed = matched.map((t) => ({ name: t.name, description: t.description, inputSchema: t.inputSchema }));
+        const text = revealed.length
+          ? `Discovered ${revealed.length} additional tool(s)${intent ? ` for "${args.intent}"` : ""}: ${revealed.map((t) => t.name).join(", ")}. Call any by name.`
+          : `No additional tools matched${intent ? ` "${args.intent}"` : ""}.`;
+        return ok(msg.id, { content: [{ type: "text", text }], structuredContent: { tools: revealed } });
+      }
       const tool = ctx.tools.find((t) => t.name === name);
       if (!tool) return err(msg.id, -32602, `Unknown tool: ${name}`);
       try {

@@ -7,6 +7,6 @@
  * CANDIDATE tooling — NOT official OAS.
  */
 export { toolsFrom, type McpTool, type McpOp, type ToolsOptions } from "./tools";
-export { handleRpc, LATEST_PROTOCOL, SUPPORTED_PROTOCOLS, type RpcRequest, type RpcResponse, type RpcContext, type ToolExec } from "./protocol";
+export { handleRpc, DISCOVER_TOOL, LATEST_PROTOCOL, SUPPORTED_PROTOCOLS, type RpcRequest, type RpcResponse, type RpcContext, type ToolExec } from "./protocol";
 export { buildRequest, originExec, appExec, type FetchApp } from "./exec";
 export { mcpApp, type McpOptions } from "./app";
