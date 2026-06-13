@@ -228,6 +228,40 @@ export function referenceResponse(doc: OpenAPIv4Document, opts: ReferenceOptions
   return new Response(referenceHtml(doc, opts), { headers: { "content-type": "text/html; charset=utf-8" } });
 }
 
+/**
+ * The v4 SUPERPOWERS, panels-only (no full operation browser) — facets, the cost explorer + workflow calculator,
+ * the access reachability matrix, the ADA resolution playground, and the hardening report. Designed to be EMBEDDED
+ * (e.g. an in-page drawer/iframe next to a Scalar API browser) so one reference page carries Scalar's polish AND the
+ * v4-native analytics Scalar can't host — making a separate native dashboard unnecessary. Honors the projected doc.
+ */
+export function referenceInsightsHtml(doc: OpenAPIv4Document, opts: { costLedgerUrl?: string; whoamiUrl?: string; pageTitle?: string } = {}): string {
+  const ir = normalize(doc);
+  const hardening = auditDocument(doc);
+  const costInit = opts.costLedgerUrl ? `<script>window.__SULUK_COST_URL=${JSON.stringify(opts.costLedgerUrl)};</script>` : "";
+  const whoamiInit = opts.whoamiUrl ? `<script>window.__SULUK_WHOAMI=${JSON.stringify(opts.whoamiUrl)};</script>` : "";
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>${escapeHtml(opts.pageTitle ?? "v4 Insights")}</title>
+<style>${STYLE}</style>
+<style>/* panels-only: drop the operation-browser chrome, center the panels */
+  body{display:block}.side,.skip,.menu-toggle,.hero,.toolbar{display:none!important}
+  #main{margin:0 auto;max-width:1060px;padding:18px 20px 64px}</style></head>
+<body>
+<main id="main">
+  ${facetsPanel(doc)}
+  ${costExplorer(ir)}
+  ${projectionMap(ir)}
+  ${adaPlayground(ir)}
+  ${hardeningPanel(hardening)}
+</main>
+${costInit}${whoamiInit}
+<script>${SCRIPT}</script>
+</body></html>`;
+}
+
+export function referenceInsightsResponse(doc: OpenAPIv4Document, opts: { costLedgerUrl?: string; whoamiUrl?: string; pageTitle?: string } = {}): Response {
+  return new Response(referenceInsightsHtml(doc, opts), { headers: { "content-type": "text/html; charset=utf-8" } });
+}
+
 export { normalize, type RefDoc, type NormalizedOperation } from "./ir";
 export { escapeHtml, crossCut, reachable, reachState, costRollup, DEFAULT_VIEWERS, type Viewer, type AccessFacet, type CostModel, type CrossCutRow } from "./facets";
 export { schemaHtml, sampleOf, constraintNotes } from "./schema";

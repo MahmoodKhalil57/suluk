@@ -1,0 +1,102 @@
+diff --git a/packages/api-reference/src/standalone/lib/html-api.ts b/packages/api-reference/src/standalone/lib/html-api.ts
+index e154fb9..3b06ca9 100644
+--- a/packages/api-reference/src/standalone/lib/html-api.ts
++++ b/packages/api-reference/src/standalone/lib/html-api.ts
+@@ -228,6 +228,82 @@ export const createContainer = (doc: Document, element?: Element | null) => {
+   return _container
+ }
+ 
++/**
++ * SULUK v4 PATCH — inject native OpenAPI-v4 panels into Scalar through its own public slot API (upstream-stable;
++ * styled with Scalar's `--scalar-*` design tokens so it reads as part of Scalar). Everything goes through the
++ * `content-start` slot — empirically the one slot that mounts reliably in this build's modern reference layout
++ * (manually-passed object slots for `footer` / `content-end` do NOT surface through `v-if="$slots.footer"` /
++ * `<Content #end>` in the production Vue bundle). content-start returns a fragment (array of vnodes):
++ *   1. a facet-summary panel computed from `configuration.content` (cost coverage + access legend), and
++ *   2. a collapsed `<details>` carrying the FULL v4 superpowers inline (cost explorer · reachability · ADA ·
++ *      hardening) via an iframe to the host-supplied, role-projected `configuration['x-suluk-insights']` URL.
++ * Facets are read off ops in either the v4 (`paths[uri].requests[name]`) or downgraded 3.x shape.
++ */
++function sulukV4Slots(configuration: unknown): Record<string, () => unknown> | undefined {
++  const cfg = configuration && typeof configuration === 'object' ? (configuration as Record<string, unknown>) : {}
++  const content = cfg.content
++  const nodes: unknown[] = []
++
++  // (1) facet-summary panel — a native "OpenAPI v4 contract" summary, computed from the doc.
++  if (content && typeof content === 'object') {
++    const paths = (content as { paths?: Record<string, unknown> }).paths || {}
++    let total = 0
++    let priced = 0
++    const countOp = (op: unknown) => {
++      if (!op || typeof op !== 'object') return
++      total++
++      if ((op as Record<string, unknown>)['x-suluk-cost']) priced++
++    }
++    for (const pi of Object.values(paths)) {
++      const p = pi as Record<string, unknown>
++      if (p && p.requests) for (const r of Object.values(p.requests as Record<string, unknown>)) countOp(r)
++      else if (p) for (const m of ['get', 'put', 'post', 'patch', 'delete', 'head', 'options']) countOp(p[m])
++    }
++    if (total) {
++      const chip = (t: string) => `<span style="background:var(--scalar-background-3,#eef0f3);border-radius:999px;padding:2px 9px">${t}</span>`
++      const html =
++        `<div style="margin:0 0 16px;padding:14px 18px;border:1px solid var(--scalar-border-color,#e4e7ec);border-radius:12px;background:var(--scalar-background-2,#f8f9fb)">` +
++        `<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap"><b style="letter-spacing:-.01em">⛬ Suluk OpenAPI v4 contract</b><span style="background:var(--scalar-color-accent,#6366f1);color:#fff;border-radius:6px;padding:1px 8px;font-size:11px;font-weight:700">v4</span></div>` +
++        `<p style="margin:6px 0 9px;color:var(--scalar-color-2,#6b7280);font-size:13px">Every operation is <b>cost-metered</b> (micro-USD) and <b>access-scoped</b> — the badge on each operation shows its access + per-call cost. ${priced} of ${total} operations carry a declared cost.</p>` +
++        `<div style="display:flex;gap:7px;flex-wrap:wrap;font-size:12px;color:var(--scalar-color-2,#6b7280)">${chip('🌐 Public')}${chip('👤 Signed-in')}${chip('🔒 Admin')}${chip('💰 per-call cost')}</div>` +
++        `</div>`
++      nodes.push(h('div', { innerHTML: html }))
++    }
++  }
++
++  // (2) the FULL v4 superpowers, INLINE in Scalar (no bolt-on drawer) — a collapsed <details> so it reads as a
++  // compact bar that expands the iframe on click. The host passes the panels URL via `x-suluk-insights`
++  // (e.g. @suluk/reference's insights page, already role-projected by the host).
++  const ins = cfg['x-suluk-insights']
++  if (typeof ins === 'string' && ins) {
++    nodes.push(
++      h(
++        'details',
++        {
++          class: 'suluk-v4-insights',
++          style:
++            'width:100%;margin:0 0 18px;border:1px solid var(--scalar-border-color,#e4e7ec);border-radius:14px;overflow:hidden;background:var(--scalar-background-2,#f8f9fb)',
++        },
++        [
++          h('summary', {
++            style:
++              'cursor:pointer;padding:12px 16px;font-weight:700;color:#fff;background:var(--scalar-color-accent,#6366f1)',
++            innerHTML: '⚡ v4 Insights — cost explorer · reachability · ADA · hardening &nbsp;<span style="font-weight:400;opacity:.85">(click to expand)</span>',
++          }),
++          h('iframe', {
++            src: ins,
++            loading: 'lazy',
++            style: 'display:block;width:100%;height:78vh;border:0;background:#0b0d12',
++          }),
++        ],
++      ),
++    )
++  }
++
++  if (!nodes.length) return undefined
++  return { 'content-start': () => nodes }
++}
++
+ /**
+  * Create (and mount) a new Scalar API Reference
+  *
+@@ -247,8 +323,13 @@ export const createApiReference: CreateApiReference = (
+     configuration: optionalConfiguration ?? (elementOrSelectorOrConfig as AnyApiReferenceConfiguration) ?? {},
+   })
+ 
++  // SULUK v4 PATCH — slots injected into Scalar's ApiReference component (native v4 panels).
++  const sulukSlots = sulukV4Slots(props.configuration)
++
+   const createReferenceApp = (isSsr = false) => {
+-    const referenceApp = isSsr ? createSSRApp(() => h(ApiReference, props)) : createApp(() => h(ApiReference, props))
++    const referenceApp = isSsr
++      ? createSSRApp(() => h(ApiReference, props, sulukSlots))
++      : createApp(() => h(ApiReference, props, sulukSlots))
+ 
+     // Meta tags, etc.
+     referenceApp.use(createHead())

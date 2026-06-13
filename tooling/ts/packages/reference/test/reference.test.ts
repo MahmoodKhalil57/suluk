@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test";
-import { referenceHtml, referenceResponse, normalize, crossCut, reachable, reachState, costRollup, codeSamples, portalHtml, auditDocument, DEFAULT_VIEWERS, schemaHtml, sampleOf, constraintNotes, escapeHtml, type ReferencePlugin } from "../src/index";
+import { referenceHtml, referenceResponse, referenceInsightsHtml, normalize, crossCut, reachable, reachState, costRollup, codeSamples, portalHtml, auditDocument, DEFAULT_VIEWERS, schemaHtml, sampleOf, constraintNotes, escapeHtml, type ReferencePlugin } from "../src/index";
 import type { OpenAPIv4Document } from "@suluk/core";
 
 const doc = {
@@ -160,5 +160,17 @@ describe("@suluk/reference — IR + complete renderer", () => {
   test("costRollup", () => {
     const r = costRollup(doc);
     expect(r.priced).toBe(2); expect(r.totalMicroUsd).toBe(155);
+  });
+});
+
+describe("referenceInsightsHtml — the embeddable v4 superpowers (no full op browser)", () => {
+  test("renders the cost explorer + reachability + ADA + hardening panels, drops the op-browser chrome", () => {
+    const html = referenceInsightsHtml(doc);
+    expect(html).toContain('id="cost-explorer"');   // cost explorer + workflow calculator
+    expect(html).toContain('id="ada"');              // ADA resolution playground
+    expect(html).toContain('id="hardening"');        // hardening report
+    expect(html).toContain("<style>");                // self-styled (STYLE) + interactive (SCRIPT)
+    expect(html).toContain("<script>");
+    expect(html).toContain(".side,.skip,.menu-toggle,.hero,.toolbar{display:none"); // chrome removed → panels only
   });
 });
