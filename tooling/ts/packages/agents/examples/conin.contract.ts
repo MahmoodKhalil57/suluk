@@ -82,7 +82,8 @@ export const coninContract: OpenAPIv4Document = {
 
   "x-suluk-agents": {
     conin: {
-      description: "Construction-intelligence orchestrator: messy MENA capital-project docs → provenance-graded deliverables (feasibility, cost plans, IPC/mostakhlas, variations, claims, final accounts). Deterministic-first — every NUMBER comes from a deterministic route; the LLM only routes + grades SOURCED/ASSUMED.",
+      // matches conin's published plugin.json description (so projectClaudePlugin reproduces it verbatim).
+      description: "Construction Intelligence: generate decision-grade construction deliverables (feasibility studies, cost plans, IPC/mostakhlas payment certificates, variation accounts, claims registers, tender evaluations, final accounts) from your documents. Deterministic-first — every figure is graded SOURCED or ASSUMED.",
       scope: ["library:read", "library:write", "studies:read", "studies:write", "priors:read"],
       maxDepth: 1,
       skills: {
@@ -90,7 +91,9 @@ export const coninContract: OpenAPIv4Document = {
           modelProfile: "tool-reliable",
           modelResolve: "pinned",
           tier: "cold-tail",
-          whenToUse: "Always the entry skill: place the project (locate_project), pick a deliverable, run deterministic routes for every figure, grade SOURCED/ASSUMED. Delegate document/evidence finding to the retrieval sub-agent.",
+          // the skill's `whenToUse` becomes the SKILL.md `description` Claude reads to decide when to invoke — conin's
+          // own trigger blurb (names the deliverables + the domain), verbatim from its build-skill.ts.
+          whenToUse: "Operate Conin (Construction Intelligence) for MENA construction & real-estate projects: generate decision-grade deliverables — feasibility studies, residual land value, cost plans, IPC/mostakhlas payment certificates, retention & advance recovery, variation registers & quotations, dayworks, claims & loss-and-expense, tender evaluations, final accounts, FIDIC contract data, BOQ readiness/audit. Use whenever the user wants to model, cost, value, certify, reconcile, or audit a construction project. Deterministic-first: every figure is SOURCED or ASSUMED.",
           provenance: { source: "https://construction-intelligence.saastemly.com/v1/instructions", contentHash: "sha256-9f2c0000deadbeef", version: "2026-06-11" },
         },
       },
