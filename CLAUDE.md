@@ -37,7 +37,7 @@ digest (frontier head, confidence map, contradictions, cheapest-next-move, index
 
 - **ADR provenance.** Our ADRs are `Cxxx-slug.md` in `doc/architecture/decisions/` with a provenance blockquote. The SIG's are `000x`. Never intermix the numbering; never present a `Cxxx` as a SIG decision.
 - **burhan `.bn`.** Run: `cd ~/apps/adam/tools/burhan && PYTHONPATH=src python3 -m burhan.cli <file>`. Boolean literals are **`True`/`False`** (Python AST), not `true`/`false`. Top-level `assume` only binds `runtime.*` names — keep other provenance in comments. Hunt contradictions with `bin/burhan-converge` / `bin/burhan-perturb` over `plan/facts/`.
-- **daftar.** Valid kinds: `note`, `receipt.observation`, `assumption.envelope`, `bias.keep`, `burhan.segment`. Use `burhan.segment` for decision receipts. `add`/`list`/`stats` are reliable; `query` retrieval is currently weak — confirm with `daftar list --project=/home/mk/apps/sig-moonwalk`.
+- **daftar.** Valid kinds: `note`, `receipt.observation`, `assumption.envelope`, `bias.keep`, `burhan.segment`. Use `burhan.segment` for decision receipts. `add`/`list`/`stats` are reliable; `query` retrieval is currently weak — confirm with `daftar list --project=/home/mk/apps/suluk`.
 - **Document is a projection.** `specification/` is regenerated from the ledger, never the source of truth. Decisions live in the ledger + ADRs first.
 
 ## Guardrails

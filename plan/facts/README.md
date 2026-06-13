@@ -13,7 +13,7 @@ daftar holds the *narrative* receipt. The spine ([../STATE.md](../STATE.md)) onl
 ## Validate / interpret
 
 ```bash
-cd ~/apps/adam/tools/burhan && PYTHONPATH=src python3 -m burhan.cli /home/mk/apps/sig-moonwalk/plan/facts/<file>.bn
+cd ~/apps/adam/tools/burhan && PYTHONPATH=src python3 -m burhan.cli /home/mk/apps/suluk/plan/facts/<file>.bn
 PYTHONPATH=src python3 bin/burhan-converge   # cross-decision contradiction hunt
 PYTHONPATH=src python3 bin/burhan-perturb     # prior-fix audit
 ```
@@ -21,6 +21,6 @@ PYTHONPATH=src python3 bin/burhan-perturb     # prior-fix audit
 ## Narrative receipts (daftar)
 
 ```bash
-bun ~/apps/adam/tools/daftar/bin/daftar add decision --title="<q>" --body="<resolution>" --project=/home/mk/apps/sig-moonwalk
-bun ~/apps/adam/tools/daftar/bin/daftar query "<topic>" --project=/home/mk/apps/sig-moonwalk --budget-tokens=800
+bun ~/apps/adam/tools/daftar/bin/daftar add decision --title="<q>" --body="<resolution>" --project=/home/mk/apps/suluk
+bun ~/apps/adam/tools/daftar/bin/daftar query "<topic>" --project=/home/mk/apps/suluk --budget-tokens=800
 ```

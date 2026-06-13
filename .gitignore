@@ -11,3 +11,5 @@ tooling/ts/.workflows
 .npmrc
 **/.npmrc
 *.vsix
+downloads/
+bun.lock
