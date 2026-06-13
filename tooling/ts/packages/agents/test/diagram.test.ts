@@ -12,15 +12,15 @@ describe("agent diagram (C027 OBSERVE) — composition → zoomable tree", () =>
   });
   test("the tier-trim is legible at a glance (resident default-served, cold-tail behind discover_tools)", () => {
     const d = agentDiagram(coninContract, "conin");
-    const resident = (d.children ?? []).find((c: any) => c.label === "Resident routes");
-    const cold = (d.children ?? []).find((c: any) => c.label === "Cold-tail routes");
+    const resident = (d.children ?? []).find((c: any) => c.label === "Resident routes") as any;
+    const cold = (d.children ?? []).find((c: any) => c.label === "Cold-tail routes") as any;
     expect(resident.tier).toBe("resident"); expect(resident.badges).toContain("default-served");
     expect(cold.tier).toBe("cold-tail"); expect(cold.badges).toContain("behind discover_tools"); expect(cold.collapsed).toBe(true);
     expect(resident.children.length + cold.children.length).toBe(29); // conin's orchestrator routes
   });
   test("sub-agents recurse (drill-in) and carry the trust boundary", () => {
     const d = agentDiagram(coninContract, "conin");
-    const sub = (d.children ?? []).find((c: any) => c.label === "Sub-agents").children[0];
+    const sub = ((d.children ?? []).find((c: any) => c.label === "Sub-agents") as any).children[0];
     expect(sub.kind).toBe("subagent");
     expect(sub.badges.some((b: string) => b.includes("trust untrusted"))).toBe(true);
     expect(groups(sub)).toContain("Resident routes"); // its own subtree

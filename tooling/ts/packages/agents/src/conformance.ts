@@ -11,9 +11,14 @@ import { contentHash } from "./skill";
 import { effectiveUnderPolicies, policiesFor } from "./policy";
 
 export interface ConformanceFinding {
+  /** `error` is gate-failing (a conformance FAILURE); `warning` is advisory. */
+  severity: "error" | "warning";
   code: string;
   detail: string;
 }
+
+/** True ⇒ no error-severity conformance findings (warnings are advisory). Mirrors `lintOk` — the served-fact gate. */
+export const conformanceOk = (findings: ConformanceFinding[]): boolean => !findings.some((f) => f.severity === "error");
 
 /**
  * The statically-enumerable reachable surface of an agent: its own route keys (the wire ids) + every route key of
@@ -43,7 +48,7 @@ export function assertServedSubset(doc: OpenAPIv4Document, agentName: string, se
   const surface = new Set(reachableSurface(doc, agentName).tools);
   return servedToolNames
     .filter((t) => !surface.has(t))
-    .map((t) => ({ code: "over-serve", detail: `served tool "${t}" is NOT in the declared reachable surface — discover_tools may reorder/lazy-load, never widen` }));
+    .map((t) => ({ severity: "error", code: "over-serve", detail: `served tool "${t}" is NOT in the declared reachable surface — discover_tools may reorder/lazy-load, never widen` }));
 }
 
 /**
@@ -90,7 +95,7 @@ export function assertDefaultServedResident(doc: OpenAPIv4Document, agentName: s
   const coldTail = new Set(Object.entries(a?.routes ?? {}).filter(([, r]) => r.tier === "cold-tail").map(([k]) => k));
   return defaultServedToolNames
     .filter((t) => coldTail.has(t) && !resident.has(t))
-    .map((t) => ({ code: "cold-tail-in-default", detail: `cold-tail tool "${t}" is in the DEFAULT served set — it must sit behind discover_tools, or the tier-trim (and its context reduction) is a no-op` }));
+    .map((t) => ({ severity: "error", code: "cold-tail-in-default", detail: `cold-tail tool "${t}" is in the DEFAULT served set — it must sit behind discover_tools, or the tier-trim (and its context reduction) is a no-op` }));
 }
 
 /**
@@ -103,8 +108,8 @@ export function assertServedSubsetGoverned(doc: OpenAPIv4Document, agentName: st
   const allowed = new Set(effectiveUnderPolicies(doc, agentName).effective.allowedTools);
   const surface = new Set(reachableSurface(doc, agentName).tools);
   return servedToolNames.flatMap((t) =>
-    !surface.has(t) ? [{ code: "over-serve", detail: `served tool "${t}" is NOT in the declared reachable surface` }]
-    : !allowed.has(t) ? [{ code: "policy-denied-served", detail: `served tool "${t}" was DENIED by operator policy but is being served — the operator cap is not holding on the wire` }]
+    !surface.has(t) ? [{ severity: "error", code: "over-serve", detail: `served tool "${t}" is NOT in the declared reachable surface` }]
+    : !allowed.has(t) ? [{ severity: "error", code: "policy-denied-served", detail: `served tool "${t}" was DENIED by operator policy but is being served — the operator cap is not holding on the wire` }]
     : []);
 }
 
@@ -114,7 +119,7 @@ export function assertServedSubsetGoverned(doc: OpenAPIv4Document, agentName: st
  * (the C021 supply-chain concern). No declared hash ⇒ a warning (drift is undetectable).
  */
 export function verifySkillFreshness(declaredHash: string | undefined, currentSnapshot: string): ConformanceFinding[] {
-  if (!declaredHash) return [{ code: "unpinned-skill", detail: "no declared contentHash — served-instruction drift cannot be detected" }];
+  if (!declaredHash) return [{ severity: "warning", code: "unpinned-skill", detail: "no declared contentHash — served-instruction drift cannot be detected" }];
   const now = contentHash(currentSnapshot);
-  return declaredHash === now ? [] : [{ code: "stale-skill", detail: `declared contentHash ${declaredHash} ≠ current ${now} — the served instructions drifted` }];
+  return declaredHash === now ? [] : [{ severity: "error", code: "stale-skill", detail: `declared contentHash ${declaredHash} ≠ current ${now} — the served instructions drifted` }];
 }

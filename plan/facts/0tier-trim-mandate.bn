@@ -1,0 +1,26 @@
+# C031 — tier-trim is a CONDITIONAL conformance MUST (mandate-if-tiers-declared). Council wf_4badc65e-14b: UNANIMOUS
+# 4/4 CONDITIONAL @0.52 (conformance-purist + adoption-pragmatist + enterprise-security + agent-builder-DX). Decidable
+# now on conin-LIVE evidence (production /mcp serves 8 resident + discover_tools, not its 35-tool catalog). Closes the
+# C027 tier-trim reopen-trigger's mandate question. ORIGINATED — no SIG/industry prior; ceiling tracks C027.
+
+# A conforming serving adapter MUST, IFF the agent declares >=1 cold-tail route, serve a default tools/list EXCLUDING
+# every cold-tail route (revealed via discover_tools, callable by name = lossless). cold-tail-in-default = conformance
+# FAILURE (severity error, gate-failing via conformanceOk). NO surface-size threshold (trigger on DECLARATION, not N).
+# A no-cold-tail agent conforms trivially. Binds the SERVED default surface only — not tier-adoption, not a per-tier
+# context budget, not runtime tier-routing (all stay advisory per C027). Universal subset/over-serve MANDATE unchanged.
+claim tier_trim_conditional_must_if_tiers_declared: Bool @>=0.52 = True
+falsified_when tier_trim_conditional_must_if_tiers_declared == False
+
+# IMPLEMENTED (the MUST was advisory-by-construction until now): ConformanceFinding gains `severity`; `conformanceOk`
+# gates on error-severity (mirrors lintOk); cold-tail-in-default / over-serve / policy-denied-served / stale-skill =
+# error, unpinned-skill = warning. @suluk/agents 0.1.5; 85 tests.
+claim tier_trim_mandate_implemented_severity_gate: Bool @>=0.6 = True
+falsified_when tier_trim_mandate_implemented_severity_gate == False
+
+# DISSENT preserved (DX/served-client lens): losslessness is PROTOCOL-layer (callable by name) not COGNITION-layer — a
+# weak model that never calls discover_tools is worse off under a mandated trim. Conin-live is the first witness; not
+# yet measured at the task-success layer. FALSIFIER (keeps it falsifiable, not an unfalsifiable thesis): a SECOND
+# independent (non-Conin, author!=operator) conforming server legitimately declaring tiers but serving full by default,
+# OR measured task-success dropping vs full-catalog, demotes the clause-2 MUST -> SHOULD/ADVISORY with receipt.
+claim tier_trim_falsifier_second_server_demotes_to_advisory: Bool @>=0.55 = True
+falsified_when tier_trim_falsifier_second_server_demotes_to_advisory == False

@@ -131,11 +131,11 @@ export function verifyAgentFreshness(manifest: AgentManifest, snapshots: Record<
   for (const node of manifest.nodes) {
     for (const skill of node.skills) {
       const key = `${node.name}/${skill.name}`;
-      if (!skill.contentHash) { out.push({ code: "unpinned-skill", detail: `${key}: no contentHash — drift undetectable` }); continue; }
+      if (!skill.contentHash) { out.push({ severity: "warning", code: "unpinned-skill", detail: `${key}: no contentHash — drift undetectable` }); continue; }
       const snap = snapshots[key];
       if (snap === undefined) continue;
       const now = contentHash(snap);
-      if (now !== skill.contentHash) out.push({ code: "stale-skill", detail: `${key}: signed contentHash ${skill.contentHash} ≠ current ${now} — served instructions drifted after mint` });
+      if (now !== skill.contentHash) out.push({ severity: "error", code: "stale-skill", detail: `${key}: signed contentHash ${skill.contentHash} ≠ current ${now} — served instructions drifted after mint` });
     }
   }
   return out;

@@ -133,7 +133,7 @@ becomes a hard filter the model selector uses → an agent declares *needs*, not
   — `constructionIntelligence/app.ts` `/mcp tools/list` now serves the routed resident tier (8: == the contract's
   resident set) instead of the 35-tool catalog (conin commit `94abc00`, 421 tests; `MCP_ROUTED=0` reverts). The
   context reduction is now delivered on the served path for conin's external clients (Claude). Commits `f40eb6b` +
-  conin `94abc00`. **Only remaining (the original decision):** whether the STANDARD mandates the trim vs advisory —
+  conin `94abc00`. ✅ **RESOLVED [C031]:** the STANDARD mandates the trim CONDITIONALLY (MUST-if-tiers-declared); `cold-tail-in-default` is now a gate-failing conformance FAILURE (`conformanceOk`, agents@0.1.5). Was —
   now decidable on real evidence, no longer trigger-blocked.
 - [ ] **Runtime determinism gate** (a SOURCED figure may originate ONLY from a deterministic route). Open: mandated
   by the standard vs left to the implementer (enterprise/security want mandated; majority declare-only).

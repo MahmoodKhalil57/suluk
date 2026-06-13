@@ -1,6 +1,7 @@
 import { test, expect, describe } from "bun:test";
-import { reachableSurface, residentToolNames, assertServedSubset, verifySkillFreshness, contentHash } from "../src/index";
+import { reachableSurface, residentToolNames, assertServedSubset, assertDefaultServedResident, conformanceOk, verifySkillFreshness, contentHash } from "../src/index";
 import { coninDoc, coninInstructions } from "./fixtures/conin";
+import { coninContract } from "../examples/conin.contract";
 
 describe("C027 conformance — static reachable surface + over-serve auditor", () => {
   test("the full reachable tool surface is statically enumerable (zero requests)", () => {
@@ -46,5 +47,19 @@ describe("C027 tier-trim serving — residentToolNames feeds mcpApp({ resident }
     expect(reachableSurface(d, "conin").tools).toContain("run_core_primitive"); // still declared + callable
     // feeding `resident` to mcpApp closes the over-serve gap: only resident tools advertised, cold-tail behind discover_tools
     expect(resident).toEqual(["find_comparables", "generate_deliverable", "search_library"]);
+  });
+});
+
+describe("C031 tier-trim conformance mandate — cold-tail-in-default is a FAILURE (conditional MUST)", () => {
+  test("serving the cold-tail in the default surface is an error-severity finding; conformanceOk gates on it", () => {
+    const full = reachableSurface(coninContract, "conin").tools; // includes the 29 cold-tail
+    const findings = assertDefaultServedResident(coninContract, "conin", full);
+    expect(findings.length).toBeGreaterThan(0);
+    expect(findings.every((f) => f.severity === "error" && f.code === "cold-tail-in-default")).toBe(true);
+    expect(conformanceOk(findings)).toBe(false); // gate FAILS
+  });
+  test("serving only the resident set conforms (the conin-live shape)", () => {
+    const resident = residentToolNames(coninContract, "conin");
+    expect(conformanceOk(assertDefaultServedResident(coninContract, "conin", resident))).toBe(true);
   });
 });
