@@ -608,14 +608,19 @@ Example:
 ```yaml
 paths:
   /users/{id}:
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-    get:
-      # operation details
+    requests:
+      getUser:
+        method: get
+        parameterSchema:
+          path:
+            type: object
+            properties:
+              id:
+                type: string
+        responses:
+          ok:
+            status: 200
+            description: Retrieved user
 ```
 
 When an incoming request matches `/users/12345`, the reverse-parse algorithm extracts `id=12345` and assigns it to the PATH slot: `{id: "12345"}`. The parameter schema then validates the captured value against the declared schema (type: string, constraints, etc.).
@@ -625,47 +630,65 @@ When an incoming request matches `/users/12345`, the reverse-parse algorithm ext
 ```yaml
 paths:
   /users:
-    get:
-      summary: List users
-      operationId: listUsers
-      responses:
-        '200':
-          description: OK
+    requests:
+      listUsers:
+        method: get
+        summary: List users
+        operationId: listUsers
+        responses:
+          ok:
+            status: 200
+            description: OK
   /users/{id}:
-    parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-          pattern: '^[0-9]+$'
-    get:
-      summary: Get user by ID
-      operationId: getUser
+    requests:
+      getUser:
+        method: get
+        summary: Get user by ID
+        operationId: getUser
+        parameterSchema:
+          path:
+            type: object
+            properties:
+              id:
+                type: string
+                pattern: '^[0-9]+$'
+        responses:
+          ok:
+            status: 200
   /files/{+path}:
-    parameters:
-      - name: path
-        in: path
-        required: true
-        schema:
-          type: string
-      # Note: {+path} captures remaining path depth,
-      # e.g., /files/docs/report.pdf → path="docs/report.pdf"
-    get:
-      summary: Get file
-      operationId: getFile
+    requests:
+      getFile:
+        method: get
+        summary: Get file
+        operationId: getFile
+        parameterSchema:
+          path:
+            type: object
+            properties:
+              path:
+                type: string
+        responses:
+          ok:
+            status: 200
+        # Note: {+path} captures remaining path depth,
+        # e.g., /files/docs/report.pdf → path="docs/report.pdf"
   /archive;version={ver}:
-    parameters:
-      - name: ver
-        in: path
-        required: true
-        schema:
-          type: string
-    get:
-      summary: Get archive with version parameter
-      # Note: matrix syntax is fully delimited;
-      # /archive;version=1.0 unmaps to ver="1.0"
-      operationId: getArchive
+    requests:
+      getArchive:
+        method: get
+        summary: Get archive with version parameter
+        operationId: getArchive
+        parameterSchema:
+          path:
+            type: object
+            properties:
+              ver:
+                type: string
+        responses:
+          ok:
+            status: 200
+        # Note: matrix syntax is fully delimited;
+        # /archive;version=1.0 unmaps to ver="1.0"
 ```
 
 In this example:
@@ -815,106 +838,137 @@ Below is a YAML illustration of a multi-aspect signature scenario, showing how t
 ```yaml
 paths:
   /items:
-    get:
-      summary: List all items
-      operationId: listItems
-      signature:
-        method: GET
-        uriTemplate: /items
-        aspects:
-          - method
-          - uriTemplate
-      collisionVerdict:
-        status: provably-disjoint
-        reason: Only GET /items without further path segments
-        
-    post:
-      summary: Create item
-      operationId: createItem
-      signature:
-        method: POST
-        uriTemplate: /items
-        requestContentType: application/json
-        aspects:
-          - method
-          - uriTemplate
-          - requestContentType
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name: { type: string }
-      collisionVerdict:
-        status: provably-disjoint
-        reason: POST vs. GET on same path
+    requests:
+      listItems:
+        method: get
+        summary: List all items
+        operationId: listItems
+        signature:
+          method: GET
+          uriTemplate: /items
+          aspects:
+            - method
+            - uriTemplate
+        collisionVerdict:
+          status: provably-disjoint
+          reason: Only GET /items without further path segments
+        responses:
+          ok:
+            status: 200
+
+      createItem:
+        method: post
+        summary: Create item
+        operationId: createItem
+        contentType: application/json
+        contentSchema:
+          type: object
+          properties:
+            name: { type: string }
+        signature:
+          method: POST
+          uriTemplate: /items
+          requestContentType: application/json
+          aspects:
+            - method
+            - uriTemplate
+            - requestContentType
+        collisionVerdict:
+          status: provably-disjoint
+          reason: POST vs. GET on same path
+        responses:
+          created:
+            status: 201
 
   /items/{itemId}:
-    get:
-      summary: Get item by ID
-      operationId: getItem
-      signature:
-        method: GET
-        uriTemplate: /items/{itemId}
-        aspects:
-          - method
-          - uriTemplate
-      collisionVerdict:
-        status: provably-disjoint
-        reason: Concrete path /items/{itemId} vs. /items (concrete-over-variable precedence)
+    requests:
+      getItem:
+        method: get
+        summary: Get item by ID
+        operationId: getItem
+        parameterSchema:
+          path:
+            type: object
+            properties:
+              itemId:
+                type: string
+        signature:
+          method: GET
+          uriTemplate: /items/{itemId}
+          aspects:
+            - method
+            - uriTemplate
+        collisionVerdict:
+          status: provably-disjoint
+          reason: Concrete path /items/{itemId} vs. /items (concrete-over-variable precedence)
+        responses:
+          ok:
+            status: 200
 
   /items/recent:
-    get:
-      summary: Get recent items
-      operationId: getRecentItems
-      signature:
-        method: GET
-        uriTemplate: /items/recent
-        aspects:
-          - method
-          - uriTemplate
-      collisionVerdict:
-        status: provably-disjoint
-        reason: Concrete /items/recent matches before variable /items/{itemId}
+    requests:
+      getRecentItems:
+        method: get
+        summary: Get recent items
+        operationId: getRecentItems
+        signature:
+          method: GET
+          uriTemplate: /items/recent
+          aspects:
+            - method
+            - uriTemplate
+        collisionVerdict:
+          status: provably-disjoint
+          reason: Concrete /items/recent matches before variable /items/{itemId}
+        responses:
+          ok:
+            status: 200
 
   /notifications:
-    post:
-      summary: Send notification (content-type differentiation)
-      operationId: notifyJson
-      signature:
-        method: POST
-        uriTemplate: /notifications
-        requestContentType: application/json
-        aspects:
-          - method
-          - uriTemplate
-          - requestContentType
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                text: { type: string }
+    requests:
+      notifyJson:
+        method: post
+        summary: Send notification (content-type differentiation)
+        operationId: notifyJson
+        contentType: application/json
+        contentSchema:
+          type: object
+          properties:
+            text: { type: string }
+        signature:
+          method: POST
+          uriTemplate: /notifications
+          requestContentType: application/json
+          aspects:
+            - method
+            - uriTemplate
+            - requestContentType
+        responses:
+          ok:
+            status: 200
 
-    post:
-      summary: Send notification (XML)
-      operationId: notifyXml
-      signature:
-        method: POST
-        uriTemplate: /notifications
-        requestContentType: application/xml
-        aspects:
-          - method
-          - uriTemplate
-          - requestContentType
-      requestBody:
-        content:
-          application/xml:
-            schema:
-              type: object
+      notifyXml:
+        method: post
+        summary: Send notification (XML)
+        operationId: notifyXml
+        contentType: application/xml
+        contentSchema:
+          type: object
+        signature:
+          method: POST
+          uriTemplate: /notifications
+          requestContentType: application/xml
+          aspects:
+            - method
+            - uriTemplate
+            - requestContentType
+        collisionVerdict:
+          status: provable-collision
+          collisionResolution: content-type-discrimination
+          warning: requires router support for content-type routing
+        responses:
+          ok:
+            status: 200
       collisionVerdict:
         status: provable-collision
         collisionResolution: content-type-discrimination
@@ -1047,19 +1101,25 @@ When a pathItem defines shared parameters across multiple requests, tools MAY su
 paths:
   /users/{userId}:
     shared:
-      parameter-schema:
+      parameterSchema:
         query:
-          limit: { type: integer, default: 10 }
+          type: object
+          properties:
+            limit: { type: integer, default: 10 }
     
     requests:
       get:
-        # Inherits path-level parameter-schema.query.limit
+        # Inherits path-level parameterSchema.query.limit
         method: GET
+        responses:
+          ok: { status: 200 }
       
       post:
-        # Inherits path-level parameter-schema.query.limit
+        # Inherits path-level parameterSchema.query.limit
         # Can override or add parameters
         method: POST
+        responses:
+          ok: { status: 200 }
 ```
 
 **Merge semantics:**
@@ -1488,25 +1548,28 @@ All dependencies within a single parameter location are expressed using standard
 **Example (query parameters with interdependencies):**
 
 ```yaml
-parameters:
-  - name: searchQuery
-    in: query
+requests:
+  searchOp:
+    method: GET
     parameterSchema:
-      type: object
-      properties:
-        q:
-          type: string
-        filter:
-          type: string
-        sortBy:
-          type: string
-      dependentRequired:
-        filter: ["q"]   # filter requires q to be present
-      if:
+      query:
+        type: object
         properties:
-          sortBy: { const: "date" }
-      then:
-        required: ["q"]
+          q:
+            type: string
+          filter:
+            type: string
+          sortBy:
+            type: string
+        dependentRequired:
+          filter: ["q"]   # filter requires q to be present
+        if:
+          properties:
+            sortBy: { const: "date" }
+        then:
+          required: ["q"]
+    responses:
+      ok: { status: 200 }
 ```
 
 **6.5.2 Cross-Location Value-Equality (Relational Extension)**
@@ -1596,14 +1659,20 @@ Default values are authored inside the **schema home** — within the JSON Schem
 For each parameter (query, path, header, cookie, body), a default value is declared using the JSON Schema `default` keyword within the parameter's `parameterSchema`:
 
 ```yaml
-parameters:
-  - name: limit
-    in: query
+requests:
+  getItems:
+    method: GET
     parameterSchema:
-      type: integer
-      default: 10
-      minimum: 1
-      maximum: 100
+      query:
+        type: object
+        properties:
+          limit:
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 100
+    responses:
+      ok: { status: 200 }
 ```
 
 **6.7.2 Parameter-Level Default Field (Deferred)**
@@ -1629,15 +1698,18 @@ Requests and responses MAY declare multiple alternative schema languages or vali
 JSON Schema 2020-12 is the sole **core** schema language. Within each per-location slot (query, path, header, cookie, body, response), a single `parameterSchema` or response `content` schema definition is the source of truth:
 
 ```yaml
-parameters:
-  - name: filter
-    in: query
+requests:
+  filterOp:
+    method: GET
     parameterSchema:
-      type: object
-      properties:
-        name:
-          type: string
-      # Single schema home; no inline mix-within-slot
+      query:
+        type: object
+        properties:
+          name:
+            type: string
+        # Single schema home; no inline mix-within-slot
+    responses:
+      ok: { status: 200 }
 ```
 
 **6.8.2 Alternative Schema Expression (Extension)**
@@ -1659,19 +1731,18 @@ Request and response content is declared via the **content object**, which maps 
 **6.9.1 Content Structure**
 
 ```yaml
-requestBody:
-  content:
-    application/json:
-      schema: { $ref: "#/components/schemas/User" }
-    application/xml:
-      schema: { $ref: "#/components/schemas/User" }
-responses:
-  "200":
-    content:
-      application/json; charset=utf-8:
-        schema: { $ref: "#/components/schemas/User" }
-      text/plain:
-        schema: { type: string }
+paths:
+  /users:
+    requests:
+      createUser:
+        method: POST
+        contentType: application/json
+        contentSchema: { $ref: "#/components/schemas/User" }
+        responses:
+          ok:
+            status: 200
+            contentType: application/json
+            contentSchema: { $ref: "#/components/schemas/User" }
 ```
 
 **6.9.2 Media-Type Parameters (RFC 6838)**
@@ -1695,18 +1766,24 @@ Response and request headers are modeled via a **dedicated header-model referenc
 Headers are defined in the response object and referenced by stable name:
 
 ```yaml
-responses:
-  "200":
-    description: Success
-    headers:
-      X-Rate-Limit-Remaining:
-        description: Remaining API calls
-        schema:
-          type: integer
-      X-Custom-Header:
-        description: Custom metadata
-        schema:
-          type: string
+paths:
+  /test:
+    requests:
+      getTest:
+        method: GET
+        responses:
+          ok:
+            status: 200
+            description: Success
+            headers:
+              X-Rate-Limit-Remaining:
+                description: Remaining API calls
+                schema:
+                  type: integer
+              X-Custom-Header:
+                description: Custom metadata
+                schema:
+                  type: string
 ```
 
 **6.10.2 Header Field Models (Registry)**
@@ -1755,22 +1832,27 @@ An optional `shared` map at the pathItem or operation level carries reusable par
 paths:
   /users/{userId}:
     shared:
-      parameters:
-        - name: userId
-          in: path
-          parameterSchema:
-            type: string
-    get:
-      # userId parameter inherited
-      responses:
-        "200":
-          description: User details
-    patch:
-      # userId parameter inherited
-      requestBody:
-        content:
-          application/json:
-            schema: { type: object }
+      parameterSchema:
+        path:
+          type: object
+          properties:
+            userId: { type: string }
+    requests:
+      get:
+        # userId parameter inherited
+        method: GET
+        responses:
+          ok:
+            status: 200
+            description: User details
+      patch:
+        # userId parameter inherited
+        method: PATCH
+        contentType: application/json
+        contentSchema: { type: object }
+        responses:
+          ok:
+            status: 200
 ```
 
 **6.11.3 Merge Resolution**
@@ -1808,62 +1890,65 @@ The `shared` wrapper:
 paths:
   /orders/{orderId}:
     shared:
-      parameters:
-        - name: orderId
-          in: path
-          parameterSchema:
-            type: string
-            pattern: "^ORD-\\d{6}$"
-    patch:
-      parameters:
-        - name: includeDetails
-          in: query
-          parameterSchema:
-            type: boolean
-            default: false
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: string
-                  pattern: "^ORD-\\d{6}$"
-                status:
-                  type: string
-                  enum: [pending, processing, delivered]
-                items:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/OrderItem"
-              required: ["status"]
-              # Same-location dependency: if status is 'processing', require items
-              if:
-                properties:
-                  status: { const: "processing" }
-              then:
-                required: ["items"]
-      responses:
-        "200":
-          description: Order updated
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: "#/components/schemas/Order"
-                  - type: object
-                    properties:
-                      updatedAt: { type: string, format: date-time }
-        "404":
-          description: Order not found
-        "409":
-          description: Conflict
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
+      parameterSchema:
+        path:
+          type: object
+          properties:
+            orderId:
+              type: string
+              pattern: "^ORD-\\d{6}$"
+          required: [orderId]
+    requests:
+      updateOrder:
+        method: patch
+        parameterSchema:
+          query:
+            type: object
+            properties:
+              includeDetails:
+                type: boolean
+                default: false
+        contentType: application/json
+        contentSchema:
+          type: object
+          properties:
+            id:
+              type: string
+              pattern: "^ORD-\\d{6}$"
+            status:
+              type: string
+              enum: [pending, processing, delivered]
+            items:
+              type: array
+              items:
+                $ref: "#/components/schemas/OrderItem"
+          required: ["status"]
+          # Same-location dependency: if status is 'processing', require items
+          if:
+            properties:
+              status: { const: "processing" }
+          then:
+            required: ["items"]
+        responses:
+          updated:
+            status: 200
+            description: Order updated
+            contentType: application/json
+            contentSchema:
+              allOf:
+                - $ref: "#/components/schemas/Order"
+                - type: object
+                  properties:
+                    updatedAt: { type: string, format: date-time }
+          notFound:
+            status: 404
+            description: Order not found
+          conflict:
+            status: 409
+            description: Conflict
+            contentType: application/json
+            contentSchema:
+              $ref: "#/components/schemas/ErrorResponse"
 
 components:
   schemas:
@@ -1875,7 +1960,6 @@ components:
           type: integer
           minimum: 1
       required: ["productId", "quantity"]
-    
     Order:
       type: object
       properties:
@@ -1883,7 +1967,6 @@ components:
         status: { type: string }
         items: { type: array, items: { $ref: "#/components/schemas/OrderItem" } }
       required: ["id", "status"]
-    
     ErrorResponse:
       type: object
       properties:
@@ -2199,86 +2282,86 @@ The following are explicitly marked for future refinement or are candidate-level
 
 ```yaml
 components:
-  requestBodies:
+  requests:
     UserCreate:
-      required: true
-      content:
-        application/json:
-          schema:
+      method: POST
+      contentType: application/json
+      contentSchema:
+        type: object
+        properties:
+          name: { type: string }
+          email: { type: string, format: email }
+        required: [name, email]
+      responses:
+        "201":
+          status: "201"
+          description: "User created"
+          contentType: application/json
+          contentSchema:
             type: object
             properties:
+              id: { type: string }
               name: { type: string }
-              email: { type: string, format: email }
-            required: [name, email]
+              email: { type: string }
+            required: [id, name, email]
 
 paths:
   /users:
-    post:
-      summary: "Create a new user"
-      operationId: createUser
-      request:
+    requests:
+      createUser:
         method: POST
+        summary: "Create a new user"
+        operationId: createUser
         contentType: application/json
         # Per-location schema slots
-        headerSchema:
-          type: object
-          additionalProperties: true
-          properties:
-            authorization:
-              type: string
-              pattern: "^Bearer [a-zA-Z0-9._-]+$"
-            x-request-id:
-              type: string
-              pattern: "^[a-f0-9]{8}$"
-            accept:
-              type: string
-              enum: ["application/json"]
-              fieldModel: "accept"        # reference field model
-          required: [authorization, x-request-id]
-        cookieSchema:
-          type: object
-          additionalProperties: true
-          properties:
-            session-id:
-              type: string
-              pattern: "^[a-f0-9]{32}$"
-            user-prefs:
-              type: string
-          required: [session-id]
-        pathParamSchema:
-          type: object
         parameterSchema:
-          type: object
+          header:
+            type: object
+            additionalProperties: true
+            properties:
+              authorization:
+                type: string
+                pattern: "^Bearer [a-zA-Z0-9._-]+$"
+              x-request-id:
+                type: string
+                pattern: "^[a-f0-9]{8}$"
+              accept:
+                type: string
+                enum: ["application/json"]
+                fieldModel: "accept"        # reference field model
+            required: [authorization, x-request-id]
+          cookie:
+            type: object
+            additionalProperties: true
+            properties:
+              session-id:
+                type: string
+                pattern: "^[a-f0-9]{32}$"
+              user-prefs:
+                type: string
+            required: [session-id]
+          path:
+            type: object
+          query:
+            type: object
         contentSchema:
           type: object
           properties:
             name: { type: string, minLength: 1 }
             email: { type: string, format: email }
           required: [name, email]
-      responses:
-        "201":
-          description: "User created"
-          headers:
-            content-type:
-              description: "Response content type"
-              schema: { type: string, const: "application/json" }
-              fieldModel: "content-type"
-            x-user-id:
-              description: "ID of created user"
-              schema: { type: string, pattern: "^[a-f0-9]{8}$" }
-            set-cookie:
-              description: "Session cookie (httpOnly, secure)"
-              schema: { type: string }
-              fieldModel: "set-cookie"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id: { type: string }
-                  name: { type: string }
-                  email: { type: string }
-                required: [id, name, email]
+        responses:
+          "201":
+            status: "201"
+            description: "User created"
+            contentType: application/json
+            contentSchema:
+              type: object
+              properties:
+                id: { type: string }
+                name: { type: string }
+                email: { type: string }
+              required: [id, name, email]
 ```
 
 ---
@@ -2719,22 +2802,25 @@ Operations then reference this by name:
 ```yaml
 paths:
   /orgs/{org_id}/data:
-    post:
-      security:
-        - oauth2_code: [ 'data:write', 'org:manage' ]
-      parameters:
-        - name: org_id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        # ... org_id also in body for validation
-      responses:
-        '201':
-          description: Data created
-        '403':
-          description: Insufficient scope or tenant mismatch
+    requests:
+      postData:
+        method: POST
+        security:
+          - oauth2_code: [ 'data:write', 'org:manage' ]
+        parameterSchema:
+          path:
+            type: object
+            properties:
+              org_id:
+                type: string
+            required: [org_id]
+        responses:
+          "201":
+            status: "201"
+            description: Data created
+          "403":
+            status: "403"
+            description: Insufficient scope or tenant mismatch
 ```
 
 ### 9.7 Conformance and Tooling
@@ -2842,44 +2928,37 @@ Multi-file authoring (splitting an API definition across files for organization)
 ### 10.6 YAML Example
 
 ```yaml
+openapi: 4.0.0
+info:
+  title: Server Configuration Example
+  version: 1.0.0
+
 servers:
-  prod-us:
-    name: prod-us
+  - url: https://api-us.example.com
     description: |
       Production API cluster (US-East region).
       Runtime URL bound at deploy time via environment overlay or CI/CD substitution.
-    tags:
-      - production
-      - verified
-  staging:
-    name: staging
+  - url: https://staging-api.example.com
     description: |
       Staging environment. Used for pre-release validation.
-    tags:
-      - staging
-  dev:
-    name: dev
+  - url: http://localhost:3000
     description: Developer sandbox (localhost).
-    tags:
-      - development
 
 paths:
   /items:
-    servers:
-      - prod-us
-      - staging
-    get:
-      operationId: listItems
-      summary: List all items (production & staging only)
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Item'
+    requests:
+      listItems:
+        method: get
+        summary: List all items (production & staging only)
+        responses:
+          ok:
+            status: 200
+            description: Success
+            contentType: application/json
+            contentSchema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Item'
 ```
 
 **Interpretation:**
@@ -2946,12 +3025,22 @@ An operation's `tags` field is a **string array**, listing the tag names (map ke
 
 ```yaml
 openapi: 4.0.0
+info:
+  title: Tag Reference Example
+  version: 1.0.0
+
 paths:
   /pets:
-    get:
-      tags:
-        - "catalog"  # references tags["catalog"]
-        - "read"     # references tags["read"]
+    requests:
+      listPets:
+        method: get
+        tags:
+          - "catalog"  # references tags["catalog"]
+          - "read"     # references tags["read"]
+        responses:
+          ok:
+            status: 200
+            description: Success
 ```
 
 ---
@@ -3061,27 +3150,29 @@ tags:
 
 paths:
   /pets:
-    get:
-      summary: "List pets"
-      tags:
-        - "catalog"
-      responses:
-        "200":
-          description: "Success"
+    requests:
+      listPets:
+        method: get
+        summary: "List pets"
+        tags:
+          - "catalog"
+        responses:
+          ok:
+            status: 200
+            description: "Success"
 
-    post:
-      summary: "Create a pet"
-      tags:
-        - "write"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Pet"
-      responses:
-        "201":
-          description: "Pet created"
+      createPet:
+        method: post
+        summary: "Create a pet"
+        tags:
+          - "write"
+        contentType: application/json
+        contentSchema:
+          $ref: "#/components/schemas/Pet"
+        responses:
+          created:
+            status: 201
+            description: "Pet created"
 ```
 
 #### 11.4.2 Functional Areas Illustrated
@@ -3100,15 +3191,18 @@ info:
 # === Paths & Operations Functional Area ===
 paths:
   /payments:
-    post:
-      summary: "Create a payment"
-      tags: ["transactions"]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PaymentRequest"
+    requests:
+      createPayment:
+        method: post
+        summary: "Create a payment"
+        tags: ["transactions"]
+        contentType: application/json
+        contentSchema:
+          $ref: "#/components/schemas/PaymentRequest"
+        responses:
+          created:
+            status: 201
+            description: "Payment created"
 
 # === Schema Components Functional Area ===
 components:
@@ -3134,40 +3228,51 @@ components:
 #### 11.4.3 Annotations Example
 
 ```yaml
+openapi: 4.0.0
+info:
+  title: Annotations Example
+  version: 1.0.0
+
 paths:
   /users:
-    post:
-      requestBody:
-        content:
-          application/json:
-            schema:
+    requests:
+      createUser:
+        method: post
+        contentType: application/json
+        contentSchema:
+          type: object
+          properties:
+            email:
+              type: string
+              format: email
+              x-annotation:required-in-POST: true
+              x-annotation:updatable: false
+            password:
+              type: string
+              minLength: 8
+              x-annotation:write-only: true
+              x-annotation:required-in-POST: true
+        responses:
+          created:
+            status: 201
+            description: Created
+
+      listUsers:
+        method: get
+        responses:
+          ok:
+            status: 200
+            description: Success
+            contentType: application/json
+            contentSchema:
               type: object
               properties:
                 email:
                   type: string
                   format: email
-                  x-annotation:required-in-POST: true
-                  x-annotation:updatable: false
+                  x-annotation:read-only: true
                 password:
-                  type: string
-                  minLength: 8
-                  x-annotation:write-only: true
-                  x-annotation:required-in-POST: true
-
-    get:
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  email:
-                    type: string
-                    format: email
-                    x-annotation:read-only: true
-                  password:
-                    x-annotation:hidden-from-GET: true
+                  x-annotation:hidden-from-GET: true
 ```
 
 ---
@@ -3803,17 +3908,33 @@ A pathItem or Operation MAY declare an optional `shared` map that carries name-b
 paths:
   /users/{id}:
     shared:
-      parameters:
-        - name: api-version
-          in: query
-          required: true
-    get:
-      operationId: getUser
-      parameters:
-        - name: fields
-          in: query
-    delete:
-      operationId: deleteUser
+      parameterSchema:
+        query:
+          type: object
+          required:
+            - api-version
+          properties:
+            api-version:
+              type: string
+    requests:
+      getUser:
+        method: get
+        operationId: getUser
+        parameterSchema:
+          query:
+            type: object
+            properties:
+              fields:
+                type: string
+        responses:
+          ok:
+            status: 200
+      deleteUser:
+        method: delete
+        operationId: deleteUser
+        responses:
+          deleted:
+            status: 204
 ```
 
 Above, both `get` and `delete` inherit the `api-version` parameter.
@@ -3910,27 +4031,31 @@ Given two POST operations with overlapping paths:
 ```yaml
 paths:
   /users/{id}/emails:
-    post:
-      operationId: addUserEmail
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                action: { enum: ["add"] }
-  /users/{id}/emails:
-    post:
-      operationId: removeUserEmail
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                action: { enum: ["remove"] }
+    requests:
+      addUserEmail:
+        method: post
+        operationId: addUserEmail
+        contentType: application/json
+        contentSchema:
+          type: object
+          properties:
+            action:
+              enum: ["add"]
+        responses:
+          created:
+            status: 201
+      removeUserEmail:
+        method: post
+        operationId: removeUserEmail
+        contentType: application/json
+        contentSchema:
+          type: object
+          properties:
+            action:
+              enum: ["remove"]
+        responses:
+          ok:
+            status: 200
 ```
 
 The ADA produces:
@@ -4065,34 +4190,52 @@ parameters:
 **Input document snippet:**
 
 ```yaml
-openapi: "4.0-candidate"
+openapi: 4.0.0-candidate
 info:
   title: Order API
   version: "1.0"
 paths:
   /orders/{orderId}/items:
-    get:
-      operationId: listOrderItems
-      parameters:
-        path:
-          orderId:
-            name: orderId
-            required: true
-        query:
-          includeDetails:
-            name: includeDetails
-            schema:
-              type: boolean
-    post:
-      operationId: addOrderItem
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                productId: { type: string }
-                quantity: { type: integer }
+    requests:
+      listOrderItems:
+        method: get
+        operationId: listOrderItems
+        parameterSchema:
+          path:
+            type: object
+            properties:
+              orderId:
+                type: string
+                format: int64
+          query:
+            type: object
+            properties:
+              includeDetails:
+                type: boolean
+        responses:
+          ok:
+            status: 200
+      addOrderItem:
+        method: post
+        operationId: addOrderItem
+        parameterSchema:
+          path:
+            type: object
+            properties:
+              orderId:
+                type: string
+                format: int64
+        contentType: application/json
+        contentSchema:
+          type: object
+          properties:
+            productId:
+              type: string
+            quantity:
+              type: integer
+        responses:
+          created:
+            status: 201
 ```
 
 **Resulting ADA (simplified):**
