@@ -262,7 +262,9 @@ export function scalarV4Html(doc: OpenAPIv4Document, opts: ScalarV4Options = {})
   const title = escapeHtml(opts.pageTitle ?? doc.info?.title ?? "API Reference");
   const brand = escapeHtml(opts.brand ?? doc.info?.title ?? "API");
   const cdn = opts.cdn ?? DEFAULT_CDN;
-  const cfg = { customCss: opts.customCss ?? SULUK_CSS, ...(opts.configuration ?? {}) };
+  // showOperationId surfaces each operation's operationId — which IS the v4 request NAME (the by-name identity v4
+  // keys operations on) — as a badge in Scalar's own operation header. Default ON for the v4 reference; overridable.
+  const cfg = { customCss: opts.customCss ?? SULUK_CSS, showOperationId: true, ...(opts.configuration ?? {}) };
   const views = opts.views ?? [];
   const specParam = opts.specParam ?? "as";
   const viewOpts = `<option value="">As authored (full)</option>` + views.map((v) => `<option value="${escapeHtml(v.value)}">${escapeHtml(v.label)}</option>`).join("");

@@ -154,6 +154,16 @@ describe("scalarV4Html — the v4 REFERENCE (fork) with all suluk superpowers", 
     expect(html).not.toContain('id="sv4-as"');
   });
 
+  test("enables showOperationId so the v4 request-NAME (operationId) renders as Scalar's own operation badge", () => {
+    const { html } = scalarV4Html(v4doc, { brand: "saasuluk" });
+    expect(html).toContain('"showOperationId":true');
+  });
+
+  test("showOperationId stays overridable via configuration", () => {
+    const { html } = scalarV4Html(v4doc, { brand: "x", configuration: { showOperationId: false } });
+    expect(html).toContain('"showOperationId":false');
+  });
+
   test("scalarV4Html feeds the forked Scalar the NATIVE v4 doc (requests-shape), not the 3.1 downgrade", () => {
     const { html } = scalarV4Html(v4doc, { brand: "saasuluk" });
     const content = extractObjAfter(html, "INITIAL =");

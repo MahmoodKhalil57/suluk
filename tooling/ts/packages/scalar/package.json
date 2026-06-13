@@ -1,6 +1,6 @@
 {
   "name": "@suluk/scalar",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Render an OpenAPI v4 'Suluk' document with Scalar API Reference — NATIVELY via the suluk fork (Scalar ingests v4, shows 4.0.0-candidate) or via the 3.1 downgrade for vanilla Scalar. CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"

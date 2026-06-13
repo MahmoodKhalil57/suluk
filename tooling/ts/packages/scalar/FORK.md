@@ -30,10 +30,11 @@
 
 Native v4 ingestion shipped at the **parser boundary** (patch `0003`, `projectV4ToStore`) rather than the full
 workspace-store rewrite scoped below — Scalar consumes the v4 doc and projects it internally, so the engine +
-try-it stay unchanged. What remains is only **multi-request-per-method** (two v4 requests sharing a method on one
-path rendered as distinct sidebar entries — patch `0006`, high cost, **0** saasuluk collisions so not visible yet)
-and, if ever wanted, surfacing the raw request-name more prominently than its `summary` (currently the human
-`summary` wins as the title, with the v4 request-name preserved as `operationId`).
+try-it stay unchanged. The v4 **request-name identity** is surfaced via Scalar's own operation badge
+(`scalarV4Html` defaults `showOperationId: true`, and `projectV4ToStore` sets `operationId` = the v4 request name),
+so each operation reads e.g. `createCategory` above its `summary` title. What remains is only
+**multi-request-per-method** (two v4 requests sharing a method on one path rendered as distinct sidebar entries —
+patch `0006`, high cost + try-it risk, **0** saasuluk collisions so it changes nothing on this doc).
 
 
 
