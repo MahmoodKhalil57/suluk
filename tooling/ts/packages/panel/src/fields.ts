@@ -7,7 +7,7 @@
 
 export type FieldType =
   | "text" | "textarea" | "richtext" | "number" | "boolean"
-  | "select" | "date" | "datetime" | "email" | "url" | "json" | "relationship";
+  | "select" | "date" | "datetime" | "email" | "url" | "media" | "json" | "relationship";
 
 export interface Field {
   name: string;
@@ -28,7 +28,8 @@ type Schema = Record<string, unknown>;
 const TITLE_FIELDS = ["title", "name", "label", "headline", "question", "slug", "code", "email"];
 const TEXTAREA_NAMES = /^(description|excerpt|summary|message|answer|bio|notes?|abstract|subtitle)$/i;
 const RICHTEXT_NAMES = /^(body|html|content|richText|markdown)$/i;
-const URLISH_NAMES = /(url|link|href|image|cover|avatar|logo|photo|icon)$/i;
+const MEDIA_NAMES = /(image|cover|avatar|photo|logo|icon|thumbnail|media|file|upload|attachment|banner)/i;
+const URLISH_NAMES = /(url|link|href)$/i;
 
 /** Unwrap `anyOf:[{type:X},{type:null}]` (drizzle-zod's nullable form) into the concrete branch + a nullable flag. */
 function unwrap(s: Schema): { schema: Schema; nullable: boolean } {
@@ -70,6 +71,7 @@ function widgetOf(name: string, s: Schema, entities: Set<string>): { type: Field
   if (fmt === "email" || /email/i.test(name)) return { type: "email" };
   if (RICHTEXT_NAMES.test(name)) return { type: "richtext" };
   if (TEXTAREA_NAMES.test(name)) return { type: "textarea" };
+  if (MEDIA_NAMES.test(name)) return { type: "media" };
   if (fmt === "uri" || URLISH_NAMES.test(name)) return { type: "url" };
   return { type: "text" };
 }

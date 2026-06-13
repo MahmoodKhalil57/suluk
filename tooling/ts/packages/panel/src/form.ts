@@ -4,8 +4,9 @@
 import type { EntityModel } from "./model";
 import { renderFieldRow } from "./widgets";
 import { richtextScript } from "./richtext";
+import { mediaScript } from "./media";
 
-export interface FormOptions { basePath: string; relPaths: Record<string, string>; canDelete: boolean }
+export interface FormOptions { basePath: string; relPaths: Record<string, string>; canDelete: boolean; uploadPath?: string }
 
 export function renderForm(model: EntityModel, opts: FormOptions): string {
   const rows = model.fields.map((f) => renderFieldRow(f)).join("\n");
@@ -21,7 +22,8 @@ export function renderForm(model: EntityModel, opts: FormOptions): string {
 </form>
 <script type="application/json" id="pf-meta">${JSON.stringify(meta).replace(/</g, "\\u003c")}</script>
 <script>${formScript(model, opts)}</script>
-${model.fields.some((f) => f.type === "richtext") ? `<script>${richtextScript()}</script>` : ""}`;
+${model.fields.some((f) => f.type === "richtext") ? `<script>${richtextScript()}</script>` : ""}
+${model.fields.some((f) => f.type === "media") ? `<script>window.__pfUpload=${JSON.stringify(opts.uploadPath ?? "")};</script><script>${mediaScript()}</script>` : ""}`;
 }
 
 function formScript(model: EntityModel, opts: FormOptions): string {

@@ -2,6 +2,7 @@
  *  on edit + coerces on submit). Classes are `.pf-*`, themed by the panel shell's CSS (the host site's vars). */
 import type { Field } from "./fields";
 import { richtextEditor } from "./richtext";
+import { mediaEditor } from "./media";
 
 const esc = (s: unknown): string => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
 
@@ -32,13 +33,14 @@ export function renderInput(f: Field, value: unknown = ""): string {
     case "datetime": return `<input type="datetime-local" class="pf-input" value="${esc(toDateTimeValue(v))}" ${a}/>`;
     case "email": return `<input type="email" class="pf-input" value="${esc(v)}" ${a}/>`;
     case "url": return `<input type="url" class="pf-input" value="${esc(v)}" ${a}/>`;
+    case "media": return mediaEditor(f.name, v, `${f.required ? " required" : ""}${f.readOnly ? " readonly disabled" : ""}`);
     default: return `<input type="text" class="pf-input" value="${esc(v)}" ${a}/>`;
   }
 }
 
 /** One labelled field row (label · required mark · description · the input). */
 export function renderFieldRow(f: Field, value: unknown = ""): string {
-  const wide = f.type === "textarea" || f.type === "richtext" || f.type === "json";
+  const wide = f.type === "textarea" || f.type === "richtext" || f.type === "json" || f.type === "media";
   return `<div class="pf-field${wide ? " pf-wide" : ""}${f.type === "boolean" ? " pf-inline" : ""}">
     <label for="pf-${esc(f.name)}">${esc(f.label)}${f.required ? ' <span class="pf-req">*</span>' : ""}</label>
     ${renderInput(f, value)}

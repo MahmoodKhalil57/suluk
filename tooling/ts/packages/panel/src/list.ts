@@ -42,11 +42,13 @@ function listScript(model: EntityModel, opts: ListOptions): string {
   var tbody=document.getElementById("pf-rows"), search=document.getElementById("pf-search"), countEl=document.getElementById("pf-count"), pageEl=document.getElementById("pf-page"), prevBtn=document.getElementById("pf-prev"), nextBtn=document.getElementById("pf-next");
   var all=[], q="", sortCol="id", sortDir=1, page=0, PER=20;
   function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;"})[c];});}
+  function safeUrl(u){var s=String(u==null?"":u);return /^(https?:\\/\\/|\\/[^\\/\\\\])/i.test(s)?s:"";}
   function fmt(v,t){ if(v==null||v==="")return '<span class="pf-muted">—</span>';
     if(t==="boolean")return v?'<span class="pf-yes">✓</span>':'<span class="pf-no">✕</span>';
     if(t==="date"||t==="datetime"){var d=(typeof v==="number"||/^\\d+$/.test(String(v)))?new Date(Number(v)):new Date(v);return isNaN(d)?esc(v):d.toLocaleDateString();}
     if(t==="select")return '<span class="pf-pill">'+esc(v)+'</span>';
-    if(t==="url"){var s=String(v);return /\\.(png|jpe?g|svg|webp|gif)/i.test(s)?'<img src="'+esc(s)+'" class="pf-thumb" alt="Thumbnail" loading="lazy"/>':'<a href="'+esc(s)+'" target="_blank" rel="noopener">'+esc(s.slice(0,40))+'</a>';}
+    if(t==="url"||t==="media"){var s=String(v),u=safeUrl(s); if(!u)return esc(s.slice(0,40));
+      return /\\.(png|jpe?g|svg|webp|gif|avif)(\\?|$)/i.test(s)?'<img src="'+esc(u)+'" class="pf-thumb" alt="Thumbnail" loading="lazy"/>':'<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(s.slice(0,40))+'</a>';}
     var str=String(v); return esc(str.length>60?str.slice(0,60)+"…":str);
   }
   function render(){

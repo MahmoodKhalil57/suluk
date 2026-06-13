@@ -2,14 +2,23 @@
  *  CSS-var vocabulary. Ships a light default + OS-following dark so it works standalone; pass `headHtml` (e.g. a
  *  color-scheme sheet + no-flash stamper) to make it obey the host app's theme + scheme. */
 import { RICHTEXT_CSS } from "./richtext";
+import { MEDIA_CSS } from "./media";
 const esc = (s: unknown): string => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
+
+export interface NavItem { name: string; label: string; href: string; count?: number }
+export interface NavGroup { title: string; items: NavItem[] }
 
 export interface ShellOptions {
   title: string;
   brand: string;
   basePath: string;
-  entities: { name: string; count?: number }[];
-  active: string;       // "" for dashboard, else entity name
+  /** Flat collections nav (legacy/simple form). Ignored when `nav` is provided. */
+  entities?: { name: string; count?: number }[];
+  /** Grouped sidebar nav (dashboard-framework form): one section per group, each with its items. */
+  nav?: NavGroup[];
+  /** Label for the home/dashboard nav link (default "Dashboard"). */
+  homeLabel?: string;
+  active: string;       // "" for dashboard, else item name (entity name or `s:<sectionId>`)
   heading: string;
   body: string;
   headHtml?: string;
@@ -38,6 +47,18 @@ export const PANEL_CSS = `
   .pf-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
   .pf-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);display:block;color:var(--fg)}
   .pf-card:hover{border-color:color-mix(in oklab,var(--accent) 45%,var(--line));text-decoration:none}.pf-card b{font-size:15px}.pf-card p{margin:4px 0 0;color:var(--muted);font-size:13px}
+  .pf-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:14px;margin-bottom:24px}
+  .pf-stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px 17px;box-shadow:var(--shadow);color:var(--fg);display:block}
+  a.pf-stat:hover{border-color:color-mix(in oklab,var(--accent) 45%,var(--line));text-decoration:none}
+  .pf-stat .pf-stat-l{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+  .pf-stat .pf-stat-v{font-size:27px;font-weight:800;letter-spacing:-.02em;margin-top:5px;line-height:1.1}
+  .pf-stat .pf-stat-h{color:var(--muted);font-size:12.5px;margin-top:3px}
+  .pf-group{margin-bottom:26px}.pf-group>.pf-navhead{padding-inline:2px}
+  .pf-section{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow);margin-bottom:18px}
+  .pf-section h2{font-size:16px;font-weight:700;margin:0 0 4px}.pf-section h2:not(:first-child){margin-top:8px}
+  .pf-section .pf-sub{color:var(--muted);font-size:13px;margin:0 0 16px}
+  .pf-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}.pf-row:last-child{border-bottom:0}
+  .pf-empty{text-align:center;color:var(--muted);padding:30px 16px;border:1px dashed var(--line);border-radius:12px}
   .pf-listbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}
   .pf-tablewrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:auto;box-shadow:var(--shadow)}
   .pf-table{width:100%;border-collapse:collapse;font-size:13.5px}
@@ -72,20 +93,25 @@ export const PANEL_CSS = `
   @media (max-width:820px){.pf-app{grid-template-columns:1fr}.pf-side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;gap:6px}.pf-grid{grid-template-columns:1fr}}
 `;
 
+const navLink = (n: NavItem, active: string): string =>
+  `<a href="${esc(n.href)}"${n.name === active ? ' class="on"' : ""}>${esc(n.label)}${n.count != null ? `<span class="pf-badge">${n.count}</span>` : ""}</a>`;
+
 export function renderShell(o: ShellOptions): string {
-  const nav = [{ name: "", label: "Dashboard", href: o.basePath }, ...o.entities.map((e) => ({ name: e.name, label: e.name, href: `${o.basePath}/${e.name}`, count: e.count }))];
-  const navHtml = nav.map((n: { name: string; label: string; href: string; count?: number }) =>
-    `<a href="${esc(n.href)}"${n.name === o.active ? ' class="on"' : ""}>${esc(n.label)}${n.count != null ? `<span class="pf-badge">${n.count}</span>` : ""}</a>`).join("");
+  // Grouped nav when provided; otherwise a single "Collections" group from the flat `entities` list.
+  const groups: NavGroup[] = o.nav ?? [{ title: "Collections", items: (o.entities ?? []).map((e) => ({ name: e.name, label: e.name, href: `${o.basePath}/${e.name}`, count: e.count })) }];
+  const homeLink = navLink({ name: "", label: o.homeLabel ?? "Dashboard", href: o.basePath }, o.active);
+  const groupsHtml = groups.filter((g) => g.items.length).map((g) =>
+    `<div class="pf-navhead">${esc(g.title)}</div><nav class="pf-nav">${g.items.map((it) => navLink(it, o.active)).join("")}</nav>`).join("");
   const crumbs = (o.crumbs ?? []).map((c) => c.href ? `<a href="${esc(c.href)}">${esc(c.label)}</a>` : `<span>${esc(c.label)}</span>`).join('<span>/</span>');
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 ${o.headHtml ?? ""}
 <title>${esc(o.heading)} — ${esc(o.brand)}</title>
-<style>${PANEL_CSS}${RICHTEXT_CSS}</style></head>
+<style>${PANEL_CSS}${RICHTEXT_CSS}${MEDIA_CSS}</style></head>
 <body><div class="pf-app">
   <aside class="pf-side">
     <a class="pf-brand" href="${esc(o.basePath)}"><span class="pf-dot">${esc(o.brand.charAt(0))}</span> ${esc(o.brand)}</a>
-    <div class="pf-navhead">Collections</div>
-    <nav class="pf-nav">${navHtml}</nav>
+    <nav class="pf-nav">${homeLink}</nav>
+    ${groupsHtml}
   </aside>
   <main class="pf-main">
     <div class="pf-top">${crumbs ? `<div class="pf-crumbs">${crumbs}</div>` : ""}<h1 class="pf-h1">${esc(o.heading)}</h1></div>
