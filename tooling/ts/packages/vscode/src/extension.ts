@@ -9,6 +9,10 @@
  */
 import * as vscode from "vscode";
 import { deflateSync } from "node:zlib";
+import { writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { agentDiagramHtml } from "@suluk/agents";
 import {
   validateSource, auditSource, previewHtml, looksLikeV4, type Diagnostic,
   buildCycle, type CycleModel, type CycleLayer, type CycleItem, type LayerStatus,
@@ -369,7 +373,7 @@ function convergeBody(report: ConvergeReport): string {
 }
 /** Kroki renders D2 → SVG from a deflate+base64url-encoded source (constructed only; egress happens on click). */
 function krokiD2Url(d2: string): string {
-  try { return `https://kroki.io/d2/svg/${deflateSync(Buffer.from(d2, "utf8")).toString("base64url")}`; } catch { return ""; }
+  try { return `https://kroki.io/d2/svg/${deflateSync(Buffer.from(d2, "utf8") as Uint8Array).toString("base64url")}`; } catch { return ""; }
 }
 function diagramHtml(view: { id: DiagramView; title: string; description: string }, d2: string): string {
   const url = krokiD2Url(d2);
@@ -714,6 +718,23 @@ export function activate(context: vscode.ExtensionContext): void {
       const view = agentsView(parseDocument(src), { catalog: OPENROUTER_CATALOG });
       const panel = vscode.window.createWebviewPanel("suluk.agents", "Suluk — agents", vscode.ViewColumn.Beside, {});
       panel.webview.html = agentsHtml(view);
+    } catch (e) { void vscode.window.showErrorMessage(`Suluk: ${e instanceof Error ? e.message : String(e)}`); }
+  });
+
+  reg("suluk.agentDiagram", async () => {
+    const src = activeV4Source();
+    if (!src) { void vscode.window.showWarningMessage("Suluk: open a v4 contract first."); return; }
+    try {
+      const doc = parseDocument(src);
+      const names = Object.keys(((doc as unknown as Record<string, unknown>)["x-suluk-agents"] as Record<string, unknown>) ?? {});
+      if (!names.length) { void vscode.window.showWarningMessage("Suluk: no x-suluk-agents in this document."); return; }
+      const name = names.length === 1 ? names[0] : await vscode.window.showQuickPick(names, { placeHolder: "Which agent to diagram?" });
+      if (!name) return;
+      // a self-contained D3 page (loads D3 from a CDN, which a webview CSP would block) → open in the browser, full-screen + zoomable
+      const html = agentDiagramHtml(doc, name, { title: `Agent — ${name}` });
+      const file = join(tmpdir(), `suluk-agent-${name.replace(/[^\w.-]/g, "_")}.html`);
+      writeFileSync(file, html, "utf8");
+      void vscode.env.openExternal(vscode.Uri.file(file));
     } catch (e) { void vscode.window.showErrorMessage(`Suluk: ${e instanceof Error ? e.message : String(e)}`); }
   });
 

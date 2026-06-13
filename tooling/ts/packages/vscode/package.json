@@ -2,7 +2,7 @@
   "name": "suluk-vscode",
   "displayName": "Suluk \u2014 OpenAPI v4 (Candidate)",
   "description": "The unifying cockpit for the Suluk declarative cycle: validate, audit, preview (Scalar/Swagger), and generate stores/UI from one v4 source. CANDIDATE tooling \u2014 not official OAS.",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "publisher": "MahmoodKhalil",
   "license": "Apache-2.0",
   "icon": "icon.png",
@@ -72,6 +72,10 @@
       {
         "command": "suluk.agents",
         "title": "Suluk: Agents (x-suluk-agents observe view + model selection)"
+      },
+      {
+        "command": "suluk.agentDiagram",
+        "title": "Suluk: Agent diagram (x-suluk-agents — zoomable D3 map)"
       },
       {
         "command": "suluk.openFromUrl",
@@ -342,7 +346,8 @@
   "dependencies": {
     "@suluk/core": "workspace:*",
     "@suluk/cockpit": "workspace:*",
-    "@suluk/models": "workspace:*"
+    "@suluk/models": "workspace:*",
+    "@suluk/agents": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "latest",
