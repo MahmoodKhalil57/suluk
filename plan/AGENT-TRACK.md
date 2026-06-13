@@ -113,8 +113,15 @@ becomes a hard filter the model selector uses → an agent declares *needs*, not
   `~-latest`); **governance-gated** (a policied skill declaring `router` fails loud); `pickPinned` marks set-pinned-but-
   pick-not-pinned; manifest + cockpit fold it. `fusion`→sub-agent/C029 docs, `pareto`→future coding target,
   `free`/`bodybuilder`→link-out. Verified: core 36 / models 16 / agents 71 / cockpit 125 tests, tsc clean.
-- [ ] _Reopen-gated:_ the governed-router `provider.zdr` path — VERIFIED 2026-06-13: ZDR field exists but NO region field + the auto+zdr combination is undocumented + no API key to test → stays gated on a LIVE test (region-governed pins permanently). (orig: verify OpenRouter combines provider-prefs with
-  `openrouter/auto`); the `endpoints[]` build (a fleet needing per-endpoint region governance).
+- [x] **ZDR-router path SHIPPED** (reopen-trigger FIRED 2026-06-13). A LIVE probe (saasuluk `OPENROUTER_API_KEY`)
+  confirmed `{model:"openrouter/auto", provider:{zdr:true}}` → 200 + real completion (with/without `allow_fallbacks`):
+  provider prefs DO combine with the auto-router. `SulukSkillRef.modelRequire.zdr` → `skillModels` resolves to
+  `{kind:"router", model:"openrouter/auto", provider:{zdr:true}}` REGARDLESS of `modelResolve` (no per-model ZDR fact
+  to pin); ZDR + an operator policy fails loud (unsatisfiable). core@0.1.10 · agents@0.1.2; 73 agents tests, converge
+  clean; commit `364c274`. Honest caveat: the 200 proves *acceptance + routing*, not strict *exclusion* of non-ZDR
+  endpoints. **Region/license-governed still pin permanently** (no OpenRouter endpoint field — confirmed).
+- [ ] _Still gated:_ the OPERATOR-governed ZDR path (a `x-suluk-policy` retention field driving the router) — needs a
+  policy-layer retention vocabulary + a consumer; the `endpoints[]` build (a fleet needing per-endpoint region governance).
 
 ### C. C027 deferred items (each gated by a reopen-trigger — do NOT build ahead)
 - [ ] **Recursion machinery beyond one hop.** Reopen-trigger: a **2nd real nested or non-Conin agent**. (Today:

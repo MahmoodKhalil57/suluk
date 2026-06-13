@@ -58,8 +58,8 @@ Triage (`wf_550dd30c-fa6`, 42 isolated agents) → 17 convergent / 24 contested 
 
 ## Decisions so far
 
-- Frontier resolved: **51** — all ~56 seeded questions resolved or accounted-for · Deviations: **27+** · ADRs: **C001–C028** (+ `0002`). callbacks/webhooks closed (C018); cost-on-event closed (C024/C025/C026); **agent layer: C027 composition standard + C028 operator governance overlay (both D1-gated, scoped, @0.52)**.
-- Last: **C028 x-suluk-policy** (resolves C027 open-Q #6; council `wf_b2f1fd82-7a7` → sibling-build static subset @0.52; D1 gate `d1_policy_selector_safe` PASSED + test-witnessed; costCeiling enforcement RESERVED). Before that: **C027 suluk-agents** (council `wf_9e8712c7-871`); C024/C025/C026 cost-on-event.
+- Frontier resolved: **51** — all ~56 seeded questions resolved or accounted-for · Deviations: **27+** · ADRs: **C001–C030** (+ `0002`). callbacks/webhooks closed (C018); cost-on-event closed (C024/C025/C026); **agent layer: C027 composition + C028 operator governance + C029 thinking-bound + C030 router-delegation (D1-gated, scoped, @0.52–0.76)**; serving surfaces **@suluk/{models,agents,chat,mcp}** shipped+published.
+- Last (2026-06-13): **C030 ZDR-router SHIPPED** — a LIVE OpenRouter probe (saasuluk key) confirmed `provider:{zdr:true}`+`openrouter/auto` combine (200), so `modelRequire.zdr` resolves to the router; region/license still pin (no endpoint field); core@0.1.10 / agents@0.1.2; commit `364c274`. **@suluk/chat + @suluk/mcp** packages committed+published (in-page agent SSE loop + MCP server); **saasuluk** dogfoods chat/mcp + panel-projected `/dashboard` on latest deps (34 tests, full build green). Before that: **C029** thinking-bound, **C028** x-suluk-policy (D1-gated @0.52, costCeiling RESERVED), **C027** suluk-agents.
 
 ## Per-Concern confidence map
 
