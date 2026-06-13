@@ -1,0 +1,19 @@
+diff --git a/packages/api-reference/src/components/Badge/Badge.vue b/packages/api-reference/src/components/Badge/Badge.vue
+index fb3fb9b..81eee83 100644
+--- a/packages/api-reference/src/components/Badge/Badge.vue
++++ b/packages/api-reference/src/components/Badge/Badge.vue
+@@ -8,8 +8,12 @@ const { color } = defineProps<{
+ const badgeStyle = computed(() =>
+   color
+     ? {
+-        '--badge-background-color': color,
+-        '--badge-text-color': `color-mix(in srgb, ${color}, black 40%)`,
++        // SULUK v4 PATCH — render coloured badges (the only caller is x-badges, e.g. suluk cost/access) in Scalar's
++        // own SUBTLE semantic style: a faint theme-tinted fill + the colour as readable text + a soft border, rather
++        // than a loud solid pill. Pass a `--scalar-color-*` token as the colour and the badge adapts to every theme.
++        '--badge-background-color': `color-mix(in srgb, ${color}, transparent 86%)`,
++        '--badge-text-color': color,
++        '--badge-border-color': `color-mix(in srgb, ${color}, transparent 64%)`,
+       }
+     : {},
+ )

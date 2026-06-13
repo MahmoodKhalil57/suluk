@@ -52,12 +52,14 @@ function costBadge(cost: CostFacet | undefined): { name: string; color: string }
   if (!cost) return null;
   const total = costTotal(cost);
   if (!total) return null;
-  return { name: "💰 " + fmtCost(total), color: "#8b5cf6" };
+  // Colours are Scalar theme tokens (not hardcoded hex), so the badge adapts to whatever Scalar theme is active
+  // and renders in the fork's subtle semantic style (faint tint + coloured text), matching Scalar's own badges.
+  return { name: "💰 " + fmtCost(total), color: "var(--scalar-color-purple)" };
 }
 
 function accessBadge(acc: AccessFacet | undefined): { name: string; color: string } | null {
   if (!acc?.requires) return null; // only badge when the access facet is actually declared on the op
-  const m = { admin: { n: "🔒 Admin", c: "#e5484d" }, authenticated: { n: "👤 Signed-in", c: "#f59e0b" }, anyone: { n: "🌐 Public", c: "#16a34a" } }[acc.requires];
+  const m = { admin: { n: "🔒 Admin", c: "var(--scalar-color-red)" }, authenticated: { n: "👤 Signed-in", c: "var(--scalar-color-orange)" }, anyone: { n: "🌐 Public", c: "var(--scalar-color-green)" } }[acc.requires];
   if (!m) return null;
   return { name: m.n + (acc.scope === "owner" ? " · owner" : ""), color: m.c };
 }
