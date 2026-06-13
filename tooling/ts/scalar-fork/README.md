@@ -45,4 +45,22 @@ build's modern layout — manually-passed object slots for `footer` / `content-e
 > prior patch's lines as context — exactly what bit us once). `build.sh` checks the patch re-applies; refresh from
 > pristine if it fails.
 
-Deeper patches (request-name identity, multi-request-per-method) extend the same slot/boundary approach.
+### 0003-suluk-v4-native-ingest
+Makes Scalar ingest OpenAPI **v4 natively** (no pre-downgrade). Adds `workspace-store/src/project-v4-to-store.ts`
+and calls it from `client.ts` right after `upgrade()` (before `coerce()` strips the unknown `requests` key): it maps
+v4 `pathItem.requests` (keyed by NAME) → method-keyed 3.x ops, with request-name → `operationId` + title,
+`parameterSchema:{query,path,header,body}` → `parameters[]`, named responses → status map, composition folded, and
+`x-*` (incl. `x-badges`) carried through. The version badge then reads `4.0.0-candidate` via `x-original-oas-version`.
+
+### 0006-suluk-v4-multi-request
+The one v4 capability 3.1 cannot express: **multiple named requests sharing a method on one path**. Adds
+`workspace-store/src/helpers/strip-path-disambiguator.ts` (`PATH_DISAMBIGUATOR = '::req::'` + `stripPathDisambiguator`).
+`projectV4ToStore` stores 2nd+ colliding requests under a synthetic key `<realPath>::req::<name>` (unique → distinct
+nav id + try-it locationId); the marker is stripped to the real path at exactly three choke points —
+`TraversedEntry.vue`'s `:path` binding (covers all display + clipboard + a11y + the try-it URL), the api-client
+search index path, and the traverse JSON-Pointer ref — while every `document.paths[key]` lookup keeps the raw key.
+Net: distinct operations with distinct params/body/responses/try-it, both hitting the same real endpoint.
+
+> **Patch hygiene** applies to every patch: regenerate from a **pristine** upstream checkout (`git diff -- <files> >
+> patches/000N-….patch` on a tree with no other patch applied). The patches touch disjoint files so they're
+> order-independent, but each must apply to fresh upstream; `build.sh` checks this.

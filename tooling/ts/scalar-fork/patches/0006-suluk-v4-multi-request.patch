@@ -1,0 +1,91 @@
+diff --git a/packages/api-client/src/v2/features/search/helpers/create-search-index.ts b/packages/api-client/src/v2/features/search/helpers/create-search-index.ts
+index 9d0168f..cbfd2fd 100644
+--- a/packages/api-client/src/v2/features/search/helpers/create-search-index.ts
++++ b/packages/api-client/src/v2/features/search/helpers/create-search-index.ts
+@@ -1,5 +1,6 @@
+ import { getPathItemOperation } from '@scalar/workspace-store/helpers/for-each-path-item-operation'
+ import { getResolvedRef } from '@scalar/workspace-store/helpers/get-resolved-ref'
++import { stripPathDisambiguator } from '@scalar/workspace-store/helpers/strip-path-disambiguator'
+ import type { TraversedEntry } from '@scalar/workspace-store/schemas/navigation'
+ import type { OpenApiDocument } from '@scalar/workspace-store/schemas/v3.1/strict/openapi-document'
+ 
+@@ -44,7 +45,8 @@ function addEntryToIndex(entry: TraversedEntry, index: FuseData[], document?: Op
+       id: entry.id,
+       description: operation.description || '',
+       method: entry.method,
+-      path: entry.path,
++      // SULUK v4: resolve the op via the raw synthetic key above, but surface the REAL path in search results.
++      path: stripPathDisambiguator(entry.path),
+       operationId: operation.operationId,
+       entry,
+       documentName: document?.info.title ?? '',
+diff --git a/packages/api-reference/src/components/Content/Operations/TraversedEntry.vue b/packages/api-reference/src/components/Content/Operations/TraversedEntry.vue
+index 5ad2c06..99a465a 100644
+--- a/packages/api-reference/src/components/Content/Operations/TraversedEntry.vue
++++ b/packages/api-reference/src/components/Content/Operations/TraversedEntry.vue
+@@ -6,6 +6,7 @@ import type { AuthStore } from '@scalar/workspace-store/entities/auth'
+ import type { WorkspaceEventBus } from '@scalar/workspace-store/events'
+ import { getResolvedPathItem } from '@scalar/workspace-store/helpers/for-each-path-item-operation'
+ import { getResolvedRef } from '@scalar/workspace-store/helpers/get-resolved-ref'
++import { stripPathDisambiguator } from '@scalar/workspace-store/helpers/strip-path-disambiguator'
+ import type { MergedSecuritySchemes } from '@scalar/workspace-store/request-example'
+ import type {
+   TraversedEntry,
+@@ -124,7 +125,7 @@ function getPathValue(entry: TraversedOperation | TraversedWebhook) {
+         :isWebhook="isWebhook(entry)"
+         :method="entry.method"
+         :options="options"
+-        :path="isWebhook(entry) ? entry.name : entry.path"
++        :path="isWebhook(entry) ? entry.name : stripPathDisambiguator(entry.path)"
+         :pathValue="getPathValue(entry)"
+         :securitySchemes="securitySchemes"
+         :selectedClient="selectedClient"
+diff --git a/packages/workspace-store/src/helpers/strip-path-disambiguator.ts b/packages/workspace-store/src/helpers/strip-path-disambiguator.ts
+new file mode 100644
+index 0000000..ade861b
+--- /dev/null
++++ b/packages/workspace-store/src/helpers/strip-path-disambiguator.ts
+@@ -0,0 +1,21 @@
++/**
++ * SULUK v4 PATCH — multi-request-per-method support.
++ *
++ * OpenAPI v4 lets one path carry multiple named `requests` that share an HTTP method. Scalar's store keys
++ * operations by (path, method), so two such requests would collide. `projectV4ToStore` keeps the FIRST at the real
++ * path and stores each additional sibling under a SYNTHETIC path key `<realPath>::req::<requestName>` — unique, so
++ * the nav id and the try-it locationId stay distinct per sibling, while every `document.paths[key]` lookup still
++ * resolves. The marker is stripped back to the real path at the three DISPLAY/URL/ref choke points only, so the UI,
++ * clipboard, search results, and the try-it request URL never show it — and both siblings hit the same real
++ * endpoint (which is correct: they target the same URL, differing only in body/params shape).
++ *
++ * The marker is printable + real-path-illegal + slug-surviving, so even a custom generateOperationSlug keeps nav
++ * ids unique and a leaked marker degrades gracefully rather than corrupting Map keys.
++ */
++export const PATH_DISAMBIGUATOR = '::req::'
++
++/** Strip the multi-request disambiguator, returning the real path. No-op when the marker is absent. */
++export const stripPathDisambiguator = (path: string): string => {
++  const i = path.indexOf(PATH_DISAMBIGUATOR)
++  return i === -1 ? path : path.slice(0, i)
++}
+diff --git a/packages/workspace-store/src/navigation/helpers/traverse-paths.ts b/packages/workspace-store/src/navigation/helpers/traverse-paths.ts
+index 891e2c1..f824746 100644
+--- a/packages/workspace-store/src/navigation/helpers/traverse-paths.ts
++++ b/packages/workspace-store/src/navigation/helpers/traverse-paths.ts
+@@ -4,6 +4,7 @@ import { escapeJsonPointer } from '@scalar/json-magic/helpers/escape-json-pointe
+ import { forEachPathItemOperation } from '@/helpers/for-each-path-item-operation'
+ import { getResolvedRef, mergeSiblingReferences } from '@/helpers/get-resolved-ref'
+ import { isHidden } from '@/helpers/is-hidden'
++import { stripPathDisambiguator } from '@/helpers/strip-path-disambiguator'
+ import { traverseOperationExamples } from '@/navigation/helpers/traverse-examples'
+ import type { OperationTitleSource, TagsMap, TraverseSpecOptions } from '@/navigation/types'
+ import { XScalarStabilityValues } from '@/schemas/extensions/operation'
+@@ -133,7 +134,8 @@ export const traversePaths = ({
+         return
+       }
+ 
+-      const ref = `#/paths/${escapeJsonPointer(path)}/${method}`
++      // SULUK v4: a multi-request sibling has a synthetic path key; the canonical JSON Pointer anchors the REAL path.
++      const ref = `#/paths/${escapeJsonPointer(stripPathDisambiguator(path))}/${method}`
+ 
+       // Traverse tags
+       if (operation.tags?.length) {

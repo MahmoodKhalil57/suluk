@@ -25,10 +25,10 @@ index 0cdc5e8..41ac563 100644
          ...inputDocument,
 diff --git a/packages/workspace-store/src/project-v4-to-store.ts b/packages/workspace-store/src/project-v4-to-store.ts
 new file mode 100644
-index 0000000..e2a4d34
+index 0000000..232937d
 --- /dev/null
 +++ b/packages/workspace-store/src/project-v4-to-store.ts
-@@ -0,0 +1,201 @@
+@@ -0,0 +1,219 @@
 +/**
 + * SULUK v4 PATCH — native OpenAPI v4 ("Moonwalk") ingestion.
 + *
@@ -45,6 +45,8 @@ index 0000000..e2a4d34
 + * operations by METHOD, so two v4 requests sharing a method on one path can't both be represented — we keep the
 + * first (multi-request-per-method is the deferred frontier).
 + */
++
++import { PATH_DISAMBIGUATOR } from '@/helpers/strip-path-disambiguator'
 +
 +type Obj = Record<string, unknown>
 +
@@ -153,7 +155,12 @@ index 0000000..e2a4d34
 +  return p.startsWith('/') ? p : '/' + p
 +}
 +
-+function projectPathItem(pi: Obj, apiResponses: Obj[]): Obj {
++/**
++ * Project a v4 pathItem's requests into a method-keyed 3.x pathItem (`primary`). When two+ requests share a method
++ * on this path (v4 multi-request-per-method), the first wins the real path-key slot and the rest are returned as
++ * `extras` — the caller registers each under a synthetic path key so all render as DISTINCT operations.
++ */
++function projectPathItem(pi: Obj, apiResponses: Obj[]): { primary: Obj; extras: Array<{ name: string; method: string; op: Obj }> } {
 +  const out: Obj = {}
 +  if (pi.summary) out.summary = pi.summary
 +  if (pi.description) out.description = pi.description
@@ -161,15 +168,20 @@ index 0000000..e2a4d34
 +  const inherited = [...apiResponses, ...Object.values((pi.pathResponses as Record<string, Obj>) ?? {})]
 +  const shared = (pi.shared as Obj | undefined)?.parameterSchema as Obj | undefined
 +  const seen = new Set<string>()
++  const extras: Array<{ name: string; method: string; op: Obj }> = []
 +  for (const [name, reqRaw] of Object.entries((pi.requests as Record<string, Obj>) ?? {})) {
 +    const req = reqRaw as Obj
 +    const method = String(req.method ?? '').toLowerCase()
 +    if (!METHODS.includes(method)) continue
-+    if (seen.has(method)) continue // multi-request-per-method: keep first (deferred frontier)
-+    seen.add(method)
-+    out[method] = projectOperation(name, req, shared, inherited)
++    const op = projectOperation(name, req, shared, inherited)
++    if (seen.has(method)) {
++      extras.push({ name, method, op }) // v4 multi-request sibling → synthetic path key (registered by caller)
++    } else {
++      seen.add(method)
++      out[method] = op
++    }
 +  }
-+  return out
++  return { primary: out, extras }
 +}
 +
 +/**
@@ -198,7 +210,13 @@ index 0000000..e2a4d34
 +    for (const [uri, piRaw] of Object.entries(d.paths as Obj)) {
 +      const pi = piRaw as Obj
 +      if (pi && typeof pi === 'object' && pi.requests && typeof pi.requests === 'object') {
-+        newPaths[projectPathKey(uri)] = projectPathItem(pi, apiResponses)
++        const realKey = projectPathKey(uri)
++        const { primary, extras } = projectPathItem(pi, apiResponses)
++        newPaths[realKey] = primary
++        // Each additional request sharing a method on this path gets its own SYNTHETIC path key
++        // (`<realPath>::req::<name>`) so it renders as a distinct operation with its own try-it state. The marker
++        // is stripped back to realKey at display/URL time, so both siblings hit the same real endpoint.
++        for (const ex of extras) newPaths[realKey + PATH_DISAMBIGUATOR + ex.name] = { [ex.method]: ex.op }
 +      } else {
 +        newPaths[uri] = piRaw // already 3.x / unknown — leave untouched
 +      }

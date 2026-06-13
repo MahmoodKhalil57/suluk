@@ -32,9 +32,16 @@ Native v4 ingestion shipped at the **parser boundary** (patch `0003`, `projectV4
 workspace-store rewrite scoped below — Scalar consumes the v4 doc and projects it internally, so the engine +
 try-it stay unchanged. The v4 **request-name identity** is surfaced via Scalar's own operation badge
 (`scalarV4Html` defaults `showOperationId: true`, and `projectV4ToStore` sets `operationId` = the v4 request name),
-so each operation reads e.g. `createCategory` above its `summary` title. What remains is only
-**multi-request-per-method** (two v4 requests sharing a method on one path rendered as distinct sidebar entries —
-patch `0006`, high cost + try-it risk, **0** saasuluk collisions so it changes nothing on this doc).
+so each operation reads e.g. `createCategory` above its `summary` title.
+
+**Multi-request-per-method shipped too** (patch `0006`) — the one v4 capability a 3.1 view cannot express. When two
+v4 requests share a method on one path, `projectV4ToStore` keeps the first at the real path-key and stores each
+sibling under a SYNTHETIC key `<realPath>::req::<name>` — unique, so the nav id + try-it locationId stay distinct
+per sibling — then strips the marker back to the real path at three display/URL/ref choke points (TraversedEntry's
+`:path`, the search-index path, the JSON-Pointer ref). Result: distinct sidebar entries, distinct params/body/
+responses/try-it state, both hitting the same real endpoint. saasuluk's doc has **0** collisions (unaffected); the
+capability is demonstrated live at **`/reference/showcase`** (`/checkout` with `guestCheckout` + `memberCheckout`).
+The full v4 feature surface is now native — nothing remains deferred.
 
 
 
