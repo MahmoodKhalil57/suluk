@@ -234,6 +234,30 @@ export function referenceResponse(doc: OpenAPIv4Document, opts: ReferenceOptions
  * (e.g. an in-page drawer/iframe next to a Scalar API browser) so one reference page carries Scalar's polish AND the
  * v4-native analytics Scalar can't host — making a separate native dashboard unnecessary. Honors the projected doc.
  */
+/**
+ * When the insights page is embedded in an iframe by a Scalar-themed parent (the /reference fork) on the SAME
+ * origin, mirror the parent's live theme onto this page so it never clashes: copy the parent's `--scalar-*` design
+ * tokens onto this page's own tokens (`--bg`/`--panel`/`--fg`/`--line`, accent-tinted surfaces via color-mix) and
+ * flip this page's `data-theme="dark"` when the parent is dark — so its semantic colours (access/status badges) also
+ * match. A MutationObserver re-syncs on a live theme toggle. Standalone (not embedded), the page keeps its own theme.
+ */
+const THEME_BRIDGE = `(function(){
+  if(window.parent===window)return;
+  function isDark(c){try{var d=document.createElement('span');d.style.color=c;document.body.appendChild(d);var m=(getComputedStyle(d).color.match(/[0-9.]+/g)||[]);document.body.removeChild(d);if(m.length<3)return false;var s=(+m[0]<=1&&+m[1]<=1&&+m[2]<=1)?255:1;return (0.299*m[0]+0.587*m[1]+0.114*m[2])*s/255<0.5;}catch(e){return false;}}
+  function sync(){try{
+    var pd=window.parent.document,pc=getComputedStyle(pd.documentElement),pb=getComputedStyle(pd.body);
+    var g=function(t){return (pc.getPropertyValue(t)||pb.getPropertyValue(t)||'').trim();};
+    var root=document.documentElement,base={'--bg':'--scalar-background-1','--panel':'--scalar-background-2','--panel2':'--scalar-background-3','--fg':'--scalar-color-1','--muted':'--scalar-color-3','--line':'--scalar-border-color','--code':'--scalar-background-2','--codefg':'--scalar-color-2'};
+    for(var k in base){var v=g(base[k]);if(v)root.style.setProperty(k,v);}
+    var a=g('--scalar-color-accent');
+    if(a){root.style.setProperty('--accent',a);root.style.setProperty('--accentbg','color-mix(in srgb,'+a+' 12%,transparent)');root.style.setProperty('--accentline','color-mix(in srgb,'+a+' 32%,transparent)');}
+    var cl=pd.body.classList,dark=cl.contains('dark-mode')?true:cl.contains('light-mode')?false:isDark(g('--scalar-background-1'));
+    if(dark)root.setAttribute('data-theme','dark');else root.removeAttribute('data-theme');
+  }catch(e){}}
+  sync();setTimeout(sync,200);setTimeout(sync,600);
+  try{var mo=new MutationObserver(sync);mo.observe(window.parent.document.body,{attributes:true,attributeFilter:['class','style']});mo.observe(window.parent.document.documentElement,{attributes:true,attributeFilter:['class','style']});}catch(e){}
+})();`;
+
 export function referenceInsightsHtml(doc: OpenAPIv4Document, opts: { costLedgerUrl?: string; whoamiUrl?: string; pageTitle?: string } = {}): string {
   const ir = normalize(doc);
   const hardening = auditDocument(doc);
@@ -244,7 +268,8 @@ export function referenceInsightsHtml(doc: OpenAPIv4Document, opts: { costLedger
 <style>${STYLE}</style>
 <style>/* panels-only: drop the operation-browser chrome, center the panels */
   body{display:block}.side,.skip,.menu-toggle,.hero,.toolbar{display:none!important}
-  #main{margin:0 auto;max-width:1060px;padding:18px 20px 64px}</style></head>
+  #main{margin:0 auto;max-width:1060px;padding:18px 20px 64px}</style>
+<script>${THEME_BRIDGE}</script></head>
 <body>
 <main id="main">
   ${facetsPanel(doc)}
