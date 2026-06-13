@@ -429,88 +429,40 @@ info:
   version: 1.0.0
 paths:
   /pets:
-    requests:
+    requests:                          # pathItem.requests: a NAME-keyed map; each Request IS an operation (§1.3/§1.4)
       CreatePet:
-        name: CreatePet
+        method: post
         contentType: application/json
-        body:
+        contentSchema:                 # §1.4 FLATTENED body — not 3.x requestBody/content/mediaType nesting
           type: object
           properties:
-            name:
-              type: string
-            species:
-              type: string
+            name: { type: string }
+            species: { type: string }
           required: [name, species]
-    responses:
-      PetCreated:
-        name: PetCreated
-        status: "201"
-        contentType: application/json
-        body:
-          type: object
-          properties:
-            id:
-              type: integer
-            name:
-              type: string
-            species:
-              type: string
-    operations:
-      POST:
-        method: POST
-        summary: Create a pet
-        requestBody:
-          content:
-            application/json:
-              schema:
-                $ref: "#/paths/~1pets/requests/CreatePet/body"
-        responses:
-          "201":
-            description: Pet created
-            content:
-              application/json:
-                schema:
-                  $ref: "#/paths/~1pets/responses/PetCreated/body"
-          "400":
-            description: Invalid input
+        responses:                     # named responses live INSIDE the request; each carries its own status (§5, C009)
+          Created:  { status: "201", contentType: application/json, contentSchema: { $ref: "#/components/schemas/Pet" } }
+          BadInput: { status: "400" }
   /pets/{petId}:
-    operations:
-      GET:
-        method: GET
-        summary: Retrieve a pet by ID
-        parameterSchema:
+    requests:
+      GetPet:
+        method: get
+        parameterSchema:               # per-location slots (§4); the path slot validates the captured {petId}
           path:
             type: object
             properties:
-              petId:
-                type: integer
-                minimum: 1
+              petId: { type: integer, minimum: 1 }
             required: [petId]
         responses:
-          "200":
-            description: Success
-            content:
-              application/json:
-                schema:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    name:
-                      type: string
-          "404":
-            description: Pet not found
+          Found:    { status: "200", contentType: application/json, contentSchema: { $ref: "#/components/schemas/Pet" } }
+          NotFound: { status: "404" }
 components:
   schemas:
     Pet:
       type: object
       properties:
-        id:
-          type: integer
-        name:
-          type: string
-        species:
-          type: string
+        id:      { type: integer }
+        name:    { type: string }
+        species: { type: string }
 ```
 
 ---
@@ -1571,24 +1523,25 @@ Dependencies that span locations (e.g., ensuring a path parameter matches a body
 
 ```yaml
 # Hypothetical relational value-equality declaration (deferred grammar)
-operations:
-  updateOrder:
-    parameters:
-      - name: orderId
-        in: path
-        parameterSchema:
-          type: string
-    requestBody:
-      content:
-        application/json:
-          schema:
+paths:
+  /orders/{orderId}:
+    requests:
+      updateOrder:
+        method: put
+        parameterSchema:                 # v4 per-location slots (§4) — not a 3.x parameters[] array
+          path:
             type: object
             properties:
-              id:
-                type: string
-    # Deferred: exact syntax for declaring path.orderId == body.id
-    x-relational-constraints:  # PLACEHOLDER — grammar TBD
-      - equals: ["path/orderId", "body/id"]
+              orderId: { type: string }
+            required: [orderId]
+        contentType: application/json
+        contentSchema:                   # v4 flattened body — not 3.x requestBody/content/mediaType
+          type: object
+          properties:
+            id: { type: string }
+        # Deferred: exact syntax for declaring path.orderId == body.id
+        x-relational-constraints:  # PLACEHOLDER — grammar TBD
+          - equals: ["path/orderId", "body/id"]
 ```
 
 ---
@@ -4218,14 +4171,16 @@ webhooks:
 A **callback** is an out-of-band request the API *sends* in response to an operation, to a URL supplied at runtime. Each operation MAY carry a `callbacks` map keyed by a friendly **name**; each callback is keyed internally by a **runtime expression** (e.g. `{$request.body#/callbackUrl}`) whose value is a pathItem-shaped definition (§1.3). The runtime-expression key is resolved at runtime from request/response data — it is **not** part of the static signature matcher (§3; D1-consistent).
 
 ```yaml
-operations:
-  createSubscription:
-    method: post
-    callbacks:
-      onEvent:
-        "{$request.body#/callbackUrl}":
-          requests:
-            event: { method: post, contentSchema: { $ref: "#/components/schemas/event" } }
+paths:
+  /subscriptions:
+    requests:
+      createSubscription:
+        method: post
+        callbacks:
+          onEvent:
+            "{$request.body#/callbackUrl}":
+              requests:
+                event: { method: post, contentSchema: { $ref: "#/components/schemas/event" } }
 ```
 
 > ⚠ **Deferred**: the exact runtime-expression grammar (3.x used `{$request.body#/x}`); and the broader async/event-driven/streaming space (AsyncAPI overlap) is **out of scope** for this candidate's HTTP core.
