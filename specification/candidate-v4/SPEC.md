@@ -1040,7 +1040,7 @@ parameterSchema:
 **Defaults:**
 
 - If a location (query/path/header/cookie) is **absent** from `parameterSchema`, the runtime behavior is implementation-defined (tools may enforce strict-no-params or permissive-allow-all); tools SHOULD document their choice.
-- **Header and cookie defaults** default to `additionalProperties: true` per C004 §23 (headers and cookies often carry implementation-specific extensions; filtering is conservative).
+- **Header and cookie defaults** default to `additionalProperties: true` per C004 #224 (headers and cookies often carry implementation-specific extensions; filtering is conservative).
 - **Query and path defaults** follow standard JSON Schema defaults (`additionalProperties: false` is typical for explicit parameter control).
 
 > ⚠ **Candidate @0.55**: The exact per-location DEFAULT for `additionalProperties` behavior when a schema-slot is absent, and the priority of explicit vs. implicit schema-application at runtime, are deferred to implementation profiles and the #127 concrete-templating-system ADR. C004 establishes the DIRECTION (separate slots, no mandatory wrapper); the precise validation-algebra is refinement-deferred.
@@ -4238,7 +4238,7 @@ operations:
 
 *(Logically extends §4 Requests, §14 Callbacks & Webhooks. Resolves the operator-surfaced gap that cost is often incurred not when a route runs, but when a BACKGROUND EVENT fires — a Stripe webhook charges you, a cron job runs, a queue consumer processes. See [C024], [C025], [C026].)*
 
-> ⚠ **Candidate @0.58 — ORIGINATED, no SIG witness.** The OpenAPI SIG never designed cost annotation; this entire section is a clean-room extension of the existing `x-suluk-cost` vendor facet (a `CostModel` on a Request, §4) reusing the C018 webhook machinery and the `SulukRateLimit.key` strategy precedent. The Originated ceiling is ~0.58 (single-witness ledger facts, no independent corroboration). Everything here is a **vendor extension** in the `x-suluk-*` namespace — it adds **no normative async/jobs/events object kind**, and does **not** reopen C018's deliberately-deferred async scope. Ledger: [`0cost-trigger.bn`], [`0cost-jobs.bn`], [`0cost-reconciliation.bn`].
+> ⚠ **Candidate @0.58 — ORIGINATED, no SIG witness.** The OpenAPI SIG never designed cost annotation; this entire section ORIGINATES the `x-suluk-cost` vendor facet (a `CostModel` carried on a Request) — reusing the C018 webhook machinery and the `SulukRateLimit.key` strategy precedent. The Originated ceiling is ~0.58 (single-witness ledger facts, no independent corroboration). Everything here is a **vendor extension** in the `x-suluk-*` namespace — it adds **no normative async/jobs/events object kind**, and does **not** reopen C018's deliberately-deferred async scope. Ledger: [`0cost-trigger.bn`], [`0cost-jobs.bn`], [`0cost-reconciliation.bn`].
 
 ### 15.1 The four orthogonal axes of `x-suluk-cost`
 
@@ -4460,7 +4460,7 @@ A `SulukAgent` carries no Request/Response and is **NEVER** consulted by the req
 | `scope` | [string] | NO | Static `resource:action` authz; the agent's complete reachable surface is statically enumerable from the document. |
 | `skills` | Map[name → [SulukSkillRef](#163-skills-the-llm-tier)] | NO | Instruction bundles. **Presence of `model` is the hard static skill-vs-route discriminator** (§16.3). |
 | `routes` | Map[name → [SulukRouteRef](#164-routes-the-deterministic-tier-and-the-d1-invariant)] | NO | Deterministic routes: by-name `$ref`s into existing operations. **No `model` field, ever.** |
-| `agents` | Map[name → [SulukAgentRef](#165-sub-agents-recursion-bounded-by-lint-not-schema)] | NO | By-name sub-agent refs (never inline). |
+| `agents` | Map[name → [SulukAgentRef](#165-sub-agents--recursion-bounded-by-lint-not-schema)] | NO | By-name sub-agent refs (never inline). |
 | `maxDepth` | number | conditional | **REQUIRED whenever `agents` is non-empty** (enforced by a lint, not the schema). A typed leaf is `maxDepth` 0 with `agents` `{}`. |
 | `trustBoundary` | `"untrusted"` | NO | Marks a tier whose retrieved / lower-tier content MUST NOT escalate scope or upgrade a figure's provenance. |
 | `contextBudget` | `{ tokens, basis: "estimate" }` | NO | Advisory per-tier context budget (basis is always `estimate`); fail-loud, never silent-zero. |
@@ -4477,7 +4477,7 @@ x-suluk-agents:
       instructions:
         provenance:
           source: "https://conin.example/v1/instructions"
-          contentHash: "sha256:8f3c…"
+          contentHash: "sha256-8f3c…"
           version: "2026-06-12"
         model: [ "anthropic/claude-opus-4", "openai/gpt-5" ]
         tier: resident
@@ -4612,7 +4612,7 @@ Everything below is **explicitly deferred / advisory / DECLARED-not-enforced**, 
 - ⚠ **Determinism is DECLARED, not enforced** — `guarantee` (`same-in-same-out` \| `idempotent` \| `safe`) is advisory intent, unverifiable by schema (mirrors C026 PROVISIONAL).
 - ⚠ **Selection / tiering / model-pick are RUNTIME-ADVISORY only** — `description`, `whenToUse`, and the model-resolution surface are never read by the matcher (D1, §16.4.1).
 - ⚠ **An enterprise governance / suppression overlay** (operator-owned deny/allow/cap-tier/model-allowlist + a hard enforced `costCeiling`) is a **future sibling `x-suluk-policy` construct** (projected separately under C028), or out of scope for a single-contributor fork.
-- ⚠ **Expansionist static axes are DEFERRED** — streaming; iterative-loop (`thinking` / `maxRounds` / `stopCondition`, Conin's 6-round cap, C029); human-gate (`requiresHuman` / `resumable`); memory scope / reset-boundary. `models[]` is adopted; the rest may be forked by the first non-Conin agent.
+- ⚠ **Expansionist static axes** — streaming; human-gate (`requiresHuman` / `resumable`); memory scope / reset-boundary — are **DEFERRED**. The iterative-loop bound (`thinking` / `maxRounds`) is now **SHIPPED in §17.2** (C029); only `stopCondition` stays FORBIDDEN/deferred (per C029 — reopens on a second non-Conin agent with a non-budget terminator). `models[]` is adopted; the rest may be forked by the first non-Conin agent.
 - ⚠ **The parent/child API-key scope-negotiation protocol** when a child route 403s under a narrower scope is DEFERRED — `INTERSECTION(child, caller)` is the rule; graceful-failure mechanics are unspecified.
 - ⚠ **The full closed `tier` enum**, and whether a `learned` value is admissible at all, is OPEN — `tier` MUST stay a static enumerable partition or be dropped.
 - ⚠ **`contentHash` drift detection beyond fail-loud signalling**, and the `SKILL.md` generation grammar, are refinement-deferred — the binding direction (generated from `source`, hashed) is settled; the byte-grammar is not.
@@ -4657,7 +4657,7 @@ x-suluk-policy:
     agents:        { deny: [ shell-agent ] }      # deny/allow sub-agent keys
     tools:         { allow: [ search ] }           # deny/allow route (tool) keys
     retrievalTools: { deny: [ web-fetch ] }        # the untrusted tier's blast radius, specifically
-    capTier: cold-tail                  # pin the MAX tier; a resident skill is downgraded (+flagged)
+    capTier: resident                   # pin the MAX tier; a cold-tail skill is downgraded (+flagged)
     modelAllowlist: [ "openai/gpt-4o-mini" ]       # effective model[] = INTERSECT(skill.model, modelAllowlist)
     maxDepthCap: 1                      # effective maxDepth = min(agent.maxDepth, maxDepthCap)
     forbidNesting: false                # true ⇒ effective maxDepth 0
