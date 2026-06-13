@@ -1,0 +1,37 @@
+{
+  "name": "@suluk/chat",
+  "version": "0.2.1",
+  "description": "A contract-driven chat AGENT for any suluk app: an in-page floating assistant that can browse AND act, by running an OpenRouter tool-use loop over the SAME OpenAPI v4 operations (projected via @suluk/mcp, executed in-process via the store's own access gate) \u2014 with the model chosen by @suluk/models, never hardcoded. Ships the server loop (Hono-mountable SSE) + a theme-aware floating widget. CANDIDATE tooling \u2014 NOT official OAS.",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MahmoodKhalil57/suluk.git",
+    "directory": "tooling/ts/packages/chat"
+  },
+  "homepage": "https://github.com/MahmoodKhalil57/suluk#readme",
+  "bugs": "https://github.com/MahmoodKhalil57/suluk/issues",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@suluk/core": "workspace:^",
+    "@suluk/mcp": "workspace:^",
+    "@suluk/models": "workspace:^"
+  },
+  "peerDependencies": {
+    "hono": "*"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "hono": "*"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit -p ."
+  }
+}
