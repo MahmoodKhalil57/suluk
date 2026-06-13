@@ -51,6 +51,7 @@ export const TEMPLATE_STRINGS: Catalog = {
   orderConfirmSubheading: "Thanks for your order!",
   orderConfirmIntro: "We've received your order {number}. Here's what's on the way:",
   orderTotal: "Total",
+  orderShipTo: "Shipping to",
   // order status
   orderStatusSubject: "Order {number}: {status}",
   orderStatusHeading: "Order {status}",
@@ -124,23 +125,30 @@ export function deleteAccountEmail(params: { confirmUrl: string; userName?: stri
 
 export interface OrderLine { name: string; qty: number; totalCents: number }
 
-/** Order confirmation — renders a line-item table + total (amounts formatted via Intl in the given locale). */
+/** Order confirmation — renders a line-item table + total (amounts formatted via Intl in the given locale), and an
+ *  optional "Shipping to" block when the order ships a physical good. `shippingAddress` is one display line per array
+ *  entry (e.g. ["Jane Doe", "12 Oak St", "Austin, TX 78701", "US"]); entries are HTML-escaped here defensively. */
 export function orderConfirmationEmail(
-  params: { orderNumber: string; items: OrderLine[]; totalCents: number; currency: string; locale?: string; orderUrl?: string },
+  params: { orderNumber: string; items: OrderLine[]; totalCents: number; currency: string; locale?: string; orderUrl?: string; shippingAddress?: string[] },
   ctx: TemplateContext,
 ): RenderedEmail {
   const { tr, render } = ctxFor(ctx);
+  const esc = (s: string) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c] as string));
   const money = (cents: number) =>
     new Intl.NumberFormat(params.locale ?? ctx.lang ?? "en", { style: "currency", currency: params.currency }).format(cents / 100);
   const rows = params.items.map((l) =>
     `<tr><td style="padding:8px 0;font-size:14px;color:#1a1a1a;">${l.name} <span style="color:#8a8a8a;">× ${l.qty}</span></td><td align="right" style="padding:8px 0;font-size:14px;color:#1a1a1a;">${money(l.totalCents)}</td></tr>`).join("");
   const table = `<table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:16px;border-top:1px solid #eee;">${rows}<tr><td style="padding:12px 0 0;font-size:15px;font-weight:700;color:#1a1a1a;border-top:1px solid #eee;">${tr("orderTotal")}</td><td align="right" style="padding:12px 0 0;font-size:15px;font-weight:700;color:#1a1a1a;border-top:1px solid #eee;">${money(params.totalCents)}</td></tr></table>`;
+  const ship = params.shippingAddress?.filter((l) => l && l.trim()) ?? [];
+  const shipBlock = ship.length
+    ? `<table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:20px;border-top:1px solid #eee;"><tr><td style="padding:14px 0 4px;font-size:12px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:#8a8a8a;">${tr("orderShipTo")}</td></tr><tr><td style="font-size:14px;color:#1a1a1a;line-height:1.6;">${ship.map(esc).join("<br>")}</td></tr></table>`
+    : "";
   return {
     subject: t(render.messages, "orderConfirmSubject", { number: params.orderNumber }),
     html: renderEmailHtml({
       icon: "&#128717;", heading: tr("orderConfirmHeading"), subheading: tr("orderConfirmSubheading"),
       preheader: t(render.messages, "orderConfirmSubject", { number: params.orderNumber }),
-      body: para(t(render.messages, "orderConfirmIntro", { number: `<strong>${params.orderNumber}</strong>` })) + table,
+      body: para(t(render.messages, "orderConfirmIntro", { number: `<strong>${params.orderNumber}</strong>` })) + table + shipBlock,
       ...(params.orderUrl ? { ctaLabel: "View Order", ctaUrl: params.orderUrl } : {}),
     }, render),
   };
