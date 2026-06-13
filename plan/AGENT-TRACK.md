@@ -126,9 +126,13 @@ becomes a hard filter the model selector uses → an agent declares *needs*, not
 ### C. C027 deferred items (each gated by a reopen-trigger — do NOT build ahead)
 - [ ] **Recursion machinery beyond one hop.** Reopen-trigger: a **2nd real nested or non-Conin agent**. (Today:
   cycle-lint + depth-lint + schema slot only.)
-- [ ] **Tier-trim-serving MANDATE.** The adapter *capability* is built; whether the standard MANDATES it is the open
-  decision. Reopen-trigger: the `@suluk/agents` adapter demonstrably withholds cold-tail tools **AND Conin's
-  server-side over-serve (`constructionIntelligence/app.ts:2585`, ships full catalog) is fixed**.
+- [~] **Tier-trim-serving — SERVING HALF BUILT 2026-06-13 (conin-migration).** The reopen-trigger's first half is
+  now MET: `@suluk/mcp` (0.1.2) `mcpApp({ resident })` demonstrably **withholds cold-tail tools** — `tools/list`
+  serves resident + a `discover_tools` meta-tool; the cold-tail is revealed on demand (filterable by `intent`) and
+  every tool stays callable by name (lossless). `@suluk/agents` (0.1.3) `residentToolNames(doc, agentName)` derives
+  the resident wire ids across the reachable surface to feed it. mcp 27 / agents 75 tests. **STILL OPEN:** (a) wiring
+  conin's real server (`constructionIntelligence/app.ts:2585`) onto `mcpApp({ resident })` to actually fix its
+  over-serve; (b) whether the standard MANDATES the trim (vs advisory). Commit `f40eb6b`.
 - [ ] **Runtime determinism gate** (a SOURCED figure may originate ONLY from a deterministic route). Open: mandated
   by the standard vs left to the implementer (enterprise/security want mandated; majority declare-only).
 - [ ] **Expansionist static axes** still missing: **streaming/unary**, **human-gate** (`requiresHuman`/`resumable` —
