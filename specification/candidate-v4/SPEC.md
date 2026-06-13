@@ -1,7 +1,7 @@
 # OpenAPI v4.0 — Suluk Candidate Specification
 
 <!--
-  FRONT MATTER — projection from the C001–C017 ADR set (doc/architecture/decisions/)
+  FRONT MATTER — projection from the C001–C030 ADR set (doc/architecture/decisions/)
   and the plan/ ledger. Candidate-fork artifact, NOT official OpenAPI text.
   Source of truth is the ledger; this document is downstream of the decisions (C002).
 -->
@@ -22,7 +22,7 @@ This is a **CANDIDATE**, not a standard.
   exactly one substantive technical ADR (0002, IRIs) and had not begun the formal spec. Every open
   question resolved here is resolved **by this fork**, never on the SIG's behalf. We are an external
   contributor; we cannot ratify.
-- **Authored from ADRs C001–C017** (`doc/architecture/decisions/Cxxx-*.md`). Each numbered section of
+- **Authored from ADRs C001–C030** (`doc/architecture/decisions/Cxxx-*.md`). Each numbered section of
   this spec is a *projection* of an ADR's ledger (`plan/facts/*.bn` + daftar receipts), not hand-written
   prose. The document is downstream of the decisions; the decisions are the source of truth (C002).
 - **Posture: adopt-by-default, deviate-by-receipt (C001).** Every SIG prior is inherited unchanged
@@ -213,6 +213,12 @@ components:                              # dynamic-key MAP; resolve by NAME (C00
 11. Tags, Functional Areas & Annotations
 12. Mechanical Upgrade from OpenAPI 3.x
 13. Conformance: DOM, ADA & Tooling Interface
+14. Callbacks & Webhooks
+15. Cost & Deferred Jobs
+16. Agents (`x-suluk-agents`)
+17. Agent Governance, Thinking & Model Resolution
+
+Appendix A. Tooling Profile (provisional buildable defaults)
 
 ---
 
@@ -4225,6 +4231,587 @@ operations:
 > ⚠ **Deferred**: the exact runtime-expression grammar (3.x used `{$request.body#/x}`); and the broader async/event-driven/streaming space (AsyncAPI overlap) is **out of scope** for this candidate's HTTP core.
 
 ---
+
+---
+
+## 15. Cost & Deferred Jobs
+
+*(Logically extends §4 Requests, §14 Callbacks & Webhooks. Resolves the operator-surfaced gap that cost is often incurred not when a route runs, but when a BACKGROUND EVENT fires — a Stripe webhook charges you, a cron job runs, a queue consumer processes. See [C024], [C025], [C026].)*
+
+> ⚠ **Candidate @0.58 — ORIGINATED, no SIG witness.** The OpenAPI SIG never designed cost annotation; this entire section is a clean-room extension of the existing `x-suluk-cost` vendor facet (a `CostModel` on a Request, §4) reusing the C018 webhook machinery and the `SulukRateLimit.key` strategy precedent. The Originated ceiling is ~0.58 (single-witness ledger facts, no independent corroboration). Everything here is a **vendor extension** in the `x-suluk-*` namespace — it adds **no normative async/jobs/events object kind**, and does **not** reopen C018's deliberately-deferred async scope. Ledger: [`0cost-trigger.bn`], [`0cost-jobs.bn`], [`0cost-reconciliation.bn`].
+
+### 15.1 The four orthogonal axes of `x-suluk-cost`
+
+A cost is described by **four orthogonal axes** on the `x-suluk-cost` facet (C024's handrews double-duty rule: never overload one axis with another's meaning):
+
+| Axis | Field | Means | Static or Runtime |
+|---|---|---|---|
+| **How it meters** | `basis` (on each `CostComponent`) | `per-call`, `per-token`, `per-second`, … — UNCHANGED by C024 (no `per-event` member is added) | Static |
+| **When/what fires it** | `trigger` (+ `triggerRef`) | where the cost accrues — decoupled from the declaring op | Static |
+| **Who pays** | `attribution` | the principal charged when a third party fires the event with no live session | Runtime-only |
+| **Is the amount the real charge** | `reconciliationBasis` (+ `amountExpression`, `amountUnit`) | declared estimate vs the third party's actual invoiced amount | Static enum, runtime amount |
+
+The axes are deliberately disjoint: `basis` is HOW, `trigger` is WHEN, `attribution` is WHO, `reconciliationBasis` is IS-IT-REAL. A change on one MUST NOT require a change on another.
+
+### 15.2 The `trigger` axis — when/what fires the cost (C024, static)
+
+`trigger` is a **static, closed string enum** on the `CostModel`. It is strictly **descriptive**: it names *where* a cost accrues and asserts **no** event-channel, stream, or delivery-protocol semantics — that fence is what keeps it orthogonal to C018's deferred async core.
+
+| `trigger` value | Cost accrues when… |
+|---|---|
+| `synchronous` (default) | this operation's own route runs (backwards-compatible; zero migration) |
+| `webhook-received` | an incoming webhook (§14, C018) fires |
+| `scheduled` | a scheduled / cron job runs |
+| `queue-consumed` | a queue consumer processes a message |
+| `callback-completed` | an out-of-band callback (§14, C018) completes |
+
+- The default `synchronous` means **every pre-C024 declaration is unchanged** — no migration is required.
+- An optional **`triggerRef`** is a by-name handle (§1, C009) to the webhook / callback / operation whose firing accrues the cost.
+- `trigger` is **locally decidable from the document alone**: a linter, a docs renderer, or `costAudit` decides "this cost is non-synchronous" and "what fires it" with **no request issued**. (This satisfies the hudlow static-decidability lens @0.78.)
+- A C018 webhook **is already a Request**, so it carries `x-suluk-cost` (and its `trigger`) at **zero new object kind**. `costAudit` / `annotateCosts` / `costTable` iterate `webhooks` alongside `paths`.
+
+```yaml
+webhooks:
+  paymentSucceeded:               # a C018 webhook IS a Request — it carries x-suluk-cost directly
+    method: POST
+    contentType: application/json
+    contentSchema: { $ref: "#/components/schemas/stripeEvent" }
+    x-suluk-cost:
+      components:
+        - source: stripe
+          basis: per-request
+          microUsd: 2900           # all money is integer micro-USD (1 USD = 1_000_000 µ$)
+      estimateMicroUsd: 2900
+      trigger: webhook-received    # NOT synchronous: this cost fires on the inbound event
+      triggerRef: paymentSucceeded # C009 by-name handle to what fires it
+    responses:
+      ok: { status: 200 }
+```
+
+### 15.3 The `attribution` axis — who pays (C024, runtime-only)
+
+When a third party fires the event with **no live session**, the principal cannot be read from the caller. `attribution` declares a **`strategy`** the runtime resolves a concrete principal from, modeled on `SulukRateLimit.key`:
+
+| `strategy` | Resolves the principal from… |
+|---|---|
+| `session` | the live caller (the existing synchronous path) |
+| `event-expression` | the event payload, at runtime, via a C018 runtime-expression |
+| `job-stamped` | the job's own carried principal |
+
+```yaml
+x-suluk-cost:
+  components: [ { source: stripe, basis: per-request, microUsd: 2900 } ]
+  trigger: webhook-received
+  attribution:
+    strategy: event-expression
+    expression: "{$event.body#/customer}"   # RUNTIME-ONLY — never enters the static matcher
+    trust: verified                          # honored as authoritative only behind a verified signature
+```
+
+- The **`expression`** (a C018 runtime-expression, e.g. `{$event.body#/customer}`) is **runtime-resolved and NEVER enters the static signature matcher** — D1-consistent, exactly as C018 walls callback runtime-expression keys (§14.2). This is the same wall the static profile relies on throughout this candidate.
+- The optional **`trust`** field (`verified` | `unverified-payload`) records whether the attribution input is authentic. An `event-expression` read off an **unverified** payload is attacker-controllable.
+
+**Fail-loud disciplines (`costAudit`).** A background cost MUST surface, never silently bill zero:
+
+| Finding code | Raised when | Severity |
+|---|---|---|
+| `unattributed-background-cost` | a non-synchronous cost resolves **no principal** (no `attribution`, or `event-expression` with no `expression`) — it would bill to the `@unattributed` sentinel | warn |
+| `unverified-attribution` | an `event-expression` attribution's `trust` is not `verified` — the payload is attacker-controllable | warn |
+
+The `@unattributed` sentinel exists so that an unresolved background cost is **billed to nobody but logged loud** — never a silent zero. A `CostEvent` carries a `dedupeKey` so at-least-once delivery does not double-count a charge.
+
+### 15.4 The `x-suluk-jobs` map — a home for cron/queue work (C025)
+
+A `scheduled` cron tick or a `queue-consumed` drain has **no inbound Request** — it cannot live in `paths` (no uriTemplate) or `webhooks` (those are *incoming HTTP operations*, each with a Request). C025 gives it a first-class home: a top-level **`x-suluk-jobs`** name-keyed map (§1, C009) of **`SulukJob`** entries.
+
+A `SulukJob` is **non-HTTP background work**. It carries no Request/Response (there is no HTTP exchange); its **static** fields are locally decidable, and it carries the same advisory `x-suluk-*` facets an operation does — notably `x-suluk-cost` (with a matching `trigger`) and `x-suluk-source`.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `trigger` | `"scheduled"` \| `"queue-consumed"` | YES | the non-HTTP trigger that fires this job |
+| `schedule` | string | NO | for `scheduled`: a cron expression, statically declared (e.g. `"0 0 * * *"`) |
+| `queue` | string | NO | for `queue-consumed`: the queue name the consumer drains |
+| `summary` | string | NO | short human-readable label |
+| `description` | string | NO | longer markdown description |
+| `x-suluk-source` | SulukSource | NO | advisory provenance — where in source this job was projected from |
+| `x-suluk-cost` | CostModel | NO | the job's declared cost, read by `@suluk/cost` |
+
+```yaml
+x-suluk-jobs:
+  nightlyReindex:
+    trigger: scheduled
+    schedule: "0 0 * * *"          # static cron string — locally decidable
+    summary: Rebuild the search index
+    x-suluk-cost:
+      components: [ { source: compute, basis: per-second, microUsd: 14 } ]
+      estimateMicroUsd: 50400
+      trigger: scheduled           # matches the job's own trigger
+      attribution: { strategy: job-stamped }
+  invoiceDrain:
+    trigger: queue-consumed
+    queue: invoices                # the queue the consumer drains
+    x-suluk-cost:
+      components: [ { source: stripe, basis: per-request, microUsd: 2900 } ]
+      trigger: queue-consumed
+      attribution: { strategy: job-stamped }
+```
+
+- **`@suluk/cost`** walks jobs: `eachJob` feeds a unified `costLoci` (paths + webhooks + jobs) into `costAudit` / `costTable`, so a job's cost is **declared, audited (the same fail-loud `unattributed-background-cost` discipline), and tabled** like any other locus.
+- **`@suluk/reference`** rolls a job's (deferred) cost into `costRollup` — it counts toward both the total and the `deferred` tally.
+
+**Disjoint from webhooks (the contrarian lens, C025).** A webhook is an *incoming HTTP operation* (has a Request, lives in `webhooks`); a job is *non-HTTP* (a cron tick / queue drain, no Request). The two loci do not overlap and do not duplicate.
+
+**Whose job (the handrews lens, C025).** Cost and jobs stay a vendor extension. `core` gains only a **structural** `SulukJob` shape — **no new normative control keyword** — reusing C009 named maps and the `x-suluk-*` namespace. The DOM→ADA request matcher never reads `x-suluk-jobs` (D1).
+
+### 15.5 The `reconciliationBasis` axis — declared estimate vs actual charge (C026)
+
+C024/C025 let a cost declare it accrues on a background event and who pays — but the recorded amount was still the operator's **declared estimate**. The real charge a third party makes when the event fires differs: proration, tax, partial refunds, chargebacks. C026 adds the **fourth orthogonal axis** to close this:
+
+- **`reconciliationBasis: "declared-estimate"` (default) | `"payload-reconciled"`.**
+- A **`payload-reconciled`** cost reads the **actual** charged amount from the event at runtime via **`amountExpression`** (a C018 runtime-expression, e.g. `{$event.body#/amount}`), interpreted in a declared **`amountUnit`** (`micro-usd` default | `cents` for Stripe → ×10 000 | `usd` → ×1 000 000).
+- The recorded `CostEvent.totalMicroUsd` then becomes the **real invoice line** (proration/tax/refund included), and `CostEvent.reconciled` is set `true`.
+
+```yaml
+x-suluk-cost:
+  components: [ { source: stripe, basis: per-request, microUsd: 2900 } ]
+  estimateMicroUsd: 2900           # the GUESS
+  trigger: webhook-received
+  attribution: { strategy: event-expression, expression: "{$event.body#/customer}", trust: verified }
+  reconciliationBasis: payload-reconciled
+  amountExpression: "{$event.body#/amount_received}"   # RUNTIME-ONLY — reads the ACTUAL charge
+  amountUnit: cents                                    # Stripe charges in cents → ×10_000 to µ$
+```
+
+- The **static** part (`reconciliationBasis` enum + `amountUnit`) is **locally decidable** (hudlow); the **`amountExpression` is runtime-only** — never the static matcher, exactly as `attribution.expression` is walled (§15.3).
+- **`@suluk/cost`** runtime: `reconciledAmount` + `eventCostEvent` apply it — the actual charge replaces the estimate.
+
+**Fail-loud (`costAudit`).** A `payload-reconciled` cost with no `amountExpression` raises **`reconciliation-incomplete`** (warn): the actual charge can't be read, so it **falls back to the estimate — surfaced, not silent**.
+
+### 15.6 Attribution & reconciliation end to end
+
+The lifecycle of one background charge, from declaration to recorded event:
+
+1. **Declare (static).** The operator annotates the webhook / callback / job locus with `x-suluk-cost`: a `trigger` (when), an `attribution.strategy` (who), and a `reconciliationBasis` (is-it-real). `costAudit` checks all three statically and emits the fail-loud findings above.
+2. **Fire (runtime).** The event arrives. The runtime resolves the principal from `attribution` (`session` / `event-expression` / `job-stamped`); an `event-expression` is honored as authoritative only when `trust: verified`.
+3. **Reconcile (runtime).** If `reconciliationBasis: payload-reconciled`, `reconciledAmount` reads `amountExpression` in `amountUnit` and uses the actual charge; otherwise the `estimateMicroUsd` stands.
+4. **Record.** `eventCostEvent` emits a `CostEvent`: `principal` (or `@unattributed`), `trigger`, `dedupeKey` (so at-least-once delivery does not double-count), `reconciled` (true iff the amount is the third party's actual charge), `breakdown`, and `totalMicroUsd`.
+
+**Reference-docs propagation is free.** Everything rides the Request-attached (or job-attached) `x-suluk-cost` facet that Scalar / Swagger already render (and that survives a 3.1 downgrade). `@suluk/reference` walks `paths` + `webhooks` + `x-suluk-jobs`, rolls deferred costs into `costRollup` (`{ priced, undeclared, totalMicroUsd, deferred }`), and shows a `charged on: <trigger>` badge (with the `triggerRef` in parentheses when present).
+
+### 15.7 3.x → 4.0 mapping
+
+There is **no 3.x antecedent** — cost annotation, deferred-job description, and reconciliation are Originated for this candidate. The mapping is therefore additive-only:
+
+| OpenAPI 3.x | Suluk v4.0 | Notes |
+|---|---|---|
+| *(no cost concept)* | `x-suluk-cost` on a Request | Originated; a vendor extension that survives the 3.1 downgrade as an unrecognized `x-*` key |
+| Vendor `x-*` on a webhook | `x-suluk-cost.trigger: webhook-received` + `triggerRef` | reuses the C018 webhook-as-Request shape; zero new object kind |
+| *(no cron/queue description)* | `x-suluk-jobs` map of `SulukJob` | Originated; **no** normative async kind — drops whole on a 3.1 downgrade, nothing else moves |
+| *(no actual-charge linkage)* | `reconciliationBasis: payload-reconciled` + `amountExpression` | Originated; the static enum survives the downgrade, the runtime expression is opaque to 3.1 |
+
+A 3.1 downgrade **drops `x-suluk-jobs` whole** and reduces every `x-suluk-cost` to an unrecognized vendor key; the underlying paths and webhooks survive as the ordinary operations they always were. No normative content is lost because none was added.
+
+### 15.8 Deferred & Low-Ceiling Markers
+
+Everything in this section is **Originated at ~0.58** (single-witness ledger, no SIG ratification) — treat every claim as provisional, capped, and revisable.
+
+- ⚠ **Candidate @0.58 — whole section is Originated.** Cost annotation, the `trigger`/`attribution`/`reconciliationBasis` axes, and the `x-suluk-jobs` map are clean-room (no SIG design). Each is a **vendor extension** asserting **no** normative async/event-channel semantics; none adds a normative jobs/events object kind. ([C024]/[C025]/[C026]; [`0cost-trigger.bn`] `cost_trigger_vendor_ext_not_normative_kind` @0.6, [`0cost-jobs.bn`] `cost_jobs_no_async_reopen_no_webhook_dup` @0.6.)
+
+- ⚠ **Candidate @0.55 — `attribution` is runtime-only, NOT statically enforced.** `attribution.strategy` is DECLARED; the runtime resolves the principal. The `attribution.expression` (and the C026 `amountExpression`, and the `idempotencyKey`) are C018 **runtime-expressions that NEVER enter the static matcher** — they are reused as runtime *values* only, never promoted into the static signature. The C018 runtime-expression **grammar itself remains DEFERRED** (§14.2). ([C024]; [`0cost-trigger.bn`] `cost_attribution_runtime_strategy_out_of_matcher` @0.55.)
+
+- ⚠ **DEFERRED — the no-session Principal model (Open-Decision #5).** The `event-expression` and `job-stamped` strategies (charging when there is no live caller) sit at a **lower ceiling pending the Principal-model**. What a resolved principal *is* across the no-session strategies is not settled here. ([C024]; [`0cost-trigger.bn`].)
+
+- ⚠ **DECLARED, not enforced — the fail-loud findings are advisory audit output.** `unattributed-background-cost`, `unverified-attribution`, and `reconciliation-incomplete` are `costAudit` **warnings** (severity `warn`), surfaced by tooling — they are **not** schema-enforced gates and do not block a document. The `@unattributed` sentinel bills to nobody but logs loud; an unverified attribution is surfaced, not rejected; a `reconciliation-incomplete` cost **falls back to the estimate**. ([C024]/[C026]; [`0cost-trigger.bn`] `cost_background_audit_fail_loud` @0.58, [`0cost-reconciliation.bn`] `cost_reconciliation_orthogonal_fail_loud` @0.6.)
+
+- ⚠ **Candidate @0.58 — `reconciliationBasis` closes, but does not certify, the actual-charge gap.** `payload-reconciled` makes `CostEvent.totalMicroUsd` the real invoice line at the C024-tracking Originated ceiling. The richer reconciliation surface C024 originally flagged — proration / tax / refund / chargeback as *separate* modeled dimensions — is folded into the single `amountExpression`-read amount, not separately enumerated. ([C026]; [`0cost-reconciliation.bn`] `cost_reconciliation_basis_static_amount_runtime` @0.58.)
+
+> Source ADRs: [C024](../../doc/architecture/decisions/C024-cost-trigger-and-attribution.md), [C025](../../doc/architecture/decisions/C025-jobs-vendor-map.md), [C026](../../doc/architecture/decisions/C026-cost-reconciliation.md). Ledger: [`0cost-trigger.bn`](../../plan/facts/0cost-trigger.bn), [`0cost-jobs.bn`](../../plan/facts/0cost-jobs.bn), [`0cost-reconciliation.bn`](../../plan/facts/0cost-reconciliation.bn).
+
+---
+
+## 16. Agents (`x-suluk-agents`)
+
+*(Layers ON TOP of §4 Requests, §14 Webhooks, and the C025 jobs vendor map — a composition manifest over EXISTING operations, never a new operation kind. See [C027].)*
+
+> ⚠ **Candidate @0.52 — ORIGINATED, clean-room, witness-thin.** The SIG never specified an agent layer; this whole section is constructed by burhan from the C025 `x-suluk-jobs` precedent and a three-vendor industry cowpath (Strands' agent-as-tool, the Claude Agent SDK's name-keyed `agents` subagent map, OpenAI Agents' handoffs). It leans on the D1 matcher-invariance guarantee, which the ledger caps at **0.139** (`d1_is_soft_guardrail_cap_0139`, sole-witness soft guardrail), so the burden on anything touching the matcher is **higher**, not lower. Resolved by a 15-voice persona council (workflow `wf_9e8712c7-871`, 2026-06-12): near-unanimous (11 support-with-conditions, 3 reframe, 0 oppose). The headline "tiering solves the context problem" claim was adversarially **refuted** and reframed — see §16.8. Source: [C027]; ledger `plan/facts/0agents-d1.bn` (claims `agents_toplevel_vendor_map`, `d1_agent_selector_safe`, `agents_no_request_value_selector`, `agents_determinism_declared_not_enforced`, `agents_recursion_lint_bounded_frontdoor`, `agents_ceiling_originated_low_context_reframed`) + `plan/facts/0agents-d1-witness.bn` (`d1_matcher_invariance_test_green`, `agents_cyclic_block_no_matcher_perturbation`).
+
+### 16.1 What `x-suluk-agents` is (and what it is not)
+
+An **agent** is an LLM-orchestrated unit composed *over* an API: a routing-oriented description plus deterministic **routes** (by-name `$ref`s into existing operations) and model-bearing **skills** (instruction bundles), optionally calling **sub-agents**. `x-suluk-agents` is an **OPTIONAL** top-level map that describes such compositions; it asserts **no** event channel, loop, or delivery protocol.
+
+`x-suluk-agents` is a **vendor extension** in the `x-suluk-*` namespace (riding the C025 `x-suluk-jobs` precedent EXACTLY), **NOT** a normative kind. It is `additionalProperties`-legal under the document's existing `[ext: ` `x-${string}` `]` catch-all, so:
+
+- a pre-agents 4.0 document and an agents-bearing one validate **byte-identically** against the meta-schema (no meta-schema change, no new control keyword);
+- a 3.1 downgrade **DROPS the map whole**, and the routes survive as the ordinary operations they always referenced (the map is *severable*).
+
+The four nouns are disjoint loci (pinned in `CONTEXT.md`): an **agent** (this section) is an LLM-orchestration manifest; a **module** (C021) is a contract-merge fragment; a **job** (C025) is non-HTTP background work; a **webhook** (§14) is an incoming operation. A *route* is a by-name `$ref` **into** an existing operation, never a parallel namespace.
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `x-suluk-agents` | Map[name → [SulukAgent](#162-the-sulukagent-object)] | MAY | Composition manifest layered on top of the API. Sibling to `x-suluk-jobs`. The map **key** is the agent's stable wire-level identity (the emitted MCP-tool / OpenRouter-function id; C009 by-name, never by index). |
+
+### 16.2 The `SulukAgent` object
+
+A `SulukAgent` carries no Request/Response and is **NEVER** consulted by the request→operation matcher (§16.4, D1).
+
+| Property | Type | Required | Description |
+|---|---|---|---|
+| `description` | string | YES | Routing-oriented — **the field the serving LLM selects on**. A lint rejects empty/one-word values. |
+| `scope` | [string] | NO | Static `resource:action` authz; the agent's complete reachable surface is statically enumerable from the document. |
+| `skills` | Map[name → [SulukSkillRef](#163-skills-the-llm-tier)] | NO | Instruction bundles. **Presence of `model` is the hard static skill-vs-route discriminator** (§16.3). |
+| `routes` | Map[name → [SulukRouteRef](#164-routes-the-deterministic-tier-and-the-d1-invariant)] | NO | Deterministic routes: by-name `$ref`s into existing operations. **No `model` field, ever.** |
+| `agents` | Map[name → [SulukAgentRef](#165-sub-agents-recursion-bounded-by-lint-not-schema)] | NO | By-name sub-agent refs (never inline). |
+| `maxDepth` | number | conditional | **REQUIRED whenever `agents` is non-empty** (enforced by a lint, not the schema). A typed leaf is `maxDepth` 0 with `agents` `{}`. |
+| `trustBoundary` | `"untrusted"` | NO | Marks a tier whose retrieved / lower-tier content MUST NOT escalate scope or upgrade a figure's provenance. |
+| `contextBudget` | `{ tokens, basis: "estimate" }` | NO | Advisory per-tier context budget (basis is always `estimate`); fail-loud, never silent-zero. |
+| `thinking` | `{ maxRounds, budget? }` | NO | Within-agent iteration cap (C029). DECLARED-not-enforced; never read by the matcher. Out of scope for this section — see §17 (C029). |
+
+```yaml
+x-suluk-agents:
+  conin:
+    description: >-
+      Construction-intelligence agent: turns messy project documents into
+      decision-grade cost/cashflow deliverables over a deterministic spine.
+    scope: [ "deliverables:generate", "library:read" ]
+    skills:
+      instructions:
+        provenance:
+          source: "https://conin.example/v1/instructions"
+          contentHash: "sha256:8f3c…"
+          version: "2026-06-12"
+        model: [ "anthropic/claude-opus-4", "openai/gpt-5" ]
+        tier: resident
+    routes:
+      generateDeliverable:
+        operationRef: "#/paths/v1~1deliverables/requests/generate"
+        guarantee: same-in-same-out
+        tier: resident
+      searchLibrary:
+        operationRef: "#/paths/v1~1library~1search/requests/search"
+        tier: cold-tail
+    agents:
+      retrieval:
+        ref: "#/x-suluk-agents/conin-retrieval"
+    maxDepth: 1
+```
+
+### 16.3 Skills (the LLM tier)
+
+A `SulukSkillRef` is an instruction bundle. **The PRESENCE of a `model` need is what makes an entry a skill** (the system-text path) rather than a deterministic route — this is the load-bearing static partition, computable with **zero** requests.
+
+Skill text is a **provenance pointer**, never inlined mutable prose. The served instructions are the single source of truth; a projected `SKILL.md` is **GENERATED** from `provenance.source`, and the `contentHash` binding makes drift **tool-detectable and fail-loud** (the one feature multiple council voices independently called genuinely missing today).
+
+| Property | Type | Required | Description |
+|---|---|---|---|
+| `model` | [string] | NO¹ | Explicit OpenRouter model-id preference list, cheap→capable (the opt-out path). Structural-only — never read by the matcher. |
+| `modelProfile` | enum | NO¹ | A named selection profile (`tool-reliable` \| `cheap-fast` \| `balanced` \| `max-reasoning` \| `long-context` \| `vision`) resolved against the model catalog. |
+| `modelPrefer` | `{ intelligence?, cost?, speed?, context? }` (0–3) | NO¹ | Escape-hatch preference weights over the four author-facing axes. |
+| `modelRequire` | `{ needsStructured?, inputModalities?, minContext?, zdr? }` | NO | Explicit hard requirements the author adds. |
+| `modelResolve` | `"pinned"` \| `"router"` \| `"latest"` | NO | How the model is resolved from the survivor set (default `pinned`). Author surface only; never read by the matcher. |
+| `tier` | `"resident"` \| `"cold-tail"` | NO | Static serving partition (§16.6). Absent ⇒ resident. |
+| `whenToUse` | string | NO | Routing-oriented precondition prose (runtime-advisory; **never a request-value selector** — D1, §16.4). |
+| `trust` | `"author-declared"` \| `"retrieved"` | NO | A `retrieved` skill MUST NOT escalate scope or upgrade a figure's provenance. |
+| `scope` | [string] | NO | Static `resource:action` authz for this skill. |
+| `provenance` | `{ source, contentHash, version? }` | NO | Single source of truth + staleness binding. `SKILL.md` is generated from `source`, hashed to detect drift. |
+
+¹ A skill expresses **what it needs** (via `model`/`modelProfile`/`modelPrefer`/`modelRequire`), not necessarily a frozen id; `@suluk/models` picks the best *current* model. The model-resolution surface (`modelProfile`/`modelPrefer`/`modelRequire`/`modelResolve`, and the `zdr` requirement) is governed by C029/C030 and is out of scope for this section beyond noting the seam: it is **structural-only**, never read by the matcher.
+
+> The discriminator is mechanical: an entry under `skills` carries (or implies) a `model` need; an entry under `routes` **never** carries a `model`. That single, static, request-free distinction is the genuinely novel true property the construct ships (§16.8).
+
+### 16.4 Routes (the deterministic tier) and the D1 invariant
+
+A `SulukRouteRef` is **EXCLUSIVELY a by-name `operationRef` `$ref` into an EXISTING `paths[*]` / `webhooks` / `x-suluk-jobs` operation** — never an inline re-declaration. Inlining is forbidden because it forks C009 operation identity and strands the operation on a 3.1 downgrade.
+
+| Property | Type | Required | Description |
+|---|---|---|---|
+| `operationRef` | string | YES | A by-name `$ref` into an existing operation (e.g. `#/paths/v1~1deliverables/requests/generate`). Resolve-linted; **a dangling ref fails `burhan-converge`**. |
+| `guarantee` | `"same-in-same-out"` \| `"idempotent"` \| `"safe"` | NO | DECLARED determinism intent (advisory, unverifiable-by-schema). **NOT enforced** (§16.8). |
+| `tier` | `"resident"` \| `"cold-tail"` | NO | Static serving partition (§16.6). Absent ⇒ resident. |
+| `scope` | [string] | NO | Static `resource:action` authz for this route. |
+
+A route carries **NO `model` field, by construction.** That absence is the hard static route-vs-skill discriminator.
+
+#### 16.4.1 D1 — the matcher is invariant to `x-suluk-agents` (the load-bearing safety rule)
+
+> ⚠ **Candidate @0.55**: this is the central safety claim (`d1_agent_selector_safe`), sole-witness in `0agents-d1.bn`, strengthened by an executable witness (below). `mizan_verify_claim` returns **no bcmea violation** with a recommended cap **equal to** the declared ceiling (0.55) and **above** D1's 0.139 floor.
+
+The DOM→ADA request→operation matcher is **UNTOUCHED** by agents. Normatively:
+
+1. **`buildAda` MUST NOT read any `x-suluk-agents` field.** It iterates `Object.entries(doc.paths)` only (`ada.ts:31-39`) — never an `x-*` sibling — so a top-level `x-suluk-agents` map is invisible to it by the same construction that already keeps `x-suluk-jobs` out.
+2. **`matchRequest` reads only `op.request.method` + the compiled path-template** (`ada.ts:69-85`); `computeSignature` reads only method / contentType / contentSchema / uriTemplate. **None** of the agent fields (`description`, `whenToUse`, `model`, `tier`, `scope`) exist on `Request` or feed the signature.
+3. Therefore an **agents-stripped document yields a BYTE-IDENTICAL Ada** to the agents-bearing one: `buildAda(docWithAgents)` deep-equals `buildAda(docWithoutAgents)`.
+
+There is deliberately **NO** field anywhere in `SulukAgent` / `SulukSkillRef` / `SulukRouteRef` that references request / DOM / header / body / query values. Selection — which skill, route, or sub-agent fires — is **runtime-advisory prose**, walled exactly as C018 walls callback runtime-expressions and C024 walls attribution.
+
+A selector/strategy field that gated routing on request data would be **INADMISSIBLE** — forbidden outright, not resolved by precedence (`agents_no_request_value_selector`). The [#20 `parameterSchema` static-matcher tripwire](#3-signatures--request-matching) is declined **identically** here, by removal-by-design: a **BLOCKING** linter rejects any agent field whose value pattern-matches a C018 runtime-expression or a JSON-Pointer into request locations.
+
+**D1 by module boundary, not discipline.** The agent layer is parsed by a separate `@suluk/agents` package that `@suluk/core`'s `buildAda` / `matchRequest` provably never imports; a build-time import-boundary test backs the invariant. `core` gains only the **structural** `SulukAgent` shape — no new normative control keyword.
+
+**Executable witness.** `test/agents-d1-invariance.test.ts` (3 pass, 8 `expect()` calls) is a maintained regression tripwire: `buildAda(docWithAgents)` deep-equals `buildAda(docWithoutAgents)`, and `matchRequest` resolves every operation identically with vs without the block (`d1_matcher_invariance_test_green`). Critically, a deliberately **CYCLIC, `maxDepth`-less** agents block ALSO leaves the matcher's ADA unchanged (`agents_cyclic_block_no_matcher_perturbation`) — recursion well-foundedness is an author/install lint concern, provably **irrelevant** to the matcher. The day anyone makes the matcher read an agent field, this test fails loud.
+
+### 16.5 Sub-agents — recursion bounded by lint, not schema
+
+A `SulukAgentRef` is a **by-name** reference into the same `x-suluk-agents` map (never an inline agent — inlining would fork C009 identity).
+
+| Property | Type | Required | Description |
+|---|---|---|---|
+| `ref` | string | YES | A by-name `$ref` like `#/x-suluk-agents/<key>` into the finite `x-suluk-agents` map. |
+
+Recursion is well-founded by **LINT**, not by schema (JSON Schema cannot express acyclicity):
+
+- **`maxDepth` is REQUIRED whenever `agents` is non-empty.** A typed leaf is `maxDepth` 0 with `agents` `{}`. A BLOCKING author/install linter enforces this.
+- **A cycle-linter rejects name-cycles** at author/install time. Cycle-detection is **REUSED shipped infra** (`builder/src/compose.ts` `planComposition` topo-order + cycle flag, C021), not new invention.
+- **A sub-agent call re-enters through the FRONT DOOR** — a new, independent `matchRequest` / MCP tool-call — never an in-matcher graph traversal. So the matcher never recurses (this is what §16.4.1 point 3 and the cyclic-block witness prove).
+- **A child's effective scope is `INTERSECTION(child, caller)`, never union** — no escalation.
+
+> ⚠ **Deferred — recursion beyond one parent→child hop.** Conin runs ONE flat agent with ZERO nesting; even modeling its retrieval tier as a sub-agent is a first nesting *we* authored, not one *we* observed. So recursion ships as **cycle-lint + depth-lint + schema slot ONLY** — no cockpit / cost / serving machinery — until a second real nested (or non-Conin) agent exists. See §16.9.
+
+### 16.6 The twin projection and tier-trim serving
+
+Two pure-function projections are the **conformance test** (mirroring how `SPEC.md` projects from the ledger, C022): one contract projects to (a) a **Claude plugin** (`plugin.json` + `.mcp.json` HTTP-MCP-OAuth + a **generated** `SKILL.md`) **and** (b) an **OpenRouter / OpenAI-compatible manifest**. Both are deterministic given a `contentHash`-pinned instructions snapshot, and the map key is the stable wire-level tool/function id on both.
+
+**No credentials cross the seam** (OpenRouter keys, the plugin OAuth token). Serving and execution are a **post-projection adapter** concern, upholding C020 (no-credentials) / C023 (the L3 line).
+
+**Tier-trim serving (DECLARED capability; mandatory-vs-advisory is OPEN — §16.9).** Each route and skill carries an optional `tier`:
+
+| `tier` | Where it appears | Meaning |
+|---|---|---|
+| `resident` (default; absent ⇒ resident) | the serving adapter's default `tools[]` / `tools/list` | available without an extra round-trip |
+| `cold-tail` | revealed via a `discover_tools` meta-tool on demand | withheld from the default surface to shrink the cheap/lower tier's tool count |
+
+The `@suluk/agents` adapter CAPABILITY is built: `projectOpenRouter` puts resident routes in the default `tools[]` and the cold-tail behind a `discover_tools` meta-tool, and `residentSurface` / `assertDefaultServedResident` audit it. This is the mechanism the tiering thesis needs — but it must be **actively performed by the adapter**; the schema never enforces it.
+
+### 16.7 Conformance — named failure fixtures (not laundered as "1:1")
+
+The one conforming implementation, **Conin**, is **non-conformant on day one**. These are tracked as **named conformance-failure fixtures**, never presented as a clean 1:1 mapping:
+
+| Fixture | What fails | Why |
+|---|---|---|
+| dangling `operationRef` | `run_core_primitive` is MCP-only with no REST path → a route `$ref` resolves to nothing | a route MUST `$ref` an existing operation (§16.4); resolve-lint fails `burhan-converge` |
+| id-casing mismatch | snake_case MCP tool ids (`search_library`) vs camelCase v4 operationIds | the map key MUST be the stable wire-level id on both projection targets (§16.6) |
+| full-catalog over-serve | Conin's public MCP `tools/list` ships the **full** catalog today | zero context saved in the served path; the cold-tail is not yet withheld (§16.6 / §16.8) |
+
+The projections being deterministic and the failures being **named fixtures** (rather than hand-waved) IS the conformance contract.
+
+### 16.8 Honesty — the refutations the council will not let us launder
+
+> ⚠ **Candidate @0.52**: each item below is a recorded reframe or DECLARED-not-enforced marker. If a paragraph in this section asserts any of them as *enforced* or *delivered*, that is a defect in the projection.
+
+- **Determinism is DECLARED, not ENFORCED** (`agents_determinism_declared_not_enforced`). No vendor extension can stop a cheap model calling a retrieval tool to invent a number; `guarantee: same-in-same-out` asserts **intent** (mirrors C026 PROVISIONAL). A runtime "SOURCED-only-from-a-deterministic-route" gate is a **deferred adapter obligation**, not a schema guarantee.
+- **"Tiering SOLVES the context problem" is REFRAMED, not delivered** (`agents_ceiling_originated_low_context_reframed`). Adversarial verification in Conin's code found tiering **relocates + duplicates** context (conserved, not destroyed): the parent still needs broad context to route, and Conin's *public* MCP `tools/list` ships the **full catalog** today (zero context saved in the served path). The honest, load-bearing claim is: *tiering makes context allocation **EXPLICIT** and per-tier cost **AUDITABLE** — a **CONDITIONAL** reduction a conforming serving adapter must actively perform* (resident in the default `tools/list`, cold-tail behind `discover_tools`). The genuinely novel, **true** property is the static `model`-presence partition (skill vs route), computable with zero requests.
+- **The recursion is design-forced.** Conin runs ONE flat agent with ZERO nesting; recursion ships as cycle-lint + depth-lint + schema slot only (§16.5).
+- **One conforming implementation, non-conformant on day one** — the three named fixtures of §16.7, not "1:1".
+
+### 16.9 Deferred & Low-Ceiling Markers
+
+Everything below is **explicitly deferred / advisory / DECLARED-not-enforced**, recorded here so nothing above is mistaken for shipped normative machinery. (Source: [C027] §Deferred; honest ceiling **~0.52**, Originated, tracking C024/C025, leaning on D1 @0.139.)
+
+- ⚠ **Recursion runtime / cockpit / cost machinery beyond one parent→child hop** is DEFERRED. Ships as cycle-lint + depth-lint + schema slot only. Reopen-trigger: a second real nested or non-Conin agent.
+- ⚠ **Whether tier-trimmed serving becomes a NORMATIVE projection rule vs stays adapter-only** is OPEN. The adapter *capability* is built (`projectOpenRouter` / `discover_tools` / `residentSurface` / `assertDefaultServedResident`; `tier` carries the partition — the first half of the reopen-trigger has fired), but whether the **standard MANDATES** it, and Conin's server-side over-serve fix, remain open.
+- ⚠ **Whether the runtime deterministic-first gate** (SOURCED only from a deterministic route) is **mandated** by the standard or left to the implementer is OPEN. The schema only DECLARES `guarantee`; it does not enforce determinism.
+- ⚠ **Determinism is DECLARED, not enforced** — `guarantee` (`same-in-same-out` \| `idempotent` \| `safe`) is advisory intent, unverifiable by schema (mirrors C026 PROVISIONAL).
+- ⚠ **Selection / tiering / model-pick are RUNTIME-ADVISORY only** — `description`, `whenToUse`, and the model-resolution surface are never read by the matcher (D1, §16.4.1).
+- ⚠ **An enterprise governance / suppression overlay** (operator-owned deny/allow/cap-tier/model-allowlist + a hard enforced `costCeiling`) is a **future sibling `x-suluk-policy` construct** (projected separately under C028), or out of scope for a single-contributor fork.
+- ⚠ **Expansionist static axes are DEFERRED** — streaming; iterative-loop (`thinking` / `maxRounds` / `stopCondition`, Conin's 6-round cap, C029); human-gate (`requiresHuman` / `resumable`); memory scope / reset-boundary. `models[]` is adopted; the rest may be forked by the first non-Conin agent.
+- ⚠ **The parent/child API-key scope-negotiation protocol** when a child route 403s under a narrower scope is DEFERRED — `INTERSECTION(child, caller)` is the rule; graceful-failure mechanics are unspecified.
+- ⚠ **The full closed `tier` enum**, and whether a `learned` value is admissible at all, is OPEN — `tier` MUST stay a static enumerable partition or be dropped.
+- ⚠ **`contentHash` drift detection beyond fail-loud signalling**, and the `SKILL.md` generation grammar, are refinement-deferred — the binding direction (generated from `source`, hashed) is settled; the byte-grammar is not.
+
+### 16.10 3.x → 4.0 mapping
+
+There is **no OpenAPI 3.x precedent** for an agent layer; this is an Originated extension, not a migration target.
+
+| OpenAPI 3.x | Suluk v4.0 | Notes |
+|---|---|---|
+| *(none)* | `x-suluk-agents` map | No 3.x equivalent. Severable on downgrade. |
+| an `operationId` | a route `operationRef` `$ref` | A 3.1 downgrade DROPS the agents map whole; the referenced operations survive unchanged as the ordinary operations they always were. |
+| custom `x-*` orchestration vendor keys | `SulukAgent` `skills` / `routes` / `agents` | Three industry frameworks (Strands, Claude Agent SDK, OpenAI Agents) share the two-tier shape; this paves the cowpath, it does not invent one. |
+
+---
+
+## 17. Agent Governance, Thinking & Model Resolution
+
+*(Logically extends §16 — the `x-suluk-agents` composition map (C027). This section adds the operator-owned governance overlay that NARROWS an agent's self-declaration, the within-agent thinking envelope, and the model-resolution seam to `@suluk/models`. Resolves the C027 deferred questions — operator governance (open-Q #6), the thinking axis, and the model-pick delegation — see [C028], [C029], [C030].)*
+
+> ⚠ **Candidate @0.52–0.76 — ORIGINATED, governance-over-an-agent-layer.** Every construct here is constructed by burhan from principles; the SIG never designed an agent layer, let alone an operator overlay on one. C028 and C030's keying claims sit at the bottom of the band because they are *originated-on-originated* (governance over the C027 agent layer, which itself leans on the soft D1 0.139 floor). C030's verified ZDR-router path is the high point (~0.72–0.76, one live probe). Treat the whole section as provisional and revisable; the honest ceilings are restated inline. Source: ADRs [C028], [C029], [C030]; ledger `plan/facts/0policy-d1.bn`, `0thinking-bound.bn`, `0delegation.bn`.
+
+All three constructs ride the `x-suluk-agents`/`x-suluk-jobs` move EXACTLY: optional, additive, no new normative kind, and — critically — **never read by the request→operation matcher** (the D1 invariant of §3). A document carrying none of them validates byte-identically to one that does. This invariance is the load-bearing safety property and is independently witnessed by executable tests (see §17.4).
+
+### 17.1 `x-suluk-policy` — Operator Governance Overlay (C028)
+
+An **operator policy** is a static, locally-decidable overlay that an operator (not the agent author) sets to NARROW what an agent self-declares. It is a top-level vendor map, keyed by **operator/fleet name** — one policy spans many third-party agents — riding the catch-all `[ext: x-${string}]` exactly as `x-suluk-agents` does.
+
+| Field | Type | Required | Description |
+|----------|------|----------|-------------|
+| `["x-suluk-policy"]` | Map[operator-name → SulukPolicy] | NO | Operator-owned governance overlay; absent ⇒ no governance, agents serve self-declared (C028). |
+
+#### 17.1.1 The `SulukPolicy` shape
+
+Every field is STATIC, a set/enum/min/membership operation, and **NARROW-ONLY**. No field may reference a request/DOM/header/body value — the #20 `parameterSchema` tripwire is declined here too (D1).
+
+```yaml
+x-suluk-policy:
+  acme-fleet:                          # keyed by OPERATOR / fleet name (the operator owns it)
+    appliesTo: [ research-agent ]       # by-name refs into x-suluk-agents keys; absent ⇒ all agents
+    scopeAllowlist: [ "docs:read" ]      # effective scope = INTERSECT(agent.scope, scopeAllowlist)
+    agents:        { deny: [ shell-agent ] }      # deny/allow sub-agent keys
+    tools:         { allow: [ search ] }           # deny/allow route (tool) keys
+    retrievalTools: { deny: [ web-fetch ] }        # the untrusted tier's blast radius, specifically
+    capTier: cold-tail                  # pin the MAX tier; a resident skill is downgraded (+flagged)
+    modelAllowlist: [ "openai/gpt-4o-mini" ]       # effective model[] = INTERSECT(skill.model, modelAllowlist)
+    maxDepthCap: 1                      # effective maxDepth = min(agent.maxDepth, maxDepthCap)
+    forbidNesting: false                # true ⇒ effective maxDepth 0
+    costCeiling:                        # DECLARED, NOT ENFORCED — see §17.5
+      amount: 500
+      amountUnit: micro-usd             # "micro-usd" | "cents" | "usd"
+      basis: per-request                # OPTIONAL free-form
+      enforcedBy: adapter               # REQUIRED: "adapter" | "runtime"
+```
+
+- **`appliesTo`** binds **BY AGENT NAME** (`#/x-suluk-agents/<key>`), **NEVER** a request predicate. Empty or absent ⇒ the policy governs all agents in the document.
+- All capability fields (`scopeAllowlist`, `agents`/`tools`/`retrievalTools` `{deny,allow}`, `capTier`, `modelAllowlist`, `maxDepthCap`, `forbidNesting`) are **narrowing** axes: applying the policy can only REMOVE capability an agent self-declared.
+
+#### 17.1.2 Override = monotone-narrowing MEET
+
+The override algebra is a total, order-independent **MEET**. `policyConstrain(agent, policy)` reuses the shipped `intersectScope`:
+
+```
+effective = INTERSECT(operatorPolicy, agentSelfDeclaration)
+```
+
+The effective agent **MUST NOT exceed either input on any axis** (scope, tier, model, depth, tools). The precise claim is *MEET / never-exceeds-either* — **not** "the operator is always narrower": there is no operator node above the root agent today, so the policy genuinely *adds* the ceiling rather than tightening an existing one.
+
+- **Widening is inadmissible.** A `policyConstrain` result that would *grant* capability beyond the agent's self-declaration is a lint **hard-fail** (`policy-widening`), the same class as the shipped `scope-escalation` lint — never a precedence-resolved warning.
+- The effective fold is written into the **signable `agentManifest`** (so the C021 signature covers the operator's caps), and a policy-aware over-serve auditor (`assertServedSubsetGoverned` → `policy-denied-served`) rejects serving anything the policy denied.
+- Lints that ship: `request-value-selector` rejection (the D1 floor), `policy-applies-dangling` / `policy-applies-malformed`, `policy-unsatisfiable` (a `modelAllowlist` leaving a skill no model, or a deny removing every tool), `policy-widening`, and the cross-facet `cap-below-estimate` (the operator under-budgeted `costCeiling.amount` vs the author's own `x-suluk-cost` estimate).
+
+**Normative grammar:**
+
+1. A `SulukPolicy` MUST NOT reference any request/DOM/header/body value; `appliesTo` MUST bind by agent name only (D1; `d1_policy_selector_safe`).
+2. `policyConstrain` MUST be a MEET — the effective agent MUST NOT exceed the operator policy OR the agent self-declaration on any axis (`policy_monotone_narrowing_meet`).
+3. A widening result MUST be a lint hard-fail, not a precedence resolution.
+4. `costCeiling.enforcedBy` MUST be present whenever `costCeiling` is present (see §17.5).
+
+> ⚠ **Candidate @0.52** (`policy_toplevel_vendor_map`, `policy_monotone_narrowing_meet`): ORIGINATED, *originated-on-originated* — governance over the C027 agent layer, which leans on the soft D1 0.139 floor. The MEET soundness rests on `analyzeScopes`/`intersectScope` using first-reaching-path intersection on a DAG — sound for the shallow one-hop shapes shipped today, to be re-audited before any recursion-reopen. There is **zero second user**: Conin is author == operator, so the override has nothing to override; the verdict survives only because reserving a security floor is a one-way door and the static subset reuses shipped infra at near-zero cost. An independent D1 witness would lift the whole tower.
+
+### 17.2 The Thinking Bound (C029)
+
+A `SulukAgent` MAY declare a **`thinking`** envelope — a static cap on **within-agent iteration** (reason→tool→reason in the *same* completion, context accreting until a response). It is a sibling of `contextBudget`/`maxDepth` on the agent.
+
+```yaml
+x-suluk-agents:
+  research-agent:
+    description: Researches and summarizes a topic across sources.
+    thinking:
+      maxRounds: 6                                   # static int >= 1; REQUIRED when `thinking` present
+      budget: { tokens: 40000, basis: estimate }     # OPTIONAL; reuses the contextBudget/C024 vocab verbatim
+```
+
+| Field | Type | Required | Description |
+|----------|------|----------|-------------|
+| `thinking.maxRounds` | integer (≥ 1) | YES (when `thinking` present) | A ceiling on internal reason→tool→reason rounds in one completion. |
+| `thinking.budget` | `{ tokens: number, basis: "estimate" }` | NO | A cost ceiling on the round-bundle; reuses the `contextBudget`/C024 vocabulary verbatim. |
+
+- **DECLARED (static, in the contract):** the **cap only** — `maxRounds` and `budget`. Document facts, locally decidable, read by the context analyzer and the linter — **never** by `buildAda`/`matchRequest`/`computeSignature`.
+- **LEFT TO RUNTIME (opaque, never modeled):** the loop **itself** — when/why each round stops, the reason→tool→reason sequencing, intermediate state, termination behaviour. This matches all three reference frameworks (Strands, the Claude Agent SDK, OpenAI Agents), which run the think/act loop in the runtime, not a manifest.
+
+**`stopCondition` is FORBIDDEN.** Any `stopCondition` / `stopConditionKind` enum or loop-process descriptor is rejected by a blocking lint (`thinking-process-declared`). Such a field would model runtime control flow a generator can only *echo* — the #20 `parameterSchema` tripwire in an enum costume — and is D1-FORBIDDEN, not precedence-resolved. The bound is a number a tool *acts on*; the process is a runtime predicate.
+
+**Consumed, not decorative.** The field exists because the context analyzer reads it: it folds round-accretion into the worst-case load
+
+```
+peakTokens = base + (budget.tokens ?? (maxRounds − 1) × residentToolTokens)
+```
+
+so that `no-fitting-model` / `context-over-budget` / `model-too-small` fire honestly on a multi-round agent (fixing the single-shot blindspot that silently under-counts an agent which thinks 6 rounds), and `thinking-context-growth` reports the peak. A lint enforces `maxRounds` present-and-positive.
+
+**Orthogonal to recursion (not redundant with `maxDepth`).** A self-delegating sub-agent + `maxDepth` is delegation-**down** (a new completion, scope intersected, context **reset** per hop, bounding call-graph nesting *depth*, and tripping the cycle-linter). Thinking is the **inverse**: the *same* completion, context **accretes** per round, no scope change, bounding within-agent iteration *breadth* at fixed depth (Conin's 6 rounds are at depth 0). Orthogonal bounds, like depth vs fan-out.
+
+**Normative grammar:**
+
+1. `thinking.maxRounds` MUST be present and ≥ 1 whenever `thinking` is present (`thinking_bound_static_field`).
+2. A document MUST NOT carry any `stopCondition` / `stopConditionKind` / loop-process descriptor under `thinking`; tools MUST reject it (`thinking_declares_bound_forbids_process`).
+3. `thinking` fields MUST NOT be read by the matcher; a thinking-stripped document MUST yield a byte-identical Ada (D1; `d1_thinking_bound_safe`).
+4. Absent `thinking` ⇒ an opaque single pass (the zero-migration default).
+
+> ⚠ **Candidate @0.52** (`thinking_bound_static_field`): ORIGINATED at a held-low ceiling — one real cowpath (Conin's hand-rolled 6-round cap), **zero second looped agent**, leaning on the D1 0.139 floor. The council was UNANIMOUS (11/11 bound-only), but unanimity over a single witness is still single-witness.
+
+### 17.3 Model Resolution (C030)
+
+A skill declares **NEEDS**, not a frozen model id, and `@suluk/models` selects. The author surface on `SulukSkillRef` is a single set of fields; none is read by the matcher (the C027 seam).
+
+| Field | Type | Description |
+|----------|------|-------------|
+| `model` | `[string]` | EXPLICIT OpenRouter ids, cheap→capable — the opt-out path. |
+| `modelProfile` | enum | A named selection profile: `tool-reliable` \| `cheap-fast` \| `balanced` \| `max-reasoning` \| `long-context` \| `vision`. |
+| `modelPrefer` | `{ intelligence?, cost?, speed?, context? }` (each `0\|1\|2\|3`) | Escape-hatch preference weights over the four author-facing axes. |
+| `modelRequire` | `{ needsStructured?, inputModalities?, minContext?, zdr? }` | HARD requirements the author adds beyond what's derived. |
+| `modelResolve` | `"pinned" \| "router" \| "latest"` | How the model is resolved from the survivor set; default `pinned`. |
+
+#### 17.3.1 Keep the SET, delegate the POINT
+
+`@suluk/models` keeps the **survivor set** (the moat, all contract-time): `checkFilters` (governance FAIL-CLOSED + the C028 `modelAllowlist` terminal MEET + the analyzer `minWindowRequired` gate + caps), the OpenRouter facts catalog with the weekly `normalizeOpenRouter` pull, the `snapshotHash` pin, the "why this model / filter-trace" explainer, and the fail-loud empty-set path. The per-request cost/quality/capability **pick** within that fenced set is delegated to OpenRouter's `openrouter/auto`, fenced by `allowed_models = the ENUMERATED survivor ids` (never a wildcard — the MEET stays terminal; widening is inadmissible) and `cost_quality_tradeoff = deriveCQT(profile)` set explicitly.
+
+#### 17.3.2 `modelResolve` — governance-gated and mechanical
+
+- **`pinned` (default):** `target = { kind: "pinned", model: ranked[0].id }`, `pickPinned: true` — a reproducible, bisectable, endpoint-bindable served id. Required for agent loops, forced-tool-choice, and **any governed skill**.
+- **`router` (opt-in, UNGOVERNED only):** `target = { kind: "router", model: "openrouter/auto", allowedModels: survivors, costQualityTradeoff }`, `pickPinned: false`. **A governed skill — one under any operator policy — that declares `router` FAILS LOUD at contract time** (`delegation_governance_gate_force_pin`): a runtime pick cannot bind an endpoint region/retention and is non-reproducible across dates.
+- **`latest`:** a best-effort `~author/family-latest` alias — defers the version to request time; **not reproducible** (recorded in the explainer); never the default.
+
+**A governed skill MUST pin.** Region has **no** OpenRouter endpoint knob (one model id fans out to many endpoints; `allowed_models` fences the model id, not the served endpoint), so any operator-governed skill force-pins; Suluk does not ship a governed-router path.
+
+**Reproducibility is honestly DOWNGRADED on the router/latest path:** `snapshotHash` pins the survivor SET + the CQT knob; `pickPinned: false` marks the served id logged-not-pinned. For a region-residency / SOC2 audit ("which concrete model on date X?") the answer is **pin** — the auditable *fence* MUST NOT be laundered as *reproducible selection* (`delegation_reproducibility_downgraded_honest`).
+
+#### 17.3.3 The verified ZDR-router path
+
+`modelRequire.zdr: true` requires zero-data-retention serving. Confirmed by a live probe (2026-06-13, `delegation_zdr_auto_combination_verified_router_path_shipped`): `POST /chat/completions` with `{ model: "openrouter/auto", provider: { zdr: true } }` returns **200 with a real completion** (`google/gemini-2.5-flash-lite`), with **and** without `allow_fallbacks: false` — provider preferences **do** combine with the auto-router.
+
+```yaml
+x-suluk-agents:
+  zdr-agent:
+    description: Summarizes uploaded documents under zero-data-retention serving.
+    skills:
+      summarize:
+        modelRequire: { zdr: true }    # resolves to the ROUTER regardless of modelResolve
+        # → target = { kind: "router", model: "openrouter/auto", provider: { zdr: true } }, pickPinned: false
+```
+
+- A `zdr` skill resolves to the **router** (`{ kind: "router", model: "openrouter/auto", provider: { zdr: true } }`) **regardless of `modelResolve`** — there is no per-model ZDR *fact* to pin against, so ZDR is runtime-only via `provider.zdr`; `pickPinned: false`.
+- **ZDR + an operator policy is UNSATISFIABLE** → fails loud: ZDR needs the router, but a governed skill force-pins, and region/license governance has no endpoint knob.
+- The OpenRouter `provider` object exposes `zdr` (a hard "restrict to ZDR endpoints" constraint), but **no region/residency field** — so region/license-governed selection **MUST pin permanently** (no OpenRouter endpoint field exists; `delegation_zdr_field_exists_region_absent`).
+
+**Normative grammar:**
+
+1. `modelResolve` defaults to `pinned`; a skill governed by any operator policy MUST resolve to `pinned` — `router`/`latest` MUST fail loud at contract time (`delegation_governance_gate_force_pin`).
+2. The `router` target's `allowedModels` MUST be the enumerated survivor ids — never a wildcard (the C028 `modelAllowlist` MEET stays terminal).
+3. `modelRequire.zdr: true` MUST resolve to the router with `provider: { zdr: true }`; ZDR combined with an operator policy MUST fail loud (`delegation_zdr_auto_combination_verified_router_path_shipped`).
+4. Region/license-governed selection MUST pin — there is no OpenRouter endpoint field to express it (`delegation_zdr_field_exists_region_absent`).
+
+> ⚠ **Candidate @0.76** (`delegation_hybrid_keep_set_delegate_pick`): the section's high point, capped by the originated keying claims (~0.6) and the honest ZDR caveat. The live probe proves the `auto`+`provider.zdr` combination is **accepted and routes**; a single 200 does NOT prove strict **exclusion** of non-ZDR endpoints (the same model returned with and without `zdr` — flash-lite is ZDR-eligible on Google). OpenRouter's doc asserts the restriction; the probe confirms acceptance.
+
+### 17.4 The D1 Invariant (matcher invisibility)
+
+None of `x-suluk-policy`, `thinking`, or the `modelResolve`/`modelRequire`/`modelProfile`/`modelPrefer` fields is ever read by the request→operation matcher. `buildAda` iterates `doc.paths` only; `matchRequest` reads only `method` + the compiled path-template; `computeSignature` reads only `method`/`contentType`/`contentSchema`/`uriTemplate`. A document with these constructs **stripped** yields a **byte-identical** Ada. This is witnessed independently and executably:
+
+- `test/policy-d1-invariance.test.ts` — `buildAda` byte-identical with vs without a **deny-all** `x-suluk-policy` block (`d1_policy_selector_safe`).
+- `test/agents-d1-invariance.test.ts` — `buildAda`/`matchRequest` byte-identical with vs without a thinking-bearing block (`d1_thinking_bound_safe`).
+- C030 needs no D1 gate: `modelResolve` is skill metadata, never read by the matcher.
+
+The policy parser ships in `@suluk/agents`, which `@suluk/core` provably never imports (`core-boundary.test.ts`).
+
+### 17.5 Deferred & Low-Ceiling Markers (Section 17)
+
+The following are **DECLARED / RESERVED / advisory only** — none is enforced or shipped as a runtime, and none may be read as a normative guarantee:
+
+- **`costCeiling` is DECLARED, NOT ENFORCED** (C028, `policy_costceiling_declared_not_enforced`). The schema declares the operator's third number (cap / estimate / actual, on three distinct owners: operator `x-suluk-policy` / author `x-suluk-cost` / C026 reconciled). It **cannot enforce** it; `enforcedBy` (REQUIRED) names the runtime adapter, and a cap-breaching run is a NAMED conformance failure. Anyone reading C028 as "Suluk enforces your budget" has been misled. (C026 PROVISIONAL honesty, restated at the point of definition.)
+- **The `costCeiling` enforcement runtime** (admission-gate / terminate-at-spend kill-switch, plus any cost-metering/billing engine and a `@suluk/policy` execution path) is **RESERVED — built-by-nobody.** Reopen-trigger: a real fleet operator running ≥ 2 agents authored by a party OTHER than the operator (a second `x-suluk-policy` entry pointing at agents not in the operator's own authorship, OR a conforming adapter wiring a runtime meter).
+- **`thinking.maxRounds` is DECLARED, NOT ENFORCED** (C029). It caps re-entries; it does NOT enforce termination or determinism. Only the serving adapter (Conin's existing 6-round loop) clamps to it; `budget.basis: estimate` is never laundered as a bill.
+- **The `stopCondition` vocabulary is FORBIDDEN and DEFERRED** (C029). Reopens only when a second, non-Conin agent has a real internal loop that terminates on something *other* than a round/budget count (a witnessed non-budget terminator). Until then it is unwitnessed decoration and a blocking lint rejects it.
+- **The thinking terminate-at-round enforcement kill-switch is RESERVED — built-by-nobody** (C029), same trigger class as the `costCeiling` enforcement runtime.
+- **The benchmark-TIER ranker is RETIRED** (C030) as a *ranker* input (the `BUCKETING_RULES`/`applyTierOverlay`/weekly Class-B leaderboard treadmill); tiers are kept only as optional coarse **filter floors**. The facts catalog, `normalizeOpenRouter`, `snapshotHash`, and the governance-fact columns are **NOT** deleted — the filters and the pin depend on them.
+- **The per-endpoint `endpoints[]` sub-list is RESERVED, NOT BUILT** (C030, `delegation_keying_endpoints_reserved_no_representative_region`). The catalog stays MODEL-keyed; per-endpoint axes (region/retention/latency) await a real fleet needing per-endpoint region governance OpenRouter cannot express, plus endpoint gov data. A "representative" `gov.region` cell is **FORBIDDEN** — it would degrade fail-closed → fail-OPEN at the endpoint layer (forged in-region attestation); `gov.region`/`dataRetention` stay per-model UNKNOWN/fail-closed.
+- **The `latest` resolution path is non-reproducible** (C030) — recorded in the explainer, never the default.
+- **Other OpenRouter routers are orthogonal/niche** (C030, `delegation_other_routers_orthogonal_or_niche`): `fusion` (an ensemble) is IGNORED for selection (link out, do not absorb — adjacent to suluk sub-agents + §17.2 thinking); `pareto` is a future router target only for `taskShape === 'coding'` + empty-policy (governance-blind); `free`/`bodybuilder` are link-out niche. None is ever a default profile.
 
 ---
 

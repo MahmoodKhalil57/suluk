@@ -53,7 +53,7 @@ Triage (`wf_550dd30c-fa6`, 42 isolated agents) → 17 convergent / 24 contested 
 ## Frontier head — question-frontier RESOLVED (all 57 → C001–C030); work is now PROJECTION
 
 - **All waves DONE.** Wave A→C012; Wave B (B1 referencing→C013, B2 dependents→C014); Wave C1→C015; Wave C2 (#163→C016, #upgrade→C017). Agent layer: C027 composition / C028 governance / C029 thinking / C030 router+ZDR.
-- **The open work is no longer questions — it is the `specification/` PROJECTION lagging the ledger** (C024–C026 + C027–C030 unprojected) and the gated reopen-triggers. See Cheapest-next-move.
+- **Both the question-frontier AND the `specification/` projection are now current** — C024–C026 + C027–C030 projected into SPEC.md §15–§17 (2026-06-13). The only remaining work is the gated reopen-triggers. See Cheapest-next-move.
 
 ## Decisions so far
 
@@ -82,8 +82,8 @@ Triage (`wf_550dd30c-fa6`, 42 isolated agents) → 17 convergent / 24 contested 
 
 **The question-frontier is RESOLVED** (all 57 seeded questions → C001–C030; [frontier.md](./frontier.md): 57 RESOLVED, 0 OPEN; mizan-converge clean, 251 claims / 7 load-bearing all witnessed). The remaining work is **projection + gated reopens**, not new decisions:
 
-1. **`specification/candidate-v4/SPEC.md` PROJECTION LAGS the ledger.** It is headed "Authored from C001–C017"; §14 Callbacks (C018) is in, but there is **NO Cost/Jobs section (C024–C026 `x-suluk-jobs`)** and **NO Agents section (C027–C030: `x-suluk-agents` composition, `x-suluk-policy` governance, thinking-bound, model-resolution incl. ZDR-router)** — grep confirms neither vendor key appears in the spec. **This is the cheapest high-leverage move:** re-project those resolved clusters into new SPEC.md sections (matching the §14 style) + refresh the header/ToC/status.
-2. **Gated reopens** (do NOT build ahead — see [AGENT-TRACK.md](./AGENT-TRACK.md)): operator-governed-ZDR (needs a policy retention vocabulary), recursion-beyond-one-hop (2nd nested agent), tier-trim MANDATE, `endpoints[]` (a real fleet), vsce Marketplace publish (separate token).
+1. **SPEC.md projection — ✅ CAUGHT UP (2026-06-13).** Projected the resolved clusters into new sections, each adversarially fidelity-verified against its ADR + `core/src/types.ts` (no deferred-as-normative laundering): **§15 Cost & Deferred Jobs** (C024–C026, @0.58), **§16 Agents** (C027, @0.52), **§17 Agent Governance, Thinking & Model Resolution** (C028–C030, @0.52, incl. the verified ZDR-router). Header/ToC/front-matter refreshed to C001–C030. SPEC.md now **4928 lines, 17 sections + Appendix A**.
+2. **Only open work = gated reopens** (do NOT build ahead — see [AGENT-TRACK.md](./AGENT-TRACK.md)): operator-governed-ZDR (needs a policy retention vocabulary), recursion-beyond-one-hop (2nd nested agent), tier-trim MANDATE, `endpoints[]` (a real fleet), vsce Marketplace publish (separate token).
 
 `burhan-converge` backstop after any ledger edit. One workflow at a time.
 
