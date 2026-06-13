@@ -16,12 +16,19 @@
  */
 import { map, atom, computed, type MapStore, type ReadableAtom } from "nanostores";
 
-/** One cart line. `productId` is the merge key; `priceCents` is the unit price at add-time. */
+/** One cart line. The merge key is (`productId`, `variantId`) — two variants of one product are DISTINCT lines.
+ *  `priceCents` is the unit price at add-time; `image`/`variantLabel` let the drawer + checkout render richly. */
 export interface CartLine {
   productId: string | number;
+  /** the selected variant, if any — part of the merge key so size/colour pick distinct lines. */
+  variantId?: string | number;
   qty: number;
   priceCents: number;
   name: string;
+  /** the line's display image (the variant's, falling back to the product's) — for the cart drawer + checkout. */
+  image?: string;
+  /** a human label for the chosen variant (e.g. "Black / M") — shown under the name. */
+  variantLabel?: string;
 }
 
 export interface CartStoreOptions {
@@ -58,14 +65,14 @@ export interface CartStore {
   $subtotalCents: ReadableAtom<number>;
   /** the lines as an array, in insertion order — the canonical render source. */
   lines(): CartLine[];
-  /** the line for a product, or undefined. */
-  get(productId: string | number): CartLine | undefined;
-  /** add `item.qty` of a product (merges onto an existing line by productId; refreshes name/price). */
+  /** the line for a product (+ optional variant), or undefined. */
+  get(productId: string | number, variantId?: string | number): CartLine | undefined;
+  /** add `item.qty` of a product/variant (merges onto an existing line by product+variant; refreshes name/price/image). */
   add(item: CartLine): void;
-  /** set a line's quantity; `qty <= 0` removes the line. */
-  setQty(productId: string | number, qty: number): void;
-  /** remove a line entirely. */
-  remove(productId: string | number): void;
+  /** set a line's quantity; `qty <= 0` removes the line. Pass `variantId` to target a specific variant line. */
+  setQty(productId: string | number, qty: number, variantId?: string | number): void;
+  /** remove a line entirely (optionally a specific variant line). */
+  remove(productId: string | number, variantId?: string | number): void;
   /** empty the cart. */
   clear(): void;
   /** re-read from storage (auto-invoked on the storage/change events; exposed for manual refresh). */
@@ -92,9 +99,12 @@ function sanitize(raw: unknown): CartLine[] {
     const priceCents = Number(o.priceCents);
     out.push({
       productId: o.productId as string | number,
+      ...(o.variantId != null ? { variantId: o.variantId as string | number } : {}),
       qty: Number.isFinite(qty) && qty > 0 ? Math.floor(qty) : 1,
       priceCents: Number.isFinite(priceCents) ? priceCents : 0,
       name: typeof o.name === "string" ? o.name : String(o.productId),
+      ...(typeof o.image === "string" ? { image: o.image } : {}),
+      ...(typeof o.variantLabel === "string" ? { variantLabel: o.variantLabel } : {}),
     });
   }
   return out;
@@ -102,7 +112,9 @@ function sanitize(raw: unknown): CartLine[] {
 
 // Prefix the map key so the JS engine keeps INSERTION order: integer-like keys ("2") are otherwise enumerated
 // before string keys ("p1"), which would silently reorder a cart of numeric product ids. "#" forces all-string.
-const keyOf = (id: string | number) => "#" + String(id);
+// The (productId, variantId) pair is the merge key, so two variants of one product stay DISTINCT lines.
+const keyOf = (id: string | number, variantId?: string | number) =>
+  "#" + String(id) + (variantId != null ? "@" + String(variantId) : "");
 
 export function createCartStore(opts: CartStoreOptions = {}): CartStore {
   const storageKey = opts.storageKey ?? "cart";
@@ -125,7 +137,7 @@ export function createCartStore(opts: CartStoreOptions = {}): CartStore {
   };
   const toMap = (arr: CartLine[]): Record<string, CartLine> => {
     const o: Record<string, CartLine> = {};
-    for (const l of arr) o[keyOf(l.productId)] = l;
+    for (const l of arr) o[keyOf(l.productId, l.variantId)] = l;
     return o;
   };
   let writing = false; // guard: our own storage write must not feed back through the change listener
@@ -155,25 +167,27 @@ export function createCartStore(opts: CartStoreOptions = {}): CartStore {
 
   // ---- actions --------------------------------------------------------------------------------------------
   const add = (item: CartLine): void => {
-    const k = keyOf(item.productId);
+    const k = keyOf(item.productId, item.variantId);
     const cur = { ...$items.get() };
     const qty = Number.isFinite(item.qty) && item.qty > 0 ? Math.floor(item.qty) : 1;
     const prev = cur[k];
+    // a fresh line carries the full item (incl. variantId/image/variantLabel); a merge bumps qty + refreshes the
+    // mutable display fields (price/name/image/label) so a re-add reflects the latest catalog data.
     cur[k] = prev
-      ? { ...prev, qty: prev.qty + qty, priceCents: item.priceCents, name: item.name }
-      : { productId: item.productId, qty, priceCents: item.priceCents, name: item.name };
+      ? { ...prev, qty: prev.qty + qty, priceCents: item.priceCents, name: item.name, image: item.image, variantLabel: item.variantLabel }
+      : { ...item, qty };
     persist(cur);
   };
-  const setQty = (productId: string | number, qty: number): void => {
-    const k = keyOf(productId);
+  const setQty = (productId: string | number, qty: number, variantId?: string | number): void => {
+    const k = keyOf(productId, variantId);
     const cur = { ...$items.get() };
     if (!cur[k]) return;
     if (qty <= 0) delete cur[k];
     else cur[k] = { ...cur[k], qty: Math.floor(qty) };
     persist(cur);
   };
-  const remove = (productId: string | number): void => {
-    const k = keyOf(productId);
+  const remove = (productId: string | number, variantId?: string | number): void => {
+    const k = keyOf(productId, variantId);
     if (!$items.get()[k]) return;
     const cur = { ...$items.get() };
     delete cur[k];
@@ -208,7 +222,7 @@ export function createCartStore(opts: CartStoreOptions = {}): CartStore {
     $count,
     $subtotalCents,
     lines: () => Object.values($items.get()),
-    get: (productId) => $items.get()[keyOf(productId)],
+    get: (productId, variantId) => $items.get()[keyOf(productId, variantId)],
     add,
     setQty,
     remove,

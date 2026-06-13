@@ -96,4 +96,39 @@ describe("@suluk/nano-stores createCartStore — framework-agnostic, persisted, 
     et.dispatchEvent(Object.assign(new Event("storage"), { key: "cart" }));
     expect(store.$count.get()).toBe(1);
   });
+
+  describe("variants — keyed by (productId, variantId)", () => {
+    const fresh = () => createCartStore({ storage: null, events: null });
+    test("two variants of one product are DISTINCT lines (not merged)", () => {
+      const c = fresh();
+      c.add({ productId: 12, variantId: 100, qty: 1, priceCents: 2900, name: "Tee", variantLabel: "Black / S", image: "/b.jpg" });
+      c.add({ productId: 12, variantId: 101, qty: 2, priceCents: 2900, name: "Tee", variantLabel: "Black / M", image: "/b.jpg" });
+      expect(c.lines().length).toBe(2);
+      expect(c.$count.get()).toBe(3);
+    });
+    test("image + variantLabel round-trip", () => {
+      const c = fresh();
+      c.add({ productId: 12, variantId: 100, qty: 1, priceCents: 2900, name: "Tee", variantLabel: "Black / S", image: "/b.jpg" });
+      const l = c.get(12, 100)!;
+      expect(l.image).toBe("/b.jpg");
+      expect(l.variantLabel).toBe("Black / S");
+    });
+    test("setQty/remove target a specific variant line", () => {
+      const c = fresh();
+      c.add({ productId: 12, variantId: 100, qty: 1, priceCents: 2900, name: "Tee" });
+      c.add({ productId: 12, variantId: 101, qty: 1, priceCents: 2900, name: "Tee" });
+      c.setQty(12, 4, 101);
+      expect(c.get(12, 101)!.qty).toBe(4);
+      expect(c.get(12, 100)!.qty).toBe(1);
+      c.remove(12, 100);
+      expect(c.lines().length).toBe(1);
+      expect(c.get(12, 101)).toBeDefined();
+    });
+    test("a no-variant line and a variant line of the same product coexist (back-compat)", () => {
+      const c = fresh();
+      c.add({ productId: 5, qty: 1, priceCents: 4900, name: "Module" });
+      c.add({ productId: 5, variantId: 1, qty: 1, priceCents: 4900, name: "Module" });
+      expect(c.lines().length).toBe(2);
+    });
+  });
 });
