@@ -38,11 +38,6 @@ export interface RenderResult {
 const HTTP_METHODS = ["get", "put", "post", "patch", "delete", "head", "options", "trace"] as const;
 
 /** A small accent of suluk's identity over Scalar's own design tokens (kept light — Scalar's UI is already good). */
-const SULUK_CSS = `
-:root{--scalar-color-accent:#6366f1;--scalar-radius:10px;--scalar-font:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-.dark-mode{--scalar-color-accent:#818cf8}
-`;
-
 interface CostFacet { estimateMicroUsd?: number; components?: { source?: string; basis?: string; microUsd?: number }[] }
 interface AccessFacet { requires?: "anyone" | "authenticated" | "admin"; scope?: "owner" }
 
@@ -187,7 +182,7 @@ export function scalarHtml(doc: OpenAPIv4Document, opts: ScalarOptions = {}): Re
   const { spec, diagnostics } = enrichedSpec(doc, opts);
   const title = escapeHtml(opts.pageTitle ?? doc.info?.title ?? "API Reference");
   const cdn = opts.cdn ?? DEFAULT_CDN;
-  const config = embed({ content: spec, customCss: opts.customCss ?? SULUK_CSS, ...(opts.configuration ?? {}) });
+  const config = embed({ content: spec, customCss: opts.customCss ?? "", ...(opts.configuration ?? {}) });
   const html = `<!doctype html>
 <html>
   <head>
@@ -231,21 +226,6 @@ export interface ScalarV4Options extends ScalarOptions {
   nativeLabel?: string;
 }
 
-const V4_BAR_CSS = `
-*{box-sizing:border-box}html,body{margin:0}
-.sv4-bar{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:9px 16px;background:#6366f1;color:#fff;font:14px/1.4 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;box-shadow:0 1px 0 rgba(0,0,0,.12)}
-.sv4-brand{display:flex;align-items:center;gap:8px;font-weight:800;letter-spacing:-.01em}
-.sv4-brand .sv4-v4{background:rgba(255,255,255,.22);border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700}
-.sv4-spacer{flex:1}
-.sv4-view{display:flex;align-items:center;gap:7px;font-size:13px}
-.sv4-view label{opacity:.85}
-.sv4-view select{font:inherit;font-size:13px;color:#15171c;background:#fff;border:0;border-radius:8px;padding:5px 9px;cursor:pointer}
-.sv4-btn,.sv4-native{color:#fff;text-decoration:none;font:inherit;font-size:13px;font-weight:600;background:rgba(255,255,255,.16);border:0;border-radius:8px;padding:6px 11px;cursor:pointer}
-.sv4-btn:hover,.sv4-native:hover{background:rgba(255,255,255,.28)}
-.sv4-loading{font-size:12px;opacity:.85}
-[hidden]{display:none!important}
-`;
-
 /** Embed a value safely inside an inline <script>: JSON-encode + neutralize `</script>` / `<!--`. */
 function jsConst(v: unknown): string { return JSON.stringify(v).replace(/</g, "\\u003c"); }
 
@@ -260,17 +240,14 @@ export function scalarV4Html(doc: OpenAPIv4Document, opts: ScalarV4Options = {})
   const { spec } = enrichedV4(doc, opts);
   const diagnostics: Diagnostic[] = [];
   const title = escapeHtml(opts.pageTitle ?? doc.info?.title ?? "API Reference");
-  const brand = escapeHtml(opts.brand ?? doc.info?.title ?? "API");
   const cdn = opts.cdn ?? DEFAULT_CDN;
   // showOperationId surfaces each operation's operationId — which IS the v4 request NAME (the by-name identity v4
   // keys operations on) — as a badge in Scalar's own operation header. Default ON for the v4 reference; overridable.
-  const cfg = { customCss: opts.customCss ?? SULUK_CSS, showOperationId: true, ...(opts.configuration ?? {}) };
-  const views = opts.views ?? [];
+  // customCss defaults to NOTHING so the user's chosen Scalar theme drives every colour (we never override the accent).
+  const cfg = { customCss: opts.customCss ?? "", showOperationId: true, ...(opts.configuration ?? {}) };
   const specParam = opts.specParam ?? "as";
-  const viewOpts = `<option value="">As authored (full)</option>` + views.map((v) => `<option value="${escapeHtml(v.value)}">${escapeHtml(v.label)}</option>`).join("");
-  const nativeLink = opts.nativeUrl ? `<a class="sv4-native" href="${escapeHtml(opts.nativeUrl)}">${escapeHtml(opts.nativeLabel ?? "Deep view ↗")}</a>` : "";
-  const viewControl = views.length && opts.specUrl
-    ? `<div class="sv4-view"><label for="sv4-as">View&nbsp;as</label><select id="sv4-as">${viewOpts}</select><span id="sv4-loading" class="sv4-loading" hidden>loading…</span></div>` : "";
+  // The "View as" projector lives in Scalar's OWN sidebar (the fork renders it from x-suluk-views), not a custom bar.
+  const views = (opts.specUrl && (opts.views ?? []).length) ? (opts.views ?? []) : [];
 
   const html = `<!doctype html>
 <html>
@@ -279,31 +256,24 @@ export function scalarV4Html(doc: OpenAPIv4Document, opts: ScalarV4Options = {})
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg" />
-    <style>${V4_BAR_CSS}</style>
   </head>
   <body>
-    <header class="sv4-bar">
-      <span class="sv4-brand">${brand} <span class="sv4-v4">OpenAPI v4</span></span>
-      <span class="sv4-spacer"></span>
-      ${viewControl}
-      ${nativeLink}
-    </header>
     <div id="app"></div>
     <script src="${cdn}"></script>
     <script>
-      var CFG = ${jsConst(cfg)}, INITIAL = ${jsConst(spec)}, SPEC_URL = ${jsConst(opts.specUrl ?? "")}, AS = ${jsConst(specParam)}, INS_URL = ${jsConst(opts.insightsUrl ?? "")}, curRole = "";
-      // The forked Scalar reads x-suluk-insights from the config and renders the v4 superpowers INLINE via its
-      // content-start slot, as a collapsed "⚡ v4 Insights" bar (no bolt-on drawer, no second page). We pass the
-      // role-projected insights URL; re-mounting on a View-as change re-renders that section for the new role.
+      var CFG = ${jsConst(cfg)}, INITIAL = ${jsConst(spec)}, SPEC_URL = ${jsConst(opts.specUrl ?? "")}, AS = ${jsConst(specParam)}, INS_URL = ${jsConst(opts.insightsUrl ?? "")}, VIEWS = ${jsConst(views)}, curRole = "";
+      // The forked Scalar renders, in its OWN chrome: the v4 facet panels + ⚡ insights (content-start slot, from
+      // x-suluk-insights) and the "View as" role projector (sidebar-start slot, from x-suluk-views). Picking a role
+      // dispatches a 'suluk:viewas' DOM event we catch here to re-fetch + re-mount with that role's projected spec.
       function insUrl(){ return INS_URL ? (INS_URL + (curRole ? ('?'+AS+'='+encodeURIComponent(curRole)) : '')) : ''; }
-      function mount(spec){ var a=document.getElementById('app'); a.innerHTML=''; var o={}; for(var k in CFG)o[k]=CFG[k]; o.content=spec; var iu=insUrl(); if(iu)o['x-suluk-insights']=iu; Scalar.createApiReference('#app', o); }
+      function mount(spec){ var a=document.getElementById('app'); a.innerHTML=''; var o={}; for(var k in CFG)o[k]=CFG[k]; o.content=spec; var iu=insUrl(); if(iu)o['x-suluk-insights']=iu; if(VIEWS&&VIEWS.length){o['x-suluk-views']=VIEWS;o['x-suluk-view']=curRole;} Scalar.createApiReference('#app', o); }
       mount(INITIAL);
-      var sel=document.getElementById('sv4-as'), load=document.getElementById('sv4-loading');
-      if(sel&&SPEC_URL){ sel.addEventListener('change', function(){ var v=sel.value; curRole=v;
-        if(!v){ mount(INITIAL); return; }
-        if(load)load.hidden=false;
-        fetch(SPEC_URL+'?'+AS+'='+encodeURIComponent(v),{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(s){ mount(s); }).catch(function(){ mount(INITIAL); }).then(function(){ if(load)load.hidden=true; });
-      }); }
+      if(SPEC_URL && VIEWS && VIEWS.length){
+        document.addEventListener('suluk:viewas', function(ev){ var v=ev.detail||''; curRole=v;
+          if(!v){ mount(INITIAL); return; }
+          fetch(SPEC_URL+'?'+AS+'='+encodeURIComponent(v),{credentials:'same-origin'}).then(function(r){return r.json();}).then(function(s){ mount(s); }).catch(function(){ mount(INITIAL); });
+        });
+      }
     </script>
   </body>
 </html>`;

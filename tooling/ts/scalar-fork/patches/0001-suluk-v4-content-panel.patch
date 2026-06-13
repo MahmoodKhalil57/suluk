@@ -1,8 +1,8 @@
 diff --git a/packages/api-reference/src/standalone/lib/html-api.ts b/packages/api-reference/src/standalone/lib/html-api.ts
-index e154fb9..3b06ca9 100644
+index e154fb9..9846796 100644
 --- a/packages/api-reference/src/standalone/lib/html-api.ts
 +++ b/packages/api-reference/src/standalone/lib/html-api.ts
-@@ -228,6 +228,82 @@ export const createContainer = (doc: Document, element?: Element | null) => {
+@@ -228,6 +228,127 @@ export const createContainer = (doc: Document, element?: Element | null) => {
    return _container
  }
  
@@ -20,9 +20,11 @@ index e154fb9..3b06ca9 100644
 +function sulukV4Slots(configuration: unknown): Record<string, () => unknown> | undefined {
 +  const cfg = configuration && typeof configuration === 'object' ? (configuration as Record<string, unknown>) : {}
 +  const content = cfg.content
++  const slots: Record<string, () => unknown> = {}
 +  const nodes: unknown[] = []
 +
-+  // (1) facet-summary panel — a native "OpenAPI v4 contract" summary, computed from the doc.
++  // (1) facet-summary panel — styled as a native Scalar info card (pure --scalar-* tokens, so it adapts to EVERY
++  // Scalar theme; no hardcoded brand colors). Computed from the doc.
 +  if (content && typeof content === 'object') {
 +    const paths = (content as { paths?: Record<string, unknown> }).paths || {}
 +    let total = 0
@@ -38,20 +40,19 @@ index e154fb9..3b06ca9 100644
 +      else if (p) for (const m of ['get', 'put', 'post', 'patch', 'delete', 'head', 'options']) countOp(p[m])
 +    }
 +    if (total) {
-+      const chip = (t: string) => `<span style="background:var(--scalar-background-3,#eef0f3);border-radius:999px;padding:2px 9px">${t}</span>`
++      const chip = (t: string) => `<span style="background:var(--scalar-background-3);border-radius:999px;padding:2px 9px">${t}</span>`
 +      const html =
-+        `<div style="margin:0 0 16px;padding:14px 18px;border:1px solid var(--scalar-border-color,#e4e7ec);border-radius:12px;background:var(--scalar-background-2,#f8f9fb)">` +
-+        `<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap"><b style="letter-spacing:-.01em">⛬ Suluk OpenAPI v4 contract</b><span style="background:var(--scalar-color-accent,#6366f1);color:#fff;border-radius:6px;padding:1px 8px;font-size:11px;font-weight:700">v4</span></div>` +
-+        `<p style="margin:6px 0 9px;color:var(--scalar-color-2,#6b7280);font-size:13px">Every operation is <b>cost-metered</b> (micro-USD) and <b>access-scoped</b> — the badge on each operation shows its access + per-call cost. ${priced} of ${total} operations carry a declared cost.</p>` +
-+        `<div style="display:flex;gap:7px;flex-wrap:wrap;font-size:12px;color:var(--scalar-color-2,#6b7280)">${chip('🌐 Public')}${chip('👤 Signed-in')}${chip('🔒 Admin')}${chip('💰 per-call cost')}</div>` +
++        `<div style="margin:0 0 16px;padding:14px 18px;border:1px solid var(--scalar-border-color);border-radius:var(--scalar-radius-lg,12px);background:var(--scalar-background-2)">` +
++        `<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap"><b style="letter-spacing:-.01em;color:var(--scalar-color-1)">⛬ Suluk OpenAPI v4 contract</b><span style="background:var(--scalar-color-accent);color:#fff;border-radius:6px;padding:1px 8px;font-size:11px;font-weight:700">v4</span></div>` +
++        `<p style="margin:6px 0 9px;color:var(--scalar-color-2);font-size:13px">Every operation is <b>cost-metered</b> (micro-USD) and <b>access-scoped</b> — the badge on each operation shows its access + per-call cost. ${priced} of ${total} operations carry a declared cost.</p>` +
++        `<div style="display:flex;gap:7px;flex-wrap:wrap;font-size:12px;color:var(--scalar-color-2)">${chip('🌐 Public')}${chip('👤 Signed-in')}${chip('🔒 Admin')}${chip('💰 per-call cost')}</div>` +
 +        `</div>`
 +      nodes.push(h('div', { innerHTML: html }))
 +    }
 +  }
 +
-+  // (2) the FULL v4 superpowers, INLINE in Scalar (no bolt-on drawer) — a collapsed <details> so it reads as a
-+  // compact bar that expands the iframe on click. The host passes the panels URL via `x-suluk-insights`
-+  // (e.g. @suluk/reference's insights page, already role-projected by the host).
++  // (2) the FULL v4 superpowers, INLINE — a native-looking Scalar collapsible (themed surface + an accent left rule,
++  // not a solid accent bar) so it sits cleanly in any theme. The host passes the role-projected panels URL.
 +  const ins = cfg['x-suluk-insights']
 +  if (typeof ins === 'string' && ins) {
 +    nodes.push(
@@ -60,32 +61,76 @@ index e154fb9..3b06ca9 100644
 +        {
 +          class: 'suluk-v4-insights',
 +          style:
-+            'width:100%;margin:0 0 18px;border:1px solid var(--scalar-border-color,#e4e7ec);border-radius:14px;overflow:hidden;background:var(--scalar-background-2,#f8f9fb)',
++            'width:100%;margin:0 0 18px;border:1px solid var(--scalar-border-color);border-left:3px solid var(--scalar-color-accent);border-radius:var(--scalar-radius-lg,12px);overflow:hidden;background:var(--scalar-background-2)',
 +        },
 +        [
 +          h('summary', {
 +            style:
-+              'cursor:pointer;padding:12px 16px;font-weight:700;color:#fff;background:var(--scalar-color-accent,#6366f1)',
-+            innerHTML: '⚡ v4 Insights — cost explorer · reachability · ADA · hardening &nbsp;<span style="font-weight:400;opacity:.85">(click to expand)</span>',
++              'cursor:pointer;padding:11px 16px;font-weight:600;color:var(--scalar-color-1);background:var(--scalar-background-2)',
++            innerHTML:
++              '⚡ v4 Insights — cost explorer · reachability · ADA · hardening &nbsp;<span style="font-weight:400;color:var(--scalar-color-3)">(click to expand)</span>',
 +          }),
 +          h('iframe', {
 +            src: ins,
 +            loading: 'lazy',
-+            style: 'display:block;width:100%;height:78vh;border:0;background:#0b0d12',
++            style:
++              'display:block;width:100%;height:78vh;border:0;border-top:1px solid var(--scalar-border-color);background:var(--scalar-background-1)',
 +          }),
 +        ],
 +      ),
 +    )
 +  }
 +
-+  if (!nodes.length) return undefined
-+  return { 'content-start': () => nodes }
++  if (nodes.length) slots['content-start'] = () => nodes
++
++  // (3) the v4 "View as" ROLE projector — rendered in Scalar's OWN sidebar (sidebar-start slot), styled with
++  // Scalar's design tokens so it adapts to every theme. This replaces the old bolted-on top bar. Changing it
++  // dispatches a `suluk:viewas` DOM event the host listens for (re-fetch + re-mount); the selected role is read back
++  // from `configuration['x-suluk-view']` on each mount so it survives the re-mount.
++  const views = cfg['x-suluk-views']
++  if (Array.isArray(views) && views.length) {
++    const cur = typeof cfg['x-suluk-view'] === 'string' ? (cfg['x-suluk-view'] as string) : ''
++    const opt = (value: string, label: string) =>
++      h('option', value === cur ? { value, selected: '' } : { value }, label)
++    slots['sidebar-start'] = () =>
++      h(
++        'div',
++        { class: 'suluk-v4-viewas', style: 'padding:12px;margin-top:4px;border-top:1px solid var(--scalar-border-color)' },
++        [
++          h(
++            'label',
++            {
++              for: 'suluk-viewas',
++              style:
++                'display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--scalar-color-3);margin:0 0 5px',
++            },
++            'View as',
++          ),
++          h(
++            'select',
++            {
++              id: 'suluk-viewas',
++              onChange: (e: Event) =>
++                document.dispatchEvent(new CustomEvent('suluk:viewas', { detail: (e.target as HTMLSelectElement).value })),
++              style:
++                'width:100%;font:inherit;font-size:13px;color:var(--scalar-color-1);background:var(--scalar-background-2);border:1px solid var(--scalar-border-color);border-radius:var(--scalar-radius,8px);padding:6px 8px;cursor:pointer',
++            },
++            [
++              opt('', 'As authored (full)'),
++              ...(views as Array<{ label: unknown; value: unknown }>).map((v) => opt(String(v.value), String(v.label))),
++            ],
++          ),
++        ],
++      )
++  }
++
++  return Object.keys(slots).length ? slots : undefined
 +}
 +
  /**
   * Create (and mount) a new Scalar API Reference
   *
-@@ -247,8 +323,13 @@ export const createApiReference: CreateApiReference = (
+@@ -247,8 +368,13 @@ export const createApiReference: CreateApiReference = (
      configuration: optionalConfiguration ?? (elementOrSelectorOrConfig as AnyApiReferenceConfiguration) ?? {},
    })
  

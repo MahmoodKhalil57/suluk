@@ -11,20 +11,24 @@
   not `3.1.0` — there is no pre-downgrade outside Scalar anymore. The engine + try-it render the projected ops; the
   lossy boundary is multi-request-per-method (deferred — saasuluk has 0 collisions). The suluk facets ride along: the
   host (`enrichedV4`) stamps `x-badges` on each v4 **request**, and `projectV4ToStore` carries them through to the op.
-  ALL the v4 superpowers are folded **into Scalar itself**, via its own slot API (patch `0001`), not bolted on.
-  Everything else routes through the **`content-start` slot** — empirically the one slot that mounts reliably in this
-  build's modern reference layout (manually-passed object slots for `footer`/`content-end` do *not* surface through
-  `v-if="$slots.footer"` / `<Content #end>` in the production Vue bundle). content-start returns a fragment:
-  - cost/access facet **badges + breakdowns** baked into the spec (separate enrichment, on every op);
-  - a native **"⛬ Suluk OpenAPI v4 contract"** facet-summary panel (cost coverage + access legend);
-  - the FULL superpowers **inline as a collapsed "⚡ v4 Insights" bar** — `@suluk/reference`'s cost explorer + workflow
-    calculator, the access **reachability matrix**, the **ADA** playground, the **hardening** report, in an iframe to
-    the host-supplied, role-projected `/reference/insights` URL (the fork reads `x-suluk-insights` off the config);
-  - the v4-native **"View as" role projector** (Anonymous/Signed-in/Admin → re-mounts Scalar with that role's
-    projected spec from `/reference/spec?as=`, which also reprojects the inline insights — `…/insights?as=<role>`).
-  No separate dashboard, **no drawer**, no second page — everything lives inside the one forked-Scalar page. The
-  vendored bundle is served with a **content-hash `?v=` query** (`scripts/scalar-fork-hash.ts`), so a fork rebuild
-  cache-busts every browser; the fixed filename would otherwise serve a stale Scalar after `git pull` + reapply.
+  ALL the v4 superpowers are folded **into Scalar's OWN chrome**, via its slot API (patch `0001`) — **no custom top
+  bar, no hardcoded colours**, so it adapts to every Scalar theme (verified light↔dark; the accent is the theme's, not
+  a brand override). Two reliably-mounting slots carry it:
+  - **`content-start`** returns a fragment, all styled with `--scalar-*` tokens:
+    - cost/access facet **badges + breakdowns** baked into the spec (separate enrichment, on every op);
+    - a native **"⛬ Suluk OpenAPI v4 contract"** facet-summary card (cost coverage + access legend);
+    - the FULL superpowers **inline as a themed "⚡ v4 Insights" collapsible** (accent left-rule, not a solid bar) —
+      `@suluk/reference`'s cost explorer, **reachability matrix**, **ADA** playground, **hardening** report, in an
+      iframe to the host-supplied role-projected `/reference/insights` URL (read off `x-suluk-insights`);
+  - **`sidebar-start`** renders the v4 **"View as" role projector** as a native sidebar control (from `x-suluk-views`):
+    Anonymous/Signed-in/Admin → dispatches a `suluk:viewas` DOM event the host catches to re-fetch + re-mount with that
+    role's projected spec from `/reference/spec?as=`, which also reprojects the inline insights (`…/insights?as=`); the
+    selected role survives the re-mount via `x-suluk-view`. (`footer`/`content-end` do *not* surface through
+    `v-if="$slots.footer"` / `<Content #end>` in the production bundle — only content-start/sidebar-start mount.)
+
+  No custom chrome, **no drawer**, no second page, no theme override — everything lives inside the one forked-Scalar
+  page on Scalar's own design tokens. The vendored bundle is served with a **content-hash `?v=` query**
+  (`scripts/scalar-fork-hash.ts`), so a fork rebuild cache-busts every browser.
 - **`/scalar`** — VANILLA Scalar (`scalarHtml` with `facetBadges:false`, no theme) on the **unpatched upstream**
   bundle: the plain 4→3 downgrade fed to stock Scalar, superpowers dropped. The "what upstream shows" baseline.
 

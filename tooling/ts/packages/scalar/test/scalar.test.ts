@@ -129,29 +129,43 @@ describe("scalarV4Html — the v4 REFERENCE (fork) with all suluk superpowers", 
     } } } },
   } as never;
 
-  test("renders the suluk toolbar + role view-as projector + native-renderer link, and mounts Scalar with the enriched spec", () => {
+  test("renders NO custom top bar — the v4 chrome (insights + View-as) lives in Scalar's OWN slots", () => {
     const { html } = scalarV4Html(v4doc, {
       brand: "saasuluk", cdn: "/vendor/scalar/standalone.js",
       specUrl: "/reference/spec", views: [{ label: "Anonymous", value: "anon" }, { label: "Admin", value: "admin" }],
       insightsUrl: "/reference/insights",
     });
-    expect(html).toContain("sv4-bar");                  // the suluk toolbar
-    expect(html).toContain("OpenAPI v4");               // it announces v4
-    expect(html).toContain('id="sv4-as"');              // the View-as role projector
-    expect(html).toContain('value="anon"');
-    expect(html).toContain('"/reference/spec"');         // the projector re-fetches this per role
-    expect(html).toContain('"/reference/insights"');     // the superpowers URL handed to the forked Scalar…
-    expect(html).toContain("x-suluk-insights");          // …via config → the fork renders them INLINE via content-start
-    expect(html).not.toContain('id="sv4-drawer"');       // the bolt-on drawer is retired
-    expect(html).toContain("/vendor/scalar/standalone.js"); // self-hosted bundle
-    expect(html).toContain("Scalar.createApiReference"); // mounts Scalar
-    expect(html).toContain("x-badges");                 // …with the v4 facet superpowers baked into the spec
+    expect(html).not.toContain("sv4-bar");               // the bolted-on top bar is GONE
+    expect(html).not.toContain("<header");               // no custom chrome above Scalar
+    expect(html).not.toContain("#6366f1");               // no hardcoded brand colour (theme-native)
+    expect(html).toContain("x-suluk-views");             // the View-as projector is handed to the fork (sidebar-start)
+    expect(html).toContain("anon");                      // …with the role options (rendered by the fork, themed)
+    expect(html).toContain("suluk:viewas");              // the sidebar select dispatches this; the host re-mounts on it
+    expect(html).toContain('"/reference/spec"');         // re-fetched per role
+    expect(html).toContain("x-suluk-insights");          // insights URL → fork renders them in content-start
+    expect(html).toContain("/vendor/scalar/standalone.js");
+    expect(html).toContain("Scalar.createApiReference");
+    expect(html).toContain("x-badges");                  // v4 facet superpowers baked into the spec
   });
 
-  test("with no views/specUrl, the toolbar omits the projector but still brands + mounts", () => {
+  test("customCss defaults to empty so the chosen Scalar theme drives every colour (no accent override)", () => {
     const { html } = scalarV4Html(v4doc, { brand: "x" });
-    expect(html).toContain("sv4-bar");
-    expect(html).not.toContain('id="sv4-as"');
+    const cfg = extractObjAfter(html, "CFG =");
+    expect(cfg.customCss).toBe("");
+    expect(html).not.toContain("--scalar-color-accent:#"); // we never hardcode the theme accent
+  });
+
+  test("with no views/specUrl, no View-as options are handed to the fork (still mounts)", () => {
+    const { html } = scalarV4Html(v4doc, { brand: "x" });
+    expect(html).toContain("VIEWS = []");                 // no role options → fork renders no sidebar projector
+    expect(html).toContain("Scalar.createApiReference");
+  });
+
+  test("View-as options are only handed over when a specUrl exists to re-fetch from", () => {
+    const withSpec = scalarV4Html(v4doc, { views: [{ label: "Anonymous", value: "anon" }], specUrl: "/s" }).html;
+    const noSpec = scalarV4Html(v4doc, { views: [{ label: "Anonymous", value: "anon" }] }).html; // views but no specUrl
+    expect(withSpec).toContain('"value":"anon"');
+    expect(noSpec).toContain("VIEWS = []");
   });
 
   test("enables showOperationId so the v4 request-NAME (operationId) renders as Scalar's own operation badge", () => {
