@@ -134,7 +134,7 @@ function embed(spec: unknown): string {
 }
 
 function escapeHtml(s: string): string {
-  return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
+  return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
 }
 
 /** Project a v4 document to the 3.1 spec Scalar consumes, ENRICHED with the v4 facets (cost/access → badges + detail
@@ -146,6 +146,40 @@ export function enrichedSpec(doc: OpenAPIv4Document, opts: { facetBadges?: boole
   const spec = JSON.parse(JSON.stringify(raw));
   if (opts.facetBadges !== false) { enrichFacetBadges(spec); enrichFacetDetail(spec); v4Intro(spec); }
   return { spec, diagnostics };
+}
+
+/** Mutate a v4 document: stamp the facet badges + detail on each REQUEST (the v4 by-name operation) and prepend the
+ *  v4-contract intro — the same superpowers as the 3.1 path, but kept in v4 shape. The forked Scalar ingests this
+ *  natively (projects requests→ops internally) and carries `x-badges` / `x-suluk-*` through, so cost + access render
+ *  on each operation AND the version badge reads 4.0.0-candidate (no downgrade). Reuses the 3.1 badge helpers since a
+ *  v4 request carries `x-suluk-cost` / `x-suluk-access` directly. */
+export function enrichV4Facets(doc: { paths?: Record<string, { requests?: Record<string, Record<string, unknown>> }>; info?: Record<string, unknown> }): void {
+  let total = 0, priced = 0;
+  for (const pi of Object.values(doc.paths ?? {})) {
+    for (const req of Object.values(pi?.requests ?? {})) {
+      if (!req || typeof req !== "object") continue;
+      total++;
+      if (req["x-suluk-cost"]) priced++;
+      const badges: { name: string; position: "after"; color: string }[] = [];
+      const ab = accessBadge(req["x-suluk-access"] as AccessFacet | undefined); if (ab) badges.push({ position: "after", ...ab });
+      const cb = costBadge(req["x-suluk-cost"] as CostFacet | undefined); if (cb) badges.push({ position: "after", ...cb });
+      if (badges.length) req["x-badges"] = badges;
+      const detail = facetDetail(req);
+      if (detail) req.description = (typeof req.description === "string" ? req.description : "") + detail;
+    }
+  }
+  if (!total) return;
+  const note = `> **Suluk v4 contract.** Every operation is **cost-metered** (micro-USD) and **access-scoped** — the badges show each op's access + per-call cost, and expanding an operation reveals the cost breakdown by source. ${priced} of ${total} operations carry a declared cost.`;
+  const info = (doc.info ??= {});
+  info.description = note + (typeof info.description === "string" && info.description ? `\n\n${info.description}` : "");
+}
+
+/** Enrich a v4 document with the suluk facets (badges + detail + intro) WITHOUT downgrading — for the forked Scalar
+ *  that ingests v4 NATIVELY. Never mutates `doc` (JSON-clone first). The output is fed to Scalar's `content` as-is. */
+export function enrichedV4(doc: OpenAPIv4Document, opts: { facetBadges?: boolean } = {}): { spec: Record<string, unknown> } {
+  const spec = JSON.parse(JSON.stringify(doc)) as Record<string, unknown>;
+  if (opts.facetBadges !== false) enrichV4Facets(spec as Parameters<typeof enrichV4Facets>[0]);
+  return { spec };
 }
 
 /** Render a v4 document to a self-contained Scalar HTML page (+ downgrade diagnostics). */
@@ -221,7 +255,10 @@ function jsConst(v: unknown): string { return JSON.stringify(v).replace(/</g, "\
  * role re-mounts Scalar with that role's projected spec from `specUrl` — and a link out to the deep native renderer.
  */
 export function scalarV4Html(doc: OpenAPIv4Document, opts: ScalarV4Options = {}): RenderResult {
-  const { spec, diagnostics } = enrichedSpec(doc, opts);
+  // NATIVE v4: feed Scalar the enriched v4 doc (not the 3.1 downgrade). The forked standalone ingests it natively —
+  // projects requests→ops internally + shows the 4.0.0-candidate version badge. (The downgrade still backs /scalar.)
+  const { spec } = enrichedV4(doc, opts);
+  const diagnostics: Diagnostic[] = [];
   const title = escapeHtml(opts.pageTitle ?? doc.info?.title ?? "API Reference");
   const brand = escapeHtml(opts.brand ?? doc.info?.title ?? "API");
   const cdn = opts.cdn ?? DEFAULT_CDN;

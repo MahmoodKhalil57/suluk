@@ -3,10 +3,18 @@
 ## Current state (live)
 
 - **`/reference`** — OUR forked Scalar (`standalone-suluk.js` = latest upstream + the suluk patch-set), driven by
-  `scalarV4Html`. ALL the v4 superpowers are folded **into Scalar itself**, via its own slot API (the patch), not
-  bolted on. Everything routes through the **`content-start` slot** — empirically the one slot that mounts reliably in
-  this build's modern reference layout (manually-passed object slots for `footer`/`content-end` do *not* surface
-  through `v-if="$slots.footer"` / `<Content #end>` in the production Vue bundle). content-start returns a fragment:
+  `scalarV4Html`. **Scalar now ingests OpenAPI v4 NATIVELY** — we feed it the real v4 doc (`openapi: 4.0.0-candidate`,
+  `paths[uri].requests` keyed by name) and patch `@scalar/workspace-store`'s `client.ts` to call `projectV4ToStore`
+  right after `upgrade()` (patch `0003`): it maps `requests`→method-keyed 3.x ops (request-name → `operationId` +
+  title, `parameterSchema`→`parameters[]`, named responses→status map, composition folded) BEFORE `coerce()` would
+  strip the unknown `requests` key. The version badge reads **`OpenAPI 4.0.0-candidate`** (via `x-original-oas-version`),
+  not `3.1.0` — there is no pre-downgrade outside Scalar anymore. The engine + try-it render the projected ops; the
+  lossy boundary is multi-request-per-method (deferred — saasuluk has 0 collisions). The suluk facets ride along: the
+  host (`enrichedV4`) stamps `x-badges` on each v4 **request**, and `projectV4ToStore` carries them through to the op.
+  ALL the v4 superpowers are folded **into Scalar itself**, via its own slot API (patch `0001`), not bolted on.
+  Everything else routes through the **`content-start` slot** — empirically the one slot that mounts reliably in this
+  build's modern reference layout (manually-passed object slots for `footer`/`content-end` do *not* surface through
+  `v-if="$slots.footer"` / `<Content #end>` in the production Vue bundle). content-start returns a fragment:
   - cost/access facet **badges + breakdowns** baked into the spec (separate enrichment, on every op);
   - a native **"⛬ Suluk OpenAPI v4 contract"** facet-summary panel (cost coverage + access legend);
   - the FULL superpowers **inline as a collapsed "⚡ v4 Insights" bar** — `@suluk/reference`'s cost explorer + workflow
@@ -20,9 +28,12 @@
 - **`/scalar`** — VANILLA Scalar (`scalarHtml` with `facetBadges:false`, no theme) on the **unpatched upstream**
   bundle: the plain 4→3 downgrade fed to stock Scalar, superpowers dropped. The "what upstream shows" baseline.
 
-What remains is only the *engine-level* native v4 (request-name identity, parameterSchema panels rendered AS v4
-inside Scalar's own components + try-it) — the workspace-store source rewrite below. For saasuluk's doc that's
-cosmetic-internal (the downgrade is already faithful); the user-visible v4 story is shipped above.
+Native v4 ingestion shipped at the **parser boundary** (patch `0003`, `projectV4ToStore`) rather than the full
+workspace-store rewrite scoped below — Scalar consumes the v4 doc and projects it internally, so the engine +
+try-it stay unchanged. What remains is only **multi-request-per-method** (two v4 requests sharing a method on one
+path rendered as distinct sidebar entries — patch `0006`, high cost, **0** saasuluk collisions so not visible yet)
+and, if ever wanted, surfacing the raw request-name more prominently than its `summary` (currently the human
+`summary` wins as the title, with the v4 request-name preserved as `operationId`).
 
 
 

@@ -1,0 +1,232 @@
+diff --git a/packages/workspace-store/src/client.ts b/packages/workspace-store/src/client.ts
+index 0cdc5e8..41ac563 100644
+--- a/packages/workspace-store/src/client.ts
++++ b/packages/workspace-store/src/client.ts
+@@ -24,6 +24,7 @@ import { createDetectChangesProxy } from '@/helpers/detect-changes-proxy'
+ import { type UnknownObject, safeAssign } from '@/helpers/general'
+ import { getFetch } from '@/helpers/get-fetch'
+ import { mergeObjects } from '@/helpers/merge-object'
++import { projectV4ToStore } from '@/project-v4-to-store'
+ import { createOverridesProxy } from '@/helpers/overrides-proxy'
+ import { unpackProxyObject } from '@/helpers/unpack-proxy'
+ import { createNavigation, traverseAsyncApiDocument } from '@/navigation'
+@@ -1040,6 +1041,12 @@ export const createWorkspaceStore = (workspaceProps?: WorkspaceProps): Workspace
+ 
+     const inputDocument = withMeasurementSync('upgrade', () => upgrade(deepClone(clonedRawInputDocument), '3.1'))
+ 
++    // SULUK v4 PATCH — native OpenAPI v4 ("Moonwalk") ingestion. Map pathItem.requests (keyed by NAME) into
++    // method-keyed 3.x operations HERE, before the coerce(openapiSchema) below would strip the unknown `requests`
++    // key (which is what leaves a v4 doc's sidebar empty on stock Scalar). No-op on non-v4 docs. The version badge
++    // still reads 4.0.0-candidate from x-original-oas-version (captured from the original doc just below).
++    withMeasurementSync('projectV4ToStore', () => projectV4ToStore(inputDocument))
++
+     const strictDocument: UnknownObject = createMagicProxy(
+       {
+         ...inputDocument,
+diff --git a/packages/workspace-store/src/project-v4-to-store.ts b/packages/workspace-store/src/project-v4-to-store.ts
+new file mode 100644
+index 0000000..e2a4d34
+--- /dev/null
++++ b/packages/workspace-store/src/project-v4-to-store.ts
+@@ -0,0 +1,201 @@
++/**
++ * SULUK v4 PATCH — native OpenAPI v4 ("Moonwalk") ingestion.
++ *
++ * Scalar's engine is OpenAPI 3.x-shaped (`paths[uri][method] → Operation`). OpenAPI v4 keys operations by NAME
++ * (`pathItem.requests`), with `parameterSchema:{query,path,header,body}`, NAMED responses, and composition
++ * (`shared` / `pathResponses` / `apiResponses`). This projects a v4 document INTO Scalar's 3.x store model IN
++ * PLACE — invoked right after `upgrade()`, BEFORE `coerce(openapiSchema)` would strip the unknown `requests`
++ * key — so Scalar's existing components + try-it render it. The v4 identity is preserved for display: each
++ * request's NAME becomes the `operationId` AND the operation title (`summary` fallback), and the document still
++ * reports `4.0.0-candidate` via `x-original-oas-version` (captured from the original doc in client.ts), so the
++ * version badge reads v4 even though the internal working model is 3.1-shaped.
++ *
++ * Self-contained port of @suluk/compat's `downgrade()` mapping (kept in sync by hand). Lossy boundary: 3.1 keys
++ * operations by METHOD, so two v4 requests sharing a method on one path can't both be represented — we keep the
++ * first (multi-request-per-method is the deferred frontier).
++ */
++
++type Obj = Record<string, unknown>
++
++const METHODS = ['get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace']
++
++function isRef(s: unknown): s is { $ref: string } {
++  return !!s && typeof s === 'object' && typeof (s as Obj).$ref === 'string'
++}
++
++/** Expand one per-location parameterSchema (object-of-properties) into 3.1 Parameter Objects. */
++function expandParams(loc: string, schema: unknown, out: Obj[]): void {
++  if (schema == null || isRef(schema) || typeof schema === 'boolean') return
++  const s = schema as Obj
++  const props = (s.properties ?? {}) as Record<string, unknown>
++  const required = new Set((s.required as string[] | undefined) ?? [])
++  for (const [name, propSchema] of Object.entries(props)) {
++    out.push({ name, in: loc, required: loc === 'path' ? true : required.has(name), schema: propSchema })
++  }
++}
++
++/** allOf-compose one inherited (shared) location schema under one request-level location schema. */
++function mergeLoc(shared: unknown, own: unknown): unknown {
++  if (shared == null) return own
++  if (own == null) return shared
++  if (isRef(shared) || isRef(own) || typeof shared === 'boolean' || typeof own === 'boolean') return { allOf: [shared, own] }
++  const a = shared as Obj
++  const b = own as Obj
++  const props = { ...((a.properties as object) ?? {}), ...((b.properties as object) ?? {}) }
++  const required = [...new Set([...((a.required as string[]) ?? []), ...((b.required as string[]) ?? [])])]
++  const out: Obj = { type: 'object', properties: props }
++  if (required.length) out.required = required
++  return out
++}
++
++function effectiveParams(shared: Obj | undefined, own: Obj | undefined): Obj {
++  return {
++    query: mergeLoc(shared?.query, own?.query),
++    path: mergeLoc(shared?.path, own?.path),
++    header: mergeLoc(shared?.header, own?.header),
++    cookie: mergeLoc(shared?.cookie, own?.cookie),
++    body: own?.body ?? shared?.body,
++  }
++}
++
++function mediaTypes(ct: unknown, fallback: string): string[] {
++  if (ct == null) return [fallback]
++  return Array.isArray(ct) ? (ct as string[]) : [ct as string]
++}
++
++function responseEntry(resp: Obj): Obj {
++  const entry: Obj = { description: (resp.description as string) ?? '' }
++  if (resp.contentSchema != null) {
++    const content: Obj = {}
++    for (const mt of mediaTypes(resp.contentType, 'application/json')) content[mt] = { schema: resp.contentSchema }
++    entry.content = content
++  }
++  return entry
++}
++
++/** Compose responses by status: inherited (apiResponses ∪ pathResponses) overlaid by the request's own. */
++function projectResponses(own: Record<string, Obj> | undefined, inherited: Obj[]): Obj {
++  const out: Obj = {}
++  for (const resp of inherited) out[String(resp.status)] = responseEntry(resp)
++  for (const resp of Object.values(own ?? {})) out[String(resp.status)] = responseEntry(resp) // request wins
++  if (Object.keys(out).length === 0) out.default = { description: '' } // 3.1 requires ≥1 response
++  return out
++}
++
++function projectOperation(name: string, req: Obj, shared: Obj | undefined, inherited: Obj[]): Obj {
++  const op: Obj = {
++    // preserve the v4 by-name handle as the 3.1 operationId — and surface the NAME as the operation title
++    // (Scalar renders `summary`), so the v4 request identity is visible. A real request.summary wins.
++    operationId: (req.operationId as string) ?? name,
++    summary: (req.summary as string) ?? name,
++    responses: projectResponses(req.responses as Record<string, Obj> | undefined, inherited),
++  }
++  if (req.description) op.description = req.description
++  if (req.deprecated) op.deprecated = req.deprecated
++  if (req.tags) op.tags = req.tags
++  if (req.security) op.security = req.security
++  // carry vendor extensions (x-*) through — incl. x-badges / x-suluk-* facets the host stamped on each request.
++  for (const [k, v] of Object.entries(req)) if (k.startsWith('x-')) op[k] = v
++
++  const params: Obj[] = []
++  const ps = effectiveParams(shared, req.parameterSchema as Obj | undefined)
++  expandParams('path', ps.path, params)
++  expandParams('query', ps.query, params)
++  expandParams('header', ps.header, params)
++  expandParams('cookie', ps.cookie, params)
++  if (params.length) op.parameters = params
++
++  const body = (req.contentSchema ?? (req.parameterSchema as Obj | undefined)?.body) as unknown
++  if (body != null) {
++    const content: Obj = {}
++    for (const mt of mediaTypes(req.contentType, 'application/json')) content[mt] = { schema: body }
++    op.requestBody = { content }
++  }
++  return op
++}
++
++/** v4 uriTemplate → 3.1 path. Drop RFC6570 query expansion ({?a,b}); {+var} reserved-expansion → plain {var}. */
++function projectPathKey(uri: string): string {
++  const qCut = uri.search(/\{[?&]/)
++  let p = qCut >= 0 ? uri.slice(0, qCut) : uri
++  p = p.replace(/\{\+([^}]+)\}/g, '{$1}')
++  return p.startsWith('/') ? p : '/' + p
++}
++
++function projectPathItem(pi: Obj, apiResponses: Obj[]): Obj {
++  const out: Obj = {}
++  if (pi.summary) out.summary = pi.summary
++  if (pi.description) out.description = pi.description
++  if (pi.servers) out.servers = pi.servers
++  const inherited = [...apiResponses, ...Object.values((pi.pathResponses as Record<string, Obj>) ?? {})]
++  const shared = (pi.shared as Obj | undefined)?.parameterSchema as Obj | undefined
++  const seen = new Set<string>()
++  for (const [name, reqRaw] of Object.entries((pi.requests as Record<string, Obj>) ?? {})) {
++    const req = reqRaw as Obj
++    const method = String(req.method ?? '').toLowerCase()
++    if (!METHODS.includes(method)) continue
++    if (seen.has(method)) continue // multi-request-per-method: keep first (deferred frontier)
++    seen.add(method)
++    out[method] = projectOperation(name, req, shared, inherited)
++  }
++  return out
++}
++
++/**
++ * Mutate a (possibly v4) document in place into Scalar's 3.x store shape. No-op when it isn't a v4 document, so
++ * it is safe to call unconditionally on every ingested doc.
++ */
++export function projectV4ToStore(doc: unknown): void {
++  if (!doc || typeof doc !== 'object') return
++  const d = doc as Obj
++  const paths = (d.paths as Record<string, Obj>) ?? {}
++  const looksV4 =
++    String(d.openapi ?? '').startsWith('4') ||
++    Object.values(paths).some((pi) => pi && typeof pi === 'object' && 'requests' in (pi as Obj))
++  if (!looksV4) return
++
++  // tags: v4 keys tags by NAME (object) → 3.1 array of {name,...}
++  if (d.tags && typeof d.tags === 'object' && !Array.isArray(d.tags)) {
++    d.tags = Object.entries(d.tags as Obj).map(([name, t]) => ({ name, ...(t as object) }))
++  }
++
++  const apiResponses =
++    d.apiResponses && typeof d.apiResponses === 'object' ? (Object.values(d.apiResponses as Obj) as Obj[]) : []
++
++  if (d.paths && typeof d.paths === 'object') {
++    const newPaths: Obj = {}
++    for (const [uri, piRaw] of Object.entries(d.paths as Obj)) {
++      const pi = piRaw as Obj
++      if (pi && typeof pi === 'object' && pi.requests && typeof pi.requests === 'object') {
++        newPaths[projectPathKey(uri)] = projectPathItem(pi, apiResponses)
++      } else {
++        newPaths[uri] = piRaw // already 3.x / unknown — leave untouched
++      }
++    }
++    d.paths = newPaths
++  }
++
++  // webhooks: v4 webhooks are request-shaped (name → Request) → 3.1 method-keyed pathItems
++  if (d.webhooks && typeof d.webhooks === 'object') {
++    const wh: Obj = {}
++    for (const [name, reqRaw] of Object.entries(d.webhooks as Obj)) {
++      const req = reqRaw as Obj
++      const method = String(req.method ?? 'get').toLowerCase()
++      wh[name] = { [method]: projectOperation(name, req, undefined, apiResponses) }
++    }
++    d.webhooks = wh
++  }
++
++  // components.responses carry v4 Response shape (contentSchema/contentType) → 3.1 Response (content[mt].schema)
++  const comp = d.components as Obj | undefined
++  if (comp && comp.responses && typeof comp.responses === 'object') {
++    const r: Obj = {}
++    for (const [k, respRaw] of Object.entries(comp.responses as Obj)) r[k] = responseEntry(respRaw as Obj)
++    comp.responses = r
++  }
++
++  // internal working model is 3.1-shaped; the DISPLAY version (4.0.0-candidate) comes from x-original-oas-version.
++  d.openapi = '3.1.0'
++  // v4-only document keys 3.1 has no slot for — drop so coerce / strict validation stays clean.
++  delete d.apiResponses
++}

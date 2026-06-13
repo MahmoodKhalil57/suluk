@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseDocument } from "@suluk/core";
 import { validate31 } from "@suluk/openapi-compat";
-import { scalarHtml, scalarResponse, enrichFacetBadges, enrichedSpec, scalarV4Html, SCALAR_VERSION } from "../src/index";
+import { scalarHtml, scalarResponse, enrichFacetBadges, enrichedSpec, enrichedV4, scalarV4Html, SCALAR_VERSION } from "../src/index";
 
 const petstore = parseDocument(
   readFileSync(join(import.meta.dir, "..", "..", "core", "test", "conformance", "valid", "01-petstore.yaml"), "utf8"),
@@ -152,5 +152,49 @@ describe("scalarV4Html — the v4 REFERENCE (fork) with all suluk superpowers", 
     const { html } = scalarV4Html(v4doc, { brand: "x" });
     expect(html).toContain("sv4-bar");
     expect(html).not.toContain('id="sv4-as"');
+  });
+
+  test("scalarV4Html feeds the forked Scalar the NATIVE v4 doc (requests-shape), not the 3.1 downgrade", () => {
+    const { html } = scalarV4Html(v4doc, { brand: "saasuluk" });
+    const content = extractObjAfter(html, "INITIAL =");
+    expect(content.openapi).toBe("4.0.0-candidate");                 // fed AS v4 (drives the 4.0.0 version badge)
+    expect(content.paths.product.requests.listProduct).toBeDefined(); // v4 requests-shape, NOT paths./product.get
+    expect(content.paths.product.requests.listProduct["x-badges"]).toBeDefined(); // facets stamped on the request
+  });
+});
+
+describe("enrichedV4 — native v4 facet enrichment (no downgrade, fed to the forked Scalar)", () => {
+  const v4doc = {
+    openapi: "4.0.0-candidate", info: { title: "saasuluk", version: "1" },
+    paths: { product: { requests: { listProduct: {
+      method: "GET", responses: { ok: { status: "200", description: "OK" } },
+      "x-suluk-cost": { components: [{ source: "db-read", basis: "per-call", microUsd: 8 }] },
+      "x-suluk-access": { requires: "admin" },
+    } } } },
+  } as never;
+
+  test("stamps x-badges + facet detail on the v4 REQUEST, keeping the doc in v4 shape", () => {
+    const { spec } = enrichedV4(v4doc);
+    expect((spec as Record<string, unknown>).openapi).toBe("4.0.0-candidate"); // NOT downgraded
+    const req = (spec as { paths: { product: { requests: { listProduct: Record<string, unknown> } } } }).paths.product.requests.listProduct;
+    expect(req["x-badges"]).toBeDefined();
+    expect(String(req.description)).toContain("**Cost**");
+    expect(String(req.description)).toContain("db-read 8µ$");
+  });
+
+  test("prepends a v4 intro that counts REQUESTS (not 3.x methods)", () => {
+    const { spec } = enrichedV4(v4doc);
+    expect(String((spec as { info: { description: string } }).info.description)).toContain("1 of 1 operations carry a declared cost");
+  });
+
+  test("does not mutate the caller's document", () => {
+    const before = JSON.stringify(v4doc);
+    enrichedV4(v4doc);
+    expect(JSON.stringify(v4doc)).toBe(before);
+  });
+
+  test("facetBadges:false leaves the requests un-enriched", () => {
+    const { spec } = enrichedV4(v4doc, { facetBadges: false });
+    expect((spec as { paths: { product: { requests: { listProduct: Record<string, unknown> } } } }).paths.product.requests.listProduct["x-badges"]).toBeUndefined();
   });
 });
