@@ -546,6 +546,8 @@ A uriTemplate is a sequence of literal segments (text) and template expressions 
 3. **Variable capture.** A segment containing a Tier 1 operator variable captures the corresponding URL segment (or remaining segments, if leading-slash-form `{+var}`) into the named variable. Captured values are percent-decoded per RFC3986 and assigned to the per-location PATH slot (C004).
 4. **Determinism.** For a given uriTemplate and incoming path, the match outcome is a single-valued function: either zero captures (no match) or one set of captures (injective match). No operator in Tier 1 can produce multiple interpretations of the same path.
 
+> **Leading slash — optional and normalized.** A path identifier MAY begin with a leading `/` (the OpenAPI 3.x convention, e.g. `/users`); the matcher strips **one** leading slash before segmentation, so `/users` and `users` resolve to the same segment sequence and are **equivalent keys**. Both forms appear in this document — `/pets` in the general sections; bare keys (`pet`, `v1/deliverables`) where an example mirrors an implementation's literal `paths` keys (e.g. the conin agent in §16, and the conformance fixtures). Neither is more correct; for readability an author SHOULD pick one form per document.
+
 #### Parse Injectivity Guarantee
 
 A profile-valid uriTemplate (containing only Tier 1 operators) satisfies the following property: **For any two distinct incoming URLs, the parse result is either both-match with distinct variable values, or one/both do not match.** Formally, no URL can match two different profile-valid uriTemplates with ambiguously overlapping variable assignments. This guarantee enables the reverse-parse algorithm (§2.4).
