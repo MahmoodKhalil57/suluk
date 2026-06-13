@@ -86,4 +86,18 @@ describe("signatures + collisions (C019 §A.2 / C003)", () => {
     const b = computeSignature("store", { method: "get", responses: {} } as any).tuple;
     expect(collide(a, b)).toBe("provably-disjoint");
   });
+  test("inline body is the '#inline' SENTINEL — shape never enters the static key (D1, §A.2)", () => {
+    // two requests differing ONLY by inline body shape MUST share the bodyId — the matcher does not read JSON Schema
+    const a = computeSignature("pet", { method: "post", contentSchema: { type: "object", properties: { a: { type: "string" } } }, responses: {} } as any);
+    const b = computeSignature("pet", { method: "post", contentSchema: { type: "object", properties: { b: { type: "number" } } }, responses: {} } as any);
+    expect(a.tuple.body).toBe("#inline");
+    expect(b.tuple.body).toBe("#inline");
+    expect(a.key).toBe(b.key); // no structural hash → identical static keys
+    // and statically UNDECIDED (runtime last-resort), never a provable-collision on erased shapes
+    expect(collide(a.tuple, b.tuple)).toBe("not-statically-determinable");
+  });
+  test("a $ref body keeps its reference identity (only inline shape is erased)", () => {
+    const r = computeSignature("pet", { method: "post", contentSchema: { $ref: "#/components/schemas/Pet" }, responses: {} } as any);
+    expect(r.tuple.body).toBe("#/components/schemas/Pet");
+  });
 });

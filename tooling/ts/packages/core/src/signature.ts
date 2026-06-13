@@ -13,7 +13,7 @@ export interface SignatureTuple {
   contentType: string;
   /** Participating header names (lowercased, sorted); "*" sentinel if none (best-effort, #108). */
   headers: string[];
-  /** Stable id of the request-body schema: its $ref, or "inline:<hash>", or "*". */
+  /** Stable id of the request-body schema: its $ref, the "#inline" SENTINEL (inline shape stays OUT of the key — D1/§A.2), or "*". */
   body: string;
 }
 
@@ -28,11 +28,10 @@ function bodyId(req: Request): string {
   const cs = req.contentSchema;
   if (cs == null) return "*";
   if (isReference(cs)) return cs.$ref;
-  // inline schema: a stable structural hash (djb2 over canonical JSON)
-  const json = JSON.stringify(cs, Object.keys(cs as object).sort());
-  let h = 5381;
-  for (let i = 0; i < json.length; i++) h = ((h << 5) + h + json.charCodeAt(i)) >>> 0;
-  return "inline:" + h.toString(16);
+  // inline schema: the "#inline" SENTINEL — NEVER a structural hash. Body SHAPE must stay out of the static signature
+  // key (D1: the matcher does not read JSON Schema; §A.2 / C019). Two requests differing only by inline body shape
+  // therefore share this id, collapsing to "not-statically-determinable" (runtime last-resort) in collide().
+  return "#inline";
 }
 
 /** Compute a request's canonical signature tuple + deterministic key string (C019 §A.2). */
@@ -70,6 +69,8 @@ export function collide(a: SignatureTuple, b: SignatureTuple): CollisionVerdict 
   }
   // content-type: two concrete, different media types are disjoint
   if (!STAR(a.contentType) && !STAR(b.contentType) && a.contentType !== b.contentType) return "provably-disjoint";
+  // an inline body ("#inline") is statically unknowable — JSON-Schema discrimination is runtime last-resort (D1, §A.2)
+  if (a.body === "#inline" || b.body === "#inline") return "not-statically-determinable";
   // body / query discrimination is schema-dependent (runtime, D1) — not statically decidable here
   if (a.body !== b.body || a.query.join(",") !== b.query.join(",")) return "not-statically-determinable";
   return "provable-collision";
