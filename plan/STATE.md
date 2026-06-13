@@ -50,11 +50,10 @@ Triage (`wf_550dd30c-fa6`, 42 isolated agents) → 17 convergent / 24 contested 
 - **Council resume** — 4 rate-limited Class-A voices (earth2marsh, darrelmiller, karenetheridge, arno-di-loreto).
 - **C027 follow-on (agent track) — ✓ projector + marketplace-signing + scope-intersection SHIPPED.** [`@suluk/agents`](../tooling/ts/packages/agents/) (separate pkg; `core`-never-imports invariant test-enforced): `lintAgents` (cycle/maxDepth/dangling-ref/**D1 selector-rejection**/route-has-model/**scope-escalation**), the **twin projection** `projectClaudePlugin` (`plugin.json`+`.mcp.json` host-side-OAuth-no-creds+`SKILL.md` w/ sha256 `contentHash`+`version` stamp) + `projectOpenRouter` — both PURE/deterministic/fail-loud; `reachableSurface`/`assertServedSubset` (over-serve auditor) + `verifySkillFreshness`; **scope-intersection** (`analyzeScopes` — child effective = INTERSECTION(child, caller), escalation = error); and the **signable `agentManifest`** (carries every skill `contentHash` + effective scope) signed via @suluk/builder's existing ECDSA-P256 `signRegistry` so the C021 signature **covers preprompt drift** (council open-Q #8: `verifyAgentFreshness` catches a served preprompt that drifts after mint; structural tamper breaks the signature). Conin + its day-one gaps (dangling `run_core_primitive`, over-serve, scope-escalation) are NAMED failure fixtures. **31 tests pass (7 files), tsc clean; core 34 pass.** Plus the **cockpit OBSERVE surface** ([`@suluk/cockpit` `agentsView`/`agentsSummary`](../tooling/ts/packages/cockpit/src/agents.ts)): the tier tree + effective scope + gate findings + reachable surface + a names-only projection preview — strictly read-only (no execution/creds, C020 seam); 6 tests, full cockpit suite 121 pass. **All shipped to the fork** (commits `4b372c2`/`7e60f3b`/`5be6861`; npm publish needs the release token, not present in-env). STILL DEFERRED behind contested-decision reopen-triggers: recursion machinery beyond one hop, the runtime determinism gate, and the expansionist static axes (streaming/loop/human-gate/memory). (The `x-suluk-policy` overlay → resolved as **C028**, static subset built; its costCeiling *enforcement* runtime stays reserved.) **✓ Tier-trim adapter capability BUILT** (the first half of the tier-trim reopen-trigger): `SulukRouteRef.tier` (resident|cold-tail); `projectOpenRouter` now puts resident routes in the default `tools[]` + cold-tail behind a `discover_tools` meta-tool (`discoverable[]`); `residentSurface`/`assertDefaultServedResident` audit it (`cold-tail-in-default` finding); cockpit projection preview splits resident vs discoverable. So the headline context reduction is now ACTUALLY DELIVERABLE on the served path — only the *mandate* + Conin's server-side over-serve fix remain open. (core 36 / agents 43 / cockpit 123 tests pass, tsc clean.)
 
-## Frontier head — ~10 left, dependency waves (full list in [frontier.md](./frontier.md))
+## Frontier head — question-frontier RESOLVED (all 57 → C001–C030); work is now PROJECTION
 
-- **Wave A — DONE 9/9** (→ C012). **Wave B — DONE** (B1 referencing → C013; B2 dependents → C014).
-- **Wave C1 — DONE** (#108 header-model · #23/#30 · #56 · #113 · #55 → C015). #108 unblocks the #16 header-aspect.
-- **Wave C2** (after C1): **#163** media-type-params (needs #108) · **#upgrade** mechanical 3.x→4.0 (capstone — consults all ADRs).
+- **All waves DONE.** Wave A→C012; Wave B (B1 referencing→C013, B2 dependents→C014); Wave C1→C015; Wave C2 (#163→C016, #upgrade→C017). Agent layer: C027 composition / C028 governance / C029 thinking / C030 router+ZDR.
+- **The open work is no longer questions — it is the `specification/` PROJECTION lagging the ledger** (C024–C026 + C027–C030 unprojected) and the gated reopen-triggers. See Cheapest-next-move.
 
 ## Decisions so far
 
@@ -81,11 +80,12 @@ Triage (`wf_550dd30c-fa6`, 42 isolated agents) → 17 convergent / 24 contested 
 
 ## Cheapest-next-move
 
-Waves 1 (17 convergent) and 2A (8 contested) are done. **Next:**
-1. **#60/61 shorthand** — the Wave-A session-limit casualty; re-run its compact panel or resolve directly. (Read `github-export/discussions/0060.md`, `0061.md`.)
-2. **Wave B** (chain on #73): resolve **#73** dialect first, then #31/#100, #24, #49/#26, #72, #69, #122 as compact panels.
-3. **Wave C** (gated on #108 header model): #108 → #163, #23/#30, #56, #113, #55, #upgrade.
-`burhan-converge` backstop after each wave. One workflow at a time. **NOTE: session limit was hit ~5:00pm — heavy workflows may fail until ~6:10pm London.**
+**The question-frontier is RESOLVED** (all 57 seeded questions → C001–C030; [frontier.md](./frontier.md): 57 RESOLVED, 0 OPEN; mizan-converge clean, 251 claims / 7 load-bearing all witnessed). The remaining work is **projection + gated reopens**, not new decisions:
+
+1. **`specification/candidate-v4/SPEC.md` PROJECTION LAGS the ledger.** It is headed "Authored from C001–C017"; §14 Callbacks (C018) is in, but there is **NO Cost/Jobs section (C024–C026 `x-suluk-jobs`)** and **NO Agents section (C027–C030: `x-suluk-agents` composition, `x-suluk-policy` governance, thinking-bound, model-resolution incl. ZDR-router)** — grep confirms neither vendor key appears in the spec. **This is the cheapest high-leverage move:** re-project those resolved clusters into new SPEC.md sections (matching the §14 style) + refresh the header/ToC/status.
+2. **Gated reopens** (do NOT build ahead — see [AGENT-TRACK.md](./AGENT-TRACK.md)): operator-governed-ZDR (needs a policy retention vocabulary), recursion-beyond-one-hop (2nd nested agent), tier-trim MANDATE, `endpoints[]` (a real fleet), vsce Marketplace publish (separate token).
+
+`burhan-converge` backstop after any ledger edit. One workflow at a time.
 
 ## Index (pointers — load on demand)
 
