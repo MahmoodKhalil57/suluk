@@ -57,7 +57,7 @@ export function gate(rule: Rule, id: GateIdentity): GateDecision {
       return { ok: true, scopeOwner: true };                                    // signed-in: scoped to own rows
     case "admin":
       if (!id.principal) return { ok: false, scopeOwner: false, status: 401 };  // authenticate first (RFC 7235)
-      return { ok: id.isAdmin, scopeOwner: false, status: 403 };                // signed-in but not admin → forbidden
+      return id.isAdmin ? { ok: true, scopeOwner: false } : { ok: false, scopeOwner: false, status: 403 }; // signed-in non-admin → 403
     default: return { ok: false, scopeOwner: false, status: 403 };
   }
 }
