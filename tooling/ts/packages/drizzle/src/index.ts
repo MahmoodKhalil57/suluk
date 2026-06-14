@@ -39,3 +39,5 @@ export {
   softDeleteValues, anonymizeValues, touchTimestamps, notSoftDeleted,
   type SoftDeleteOptions, type TimestampOptions,
 } from "./mutations";
+// SQLite CREATE TABLE generator — build a dev in-memory schema FROM the Drizzle tables (no hand-mirrored SQL drift).
+export { tableDDL, schemaDDL, type DdlOptions } from "./ddl";

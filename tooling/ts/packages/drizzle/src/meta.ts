@@ -12,7 +12,10 @@ export type AnyTable = Parameters<typeof getTableColumns>[0];
 
 /** One column's metadata, lifted from drizzle's column descriptor (verified against drizzle-orm 0.45). */
 export interface ColumnMeta {
+  /** the JS property key on the table object (e.g. `reviewId`) — the v4 component property name. */
   name: string;
+  /** the SQL column name (e.g. `review_id`) — what DDL + raw SQL must use; differs from `name` under camel/snake. */
+  sqlName: string;
   /** drizzle's coarse JS dataType, e.g. "string" | "number" | "boolean" | "date". */
   dataType: string;
   /** drizzle's concrete column type tag, e.g. "SQLiteText" | "SQLiteInteger". */
@@ -23,10 +26,15 @@ export interface ColumnMeta {
   hasDefault: boolean;
   /** Part of the (single-column) primary key. */
   primaryKey: boolean;
+  /** An AUTOINCREMENT primary key (SQLite integer PK declared with autoIncrement). */
+  autoIncrement: boolean;
   /** Carries a column-level UNIQUE constraint (drizzle's `.unique()` / `isUnique`). */
   unique: boolean;
   /** SQL CHECK/enum allowed values when the column was declared with `{ enum: [...] }`. */
   enumValues?: string[];
+  /** The STATIC default value (number/string/boolean) when the column carries one — for DDL emit. Absent for a
+   *  runtime `$defaultFn` column (hasDefault true, no SQL-literal value) and for autoincrement PKs. */
+  defaultValue?: string | number | boolean;
 }
 
 export interface TableMeta {
@@ -57,19 +65,26 @@ export function tableMetadata(table: AnyTable): TableMeta {
       notNull: boolean;
       hasDefault: boolean;
       primary: boolean;
+      autoIncrement?: boolean;
       isUnique?: boolean;
       enumValues?: string[];
+      default?: unknown;
+      name?: string;
     };
+    const staticDefault = c.hasDefault && (typeof c.default === "string" || typeof c.default === "number" || typeof c.default === "boolean");
     const meta: ColumnMeta = {
       name,
+      sqlName: c.name ?? name, // drizzle's column descriptor carries the SQL name; fall back to the JS key
       dataType: c.dataType,
       columnType: c.columnType,
       notNull: !!c.notNull,
       hasDefault: !!c.hasDefault,
       primaryKey: !!c.primary,
+      autoIncrement: !!c.autoIncrement,
       unique: !!c.isUnique,
       // enumValues is often an empty array on non-enum columns — only surface a non-empty one.
       ...(Array.isArray(c.enumValues) && c.enumValues.length ? { enumValues: c.enumValues } : {}),
+      ...(staticDefault ? { defaultValue: c.default as string | number | boolean } : {}),
     };
     columns.push(meta);
     if (meta.primaryKey) primaryKey.push(name);
