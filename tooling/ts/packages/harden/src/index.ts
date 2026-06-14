@@ -11,3 +11,5 @@ export {
   auditDocument, auditOperation, assertGrade, grade,
   type Audit, type OpAudit, type DocAudit, type Finding, type Severity, type Grade,
 } from "./audit";
+// the inverse of the audit — the hardening TRANSFORM that adds the baseline bounds the audit grades for.
+export { hardenSchema, hardenDocument, type HardenOptions } from "./harden";
