@@ -69,6 +69,21 @@ over-abstraction over the worker's already-correct `scheduled()` (C032 §5).
 - `@suluk/panel` client-helper preamble — **deferred on evidence**: the dashboard's `when` helper has 4 intentional variants (date vs date+time, differing empty fallbacks), so a single shared preamble would regress behavior; `esc`/`money`/`safeUrl` are uniform 1-liners better kept visible in the showcase (no correctness driver — `safeUrl` is already consistent).
 - The `ENTITIES`/`VALIDATIONS`/`RATE_LIMITS` registries + catalog + seed — app policy/data, not mechanism.
 
+## 🆕 New hosted surface · the v4 editor (2026-06-14)
+
+A public **OpenAPI v4 editor** — the [editor.scalar.com](https://editor.scalar.com) analog, but native v4 — at
+**editor.suluk.saastemly.com**. NOT an extraction: a new reusable package + a new hosted site. Built as a **thin shell**
+over what we already owned, because the expensive part (the v4-native render fork) was already done — see
+[C033](./decisions/C033-suluk-editor-thin-shell.md) for the fork-vs-shell decision (reached by a grill-with-docs interview).
+
+| Piece | What | Reuses |
+|---|---|---|
+| **`@suluk/editor 0.1.0`** (`b3faa64`) | `editorHtml()` — a CodeMirror source pane + the `standalone-suluk.js` fork as a **live** v4 preview + diagnostics bar; fully static, client-only (parse→validate→harden→enrich→re-mount all in-browser). Features: JSON/YAML, 3.1→v4 upgrade + honest 3.1-downgrade preview, examples + `?url=`, share-permalink + autosave, v4 superpowers drawer. 16 tests. | `@suluk/core` (validate), `@suluk/harden` (grade), `@suluk/openapi-compat` (up/downgrade), `@suluk/scalar` (enrich), `@suluk/reference` (insights), the `scalar-fork` bundle |
+| **editor.suluk.saastemly.com** | an **independent** static Cloudflare worker (`suluk-editor`, 3 assets), deployed via `@suluk/cloudflare` `deployWith` + a custom-domain attach over the CF API. Its own script + domain — not coupled to the saasuluk app worker. `saasuluk/scripts/deploy-editor.ts`, `bun run deploy:editor`. | `@suluk/cloudflare` |
+
+Nothing of upstream `scalar-app` was forked (it's a heavy Vue+Electron app, and the method→named-request change is invasive
+at the render layer either way — which our `scalar-fork` patch-set already handles). The shell was the cheap part to build.
+
 ## ✅ Phase 1 · the three new packages — SHIPPED (2026-06-11)
 
 The only three packages the review approved are built, tested, committed. Daftar receipt `seg-4e2f08b36a`.
