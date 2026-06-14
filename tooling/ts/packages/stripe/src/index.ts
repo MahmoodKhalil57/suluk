@@ -31,3 +31,7 @@ export {
   type StripeCheckoutLike, type PaymentMethodLike, type PaymentIntentLike,
 } from "./checkout";
 export { webhookRouter, STRIPE_EVENTS, type WebhookRouter, type WebhookHandler, type HandleResult } from "./webhook";
+// SDK-free edge webhook verification (Web Crypto) — one verifier for dev + Workers prod, no `stripe` SDK.
+export { verifyStripeSignature, timingSafeHexEqual, type VerifyOptions } from "./webhook-verify";
+// the StripeLike fetch impl (Workers-safe) + read surface for webhook PI→order resolution + refund checks.
+export { restStripe, toForm, stripeGet, retrievePaymentIntent, type RestStripeOptions } from "./rest";
