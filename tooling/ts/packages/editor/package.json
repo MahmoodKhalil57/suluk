@@ -1,0 +1,52 @@
+{
+  "name": "@suluk/editor",
+  "version": "0.1.0",
+  "description": "A fully-static, client-only OpenAPI v4 EDITOR (the editor.scalar.com analog, native v4). Two panes: a CodeMirror source editor + a live API reference rendered by the suluk Scalar fork; diagnostics from @suluk/core + @suluk/harden; 3.1→v4 upgrade via @suluk/openapi-compat; v4 superpowers (cost/access/hardening) in the preview. No server: parse→validate→harden→enrich→re-mount all run in the browser. editorHtml() emits a self-contained page; the built client bundle ships in dist/. CANDIDATE tooling.",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MahmoodKhalil57/suluk.git",
+    "directory": "tooling/ts/packages/editor"
+  },
+  "homepage": "https://github.com/MahmoodKhalil57/suluk#readme",
+  "bugs": "https://github.com/MahmoodKhalil57/suluk/issues",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./examples": "./src/examples.ts",
+    "./client": "./dist/editor.client.js"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "@suluk/core": "workspace:^",
+    "@suluk/harden": "workspace:^",
+    "@suluk/openapi-compat": "workspace:^",
+    "@suluk/reference": "workspace:^",
+    "@suluk/scalar": "workspace:^"
+  },
+  "devDependencies": {
+    "@codemirror/commands": "^6.6.0",
+    "@codemirror/lang-json": "^6.0.1",
+    "@codemirror/lang-yaml": "^6.1.1",
+    "@codemirror/language": "^6.10.0",
+    "@codemirror/lint": "^6.8.0",
+    "@codemirror/state": "^6.4.0",
+    "@codemirror/theme-one-dark": "^6.1.2",
+    "@codemirror/view": "^6.28.0",
+    "@types/bun": "latest",
+    "codemirror": "^6.0.1",
+    "yaml": "^2.4.0"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit -p .",
+    "build:client": "bun build src/client/main.ts --outfile dist/editor.client.js --target browser --minify --define process.env.NODE_ENV='\"production\"'"
+  }
+}
