@@ -11,10 +11,19 @@ export {
   type UsageBillingConfig, type CostBillingConfig,
 } from "./stripe";
 export {
-  subtotal, computeDiscountAmount, validateDiscount, prorateDiscount, orderTotal, verifyAmount,
+  subtotal, computeDiscountAmount, validateDiscount, prorateDiscount, orderTotal, composeTotal, verifyAmount,
   cartFingerprint, idempotencyKey, requiresStripe, STRIPE_MIN_CHARGE_CENTS,
-  type CartLine, type Discount, type DiscountResult, type DiscountRejection, type OrderTotal, type AmountVerdict,
+  type CartLine, type Discount, type DiscountResult, type DiscountRejection, type OrderTotal, type OrderTotalFull, type AmountVerdict,
 } from "./pricing";
+// pluggable shipping + tax adapters — swap flat-rate for Shippo/EasyPost/TaxJar/Stripe-Tax without touching checkout.
+export {
+  cartNeedsShipping, flatRateShipping, combineShipping, resolveShipping,
+  type ShippingInput, type ShippingOption, type ShippingProvider,
+} from "./shipping";
+export {
+  flatRateTax, noTax, resolveTax,
+  type TaxInput, type TaxResult, type TaxProvider,
+} from "./tax";
 // the checkout money-path (Phase 1): the pure anti-double-charge / anti-tampering core + the Stripe binding.
 export {
   planPaymentIntent, cardInfoFrom, ownsPaymentMethod, stripeCheckout,

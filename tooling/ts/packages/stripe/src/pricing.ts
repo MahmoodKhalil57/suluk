@@ -112,6 +112,23 @@ export function orderTotal(lines: CartLine[], discount?: Discount | null): Order
   return { subtotalCents, discountCents, totalCents: subtotalCents - discountCents };
 }
 
+/** The full order total once shipping + tax (from the ./shipping + ./tax adapters) are known. */
+export interface OrderTotalFull { subtotalCents: number; discountCents: number; shippingCents: number; taxCents: number; totalCents: number }
+
+/**
+ * Fold every component into ONE authoritative total: subtotal − discount + shipping + tax, each a non-negative whole
+ * cent and the discount never exceeding the subtotal. The single place the order total is composed once shipping (a
+ * ShippingOption) and tax (a TaxResult) are resolved — so the cart drawer, checkout summary, order record, and the
+ * Stripe charge can never disagree.
+ */
+export function composeTotal(parts: { subtotalCents: number; discountCents?: number; shippingCents?: number; taxCents?: number }): OrderTotalFull {
+  const subtotalCents = Math.max(0, Math.round(fin(parts.subtotalCents)));
+  const discountCents = Math.min(subtotalCents, Math.max(0, Math.round(fin(parts.discountCents ?? 0))));
+  const shippingCents = Math.max(0, Math.round(fin(parts.shippingCents ?? 0)));
+  const taxCents = Math.max(0, Math.round(fin(parts.taxCents ?? 0)));
+  return { subtotalCents, discountCents, shippingCents, taxCents, totalCents: subtotalCents - discountCents + shippingCents + taxCents };
+}
+
 /**
  * ANTI-TAMPERING: recompute the total from authoritative line prices + the discount and compare it to the amount
  * the client claims (e.g. a PaymentIntent amount the browser posted). Reject any mismatch beyond `toleranceCents`
