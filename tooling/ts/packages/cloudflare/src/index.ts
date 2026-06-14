@@ -9,3 +9,5 @@ export { provisionD1, queryD1, applyMigrations, provisionKvNamespace, provisionR
 export { uploadAssets, assetHash, extractAssetRuleFiles, type AssetFile, type UploadSession, type AssetRuleFiles } from "./assets";
 export { deployWorker, putCronTriggers, type DeployWorkerOptions, type WorkerBinding } from "./worker";
 export { deploy, deployWith, type DeployPlan, type DeployResult, type DeployLog } from "./deploy";
+// the production KV-backed RateLimitStore for @suluk/hono's enforceRateLimit (MemoryRateLimitStore is dev-only).
+export { kvRateLimitStore, memoryRateLimitStore, type RateLimitStore, type ConsumeOptions, type ConsumeResult, type KvLike } from "./ratelimit";

@@ -1,6 +1,6 @@
 {
   "name": "@suluk/cloudflare",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Butter-smooth, API-driven provisioning + deployment for a Suluk app on Cloudflare — no wrangler CLI. A typed REST client + idempotent provisioners (D1, KV, R2, secrets) + the Workers module-script + static-assets upload flow, orchestrated into one deploy(). The platform that ships itself, shipping itself. CANDIDATE tooling.",
   "publishConfig": { "access": "public" },
   "license": "Apache-2.0",
