@@ -63,8 +63,13 @@ registries + seed + catalog stay app-side as policy/data.
 
 - The app shrinks toward a thin, legible composition root (registries + config + copy); reusable mechanism accrues
   in the packages, which get more *complete* (gaps filled) and more *proven* (a real consumer exercises them).
-- New packages proposed by the map but **not yet built** (gated on need/test): `@suluk/commerce` (the CAS order
-  machine, test-first), `@suluk/access` (the `gate()` engine, or fold into `@suluk/hono`), `@suluk/cron`.
+- **Update (structural waves shipped):** the three new packages the map proposed all proved UNNECESSARY — every
+  structural move extended an existing package, which is the better outcome (no new surface). `@suluk/access` →
+  folded into `@suluk/hono` (`gate`/`policyFor`/`ruleToRequires` + `DEFAULT_POLICIES`, 0.1.4). The CRUD-twin
+  collapse → `@suluk/drizzle` `crudHandlers` (0.1.4). `@suluk/commerce` → only its race-safe *skeleton* was generic
+  (`claimOnce`/`claimRows`/`rowsChanged` in `@suluk/drizzle` 0.1.5–0.1.6); the order *machine* stayed app-side as
+  N=1 policy. `@suluk/cron` → not built (`defineCron` is over-abstraction over the worker's already-correct
+  `scheduled()`). The money-path adoption was gated by characterization tests written first (the §6 gate).
 - The day-2 window is finite: once a second consumer or a 1.0 lands, the versioning brake returns and extractions
   get costlier — which is the argument for doing the mechanical, disk-verified ones now.
 - Ceiling 0.70 reflects that the boundary is a guide; revisit per-candidate against a second consumer when one exists.

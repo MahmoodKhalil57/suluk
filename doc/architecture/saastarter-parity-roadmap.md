@@ -47,8 +47,21 @@ in one commit — **zero versioning/migration cost**, so extract while malleable
 | KV rate-limit store | `@suluk/cloudflare 0.1.2` (`6e9e7fe`) | `kvRateLimitStore` — fixed-window, fail-open, lazy-KV-getter | the prod `RateLimitStore` `@suluk/hono` had only stubbed (see Phase-0 line below) |
 | schema DDL generator | `@suluk/drizzle 0.1.3` (`fec60c6`) | `schemaDDL`/`tableDDL` from `tableMetadata` (extended with `sqlName` + default value + autoIncrement) | dev `SCHEMA_SQL` was a hand-mirrored 20-table string that drifted from the Drizzle tables; now generated (snapshot-gated: PRAGMA-identical for all 20) |
 
-saasuluk server LOC **3908 → 3757 (−151)**; six packages now more complete/proven, two latent bugs closed
-(the dev/prod webhook-auth divergence; the `SCHEMA_SQL` hand-mirror drift).
+### Structural waves (the heavier collapses — deps-ordered, each gated)
+
+| Wave | Package | What landed | Gate |
+|---|---|---|---|
+| A · access engine | `@suluk/hono 0.1.4` (`5e73dd6`) | `gate`/`policyFor`/`ruleToRequires` + the 7-mode `DEFAULT_POLICIES` preset — the row-level CRUD authz engine, decoupled from Context; saasuluk keeps `POLICIES` (by ref) + `OP_ACCESS` as data | api 27/7 + live (public 200 / owned 401 / admin-write 401) |
+| B · unified CRUD factory | `@suluk/drizzle 0.1.4` (`0c695f7`) | `crudHandlers` — ONE driver-agnostic async factory (db injected as a resolver, explicit awaited terminals) replacing the **hand-copied dev/worker twins**; parity-by-construction | dev api 27/7 **+ the D1 async path LIVE** (list+redact, owned-gate, admin-deny, filter) |
+| C · money-path CAS | `@suluk/drizzle 0.1.5` (`f1765c2`) | `claimOnce` + `rowsChanged` — the once-only compare-and-set skeleton; saasuluk's markOrderPaid/refund/cancelPending/setOrderStatus/low-stock/billing/revoke adopt it | **characterization tests written FIRST** (money-machine.test 4/4 on current code), still 4/4 after |
+| D · batch CAS | `@suluk/drizzle 0.1.6` (`8f8b286`) | `claimRows` — the RETURNING claim-then-act variant; the back-in-stock + cart-recovery sweeps adopt it | cart-recovery + back-in-stock tests green |
+
+saasuluk server LOC **3908 → 3595 (−313)**; seven packages more complete/proven, three latent hazards closed
+(the dev/prod webhook-auth divergence; the `SCHEMA_SQL` hand-mirror drift; the dev/worker CRUD-twin drift).
+No new package was needed — every structural move extended an existing one (the order *machine* stays app-side as
+N=1 policy; only its race-safe skeleton extracted). `@suluk/commerce`/`@suluk/access`/`@suluk/cron` from the map
+proved unnecessary: the generic primitives fit `@suluk/hono` (gate) + `@suluk/drizzle` (CAS), and `defineCron` is
+over-abstraction over the worker's already-correct `scheduled()` (C032 §5).
 
 **Kept app-side / deferred (the minimalist + showcase-legibility brakes, C032 §5):**
 - `collectAssets` — `@suluk/cloudflare`'s `deploy()` is deliberately pure-over-injected-bytes; the disk-reading wrapper is the intended app seam.
