@@ -45,11 +45,16 @@ in one commit — **zero versioning/migration cost**, so extract while malleable
 | webhook event keys + router adopt | `@suluk/stripe 0.1.7` (`0391db7`) | `STRIPE_EVENTS` gained checkout/dispute keys; saasuluk dispatches via the shipped `webhookRouter` | the router shipped but was **unused** (flywheel failure) |
 | hardening transform | `@suluk/harden 0.1.1` (`61f066f`) | `hardenSchema`/`hardenDocument` — the inverse of the package's own audit (overridable floors, inverse-property test) | package shipped the audit but not the transform that answers it |
 | KV rate-limit store | `@suluk/cloudflare 0.1.2` (`6e9e7fe`) | `kvRateLimitStore` — fixed-window, fail-open, lazy-KV-getter | the prod `RateLimitStore` `@suluk/hono` had only stubbed (see Phase-0 line below) |
+| schema DDL generator | `@suluk/drizzle 0.1.3` (`fec60c6`) | `schemaDDL`/`tableDDL` from `tableMetadata` (extended with `sqlName` + default value + autoIncrement) | dev `SCHEMA_SQL` was a hand-mirrored 20-table string that drifted from the Drizzle tables; now generated (snapshot-gated: PRAGMA-identical for all 20) |
 
-saasuluk server LOC −139 so far. **Pending:** `@suluk/drizzle` DDL generator (gated on a snapshot test) + `@suluk/panel`
-client-helper preamble. **Kept app-side by design:** `collectAssets` (the package's `deploy()` is deliberately
-pure-over-injected-bytes — the disk-reading wrapper belongs at the app edge); the `ENTITIES`/`VALIDATIONS`/`RATE_LIMITS`
-registries + catalog + seed (app policy/data, not mechanism).
+saasuluk server LOC **3908 → 3757 (−151)**; six packages now more complete/proven, two latent bugs closed
+(the dev/prod webhook-auth divergence; the `SCHEMA_SQL` hand-mirror drift).
+
+**Kept app-side / deferred (the minimalist + showcase-legibility brakes, C032 §5):**
+- `collectAssets` — `@suluk/cloudflare`'s `deploy()` is deliberately pure-over-injected-bytes; the disk-reading wrapper is the intended app seam.
+- `redactRow` strip — a trivial `{...row}`+delete loop, app-coupled to `PRIVATE_READ_COLS`/`isAdmin`; too small to warrant a package export.
+- `@suluk/panel` client-helper preamble — **deferred on evidence**: the dashboard's `when` helper has 4 intentional variants (date vs date+time, differing empty fallbacks), so a single shared preamble would regress behavior; `esc`/`money`/`safeUrl` are uniform 1-liners better kept visible in the showcase (no correctness driver — `safeUrl` is already consistent).
+- The `ENTITIES`/`VALIDATIONS`/`RATE_LIMITS` registries + catalog + seed — app policy/data, not mechanism.
 
 ## ✅ Phase 1 · the three new packages — SHIPPED (2026-06-11)
 
