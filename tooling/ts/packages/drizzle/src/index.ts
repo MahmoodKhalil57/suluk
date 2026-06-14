@@ -41,3 +41,6 @@ export {
 } from "./mutations";
 // SQLite CREATE TABLE generator — build a dev in-memory schema FROM the Drizzle tables (no hand-mirrored SQL drift).
 export { tableDDL, schemaDDL, type DdlOptions } from "./ddl";
+// Driver-agnostic gated CRUD HANDLERS (the @suluk/hono gate engine over a drizzle table) — ONE impl for dev (bun:sqlite,
+// sync) + worker (D1, async); the db is injected as a resolver, so the two runtimes share one factory, no twin drift.
+export { crudHandlers, type CrudHandlers, type CrudHandlerOptions, type CrudDb } from "./handlers";
