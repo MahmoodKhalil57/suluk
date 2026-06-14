@@ -29,6 +29,28 @@ the gate**, so the access facet is *decorative* on them. There is **no reusable 
 in any `@suluk` package** — RBAC enforcement lives only in saasuluk's CRUD factory + ad-hoc per-handler. That is
 the Phase-0 fix.
 
+## ✅ Extraction wave · saasuluk → packages — SHIPPED (2026-06-14)
+
+The inverse of "don't rush-hardcode into the app": logic that had *already* been written into the saasuluk app
+(or re-derived there) was lifted back into the packages, day-2 (pre-1.0, single consumer, both repos co-evolved
+in one commit — **zero versioning/migration cost**, so extract while malleable). Decided by the persona council
+(deliberation `wf_f7f3c841-ed4`, day-2-reframed; guide-not-ground-truth, honest ceiling ≈0.7) — see
+[C032](./decisions/C032-saasuluk-extraction-boundary.md) for the boundary principles (mechanism-down/policy-up,
+**completing-half-first**, parity-by-construction). Each move filled a *documented gap* or proved an unused surface:
+
+| Move | Package | What landed | Gap it filled |
+|---|---|---|---|
+| email send | `@suluk/email` (adopt) | saasuluk routes through the shipped `pickProvider` | app had re-derived the Resend send the package already owned |
+| Stripe REST + verifier | `@suluk/stripe 0.1.6` (`15d464f`) | `restStripe` (the fetch impl of its own `StripeLike`) + `verifyStripeSignature` (SDK-free Web-Crypto) + `stripeGet`/`retrievePaymentIntent` | `StripeLike` had no fetch impl; `verifyWebhook` was SDK-only ⇒ **dev/prod webhook-auth divergence — now closed** (one verifier) |
+| webhook event keys + router adopt | `@suluk/stripe 0.1.7` (`0391db7`) | `STRIPE_EVENTS` gained checkout/dispute keys; saasuluk dispatches via the shipped `webhookRouter` | the router shipped but was **unused** (flywheel failure) |
+| hardening transform | `@suluk/harden 0.1.1` (`61f066f`) | `hardenSchema`/`hardenDocument` — the inverse of the package's own audit (overridable floors, inverse-property test) | package shipped the audit but not the transform that answers it |
+| KV rate-limit store | `@suluk/cloudflare 0.1.2` (`6e9e7fe`) | `kvRateLimitStore` — fixed-window, fail-open, lazy-KV-getter | the prod `RateLimitStore` `@suluk/hono` had only stubbed (see Phase-0 line below) |
+
+saasuluk server LOC −139 so far. **Pending:** `@suluk/drizzle` DDL generator (gated on a snapshot test) + `@suluk/panel`
+client-helper preamble. **Kept app-side by design:** `collectAssets` (the package's `deploy()` is deliberately
+pure-over-injected-bytes — the disk-reading wrapper belongs at the app edge); the `ENTITIES`/`VALIDATIONS`/`RATE_LIMITS`
+registries + catalog + seed (app policy/data, not mechanism).
+
 ## ✅ Phase 1 · the three new packages — SHIPPED (2026-06-11)
 
 The only three packages the review approved are built, tested, committed. Daftar receipt `seg-4e2f08b36a`.
@@ -74,7 +96,7 @@ verified (`bun test` + `tsc`) and committed. Daftar receipts: `seg-9ae626b8c4` (
 | Fail-closed enforcement + non-finite money guards (hardening) | `@suluk/hono`, `@suluk/stripe` | `f97fc78` | hono 28 · stripe 32 |
 | Advisory facet **shapes** — `SulukRateLimit` + RFC-9457 `ProblemDetails`/status-table (ported verbatim from `route-handler.ts:24-86`) + property-level locus | `@suluk/core` | `c580c91` | core 31 |
 | **Error model** — typed-throw→status mapper + `onError` bridge + `emitV4` synthesizes RFC-9457 error responses + `deny()` refactored onto the shared envelope | `@suluk/hono` | `e2d1338` | hono 39 |
-| **Rate-limit middleware** — facet-driven, swappable `RateLimitStore` (dev `MemoryRateLimitStore`; durable backing → `@suluk/deploy`), 429 + Retry-After | `@suluk/hono` | `1af9e96` | hono 48 |
+| **Rate-limit middleware** — facet-driven, swappable `RateLimitStore` (dev `MemoryRateLimitStore`; durable KV backing now SHIPPED as `kvRateLimitStore` in `@suluk/cloudflare 0.1.2`, see Extraction wave), 429 + Retry-After | `@suluk/hono` | `1af9e96` | hono 48 |
 | Scope-aware **`verifyApiKey`** (→ `{scopes}` Principal) + GDPR **`beforeDeleteCascade`** | `@suluk/better-auth` | `4f97399` | better-auth 34 |
 | **Money-correctness** + **error-conformance** acceptance emitters (PARITY §2) | `@suluk/testgen` | `f550dd0` | testgen 13 |
 
