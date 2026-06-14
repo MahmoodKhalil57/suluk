@@ -33,6 +33,34 @@ export interface UploadSession {
   buckets?: string[][];
 }
 
+/** The result of splitting Workers-Assets rule files out of an asset list. */
+export interface AssetRuleFiles {
+  /** the remaining files to actually upload + serve. */
+  assets: AssetFile[];
+  /** raw `_headers` file contents, if present — passed in the worker metadata's assets.config, NOT uploaded. */
+  _headers?: string;
+  /** raw `_redirects` file contents, if present. */
+  _redirects?: string;
+}
+
+/**
+ * Pull `_headers` / `_redirects` OUT of an asset list. Cloudflare Workers Static Assets does NOT serve these as files
+ * — it parses their raw text (sent in the worker metadata's `assets.config._headers` / `._redirects`) into the
+ * header/redirect rules the asset runtime applies. So they must be EXCLUDED from the upload manifest (else they'd
+ * serve as public 200 blobs and the rules would never activate) and their contents routed to the config instead.
+ * This mirrors exactly what wrangler does (excludes the two files, forwards their contents in the config).
+ */
+export function extractAssetRuleFiles(files: AssetFile[]): AssetRuleFiles {
+  const out: AssetRuleFiles = { assets: [] };
+  const dec = new TextDecoder();
+  for (const f of files) {
+    if (f.path === "/_headers") out._headers = dec.decode(f.bytes as unknown as Uint8Array);
+    else if (f.path === "/_redirects") out._redirects = dec.decode(f.bytes as unknown as Uint8Array);
+    else out.assets.push(f);
+  }
+  return out;
+}
+
 /**
  * Upload a set of static assets; returns the completion JWT for the worker metadata, or `null` when there are none.
  * When every file is already cached server-side the session returns no buckets and its own jwt IS the completion token.

@@ -6,7 +6,7 @@
  */
 import { CloudflareClient, type CloudflareClientOptions } from "./client";
 import { provisionD1, provisionKvNamespace, provisionR2Bucket, applyMigrations, putSecrets, type Migration } from "./resources";
-import { uploadAssets, type AssetFile } from "./assets";
+import { uploadAssets, extractAssetRuleFiles, type AssetFile } from "./assets";
 import { deployWorker, putCronTriggers, type WorkerBinding } from "./worker";
 
 export interface DeployPlan {
@@ -73,13 +73,29 @@ export async function deploy(cf: CloudflareClient, plan: DeployPlan, log: Deploy
   for (const b of plan.r2 ?? []) { const bk = await provisionR2Bucket(cf, b.bucketName); bindings.push({ type: "r2_bucket", name: b.binding, bucket_name: bk.name }); r2.push({ binding: b.binding, name: bk.name }); log(`R2 "${bk.name}" bound`); }
 
   let assetsJwt: string | null = null;
-  if (plan.assets?.length) { assetsJwt = await uploadAssets(cf, plan.scriptName, plan.assets); log(`assets: ${plan.assets.length} files uploaded`); }
+  let assetsConfig = plan.assetsConfig;
+  let assetsUploaded = 0;
+  if (plan.assets?.length) {
+    // `_headers`/`_redirects` are NOT uploaded as files — their raw text rides in assets.config and Cloudflare parses
+    // them server-side into header/redirect rules (the asset runtime then applies them). Excluding them from the
+    // manifest is load-bearing: an uploaded /_headers would serve as a public 200 blob AND never activate as rules.
+    const { assets, _headers, _redirects } = extractAssetRuleFiles(plan.assets);
+    if (_headers != null || _redirects != null) {
+      assetsConfig = { ...assetsConfig, ...(_headers != null ? { _headers } : {}), ...(_redirects != null ? { _redirects } : {}) };
+    }
+    assetsUploaded = assets.length;
+    if (assets.length) {
+      assetsJwt = await uploadAssets(cf, plan.scriptName, assets);
+      const rules = [_headers != null ? "_headers" : "", _redirects != null ? "_redirects" : ""].filter(Boolean).join("+");
+      log(`assets: ${assets.length} files uploaded${rules ? ` (${rules} → config rules)` : ""}`);
+    }
+  }
 
   await deployWorker(cf, {
     name: plan.scriptName, module: plan.module, mainModule: plan.mainModule,
     compatibilityDate: plan.compatibilityDate, compatibilityFlags: plan.compatibilityFlags,
     bindings, vars: plan.vars,
-    assets: { jwt: assetsJwt, binding: plan.assetsBinding, config: plan.assetsConfig },
+    assets: { jwt: assetsJwt, binding: plan.assetsBinding, config: assetsConfig },
     observability: plan.observability,
   });
   log(`worker "${plan.scriptName}" deployed`);
@@ -89,7 +105,7 @@ export async function deploy(cf: CloudflareClient, plan: DeployPlan, log: Deploy
 
   if (plan.crons?.length) { await putCronTriggers(cf, plan.scriptName, plan.crons); log(`crons: ${plan.crons.join(" · ")}`); }
 
-  return { accountId, scriptName: plan.scriptName, d1, kv, r2, assetsUploaded: plan.assets?.length ?? 0, secretsSet, crons: plan.crons ?? [] };
+  return { accountId, scriptName: plan.scriptName, d1, kv, r2, assetsUploaded, secretsSet, crons: plan.crons ?? [] };
 }
 
 /** Convenience: build a client from token/account options and run a deploy. */

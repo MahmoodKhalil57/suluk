@@ -132,4 +132,33 @@ describe("deploy() — full orchestration in dependency order", () => {
     expect(idx(/POST .*\/d1\/database\/db_1\/query/)).toBeLessThan(idx(/PUT .*\/workers\/scripts\/saasuluk$/));
     expect(idx(/PUT .*\/workers\/scripts\/saasuluk$/)).toBeLessThan(idx(/\/secrets$/));
   });
+
+  test("routes _headers/_redirects into assets.config and EXCLUDES them from the upload manifest", async () => {
+    const { fetch, calls } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/POST .*\/assets-upload-session$/, { jwt: "session_jwt", buckets: [] }],
+      [/PUT .*\/workers\/scripts\/saasuluk$/, { id: "saasuluk" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    const assets: AssetFile[] = [
+      { path: "/_headers", bytes: new TextEncoder().encode("/_astro/*\n  Cache-Control: public, max-age=31536000, immutable\n"), contentType: "application/octet-stream" },
+      { path: "/_redirects", bytes: new TextEncoder().encode("/old /new 301\n"), contentType: "application/octet-stream" },
+      { path: "/index.html", bytes: new TextEncoder().encode("<!doctype html>"), contentType: "text/html" },
+    ];
+    const res = await deploy(cf, { scriptName: "saasuluk", module: "m", compatibilityDate: "2026-06-01", assets, assetsConfig: { html_handling: "auto-trailing-slash" } });
+
+    expect(res.assetsUploaded).toBe(1); // only /index.html — the two rule files are NOT uploaded
+
+    // the upload-session manifest must contain ONLY /index.html (rule files excluded so they never serve as blobs)
+    const session = calls.find((c) => /assets-upload-session$/.test(c.path))!;
+    const manifest = JSON.parse(session.body as string).manifest;
+    expect(Object.keys(manifest)).toEqual(["/index.html"]);
+
+    // the worker metadata carried the raw rule-file contents in assets.config, alongside html_handling
+    const put = calls.find((c) => c.method === "PUT" && /\/workers\/scripts\/saasuluk$/.test(c.path))!;
+    const meta = JSON.parse(await (put.body as FormData).get("metadata")!.text());
+    expect(meta.assets.config.html_handling).toBe("auto-trailing-slash");
+    expect(meta.assets.config._headers).toContain("immutable");
+    expect(meta.assets.config._redirects).toContain("/old /new 301");
+  });
 });
