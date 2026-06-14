@@ -44,3 +44,6 @@ export { tableDDL, schemaDDL, type DdlOptions } from "./ddl";
 // Driver-agnostic gated CRUD HANDLERS (the @suluk/hono gate engine over a drizzle table) — ONE impl for dev (bun:sqlite,
 // sync) + worker (D1, async); the db is injected as a resolver, so the two runtimes share one factory, no twin drift.
 export { crudHandlers, type CrudHandlers, type CrudHandlerOptions, type CrudDb } from "./handlers";
+// once-only WRITE primitives — the race-safe compare-and-set skeleton for money/state-machine paths (normalize the
+// affected-row count across drivers; claim a transition exactly once). The transitions/side-effects stay in the app.
+export { rowsChanged, claimOnce, type WriteResult, type ClaimDb } from "./cas";
