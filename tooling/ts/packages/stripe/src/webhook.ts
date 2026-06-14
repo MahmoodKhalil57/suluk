@@ -41,9 +41,12 @@ export function webhookRouter(handlers: Record<string, WebhookHandler> = {}): We
 
 /** The common Stripe checkout/billing event types (for discoverability + typo-safe registration). */
 export const STRIPE_EVENTS = {
+  checkoutCompleted: "checkout.session.completed",
+  checkoutExpired: "checkout.session.expired",
   paymentSucceeded: "payment_intent.succeeded",
   paymentFailed: "payment_intent.payment_failed",
   chargeRefunded: "charge.refunded",
+  disputeClosed: "charge.dispute.closed",
   setupSucceeded: "setup_intent.succeeded",
   subscriptionUpdated: "customer.subscription.updated",
   subscriptionDeleted: "customer.subscription.deleted",
