@@ -18,7 +18,7 @@ export function rowsChanged(result: WriteResult): number {
 }
 
 /** Minimal drizzle handle for a conditional update (bun:sqlite sync or D1 async — both awaited). */
-export interface ClaimDb { update: (table: unknown) => { set: (values: Record<string, unknown>) => { where: (cond: SQL) => { run: () => unknown | Promise<unknown> } } } }
+export interface ClaimDb { update: (table: unknown) => { set: (values: Record<string, unknown>) => { where: (cond: SQL) => { run: () => unknown | Promise<unknown>; returning: () => unknown | Promise<unknown> } } } }
 
 /**
  * Atomically CLAIM a transition: `UPDATE table SET set WHERE where`, returning true iff this call changed a row.
@@ -29,4 +29,14 @@ export interface ClaimDb { update: (table: unknown) => { set: (values: Record<st
 export async function claimOnce(db: ClaimDb, table: unknown, where: SQL, set: Record<string, unknown>): Promise<boolean> {
   const res = await db.update(table).set(set).where(where).run();
   return rowsChanged(res) > 0;
+}
+
+/**
+ * Atomically CLAIM a SET of rows and RETURN them: `UPDATE table SET set WHERE where RETURNING *`. The claim-then-act
+ * variant of {@link claimOnce} — for a batch sweep (mark a waitlist notified / a cart-recovery emailed) where each
+ * row must be handled exactly once even if the sweep overlaps: a concurrent run's UPDATE claims a DISJOINT set, so
+ * the side-effect (email, notify) fires once per row. Returns the rows THIS call won; act only on those.
+ */
+export async function claimRows<T = Record<string, unknown>>(db: ClaimDb, table: unknown, where: SQL, set: Record<string, unknown>): Promise<T[]> {
+  return (await db.update(table).set(set).where(where).returning()) as T[];
 }

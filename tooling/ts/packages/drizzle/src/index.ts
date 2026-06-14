@@ -46,4 +46,4 @@ export { tableDDL, schemaDDL, type DdlOptions } from "./ddl";
 export { crudHandlers, type CrudHandlers, type CrudHandlerOptions, type CrudDb } from "./handlers";
 // once-only WRITE primitives — the race-safe compare-and-set skeleton for money/state-machine paths (normalize the
 // affected-row count across drivers; claim a transition exactly once). The transitions/side-effects stay in the app.
-export { rowsChanged, claimOnce, type WriteResult, type ClaimDb } from "./cas";
+export { rowsChanged, claimOnce, claimRows, type WriteResult, type ClaimDb } from "./cas";

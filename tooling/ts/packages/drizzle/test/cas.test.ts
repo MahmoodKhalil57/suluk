@@ -7,7 +7,7 @@ import { Database } from "bun:sqlite";
 import { drizzle, type BunSQLiteDatabase } from "drizzle-orm/bun-sqlite";
 import { sqliteTable, integer, text } from "drizzle-orm/sqlite-core";
 import { and, eq } from "drizzle-orm";
-import { rowsChanged, claimOnce, schemaDDL, type ClaimDb } from "../src/index";
+import { rowsChanged, claimOnce, claimRows, schemaDDL, type ClaimDb } from "../src/index";
 
 describe("rowsChanged", () => {
   test("normalizes bun:sqlite .changes, D1 .meta.changes, others .rowsAffected; 0 when unknown", () => {
@@ -41,5 +41,17 @@ describe("claimOnce — atomic compare-and-set", () => {
     // row is pending; try to claim paid→cancelled → no match
     expect(await claimOnce(db as unknown as ClaimDb, order, and(eq(order.id, 1), eq(order.status, "paid"))!, { status: "cancelled" })).toBe(false);
     expect(db.select().from(order).where(eq(order.id, 1)).get()!.status).toBe("pending"); // untouched
+  });
+});
+
+describe("claimRows — claim a set + return exactly the rows this call won", () => {
+  let db: BunSQLiteDatabase;
+  beforeEach(() => { const s = new Database(":memory:"); s.exec(schemaDDL([order])); db = drizzle(s); for (let i = 0; i < 3; i++) db.insert(order).values({ status: "pending" }).run(); });
+
+  test("claims matching rows once; a re-run claims a disjoint (empty) set", async () => {
+    const first = await claimRows<{ id: number }>(db as unknown as ClaimDb, order, eq(order.status, "pending"), { status: "paid" });
+    expect(first.map((r) => r.id).sort()).toEqual([1, 2, 3]); // returned the rows it flipped
+    const second = await claimRows(db as unknown as ClaimDb, order, eq(order.status, "pending"), { status: "paid" });
+    expect(second.length).toBe(0); // already paid → nothing left to claim (no double-handling)
   });
 });
