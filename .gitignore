@@ -6,6 +6,8 @@ tooling/**/target
 tooling/**/dist
 tooling/ts/.workflows
 
+growth/
+
 
 .env
 .npmrc
