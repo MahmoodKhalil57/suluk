@@ -1,5 +1,16 @@
 # Forking Scalar for OpenAPI v4 — the phased plan
 
+## Delivery — native v4 works OUT OF THE BOX *(SHIPPED, v0.8.0)*
+
+The fork bundle is now published as **`@suluk/scalar-standalone`** and served from **jsdelivr-npm**, and
+`scalarV4Html`/`scalarV4Response` default `cdn` to it (`SULUK_FORK_CDN`). So ANY consumer's native-v4 view renders
+`requests`→operations with zero vendoring. (Before this, `scalarV4Response` defaulted to the VANILLA Scalar CDN —
+which can't project v4 — so a fresh consumer who didn't hand-vendor the fork saw only `components.schemas` / "Models".
+saasuluk hand-vendored it via `scripts/vendor-scalar.ts` reaching into this monorepo; a fresh consumer had no path.)
+Override `cdn` to self-host the bytes from your own origin (the local-first / no-CDN posture). Rebuild the bundle with
+`tooling/ts/scalar-fork/build.sh`, copy `dist/standalone-suluk.js` into `packages/scalar-standalone/dist/`, bump that
+package + `SULUK_FORK_STANDALONE_VERSION`, and republish.
+
 ## Current state (live)
 
 - **`/reference`** — OUR forked Scalar (`standalone-suluk.js` = latest upstream + the suluk patch-set), driven by

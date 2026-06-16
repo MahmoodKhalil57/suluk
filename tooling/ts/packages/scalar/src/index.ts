@@ -7,6 +7,10 @@
  * the v4 facets Scalar can't natively read — `x-suluk-cost` + `x-suluk-access` become Scalar `x-badges` rendered
  * right on each operation — plus a suluk theme. Deeper, native v4 (request-name identity, parameterSchema panels,
  * multi-request-per-method) is the source-fork track documented in FORK.md. CANDIDATE tooling.
+ *
+ * NATIVE v4 OUT OF THE BOX (v0.8.0): `scalarV4Response` now defaults `cdn` to the published fork bundle
+ * (`@suluk/scalar-standalone` on jsdelivr-npm, `SULUK_FORK_CDN`) — vanilla Scalar can't project v4
+ * `requests`→operations, so the old vanilla default silently rendered only Models. Override `cdn` to self-host.
  */
 import { downgrade, type Diagnostic } from "@suluk/openapi-compat";
 import type { OpenAPIv4Document } from "@suluk/core";
@@ -14,6 +18,16 @@ import type { OpenAPIv4Document } from "@suluk/core";
 /** We OWN this version (the fork's first act): pin instead of riding `@latest`, so the UI never drifts under us. */
 export const SCALAR_VERSION = "1.59.0";
 const DEFAULT_CDN = `https://cdn.jsdelivr.net/npm/@scalar/api-reference@${SCALAR_VERSION}`;
+
+/**
+ * The PINNED suluk-forked Scalar standalone (Scalar + the v4 patch-set), published as `@suluk/scalar-standalone` and
+ * served from jsdelivr-npm. This is what makes the native-v4 view (`scalarV4Response`) work OUT OF THE BOX: vanilla
+ * Scalar can't project v4 `requests`→operations, so a consumer who left `cdn` defaulted to `DEFAULT_CDN` (vanilla)
+ * saw only Models. `scalarV4Html` now defaults to THIS fork instead. Override `opts.cdn` to self-host the bytes
+ * (e.g. local-first: serve the bundle from your own origin) — the previous behaviour for those who want no CDN.
+ */
+export const SULUK_FORK_STANDALONE_VERSION = "0.1.0";
+export const SULUK_FORK_CDN = `https://cdn.jsdelivr.net/npm/@suluk/scalar-standalone@${SULUK_FORK_STANDALONE_VERSION}/dist/standalone-suluk.js`;
 
 export interface ScalarOptions {
   /** Browser tab title. */
@@ -242,7 +256,9 @@ export function scalarV4Html(doc: OpenAPIv4Document, opts: ScalarV4Options = {})
   const { spec } = enrichedV4(doc, opts);
   const diagnostics: Diagnostic[] = [];
   const title = escapeHtml(opts.pageTitle ?? doc.info?.title ?? "API Reference");
-  const cdn = opts.cdn ?? DEFAULT_CDN;
+  // Native v4 REQUIRES the forked standalone (vanilla Scalar renders only Models). Default to the published fork on
+  // jsdelivr-npm so this works out of the box; a consumer can override `cdn` to self-host the bytes from their origin.
+  const cdn = opts.cdn ?? SULUK_FORK_CDN;
   // showOperationId surfaces each operation's operationId — which IS the v4 request NAME (the by-name identity v4
   // keys operations on) — as a badge in Scalar's own operation header. Default ON for the v4 reference; overridable.
   // customCss defaults to NOTHING so the user's chosen Scalar theme drives every colour (we never override the accent).

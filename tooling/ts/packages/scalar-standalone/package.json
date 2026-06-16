@@ -1,0 +1,20 @@
+{
+  "name": "@suluk/scalar-standalone",
+  "version": "0.1.0",
+  "description": "The suluk-forked Scalar API Reference standalone bundle (Scalar 1.59.0 + the suluk OpenAPI v4 patch-set: native requests->operations ingest, parameterSchema, multi-request-per-method, facet panels). Served via jsdelivr-npm so @suluk/scalar's native-v4 view renders out of the box. CANDIDATE tooling.",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MahmoodKhalil57/suluk.git",
+    "directory": "tooling/ts/packages/scalar-standalone"
+  },
+  "homepage": "https://github.com/MahmoodKhalil57/suluk#readme",
+  "bugs": "https://github.com/MahmoodKhalil57/suluk/issues",
+  "type": "module",
+  "files": [
+    "dist"
+  ]
+}

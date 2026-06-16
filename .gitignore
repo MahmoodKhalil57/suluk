@@ -4,6 +4,10 @@ tooling/**/node_modules
 tooling/ts/bun.lock
 tooling/**/target
 tooling/**/dist
+# @suluk/scalar-standalone SHIPS a prebuilt Scalar-v4 fork bundle (the fork rebuild via scalar-fork/build.sh is
+# environment-sensitive — rolldown native binding); track it so the repo can republish without a rebuild.
+!tooling/ts/packages/scalar-standalone/dist
+!tooling/ts/packages/scalar-standalone/dist/standalone-suluk.js
 tooling/ts/.workflows
 
 growth/
