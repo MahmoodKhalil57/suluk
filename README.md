@@ -6,6 +6,12 @@
 
 **Suluk** (سُلوك, *"the walk / wayfaring"*; substrate codename `asl-ojs`) — a journey traversed one station at a time toward a goal.
 
+<p align="center">
+  <a href="https://github.com/MahmoodKhalil57/suluk">GitHub</a> ·
+  <a href="https://mahmoodkhalil57.github.io/suluk">Docs</a> ·
+  <a href="https://discord.gg/wF7fVdWD">Discord</a>
+</p>
+
 ## What this is
 
 Suluk is an independent, single-contributor candidate for **OpenAPI Specification v4.0**, forked from the OAI [Moonwalk SIG](https://github.com/OAI/sig-moonwalk) — which we treat strictly as **read-only priors** — and grounded in the Adam substrate suite (**burhan** reasoning · **daftar** memory · **mizan** gates). The document is authored *one decision per Step* via the recursive-state Walk: Walk → Step → Spine → Frontier.
