@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://github.com/MahmoodKhalil57/suluk">GitHub</a> ·
   <a href="https://mahmoodkhalil57.github.io/suluk">Docs</a> ·
-  <a href="https://discord.gg/wF7fVdWD">Discord</a>
+  <a href="https://discord.gg/aT3FK83NMc">Discord</a>
 </p>
 
 ## What this is
