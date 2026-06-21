@@ -38,7 +38,20 @@ app.get("/", () => editorResponse());
 ```
 
 Host **three** static assets: the page (from `editorHtml()`), the fork bundle (`forkSrc`), and this package's client
-bundle — `@suluk/editor/dist/editor.client.js` (also exported as `@suluk/editor/client`).
+bundle — the prebuilt `dist/editor.client.js` file (resolvable as the `@suluk/editor/client` export).
+
+The seed documents are exported too, so you can supply your own Examples dropdown:
+
+```ts
+import { editorHtml } from "@suluk/editor";
+import { examples, defaultExample, type EditorExample } from "@suluk/editor/examples";
+
+const mine: EditorExample[] = [{ id: "mine", label: "My API", doc: { openapi: "4.0.0-candidate", /* … */ } }];
+const html = editorHtml({ examples: [...examples, ...mine], initialDoc: defaultExample.doc });
+```
+
+> Sub-paths: `@suluk/editor` (the page builders + the example exports), `@suluk/editor/examples` (the seed documents
+> on their own), and `@suluk/editor/client` (the prebuilt browser bundle to serve as `clientSrc`).
 
 ### Options
 

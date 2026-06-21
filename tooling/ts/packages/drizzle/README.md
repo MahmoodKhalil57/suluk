@@ -4,15 +4,9 @@
   </a>
 </p>
 
-<h1 align="center">@suluk/drizzle</h1>
+# @suluk/drizzle
 
-<p align="center"><b>Drizzle ORM schema -> v4 'Suluk' contract: table -> Zod (drizzle-zod) -> v4 Schema Objects, DB metadata, and generated CRUD RouteContracts.</b></p>
-
-<p align="center">
-  <em>Part of <a href="https://github.com/MahmoodKhalil57/suluk">Suluk</a> — one typed OpenAPI v4 contract projecting into every full-stack layer.</em>
-</p>
-
----
+**The DATA floor of the Suluk cycle — your Drizzle ORM schema becomes the v4 contract, the CRUD routes, and the dev DDL, with nothing hand-mirrored.**
 
 > **CANDIDATE tooling — not official OpenAPI.** Suluk is a single-contributor candidate for
 > OpenAPI Specification v4.0 ("Moonwalk"), unaffiliated with the OpenAPI Initiative and unable
@@ -24,11 +18,183 @@
 bun add @suluk/drizzle
 ```
 
-## The Suluk cycle
+Peers (you already have these in a Suluk app): `drizzle-orm`, `drizzle-zod`, `zod` (v4), `hono`.
 
-`@suluk/drizzle` is one station on the Suluk walk — author one v4 source, then **validate · audit ·
-preview · generate · deploy** the whole stack from it. Explore the full toolchain in the
-[main repository](https://github.com/MahmoodKhalil57/suluk) or drive it from the [VS Code cockpit](https://marketplace.visualstudio.com/items?itemName=MahmoodKhalil.suluk-vscode).
+## What it does
+
+A Drizzle table is the system of record; this package projects it — losslessly and honestly — into the rest of the stack:
+
+- **Table → v4 Schema Objects.** `table → drizzle-zod (select/insert/update Zod) → @suluk/zod zodToV4 → v4 Schema Objects`. drizzle-zod already encodes the DB's truth (required = notNull-and-no-default, optional PKs/defaults, nullable columns); we only compose and lift it.
+- **Generated CRUD route contracts.** The five conventional REST operations as `@suluk/hono` `RouteContract`s — derivable into a v4 document with **no running server**.
+- **A driver-agnostic, gated CRUD handler factory.** ONE implementation that serves dev (`bun:sqlite`, sync) and a Worker (D1, async); the db is injected as a resolver, so there is no twin to drift.
+- **A SQLite DDL generator.** Build the in-memory dev schema *from* the Drizzle tables — no hand-mirrored `CREATE TABLE` string to drift.
+- **Once-only write primitives.** Race-safe compare-and-set for money / state-machine paths, normalized across driver result shapes.
+- **The honest metadata floor.** Column descriptors read straight off the table (nullability, defaults, PK/autoincrement, enums) — nothing inferred. Losses are never silent: the v4 lift surfaces `zodToV4` warnings and component-name collisions.
+
+## When to reach for it
+
+Reach for `@suluk/drizzle` when **your data model is Drizzle** — it is the on-ramp for any DB-backed Suluk app. Define a table once and it flows into the contract, the SDK, the admin panel, and the conformance suite.
+
+- Use `tableComponents` / `tableToV4` to put your tables into a v4 document's `components.schemas`.
+- Use `crudRoutes` to emit the five REST operations as contracts (the `@suluk/hono` shape).
+- Use `crudHandlers` for the actual gated runtime handlers (one factory, dev + Worker).
+- Use `schemaDDL` to build the dev DB from the same tables.
+- Use `claimOnce` / `claimRows` for transitions that must fire exactly once.
+
+If you're *defining routes* rather than deriving them from a DB, that's `@suluk/hono` (which this package builds on for the access gate). If you only need Zod ⇄ v4 conversion, that's `@suluk/zod`.
+
+## Usage
+
+### Table → v4 Schema Objects
+
+```ts
+import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { tableComponents, tableToV4 } from "@suluk/drizzle";
+
+const users = sqliteTable("users", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  email: text("email").notNull(),                       // required on insert
+  name: text("name"),                                    // nullable
+  role: text("role", { enum: ["admin", "user"] }).notNull().default("user"),
+});
+
+// The three projections of one table.
+const { select, insert, update } = tableToV4(users);
+//   select → all columns required;  insert → only `email` required;  update → nothing required (PATCH body)
+
+// A components.schemas record, keyed by PascalCase table name (C009 by-name).
+const schemas = tableComponents([users]); // → { Users: <select v4 Schema> }
+```
+
+Need the honest loss accounting? `tableToV4Warnings(users)` returns `{ schemas, warnings }`, and
+`tableComponentsAudit(tables)` returns `{ schemas, collisions }` — both enumerate what was dropped or
+collided rather than swallowing it. (drizzle-zod schemas are plain objects, so the lift is usually lossless.)
+
+### Generate CRUD route contracts → a v4 document
+
+```ts
+import { crudRoutes } from "@suluk/drizzle";
+import { emitV4 } from "@suluk/hono";
+
+// list / get / create / update / delete — named listUsers/getUsers/createUsers/updateUsers/deleteUsers.
+const routes = crudRoutes(users);
+//   GET    /users          → 200 array(select)        (+ page/perPage/sort/order/q query params)
+//   GET    /users/:id      → 200 select, 404
+//   POST   /users          (json insert) → 201 select
+//   PATCH  /users/:id      (json update) → 200 select, 404
+//   DELETE /users/:id      → 204
+
+// Closes the floor-to-contract chain: a structurally valid v4 document, no server running.
+const { document } = emitV4(routes);
+
+// Options: scope the path, the id param, list query, and delete policy.
+crudRoutes(users, {
+  basePath: "/v1/people",
+  idParam: "userId",
+  softDelete: true,                                  // DELETE sets deletedAt and returns the row (200, not 204)
+  anonymizeDelete: { columns: ["email", "name"] },   // GDPR keep-record redaction on delete
+});
+```
+
+### Driver-agnostic gated CRUD handlers (dev + Worker, one factory)
+
+The db is injected as a resolver, so the same factory serves a synchronous `bun:sqlite` dev server and an
+async D1 Worker. Access modes come from `@suluk/hono`'s gate (`owned` / `public` / `admin` / …); owner-scoping,
+private-column redaction, and post-update hooks are wired through options.
+
+```ts
+import { Hono, type Context } from "hono";
+import { crudHandlers, type CrudDb } from "@suluk/drizzle";
+
+const h = crudHandlers(users, {
+  access: "owned",
+  ownerCol: "ownerId",
+  db: (c) => myDrizzleDb as unknown as CrudDb,   // dev: () => db;  worker: (c) => drizzle(c.env.DB)
+  principal: (c: Context) => c.req.header("x-user") ?? null, // the verified caller id
+  isAdmin: (c: Context) => c.req.header("x-admin") === "1",
+  redact: (table, row, admin) => admin ? row : stripSecret(row), // optional private-column redaction
+});
+
+const app = new Hono();
+app.get("/users", h.list);
+app.get("/users/:id", h.get);
+app.post("/users", h.create);     // create STAMPS the owner from `principal`, ignoring any body value
+app.patch("/users/:id", h.update);
+app.delete("/users/:id", h.delete);
+```
+
+`h.list` reads `page/perPage/sort/order/q` and per-column equality filters via `parseListQuery` (which only
+honors *real* columns — unknown keys are dropped, so a filter can never widen past the owner scope). Pagination
+is opt-in: the full list unless `page`/`perPage` is passed.
+
+### SQLite DDL — build the dev DB from the tables
+
+```ts
+import { Database } from "bun:sqlite";
+import { schemaDDL, tableDDL } from "@suluk/drizzle";
+
+const db = new Database(":memory:");
+db.exec(schemaDDL([users, orders]));   // CREATE TABLE … for every table, newline-joined
+//  identifiers are quoted (reserved words like `order` are safe); booleans → INTEGER, enums → TEXT,
+//  static defaults emitted, autoincrement PKs honored.  Prod migrations stay the source of truth for prod.
+
+tableDDL(users, { ifNotExists: false }); // one table; drop the IF NOT EXISTS guard
+```
+
+### Once-only writes (compare-and-set for money / state machines)
+
+The `where` MUST carry the FROM-state guard, so a re-delivery or concurrent caller finds the row already
+transitioned and changes nothing. The state machine and side-effects stay in your app; this owns only the
+race-safe claim, behind a port.
+
+```ts
+import { and, eq } from "drizzle-orm";
+import { claimOnce, claimRows, rowsChanged, type ClaimDb } from "@suluk/drizzle";
+
+// Fire a side-effect (charge, decrement, email) exactly once iff THIS call won the transition.
+const won = await claimOnce(
+  db as unknown as ClaimDb,
+  orders,
+  and(eq(orders.id, id), eq(orders.status, "pending"))!, // FROM-state guard
+  { status: "paid" },
+);
+if (won) await chargeCustomer(id); // the re-delivery's claim returns false → no double-charge
+
+// Claim a SET of rows and act only on the ones this call won (disjoint across concurrent sweeps).
+const claimed = await claimRows(db as unknown as ClaimDb, waitlist, eq(waitlist.notified, false), { notified: true });
+for (const row of claimed) await notify(row);
+
+// Normalize the affected-row count across drivers (.changes / .meta.changes / .rowsAffected).
+rowsChanged(await db.update(orders).set({ status: "shipped" }).where(eq(orders.id, id)).run());
+```
+
+## API
+
+| Export | What it does |
+| --- | --- |
+| `tableMetadata(table)` | Honest column descriptor floor: `{ name, primaryKey, unique, columns }` (nullability, defaults, PK, enums). |
+| `tableComponentName(table)` / `pascalCase(s)` | The v4 component key derived from the SQL name (C009 by-name). |
+| `tableSchemas(table)` | The three Zod projections: `{ select, insert, update }` (update = `insert.partial()`). |
+| `tableToV4(table)` | The same three lifted to v4 Schema Objects. |
+| `tableToV4Warnings(table)` | `{ schemas, warnings }` — the per-projection `zodToV4` loss accounting. |
+| `tableComponents(tables)` | `{ [PascalName]: select-v4-schema }` for `components.schemas`. |
+| `tableComponentsAudit(tables)` | `{ schemas, collisions }` — enumerates name collisions instead of dropping them. |
+| `crudRoutes(table, opts?)` | The five conventional CRUD `RouteContract`s (the `@suluk/hono` shape). |
+| `listQuerySchema(table?, opts?)` / `parseListQuery(raw, table, opts?)` | Declare `page/perPage/sort/order/q` params, and the pure parser the handler uses. |
+| `crudHandlers(table, opts)` | Driver-agnostic gated CRUD handler factory (dev `bun:sqlite` + Worker D1, one impl). |
+| `softDeleteValues` / `anonymizeValues` / `touchTimestamps` / `notSoftDeleted` | The PATCH value-builders your handler applies for soft-delete / GDPR-anonymize / timestamps. |
+| `tableDDL(table, opts?)` / `schemaDDL(tables, opts?)` | SQLite `CREATE TABLE` DDL generated from the tables. |
+| `claimOnce` / `claimRows` / `rowsChanged` | Once-only compare-and-set write primitives, normalized across drivers. |
+
+## Boundary
+
+This package projects **contracts** and supplies **mechanism** — it runs no SQL of its own. The db is an
+injected port: you hand `crudHandlers` / `claimOnce` a resolver (`() => db` in dev, `(c) => drizzle(c.env.DB)`
+in a Worker), and the package never owns a connection. The CRUD/CAS skeleton is generic; the order/money
+*machine* — which transitions exist, which side-effects fire, the policy of which column is `deletedAt` or which
+columns to redact — stays app-side. Prod migrations remain the source of truth for prod; `schemaDDL` is the
+dev-schema twin only. New driver-agnostic query mechanics belong here (keep terminals explicitly awaited for D1
+parity); the N=1 policy does not.
 
 ## License
 

@@ -51,7 +51,9 @@ STRIPE_SECRET_KEY="encrypted:mlkem768:Alu+Ks…" # ciphertext — safe in git
 ## Library
 
 The core (`@suluk/env`) is runtime-agnostic — Web Crypto + `@noble/post-quantum`, no `node:fs` — so it
-imports cleanly inside a Worker. The `fs` helpers + CLI live in `@suluk/env/node`.
+imports cleanly inside a Worker. The `fs` helpers + CLI live in `@suluk/env/node`; the raw primitives
+(`keygen` / `encrypt` / `decrypt` / `publicFromPrivate`) are also available standalone at `@suluk/env/crypto`
+(and re-exported from the main entry).
 
 ```ts
 import { keygen, encrypt, decrypt, loadEnv } from "@suluk/env";
@@ -82,6 +84,30 @@ env.manifest(rawEnvRecord());              // config HEALTH: ok | missing | plai
 `manifest()` is what the **admin panel** renders and the **VS Code extension** surfaces: which keys exist,
 which are encrypted at rest, which required ones are **missing**, and — the high-value check — which secrets
 are sitting in **plaintext** when they should be encrypted.
+
+### Fail-closed startup gate — `assertEnv` / `validate`
+
+Add per-var value rules (`minLength`, `pattern`, `requiredInSurface`, `forbidInSurface`) and validate the
+config at boot. `assertEnv` throws on any **error**-severity issue so a misconfigured/short/test secret in prod
+stops the process instead of shipping; warnings go to `onWarn` and never throw. `validate` returns the graded
+issue list without throwing.
+
+```ts
+const env = defineEnv({
+  STRIPE_SECRET_KEY: {
+    secret: true, minLength: 20, pattern: /^sk_(test|live)_/,
+    requiredInSurface: ["cloudflare", "preview"],
+    forbidInSurface: [{ pattern: /^sk_test_/, surfaces: ["cloudflare"], message: "a TEST Stripe key in prod", severity: "warning" }],
+  },
+});
+
+env.validate(process.env, { surface: "cloudflare" });   // → EnvIssue[] (graded; never throws)
+const config = env.assertEnv(process.env, {             // throws on any error; warnings → onWarn
+  surface: "cloudflare",
+  onWarn: (issue) => console.warn(issue.message),
+  allow: [],                                            // explicit, auditable per-var error downgrades
+});
+```
 
 ## Cryptographic construction
 
