@@ -4,7 +4,8 @@
  * no client build, nothing to install to read the docs.
  */
 import type { FrameworkDoc, PackageDoc } from "./harvest";
-import { mdToHtml, inline, escapeHtml } from "./md";
+import { stripReadmeHeader } from "./harvest";
+import { mdToHtml, inline, escapeHtml, rewriteRepoLinks } from "./md";
 
 const NAV = [
   ["index.html", "Home"],
@@ -80,14 +81,25 @@ export function renderIndex(fw: FrameworkDoc): string {
 }
 
 export function renderPackage(fw: FrameworkDoc, p: PackageDoc): string {
-  const install = p.private ? "" : `<h2>Install</h2><pre><code>bun add ${escapeHtml(p.name)}</code></pre>`;
+  const hasReadme = p.readme.trim().length > 0;
+  // The README is the hand-written package doc — render it as the page body (header chrome stripped, repo-relative
+  // links pointed at GitHub). Fall back to the synthesized overview only when a package has no README.
+  const docHtml = hasReadme
+    ? `<div class="prose readme">${mdToHtml(rewriteRepoLinks(stripReadmeHeader(p.readme), fw.repoUrl, p.repoRelDir))}</div>`
+    : `<h2>Overview</h2><div class="prose">${mdToHtml(p.overview || "_No overview._")}</div>`;
+  // A synthesized Install only when the README doesn't already carry one (so we never duplicate it).
+  const install = (!p.private && !/\bbun add\b/.test(p.readme))
+    ? `<h2>Install</h2><pre><code>bun add ${escapeHtml(p.name)}</code></pre>`
+    : "";
+  // Derived appendices — auto-synced facts that can't go stale (the README's prose is primary; these complement it).
   const exportsHtml = p.exports.length
     ? `<h2>Public API</h2><div class="chips">${p.exports.map((e) => `<code class="chip">${escapeHtml(e)}</code>`).join("")}</div>`
     : "";
   const depsHtml = p.dependencies.length || p.peerDependencies.length
     ? `<h2>Depends on</h2><div class="chips">${[...p.dependencies, ...p.peerDependencies.map((d) => d + " (peer)")].map((d) => `<code class="chip">${escapeHtml(d)}</code>`).join("")}</div>`
     : "";
-  const modulesHtml = p.modules.length
+  // Per-module blurbs are superseded by the README when one exists.
+  const modulesHtml = !hasReadme && p.modules.length
     ? `<h2>Modules</h2><dl class="modules">${p.modules.map((m) => `<dt><code>${escapeHtml(m.file)}</code></dt><dd>${inline(m.doc.split("\n").find((l) => l.trim()) ?? "")}</dd>`).join("")}</dl>`
     : "";
   const body = `
@@ -96,7 +108,7 @@ export function renderPackage(fw: FrameworkDoc, p: PackageDoc): string {
     <h1>${escapeHtml(p.name)} <span class="ver">v${escapeHtml(p.version)}</span></h1>
     <p class="lead">${inline(p.description)}</p>
     ${install}
-    <h2>Overview</h2><div class="prose">${mdToHtml(p.overview || "_No overview._")}</div>
+    ${docHtml}
     ${exportsHtml}
     ${depsHtml}
     ${modulesHtml}

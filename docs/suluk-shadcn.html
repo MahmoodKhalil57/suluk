@@ -18,15 +18,120 @@
 <main>
   <article class="package">
     <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/shadcn</p>
-    <h1>@suluk/shadcn <span class="ver">v0.1.1</span></h1>
+    <h1>@suluk/shadcn <span class="ver">v0.1.2</span></h1>
     <p class="lead">v4 'Suluk' Schema Objects -&gt; shadcn/ui form + table specs and TSX scaffolds (react-hook-form + zodResolver). Codegen, no runtime UI deps. CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/shadcn</code></pre>
-    <h2>Overview</h2><div class="prose"><p>@suluk/shadcn — the UI corner. v4 &quot;Suluk&quot; Schema Objects → shadcn/ui form + table specs and TSX scaffolds.</p>
-<p>The chain is: Zod → v4 Schema Object (@suluk/zod) → descriptor model (formSpec/tableSpec, here) → shadcn TSX (renderFormTsx/renderTableTsx, here). This package is CODEGEN ONLY — no runtime UI deps; it emits component source as strings against the conventional shadcn/ui import paths (react-hook-form + zodResolver for forms).</p>
-<p>Honest-loss discipline (house pattern): the descriptor specs carry a <code>warnings: string[]</code> channel for every property we could not faithfully map (unresolvable $ref, boolean schemas, non-object roots), and the renderers surface those warnings as a leading comment block. Nothing is dropped silently. CANDIDATE tooling.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">ColumnSpec</code><code class="chip">FieldSpec</code><code class="chip">FieldWidget</code><code class="chip">formSpec</code><code class="chip">FormSpec</code><code class="chip">RenderFormOptions</code><code class="chip">renderFormTsx</code><code class="chip">RenderTableOptions</code><code class="chip">renderTableTsx</code><code class="chip">SpecOptions</code><code class="chip">tableSpec</code><code class="chip">TableSpec</code></div>
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code></div>
-    <h2>Modules</h2><dl class="modules"><dt><code>render-form.ts</code></dt><dd>{@link FormSpec} → shadcn/ui &lt;Form&gt; TSX (react-hook-form + zodResolver).</dd><dt><code>render-table.ts</code></dt><dd>{@link TableSpec} → shadcn/ui &lt;Table&gt; TSX.</dd><dt><code>spec.ts</code></dt><dd>v4 &quot;Suluk&quot; Schema Object → shadcn/ui descriptor model (form spec + table spec).</dd></dl>
+    
+    <div class="prose readme"><h1>@suluk/shadcn</h1>
+<p><strong>v4 &quot;Suluk&quot; Schema Objects → shadcn/ui form, table, and detail TSX you own — plus the shadcn theme files. Codegen, no runtime UI deps.</strong></p>
+<blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/shadcn</code></pre>
+<h2>What it does</h2>
+<p>Reads a v4 Schema Object (which <strong>is</strong> JSON Schema 2020-12) and projects it onto shadcn/ui component source — as <strong>strings</strong>. The chain is <code>Zod → v4 Schema Object (@suluk/zod) → descriptor (formSpec / tableSpec, here) → shadcn TSX (here)</code>.</p>
+<ul>
+<li><strong>Descriptor pass</strong> — <code>formSpec</code> / <code>tableSpec</code> inspect a schema and produce a UI-shaped model: which control per property (<code>text</code> / <code>number</code> / <code>select</code> / <code>switch</code> / <code>date</code> / <code>email</code> / <code>file</code> / <code>richtext</code> / <code>relation</code> / …), required-ness, enum options, bounds, relations.</li>
+<li><strong>Codegen pass</strong> — <code>renderFormTsx</code> (react-hook-form + <code>zodResolver</code>), <code>renderTableTsx</code>, <code>renderDetailTsx</code> (read-only show view), and matching loading skeletons emit idiomatic, self-contained shadcn component source against the conventional <code>@/components/ui/*</code> import paths.</li>
+<li><strong>Theme pass</strong> — <code>renderShadcnTheme</code> turns a <code>@suluk/theme</code> <code>TokenSpec</code> into the two files a shadcn project needs: <code>globals.css</code> (token CSS vars + Tailwind v4 <code>@theme inline</code>) and <code>components.json</code> (<code>cssVariables: true</code>).</li>
+<li><strong>Honest-loss discipline</strong> — every property that can't be faithfully mapped (unresolvable <code>$ref</code>, boolean schema, non-object root) is enumerated in the spec's <code>warnings: string[]</code>, and the renderers surface those warnings as a leading comment block. Nothing is dropped silently.</li>
+<li><strong>No runtime UI deps</strong> — this is pure string codegen; no JSX is evaluated and no shadcn/React packages are imported at runtime.</li>
+</ul>
+<h2>When to reach for it</h2>
+<p>Reach for <code>@suluk/shadcn</code> when you have a React/shadcn frontend and want <strong>generated, owned</strong> CRUD components scaffolded from your contract — code you then check in and edit by hand.</p>
+<ul>
+<li>Use <strong><code>@suluk/shadcn</code></strong> when you want shadcn/ui TSX you keep and customize.</li>
+<li>Use <strong><code>@suluk/panel</code></strong> instead when you want a contract-first admin UI (Payload-style) that infers forms + tables for you, rather than emitting component source to own.</li>
+<li>It does <strong>not</strong> generate the Zod schema — that is <code>@suluk/zod</code>'s <code>v4ToZod</code> corner. <code>renderFormTsx</code> references the schema by name (<code>import { FormSchema } from &quot;./schema&quot;</code>) so the file is drop-in once you wire that import.</li>
+</ul>
+<h2>Usage</h2>
+<h3>Schema → form + table TSX (the common case)</h3>
+<pre><code class="lang-ts">import * as z from &quot;zod&quot;;
+import { zodToV4 } from &quot;@suluk/zod&quot;;
+import { formSpec, tableSpec, renderFormTsx, renderTableTsx } from &quot;@suluk/shadcn&quot;;
+
+// Zod is the source of truth → a v4 Schema Object (JSON Schema 2020-12)
+const Pet = z.object({
+  name: z.string(),
+  status: z.enum([&quot;available&quot;, &quot;pending&quot;, &quot;sold&quot;]),
+  age: z.number(),
+  active: z.boolean(),
+});
+const petSchema = zodToV4(Pet).schema;
+
+// Descriptor pass: inspect the schema
+const fSpec = formSpec(petSchema);   // → { fields: [...], warnings: [] }
+const tSpec = tableSpec(petSchema);  // → { columns: [...], warnings: [] }
+
+// Codegen pass: emit shadcn TSX as strings
+const formTsx  = renderFormTsx(fSpec,  { componentName: &quot;PetForm&quot;,  schemaName: &quot;PetSchema&quot; });
+const tableTsx = renderTableTsx(tSpec, { componentName: &quot;PetTable&quot; });
+
+await Bun.write(&quot;src/components/pet-form.tsx&quot;, formTsx);
+await Bun.write(&quot;src/components/pet-table.tsx&quot;, tableTsx);</code></pre>
+<p><code>formSpec</code> picks the control per property: <code>status</code> (an enum) becomes a <code>&lt;Select&gt;</code> carrying the enum options, <code>active</code> (boolean) a <code>&lt;Switch&gt;</code>, <code>age</code> a number <code>&lt;Input&gt;</code>, <code>name</code> a text <code>&lt;Input&gt;</code>. Formats and <code>x-suluk-*</code> facets refine the pick — <code>format: &quot;email&quot;</code>/<code>&quot;uri&quot;</code>/<code>&quot;date&quot;</code>/<code>&quot;date-time&quot;</code> map to the matching input; <code>contentEncoding: &quot;base64&quot;</code> / <code>format: &quot;binary&quot;</code> → a file input; <code>contentMediaType: &quot;text/html&quot;</code> → a richtext editor; an <code>x-suluk-relation: &quot;User&quot;</code> property → an entity-picker; and an explicit <code>x-suluk-widget</code> override always wins.</p>
+<p>The generated form is hardened shadcn: <code>mode: &quot;onSubmit&quot;</code> with <code>reValidateMode: &quot;onChange&quot;</code>, a root-error alert banner (<code>role=&quot;alert&quot;</code>), a submit <code>&lt;Button&gt;</code> disabled while submitting, and reset-on-success (toggle with <code>resetOnSuccess: false</code>).</p>
+<h3>Detail (show) view + loading skeletons</h3>
+<pre><code class="lang-ts">import {
+  formSpec, tableSpec,
+  renderDetailTsx,
+  renderFormSkeletonTsx, renderTableSkeletonTsx, renderDetailSkeletonTsx,
+} from &quot;@suluk/shadcn&quot;;
+
+const fSpec = formSpec(petSchema);
+const tSpec = tableSpec(petSchema);
+
+renderDetailTsx(fSpec, { componentName: &quot;PetDetail&quot; });   // a read-only &lt;dl&gt; of label → value
+renderFormSkeletonTsx(fSpec);                             // a placeholder per field + submit
+renderTableSkeletonTsx(tSpec, { rows: 8 });               // header + N body rows of placeholders
+renderDetailSkeletonTsx(fSpec);                           // a placeholder row per field</code></pre>
+<p>Together these complete the CRUD UI set: form (create/edit), table (list), detail (show), and a loading skeleton mirroring each shape so the layout doesn't jump when data lands.</p>
+<h3><code>$ref</code> resolution</h3>
+<p>Pass a <code>defs</code> map so a top-level or property-level <code>Reference</code> resolves by name (works for bare names and full <code>#/components/schemas/&lt;name&gt;</code> JSON-Pointers alike):</p>
+<pre><code class="lang-ts">formSpec({ $ref: &quot;#/components/schemas/Pet&quot; }, { defs: { Pet: petSchema } });</code></pre>
+<h3>shadcn theme files from a TokenSpec</h3>
+<pre><code class="lang-ts">import { renderShadcnTheme, renderGlobalsCss, renderComponentsJson } from &quot;@suluk/shadcn&quot;;
+import { terracotta } from &quot;@suluk/theme&quot;;
+
+// the whole theme: both files keyed by their on-disk paths
+const files = renderShadcnTheme(terracotta, { cssPath: &quot;src/app/globals.css&quot; });
+// → { &quot;src/app/globals.css&quot;: &quot;&lt;css&gt;&quot;, &quot;components.json&quot;: &quot;&lt;json&gt;&quot; }
+for (const [path, content] of Object.entries(files)) await Bun.write(path, content);
+
+// or each file on its own
+const css  = renderGlobalsCss(terracotta, { darkSelector: &quot;.dark&quot; });
+const json = renderComponentsJson({ style: &quot;new-york&quot;, baseColor: &quot;neutral&quot; });</code></pre>
+<p>One <code>@suluk/theme</code> <code>TokenSpec</code> (light) — or a full <code>ThemeSpec</code> (<code>{ light, dark }</code>) — drives <code>globals.css</code> and <code>components.json</code> together, instead of hand-syncing the token CSS against the component library. A bare <code>TokenSpec</code> has its dark scheme derived; a full <code>ThemeSpec</code> is used as-is.</p>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>formSpec(schema, opts?)</code></td><td>Schema Object → <code>FormSpec</code> (<code>{ fields, warnings }</code>); one <code>FieldSpec</code> per object property.</td></tr>
+<tr><td><code>tableSpec(schema, opts?)</code></td><td>Schema Object (object or array) → <code>TableSpec</code> (<code>{ columns, warnings }</code>).</td></tr>
+<tr><td><code>renderFormTsx(spec, opts?)</code></td><td><code>FormSpec</code> → shadcn <code>&lt;Form&gt;</code> TSX (react-hook-form + <code>zodResolver</code>) as a string.</td></tr>
+<tr><td><code>renderTableTsx(spec, opts?)</code></td><td><code>TableSpec</code> → shadcn <code>&lt;Table&gt;</code> TSX as a string.</td></tr>
+<tr><td><code>renderDetailTsx(spec, opts?)</code></td><td><code>FormSpec</code> → read-only detail (<code>&lt;dl&gt;</code> show) view TSX.</td></tr>
+<tr><td><code>renderFormSkeletonTsx</code> / <code>renderTableSkeletonTsx</code> / <code>renderDetailSkeletonTsx</code></td><td>Loading-skeleton TSX mirroring each view's shape.</td></tr>
+<tr><td><code>renderShadcnTheme(theme, opts?)</code></td><td><code>TokenSpec</code>/<code>ThemeSpec</code> → <code>{ [cssPath]: globals.css, &quot;components.json&quot;: … }</code>.</td></tr>
+<tr><td><code>renderGlobalsCss(theme, opts?)</code></td><td>Just the <code>globals.css</code> string.</td></tr>
+<tr><td><code>renderComponentsJson(opts?)</code></td><td>Just the <code>components.json</code> string.</td></tr>
+</tbody>
+</table>
+<p>Types: <code>FieldWidget</code>, <code>FieldSpec</code>, <code>FormSpec</code>, <code>ColumnSpec</code>, <code>TableSpec</code>, <code>SpecOptions</code>, <code>RenderFormOptions</code>, <code>RenderTableOptions</code>, <code>RenderDetailOptions</code>, <code>RenderSkeletonOptions</code>, <code>ShadcnThemeOptions</code>.</p>
+<p>This package has a single entry point (<code>@suluk/shadcn</code>); there are no sub-path exports and no CLI.</p>
+<h2>Boundary</h2>
+<p>This is the L3 line — <strong>render/generate, never host.</strong> <code>@suluk/shadcn</code> hands you component <em>source</em> you own and can edit; it imports no React/shadcn packages at runtime. The seams it leaves app-side:</p>
+<ul>
+<li><strong>Wire the imports.</strong> Generated TSX targets the conventional shadcn paths (<code>@/components/ui/*</code>); you supply those primitives (<code>bunx shadcn add …</code>). The form references its Zod schema by name (<code>./schema</code>) — you wire that import.</li>
+<li><strong>App-provided components.</strong> A <code>richtext</code> widget emits <code>&lt;RichTextEditor&gt;</code> and a <code>relation</code> widget emits <code>&lt;EntitySelect&gt;</code> — you provide those (a Lexical editor, an async entity picker).</li>
+<li><strong>Data + submit stay yours.</strong> The table maps a <code>rows</code> prop you supply; the detail view reads a <code>record</code> prop; the form's <code>onSubmit</code> is a stubbed handler you fill in.</li>
+<li><strong>Zod generation lives elsewhere.</strong> Get the v4 Schema Object from <code>@suluk/zod</code> (<code>zodToV4</code>) and the Zod schema for the resolver from its <code>v4ToZod</code> corner.</li>
+</ul>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">ColumnSpec</code><code class="chip">FieldSpec</code><code class="chip">FieldWidget</code><code class="chip">formSpec</code><code class="chip">FormSpec</code><code class="chip">renderComponentsJson</code><code class="chip">RenderDetailOptions</code><code class="chip">renderDetailSkeletonTsx</code><code class="chip">renderDetailTsx</code><code class="chip">RenderFormOptions</code><code class="chip">renderFormSkeletonTsx</code><code class="chip">renderFormTsx</code><code class="chip">renderGlobalsCss</code><code class="chip">renderShadcnTheme</code><code class="chip">RenderSkeletonOptions</code><code class="chip">RenderTableOptions</code><code class="chip">renderTableSkeletonTsx</code><code class="chip">renderTableTsx</code><code class="chip">ShadcnThemeOptions</code><code class="chip">SpecOptions</code><code class="chip">tableSpec</code><code class="chip">TableSpec</code></div>
+    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/theme</code></div>
+    
   </article></main>
 <footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
 </body></html>

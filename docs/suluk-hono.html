@@ -18,13 +18,159 @@
 <main>
   <article class="package">
     <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/hono</p>
-    <h1>@suluk/hono <span class="ver">v0.1.1</span></h1>
+    <h1>@suluk/hono <span class="ver">v0.1.4</span></h1>
     <p class="lead">The Suluk derivation engine: minimal Hono+Zod RouteContracts in; v4 doc (dynamic per principal+time), validation, contract tests, and doc-coverage audit out. CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/hono</code></pre>
-    <h2>Overview</h2><div class="prose"><p>@suluk/hono — the derivation engine. The user authors minimal RouteContracts (Hono + Zod); everything else is derived: the v4 document (dynamic per principal + time), request validation, contract tests, and a documentation-coverage audit. See tooling/ARCHITECTURE.md. CANDIDATE tooling.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">audit</code><code class="chip">autofill</code><code class="chip">Check</code><code class="chip">CheckRun</code><code class="chip">contract</code><code class="chip">contractChecks</code><code class="chip">coverage</code><code class="chip">EmitContext</code><code class="chip">EmitDiagnostic</code><code class="chip">EmitResult</code><code class="chip">emitV4</code><code class="chip">Finding</code><code class="chip">Method</code><code class="chip">mount</code><code class="chip">responseList</code><code class="chip">RouteContract</code><code class="chip">RouteRequest</code><code class="chip">RouteResponse</code><code class="chip">runContractChecks</code><code class="chip">SchemaCheck</code><code class="chip">validateSchema2020</code></div>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/hono</code></pre>
+<p>Peer deps you supply: <code>hono</code>, <code>zod</code> (v4), and <code>@hono/zod-validator</code>.</p>
+<h2>What it does</h2>
+<p>You author one thing — an array of <code>RouteContract</code>s (a Hono path + method + Zod schemas). From that single source, <code>@suluk/hono</code> projects:</p>
+<ul>
+<li><strong>The v4 document</strong> — <code>emitV4(routes, ctx)</code>. Not a static file: the document is a pure function of the contracts × the requesting principal (the <em>who</em> — scope filtering) × time (the <em>when</em> — <code>deprecatedSince</code>/<code>removedSince</code>). It also synthesizes RFC-9457 error responses + a shared <code>ProblemDetails</code> schema.</li>
+<li><strong>The live app</strong> — <code>mount(app, routes)</code>, the only file that touches Hono. Request validation is derived from the same Zod schemas, so the doc and the running server cannot drift.</li>
+<li><strong>Contract tests</strong> — <code>runContractChecks(routes)</code> auto-generates checks (every schema is valid JSON Schema 2020-12, every example satisfies its schema, the emitted document passes the meta-schema, no two routes provably collide).</li>
+<li><strong>A doc-coverage audit</strong> — <code>audit(doc)</code> / <code>coverage(doc)</code> flag under-documented operations (advisory, never a gate); <code>autofill(doc)</code> fills the obvious gaps.</li>
+<li><strong>Server-side authorization</strong> — the row-level CRUD engine (<code>gate</code> / <code>policyFor</code> / <code>DEFAULT_POLICIES</code>) plus facet-driven, fail-closed wire middleware (<code>enforceAccess</code>, <code>enforceRateLimit</code>) and a typed RFC-9457 error model (<code>HttpErrors</code> + <code>onError</code>).</li>
+</ul>
+<h2>When to reach for it</h2>
+<p>Reach for <code>@suluk/hono</code> when you are <strong>defining HTTP routes</strong> and want the contract, the v4 document, request validation, and access/rate-limit enforcement to all <em>derive</em> from one declaration rather than being maintained by hand.</p>
+<p>It is the producer end of the Suluk walk — the thing the rest of the toolchain consumes. The v4 document it emits is what <code>@suluk/scalar</code>, <code>@suluk/swagger</code>, <code>@suluk/reference</code>, <code>@suluk/sdk</code>, and <code>@suluk/testgen</code> project out. If you already <em>have</em> a v4 document and only want to render or generate from it, reach for those packages instead.</p>
+<p><code>enforceAccess</code> / <code>enforceRateLimit</code> are the <strong>only</strong> server-side enforcement home — Suluk's <code>x-suluk-*</code> facets are advisory, so without this middleware an access facet on a custom op is decorative. Apply these to make every operation's facet load-bearing on the wire.</p>
+<h2>Usage</h2>
+<h3>1. Author contracts → emit the v4 document</h3>
+<pre><code class="lang-ts">import * as z from &quot;zod&quot;;
+import { contract, emitV4 } from &quot;@suluk/hono&quot;;
+
+const Pet = z.object({ id: z.number().int().optional(), name: z.string().min(1), tags: z.array(z.string()) });
+
+const routes = contract([
+  {
+    method: &quot;get&quot;, path: &quot;/pet&quot;, name: &quot;listPets&quot;,
+    summary: &quot;List pets&quot;, tags: [&quot;pets&quot;],
+    responses: [{ status: 200, description: &quot;ok&quot;, schema: z.array(Pet) }],
+  },
+  {
+    method: &quot;post&quot;, path: &quot;/pet&quot;, name: &quot;createPet&quot;,
+    summary: &quot;Create a pet&quot;, scopes: [&quot;write:pets&quot;],
+    request: { json: Pet, examples: [{ name: &quot;Rex&quot;, tags: [] }] },
+    responses: [{ status: 201, description: &quot;created&quot;, schema: Pet }],
+  },
+  {
+    method: &quot;get&quot;, path: &quot;/pet/:petId&quot;, name: &quot;getPet&quot;,
+    summary: &quot;Get a pet by id&quot;,
+    request: { params: z.object({ petId: z.string() }) },
+    responses: [{ status: 200, description: &quot;ok&quot;, schema: Pet }],
+  },
+]);
+
+const { document, diagnostics } = emitV4(routes, { info: { title: &quot;Pets&quot;, version: &quot;1.0.0&quot; } });
+// `document` is a v4 (4.0.0-candidate) OpenAPIv4Document — Hono &quot;:petId&quot; became uriTemplate &quot;pet/{petId}&quot;.</code></pre>
+<h3>2. The document is a function of <em>who</em> + <em>when</em></h3>
+<pre><code class="lang-ts">// WHO — a principal is filtered to the operations whose required scopes it holds:
+emitV4(routes, { principal: { scopes: [] } });            // createPet (requires write:pets) is omitted
+emitV4(routes, { principal: { scopes: [&quot;write:pets&quot;] } }); // createPet is included
+emitV4(routes);                                            // no principal ⇒ the full public doc
+
+// WHEN — `now` drives deprecatedSince/removedSince:
+emitV4(routes, { now: &quot;2031-06-01&quot; });   // a route past its removedSince is hidden
+// a route past deprecatedSince (but before removedSince) stays, marked `deprecated: true`.
+
+// Map scopes onto a security scheme to synthesize 401/403 + security requirements:
+emitV4(routes, { securityScheme: &quot;bearerAuth&quot;, securitySchemes: { bearerAuth: { type: &quot;http&quot;, scheme: &quot;bearer&quot; } } });</code></pre>
+<h3>3. Mount the same contracts onto a live Hono app</h3>
+<pre><code class="lang-ts">import { Hono } from &quot;hono&quot;;
+import { mount } from &quot;@suluk/hono&quot;;
+
+// each contract's `handler` is wired with @hono/zod-validator derived from its own schemas.
+const app = mount(new Hono(), routes);
+// POST /pet with { name: &quot;&quot; } → 400 (name.min(1) fails); valid body → the handler runs.</code></pre>
+<h3>4. Contract tests + the coverage audit</h3>
+<pre><code class="lang-ts">import { runContractChecks, audit, coverage, autofill } from &quot;@suluk/hono&quot;;
+
+const run = runContractChecks(routes);
+// run.total / run.passed / run.failures — wire this into `bun test` or CI.
+
+const { document } = emitV4(routes);
+audit(document);              // Finding[] — under-documented operations (advisory)
+coverage(document);           // a [0,1] score; 1 = no warn-level gaps
+coverage(autofill(document)); // autofill synthesizes summaries/descriptions → raises coverage</code></pre>
+<h3>5. Server-side enforcement (the wire is the boundary)</h3>
+<p><code>enforceAccess</code> reads each operation's declared <code>x-suluk-access</code> and enforces it; identity is <strong>injected</strong> (you own your principal/scope model). It is <strong>fail-closed</strong> — a missing facet denies by default, an unknown/mis-cased <code>requires</code> denies, a named scope is enforced even under <code>requires: &quot;anyone&quot;</code>.</p>
+<pre><code class="lang-ts">import { enforceAccess, enforceRateLimit } from &quot;@suluk/hono&quot;;
+
+app.use(&quot;*&quot;, enforceAccess({
+  operationOf: (c) =&gt; /* resolve the contract op for this request */ resolveOp(c),
+  accessOf: (op) =&gt; accessFacets[op],   // the op's x-suluk-access ({ requires, scope })
+  principal: (c) =&gt; c.get(&quot;userId&quot;) ?? null,
+  isAdmin: (c) =&gt; c.get(&quot;isAdmin&quot;) === true,
+  scopes: (c) =&gt; c.get(&quot;scopes&quot;),
+}));
+
+app.use(&quot;*&quot;, enforceRateLimit({
+  operationOf: (c) =&gt; resolveOp(c),
+  rateLimitOf: (op) =&gt; budgets[op],      // the op's x-suluk-ratelimit ({ windowMs, maxRequests, key })
+  defaultFacet: { windowMs: 60_000, maxRequests: 300, key: &quot;ip&quot; }, // blanket floor (default: unmetered)
+}));</code></pre>
+<p>For hand-applied per-route gating instead of one blanket middleware, use <code>createGuard</code>:</p>
+<pre><code class="lang-ts">import { createGuard } from &quot;@suluk/hono&quot;;
+
+const guard = createGuard({ principal: (c) =&gt; c.get(&quot;userId&quot;) ?? null, isAdmin: (c) =&gt; c.get(&quot;isAdmin&quot;) === true });
+app.get(&quot;/me&quot;,     guard.requireAuth, handler);                 // 401 unless signed in
+app.get(&quot;/admin&quot;,  guard.requireAdmin, handler);                // 401 anon, 403 non-admin
+app.post(&quot;/write&quot;, guard.requireScopes(&quot;write:pets&quot;), handler); // 403 unless holds every scope</code></pre>
+<h3>6. The row-level CRUD access engine</h3>
+<p><code>gate</code> is pure (no Hono <code>Context</code>) — it decides whether a caller may run a CRUD op and whether the query should be scoped to their own rows. <code>ruleToRequires</code> projects the same rule onto the wire <code>requires</code> level, so one declaration drives both the gate and the <code>x-suluk-access</code> facet.</p>
+<pre><code class="lang-ts">import { gate, policyFor, ruleToRequires, DEFAULT_POLICIES } from &quot;@suluk/hono&quot;;
+
+const policy = policyFor(&quot;owned&quot;);                  // one of 7 modes in DEFAULT_POLICIES (or pass your own matrix)
+const decision = gate(policy.update, { isAdmin: false, principal: &quot;user_123&quot; });
+// → { ok: true, scopeOwner: true }  — signed-in caller may update, scoped to their own rows; admin sees all.
+
+ruleToRequires(&quot;owner&quot;); // &quot;authenticated&quot;  — feeds the same op's x-suluk-access facet/docs</code></pre>
+<h3>7. Typed errors → RFC-9457 on the wire</h3>
+<pre><code class="lang-ts">import { Hono } from &quot;hono&quot;;
+import { HttpErrors, onError } from &quot;@suluk/hono&quot;;
+
+const app = new Hono();
+app.onError(onError());                       // maps a thrown SulukHttpError → its status + problem+json body
+app.get(&quot;/pet/:id&quot;, (c) =&gt; {
+  throw HttpErrors.notFound(&quot;Pet&quot;, c.req.param(&quot;id&quot;)); // → 404 { status, title, detail, instance, error }
+});
+// An untyped throw becomes a 500 defect; its cause is logged server-side, never leaked on the wire.
+// HttpErrors.rateLimited(ms) additionally emits a Retry-After header.</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>contract</code> / <code>responseList</code></td><td>identity helper to author a <code>RouteContract[]</code> with literal inference; normalize a responses list/map</td></tr>
+<tr><td><code>emitV4</code></td><td>project contracts → a v4 document for a given principal (<code>who</code>) + time (<code>when</code>)</td></tr>
+<tr><td><code>mount</code></td><td>wire the same contracts onto a live Hono app (the only Hono-touching file)</td></tr>
+<tr><td><code>audit</code> / <code>coverage</code> / <code>autofill</code></td><td>doc-coverage findings, a <code>[0,1]</code> score, gap-filling</td></tr>
+<tr><td><code>contractChecks</code> / <code>runContractChecks</code></td><td>auto-generated contract tests (schema-valid, example⊨schema, meta-schema, no collisions)</td></tr>
+<tr><td><code>validateSchema2020</code></td><td>assert a value is well-formed JSON Schema 2020-12</td></tr>
+<tr><td><code>enforceAccess</code> / <code>createGuard</code></td><td>facet-driven wire authz middleware; explicit per-route guards</td></tr>
+<tr><td><code>gate</code> / <code>policyFor</code> / <code>ruleToRequires</code> / <code>DEFAULT_POLICIES</code></td><td>the pure row-level CRUD access engine</td></tr>
+<tr><td><code>enforceRateLimit</code> / <code>MemoryRateLimitStore</code></td><td>facet-driven fixed-window rate limiting (swappable store)</td></tr>
+<tr><td><code>SulukHttpError</code> / <code>HttpErrors</code> / <code>onError</code></td><td>the typed, throwable RFC-9457 error model + the Hono error handler</td></tr>
+</tbody>
+</table>
+<h2>Boundary</h2>
+<p>This is the <strong>producer</strong> end of the projection — <em>contract in → v4 document + a mounted app out</em>. It renders and generates; it does <strong>not</strong> host. The seams are injected:</p>
+<ul>
+<li><strong>Identity is injected.</strong> <code>enforceAccess</code> / <code>createGuard</code> never trust a header they didn't verify — your <code>principal</code> / <code>isAdmin</code> / <code>scopes</code> callbacks own that (Better Auth session, API token, etc.).</li>
+<li><strong>The rate-limit store is a swappable binding.</strong> <code>MemoryRateLimitStore</code> is a per-process <strong>dev default only</strong>. The durable production store (KV / Durable Object) lives app-side / in <code>@suluk/deploy</code>.</li>
+<li><strong>Row scoping stays app-side.</strong> <code>gate</code> tells you <em>whether</em> to scope to the owner; your CRUD layer applies that to the actual query.</li>
+</ul>
+<p>Access enforcement is the one server-side enforcement home — new enforcement primitives or access modes belong here; apps keep their per-op access/budget tables as plain data.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">AccessFacet</code><code class="chip">AccessMode</code><code class="chip">AccessRequires</code><code class="chip">audit</code><code class="chip">autofill</code><code class="chip">Check</code><code class="chip">CheckRun</code><code class="chip">contract</code><code class="chip">contractChecks</code><code class="chip">coverage</code><code class="chip">createGuard</code><code class="chip">DEFAULT_POLICIES</code><code class="chip">EmitContext</code><code class="chip">EmitDiagnostic</code><code class="chip">EmitResult</code><code class="chip">emitV4</code><code class="chip">enforceAccess</code><code class="chip">EnforceAccessConfig</code><code class="chip">enforceRateLimit</code><code class="chip">EnforceRateLimitConfig</code><code class="chip">Finding</code><code class="chip">gate</code><code class="chip">GateDecision</code><code class="chip">GateIdentity</code><code class="chip">Guard</code><code class="chip">HttpErrors</code><code class="chip">IdentityConfig</code><code class="chip">MemoryRateLimitStore</code><code class="chip">Method</code><code class="chip">mount</code><code class="chip">onError</code><code class="chip">OnErrorOptions</code><code class="chip">Policy</code><code class="chip">policyFor</code><code class="chip">RateLimitConsumeOptions</code><code class="chip">RateLimitResult</code><code class="chip">RateLimitStore</code><code class="chip">responseList</code><code class="chip">RouteContract</code><code class="chip">RouteRequest</code><code class="chip">RouteResponse</code><code class="chip">Rule</code><code class="chip">ruleToRequires</code><code class="chip">runContractChecks</code><code class="chip">SchemaCheck</code><code class="chip">SulukHttpError</code><code class="chip">SulukHttpErrorInit</code><code class="chip">validateSchema2020</code></div>
     <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/zod</code><code class="chip">ajv</code><code class="chip">ajv-formats</code><code class="chip">zod (peer)</code><code class="chip">hono (peer)</code><code class="chip">@hono/zod-validator (peer)</code></div>
-    <h2>Modules</h2><dl class="modules"><dt><code>audit.ts</code></dt><dd>audit — documentation-coverage detection over a v4 document. This is the <em>ceiling</em> side of the</dd><dt><code>checks.ts</code></dt><dd>contractChecks — auto-generated tests that act as checks for mistakes (the doc/contract as an executable</dd><dt><code>contract.ts</code></dt><dd>The RouteContract — the single source of truth a user authors (minimally), from which every Derivation</dd><dt><code>emit.ts</code></dt><dd>emitV4 — the keystone Derivation: render(contracts, principal, now) -&gt; v4 Document.</dd><dt><code>mount.ts</code></dt><dd>mount — the thin Hono adapter. Wires the SAME RouteContract list that emitV4 reads onto a live Hono app,</dd><dt><code>schema-check.ts</code></dt><dd>Validate that a value is a well-formed JSON Schema 2020-12 (the dialect v4 Schema Objects must use).</dd></dl>
+    
   </article></main>
 <footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
 </body></html>

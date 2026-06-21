@@ -18,14 +18,117 @@
 <main>
   <article class="package">
     <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/visual</p>
-    <h1>@suluk/visual <span class="ver">v0.1.1</span></h1>
+    <h1>@suluk/visual <span class="ver">v0.1.3</span></h1>
     <p class="lead">Pixel-confidence by construction: verify each UI primitive's pixels ONCE (a golden snapshot), and confidence propagates to every generated UI via content-hashing + the deterministic generator — re-verify a primitive only when its source changes. CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/visual</code></pre>
-    <h2>Overview</h2><div class="prose"><p>@suluk/visual — pixel-confidence by construction.</p>
-<p>Verify each UI PRIMITIVE's pixels ONCE (render it in isolation, screenshot it, approve it). The approval is recorded against the primitive's content hash. Thereafter, every generated UI is pixel-confident <em>without a new screenshot</em> iff all its primitives are approved + unchanged — checked by hashing, not rendering. A primitive is re-verified only when ITS source changes (the hash drifts). Confidence propagates up the component → block → section → page tiers exactly like the rest of Suluk: verify the source once, trust the deterministic projection. CANDIDATE tooling — NOT official OAS.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">approve</code><code class="chip">Baseline</code><code class="chip">BaselineEntry</code><code class="chip">Capture</code><code class="chip">checkConfidence</code><code class="chip">confidenceCoverage</code><code class="chip">ConfidenceReport</code><code class="chip">contentHash</code><code class="chip">formPrimitives</code><code class="chip">hash</code><code class="chip">knownWidgets</code><code class="chip">pendingVerification</code><code class="chip">PrimitiveSources</code><code class="chip">renderPrimitiveHtml</code><code class="chip">snapshotHash</code><code class="chip">tablePrimitives</code><code class="chip">UsedPrimitive</code></div>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/visual</code></pre>
+<p><code>@suluk/shadcn</code> is an optional peer — install it too if you want to decompose generated <code>FormSpec</code> / <code>TableSpec</code> into primitives (<code>formPrimitives</code> / <code>tablePrimitives</code>). The hashing core works without it.</p>
+<h2>What it does</h2>
+<p>The whole Suluk model is <em>verify the source once, trust the deterministic projection</em>. <code>@suluk/visual</code> applies that to <strong>pixels</strong>:</p>
+<ul>
+<li>A generated UI (a form, a table) is a <strong>composition of leaf widget primitives</strong> — a text input, a</li>
+</ul>
+<p>  select, a switch, a cell — plus a layout. You verify each <em>primitive's</em> pixels exactly once: render   it in isolation, screenshot it, approve it. The approval is recorded against the <strong>content hash</strong> of   the source that drew those pixels.</p>
+<ul>
+<li>Thereafter any generated UI is <strong>pixel-confident without a new screenshot</strong> iff every primitive it</li>
+</ul>
+<p>  uses is approved <em>and</em> its content hash is unchanged — decided by <code>checkConfidence</code>, which <strong>hashes,   never renders</strong>.</p>
+<ul>
+<li>A primitive is re-verified only when <strong>its</strong> source changes (the hash drifts). Editing one widget's</li>
+</ul>
+<p>  renderer flags exactly that widget for re-approval; every other widget — and every UI that doesn't   use it — stays trusted.</p>
+<ul>
+<li>The core is <strong>pure and dependency-free</strong> (no Playwright dependency, no <code>node:fs</code>). It produces the</li>
+</ul>
+<p>  standalone HTML you screenshot and consumes the screenshot's bytes you pass back in — it does not   drive the browser.</p>
+<h2>When to reach for it</h2>
+<p>Reach for it when you generate UI from a contract (e.g. the <code>@suluk/shadcn</code> form/table projection) and want <strong>visual-regression confidence over every generated screen without snapshotting every screen</strong>. You snapshot the small, finite set of <em>primitives</em>; confidence over the combinatorial set of generated pages is then free and instant.</p>
+<p>Don't reach for it for end-to-end screenshot testing of arbitrary hand-authored pages — it is built for the <em>projected</em> UI surface, where the confidence-by-composition assumption holds.</p>
+<h2>Usage</h2>
+<h3>The core loop — confidence by hashing</h3>
+<pre><code class="lang-ts">import {
+  formPrimitives, checkConfidence, pendingVerification,
+  approve, confidenceCoverage, snapshotHash, renderPrimitiveHtml,
+  type Baseline, type PrimitiveSources, type Capture,
+} from &quot;@suluk/visual&quot;;
+import { formSpec } from &quot;@suluk/shadcn&quot;;
+
+// 1. The primitive SOURCES — the exact component bytes that draw the pixels (what you content-hash).
+const sources: PrimitiveSources = {
+  formLayout: &quot;&lt;Form&gt;{fields}&lt;/Form&gt;&quot;,
+  widgets: { text: &quot;&lt;input type=text&gt;&quot;, number: &quot;&lt;input type=number&gt;&quot;, select: &quot;&lt;select&gt;&quot; },
+};
+
+// 2. Decompose a generated form into the distinct primitives it is built from.
+const spec = formSpec(PetSchema);            // a @suluk/shadcn FormSpec
+const used = formPrimitives(spec, sources);  // [{ key: &quot;form:layout&quot;, contentHash }, { key: &quot;widget:text&quot;, … }, …]
+
+// 3. A fresh UI is NOT confident — its primitives were never pixel-verified.
+let baseline: Baseline = {};
+checkConfidence(used, baseline).confident;   // false
+pendingVerification(used, baseline);         // the primitives needing a one-time screenshot
+
+// 4. Verify ONCE: render each primitive in isolation, screenshot it, record the approval.
+const captures: Capture[] = pendingVerification(used, baseline).map((p) =&gt; {
+  const html = renderPrimitiveHtml({ widget: p.key.replace(&quot;widget:&quot;, &quot;&quot;) });
+  const pngBytes = screenshot(html);         // YOUR Playwright/screenshot step — bytes in
+  return { key: p.key, contentHash: p.contentHash, snapshotHash: snapshotHash(pngBytes), label: p.label };
+});
+baseline = approve(captures, baseline, Date.now());
+
+// 5. Now the SAME UI — and ANY other UI reusing those primitives — is confident for free.
+checkConfidence(used, baseline).confident;   // true
+confidenceCoverage(used, baseline);          // 1</code></pre>
+<h3>Drift — re-verify only what changed</h3>
+<pre><code class="lang-ts">// Edit one widget's source. Only THAT primitive drifts; everything else stays trusted.
+const changed = { ...sources, widgets: { ...sources.widgets, select: &quot;&lt;select class='v2'&gt;&quot; } };
+const report = checkConfidence(formPrimitives(spec, changed), baseline);
+
+report.confident;                 // false
+report.drifted.map((d) =&gt; d.key); // [&quot;widget:select&quot;]  — re-screenshot just this one
+report.approved;                  // [&quot;form:layout&quot;, &quot;widget:text&quot;, …] — still trusted</code></pre>
+<h3>The verify-once gate — isolated render + inline preview</h3>
+<pre><code class="lang-ts">import { renderPrimitiveHtml, knownWidgets, primitiveControl, primitiveCss } from &quot;@suluk/visual&quot;;
+
+renderPrimitiveHtml({ widget: &quot;select&quot; });   // a self-contained HTML page → the thing you screenshot
+knownWidgets();                              // [&quot;text&quot;,&quot;email&quot;,&quot;url&quot;,&quot;number&quot;,&quot;date&quot;,&quot;textarea&quot;,&quot;switch&quot;,&quot;checkbox&quot;,&quot;select&quot;]
+
+// For an inline preview inside a host UI (e.g. the VS Code cockpit webview):
+const css  = primitiveCss();                 // the small stylesheet
+const ctrl = primitiveControl(&quot;switch&quot;);     // just the control fragment, no surrounding page</code></pre>
+<h3>Tables</h3>
+<pre><code class="lang-ts">import { tablePrimitives } from &quot;@suluk/visual&quot;;
+import { tableSpec } from &quot;@suluk/shadcn&quot;;
+
+tablePrimitives(tableSpec(PetSchema), { tableLayout: &quot;&lt;Table&gt;…&lt;/Table&gt;&quot; });
+// [{ key: &quot;table:layout&quot;, … }, { key: &quot;widget:cell&quot;, … }]  — the cell primitive covers every column</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>hash</code> / <code>contentHash</code> / <code>snapshotHash</code></td><td>Stable, fast djb2 hash of source text or raw bytes (the latter two are named aliases).</td></tr>
+<tr><td><code>formPrimitives</code> / <code>tablePrimitives</code></td><td>Decompose a <code>@suluk/shadcn</code> <code>FormSpec</code> / <code>TableSpec</code> into the distinct primitives it composes, each content-hashed.</td></tr>
+<tr><td><code>checkConfidence</code></td><td>Decide — <strong>without rendering</strong> — whether a UI built from <code>used</code> primitives is pixel-confident, returning <code>{ confident, approved, missing, drifted }</code>.</td></tr>
+<tr><td><code>pendingVerification</code></td><td>Exactly the primitives needing a one-time pixel verification now (missing + drifted).</td></tr>
+<tr><td><code>approve</code></td><td>Record approvals into the baseline (the &quot;verify once&quot;) at a given timestamp.</td></tr>
+<tr><td><code>confidenceCoverage</code></td><td>Fraction of used primitives that are approved + unchanged (<code>1</code> ⇒ fully confident).</td></tr>
+<tr><td><code>renderPrimitiveHtml</code></td><td>A self-contained HTML page rendering one primitive — the input to your screenshot tool.</td></tr>
+<tr><td><code>knownWidgets</code></td><td>The widget primitives this package can render in isolation.</td></tr>
+<tr><td><code>primitiveControl</code> / <code>primitiveCss</code></td><td>The bare control fragment + its stylesheet, for an inline host preview.</td></tr>
+</tbody>
+</table>
+<p>Types: <code>Baseline</code>, <code>BaselineEntry</code>, <code>UsedPrimitive</code>, <code>ConfidenceReport</code>, <code>Capture</code>, <code>PrimitiveSources</code>.</p>
+<h2>Boundary</h2>
+<p>This is a <strong>pure logic</strong> package — the L3 line (<em>render/generate, never host</em>) applied to verification: it emits the isolated HTML to screenshot and consumes the screenshot's bytes you hand back. The <strong>screenshot step is an injected port</strong> — drive Playwright (or any tool) in your harness and pass the PNG bytes to <code>snapshotHash</code>; <code>@suluk/visual</code> never owns a browser. The <strong>baseline is yours</strong> — persist it as JSON and commit it. The widget <em>sources</em> you content-hash are also yours: feed in the real <code>@suluk/shadcn</code> generator output so a renderer edit honestly drifts the affected primitives. The cockpit / VS Code integration (<code>@suluk/cockpit</code>) layers the host webview, the per-entity report, and the approve-from-the-cockpit action on top — this package stays renderless and unit-tested.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">approve</code><code class="chip">Baseline</code><code class="chip">BaselineEntry</code><code class="chip">Capture</code><code class="chip">checkConfidence</code><code class="chip">confidenceCoverage</code><code class="chip">ConfidenceReport</code><code class="chip">contentHash</code><code class="chip">formPrimitives</code><code class="chip">hash</code><code class="chip">knownWidgets</code><code class="chip">pendingVerification</code><code class="chip">primitiveControl</code><code class="chip">primitiveCss</code><code class="chip">PrimitiveSources</code><code class="chip">renderPrimitiveHtml</code><code class="chip">snapshotHash</code><code class="chip">tablePrimitives</code><code class="chip">UsedPrimitive</code></div>
     <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/shadcn (peer)</code></div>
-    <h2>Modules</h2><dl class="modules"><dt><code>baseline.ts</code></dt><dd>The pixel-confidence core. You verify a UI primitive's PIXELS once (a human/tool looks at the rendered</dd><dt><code>capture.ts</code></dt><dd>The verify-once GATE input: render ONE primitive in isolation as a standalone HTML page, so a screenshot</dd><dt><code>shadcn.ts</code></dt><dd>Decompose a generated UI (a @suluk/shadcn FormSpec/TableSpec) into the leaf PRIMITIVES it is built from,</dd></dl>
+    
   </article></main>
 <footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
 </body></html>

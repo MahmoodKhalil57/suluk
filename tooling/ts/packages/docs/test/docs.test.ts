@@ -1,11 +1,13 @@
 import { test, expect, describe } from "bun:test";
 import { join } from "node:path";
-import { harvest, generateSite, mdToHtml, parseExports, firstBlockComment, packageGraphD2 } from "../src/index";
+import { harvest, generateSite, mdToHtml, parseExports, firstBlockComment, packageGraphD2, stripReadmeHeader, rewriteRepoLinks } from "../src/index";
 
 const packagesDir = join(import.meta.dir, "..", ".."); // tooling/ts/packages
+const repoRoot = join(packagesDir, "..", "..", "..");   // repo root
 
 const fw = harvest({
   packagesDir,
+  repoRoot,
   title: "Suluk",
   tagline: "One typed contract, projected into your whole stack.",
   description: "Suluk derives the **whole stack** from one source.",
@@ -44,6 +46,59 @@ describe("harvest — straight from the real monorepo source", () => {
   test("firstBlockComment strips the JSDoc markers", () => {
     expect(firstBlockComment("/**\n * hello\n * world\n */\ncode")).toBe("hello\nworld");
   });
+  test("harvests each package's README + its repo-relative dir", () => {
+    const core = fw.packages.find((p) => p.name === "@suluk/core")!;
+    expect(core.readme).toContain("bun add @suluk/core"); // the hand-written usage doc is captured
+    expect(core.repoRelDir).toBe("tooling/ts/packages/core");
+  });
+});
+
+describe("stripReadmeHeader — drops branding chrome, keeps the doc body", () => {
+  test("Family A — centered-logo HTML header is removed, content from the CANDIDATE note kept", () => {
+    const md = [
+      '<p align="center"><a href="x"><img src="wordmark.png"/></a></p>',
+      "",
+      '<h1 align="center">@suluk/x</h1>',
+      "",
+      '<p align="center"><b>One-line value prop.</b></p>',
+      "",
+      "---",
+      "",
+      "> **CANDIDATE tooling.**",
+      "",
+      "## Install",
+      "",
+      "bun add @suluk/x",
+    ].join("\n");
+    const body = stripReadmeHeader(md);
+    expect(body.startsWith("> **CANDIDATE")).toBe(true);
+    expect(body).toContain("## Install");
+    expect(body).not.toContain('align="center"');
+    expect(body).not.toContain("<h1");
+  });
+  test("Family B — plain '# @pkg' H1 + bold one-liner removed, intro prose kept", () => {
+    const md = "# @suluk/x\n\n**One-line value prop.**\n\nIntro prose stays.\n\n## Usage\n";
+    const body = stripReadmeHeader(md);
+    expect(body).toBe("Intro prose stays.\n\n## Usage");
+    expect(body).not.toContain("One-line value prop");
+  });
+});
+
+describe("rewriteRepoLinks — repo-relative README links become GitHub blob URLs", () => {
+  const repo = "https://github.com/MahmoodKhalil57/suluk";
+  const rel = "tooling/ts/packages/core";
+  test("a '../../../../doc' link resolves against the package dir to a blob URL", () => {
+    expect(rewriteRepoLinks("[C033](../../../../doc/architecture/decisions/C033-x.md)", repo, rel))
+      .toBe(`[C033](${repo}/blob/main/doc/architecture/decisions/C033-x.md)`);
+  });
+  test("a sibling-package link keeps its anchor", () => {
+    expect(rewriteRepoLinks("[hono](../hono/README.md#usage)", repo, rel))
+      .toBe(`[hono](${repo}/blob/main/tooling/ts/packages/hono/README.md#usage)`);
+  });
+  test("absolute links and pure anchors are left untouched", () => {
+    expect(rewriteRepoLinks("[s](https://example.com) and [a](#section)", repo, rel))
+      .toBe("[s](https://example.com) and [a](#section)");
+  });
 });
 
 describe("generateSite — a complete static site", () => {
@@ -66,11 +121,12 @@ describe("generateSite — a complete static site", () => {
     expect(index).toContain("The cycle");
     expect(index).toContain('href="suluk-core.html"');
   });
-  test("a package page has install + overview + public API", () => {
+  test("a package page renders the README as the body + the derived Public API", () => {
     const core = byPath.get("suluk-core.html")!;
-    expect(core).toContain("bun add @suluk/core");
-    expect(core).toContain("Public API");
+    expect(core).toContain("bun add @suluk/core"); // from the README's own Install (synthesized one suppressed)
+    expect(core).toContain("Public API");          // the derived, can't-go-stale appendix
     expect(core).toContain("parseDocument");
+    expect(core).not.toContain("<h2>Overview</h2>"); // the README supersedes the synthesized overview
   });
   test("the community page explains building libraries via the shadcn registry", () => {
     expect(byPath.get("community.html")!).toContain("registry");

@@ -18,13 +18,172 @@
 <main>
   <article class="package">
     <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/nano-stores</p>
-    <h1>@suluk/nano-stores <span class="ver">v0.1.1</span></h1>
+    <h1>@suluk/nano-stores <span class="ver">v0.1.3</span></h1>
     <p class="lead">v4 'Suluk' contracts -&gt; typed Nano Stores client: per-operation fetcher/mutator stores (@nanostores/query) with Zod-validated I/O. CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/nano-stores</code></pre>
-    <h2>Overview</h2><div class="prose"><p>@suluk/nano-stores — the STATE corner. Projects v4 &quot;Suluk&quot; RouteContracts (the same ones @suluk/hono derives a server from) into a typed Nano Stores client: GET → @nanostores/query fetcher stores, the rest → mutator stores, with the contract's Zod schemas guarding both request and response edges. One contract, two projections (server + client state). CANDIDATE tooling — NOT official OAS.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">ApiStores</code><code class="chip">buildUrl</code><code class="chip">createApiStores</code><code class="chip">CreateApiStoresOptions</code><code class="chip">FetcherFactory</code><code class="chip">MutatorInput</code><code class="chip">MutatorInvoker</code><code class="chip">SchemaViolationError</code></div>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/nano-stores</code></pre>
+<p>Peer deps: <code>nanostores</code>, <code>@nanostores/query</code>, and <code>zod</code> (v4).</p>
+<h2>What it does</h2>
+<p>The <strong>STATE corner</strong> of the Suluk suite. It takes the same v4 <code>RouteContract[]</code> that <code>@suluk/hono</code> derives a <em>server</em> from, and projects them into a typed <a href="https://github.com/nanostores/nanostores">Nano Stores</a> <em>client</em> — one source of truth, two projections.</p>
+<ul>
+<li><strong><code>createApiStores(routes)</code></strong> — GET routes become <code>@nanostores/query</code> <strong>fetcher</strong> stores (lazy,</li>
+</ul>
+<p>  cache-keyed, revalidatable); everything else becomes a <strong>mutator</strong> store.</p>
+<ul>
+<li><strong>Zod guards both edges.</strong> Request bodies are validated against the contract's <code>request.json</code></li>
+</ul>
+<p>  <em>before</em> the network call (fail fast, no bad write); responses are validated against the route's   2xx schema <em>after</em> parsing (reject on drift). A violation rejects with a typed <code>SchemaViolationError</code>   carrying the Zod issues — never swallowed.</p>
+<ul>
+<li><strong>Cost tracing built in.</strong> Every request carries an <code>x-suluk-action</code> header so the server's cost</li>
+</ul>
+<p>  meter (<code>@suluk/cost</code>) can attribute spend back to the UI action that triggered it.</p>
+<ul>
+<li><strong>Commerce + felt-UX primitives.</strong> A localStorage-persisted, cross-tab-synced <strong>cart</strong> and</li>
+</ul>
+<p>  <strong>discount</strong> store, plus vanilla DOM helpers — a slide-in <strong>drawer</strong>, a nav <strong>progress bar</strong>,   <strong>scroll-reveal</strong>, <strong>async-button</strong> double-submit safety, and form-<strong>validation</strong> feedback. All   framework-agnostic (no React) and usable from a plain <code>&lt;script&gt;</code>, an Astro island, Svelte/Vue, or a worker.</p>
+<h2>When to reach for it</h2>
+<ul>
+<li>You have a Suluk/Hono v4 contract and want a <strong>typed, validated client store layer</strong> for a</li>
+</ul>
+<p>  nanostores frontend — without hand-writing fetchers or re-deriving request/response types.</p>
+<ul>
+<li>You want a <strong>drop-in shopping cart / discount store</strong> that persists and syncs across tabs, and the</li>
+</ul>
+<p>  small interaction primitives a polished MPA shell needs (drawer, nav progress, reveal, async buttons).</p>
+<p>Not this package when: you want a generated <em>typed SDK</em> (request functions, not stores) — reach for <code>@suluk/sdk</code>. You want generated React form/table components — <code>@suluk/shadcn</code>. You want an admin UI projected from the contract — <code>@suluk/panel</code>.</p>
+<h2>Usage</h2>
+<h3>The contract → stores projection (<code>createApiStores</code>)</h3>
+<p>Hand it your v4 <code>RouteContract[]</code> (the array <code>@suluk/hono</code> also consumes). GET → fetcher factories, the rest → mutator stores, keyed by each route's derived name.</p>
+<pre><code class="lang-ts">import { createApiStores } from &quot;@suluk/nano-stores&quot;;
+import { keepMount, allTasks } from &quot;nanostores&quot;;
+import { z } from &quot;zod&quot;;
+import type { RouteContract } from &quot;@suluk/hono&quot;;
+
+const Pet = z.object({ id: z.number(), name: z.string() });
+
+const routes: RouteContract[] = [
+  { method: &quot;get&quot;,  path: &quot;/pet/:petId&quot;, name: &quot;getPet&quot;,    request: { params: z.object({ petId: z.string() }) }, responses: [{ status: 200, schema: Pet }] },
+  { method: &quot;post&quot;, path: &quot;/pet&quot;,        name: &quot;createPet&quot;, request: { json: z.object({ name: z.string() }) },    responses: [{ status: 200, schema: Pet }] },
+];
+
+const api = createApiStores(routes, {
+  baseUrl: &quot;https://api.example.com&quot;,
+  action: &quot;pets-page&quot;, // → x-suluk-action on every request (cost tracing)
+});
+
+// --- a MUTATOR (POST/PUT/PATCH/DELETE) ---
+// body validated against request.json BEFORE the call; response validated against the 2xx schema.
+// `.mutate` resolves to the validated body, or REJECTS with a SchemaViolationError.
+const pet = await api.mutators.createPet.mutate({
+  data: { name: &quot;Rex&quot; },
+  action: &quot;create-button&quot;, // per-call action overrides the store default
+});
+
+// --- a FETCHER (GET) ---  lazy: it fetches once mounted.
+const store = api.fetchers.getPet({ petId: &quot;99&quot; });
+keepMount(store);
+await allTasks();
+store.get().data;  // → { id: 99, name: &quot;Fido&quot; } (validated), or .error on schema drift
+
+// invalidate by route name (refetches its mounted stores) or by raw URL/prefix.
+api.invalidate(&quot;getPet&quot;);
+
+// non-fatal projection losses (e.g. a GET with no response schema → unvalidated).
+api.warnings; // string[], never thrown</code></pre>
+<p><code>SchemaViolationError</code> carries <code>.side</code> (<code>&quot;request&quot;</code> | <code>&quot;response&quot;</code>), <code>.route</code>, and <code>.issues</code>:</p>
+<pre><code class="lang-ts">import { SchemaViolationError } from &quot;@suluk/nano-stores&quot;;
+
+try {
+  await api.mutators.createPet.mutate({ data: { name: 123 as never } });
+} catch (e) {
+  if (e instanceof SchemaViolationError) console.error(e.side, e.issues); // &quot;request&quot;, [...]
+}</code></pre>
+<h3>Cart + discount stores</h3>
+<p>Vanilla Nano Stores, no framework. Persists to <code>localStorage</code> as the de-facto <code>[{ productId, qty, priceCents, name }]</code> array, and stays consistent across tabs (native <code>storage</code> event) and within a tab (a custom change event), so a starter that already writes the same key by hand can adopt it incrementally.</p>
+<pre><code class="lang-ts">import { createCartStore, createDiscountStore } from &quot;@suluk/nano-stores&quot;;
+
+const cart = createCartStore({ storageKey: &quot;cart&quot; });
+
+cart.add({ productId: &quot;p1&quot;, qty: 1, priceCents: 1000, name: &quot;Widget&quot; });
+cart.add({ productId: &quot;p1&quot;, qty: 2 } as any);  // same productId → merges (qty = 3)
+cart.setQty(&quot;p1&quot;, 5);                            // qty &lt;= 0 removes the line
+cart.lines();                                    // CartLine[] in insertion order — the render source
+
+cart.$count.subscribe((n) =&gt; updateBadge(n));    // total quantity (ReadableAtom)
+cart.$subtotalCents.get();                        // Σ qty·priceCents (pre-discount)
+
+// the cart's companion — the app validates the code, the store persists the result:
+const discount = createDiscountStore({ storageKey: &quot;discount&quot; });
+discount.apply({ code: &quot;SAVE10&quot;, type: &quot;percent&quot;, value: 10 }); // mirrors @suluk/stripe's Discount shape
+discount.get(); // → { code, type, value, validatedAt? } | null</code></pre>
+<h3>Interaction primitives (framework-agnostic DOM)</h3>
+<p>The &quot;felt-UX&quot; helpers — pure DOM, the <em>look</em> lives in <code>@suluk/theme</code>'s base CSS.</p>
+<pre><code class="lang-ts">import { createDrawer, createProgressBar, revealOnScroll, bindAsyncButton, markInvalid } from &quot;@suluk/nano-stores&quot;;
+
+// slide-in panel (cart / mobile nav): open/close + inert focus-trap + focus restore.
+const d = createDrawer({
+  drawer: panelEl,
+  backdrop: backdropEl,
+  inertTargets: () =&gt; [header, main, footer], // made inert while open
+  initialFocus: () =&gt; closeButton,
+});
+d.open();  d.toggle();  d.isOpen();
+
+// asymptotic nav progress bar — the store owns the value, you drive the cadence.
+const p = createProgressBar({ el: bar });
+p.start();
+const iv = setInterval(() =&gt; p.tick(), 140); // eases fast, then crawls toward 95%
+// on navigation complete:
+clearInterval(iv); p.done();
+
+// staggered scroll-reveal of [data-reveal] elements (degrades to reveal-all without IntersectionObserver).
+const stop = revealOnScroll();
+
+// promise-aware double-submit safety: auto-disables + aria-busy + optional pending label.
+bindAsyncButton(submitBtn, async () =&gt; { await saveForm(); }, { pendingLabel: &quot;Saving…&quot; });
+
+// form-error feedback: aria-invalid ring + shake (the theme supplies the CSS).
+markInvalid(emailField, { shake: true });</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>Kind</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>createApiStores(routes, opts?)</code></td><td>fn → <code>ApiStores</code></td><td>Project <code>RouteContract[]</code> into <code>fetchers</code>, <code>mutators</code>, <code>invalidate</code>, <code>warnings</code>, and the shared query <code>ctx</code>.</td></tr>
+<tr><td><code>SchemaViolationError</code></td><td>class</td><td>Thrown/rejected on a request- or response-edge schema violation; carries <code>side</code>, <code>route</code>, <code>issues</code>.</td></tr>
+<tr><td><code>buildUrl(path, params?, baseUrl?)</code></td><td>fn</td><td>Substitute <code>:name</code> (Hono) <strong>and</strong> <code>{name}</code> (RFC-6570 / v4) path params; unbound placeholders left verbatim (honest loss).</td></tr>
+<tr><td><code>createCartStore(opts?)</code></td><td>fn → <code>CartStore</code></td><td>Persisted, cross/same-tab-synced cart; <code>$items</code> / <code>$count</code> / <code>$subtotalCents</code> + <code>add</code> / <code>setQty</code> / <code>remove</code> / <code>clear</code>.</td></tr>
+<tr><td><code>createDiscountStore(opts?)</code></td><td>fn → <code>DiscountStore</code></td><td>Persisted applied-discount atom (<code>$discount</code>, <code>apply</code>, <code>clear</code>).</td></tr>
+<tr><td><code>createDrawer(opts)</code></td><td>fn → <code>Drawer</code></td><td>Slide-in panel controller: open/close/toggle + inert focus-trap + focus restore.</td></tr>
+<tr><td><code>createProgressBar(opts?)</code></td><td>fn → <code>ProgressBar</code></td><td>Asymptotic nav progress (<code>start</code> / <code>tick</code> / <code>done</code> / <code>reset</code> / <code>set</code>); store owns the value.</td></tr>
+<tr><td><code>revealOnScroll(opts?)</code></td><td>fn → cleanup</td><td>Staggered IntersectionObserver reveal for <code>[data-reveal]</code>; reveal-all fallback.</td></tr>
+<tr><td><code>asyncHandler</code> / <code>bindAsyncButton</code></td><td>fn</td><td>Wrap/attach a promise-aware handler with auto-disable + aria-busy + re-entry guard.</td></tr>
+<tr><td><code>markInvalid</code> / <code>clearInvalid</code> / <code>clearInvalidOnInput</code></td><td>fn</td><td>Form-field error feedback (aria-invalid + shake) and real-time clearing.</td></tr>
+</tbody>
+</table>
+<p>All types (<code>ApiStores</code>, <code>CreateApiStoresOptions</code>, <code>MutatorInput</code>, <code>CartStore</code>, <code>CartLine</code>, <code>DiscountStore</code>, <code>AppliedDiscount</code>, <code>Drawer</code>, <code>ProgressBar</code>, <code>RevealOptions</code>, <code>AsyncBindOptions</code>, <code>FieldLike</code>, …) are exported alongside their factories.</p>
+<h2>Boundary</h2>
+<p>The <strong>L3 line — render/generate, never host.</strong> This package hands you stores you own and call; it never becomes a runtime your app has to phone home to. The seams stay app-side:</p>
+<ul>
+<li><strong>Inject the network.</strong> <code>createApiStores</code> takes a <code>fetch</code> (defaults to global) and a <code>baseUrl</code> — the</li>
+</ul>
+<p>  store layer is the projection, the transport is yours.</p>
+<ul>
+<li><strong>Inject persistence + events.</strong> The cart/discount stores take a <code>storage</code> and <code>events</code> target</li>
+</ul>
+<p>  (default <code>localStorage</code> / <code>globalThis</code>, in-memory shim under SSR/build/tests). Pass <code>null</code> to disable   syncing, or a mock to test headless.</p>
+<ul>
+<li><strong>Server-authoritative logic stays in the contract.</strong> Checkout, discount <em>validation</em>, and final</li>
+</ul>
+<p>  totals are <code>createApiStores</code> mutators against your endpoints — the cart store owns only the   optimistic client cart and reconciles from the server response. The interaction primitives toggle   semantic state (<code>aria-busy</code>, <code>aria-invalid</code>, an <code>open</code> class); the visuals are <code>@suluk/theme</code> CSS.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">ApiStores</code><code class="chip">AppliedDiscount</code><code class="chip">AsyncBindOptions</code><code class="chip">asyncHandler</code><code class="chip">bindAsyncButton</code><code class="chip">buildUrl</code><code class="chip">CartLine</code><code class="chip">CartStore</code><code class="chip">CartStoreOptions</code><code class="chip">clearInvalid</code><code class="chip">clearInvalidOnInput</code><code class="chip">createApiStores</code><code class="chip">CreateApiStoresOptions</code><code class="chip">createCartStore</code><code class="chip">createDiscountStore</code><code class="chip">createDrawer</code><code class="chip">createProgressBar</code><code class="chip">DiscountStore</code><code class="chip">DiscountStoreOptions</code><code class="chip">Drawer</code><code class="chip">DrawerOptions</code><code class="chip">FetcherFactory</code><code class="chip">FieldLike</code><code class="chip">markInvalid</code><code class="chip">MutatorInput</code><code class="chip">MutatorInvoker</code><code class="chip">PanelEl</code><code class="chip">ProgressBar</code><code class="chip">ProgressBarOptions</code><code class="chip">ProgressElement</code><code class="chip">revealOnScroll</code><code class="chip">RevealOptions</code><code class="chip">SchemaViolationError</code></div>
     <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/hono</code><code class="chip">nanostores (peer)</code><code class="chip">@nanostores/query (peer)</code><code class="chip">zod (peer)</code></div>
-    <h2>Modules</h2><dl class="modules"><dt><code>stores.ts</code></dt><dd>createApiStores — project a list of v4 &quot;Suluk&quot; RouteContracts into a typed Nano Stores client (the STATE</dd><dt><code>url.ts</code></dt><dd>URL templating for the STATE corner. A RouteContract.path is Hono-style (&quot;/pet/:petId&quot;); v4 uriTemplates</dd></dl>
+    
   </article></main>
 <footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
 </body></html>

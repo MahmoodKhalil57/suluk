@@ -18,14 +18,145 @@
 <main>
   <article class="package">
     <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/better-auth</p>
-    <h1>@suluk/better-auth <span class="ver">v0.1.1</span></h1>
+    <h1>@suluk/better-auth <span class="ver">v0.1.3</span></h1>
     <p class="lead">Official Better-Auth-on-Hono support for Suluk: auth methods -&gt; v4 securitySchemes; ingest Better Auth's OpenAPI 3.0 -&gt; v4; session -&gt; principal for per-viewer docs. CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/better-auth</code></pre>
-    <h2>Overview</h2><div class="prose"><p>@suluk/better-auth — official Better-Auth-on-Hono support for the Suluk derivation engine.</p>
-<p>Better Auth is a Contract input (auth settings). This package: (1) derives v4 securitySchemes from the enabled auth methods; (2) ingests Better Auth's own OpenAPI 3.0 output (normalizing it to 2020-12) and lifts it to v4 via @suluk/openapi-compat, then merges it into the app doc — so the auth surface is documented without re-typing; (3) maps a Better Auth session to a { scopes } principal that feeds @suluk/hono's per-viewer emitV4; (4) mounts the auth handler on Hono. CANDIDATE tooling.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">AuthHandlerLike</code><code class="chip">AuthMethods</code><code class="chip">AuthSecurity</code><code class="chip">authSecuritySchemes</code><code class="chip">HonoLike</code><code class="chip">ingestAuthOpenAPI</code><code class="chip">IngestOptions</code><code class="chip">mergeAuth</code><code class="chip">mountAuth</code><code class="chip">MountAuthOptions</code><code class="chip">normalizeOas30</code><code class="chip">Principal</code><code class="chip">principalFromSession</code><code class="chip">PrincipalOptions</code><code class="chip">SessionLike</code></div>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/better-auth</code></pre>
+<p><code>better-auth</code> and <code>hono</code> are optional peers — everything here is duck-typed, so you only need the ones you actually use.</p>
+<h2>What it does</h2>
+<p><a href="https://www.better-auth.com">Better Auth</a> is a <strong>Contract input</strong> (your auth settings). This package reflects it into the Suluk v4 document and closes the per-viewer loop, without you re-typing the auth surface:</p>
+<ul>
+<li><strong>Auth methods → v4 <code>securitySchemes</code></strong> — <code>authSecuritySchemes({ session, bearer, apiKey, … })</code> derives the</li>
+</ul>
+<p>  <code>components.securitySchemes</code> block (session-cookie, HTTP bearer, API-key header).</p>
+<ul>
+<li><strong>Better Auth's OpenAPI 3.0 → v4</strong> — <code>ingestAuthOpenAPI</code> normalizes Better Auth's own</li>
+</ul>
+<p>  <code>generateOpenAPISchema()</code> output to JSON Schema 2020-12, lifts it to v4 (via <code>@suluk/openapi-compat</code>), and   <code>mergeAuth</code> folds the auth routes + schemes into your app's document. <code>/sign-up</code>, <code>/get-session</code>, … get   documented for free.</p>
+<ul>
+<li><strong>Session → <code>{ scopes }</code> principal</strong> — <code>principalFromSession</code> maps a Better Auth session (role, granted</li>
+</ul>
+<p>  scopes, 2FA state, org memberships) to the <code>{ scopes }</code> shape <code>@suluk/hono</code>'s <code>emitV4(routes, { principal })</code>   uses to project the doc each viewer is allowed to see. <code>verifyApiKey</code> produces the <strong>same</strong> shape for API-key   callers, so enforcement is identical for sessions and keys.</p>
+<ul>
+<li><strong>Thin Hono mount + auth-flow plumbing</strong> — <code>mountAuth</code> routes <code>/api/auth/*</code> to the Better Auth handler;</li>
+</ul>
+<p>  helpers cover open-redirect-safe redirects, frictionless email verification, a GDPR erasure cascade, and a   fail-closed role-preview login route.</p>
+<h2>When to reach for it</h2>
+<p>Reach for it when your app uses Better Auth and you want <strong>auth reflected in the contract</strong> — its schemes and its endpoints in the v4 doc — plus a <strong>principal</strong> that drives per-viewer projection and <code>@suluk/hono</code> access enforcement. The session→principal shape is the seam many other packages key off; this is where it's produced.</p>
+<p>Don't reach for it to <em>render</em> the doc (that's <code>@suluk/reference</code> / <code>@suluk/scalar</code> / <code>@suluk/swagger</code>) or to build routes from entities (that's <code>@suluk/builder</code> / <code>@suluk/drizzle</code>). This package's job ends at handing those layers a contract that already knows about auth, and a principal to scope it.</p>
+<h2>Usage</h2>
+<h3>Reflect auth into the contract</h3>
+<p>The common case: derive the schemes, ingest Better Auth's own OpenAPI, and merge both into the app doc.</p>
+<pre><code class="lang-ts">import { authSecuritySchemes, ingestAuthOpenAPI, mergeAuth } from &quot;@suluk/better-auth&quot;;
+import { auth } from &quot;./auth&quot;; // your betterAuth({ … }) instance, with the openAPI() plugin enabled
+
+// 1. auth methods → v4 securitySchemes
+const { securitySchemes } = authSecuritySchemes({ session: true, bearer: true, apiKey: true });
+
+// 2. ingest Better Auth's own OpenAPI 3.0 surface, lifted to v4 and prefixed under its mount base
+const authSchema = await auth.api.generateOpenAPISchema(); // OpenAPI 3.0
+const authV4 = ingestAuthOpenAPI(authSchema, { basePath: &quot;/api/auth&quot; });
+
+// 3. fold auth routes + schemes into your app's v4 document
+const document = mergeAuth(appDocument, authV4, { securitySchemes });
+// → document.paths now has &quot;api/auth/sign-up/email&quot;, …; components.securitySchemes has sessionCookie/bearerAuth/apiKey</code></pre>
+<p><code>authSecuritySchemes</code> also reports session-based plugins that add <strong>no</strong> new wire scheme but gate into the session — <code>{ twoFactor, passkey, organization }</code> — via the returned <code>plugins</code> field.</p>
+<h3>Close the per-viewer loop (session → principal)</h3>
+<pre><code class="lang-ts">import { principalFromSession } from &quot;@suluk/better-auth&quot;;
+import { emitV4 } from &quot;@suluk/hono&quot;;
+
+const session = await auth.api.getSession({ headers: req.headers });
+const principal = principalFromSession(session, {
+  roleScopes: { admin: [&quot;read:*&quot;, &quot;write:*&quot;], user: [&quot;read:self&quot;] },
+});
+
+// @suluk/hono projects only the operations this viewer's scopes allow
+const { document } = emitV4(routes, { principal });</code></pre>
+<p><code>principalFromSession</code> also encodes plugin state <strong>as scopes</strong>: a 2FA-cleared session gains <code>mfa:verified</code> (the exported <code>MFA_SCOPE</code>), and each org membership contributes <code>org:&lt;id&gt;:&lt;scope&gt;</code> scopes (build/parse them with <code>orgScope</code> / <code>parseOrgScope</code>) — so 2FA and tenancy gate through the same scope check <code>@suluk/hono</code> already runs.</p>
+<h3>Scope-aware API-key verification</h3>
+<p>Give API-key callers the <strong>same</strong> <code>{ scopes }</code> principal as sessions, so <code>@suluk/hono</code>'s <code>createGuard</code> / <code>enforceAccess</code> works for keys too:</p>
+<pre><code class="lang-ts">import { verifyApiKey } from &quot;@suluk/better-auth&quot;;
+
+const result = await verifyApiKey(auth.api, key, { requireScopes: [&quot;orders:read&quot;] });
+if (!result.ok) {
+  // result.reason is &quot;invalid&quot; | &quot;insufficient_scope&quot; | &quot;error&quot;
+  return new Response(&quot;unauthorized&quot;, { status: 401 });
+}
+result.principal; // { scopes: [&quot;orders:read&quot;, …] } — feed this to @suluk/hono
+result.key;       // { id, userId, name, metadata } — metadata parsed past Better Auth's double-stringification</code></pre>
+<p><code>scopesToPermissions</code> / <code>permissionsToScopes</code> convert between flat <code>&quot;cart:read&quot;</code> scopes and Better Auth's <code>{ cart: [&quot;read&quot;] }</code> permission shape.</p>
+<h3>Mount the handler on Hono</h3>
+<pre><code class="lang-ts">import { mountAuth } from &quot;@suluk/better-auth&quot;;
+import { Hono } from &quot;hono&quot;;
+
+const app = new Hono();
+mountAuth(app, auth); // routes POST/GET /api/auth/* → auth.handler(c.req.raw)</code></pre>
+<h3>Auth-flow UX: redirects + frictionless verification</h3>
+<pre><code class="lang-ts">import {
+  resolveRedirectTo, withRedirectTo, isSafeRelativePath, emailVerificationConfig,
+} from &quot;@suluk/better-auth&quot;;
+
+resolveRedirectTo(location.search);        // read ?redirectTo, honored only if same-origin-relative (open-redirect-safe)
+withRedirectTo(&quot;/login&quot;, &quot;/dashboard&quot;);    // &quot;/login?redirectTo=%2Fdashboard&quot; — return here post-auth
+
+// spread into betterAuth({ emailVerification: … }) — verify-on-sign-up + auto-sign-in after, by default
+const emailVerification = emailVerificationConfig({
+  sendVerificationEmail: async ({ user, url }) =&gt; { await sendVerifyEmail(user.email, url); },
+});</code></pre>
+<h3>GDPR erasure cascade</h3>
+<p><code>beforeDeleteCascade</code> builds Better Auth's <code>user.deleteUser.beforeDelete</code> hook from an ordered list of steps. The package orchestrates; you supply the steps and pick the posture (<code>deleteStep</code> hard-deletes, <code>anonymizeStep</code> scrubs PII, <code>step</code> is generic). Fail-closed by default — a failed cleanup aborts the delete so no rows are orphaned.</p>
+<pre><code class="lang-ts">import { betterAuth } from &quot;better-auth&quot;;
+import { beforeDeleteCascade, deleteStep } from &quot;@suluk/better-auth&quot;;
+
+const steps = [
+  deleteStep(&quot;orders&quot;, (user) =&gt; db.delete(orders).where(eq(orders.customerId, user.id)).run()),
+  deleteStep(&quot;apiTokens&quot;, (user) =&gt; db.delete(apiToken).where(eq(apiToken.userId, user.id)).run()),
+];
+
+betterAuth({
+  user: { deleteUser: { enabled: true, beforeDelete: beforeDeleteCascade(steps) } },
+});</code></pre>
+<h3>Role-preview login (the one credentialed surface)</h3>
+<p><code>previewLoginHandler</code> mints a role-scoped session for the seeded demo user, for the generated preview Worker — fail-closed behind two independent locks (<code>env.SULUK_PREVIEW === &quot;1&quot;</code> <strong>and</strong> an <code>env.PREVIEW_DB</code> binding; absence of either ⇒ 404). The role comes from a server-side allow-list, never a client header.</p>
+<pre><code class="lang-ts">import { previewLoginHandler } from &quot;@suluk/better-auth&quot;;
+
+// inside the preview Worker, for GET /preview/login?role=…
+return previewLoginHandler(request, env, {
+  allowedRoles: [&quot;user&quot;, &quot;admin&quot;],          // from the contract's preview roles, NEVER hardcoded loosely
+  mintSession: (role) =&gt; mintDemoSession(role), // binds to a seeded throwaway demo user for `role`
+});</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>authSecuritySchemes(methods)</code></td><td>Auth methods → v4 <code>securitySchemes</code> + the enabled session-plugins (<code>AuthMethods</code> → <code>AuthSecurity</code>).</td></tr>
+<tr><td><code>ingestAuthOpenAPI(schema30, opts?)</code></td><td>Normalize Better Auth's OpenAPI 3.0 to 2020-12 and lift it to a v4 document.</td></tr>
+<tr><td><code>normalizeOas30(node)</code></td><td>Rewrite 3.0 Schema dialect (<code>nullable</code>, boolean <code>exclusiveMin/Max</code>) into JSON Schema 2020-12.</td></tr>
+<tr><td><code>mergeAuth(app, auth, extra?)</code></td><td>Deep-merge auth paths + schemas + <code>securitySchemes</code> into the app's v4 document.</td></tr>
+<tr><td><code>principalFromSession(session, opts?)</code></td><td>Better Auth session → <code>{ scopes }</code> <code>Principal</code> (role, scopes, MFA, org).</td></tr>
+<tr><td><code>MFA_SCOPE</code>, <code>orgScope</code>, <code>parseOrgScope</code></td><td>The <code>mfa:verified</code> scope + build/parse <code>org:&lt;id&gt;:&lt;scope&gt;</code> tenancy scopes.</td></tr>
+<tr><td><code>verifyApiKey(verifier, key, opts?)</code></td><td>Verify an API key (optionally <code>requireScopes</code>) → the same <code>{ scopes }</code> <code>Principal</code>.</td></tr>
+<tr><td><code>scopesToPermissions</code> / <code>permissionsToScopes</code></td><td>Convert between flat <code>&quot;a:b&quot;</code> scopes and Better Auth's <code>{ a: [&quot;b&quot;] }</code> permissions.</td></tr>
+<tr><td><code>parseApiKeyMetadata(raw)</code></td><td>Parse key metadata past Better Auth's double-stringification quirk.</td></tr>
+<tr><td><code>beforeDeleteCascade(steps, opts?)</code></td><td>Build the <code>beforeDelete</code> hook from an ordered, fail-closed erasure cascade.</td></tr>
+<tr><td><code>step</code> / <code>anonymizeStep</code> / <code>deleteStep</code></td><td>Cascade-step constructors (generic / scrub-PII / hard-delete).</td></tr>
+<tr><td><code>isSafeRelativePath</code> / <code>resolveRedirectTo</code> / <code>withRedirectTo</code></td><td>Open-redirect-safe <code>redirectTo</code> preservation.</td></tr>
+<tr><td><code>emailVerificationConfig(opts)</code></td><td>A Better Auth <code>emailVerification</code> block with frictionless-activation defaults.</td></tr>
+<tr><td><code>mountAuth(app, auth, opts?)</code></td><td>Mount the Better Auth handler onto a Hono app under <code>basePath/*</code>.</td></tr>
+<tr><td><code>previewLoginHandler(req, env, opts)</code> / <code>isPreviewRuntime(env)</code></td><td>Fail-closed role-preview login + its two-lock gate check.</td></tr>
+</tbody>
+</table>
+<h2>Boundary</h2>
+<p>This package <strong>reflects and reads</strong> Better Auth — it never becomes the auth runtime. Better Auth owns sessions, storage, and the credential flows; Suluk turns its configuration into a v4 contract and a scope-bearing principal. The seams are injected, not assumed: <code>mountAuth</code> / <code>verifyApiKey</code> are duck-typed against <code>auth.handler</code> / <code>auth.api</code> (no hard <code>better-auth</code> or <code>hono</code> import); <code>beforeDeleteCascade</code> takes the steps that touch <em>your</em> db; <code>previewLoginHandler</code> takes the <code>mintSession</code> that owns the session lookup. The session→principal <strong>shape</strong> is a stable contract many other <code>@suluk/*</code> packages depend on — extend the method→scheme and session→scope mappings, but keep that shape steady. Rendering the resulting doc, and hosting the auth itself, stay outside this line.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">anonymizeStep</code><code class="chip">ApiKeyMetadata</code><code class="chip">ApiKeyVerifierLike</code><code class="chip">AuthHandlerLike</code><code class="chip">AuthMethods</code><code class="chip">AuthSecurity</code><code class="chip">authSecuritySchemes</code><code class="chip">beforeDeleteCascade</code><code class="chip">CascadeOptions</code><code class="chip">CascadeStep</code><code class="chip">deleteStep</code><code class="chip">emailVerificationConfig</code><code class="chip">EmailVerificationOptions</code><code class="chip">HonoLike</code><code class="chip">ingestAuthOpenAPI</code><code class="chip">IngestOptions</code><code class="chip">isPreviewRuntime</code><code class="chip">isSafeRelativePath</code><code class="chip">mergeAuth</code><code class="chip">MFA_SCOPE</code><code class="chip">MintedSession</code><code class="chip">mountAuth</code><code class="chip">MountAuthOptions</code><code class="chip">normalizeOas30</code><code class="chip">orgScope</code><code class="chip">parseApiKeyMetadata</code><code class="chip">parseOrgScope</code><code class="chip">permissionsToScopes</code><code class="chip">PreviewEnvLike</code><code class="chip">previewLoginHandler</code><code class="chip">PreviewLoginOptions</code><code class="chip">PreviewRequestLike</code><code class="chip">Principal</code><code class="chip">principalFromSession</code><code class="chip">PrincipalOptions</code><code class="chip">resolveRedirectTo</code><code class="chip">scopesToPermissions</code><code class="chip">SessionLike</code><code class="chip">step</code><code class="chip">VerifiedKey</code><code class="chip">verifyApiKey</code><code class="chip">VerifyApiKeyOptions</code><code class="chip">VerifyApiKeyResult</code><code class="chip">VerifyReason</code><code class="chip">withRedirectTo</code></div>
     <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/openapi-compat</code><code class="chip">better-auth (peer)</code><code class="chip">hono (peer)</code></div>
-    <h2>Modules</h2><dl class="modules"><dt><code>ingest.ts</code></dt><dd>Ingest Better Auth's own OpenAPI output (from auth.api.generateOpenAPISchema(), which emits OpenAPI 3.0)</dd><dt><code>mount.ts</code></dt><dd>mountAuth — the thin Hono adapter for Better Auth (the documented integration:</dd><dt><code>principal.ts</code></dt><dd>The principal extractor — the loop-closer for per-viewer docs. A Better Auth session (its user role,</dd><dt><code>security.ts</code></dt><dd>Derive v4 securitySchemes (C014) from a declarative description of the Better Auth methods in use.</dd></dl>
+    
   </article></main>
 <footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
 </body></html>

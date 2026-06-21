@@ -3,9 +3,30 @@
  * code, ATX headings, tables, lists, blockquotes, rules, paragraphs, and inline code / bold / italic / links.
  * Not a full CommonMark engine; it is deliberately small and predictable (and reusable for READMEs).
  */
+import { posix } from "node:path";
 
 export function escapeHtml(s: string): string {
   return s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]!));
+}
+
+/**
+ * Rewrite repo-RELATIVE markdown links (`](../../doc/x.md)`, `](./y)`) to absolute GitHub blob URLs so a
+ * README harvested into the site doesn't ship dead links. `relDir` is the package's path from the repo root
+ * (e.g. `tooling/ts/packages/core`); the link is resolved against it and normalized. Absolute links
+ * (`http(s):`, `mailto:`, protocol-relative), pure `#anchors`, and already-absolute paths are left untouched.
+ */
+export function rewriteRepoLinks(md: string, repoUrl: string, relDir: string, ref = "main"): string {
+  const base = repoUrl.replace(/\/+$/, "");
+  return md.replace(/(\]\()([^)\s]+)([^)]*\))/g, (full, open: string, href: string, close: string) => {
+    const h = href.trim();
+    if (/^(?:[a-z][a-z0-9+.-]*:|#|\/\/|\/)/i.test(h)) return full; // absolute / anchor / root-relative — leave as-is
+    const hashAt = h.indexOf("#");
+    const anchor = hashAt >= 0 ? h.slice(hashAt) : "";
+    const path = (hashAt >= 0 ? h.slice(0, hashAt) : h).replace(/^\.\//, "");
+    if (!path) return full; // was a bare `#anchor`
+    const resolved = posix.normalize(`${relDir}/${path}`).replace(/^(?:\.\.\/)+/, "");
+    return `${open}${base}/blob/${ref}/${resolved}${anchor}${close}`;
+  });
 }
 
 /** Inline spans: `code`, ![alt](url) image, [text](url), **bold**, *italic*. Escapes first, then injects safe tags. */

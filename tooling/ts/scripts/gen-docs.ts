@@ -19,6 +19,7 @@ const fw = harvest({
     "it. One source, many projections; they cannot drift because they are the same source.",
   repoUrl: "https://github.com/MahmoodKhalil57/suluk",
   architecturePath: join(tsRoot, "..", "ARCHITECTURE.md"),     // tooling/ARCHITECTURE.md
+  repoRoot,                                                    // README links resolve from here → GitHub blob URLs
 });
 
 const out = join(repoRoot, "docs");

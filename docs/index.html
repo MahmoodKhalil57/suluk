@@ -35,10 +35,14 @@
                                                                             check)
         @suluk/builder composes it (pages → sections → blocks → components, contract-narrowing)
         @suluk/deploy ships it to Cloudflare · @suluk/cockpit drives it (vscode + /superadmin)</pre></section>
-  <section id="packages"><h2>Packages <span class="muted">(20)</span></h2>
+  <section id="packages"><h2>Packages <span class="muted">(37)</span></h2>
     <div class="grid"><a class="card" href="suluk-admin.html">
     <div class="card-name">@suluk/admin</div>
     <div class="card-desc">The /superadmin web admin panel — the same cockpit as the vscode extension (@suluk/cockpit core), rendered as a Hono-served web UI. Superadmin-gated. CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-agents.html">
+    <div class="card-name">@suluk/agents</div>
+    <div class="card-desc">Suluk Agent composition (C027): lint + project an <code>x-suluk-agents</code> map (skills + deterministic routes + by-name sub-agents) to a Claude plugin AND an OpenRouter/OpenAI-compatible manifest — one contract, two artifacts, zero network at generate time. Determinism is DECLARED not enforced; the matcher never reads an agent field. CANDIDATE tooling — NOT official OAS.</div>
   </a>
 <a class="card" href="suluk-better-auth.html">
     <div class="card-name">@suluk/better-auth</div>
@@ -47,6 +51,14 @@
 <a class="card" href="suluk-builder.html">
     <div class="card-name">@suluk/builder</div>
     <div class="card-desc">Tiered contract-narrowing DSL (components→blocks→sections→pages) bound to the Suluk cycle. A page composes sections; buildApp emits backend (routes+v4) AND frontend (page TSX) at once. Inspired by multivendorbuilder's DSL, rebuilt with the Suluk discipline. CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-chat.html">
+    <div class="card-name">@suluk/chat</div>
+    <div class="card-desc">A contract-driven chat AGENT for any suluk app: an in-page floating assistant that can browse AND act, by running an OpenRouter tool-use loop over the SAME OpenAPI v4 operations (projected via @suluk/mcp, executed in-process via the store's own access gate) — with the model chosen by @suluk/models, never hardcoded. Ships the server loop (Hono-mountable SSE) + a theme-aware floating widget. CANDIDATE tooling — NOT official OAS.</div>
+  </a>
+<a class="card" href="suluk-cloudflare.html">
+    <div class="card-name">@suluk/cloudflare</div>
+    <div class="card-desc">Butter-smooth, API-driven provisioning + deployment for a Suluk app on Cloudflare — no wrangler CLI. A typed REST client + idempotent provisioners (D1, KV, R2, secrets) + the Workers module-script + static-assets upload flow, orchestrated into one deploy(). The platform that ships itself, shipping itself. CANDIDATE tooling.</div>
   </a>
 <a class="card" href="suluk-cockpit.html">
     <div class="card-name">@suluk/cockpit</div>
@@ -72,13 +84,41 @@
     <div class="card-name">@suluk/drizzle</div>
     <div class="card-desc">Drizzle ORM schema -&gt; v4 'Suluk' contract: table -&gt; Zod (drizzle-zod) -&gt; v4 Schema Objects, DB metadata, and generated CRUD RouteContracts. CANDIDATE tooling.</div>
   </a>
+<a class="card" href="suluk-editor.html">
+    <div class="card-name">@suluk/editor</div>
+    <div class="card-desc">A fully-static, client-only OpenAPI v4 EDITOR (the editor.scalar.com analog, native v4). Two panes: a CodeMirror source editor + a live API reference rendered by the suluk Scalar fork; diagnostics from @suluk/core + @suluk/harden; 3.1→v4 upgrade via @suluk/openapi-compat; v4 superpowers (cost/access/hardening) in the preview. No server: parse→validate→harden→enrich→re-mount all run in the browser. editorHtml() emits a self-contained page; the built client bundle ships in dist/. CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-email.html">
+    <div class="card-name">@suluk/email</div>
+    <div class="card-desc">The missing EmailProvider binding + a pure renderEmailHtml(options)→HTML generator with a per-event/per-locale branded template set (verify/reset/change-email/delete/order-confirmation/order-status/newsletter). Emits content the app SENDS — never a hosted mailer: consoleProvider (dev) + a Workers-safe resendProvider (REST, no SDK) are swappable bindings. Consumes @suluk/i18n for strings. CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-env.html">
+    <div class="card-name">@suluk/env</div>
+    <div class="card-desc">Config + secrets as a single source of truth: declare each env var ONCE (typed, per-surface), encrypt secret values with POST-QUANTUM crypto (ML-KEM-768 + AES-256-GCM) so the .env is safe to commit to git and share over public channels, and project the manifest into every surface — local, Cloudflare, preview, a teammate's machine, the VS Code extension, the admin panel. dotenvx's commit-safely model, quantum-safe, Suluk-native. CANDIDATE tooling.</div>
+  </a>
 <a class="card" href="suluk-example-petshop.html">
     <div class="card-name">@suluk/example-petshop <span class="tag">demo</span></div>
     <div class="card-desc">End-to-end demo: Drizzle tables → @suluk/builder → a live validated CRUD server + Scalar docs + generated frontend, all from one source. CANDIDATE tooling.</div>
   </a>
+<a class="card" href="suluk-harden.html">
+    <div class="card-name">@suluk/harden</div>
+    <div class="card-desc">Schema HARDENING as a derived contract facet: audit a v4 'Suluk' document's input schemas for the validations that keep weird/oversized input from breaking the system — every string a maxLength + a pattern, every number a maximum, every array a maxItems, every object closed + typed, no any/unknown — score it (A-F), surface the grade to INCENTIVISE the author, and gate CI on a minimum. CANDIDATE tooling.</div>
+  </a>
 <a class="card" href="suluk-hono.html">
     <div class="card-name">@suluk/hono</div>
     <div class="card-desc">The Suluk derivation engine: minimal Hono+Zod RouteContracts in; v4 doc (dynamic per principal+time), validation, contract tests, and doc-coverage audit out. CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-i18n.html">
+    <div class="card-name">@suluk/i18n</div>
+    <div class="card-desc">The locale primitive every content app needs: a typed locale/direction model (defineLocales), a Workers-safe message loader with default-locale fallback + {token} interpolation, compile-time key-parity + a runtime completeness grade, Intl number/currency/date formatting (incl. Eastern-Arabic numerals), framework-agnostic cookie→locale resolution, and an ./astro middleware glue. The catalog CONTENT stays app-authored; this owns the MECHANISM. CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-mcp.html">
+    <div class="card-name">@suluk/mcp</div>
+    <div class="card-desc">Project ONE OpenAPI v4 document into a Model Context Protocol (MCP) server: each operation becomes an MCP tool (read-only by default), served over the Streamable-HTTP JSON-RPC transport as a Hono-mountable app. Same contract that drives the API/SDK/docs/admin/panel now drives an agent-callable surface — zero hand-written tool schemas. CANDIDATE tooling — NOT official OAS.</div>
+  </a>
+<a class="card" href="suluk-models.html">
+    <div class="card-name">@suluk/models</div>
+    <div class="card-desc">A weekly, PUBLIC-DATA-ONLY catalog of OpenRouter models + a selector: a suluk skill declares NEEDS (hard filters) + a small PREFERENCE (a named profile), and selectModel picks the best CURRENT model — never a hard-coded id. Decidable OpenRouter facts as numbers; noisy benchmarks as COARSE TIERS with {source, asOf}; no cross-axis composite (blending is the selector's job). CANDIDATE tooling — NOT official OAS.</div>
   </a>
 <a class="card" href="suluk-nano-stores.html">
     <div class="card-name">@suluk/nano-stores</div>
@@ -88,9 +128,29 @@
     <div class="card-name">@suluk/openapi-compat</div>
     <div class="card-desc">Lossless-where-possible conversion between the OpenAPI v4 'Suluk' candidate and OpenAPI 3.1 (the dialect Scalar/Swagger consume). CANDIDATE tooling.</div>
   </a>
+<a class="card" href="suluk-panel.html">
+    <div class="card-name">@suluk/panel</div>
+    <div class="card-desc">Contract-first admin panels, in the spirit of Payload but projected from one OpenAPI v4 document. Infers Payload-style field types from the contract, renders shadcn/theme-aware forms + data tables, and mounts a role-aware superadmin (and per-role dashboards) — no config DSL, no framework lock-in. CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-reference.html">
+    <div class="card-name">@suluk/reference</div>
+    <div class="card-desc">Render an OpenAPI v4 'Suluk' document NATIVELY — as v4, not via the 3.1 downgrade. Shows what a 3.x renderer (Scalar/Swagger) cannot: the 4.0.0-candidate identity, the requests-shape (a path has NAMED requests, incl. multiple sharing one method), and the cost facet (x-suluk-cost) as a first-class per-operation badge. Self-contained server-rendered HTML — no client build, Workers-safe. CANDIDATE tooling.</div>
+  </a>
 <a class="card" href="suluk-scalar.html">
     <div class="card-name">@suluk/scalar</div>
-    <div class="card-desc">Render an OpenAPI v4 'Suluk' document with Scalar API Reference (via the 3.1 downgrade). CANDIDATE tooling.</div>
+    <div class="card-desc">Render an OpenAPI v4 'Suluk' document with Scalar API Reference — NATIVELY via the suluk fork (Scalar ingests v4, shows 4.0.0-candidate; works out of the box, the fork bundle is served from @suluk/scalar-standalone on jsdelivr-npm) or via the 3.1 downgrade for vanilla Scalar. CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-scalar-standalone.html">
+    <div class="card-name">@suluk/scalar-standalone</div>
+    <div class="card-desc">The suluk-forked Scalar API Reference standalone bundle (Scalar 1.59.0 + the suluk OpenAPI v4 patch-set: native requests-&gt;operations ingest, parameterSchema, multi-request-per-method, facet panels). Served via jsdelivr-npm so @suluk/scalar's native-v4 view renders out of the box. CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-sdk.html">
+    <div class="card-name">@suluk/sdk</div>
+    <div class="card-desc">Generate a COMPLETE, intuitive TypeScript SDK from a v4 'Suluk' contract — built on ofetch, entity-grouped, fully typed from the schemas, auth wired (bearer/session) via interceptors, and the v4 superpowers (declared cost + access) surfaced as typed metadata. Not a bag of functions: a library a developer downloads and uses straight away. CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-seo.html">
+    <div class="card-name">@suluk/seo</div>
+    <div class="card-desc">A complete, framework-agnostic SEO toolkit for a Suluk app — robots.txt, sitemaps (hreflang + images + index), schema.org JSON-LD, head meta (OpenGraph/Twitter/canonical/hreflang), llms.txt, OG-image SVG, the PWA web manifest, and deploy skew-protection. Pure + Cloudflare-safe; inspired by the Nuxt SEO suite. CANDIDATE tooling.</div>
   </a>
 <a class="card" href="suluk-shadcn.html">
     <div class="card-name">@suluk/shadcn</div>
@@ -103,6 +163,14 @@
 <a class="card" href="suluk-swagger.html">
     <div class="card-name">@suluk/swagger</div>
     <div class="card-desc">Render an OpenAPI v4 'Suluk' document with Swagger UI (via the 3.1 downgrade). CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-testgen.html">
+    <div class="card-name">@suluk/testgen</div>
+    <div class="card-desc">Generate a DETERMINISTIC conformance test suite from a v4 'Suluk' contract — the executable form of the contract's claims. Asserts the SERVER ENFORCES x-suluk-access on the real wire (anon rejected on non-public ops; public ops reachable), smoke-tests declared statuses, validates 2xx bodies against their declared schemas, and checks every declared cost is well-formed. A pure function of the document — same contract in, same suite out, no network at generate-time. CANDIDATE tooling.</div>
+  </a>
+<a class="card" href="suluk-theme.html">
+    <div class="card-name">@suluk/theme</div>
+    <div class="card-desc">The design-token CONTRACT: a typed TokenSpec (OKLCH colors + radius/fonts/shadows + type/spacing scales + breakpoints) that PROJECTS into CSS custom properties, the Tailwind v4 @theme block, and a shadcn token map — one source of truth for the look. Includes an OKLCH value type + a deterministic generate-dark-from-light, with reference schemes proving the mechanism (the 40+ curated catalog is meta-product breadth). CANDIDATE tooling.</div>
   </a>
 <a class="card" href="suluk-visual.html">
     <div class="card-name">@suluk/visual</div>

@@ -18,14 +18,178 @@
 <main>
   <article class="package">
     <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/builder</p>
-    <h1>@suluk/builder <span class="ver">v0.1.9</span></h1>
+    <h1>@suluk/builder <span class="ver">v0.1.11</span></h1>
     <p class="lead">Tiered contract-narrowing DSL (components→blocks→sections→pages) bound to the Suluk cycle. A page composes sections; buildApp emits backend (routes+v4) AND frontend (page TSX) at once. Inspired by multivendorbuilder's DSL, rebuilt with the Suluk discipline. CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/builder</code></pre>
-    <h2>Overview</h2><div class="prose"><p>@suluk/builder — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk discipline (typed, tested, projected from live entities instead of hand-authored). The load-bearing idea is the contract: a document's <code>params</code> is EXACTLY and ONLY what the tier above may set — the narrowing is the safety surface, the same discipline as Suluk's per-viewer doc projection.</p>
-<p>The Suluk twist: a SECTION is a full-stack vertical slice (data → contract → docs → state → ui) and a PAGE composes sections — so buildApp emits the backend (routes + v4) AND the frontend (components + page TSX) from one spec. Each slice can also be packaged as a shadcn REGISTRY ITEM (toShadcnRegistry) bundling its frontend + backend files into one installable unit. CANDIDATE tooling — NOT official OAS.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">allowedTypes</code><code class="chip">appPage</code><code class="chip">AppSpec</code><code class="chip">AUTH</code><code class="chip">BILLING</code><code class="chip">BindRef</code><code class="chip">buildApp</code><code class="chip">BuiltApp</code><code class="chip">composeModules</code><code class="chip">ComposeResult</code><code class="chip">COMPOSES</code><code class="chip">ComposeStep</code><code class="chip">CompositionPlan</code><code class="chip">CRM</code><code class="chip">crudRoutesFromSchema</code><code class="chip">crudSection</code><code class="chip">crudV4Paths</code><code class="chip">DslChild</code><code class="chip">DslDocument</code><code class="chip">DslError</code><code class="chip">DslNode</code><code class="chip">EachRef</code><code class="chip">ECOMMERCE</code><code class="chip">emptyRegistry</code><code class="chip">Entity</code><code class="chip">findDoc</code><code class="chip">FIRST_PARTY_REGISTRY</code><code class="chip">formBlock</code><code class="chip">generateSigningKeypair</code><code class="chip">gradeModule</code><code class="chip">installModule</code><code class="chip">InstallPreview</code><code class="chip">InstallResult</code><code class="chip">isBind</code><code class="chip">isEach</code><code class="chip">isListSpec</code><code class="chip">isSignedEnvelope</code><code class="chip">isSlot</code><code class="chip">LAYOUT</code><code class="chip">ListControl</code><code class="chip">ModuleCost</code><code class="chip">ModuleEntry</code><code class="chip">ModuleGrade</code><code class="chip">moduleOperations</code><code class="chip">ModuleRegistry</code><code class="chip">namespaceModule</code><code class="chip">ParamSpec</code><code class="chip">ParsedRegistry</code><code class="chip">parseRegistry</code><code class="chip">planComposition</code><code class="chip">previewInstall</code><code class="chip">PROVIDER_CATALOG</code><code class="chip">ProviderBinding</code><code class="chip">providerFacets</code><code class="chip">ProviderImpl</code><code class="chip">readProviders</code><code class="chip">registry</code><code class="chip">Registry</code><code class="chip">RegistryFile</code><code class="chip">RegistryItem</code><code class="chip">RegistrySource</code><code class="chip">renderPageTsx</code><code class="chip">resolveComponents</code><code class="chip">resolveList</code><code class="chip">resolveParams</code><code class="chip">resolveTemplate</code><code class="chip">schemaRefName</code><code class="chip">SignedEnvelope</code><code class="chip">signRegistry</code><code class="chip">SlotRef</code><code class="chip">STACK_TEMPLATES</code><code class="chip">StackTemplate</code><code class="chip">SulukModule</code><code class="chip">swapProvider</code><code class="chip">SwapResult</code><code class="chip">tableBlock</code><code class="chip">Tier</code><code class="chip">toShadcnRegistry</code><code class="chip">validateAll</code><code class="chip">validateDocument</code><code class="chip">validateModule</code><code class="chip">verifyRegistrySignature</code></div>
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/zod</code><code class="chip">@suluk/hono</code><code class="chip">@suluk/shadcn</code><code class="chip">zod (peer)</code></div>
-    <h2>Modules</h2><dl class="modules"><dt><code>compose.ts</code></dt><dd>Composition (L2) — the non-developer flow: assemble a whole platform from modules without hand-wiring them.</dd><dt><code>dsl.ts</code></dt><dd>The composition DSL — the contract model.</dd><dt><code>fullstack.ts</code></dt><dd>The Suluk binding — where the tiers map onto the cycle. The lower tiers are AUTO-GENERATED from an entity</dd><dt><code>module.ts</code></dt><dd>Suluk MODULES (C021) — a module is a mergeable v4 contract FRAGMENT plus its bindings. Installing it merges</dd><dt><code>providers.ts</code></dt><dd>Provider SLOTS (M3) — &quot;swap out a provider you chose.&quot; A module declares <code>providerSlots</code> (e.g.</dd><dt><code>registry-remote.ts</code></dt><dd>Remote registries (L1) — the OPEN marketplace. A registry fetched from a URL is UNTRUSTED data that becomes</dd><dt><code>registry-shadcn.ts</code></dt><dd>Package the built app as a shadcn REGISTRY — the universal distribution format for the WHOLE stack, not</dd><dt><code>registry.ts</code></dt><dd>The document registry — the set of documents the validator/renderer resolves references against. Unlike</dd><dt><code>render.ts</code></dt><dd>Render a page DSL document to a frontend page (TSX). A page composes sections; each section composes the</dd><dt><code>resolve.ts</code></dt><dd>Resolution — shared by the validator + renderer.</dd><dt><code>signing.ts</code></dt><dd>Signed registries (L1+) — provenance for the OPEN marketplace. A publisher signs their registry with a</dd><dt><code>validate.ts</code></dt><dd>Validation — the tier rule + the contract-narrowing. This is the load-bearing check: a consumer may set</dd></dl>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/builder</code></pre>
+<h2>What it does</h2>
+<ul>
+<li><strong>One spec → both ends.</strong> Give <code>buildApp</code> a list of entities (each a v4 Schema Object); it returns the</li>
+</ul>
+<p>  backend (5 CRUD <code>RouteContract</code>s per entity, emitted to a valid v4 document) and the frontend (a shadcn   Form + Table per entity, plus a page TSX that composes them).</p>
+<ul>
+<li><strong>A tiered contract-narrowing DSL</strong> — <code>components → blocks → sections → pages</code>. Each tier hardcodes most of</li>
+</ul>
+<p>  the tier below and re-publishes a deliberately <em>narrower</em> <code>params</code>. A page can reorder/hide a section's   blocks and set its tone, but it <strong>cannot</strong> reach into the form's fields — those simply aren't in the   section's contract, so the validator rejects them. The narrowing <em>is</em> the safety surface.</p>
+<ul>
+<li><strong>Modules</strong> — a <code>SulukModule</code> is a mergeable v4 contract fragment (entities + CRUD + cost + provider slots).</li>
+</ul>
+<p>  <code>installModule</code> merges one into the app document and <strong>refuses on any collision or unmet requirement</strong>   (never partially applies). <code>composeModules</code> installs a whole set in dependency order.</p>
+<ul>
+<li><strong>Distribution</strong> — <code>toShadcnRegistry</code> packages each entity slice (its components + backend routes + v4</li>
+</ul>
+<p>  schema) as one installable shadcn registry item; <code>signRegistry</code>/<code>verifyRegistrySignature</code> add publisher   provenance for an open marketplace.</p>
+<p>Everything is pure and synchronous (no I/O, no runtime), so the whole composition is unit-tested.</p>
+<h2>When to reach for it</h2>
+<ul>
+<li>You want to <strong>compose a whole app declaratively</strong> from first-party building blocks rather than hand-wiring</li>
+</ul>
+<p>  routes, forms, and tables for every entity.</p>
+<ul>
+<li>You're building a <strong>module/registry surface</strong> — installable, composable contract fragments with</li>
+</ul>
+<p>  collision-refusal, dependency ordering, swappable provider slots, and signed provenance.</p>
+<ul>
+<li>You're authoring a <strong>landing page as a projection</strong> (hero/features/pricing/testimonials/faq/cta/footer) with</li>
+</ul>
+<p>  i18n-key copy + SEO meta + JSON-LD — see <code>buildMarketing</code>.</p>
+<p>Reach <strong>past</strong> it for the pieces it composes: the underlying schema→contract conversion is <code>@suluk/zod</code> / <code>@suluk/drizzle</code>, the route → v4 + validation engine is <code>@suluk/hono</code>, and the form/table TSX is <code>@suluk/shadcn</code>. <code>@suluk/builder</code> orchestrates those; it doesn't replace them.</p>
+<h2>Usage</h2>
+<h3>Build a whole app from entities (the common case)</h3>
+<pre><code class="lang-ts">import * as z from &quot;zod&quot;;
+import { zodToV4 } from &quot;@suluk/zod&quot;;
+import { buildApp, type Entity } from &quot;@suluk/builder&quot;;
+
+// entities as v4 Schema Objects (Zod → v4 is the cycle's standard path)
+const Pet: Entity = {
+  name: &quot;Pet&quot;,
+  schema: zodToV4(z.object({
+    id: z.number().int().optional(),
+    name: z.string().min(1),
+    status: z.enum([&quot;available&quot;, &quot;sold&quot;]),
+  })).schema,
+};
+const Category: Entity = {
+  name: &quot;Category&quot;,
+  schema: zodToV4(z.object({ id: z.number().int().optional(), name: z.string() })).schema,
+};
+
+const app = buildApp({ entities: [Pet, Category], info: { title: &quot;Shop&quot;, version: &quot;1.0.0&quot; } });
+
+app.backend.routes;          // 10 RouteContracts (5 CRUD × 2 entities): listPet, createPet, …
+app.backend.document;        // a valid OpenAPI v4 document emitted from those routes
+app.frontend.components;     // [{ name: &quot;PetForm&quot;, tsx }, { name: &quot;PetTable&quot;, tsx }, …]
+app.frontend.pages;          // [{ name: &quot;App&quot;, tsx }] — page composing every entity's CRUD section
+app.errors;                  // DslError[] — empty ⇒ the composition is contract-sound</code></pre>
+<p><code>crudRoutesFromSchema(name, schema)</code> is the unit behind the backend if you only want the routes for one entity.</p>
+<h3>Package each slice as an installable shadcn registry</h3>
+<pre><code class="lang-ts">import { buildApp, toShadcnRegistry } from &quot;@suluk/builder&quot;;
+
+const reg = toShadcnRegistry(app, { name: &quot;pets-registry&quot; });
+
+reg.index;   // registry.json — name + homepage + items[]
+reg.items;   // one registry:block per entity (Form + Table + backend routes + v4 schema)
+             // plus one registry:page per generated page
+// each block installs the whole vertical via `npx shadcn add pet-crud`</code></pre>
+<h3>Compose a platform from modules</h3>
+<p>A <code>SulukModule</code> is a mergeable v4 contract fragment. The package ships a curated first-party registry (<code>AUTH</code>, <code>ECOMMERCE</code>, <code>CRM</code>, <code>BILLING</code>, <code>MARKETING</code>) and <code>composeModules</code> installs a set in dependency order (providers before requirers) through the same refuse-on-collision gate:</p>
+<pre><code class="lang-ts">import { composeModules, AUTH, ECOMMERCE, CRM } from &quot;@suluk/builder&quot;;
+
+const empty = { openapi: &quot;4.0.0-candidate&quot;, info: { title: &quot;App&quot;, version: &quot;1.0.0&quot; }, paths: {}, components: { schemas: {} } };
+
+// deliberately out of order — planComposition topologically sorts so AUTH (provides User) installs first
+const { doc, steps, ok } = composeModules(empty, [ECOMMERCE, CRM, AUTH]);
+ok;                                            // true ⇒ every requirement met, no collision, all installed
+Object.keys(doc.components!.schemas!);         // Account, Cart, Contact, Deal, Order, Product, Session, User, …</code></pre>
+<p>Install one module directly (and preview before committing):</p>
+<pre><code class="lang-ts">import { installModule, previewInstall, namespaceModule } from &quot;@suluk/builder&quot;;
+
+const preview = previewInstall(appDoc, ECOMMERCE);
+preview.willInstall;    // boolean
+preview.conflicts;      // why it would be refused (collisions / unmet requires)
+preview.addsSchemas;    // [&quot;Product&quot;, &quot;Order&quot;, …]
+preview.grade;          // { grade: &quot;A&quot; | &quot;B&quot; | &quot;C&quot;, costCoverage, warnings, … }
+
+const result = installModule(appDoc, ECOMMERCE);
+if (!result.installed) {
+  // refused — appDoc is UNCHANGED; result.conflicts explains why
+  // resolve a name clash by namespacing the module, then retry:
+  installModule(appDoc, namespaceModule(ECOMMERCE, &quot;Shop&quot;));  // ⇒ ShopProduct, ShopOrder, …
+}</code></pre>
+<p>Build a stack from a named template:</p>
+<pre><code class="lang-ts">import { resolveTemplate, STACK_TEMPLATES, composeModules } from &quot;@suluk/builder&quot;;
+
+const saas = STACK_TEMPLATES.find((t) =&gt; t.name === &quot;SaaS starter&quot;)!;   // auth + billing + crm
+const { modules, missing } = resolveTemplate(saas);                     // missing reports any unresolved name
+const platform = composeModules(emptyDoc, modules);</code></pre>
+<h3>Swap a provider slot</h3>
+<p>A module declares <code>providerSlots</code> (e.g. <code>{ payments: &quot;stripe&quot; }</code>), recorded into the document as <code>x-suluk-providers</code>. Swap one binding for another implementation of the same interface:</p>
+<pre><code class="lang-ts">import { readProviders, swapProvider, PROVIDER_CATALOG } from &quot;@suluk/builder&quot;;
+
+readProviders(doc);                          // [{ facet: &quot;payments&quot;, impl: &quot;stripe&quot;, alternatives: […] }]
+const { doc: next, error } = swapProvider(doc, &quot;payments&quot;, &quot;paddle&quot;);   // error set (doc unchanged) on a bad swap
+PROVIDER_CATALOG.payments;                   // stripe, paddle, lemonsqueezy (all the same PaymentProvider interface)</code></pre>
+<h3>Build a marketing landing (landing-as-projection)</h3>
+<pre><code class="lang-ts">import { buildMarketing, seoMeta, jsonLd, type MarketingSpec } from &quot;@suluk/builder&quot;;
+
+const spec: MarketingSpec = {
+  hero: { titleKey: &quot;home.heroTitle&quot;, ctaKey: &quot;home.getStarted&quot;, ctaHref: &quot;/signup&quot; },
+  features: { featureKeys: [&quot;home.f1&quot;, &quot;home.f2&quot;] },
+  pricing: { plans: [{ id: &quot;pro&quot;, nameKey: &quot;plans.pro&quot;, priceCents: 2900, featureKeys: [&quot;plans.f1&quot;], ctaKey: &quot;plans.cta&quot;, stripePriceId: &quot;price_123&quot; }] },
+  testimonials: {},   // present ⇒ include; default source = approved Reviews (the app resolves the query)
+  faq: {},
+};
+
+const landing = buildMarketing(spec);     // { sections, blocks, page, errors } — synchronous, no fetch
+const meta = seoMeta({ title: &quot;Acme&quot;, description: &quot;The app.&quot; });        // og* default from title/description
+const ld = jsonLd(&quot;Organization&quot;, { name: &quot;Acme&quot;, url: &quot;https://acme.test&quot; });   // schema.org for &lt;head&gt;</code></pre>
+<p>Copy is carried as <strong>i18n message keys</strong> (the app resolves them per locale) and data-driven sections carry a declarative <code>source</code> projection — never literal copy or an author-time fetch.</p>
+<h3>Trusting a remote registry</h3>
+<pre><code class="lang-ts">import { parseRegistry, validateModule, verifyRegistrySignature } from &quot;@suluk/builder&quot;;
+
+const parsed = parseRegistry(await (await fetch(url)).json());   // rejects malformed/hostile entries (surfaced, not hidden)
+parsed.modules;    // only the well-formed ModuleEntry[]
+parsed.rejected;   // [{ title, reason }] — why each was refused
+
+// for signed registries, verify against a pinned publisher public key before trusting:
+const trusted = await verifyRegistrySignature(registryValue, signatureB64, publisherPublicKeyJwk);</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>buildApp(spec)</code></td><td>The headline: entities → <code>{ backend: { routes, document }, frontend: { components, pages }, registry, errors }</code>.</td></tr>
+<tr><td><code>crudRoutesFromSchema(name, schema, defs?)</code></td><td>The 5 CRUD <code>RouteContract</code>s for one entity (the unit behind the backend).</td></tr>
+<tr><td><code>formBlock</code> / <code>tableBlock</code> / <code>crudSection</code> / <code>appPage</code></td><td>The DSL documents for each tier (blocks → section → page).</td></tr>
+<tr><td><code>registry</code> / <code>emptyRegistry</code> / <code>findDoc</code> / <code>allowedTypes</code></td><td>Build and query the document registry the validator/renderer resolves against.</td></tr>
+<tr><td><code>validateDocument</code> / <code>validateAll</code></td><td>The contract-narrowing + tier-rule checks → <code>DslError[]</code>.</td></tr>
+<tr><td><code>resolveParams</code> / <code>resolveList</code></td><td>A document's effective param values / a list param's ordered selection.</td></tr>
+<tr><td><code>renderPageTsx</code> / <code>resolveComponents</code></td><td>Render a page document to frontend TSX / the ordered component names it resolves to.</td></tr>
+<tr><td><code>toShadcnRegistry(app, opts?)</code></td><td>Package the built app as a shadcn registry (one block per entity + a page item).</td></tr>
+<tr><td><code>installModule</code> / <code>previewInstall</code> / <code>namespaceModule</code> / <code>gradeModule</code></td><td>Install / preview / collision-resolve / grade a <code>SulukModule</code>.</td></tr>
+<tr><td><code>planComposition</code> / <code>composeModules</code></td><td>Dependency-order and install a set of modules into one platform contract.</td></tr>
+<tr><td><code>AUTH</code> / <code>ECOMMERCE</code> / <code>CRM</code> / <code>BILLING</code> / <code>MARKETING</code></td><td>The curated first-party modules (+ <code>FIRST_PARTY_REGISTRY</code>).</td></tr>
+<tr><td><code>STACK_TEMPLATES</code> / <code>resolveTemplate</code></td><td>Named module sets (&quot;SaaS starter&quot;, &quot;Storefront&quot;, …) and their resolver.</td></tr>
+<tr><td><code>PREVIEW</code> / <code>PREVIEW_ONLY_MARKER</code></td><td>The deploy-only role-login fragment (deliberately excluded from the registry/templates).</td></tr>
+<tr><td><code>buildMarketing</code> / <code>marketingPage</code> / <code>seoMeta</code> / <code>jsonLd</code></td><td>The marketing section tier + SEO meta + schema.org JSON-LD.</td></tr>
+<tr><td><code>PROVIDER_CATALOG</code> / <code>readProviders</code> / <code>swapProvider</code> / <code>providerFacets</code></td><td>Read and swap provider slots (payments/auth/email/storage).</td></tr>
+<tr><td><code>parseRegistry</code> / <code>validateModule</code></td><td>Validate an untrusted registry fetched from a URL, surfacing rejected entries.</td></tr>
+<tr><td><code>signRegistry</code> / <code>verifyRegistrySignature</code> / <code>generateSigningKeypair</code> / <code>isSignedEnvelope</code></td><td>ECDSA P-256 publisher signatures for the open marketplace.</td></tr>
+</tbody>
+</table>
+<p>The package has a single entry point — <code>@suluk/builder</code> (<code>import { … } from &quot;@suluk/builder&quot;</code>). There are no sub-path exports and no CLI.</p>
+<h2>Boundary</h2>
+<p>This package <strong>renders and generates — it never hosts</strong> (the Suluk L3 line). <code>buildApp</code>/<code>renderPageTsx</code>/ <code>toShadcnRegistry</code> emit <strong>source and documents you own and can edit</strong> (TSX components, a v4 document, a shadcn registry); the module functions return a merged contract value. Nothing here calls home or stands up a runtime.</p>
+<p>Everything is pure over its inputs: <code>buildApp</code> takes entity <strong>schemas</strong> (you bring the Drizzle/Zod source), the registry/remote functions take the <strong>bytes</strong> (you fetch the JSON), and the generated frontend wires to the <code>@suluk/nano-stores</code> client at a <code>baseUrl</code> <strong>you</strong> supply. Database access, the actual route handlers, custom business rules, and the leaf UI components stay app-side — the package composes the contract and the scaffolding, not the irreducible 20%.</p>
+<p>New reusable blocks, sections, and modules belong in the first-party registry here; app-specific compositions stay in your app.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">allowedTypes</code><code class="chip">appPage</code><code class="chip">AppSpec</code><code class="chip">AUTH</code><code class="chip">BILLING</code><code class="chip">BindRef</code><code class="chip">buildApp</code><code class="chip">buildMarketing</code><code class="chip">BuiltApp</code><code class="chip">BuiltMarketing</code><code class="chip">composeModules</code><code class="chip">ComposeResult</code><code class="chip">COMPOSES</code><code class="chip">ComposeStep</code><code class="chip">CompositionPlan</code><code class="chip">CRM</code><code class="chip">crudRoutesFromSchema</code><code class="chip">crudSection</code><code class="chip">crudV4Paths</code><code class="chip">DslChild</code><code class="chip">DslDocument</code><code class="chip">DslError</code><code class="chip">DslNode</code><code class="chip">EachRef</code><code class="chip">ECOMMERCE</code><code class="chip">emptyRegistry</code><code class="chip">Entity</code><code class="chip">findDoc</code><code class="chip">FIRST_PARTY_REGISTRY</code><code class="chip">formBlock</code><code class="chip">generateSigningKeypair</code><code class="chip">gradeModule</code><code class="chip">installModule</code><code class="chip">InstallPreview</code><code class="chip">InstallResult</code><code class="chip">isBind</code><code class="chip">isEach</code><code class="chip">isListSpec</code><code class="chip">isSignedEnvelope</code><code class="chip">isSlot</code><code class="chip">jsonLd</code><code class="chip">JsonLdKind</code><code class="chip">LAYOUT</code><code class="chip">ListControl</code><code class="chip">MARKETING</code><code class="chip">MARKETING_COMPONENTS</code><code class="chip">marketingPage</code><code class="chip">MarketingSpec</code><code class="chip">ModuleCost</code><code class="chip">ModuleEntry</code><code class="chip">ModuleGrade</code><code class="chip">moduleOperations</code><code class="chip">ModuleRegistry</code><code class="chip">namespaceModule</code><code class="chip">ParamSpec</code><code class="chip">ParsedRegistry</code><code class="chip">parseRegistry</code><code class="chip">planComposition</code><code class="chip">PlanSpec</code><code class="chip">PREVIEW</code><code class="chip">PREVIEW_ONLY_MARKER</code><code class="chip">previewInstall</code><code class="chip">ProjectionSource</code><code class="chip">PROVIDER_CATALOG</code><code class="chip">ProviderBinding</code><code class="chip">providerFacets</code><code class="chip">ProviderImpl</code><code class="chip">readProviders</code><code class="chip">registry</code><code class="chip">Registry</code><code class="chip">RegistryFile</code><code class="chip">RegistryItem</code><code class="chip">RegistrySource</code><code class="chip">renderPageTsx</code><code class="chip">resolveComponents</code><code class="chip">resolveList</code><code class="chip">resolveParams</code><code class="chip">resolveTemplate</code><code class="chip">schemaRefName</code><code class="chip">seoMeta</code><code class="chip">SeoMeta</code><code class="chip">SeoMetaInput</code><code class="chip">SignedEnvelope</code><code class="chip">signRegistry</code><code class="chip">SlotRef</code><code class="chip">STACK_TEMPLATES</code><code class="chip">StackTemplate</code><code class="chip">SulukModule</code><code class="chip">swapProvider</code><code class="chip">SwapResult</code><code class="chip">tableBlock</code><code class="chip">Tier</code><code class="chip">toShadcnRegistry</code><code class="chip">validateAll</code><code class="chip">validateDocument</code><code class="chip">validateModule</code><code class="chip">verifyRegistrySignature</code></div>
+    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/zod</code><code class="chip">@suluk/hono</code><code class="chip">@suluk/shadcn</code><code class="chip">@suluk/drizzle</code><code class="chip">zod (peer)</code></div>
+    
   </article></main>
 <footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
 </body></html>

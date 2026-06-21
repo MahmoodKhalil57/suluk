@@ -1,0 +1,123 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/testgen — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/testgen — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<header class="top">
+  <a class="brand" href="index.html">Suluk</a>
+  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</header>
+<main>
+  <article class="package">
+    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/testgen</p>
+    <h1>@suluk/testgen <span class="ver">v0.1.0</span></h1>
+    <p class="lead">Generate a DETERMINISTIC conformance test suite from a v4 'Suluk' contract — the executable form of the contract's claims. Asserts the SERVER ENFORCES x-suluk-access on the real wire (anon rejected on non-public ops; public ops reachable), smoke-tests declared statuses, validates 2xx bodies against their declared schemas, and checks every declared cost is well-formed. A pure function of the document — same contract in, same suite out, no network at generate-time. CANDIDATE tooling.</p>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-bash">bun add @suluk/testgen @cfworker/json-schema</code></pre>
+<p><code>@cfworker/json-schema</code> is a peer dependency — the <em>generated</em> suite imports it to validate response bodies against their declared schemas. <code>generateMoneyTests</code> additionally targets <code>@suluk/stripe</code> (the emitted suite imports the pricing primitives from there).</p>
+<h2>What it does</h2>
+<p><code>generateTests(doc)</code> walks a v4 document and emits a <strong>self-contained test file</strong> (a string) that runs against a live deployment. It turns the <code>x-suluk-*</code> facets from decoration into load-bearing claims:</p>
+<ul>
+<li><strong>Access enforcement, on the real wire.</strong> A non-public op must DENY anon a success; a public op must be</li>
+</ul>
+<p>  reachable by anon. <code>x-suluk-access</code> is only the <em>expectation</em> — the test passes iff the wire agrees. It   never asserts over a projection and never treats the facet as if it were the enforcement (C022 inv.3).</p>
+<ul>
+<li><strong>Status smoke + schema conformance.</strong> A public, parameter-free GET returns a <em>declared</em> status, and its</li>
+</ul>
+<p>  2xx body validates against the declared response schema (same generic JSON-Schema engine the SDK uses).</p>
+<ul>
+<li><strong>Error-conformance.</strong> A denied request returns a well-formed RFC-9457 Problem Details body (the shared</li>
+</ul>
+<p>  <code>@suluk/hono</code> envelope: <code>title</code> string + <code>status</code> matching the HTTP status).</p>
+<ul>
+<li><strong>Cost declared.</strong> Every op that prices itself declares a well-formed <code>x-suluk-cost</code> — checked statically,</li>
+</ul>
+<p>  never as a literal µ$ amount (which would couple tests to billing internals and go flaky).</p>
+<p>A <strong>pure function of the document</strong>: same contract in, same suite out, no network at generate-time. Each op's tests are labelled with its provenance (<code>x-suluk-source</code>) so a failure points at the authoring source.</p>
+<p><code>generateMoneyTests()</code> is a separate emitter for the money path — an in-process suite over the <code>@suluk/stripe</code> pricing primitives (anti-tampering, integer-cents, never-over-discount, exact proration, deterministic idempotency). It takes no document; the invariants live in the shared primitives, not in any one contract.</p>
+<h2>When to reach for it</h2>
+<p>Reach for it whenever you want the contract's facets to <em>mean something</em> — this is what makes <code>x-suluk-*</code> enforced rather than aspirational. The common pattern is to expose the generated suite as a download endpoint so any consumer can verify your deployment honours its own contract (see Usage). Add <code>generateMoneyTests</code> when your app touches checkout/billing through <code>@suluk/stripe</code>.</p>
+<p>This is a <strong>generator</strong>, not a runner: it produces a <code>bun:test</code> (or <code>vitest</code>) file you run yourself. It is the testing facet of the projection model — siblings like <code>@suluk/scalar</code> / <code>@suluk/swagger</code> <em>render</em> the contract; <code>@suluk/sdk</code> <em>generates a client</em>; this generates the <em>conformance proof</em>.</p>
+<h2>Usage</h2>
+<h3>Generate a conformance suite from a v4 document</h3>
+<pre><code class="lang-ts">import { generateTests } from &quot;@suluk/testgen&quot;;
+import type { OpenAPIv4Document } from &quot;@suluk/core&quot;;
+
+const suite = generateTests(document, { baseURL: &quot;https://api.example.com&quot; });
+// → a self-contained test-file string. Write it next to your tests and run it:
+await Bun.write(&quot;api.conformance.test.ts&quot;, suite);</code></pre>
+<p>Run the emitted suite against a deployment — <code>SULUK_BASE_URL</code> wins over the baked-in <code>baseURL</code>:</p>
+<pre><code class="lang-bash">SULUK_BASE_URL=https://api.example.com bun test api.conformance.test.ts</code></pre>
+<p>Optional positive-side checks (a non-public op also asserting a <em>valid</em> principal IS allowed through) are skipped unless you provide <strong>synthetic</strong> principal tokens — never a production credential:</p>
+<pre><code class="lang-bash">SULUK_ADMIN_TOKEN=… SULUK_USER_TOKEN=… bun test api.conformance.test.ts</code></pre>
+<h3>Serve it as a download endpoint (real saasuluk usage)</h3>
+<pre><code class="lang-ts">import { generateTests } from &quot;@suluk/testgen&quot;;
+
+app.get(&quot;/conformance.test.ts&quot;, (c) =&gt;
+  new Response(generateTests(document, { baseURL: new URL(c.req.url).origin }), {
+    headers: {
+      &quot;content-type&quot;: &quot;application/typescript; charset=utf-8&quot;,
+      &quot;content-disposition&quot;: 'attachment; filename=&quot;api.conformance.test.ts&quot;',
+    },
+  }),
+);</code></pre>
+<h3>Options</h3>
+<pre><code class="lang-ts">generateTests(document, {
+  baseURL: &quot;https://api.example.com&quot;, // baked default; SULUK_BASE_URL overrides at run-time
+  framework: &quot;vitest&quot;,                // &quot;bun&quot; (default) | &quot;vitest&quot; — toggles the emitted imports
+});</code></pre>
+<h3>Money-correctness suite</h3>
+<pre><code class="lang-ts">import { generateMoneyTests } from &quot;@suluk/testgen&quot;;
+
+const money = generateMoneyTests();                 // imports primitives from &quot;@suluk/stripe&quot;
+await Bun.write(&quot;money.conformance.test.ts&quot;, money);
+// then: bun test money.conformance.test.ts (no network, in-process)
+
+// configurable runner + import specifier:
+generateMoneyTests({ framework: &quot;vitest&quot;, stripeModule: &quot;../pricing&quot; });</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>generateTests(doc, opts?)</code></td><td>Emit a wire-conformance suite (access / status / schema / cost) from a v4 document, as a test-file string.</td></tr>
+<tr><td><code>generateMoneyTests(opts?)</code></td><td>Emit an in-process money-correctness suite over the <code>@suluk/stripe</code> pricing primitives.</td></tr>
+<tr><td><code>TestgenOptions</code></td><td>`{ baseURL?: string; framework?: &quot;bun&quot; \</td><td>&quot;vitest&quot; }`.</td></tr>
+<tr><td><code>MoneyTestsOptions</code></td><td>`{ framework?: &quot;bun&quot; \</td><td>&quot;vitest&quot;; stripeModule?: string }`.</td></tr>
+</tbody>
+</table>
+<h2>Boundary</h2>
+<p>This package <strong>generates, never hosts</strong> (L3). It is a pure string-emitter: no network at generate-time, no deployment of its own. The seams it leaves to the app:</p>
+<ul>
+<li><strong>The deployment under test</strong> is injected via <code>SULUK_BASE_URL</code> (or the baked <code>baseURL</code>) at <em>run</em>-time — the</li>
+</ul>
+<p>  generated suite reads it from the environment.</p>
+<ul>
+<li><strong>Authorization is the server's job.</strong> The access tests assert the <em>wire</em> enforces <code>x-suluk-access</code>; this</li>
+</ul>
+<p>  never re-implements authz, and never asserts over a projection (C022 inv.3 — the server is the only boundary).</p>
+<ul>
+<li><strong>Synthetic principals</strong> for the optional positive-side checks come from you (<code>SULUK_*_TOKEN</code>), out of band.</li>
+<li><strong>Running</strong> the emitted file is the app's responsibility (<code>bun test</code>); you decide where to write it and when</li>
+</ul>
+<p>  to run it in CI.</p>
+<p>Contributing: a new facet means a new asserted claim here — that is what keeps <code>x-suluk-*</code> load-bearing.</p>
+<h2>License</h2>
+<p>Apache-2.0.</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">generateMoneyTests</code><code class="chip">generateTests</code><code class="chip">MoneyTestsOptions</code><code class="chip">TestgenOptions</code></div>
+    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@cfworker/json-schema (peer)</code></div>
+    
+  </article></main>
+<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+</body></html>

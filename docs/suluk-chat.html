@@ -1,0 +1,149 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/chat — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/chat — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<header class="top">
+  <a class="brand" href="index.html">Suluk</a>
+  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</header>
+<main>
+  <article class="package">
+    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/chat</p>
+    <h1>@suluk/chat <span class="ver">v0.2.1</span></h1>
+    <p class="lead">A contract-driven chat AGENT for any suluk app: an in-page floating assistant that can browse AND act, by running an OpenRouter tool-use loop over the SAME OpenAPI v4 operations (projected via @suluk/mcp, executed in-process via the store's own access gate) — with the model chosen by @suluk/models, never hardcoded. Ships the server loop (Hono-mountable SSE) + a theme-aware floating widget. CANDIDATE tooling — NOT official OAS.</p>
+    
+    <div class="prose readme"><h1>@suluk/chat</h1>
+<p><strong>A contract-driven, in-page chat agent that can BROWSE and ACT — over the same OpenAPI v4 operations that drive your API.</strong></p>
+<blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/chat</code></pre>
+<p>Peer dependency: <code>hono</code>. Powered by <code>@suluk/mcp</code> (operations → tools), <code>@suluk/models</code> (picks the model), and <code>@suluk/core</code> (the v4 document). You also need an <a href="https://openrouter.ai">OpenRouter</a> API key.</p>
+<h2>What it does</h2>
+<ul>
+<li><strong>Projects your v4 document into agent tools.</strong> The same operations that drive the API, SDK, docs, admin, and MCP server become function-call tools (via <code>@suluk/mcp</code>), so the assistant can list, read, and — when the user is permitted — create/update/delete.</li>
+<li><strong>Runs an OpenRouter tool-use loop.</strong> No SDK: a <code>fetch</code>-based streaming client speaks the OpenAI-compatible wire protocol, so it runs unchanged on Cloudflare Workers, Bun, and Node. The model id is chosen by <code>@suluk/models</code> (never hardcoded) unless you pin one.</li>
+<li><strong>Stays exactly as authorized as the API.</strong> Every server tool call runs through the store's own access gate via the injected <code>exec</code>. Pass a per-request <em>projected</em> document and you get a per-role agent: anonymous users get read-only catalog tools; signed-in users get the mutations their session allows.</li>
+<li><strong>Ships both halves.</strong> A Hono-mountable SSE endpoint (<code>chatApp</code>) and a framework-agnostic floating widget (<code>chatWidget</code>) — theme-aware, streams token-by-token, shows tool-activity chips, renders XSS-safe markdown, keyboard + screen-reader accessible.</li>
+<li><strong>Hardened against prompt injection.</strong> Client-supplied history is sanitized to user/assistant text only (<code>sanitizeMessages</code>); browser-declared client tools are validated and can never shadow a privileged server tool (<code>sanitizeClientTools</code>).</li>
+</ul>
+<h2>When to reach for it</h2>
+<ul>
+<li>You want an <strong>in-app assistant</strong> that can both answer questions about your data and take real actions on the user's behalf, grounded in tool results rather than hallucination.</li>
+<li>You already expose your contract via <code>@suluk/mcp</code> and want the <em>same</em> per-role operations available to an in-page agent without re-plumbing auth.</li>
+</ul>
+<p>Reach for <strong><code>@suluk/mcp</code></strong> instead when you want an MCP <em>server</em> for external clients (Claude Desktop, IDEs) rather than an embedded browser assistant — <code>@suluk/chat</code> builds on it. Reach for <strong><code>@suluk/scalar</code> / <code>@suluk/swagger</code></strong> for static API <em>reference</em> rendering (no agent, no actions).</p>
+<h2>Usage</h2>
+<h3>Mount the server (Hono)</h3>
+<pre><code class="lang-ts">import { chatApp } from &quot;@suluk/chat&quot;;
+import { appExec } from &quot;@suluk/mcp&quot;;
+
+// `document` is your @suluk/core OpenAPIv4Document; `app` is the store the ops execute against.
+app.route(
+  &quot;/&quot;,
+  chatApp({
+    // A per-request function yields a per-role agent — project the doc for the current viewer.
+    document: (c) =&gt; projectDocument(document, viewerOf(c), canonHash),
+    basePath: &quot;/chat&quot;,
+    include: &quot;all&quot;,
+    exec: appExec(app),                          // runs each op through the store's own access gate
+    apiKey: () =&gt; process.env.OPENROUTER_API_KEY, // absent → /chat returns a graceful 503
+    title: &quot;saasuluk&quot;,
+    greeting: &quot;Hi! Ask me to find products, compare plans, or dig through the docs.&quot;,
+    system: &quot;You are the assistant for this store. Ground answers in tool results. Confirm before any create/update/delete.&quot;,
+  }),
+);</code></pre>
+<p>This exposes two routes under <code>basePath</code>:</p>
+<ul>
+<li><code>POST /chat</code> — streams the agent's reply as SSE (text deltas + <code>tool</code> / <code>client_tool</code> activity events).</li>
+<li><code>GET /chat/info</code> — reports <code>{ configured, model, greeting }</code> (the widget reads this).</li>
+</ul>
+<p>Omit <code>model</code> to let <code>@suluk/models</code> pick a tool-reliable one from the lean built-in <code>SEED_CATALOG</code>; pass <code>model: &quot;anthropic/claude-sonnet-4.5&quot;</code> (or any OpenRouter id) to pin it. Pass <code>catalog: OPENROUTER_CATALOG</code> from <code>@suluk/models</code> for full-catalog selection (mind the bundle/cost trade-off).</p>
+<h3>Drop in the widget (any page)</h3>
+<pre><code class="lang-ts">import { chatWidget } from &quot;@suluk/chat&quot;;
+
+// chatWidget() returns ONE self-contained HTML string (style + markup + script).
+// Inject it before &lt;/body&gt; on any page whose backend mounts chatApp.
+const html = chatWidget({
+  endpoint: &quot;/chat&quot;,            // where chatApp is mounted (default /chat)
+  title: &quot;saasuluk assistant&quot;,
+  greeting: &quot;Hi! Ask me anything about this site.&quot;,
+});</code></pre>
+<p>The widget is theme-aware via the suluk CSS-var vocabulary (<code>--accent</code> / <code>--panel</code> / <code>--fg</code> / <code>--line</code> / <code>--muted</code>, with safe fallbacks).</p>
+<h3>Browser-executed (client) tools + page state</h3>
+<p>The page can register <strong>client tools</strong> the model may call but the server never runs — they execute locally (cart, theme, navigation). The widget sends only each tool's <em>definition</em> to the server and runs <code>run(args)</code> in the browser when the model invokes it. It also sends a read-only state snapshot each turn:</p>
+<pre><code class="lang-html">&lt;script&gt;
+  // Read-only browser state the agent can reason over (cart, theme, path …).
+  window.__sulukChatContext = () =&gt; ({ path: location.pathname, cart: window.cart?.items ?? [] });
+
+  // Browser-executed tools: only { name, description, parameters } go to the model; run() stays in the page.
+  window.__sulukChatTools = [
+    {
+      name: &quot;addToCart&quot;,
+      description: &quot;Add a product to the cart by its numeric product id. Works without signing in.&quot;,
+      parameters: { type: &quot;object&quot;, properties: { productId: { type: &quot;integer&quot; } }, required: [&quot;productId&quot;] },
+      run: (a) =&gt; window.cart.add({ productId: Number(a.productId), qty: 1 }),
+    },
+  ];
+&lt;/script&gt;</code></pre>
+<h3>Use the pure pieces directly</h3>
+<p>The agent core is decoupled from the model call and tool execution (both injected), so each piece is independently testable:</p>
+<pre><code class="lang-ts">import { runAgent, streamCompletion, toolsToOpenAI } from &quot;@suluk/chat&quot;;
+import { toolsFrom, appExec } from &quot;@suluk/mcp&quot;;
+
+const tools = toolsFrom(document);
+const exec = appExec(app);                                 // (c, op, args) → runs the op through the store's gate
+
+const messages = await runAgent(
+  {
+    messages: [{ role: &quot;user&quot;, content: &quot;list products under $50&quot; }],
+    tools,
+    exec: (op, args) =&gt; exec(c, op, args),                 // execute a SERVER tool against the store (c = Hono Context)
+    complete: (msgs, oaTools, onText) =&gt;                   // one streamed completion
+      streamCompletion({ apiKey }, &quot;anthropic/claude-sonnet-4.5&quot;, msgs, oaTools, onText),
+    maxSteps: 6,                                           // bounds model round-trips (default 6)
+  },
+  (ev) =&gt; console.log(ev.type),                            // step | text | tool | client_tool | done | error
+);</code></pre>
+<p><code>toolsToOpenAI(tools)</code> maps <code>@suluk/mcp</code> descriptors to the OpenAI function-calling shape; <code>parseSSEStream(body, onText)</code> accumulates an OpenAI-style SSE stream into a final assistant message (handy for tests or a custom transport).</p>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>Kind</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>chatApp(opts)</code></td><td>server</td><td>Returns a <code>Hono</code> app mounting <code>POST {basePath}</code> (SSE agent) + <code>GET {basePath}/info</code>.</td></tr>
+<tr><td><code>chatWidget(opts?)</code></td><td>client</td><td>Returns one self-contained HTML string (style + markup + script) for the floating widget.</td></tr>
+<tr><td><code>runAgent(opts, onEvent)</code></td><td>core</td><td>The pure tool-use loop; model call + tool exec are injected. Returns the full message list.</td></tr>
+<tr><td><code>streamCompletion(cfg, model, msgs, tools, onText, signal?)</code></td><td>core</td><td>One streamed OpenRouter completion → final assistant message.</td></tr>
+<tr><td><code>parseSSEStream(body, onText)</code></td><td>core</td><td>Parse an OpenAI-style SSE completion stream (content + accumulated <code>tool_calls</code>).</td></tr>
+<tr><td><code>toolsToOpenAI(tools)</code></td><td>core</td><td>Map <code>@suluk/mcp</code> tool descriptors → OpenAI/OpenRouter <code>tools</code>.</td></tr>
+<tr><td><code>sanitizeMessages(input)</code></td><td>guard</td><td>Keep only user/assistant text turns; drop client-forged system/tool turns + <code>tool_calls</code>.</td></tr>
+<tr><td><code>sanitizeClientTools(input, serverNames)</code></td><td>guard</td><td>Validate browser tools; never let one shadow a server tool; cap count + schema size.</td></tr>
+<tr><td><code>DEFAULT_SYSTEM</code></td><td>const</td><td>The default embedded-assistant system prompt.</td></tr>
+</tbody>
+</table>
+<p>Types: <code>ChatOptions</code>, <code>ChatWidgetOptions</code>, <code>RunAgentOptions</code>, <code>AgentEvent</code>, <code>ClientToolDef</code>, <code>ChatMessage</code>, <code>ToolCall</code>, <code>OpenAITool</code>, <code>OpenRouterConfig</code>.</p>
+<h2>Boundary</h2>
+<p>This package <strong>renders and orchestrates — it never hosts</strong> (the L3 line). It does not own auth, your data, or the model: it injects ports for all three.</p>
+<ul>
+<li><strong>The store is injected.</strong> <code>exec</code> is yours (e.g. <code>appExec(app)</code>); every server tool call passes through the store's own access gate, so the agent's &quot;act&quot; power is exactly the user's API power — never more.</li>
+<li><strong>The model is chosen, not bundled.</strong> <code>@suluk/models</code> selects it (or you pin it); the OpenRouter key is resolved per-request and stays server-side. No key → a graceful 503.</li>
+<li><strong>The widget is bytes, not a service.</strong> <code>chatWidget()</code> returns an HTML string you serve from your own page; client tools and page state stay in the browser, app-side.</li>
+</ul>
+<h2>License</h2>
+<p>Apache-2.0.</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">AgentEvent</code><code class="chip">chatApp</code><code class="chip">ChatMessage</code><code class="chip">ChatOptions</code><code class="chip">chatWidget</code><code class="chip">ChatWidgetOptions</code><code class="chip">ClientToolDef</code><code class="chip">DEFAULT_SYSTEM</code><code class="chip">OpenAITool</code><code class="chip">OpenRouterConfig</code><code class="chip">parseSSEStream</code><code class="chip">runAgent</code><code class="chip">RunAgentOptions</code><code class="chip">sanitizeClientTools</code><code class="chip">sanitizeMessages</code><code class="chip">streamCompletion</code><code class="chip">ToolCall</code><code class="chip">toolsToOpenAI</code></div>
+    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/mcp</code><code class="chip">@suluk/models</code><code class="chip">hono (peer)</code></div>
+    
+  </article></main>
+<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+</body></html>

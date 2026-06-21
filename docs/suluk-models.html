@@ -1,0 +1,131 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/models — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/models — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<header class="top">
+  <a class="brand" href="index.html">Suluk</a>
+  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</header>
+<main>
+  <article class="package">
+    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/models</p>
+    <h1>@suluk/models <span class="ver">v0.1.3</span></h1>
+    <p class="lead">A weekly, PUBLIC-DATA-ONLY catalog of OpenRouter models + a selector: a suluk skill declares NEEDS (hard filters) + a small PREFERENCE (a named profile), and selectModel picks the best CURRENT model — never a hard-coded id. Decidable OpenRouter facts as numbers; noisy benchmarks as COARSE TIERS with {source, asOf}; no cross-axis composite (blending is the selector's job). CANDIDATE tooling — NOT official OAS.</p>
+    
+    <div class="prose readme"><h1>@suluk/models</h1>
+<p><strong>A public-data-only model catalog + a selector — a skill declares NEEDS, the catalog picks the best CURRENT model, never a hard-coded id.</strong></p>
+<blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/models</code></pre>
+<h2>What it does</h2>
+<ul>
+<li><strong>Filter then rank.</strong> A caller passes <code>HardFilters</code> (capabilities, min-context, price caps, governance allowlist) + <code>Preferences</code> (a named profile, or ≤4 small integer weights). <code>selectModel</code> <em>filters</em> the catalog down to survivors, then <em>ranks</em> them — and explains why.</li>
+<li><strong>Decidable facts are numbers; noisy benchmarks are coarse TIERS.</strong> Price / context / declared capabilities come straight from OpenRouter as real values. Third-party benchmark standings (<code>intel.*</code>) are bucketed to <code>frontier | strong | mid | basic</code> with <code>{source, asOf}</code> — never a fake 2-decimal score.</li>
+<li><strong>UNKNOWN is honest.</strong> A missing cell stays <code>null</code> (never imputed to &quot;worst&quot;, which would kill new models). Hard filters fail <em>closed</em> on unknown; soft axes surface as <code>coverageGaps</code> on the winner.</li>
+<li><strong>No stored composite.</strong> The catalog keeps no blended &quot;overall&quot; score — blending is the selector's job at query time under explicit operator weights (storing a blend would launder preference as fact).</li>
+<li><strong>Two catalogs ship in the box.</strong> <code>SEED_CATALOG</code> (small, hand-curated, for tests/examples) and <code>OPENROUTER_CATALOG</code> (the committed, content-addressed ~300-model artifact, regenerated weekly by <code>scripts/refresh.ts</code>).</li>
+</ul>
+<h2>When to reach for it</h2>
+<ul>
+<li>You're authoring a <strong>suluk agent/skill</strong> and don't want to pin a model id that goes stale (this is the seam <code>@suluk/agents</code> consumes). Declare what the task <em>needs</em> and let the catalog resolve the current best.</li>
+<li>You need a <strong>policy-governed, reproducible</strong> model pick: a <code>modelAllowlist</code> / <code>allowedRetention</code> MEET that a preference can never widen, plus a <code>snapshotHash</code> so the choice is reproducible week-over-week.</li>
+<li>You want a <strong>&quot;why this model&quot;</strong> explainer (filter trace + per-axis tier + coverage gaps) rather than a black box.</li>
+</ul>
+<p>Reach elsewhere when: you need to <em>actually call</em> a model (that's the runtime client, e.g. <code>@suluk/chat</code>'s OpenRouter wiring) — this package only <em>selects</em>. And when you want per-endpoint region/latency facts: those are deliberately not in the schema yet (OpenRouter routes endpoints at runtime), so <code>gov.region</code> / <code>dataRetention</code> stay UNKNOWN at the model level rather than being faked.</p>
+<h2>Usage</h2>
+<h3>Select a model from NEEDS + a profile</h3>
+<pre><code class="lang-ts">import { selectModel, OPENROUTER_CATALOG } from &quot;@suluk/models&quot;;
+
+const result = selectModel(
+  // HardFilters — these FILTER (can empty the set ⇒ fail loud), never rank
+  { needsTools: true, minWindowRequired: 200_000 },
+  // Preferences — a named profile is the 90% case
+  { profile: &quot;tool-reliable&quot; },
+  OPENROUTER_CATALOG,
+);
+
+if (result.ranked.length === 0) {
+  // FAIL LOUD — names the unsatisfiable filter(s), e.g. &quot;min-window&gt;=200000 (excluded 142)&quot;
+  throw new Error(`no model fits: ${result.unsatisfiable?.join(&quot;; &quot;)}`);
+}
+
+const best = result.ranked[0];
+best.id;                       // e.g. &quot;anthropic/claude-sonnet-4.5&quot;
+best.why.passedFilters;        // [&quot;tool-calling&quot;, &quot;min-window&gt;=200000&quot;, &quot;status-active&quot;, ...]
+best.why.decidingPreference;   // &quot;intelligence (weight 3)&quot;
+best.why.tierByAxis;           // { intelligence: {tier, source, asOf}, latency: {...}, cost: {...} }
+result.candidateCount;         // survivors after hard filtering
+result.coverageGaps;           // soft axes with no data on the winner (honesty surface)</code></pre>
+<h3>The escape hatch — explicit weights + taskShape</h3>
+<p>A profile is a preset; power users override with ≤4 small int weights (<code>0..3</code>) and route the single &quot;intelligence&quot; knob to one INTEL sub-axis via <code>taskShape</code>.</p>
+<pre><code class="lang-ts">const r = selectModel(
+  { needsStructured: true },
+  { prefer: { intelligence: 3, cost: 1, speed: 0, context: 1 }, taskShape: &quot;coding&quot; },
+  OPENROUTER_CATALOG,
+);</code></pre>
+<p>The six built-in profiles (<code>PROFILES</code>): <code>tool-reliable</code>, <code>cheap-fast</code>, <code>balanced</code>, <code>max-reasoning</code>, <code>long-context</code>, <code>vision</code>. Each is preset weights + auto-wired implied filters (e.g. <code>tool-reliable</code> implies <code>needsTools</code>, <code>vision</code> implies <code>inputModalities: [&quot;image&quot;]</code>).</p>
+<h3>Governance — the terminal allowlist MEET</h3>
+<p><code>policy</code> is fail-closed and non-overridable: a preference can never widen it, and an <code>unknown</code> governance cell is excluded.</p>
+<pre><code class="lang-ts">selectModel(
+  { policy: { modelAllowlist: [&quot;google/gemini-2.5-flash&quot;], allowedRetention: [&quot;zero&quot;, &quot;ephemeral&quot;] } },
+  { profile: &quot;max-reasoning&quot; },          // even max-reasoning can't escape the allowlist
+  OPENROUTER_CATALOG,
+);</code></pre>
+<h3>Derive HardFilters from an agent's structure</h3>
+<p><code>deriveRequirements</code> is the seam that turns &quot;this agent has tool routes + needs a 120k window&quot; into filters:</p>
+<pre><code class="lang-ts">import { deriveRequirements } from &quot;@suluk/models&quot;;
+
+deriveRequirements({ hasRoutes: true, minWindowRequired: 120_000 });
+// → { needsTools: true, minWindowRequired: 120000 }</code></pre>
+<h3>Build / refresh the catalog (the weekly fetcher spine)</h3>
+<p>The committed catalog is regenerated, not hand-edited. The transform is pure + unit-tested; the live fetch is a thin wrapper.</p>
+<pre><code class="lang-ts">import { fetchOpenRouterCatalog, applyTierOverlay, KNOWN_TIERS } from &quot;@suluk/models&quot;;
+
+// Class A: OpenRouter /models → the decidable fact-cell catalog (NETWORK — run from a script/CI, not tests)
+let catalog = await fetchOpenRouterCatalog(&quot;2026-06-21&quot;);
+
+// Class B: overlay coarse, cited benchmark tiers onto intel.* (KNOWN_TIERS is the conservative bootstrap seed)
+catalog = applyTierOverlay(catalog, KNOWN_TIERS, { source: &quot;public-leaderboard-consensus&quot;, asOf: &quot;2026-06-21&quot; });</code></pre>
+<p>The repo ships this as a script:</p>
+<pre><code class="lang-sh">bun scripts/refresh.ts [asOf]   # → writes src/openrouter-catalog.json (committed, content-addressed)</code></pre>
+<p>For the pure pieces: <code>normalizeOpenRouter(models, asOf)</code> / <code>normalizeOpenRouterModel(m, asOf)</code> turn raw <code>ORModel[]</code> into fact cells, <code>catalogFrom(rows, asOf)</code> wraps them with a <code>snapshotHash</code>, and <code>applyBucketing(axis, score)</code> maps a raw leaderboard number to a tier per the committed <code>BUCKETING_RULES</code>.</p>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>selectModel(reqs, prefs, catalog)</code></td><td>Filter (<code>HardFilters</code>) then rank (<code>Preferences</code>) → <code>SelectResult</code> with a per-model <code>why</code>.</td></tr>
+<tr><td><code>deriveRequirements(input)</code></td><td>Map an agent/skill's declared structure → <code>HardFilters</code>.</td></tr>
+<tr><td><code>PROFILES</code></td><td>The six named profiles → preset weights + implied filters (<code>ResolvedProfile</code>).</td></tr>
+<tr><td><code>OPENROUTER_CATALOG</code></td><td>The committed, content-addressed ~300-model catalog (real prices/context/caps + a frontier intel seed).</td></tr>
+<tr><td><code>SEED_CATALOG</code></td><td>A small hand-curated catalog for tests/examples.</td></tr>
+<tr><td><code>fetchOpenRouterCatalog(asOf, opts?)</code></td><td>Live OpenRouter <code>/models</code> fetch → fact-cell <code>ModelCatalog</code>.</td></tr>
+<tr><td><code>normalizeOpenRouter</code> / <code>normalizeOpenRouterModel</code></td><td>Pure <code>ORModel[]</code> → fact-cell records.</td></tr>
+<tr><td><code>catalogFrom(rows, asOf)</code> / <code>snapshotHash(rows)</code></td><td>Wrap rows into a content-addressed <code>ModelCatalog</code>.</td></tr>
+<tr><td><code>applyTierOverlay(catalog, tiers, opts)</code></td><td>Overlay coarse <code>intel.*</code> tiers onto matching rows; re-hashes.</td></tr>
+<tr><td><code>applyBucketing(axis, score)</code> / <code>BUCKETING_RULES</code></td><td>Map a raw leaderboard metric → a coarse <code>Tier</code> per the committed, cited rules.</td></tr>
+<tr><td><code>KNOWN_TIERS</code></td><td>A small, cited seed of frontier standings (the Class-B bootstrap).</td></tr>
+</tbody>
+</table>
+<p>Types: <code>Tier</code>, <code>Cell</code>, <code>DataRetention</code>, <code>ModelRecord</code>, <code>ModelCatalog</code>, <code>HardFilters</code>, <code>Profile</code>, <code>Preferences</code>, <code>RankedModel</code>, <code>SelectResult</code>, <code>ResolvedProfile</code>, <code>AxisRule</code>, <code>IntelAxis</code>, <code>ORModel</code>.</p>
+<h2>Boundary</h2>
+<p>This package <strong>selects</strong>, it does not <strong>call</strong>. It hands back ranked ids + a why-explainer; resolving that to a runtime target (pin a concrete id, fence an OpenRouter <code>openrouter/auto</code> router by the survivor set, or defer to a <code>~latest</code> alias) and actually invoking the model lives downstream in <code>@suluk/agents</code> and the runtime client.</p>
+<p>The fact transform is pure and never reaches for the clock or the network: <code>asOf</code> is always <strong>injected</strong> (so a run is reproducible) and the only network call, <code>fetchOpenRouterCatalog</code>, is a thin wrapper you run from a weekly script/CI. The benchmark-tier overlay (<code>intel.*</code>) is a separate, lower-cadence, human-reviewed step — see <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/models/REFRESH.md"><code>REFRESH.md</code></a>. Anything the catalog can't prove stays UNKNOWN; it is never imputed.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">applyBucketing</code><code class="chip">applyTierOverlay</code><code class="chip">AxisRule</code><code class="chip">BUCKETING_RULES</code><code class="chip">catalogFrom</code><code class="chip">Cell</code><code class="chip">DataRetention</code><code class="chip">deriveRequirements</code><code class="chip">fetchOpenRouterCatalog</code><code class="chip">HardFilters</code><code class="chip">IntelAxis</code><code class="chip">KNOWN_TIERS</code><code class="chip">ModelCatalog</code><code class="chip">ModelRecord</code><code class="chip">normalizeOpenRouter</code><code class="chip">normalizeOpenRouterModel</code><code class="chip">OPENROUTER_CATALOG</code><code class="chip">ORModel</code><code class="chip">Preferences</code><code class="chip">Profile</code><code class="chip">PROFILES</code><code class="chip">RankedModel</code><code class="chip">ResolvedProfile</code><code class="chip">SEED_CATALOG</code><code class="chip">selectModel</code><code class="chip">SelectResult</code><code class="chip">snapshotHash</code><code class="chip">Tier</code></div>
+    
+    
+  </article></main>
+<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+</body></html>

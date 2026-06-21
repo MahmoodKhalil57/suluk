@@ -18,14 +18,121 @@
 <main>
   <article class="package">
     <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/zod</p>
-    <h1>@suluk/zod <span class="ver">v0.1.1</span></h1>
+    <h1>@suluk/zod <span class="ver">v0.1.2</span></h1>
     <p class="lead">Lossless-where-representable conversion between Zod schemas and OpenAPI v4 'Suluk' Schema Objects (JSON Schema 2020-12). Zod is the source of truth; v4 is the interchange. CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/zod</code></pre>
-    <h2>Overview</h2><div class="prose"><p>@suluk/zod — Zod ⇄ v4 &quot;Suluk&quot; Schema Object conversion.</p>
-<p>The user-facing chain is: Zod → v4 → (Scalar/Swagger render) → v4 → Zod. Zod is the source of truth and v4 (= JSON Schema 2020-12) is the interchange. zodToV4 emits a v4 Schema Object; v4ToZod rebuilds a Zod schema. The pair is LOSSLESS over the JSON-Schema-representable subset — proven by a fixpoint test (zodToV4∘v4ToZod∘zodToV4 == zodToV4). Zod runtime effects that JSON Schema cannot express (.transform, .refine) are reported by zodToV4().warnings rather than dropped silently. CANDIDATE tooling.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">convert</code><code class="chip">v4ToZod</code><code class="chip">V4ToZodOptions</code><code class="chip">zodToV4</code><code class="chip">ZodToV4Result</code></div>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/zod</code></pre>
+<p><code>zod@^4</code> is a peer dependency — bring your own.</p>
+<h2>What it does</h2>
+<p>A v4 Schema Object <strong>is</strong> JSON Schema 2020-12, and Zod 4 emits exactly that. This package is the thin, honest bridge between the two:</p>
+<ul>
+<li><strong><code>zodToV4(schema)</code></strong> — emit a v4 Schema Object from a Zod schema (strips the embedded <code>$schema</code></li>
+</ul>
+<p>  dialect marker, since v4 declares the dialect once at the document level).</p>
+<ul>
+<li><strong><code>v4ToZod(schema)</code></strong> — rebuild a runnable Zod schema from a v4 Schema Object, resolving <code>$ref</code></li>
+</ul>
+<p>  against an optional defs map.</p>
+<ul>
+<li><strong>Lossless over the representable subset</strong> — the pair is a proven <em>fixpoint</em>: for any Zod schema <code>s</code>,</li>
+</ul>
+<p>  <code>zodToV4(v4ToZod(zodToV4(s)))</code> deep-equals <code>zodToV4(s)</code>.</p>
+<ul>
+<li><strong>Honest about loss</strong> — Zod runtime effects JSON Schema can't express (<code>.transform</code>, <code>.refine</code>,</li>
+</ul>
+<p>  <code>.superRefine</code>, <code>.check</code>) are <strong>reported in <code>zodToV4().warnings</code></strong>, never dropped silently. A plain   representable schema yields an empty <code>warnings</code> array.</p>
+<ul>
+<li><strong>Lexical rich-text typing</strong> — a ready-made Zod type and a hand-authored v4 projection for a serialized</li>
+</ul>
+<p>  Lexical editor state, so a <code>richtext</code> field validates, infers, and renders.</p>
+<h2>When to reach for it</h2>
+<p>Reach for <code>@suluk/zod</code> when you have Zod schemas and need v4 Schema Objects, or vice versa. It's the schema backbone underneath <code>@suluk/hono</code> (route schemas → contract) and <code>@suluk/drizzle</code> (table schemas → contract) — both call <code>zodToV4</code> directly.</p>
+<ul>
+<li>Use <strong><code>@suluk/zod</code></strong> for the <em>Schema Object</em> layer (the <code>properties</code>/<code>type</code> JSON-Schema fragments).</li>
+<li>Use <strong><code>@suluk/core</code></strong> for the whole v4 <em>document</em> (parse, validate, resolve <code>$ref</code>, signature, path</li>
+</ul>
+<p>  matching).</p>
+<ul>
+<li>Use <strong><code>@suluk/openapi-compat</code></strong> for <em>whole-document</em> 3.1 ⇄ v4 conversion — a different axis than the</li>
+</ul>
+<p>  Zod ⇄ Schema-Object conversion here.</p>
+<h2>Usage</h2>
+<h3>Zod → v4 Schema Object</h3>
+<pre><code class="lang-ts">import { zodToV4 } from &quot;@suluk/zod&quot;;
+import * as z from &quot;zod&quot;;
+
+const User = z.object({
+  name: z.string().min(2),
+  email: z.email(),
+  age: z.number().int().optional(),
+  role: z.enum([&quot;admin&quot;, &quot;user&quot;]),
+});
+
+const { schema, warnings } = zodToV4(User);
+// schema  → a v4 Schema Object (JSON Schema 2020-12), no `$schema` marker
+// warnings → [] (fully lossless — nothing was dropped)</code></pre>
+<p><code>io</code> picks the input vs output projection for schemas with defaults/transforms (<code>&quot;output&quot;</code> is the default — the shape <em>after</em> parsing):</p>
+<pre><code class="lang-ts">zodToV4(z.string().default(&quot;x&quot;), { io: &quot;input&quot; });</code></pre>
+<p>The lossy boundary is enumerated, not silent — <code>.transform</code>/<code>.refine</code> and friends surface in <code>warnings</code>:</p>
+<pre><code class="lang-ts">const { warnings } = zodToV4(z.string().refine((s) =&gt; s.length &gt; 3));
+// warnings → [&quot;custom refinement dropped (not representable in JSON Schema)&quot;]
+// the base `{ type: &quot;string&quot; }` is still emitted; the predicate is reported, not lost</code></pre>
+<h3>v4 Schema Object → Zod</h3>
+<pre><code class="lang-ts">import { v4ToZod } from &quot;@suluk/zod&quot;;
+
+const Pet = v4ToZod({
+  type: &quot;object&quot;,
+  properties: { name: { type: &quot;string&quot; }, tags: { type: &quot;array&quot;, items: { type: &quot;string&quot; } } },
+  required: [&quot;name&quot;],
+});
+
+Pet.safeParse({ name: &quot;Rex&quot;, tags: [&quot;good&quot;] }).success; // → true
+Pet.safeParse({}).success;                              // → false (name required)</code></pre>
+<p>Resolve <code>$ref</code> by passing a <code>defs</code> map (or a resolver function) — keys match the full pointer or the trailing name (<code>#/components/schemas/Pet</code>, <code>#/$defs/Pet</code>):</p>
+<pre><code class="lang-ts">const zt = v4ToZod(
+  { $ref: &quot;#/components/schemas/Pet&quot; },
+  { defs: { Pet: { type: &quot;object&quot;, properties: { name: { type: &quot;string&quot; } }, required: [&quot;name&quot;] } } },
+);</code></pre>
+<h3>Lexical rich-text</h3>
+<p>Type a stored richtext value, and drop the v4 projection onto a property in a contract:</p>
+<pre><code class="lang-ts">import { lexicalSchema, LEXICAL_V4_SCHEMA, type LexicalState } from &quot;@suluk/zod&quot;;
+
+const state: LexicalState = lexicalSchema.parse(storedEditorState); // validates the recursive node tree
+
+// In a contract, declare a richtext field by referencing the frozen v4 projection
+// (recursive via a `$defs.lexicalNode` self-`$ref`; carries `x-suluk-widget: &quot;richtext&quot;`):
+const Post = {
+  type: &quot;object&quot;,
+  properties: { body: LEXICAL_V4_SCHEMA },
+  required: [&quot;body&quot;],
+};</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>Kind</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>zodToV4(schema, { io? })</code></td><td>fn</td><td>Zod schema → <code>{ schema, warnings }</code> v4 Schema Object</td></tr>
+<tr><td><code>v4ToZod(schema, { defs? })</code></td><td>fn</td><td>v4 Schema Object → runnable Zod schema (<code>$ref</code>-resolving)</td></tr>
+<tr><td><code>convert(node, opts?)</code></td><td>fn</td><td>the recursive core of <code>v4ToZod</code> — convert one JSON-Schema node</td></tr>
+<tr><td><code>ZodToV4Result</code></td><td>type</td><td><code>{ schema: Record&lt;string, unknown&gt;; warnings: string[] }</code></td></tr>
+<tr><td><code>V4ToZodOptions</code></td><td>type</td><td>`{ defs?: Record&lt;string, unknown&gt; \</td><td>((ref: string) =&gt; unknown) }`</td></tr>
+<tr><td><code>lexicalSchema</code></td><td>Zod</td><td>the serialized Lexical editor state — <code>{ root: { children: [...] } }</code></td></tr>
+<tr><td><code>lexicalNodeSchema</code></td><td>Zod</td><td>a single recursive Lexical node (open / passthrough)</td></tr>
+<tr><td><code>LexicalState</code></td><td>type</td><td><code>z.infer&lt;typeof lexicalSchema&gt;</code></td></tr>
+<tr><td><code>LEXICAL_V4_SCHEMA</code></td><td>const</td><td>frozen v4 projection of a Lexical state (<code>x-suluk-widget: &quot;richtext&quot;</code>)</td></tr>
+</tbody>
+</table>
+<h2>Boundary</h2>
+<p>This package converts the <strong>schema layer</strong> only — the JSON-Schema fragment, not the surrounding v4 document. It emits and ingests Schema Objects; assembling them into a document (paths, components, <code>info</code>, the <code>4.0.0-candidate</code> identity) and validating that document is <code>@suluk/core</code>'s job.</p>
+<p>Conversion is <strong>lossless over the JSON-Schema-representable subset</strong>. Where Zod expresses runtime logic JSON Schema cannot (<code>.transform</code>, <code>.refine</code>), the contract is to <strong>report it in <code>warnings</code></strong> so the caller decides what to do — never to drop it silently. New mappings for unrepresentable constructs belong here, behind that same honest-loss contract, not in the callers that depend on it.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">convert</code><code class="chip">LEXICAL_V4_SCHEMA</code><code class="chip">lexicalNodeSchema</code><code class="chip">lexicalSchema</code><code class="chip">LexicalState</code><code class="chip">v4ToZod</code><code class="chip">V4ToZodOptions</code><code class="chip">zodToV4</code><code class="chip">ZodToV4Result</code></div>
     <h2>Depends on</h2><div class="chips"><code class="chip">zod (peer)</code></div>
-    <h2>Modules</h2><dl class="modules"><dt><code>to-v4.ts</code></dt><dd>Zod → v4 &quot;Suluk&quot; Schema Object.</dd><dt><code>to-zod.ts</code></dt><dd>v4 &quot;Suluk&quot; Schema Object (JSON Schema 2020-12) → Zod.</dd></dl>
+    
   </article></main>
 <footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
 </body></html>

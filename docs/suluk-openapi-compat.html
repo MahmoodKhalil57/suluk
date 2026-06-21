@@ -18,14 +18,96 @@
 <main>
   <article class="package">
     <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/openapi-compat</p>
-    <h1>@suluk/openapi-compat <span class="ver">v0.1.1</span></h1>
+    <h1>@suluk/openapi-compat <span class="ver">v0.1.2</span></h1>
     <p class="lead">Lossless-where-possible conversion between the OpenAPI v4 'Suluk' candidate and OpenAPI 3.1 (the dialect Scalar/Swagger consume). CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/openapi-compat</code></pre>
-    <h2>Overview</h2><div class="prose"><p>@suluk/openapi-compat — convert between the OpenAPI v4 &quot;Suluk&quot; candidate and OpenAPI 3.1.</p>
-<p>downgrade(v4) → 3.1 is the lever for Scalar &amp; Swagger UI (they consume 3.x). upgrade(3.1) → v4 is the reverse. The pair is lossless for documents that fit 3.1's expressivity; where v4 exceeds 3.1 (notably multiple requests per method on one path, C003), downgrade() reports it in <code>diagnostics</code> rather than losing it silently. Schema Objects are shared verbatim (both are JSON Schema 2020-12). CANDIDATE tooling.</p></div>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/openapi-compat</code></pre>
+<h2>What it does</h2>
+<ul>
+<li><strong><code>downgrade(v4) → 3.1</code></strong> — projects a v4 &quot;Suluk&quot; document down to a real OpenAPI 3.1 document, the lever</li>
+</ul>
+<p>  that lets 3.x-only renderers (Scalar, Swagger UI) show a v4 contract. Name-keyed <code>requests</code> become   method-keyed Operations, per-location <code>parameterSchema</code> objects expand into <code>parameters[]</code>, and the v4   request name is preserved as the <code>operationId</code> (round-trippable).</p>
+<ul>
+<li><strong><code>upgrade(3.1) → v4</code></strong> — the reverse projection. Method-keyed Operations become name-keyed <code>requests</code>;</li>
+</ul>
+<p>  flat <code>parameters[]</code> re-collect into per-location <code>parameterSchema</code> objects.</p>
+<ul>
+<li><strong>Honest diagnostics, never silent loss.</strong> Where v4 exceeds 3.1's expressivity — most notably two requests</li>
+</ul>
+<p>  sharing one method on one path (C003) — <code>downgrade</code> keeps the first and emits a <code>Diagnostic</code> naming what was   dropped, instead of losing it quietly. <code>diagnostics</code> is the audit trail.</p>
+<ul>
+<li><strong><code>validate31(doc)</code></strong> — checks a document against the vendored official OpenAPI 3.1 meta-schema (plus a real</li>
+</ul>
+<p>  JSON-Schema-2020-12 pass over every Schema Object), proving the downgrade output is 3.1 a renderer will accept.</p>
+<ul>
+<li><strong>Schema Objects pass through verbatim.</strong> v4 and 3.1 share JSON Schema 2020-12 (SPEC C013 == OAS 3.1), so no</li>
+</ul>
+<p>  Schema Object is rewritten in either direction — only the surrounding structure changes.</p>
+<h2>When to reach for it</h2>
+<ul>
+<li>You have a v4 document and need to feed it to a tool that only speaks OpenAPI 3.x. <code>downgrade</code> is the on-ramp;</li>
+</ul>
+<p>  it's exactly what <code>@suluk/scalar</code> and <code>@suluk/swagger</code> call internally before handing the spec to their bundles.</p>
+<ul>
+<li>You're ingesting a standard OpenAPI 3.1 (or 3.0, after normalization) document and want it as a v4 contract —</li>
+</ul>
+<p>  the &quot;Upgrade from 3.1&quot; flow in <code>@suluk/editor</code>, or <code>@suluk/better-auth</code>'s ingest of Better Auth's own schema.</p>
+<ul>
+<li>You want a checked, lossless-where-possible round-trip and an explicit list of what 3.1 cannot represent.</li>
+</ul>
+<p>Reach for a sibling instead when you want the rendered page, not the converted document: <code>@suluk/scalar</code> and <code>@suluk/swagger</code> produce self-contained HTML (and attach the v4 facet badges a plain downgrade would drop). This package is just the conversion + validation primitive underneath them.</p>
+<h2>Usage</h2>
+<h3>Downgrade a v4 document to 3.1</h3>
+<pre><code class="lang-ts">import { downgrade, validate31 } from &quot;@suluk/openapi-compat&quot;;
+import { parseDocument } from &quot;@suluk/core&quot;;
+
+const v4 = parseDocument(yamlOrJsonText);          // an OpenAPIv4Document
+const { document, diagnostics } = downgrade(v4);   // document is OpenAPI 3.1
+
+// Anything 3.1 couldn't carry losslessly is reported, not dropped silently:
+for (const d of diagnostics) {
+  console.warn(`[${d.kind}] ${d.path}: ${d.message}`);
+}
+
+// Prove it's real 3.1 (validates against the official 3.1 meta-schema):
+const v = validate31(document);
+if (!v.valid) console.error(v.errors); // [{ path, message }, …]</code></pre>
+<p><code>downgrade</code> returns <code>{ document, diagnostics }</code>. Each <code>Diagnostic</code> is <code>{ kind, path, message }</code> where <code>kind</code> is <code>&quot;collision&quot;</code> (lossy — two requests clash on one method), <code>&quot;remap&quot;</code> (a <code>$ref</code>/feature was rewritten), or <code>&quot;drop&quot;</code> (unrepresentable, e.g. a non-3.1 HTTP method).</p>
+<h3>Upgrade a 3.1 document up to v4</h3>
+<pre><code class="lang-ts">import { upgrade } from &quot;@suluk/openapi-compat&quot;;
+
+const v4doc = upgrade(spec31); // spec31: a parsed OpenAPI 3.1 document (plain object)
+// → OpenAPIv4Document with openapi: &quot;4.0.0-candidate&quot;
+// Operations become name-keyed `requests`; operationId becomes the request name.</code></pre>
+<p>A document that came <strong>from</strong> <code>downgrade()</code> carries <code>operationId == the original v4 request name</code>, so the round-trip recovers the original names:</p>
+<pre><code class="lang-ts">import { downgrade, upgrade } from &quot;@suluk/openapi-compat&quot;;
+
+const back = upgrade(downgrade(v4).document); // names + methods recovered through the 3.1 hop</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>Signature</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>downgrade</code></td><td><code>(doc: OpenAPIv4Document) =&gt; DowngradeResult</code></td><td>v4 → 3.1; returns <code>{ document, diagnostics }</code>.</td></tr>
+<tr><td><code>upgrade</code></td><td><code>(doc31: Record&lt;string, unknown&gt;) =&gt; OpenAPIv4Document</code></td><td>3.1 → v4 (the reverse projection).</td></tr>
+<tr><td><code>validate31</code></td><td><code>(document: unknown) =&gt; Validation31</code></td><td>Validate against the official 3.1 meta-schema; <code>{ valid, errors }</code>.</td></tr>
+<tr><td><code>DowngradeResult</code></td><td><code>{ document: Record&lt;string, unknown&gt;; diagnostics: Diagnostic[] }</code></td><td>type — the downgrade output.</td></tr>
+<tr><td><code>Diagnostic</code></td><td>`{ kind: &quot;collision&quot; \</td><td>&quot;remap&quot; \</td><td>&quot;drop&quot;; path: string; message: string }`</td><td>type — one lossy/rewrite note.</td></tr>
+<tr><td><code>Validation31</code></td><td><code>{ valid: boolean; errors: { path: string; message: string }[] }</code></td><td>type — the validation result.</td></tr>
+</tbody>
+</table>
+<p>The package has a single entry point (<code>@suluk/openapi-compat</code>) — no sub-path exports and no CLI.</p>
+<h2>Boundary</h2>
+<p><code>@suluk/openapi-compat</code> is a pure conversion + validation library: three functions, no I/O, no globals, Workers-safe. It <strong>does not</strong> render a page, fetch a remote document, or host anything — it hands back a converted document and an honest diagnostics list, and the caller decides what to do with them. The rendered surfaces (<code>@suluk/scalar</code>, <code>@suluk/swagger</code>, <code>@suluk/editor</code>) are thin shells on top of it: they <code>downgrade</code>, then attach v4 facet badges and wrap the result in HTML.</p>
+<p>The one rule when contributing: <code>downgrade</code> must emit an honest <code>Diagnostic</code> for anything 3.1 cannot express — extend the diagnostics, never the silence.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
     <h2>Public API</h2><div class="chips"><code class="chip">Diagnostic</code><code class="chip">downgrade</code><code class="chip">DowngradeResult</code><code class="chip">upgrade</code><code class="chip">validate31</code><code class="chip">Validation31</code></div>
     <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code></div>
-    <h2>Modules</h2><dl class="modules"><dt><code>downgrade.ts</code></dt><dd>v4 &quot;Suluk&quot; → OpenAPI 3.1 DOWNGRADE.</dd><dt><code>upgrade.ts</code></dt><dd>OpenAPI 3.1 → v4 &quot;Suluk&quot; UPGRADE (the reverse projection).</dd><dt><code>validate31.ts</code></dt><dd>Validate a document against the OFFICIAL OpenAPI 3.1 meta-schema (vendored, 2022-10-07 revision).</dd></dl>
+    
   </article></main>
 <footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
 </body></html>

@@ -1,0 +1,119 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/theme — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/theme — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<header class="top">
+  <a class="brand" href="index.html">Suluk</a>
+  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</header>
+<main>
+  <article class="package">
+    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/theme</p>
+    <h1>@suluk/theme <span class="ver">v0.1.1</span></h1>
+    <p class="lead">The design-token CONTRACT: a typed TokenSpec (OKLCH colors + radius/fonts/shadows + type/spacing scales + breakpoints) that PROJECTS into CSS custom properties, the Tailwind v4 @theme block, and a shadcn token map — one source of truth for the look. Includes an OKLCH value type + a deterministic generate-dark-from-light, with reference schemes proving the mechanism (the 40+ curated catalog is meta-product breadth). CANDIDATE tooling.</p>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Part of the Suluk OpenAPI v4.0 candidate, not a SIG deliverable. Apache-2.0.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-bash">bun add @suluk/theme</code></pre>
+<h2>What it does</h2>
+<ul>
+<li><strong>One source of truth for the look.</strong> A typed <code>TokenSpec</code> (OKLCH colors + radius/fonts/shadows + type/spacing/breakpoint scales) projects into three otherwise hand-synced surfaces: a <code>:root</code> CSS-vars block, the Tailwind v4 <code>@theme inline</code> block, and a shadcn token map. They can't drift, because they're all derived from the same spec.</li>
+<li><strong>OKLCH value type.</strong> A small, dependency-free <code>Oklch</code> value (<code>l</code>/<code>c</code>/<code>h</code>/<code>alpha</code>) with <code>parse</code>/<code>format</code>/<code>clamp</code> helpers. OKLCH keeps lightness independent of hue/chroma, which is what makes the dark-mode derivation tractable.</li>
+<li><strong>Deterministic generate-dark-from-light.</strong> <code>deriveDark</code> is a role-aware lightness remap that preserves each token's chroma + hue (surfaces go dark, text goes light, brand colors stay vivid). Same light spec in → same dark spec out.</li>
+<li><strong>Import community themes.</strong> <code>parseShadcnCss</code> reads a shadcn / <a href="https://tweakcn.com">tweakcn</a> theme CSS block into <code>ColorTokens</code>, so any community theme drops into the same emit/derive pipeline as a hand-authored spec.</li>
+<li><strong>A reusable a11y + motion base layer.</strong> <code>renderBaseCss</code> emits a scheme-independent contract — <code>:focus-visible</code> rings, the <code>[aria-invalid]</code> error look, <code>.sr-only</code>/<code>.skip-link</code>, and a few motion primitives — all <code>prefers-reduced-motion</code>-gated.</li>
+</ul>
+<h2>When to reach for it</h2>
+<ul>
+<li>You want a single typed definition of an app's look and need it in CSS variables, Tailwind v4, <strong>and</strong> shadcn token form at once — without maintaining three copies.</li>
+<li>You have a shadcn/tweakcn theme CSS and want it as structured <code>ColorTokens</code> (e.g. to remap onto your own <code>--bg</code>/<code>--accent</code> var vocabulary, or to generate swatch previews).</li>
+<li>You want a deterministic dark mode derived from a light scheme rather than hand-authoring both.</li>
+</ul>
+<p>It is <strong>not</strong> a theme catalog or a runtime picker: this package ships only the contract + three reference schemes that prove the mechanism. The curated 40+ scheme catalog and the no-flash stamper/picker are app-layer breadth (see <a href="https://github.com/MahmoodKhalil57/suluk">saasuluk</a>'s <code>src/themes/<em></code>), built </em>on top of* this same <code>TokenSpec</code>.</p>
+<h2>Usage</h2>
+<h3>Author a spec, project it everywhere</h3>
+<pre><code class="lang-ts">import {
+  oklch, terracotta, themeFromLight,
+  toCssVars, toThemeCss, toTailwindTheme, toShadcnTokens,
+  type TokenSpec,
+} from &quot;@suluk/theme&quot;;
+
+// Use a reference scheme, or author your own TokenSpec from OKLCH colors + a radius.
+const theme = themeFromLight(terracotta); // { light, dark } — dark is derived if not supplied
+
+toCssVars(terracotta);          // &quot;:root { --background: oklch(1 0 0); … --radius: 0.625rem; }&quot;
+toThemeCss(theme);              // light at :root + dark at [data-theme='dark']
+toTailwindTheme(terracotta);    // &quot;@theme inline { --color-background: var(--background); --radius-lg: var(--radius); … }&quot;
+toShadcnTokens(terracotta);     // { &quot;--primary&quot;: &quot;oklch(0.6397 0.172 36.44)&quot;, &quot;--radius&quot;: &quot;0.625rem&quot;, … }</code></pre>
+<p><code>toCssVars</code> takes an optional <code>{ selector }</code> and <code>toThemeCss</code> an optional <code>{ darkSelector }</code> (default <code>[data-theme='dark']</code>).</p>
+<h3>Derive dark from light</h3>
+<pre><code class="lang-ts">import { deriveDark, graphite } from &quot;@suluk/theme&quot;;
+
+const dark = deriveDark(graphite); // surfaces darken, every *foreground role goes light, brand stays vivid
+// deriveDark is pure: deriveDark(graphite) deep-equals deriveDark(graphite)</code></pre>
+<h3>Import a shadcn / tweakcn theme</h3>
+<pre><code class="lang-ts">import { parseShadcnCss, formatOklch, withLightness, type ColorTokens } from &quot;@suluk/theme&quot;;
+
+const css = `:root {
+  --background: oklch(0.99 0 0); --foreground: oklch(0.1 0 0);
+  --primary: oklch(0.55 0.2 250); --primary-foreground: oklch(1 0 0);
+  --muted: oklch(0.97 0 0); --border: oklch(0.92 0 0); --ring: oklch(0.55 0.2 250);
+}`;
+
+const t = parseShadcnCss(css, &quot;demo&quot;);
+// → { name: &quot;demo&quot;, light: ColorTokens, dark: ColorTokens } | null
+//   dark is read from a `.dark` / html[data-theme=&quot;dark&quot;] block when present, else derived.
+//   Omitted tokens are filled coherently; null only when the :root color essentials are absent.
+
+if (t) {
+  // remap the shadcn roles onto your own var vocabulary (hue-preserving tints stay coherent):
+  const accent2 = withLightness(t.light.primary, t.light.primary.l + 0.07);
+  const bg = formatOklch(t.light.background); // &quot;oklch(0.99 0 0)&quot;
+}</code></pre>
+<h3>The OKLCH value type</h3>
+<pre><code class="lang-ts">import { oklch, parseOklch, formatOklch, withLightness, withAlpha } from &quot;@suluk/theme&quot;;
+
+oklch(0.64, 0.172, 36.44);                 // { l, c, h } — clamped to valid ranges
+formatOklch(oklch(0.6, 0.1, 200, 0.5));    // &quot;oklch(0.6 0.1 200 / 0.5)&quot;
+parseOklch(&quot;oklch(50% 0.1 120)&quot;);          // { l: 0.5, c: 0.1, h: 120 }  (percent L normalized)
+parseOklch(&quot;rgb(1,2,3)&quot;);                  // null</code></pre>
+<h3>The a11y + motion base layer</h3>
+<pre><code class="lang-ts">import { renderBaseCss } from &quot;@suluk/theme&quot;;
+
+renderBaseCss();                                       // defaults to the shadcn role vars (var(--ring), var(--destructive))
+renderBaseCss({ ring: &quot;var(--accent)&quot;, destructive: &quot;#ef4444&quot; }); // point it at your own var vocabulary</code></pre>
+<p>Emit it once into your global stylesheet. It owns the keyboard focus ring, the invalid-field look, the skip-link, and the motion keyframes — all neutralized under <code>prefers-reduced-motion</code>.</p>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>oklch</code>, <code>clampOklch</code>, <code>formatOklch</code>, <code>parseOklch</code>, <code>withLightness</code>, <code>withAlpha</code>, <code>Oklch</code></td><td>the OKLCH value type + parse/format/clamp helpers</td></tr>
+<tr><td><code>TokenSpec</code>, <code>ThemeSpec</code>, <code>ColorTokens</code>, <code>FontTokens</code></td><td>the design-token contract types</td></tr>
+<tr><td><code>COLOR_ROLES</code>, <code>cssVarName</code></td><td>the ordered color-role list + role → CSS-var name (<code>primaryForeground</code> → <code>--primary-foreground</code>)</td></tr>
+<tr><td><code>deriveDark</code>, <code>themeFromLight</code></td><td>deterministic dark-from-light derivation; build a <code>{ light, dark }</code> spec</td></tr>
+<tr><td><code>toCssVars</code>, <code>toThemeCss</code>, <code>toTailwindTheme</code>, <code>toShadcnTokens</code>, <code>renderBaseCss</code></td><td>the projections (+ <code>CssVarsOptions</code>, <code>ThemeCssOptions</code>, <code>BaseCssOptions</code>)</td></tr>
+<tr><td><code>parseShadcnCss</code></td><td>import a shadcn/tweakcn theme CSS block into <code>ColorTokens</code></td></tr>
+<tr><td><code>graphite</code>, <code>terracotta</code>, <code>ocean</code>, <code>REFERENCE_SCHEMES</code></td><td>three reference schemes that prove the mechanism end-to-end</td></tr>
+</tbody>
+</table>
+<h2>Boundary</h2>
+<p>This package is L3 — it <strong>generates / projects, it does not host</strong>. It hands you CSS strings, a Tailwind block, and a token map that you own and emit; there is no runtime, no theme server, no bundled picker. The curated scheme catalog, the no-flash <code>&lt;html&gt;</code> stamper, and the runtime picker are app-layer breadth (they live in the consuming app, e.g. saasuluk's <code>src/themes/</code>) and are authored on top of this same <code>TokenSpec</code>. The single entry point is <code>@suluk/theme</code> — no CLI and no sub-path exports.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">BaseCssOptions</code><code class="chip">clampOklch</code><code class="chip">COLOR_ROLES</code><code class="chip">ColorTokens</code><code class="chip">cssVarName</code><code class="chip">CssVarsOptions</code><code class="chip">deriveDark</code><code class="chip">FontTokens</code><code class="chip">formatOklch</code><code class="chip">graphite</code><code class="chip">ocean</code><code class="chip">oklch</code><code class="chip">Oklch</code><code class="chip">parseOklch</code><code class="chip">parseShadcnCss</code><code class="chip">REFERENCE_SCHEMES</code><code class="chip">renderBaseCss</code><code class="chip">terracotta</code><code class="chip">ThemeCssOptions</code><code class="chip">themeFromLight</code><code class="chip">ThemeSpec</code><code class="chip">toCssVars</code><code class="chip">TokenSpec</code><code class="chip">toShadcnTokens</code><code class="chip">toTailwindTheme</code><code class="chip">toThemeCss</code><code class="chip">withAlpha</code><code class="chip">withLightness</code></div>
+    
+    
+  </article></main>
+<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+</body></html>

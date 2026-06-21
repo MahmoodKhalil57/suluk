@@ -1,0 +1,157 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/mcp — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/mcp — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<header class="top">
+  <a class="brand" href="index.html">Suluk</a>
+  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</header>
+<main>
+  <article class="package">
+    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/mcp</p>
+    <h1>@suluk/mcp <span class="ver">v0.1.2</span></h1>
+    <p class="lead">Project ONE OpenAPI v4 document into a Model Context Protocol (MCP) server: each operation becomes an MCP tool (read-only by default), served over the Streamable-HTTP JSON-RPC transport as a Hono-mountable app. Same contract that drives the API/SDK/docs/admin/panel now drives an agent-callable surface — zero hand-written tool schemas. CANDIDATE tooling — NOT official OAS.</p>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor <em>candidate</em> of the OpenAPI v4.0 (&quot;Moonwalk&quot;) line, not a ratified spec. The MCP projection here is a vendor extension; treat these artifacts as proposals, pin your versions, and expect churn.</blockquote>
+<p>The same contract that drives your API, SDK, docs, admin, and panel now drives a <a href="https://modelcontextprotocol.io">Model Context Protocol</a> surface: every operation is projected into one MCP tool, served over the Streamable-HTTP JSON-RPC transport as a <a href="https://hono.dev">Hono</a>-mountable app. No hand-written tool schemas, no config drift — the contract is the single source.</p>
+<p>The projection (<code>toolsFrom</code>) and the protocol (<code>handleRpc</code>) are <strong>pure</strong> and independently testable; <code>mcpApp</code> wires the transport, and the <code>exec</code> seam turns a tool call back into an HTTP request against your own routes.</p>
+<h2>Install</h2>
+<pre><code class="lang-bash">bun add @suluk/mcp</code></pre>
+<p><code>hono</code> is a peer dependency — bring your own (<code>bun add hono</code>).</p>
+<h2>What it does</h2>
+<ul>
+<li><strong>Projects each operation into an MCP tool.</strong> Every <code>Request</code> in the v4 doc (the named key in</li>
+</ul>
+<p>  <code>pathItem.requests</code>, C009) becomes one tool; its <code>inputSchema</code> flattens the operation's path + query   params, plus a nested <code>body</code> for mutations. The tool name is the operation name, sanitized to MCP's   <code>[A-Za-z0-9_-]{1,64}</code> rule.</p>
+<ul>
+<li><strong>Read-only by default.</strong> Only GET/HEAD ops are exposed; mutations are opt-in via <code>include: &quot;all&quot;</code>.</li>
+</ul>
+<p>  Deprecated ops are skipped unless asked for.</p>
+<ul>
+<li><strong>Speaks the MCP 2025-06-18 Streamable-HTTP transport.</strong> <code>initialize</code>, <code>tools/list</code>, <code>tools/call</code>,</li>
+</ul>
+<p>  <code>ping</code>, notification swallowing; tool failures are reported in-band (<code>isError: true</code>), and arrays   (removed JSON-RPC batching) are rejected up front.</p>
+<ul>
+<li><strong>SSRF-safe execution.</strong> A tool call is rebuilt into a same-origin HTTP request — argument values are</li>
+</ul>
+<p>  only ever <code>encodeURIComponent</code>'d into the path template or set as <code>searchParams</code>, so a caller   influences VALUES, never the scheme/host/route. The caller's session is forwarded so an authenticated   agent acts as itself.</p>
+<ul>
+<li><strong>Tier-trim serving (C027).</strong> Advertise only a <em>resident</em> set in <code>tools/list</code> and withhold the</li>
+</ul>
+<p>  cold-tail behind a synthetic <code>discover_tools</code> meta-tool — a real, lossless context reduction   (cold-tail tools stay callable by name).</p>
+<h2>When to reach for it</h2>
+<p>Reach for <code>@suluk/mcp</code> when you have a v4 document and want to expose its operations to LLM agents over MCP — the runtime surface a Claude/Cursor/OpenRouter client connects to and calls.</p>
+<p>Its sibling <code>@suluk/agents</code> is the <em>composition</em> layer above this: it projects + lints + signs the <code>x-suluk-agents</code> contract and tells you <em>which</em> tools should be resident (<code>residentToolNames</code>). This package <em>serves</em> that surface. Use them together: <code>@suluk/agents</code> decides the surface, <code>@suluk/mcp</code> hosts it.</p>
+<h2>Usage</h2>
+<h3>Mount an MCP server (the common case)</h3>
+<p><code>mcpApp</code> returns a Hono app you mount on your existing routes. Pass the v4 <code>document</code> (a value or a per-request function, so a per-role document yields a per-role tool set for free).</p>
+<pre><code class="lang-ts">import { mcpApp, appExec } from &quot;@suluk/mcp&quot;;
+
+const mcp = mcpApp({
+  document,                 // your OpenAPIv4Document (or (c) =&gt; projectDocument(document, roleOf(c)))
+  basePath: &quot;/mcp&quot;,         // default &quot;/mcp&quot;
+  name: &quot;saasuluk&quot;,
+  include: &quot;read&quot;,          // &quot;read&quot; (default, GET/HEAD only) | &quot;all&quot; (also mutations)
+  exec: appExec(app),       // dispatch tool calls in-process through the SAME host app — see below
+  instructions: &quot;Browse the saasuluk store: list and read products, posts, and categories.&quot;,
+});
+
+app.route(&quot;/&quot;, mcp);        // now POST /mcp speaks JSON-RPC; GET /mcp → 405 (no server→client stream)</code></pre>
+<p>By default <code>mcpApp</code> executes a tool by fetching the worker's <strong>own public origin</strong> (<code>originExec</code>). On Cloudflare Workers a self-fetch to the public hostname loops through the edge and 522s — so when the MCP server is mounted on the <strong>same app</strong> as the store routes, pass <code>exec: appExec(app)</code> to dispatch straight through <code>app.fetch</code> (same routing, same auth + access middleware, no network hop). The host app is read lazily, so mounting MCP on that same <code>app</code> first is fine.</p>
+<h3>Gate it + tier-trim the surface</h3>
+<pre><code class="lang-ts">import { mcpApp } from &quot;@suluk/mcp&quot;;
+import { residentToolNames } from &quot;@suluk/agents&quot;; // optional: derive resident tools from an agent contract
+
+mcpApp({
+  document,
+  include: &quot;all&quot;,
+  authorize: (c) =&gt; Boolean(c.req.header(&quot;authorization&quot;)),  // return true to allow; default: open
+  hide: [&quot;internalReindex&quot;],                                  // omit ops by name
+  resident: (c) =&gt; residentToolNames(document, &quot;shopAgent&quot;), // tools/list serves only these + discover_tools
+});</code></pre>
+<h3>Project tools (pure) — no transport</h3>
+<p><code>toolsFrom</code> is a pure function of <code>(doc, opts)</code> — useful for inspection, tests, or feeding another serving layer.</p>
+<pre><code class="lang-ts">import { toolsFrom } from &quot;@suluk/mcp&quot;;
+
+const tools = toolsFrom(doc);                     // read-only: GET/HEAD ops only
+toolsFrom(doc, { include: &quot;all&quot; });               // also POST/PUT/PATCH/DELETE (body under `body`)
+toolsFrom(doc, { only: [&quot;listProduct&quot;] });        // expose ONLY these op names
+toolsFrom(doc, { hide: [&quot;deleteProduct&quot;] });      // omit these op names
+
+const get = tools.find((t) =&gt; t.name === &quot;getProduct&quot;)!;
+get.inputSchema;   // { type:&quot;object&quot;, properties:{ id:… }, required:[&quot;id&quot;], additionalProperties:false }
+get.op;            // { name, method:&quot;GET&quot;, path:&quot;/product/{id}&quot;, pathParams:[&quot;id&quot;], queryParams:[], hasBody:false, readOnly:true }</code></pre>
+<h3>Drive the protocol directly (pure)</h3>
+<p><code>handleRpc</code> dispatches one JSON-RPC message against an <code>RpcContext</code> you assemble — <code>exec</code> is injected, so you can unit-test the protocol with no network at all.</p>
+<pre><code class="lang-ts">import { handleRpc, type RpcContext } from &quot;@suluk/mcp&quot;;
+
+const ctx: RpcContext = {
+  tools: toolsFrom(doc),
+  info: { name: &quot;shop&quot;, version: &quot;1.0.0&quot; },
+  exec: async (op, args) =&gt; callMyApi(op, args),   // McpOp + args → result (you choose how)
+  instructions: &quot;Read-only catalog browsing.&quot;,
+  // resident: new Set([&quot;listProduct&quot;]),           // opt-in tier-trim
+};
+
+await handleRpc({ jsonrpc: &quot;2.0&quot;, id: 1, method: &quot;initialize&quot; }, ctx);
+await handleRpc({ jsonrpc: &quot;2.0&quot;, id: 2, method: &quot;tools/list&quot; }, ctx);
+await handleRpc({ jsonrpc: &quot;2.0&quot;, id: 3, method: &quot;tools/call&quot;, params: { name: &quot;getProduct&quot;, arguments: { id: 7 } } }, ctx);
+// notifications (no `id`) return null → emit no body; a tool throw → in-band { isError: true }, not a protocol error</code></pre>
+<h3>Build the same-origin request yourself</h3>
+<p><code>buildRequest</code> is the SSRF-safe core of execution — exposed if you want to route an op's HTTP request through a custom transport. <code>originExec</code> / <code>appExec</code> are the two built-in executors.</p>
+<pre><code class="lang-ts">import { buildRequest } from &quot;@suluk/mcp&quot;;
+
+const op = toolsFrom(doc).find((t) =&gt; t.name === &quot;getProduct&quot;)!.op;
+const req = buildRequest(op, { id: &quot;../../etc/passwd&quot; }, &quot;https://shop.example&quot;);
+new URL(req.url).pathname;   // &quot;/product/..%2F..%2Fetc%2Fpasswd&quot; — traversal neutralized; origin fixed</code></pre>
+<h2>API</h2>
+<p>All exports live at the single entry point (<code>@suluk/mcp</code>) — there are no sub-path exports and no CLI.</p>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>mcpApp</code></td><td>mount a contract-projected MCP server (Streamable-HTTP, Hono) — the main entry</td></tr>
+<tr><td><code>toolsFrom</code></td><td>pure projection: a v4 doc → <code>McpTool[]</code> (read-only by default; <code>include</code>/<code>hide</code>/<code>only</code>/<code>includeDeprecated</code>)</td></tr>
+<tr><td><code>handleRpc</code></td><td>pure JSON-RPC dispatch for one MCP message against an <code>RpcContext</code></td></tr>
+<tr><td><code>originExec</code></td><td>executor that fetches the worker's own public origin (dev / Node / Bun / separate backend)</td></tr>
+<tr><td><code>appExec</code></td><td>in-process executor — dispatch through the SAME host <code>app.fetch</code> (the Cloudflare Worker case)</td></tr>
+<tr><td><code>buildRequest</code></td><td>the SSRF-safe <code>McpOp</code> + args → same-origin <code>Request</code> builder</td></tr>
+<tr><td><code>DISCOVER_TOOL</code></td><td>the synthetic <code>discover_tools</code> meta-tool that reveals the tier-trim cold-tail</td></tr>
+<tr><td><code>LATEST_PROTOCOL</code> / <code>SUPPORTED_PROTOCOLS</code></td><td>the served protocol version (<code>2025-06-18</code>) + the supported set</td></tr>
+<tr><td><code>McpTool</code> / <code>McpOp</code> / <code>ToolsOptions</code></td><td>projection types</td></tr>
+<tr><td><code>RpcRequest</code> / <code>RpcResponse</code> / <code>RpcContext</code> / <code>ToolExec</code></td><td>protocol types</td></tr>
+<tr><td><code>McpOptions</code> / <code>FetchApp</code></td><td><code>mcpApp</code> options + the minimal <code>{ fetch }</code> shape <code>appExec</code> accepts</td></tr>
+</tbody>
+</table>
+<h2>Boundary</h2>
+<p><code>@suluk/mcp</code> is L3: <strong>render/serve, never own the store.</strong> It projects the contract and speaks the MCP transport — it never owns your data, auth, or business logic. The executor is an injected seam:</p>
+<ul>
+<li><strong>Inject the transport.</strong> <code>exec</code> decides how a tool call reaches your API — <code>appExec(app)</code> (in-process,</li>
+</ul>
+<p>  the recommended Worker path), <code>originExec</code> (same-origin fetch), or your own function. The package only   ever builds a <em>same-origin</em> request; it cannot reach another host.</p>
+<ul>
+<li><strong>Auth stays app-side.</strong> <code>mcpApp</code> forwards the caller's <code>cookie</code> / <code>authorization</code> to your routes so</li>
+</ul>
+<p>  the agent acts as the signed-in user; the actual access decision is made by your store's middleware,   not here. <code>authorize</code> is a coarse endpoint gate, not the per-operation check.</p>
+<ul>
+<li><strong>The surface is decided upstream.</strong> <code>resident</code> / <code>residentToolNames</code> come from <code>@suluk/agents</code>; this</li>
+</ul>
+<p>  package serves what it is told. Read-only-by-default is the safe floor — mutations are opt-in.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">appExec</code><code class="chip">buildRequest</code><code class="chip">DISCOVER_TOOL</code><code class="chip">FetchApp</code><code class="chip">handleRpc</code><code class="chip">LATEST_PROTOCOL</code><code class="chip">mcpApp</code><code class="chip">McpOp</code><code class="chip">McpOptions</code><code class="chip">McpTool</code><code class="chip">originExec</code><code class="chip">RpcContext</code><code class="chip">RpcRequest</code><code class="chip">RpcResponse</code><code class="chip">SUPPORTED_PROTOCOLS</code><code class="chip">ToolExec</code><code class="chip">toolsFrom</code><code class="chip">ToolsOptions</code></div>
+    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">hono (peer)</code></div>
+    
+  </article></main>
+<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+</body></html>

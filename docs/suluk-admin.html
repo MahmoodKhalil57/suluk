@@ -18,13 +18,111 @@
 <main>
   <article class="package">
     <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/admin</p>
-    <h1>@suluk/admin <span class="ver">v0.1.1</span></h1>
+    <h1>@suluk/admin <span class="ver">v0.1.3</span></h1>
     <p class="lead">The /superadmin web admin panel — the same cockpit as the vscode extension (@suluk/cockpit core), rendered as a Hono-served web UI. Superadmin-gated. CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/admin</code></pre>
-    <h2>Overview</h2><div class="prose"><p>@suluk/admin — the /superadmin web admin panel. The SAME cockpit as the vscode extension (@suluk/cockpit core), rendered as Hono-served web pages and gated to superadmins. One brain, two faces. Mount it on your app: <code>app.route(&quot;/&quot;, adminApp({ document, authorize }))</code>. CANDIDATE tooling — NOT official OAS.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">adminApp</code><code class="chip">AdminOptions</code><code class="chip">esc</code><code class="chip">layout</code><code class="chip">renderBuilder</code><code class="chip">renderChecks</code><code class="chip">renderCycle</code><code class="chip">renderDeploy</code></div>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/admin</code></pre>
+<p><code>hono</code> is a peer dependency; <code>@suluk/core</code> and <code>@suluk/cockpit</code> come along as deps.</p>
+<h2>What it does</h2>
+<p>One brain, two faces: <code>@suluk/admin</code> renders the <strong>same</strong> <a href="https://github.com/MahmoodKhalil57/suluk"><code>@suluk/cockpit</code></a> models the VS Code extension shows — only as web pages mounted on your Hono app, behind a superadmin gate.</p>
+<ul>
+<li><strong>A web cockpit.</strong> <code>adminApp(...)</code> returns a small Hono app whose routes paint the cycle, the builder tier-tree (with contract-narrowing), the Scalar docs, the contract checks, and the deploy plan — all server-rendered HTML, no build step.</li>
+<li><strong>A data admin projected from the contract.</strong> Every CRUD-managed entity in <code>components.schemas</code> becomes a live list + create/edit/delete page, with the per-CRUD access scope read off <code>x-suluk-access</code>. The admin <em>is</em> the contract, so it can never drift from it.</li>
+<li><strong>An analytics dashboard over the cost facets.</strong> Inline-SVG charts (cost by source, costliest operations, coverage gauges, background-cost summary) drawn from each operation's <code>x-suluk-cost</code> — a contract fact, not telemetry.</li>
+<li><strong>Default-deny.</strong> Every route is gated; with no <code>authorize</code> supplied, the panel denies everyone.</li>
+</ul>
+<h2>When to reach for it</h2>
+<p>Reach for <code>@suluk/admin</code> when you want the cockpit (validate · builder · docs · checks · deploy + data/analytics) as a <strong>privileged web surface on your own app</strong>, off the same v4 document the rest of the stack runs on — no separate dashboard build.</p>
+<ul>
+<li>vs <strong>the VS Code extension</strong> (<code>suluk-vscode</code>): same cockpit core, different face. Use the extension while authoring; mount <code>@suluk/admin</code> to give a deployed app a superadmin console.</li>
+<li>vs <strong><a href="https://github.com/MahmoodKhalil57/suluk"><code>@suluk/panel</code></a></strong>: <code>/panel</code> is the role-projected self-service surface for <em>every</em> signed-in user; <code>/superadmin</code> is the exhaustive raw-CRUD + cockpit console for power users only.</li>
+<li>vs <strong><a href="https://github.com/MahmoodKhalil57/suluk"><code>@suluk/scalar</code></a> / <a href="https://github.com/MahmoodKhalil57/suluk"><code>@suluk/reference</code></a></strong>: those render API <em>docs</em>. This is the operator panel — the docs page is one tab of it.</li>
+</ul>
+<h2>Usage</h2>
+<p>Mount it on any Hono server. Pass the v4 <code>document</code> and an <code>authorize</code> gate (the panel is privileged by default — with no gate, it denies everyone).</p>
+<pre><code class="lang-ts">import { Hono } from &quot;hono&quot;;
+import { adminApp } from &quot;@suluk/admin&quot;;
+import { parseDocument } from &quot;@suluk/core&quot;;
+
+const document = parseDocument(await Bun.file(&quot;openapi.yaml&quot;).text());
+
+const app = new Hono();
+app.get(&quot;/&quot;, (c) =&gt; c.text(&quot;home&quot;));
+
+// mounts at /superadmin (override with basePath)
+app.route(&quot;/&quot;, adminApp({
+  document,
+  title: &quot;Acme&quot;,
+  authorize: (c) =&gt; isSuperadmin(c), // wire to your auth — see below
+}));
+
+export default app;</code></pre>
+<p>This serves, all superadmin-gated:</p>
+<table>
+<thead>
+<tr><th>Route</th><th>Page</th></tr>
+</thead>
+<tbody>
+<tr><td><code>/superadmin</code></td><td>the cycle overview</td></tr>
+<tr><td><code>/superadmin/builder</code></td><td>the tier tree with contract-narrowing</td></tr>
+<tr><td><code>/superadmin/data</code></td><td>the entity index (contract-projected CRUD)</td></tr>
+<tr><td><code>/superadmin/data/:entity</code></td><td>a live list + create/edit/delete page</td></tr>
+<tr><td><code>/superadmin/analytics</code></td><td>the cost-facet dashboard</td></tr>
+<tr><td><code>/superadmin/docs</code></td><td>Scalar over the document</td></tr>
+<tr><td><code>/superadmin/checks</code></td><td>the contract checks</td></tr>
+<tr><td><code>/superadmin/deploy</code></td><td>the deploy plan</td></tr>
+</tbody>
+</table>
+<h3>The gate</h3>
+<p><code>authorize</code> runs on every route; return <code>true</code> to allow. Wire it to your real auth — in <code>saasuluk</code> it's a verified session, not a header:</p>
+<pre><code class="lang-ts">import { principalFromSession } from &quot;@suluk/better-auth&quot;;
+
+adminApp({
+  document,
+  authorize: async (c) =&gt; (await principalFromSession(c))?.role === &quot;superadmin&quot;,
+});</code></pre>
+<h3>A live document</h3>
+<p>Pass a function for <code>document</code> to reflect per-request state (a role-projected or freshly-loaded doc):</p>
+<pre><code class="lang-ts">adminApp({
+  document: (c) =&gt; loadProjectedDoc(c), // value | Promise, resolved per request
+  headHtml: themeHeadHtml(),            // inject a color-scheme sheet so the panel obeys the host theme
+});</code></pre>
+<h3>The renderers, standalone</h3>
+<p>Each page is a pure function of a cockpit model, so you can render fragments yourself outside the mounted app:</p>
+<pre><code class="lang-ts">import { entityModels, renderEntityForm, renderEntityTable, renderAnalytics } from &quot;@suluk/admin&quot;;
+
+const [product] = entityModels(document);          // fields (type/required/enum/format) + per-CRUD access
+const form  = renderEntityForm(product, &quot;create&quot;, &quot;/superadmin/data/Product&quot;);
+const table = renderEntityTable(product, rows);    // a column per field
+const charts = renderAnalytics(document);          // the inline-SVG cost dashboard</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>adminApp(opts)</code></td><td>build the gated <code>/superadmin</code> Hono app; mount with <code>app.route(&quot;/&quot;, adminApp(...))</code></td></tr>
+<tr><td><code>AdminOptions</code></td><td>options: <code>document</code>, <code>basePath?</code>, <code>authorize?</code>, <code>title?</code>, <code>headHtml?</code></td></tr>
+<tr><td><code>layout</code></td><td>the page chrome (nav + theme-aware CSS) wrapping a body</td></tr>
+<tr><td><code>renderCycle</code> / <code>renderBuilder</code> / <code>renderChecks</code> / <code>renderDeploy</code></td><td>HTML for a <code>@suluk/cockpit</code> cycle / builder tree / checks / deploy plan</td></tr>
+<tr><td><code>entityModels(doc)</code></td><td>project <code>components.schemas</code> → <code>EntityModel[]</code> (fields + per-CRUD access)</td></tr>
+<tr><td><code>renderEntityForm</code> / <code>renderEntityTable</code></td><td>a create/edit form / list table for one <code>EntityModel</code></td></tr>
+<tr><td><code>renderDataIndex</code> / <code>renderEntityAdmin</code></td><td>the data-admin index / one entity's functional CRUD page</td></tr>
+<tr><td><code>renderAnalytics(doc)</code></td><td>the inline-SVG cost-facet dashboard</td></tr>
+<tr><td><code>esc</code></td><td>the HTML-escaper the renderers use</td></tr>
+<tr><td><code>EntityModel</code> / <code>EntityField</code> / <code>EntityAccess</code></td><td>the data-admin model types</td></tr>
+</tbody>
+</table>
+<p>The package has a single entry point (<code>@suluk/admin</code>); there are no sub-path exports and no CLI.</p>
+<h2>Boundary</h2>
+<p><code>@suluk/admin</code> is an L3 <strong>renderer</strong> — it renders the panel; it never becomes a runtime you can't own. It mounts onto <em>your</em> Hono app and runs against <em>your</em> document. The auth gate is an <strong>injected port</strong>: you bring <code>authorize</code> (default deny) and a real session. The data-admin pages <em>project</em> the contract into HTML and call the CRUD routes <strong>your</strong> app already serves (<code>@suluk/drizzle</code> <code>crudHandlers</code> over your injected db) — this package never holds a database, runs a deploy, or hosts anything. Analytics reads declared <code>x-suluk-cost</code> facets, not live telemetry.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">adminApp</code><code class="chip">AdminOptions</code><code class="chip">EntityAccess</code><code class="chip">EntityField</code><code class="chip">EntityModel</code><code class="chip">entityModels</code><code class="chip">esc</code><code class="chip">layout</code><code class="chip">renderAnalytics</code><code class="chip">renderBuilder</code><code class="chip">renderChecks</code><code class="chip">renderCycle</code><code class="chip">renderDataIndex</code><code class="chip">renderDeploy</code><code class="chip">renderEntityAdmin</code><code class="chip">renderEntityForm</code><code class="chip">renderEntityTable</code></div>
     <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/cockpit</code><code class="chip">hono (peer)</code></div>
-    <h2>Modules</h2><dl class="modules"><dt><code>app.ts</code></dt><dd>adminApp — the /superadmin web panel. It mounts a small Hono app whose routes render the SAME @suluk/cockpit</dd><dt><code>render.ts</code></dt><dd>Server-rendered HTML for the admin panel — the SAME cockpit models the vscode extension shows, painted as</dd></dl>
+    
   </article></main>
 <footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
 </body></html>

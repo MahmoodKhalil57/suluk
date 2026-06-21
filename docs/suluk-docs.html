@@ -18,13 +18,100 @@
 <main>
   <article class="package">
     <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/docs</p>
-    <h1>@suluk/docs <span class="ver">v0.1.1</span></h1>
+    <h1>@suluk/docs <span class="ver">v0.1.3</span></h1>
     <p class="lead">Generate an intuitive static documentation site for a Bun/TS monorepo, straight from source (package.json + doc-comments + exports + README/ARCHITECTURE). Deployable to GitHub Pages. CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/docs</code></pre>
-    <h2>Overview</h2><div class="prose"><p>@suluk/docs — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source (package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one stylesheet, deployable to GitHub Pages with zero build. Suluk documents itself with it. CANDIDATE tooling.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">escapeHtml</code><code class="chip">firstBlockComment</code><code class="chip">FrameworkDoc</code><code class="chip">generateSite</code><code class="chip">harvest</code><code class="chip">HarvestOptions</code><code class="chip">harvestPackage</code><code class="chip">inline</code><code class="chip">krokiD2Url</code><code class="chip">mdToHtml</code><code class="chip">ModuleDoc</code><code class="chip">PackageDoc</code><code class="chip">packageGraphD2</code><code class="chip">parseExports</code><code class="chip">renderIndex</code><code class="chip">renderMarkdownPage</code><code class="chip">renderPackage</code><code class="chip">SiteFile</code><code class="chip">SiteOptions</code><code class="chip">STYLE</code></div>
     
-    <h2>Modules</h2><dl class="modules"><dt><code>diagram.ts</code></dt><dd>The &quot;how the tools compose&quot; diagram for the docs site — D2 of the @suluk package graph (each package → its</dd><dt><code>harvest.ts</code></dt><dd>Harvest a Bun/TS monorepo into a documentation model — straight from source, the Suluk way. For each</dd><dt><code>md.ts</code></dt><dd>A small, dependency-free Markdown → HTML renderer — enough for the constructs the Suluk docs use: fenced</dd><dt><code>render.ts</code></dt><dd>Render a harvested FrameworkDoc into a static, GitHub-Pages-ready site (flat HTML files + one stylesheet,</dd><dt><code>site.ts</code></dt><dd>Assemble the full static site from a harvested FrameworkDoc: a landing page, one page per package, the</dd></dl>
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/docs</code></pre>
+<h2>What it does</h2>
+<p>It harvests a Bun/TS workspace into a documentation model and renders it to a flat, self-hosting site — the same &quot;one source, many projections&quot; discipline as the rest of Suluk, applied to the <em>monorepo itself</em>.</p>
+<ul>
+<li><strong>Harvests from source.</strong> For each package directory it reads <code>package.json</code> (name / description / version / deps), the leading doc-comment of <code>src/index.ts</code> as the overview, the public exports of that barrel, and each module's leading doc-comment. No extra annotations — it uses the comments the code already carries.</li>
+<li><strong>Renders a complete site.</strong> A landing page, one page per package (install + overview + public API + deps + modules), an Architecture page with a generated package-dependency diagram, plus curated Get-started / Contributing / Community pages.</li>
+<li><strong>Zero-build output.</strong> Plain HTML + one stylesheet + a <code>.nojekyll</code>, with relative links — drop the files on GitHub Pages (even a project-pages subpath) and it serves verbatim. Suluk documents itself this way.</li>
+<li><strong>Composable primitives.</strong> A small dependency-free Markdown→HTML renderer (<code>mdToHtml</code>) and a D2 package-graph + kroki URL helper are exported on their own.</li>
+</ul>
+<h2>When to reach for it</h2>
+<p>Reach for it to document <strong>the monorepo / toolkit itself</strong> — the packages, how they depend on each other, what each one exports. It reads structure from <code>package.json</code> + barrel doc-comments, so it stays in sync as you add packages.</p>
+<p>It does <strong>not</strong> document your <em>API</em>. For an OpenAPI v4 reference site use <code>@suluk/reference</code> / <code>@suluk/scalar</code> / <code>@suluk/swagger</code> (those project the v4 <em>document</em>; this projects the <em>codebase</em>).</p>
+<h2>Usage</h2>
+<p>The common case is two calls — <code>harvest</code> a packages directory into a <code>FrameworkDoc</code>, then <code>generateSite</code> it into files you write to disk.</p>
+<pre><code class="lang-ts">import { harvest, generateSite } from &quot;@suluk/docs&quot;;
+import { writeFileSync, mkdirSync } from &quot;node:fs&quot;;
+import { join, dirname } from &quot;node:path&quot;;
+
+const fw = harvest({
+  packagesDir: join(import.meta.dir, &quot;packages&quot;),
+  title: &quot;Suluk&quot;,
+  tagline: &quot;One typed contract — projected into your entire stack.&quot;,
+  description: &quot;**Suluk** derives the whole stack from one source.&quot;,
+  repoUrl: &quot;https://github.com/MahmoodKhalil57/suluk&quot;,
+  architecturePath: join(import.meta.dir, &quot;ARCHITECTURE.md&quot;), // optional — prepends to the Architecture page
+  // excludePrivate: true,   // drop demo/private packages from the public docs (default: include, flagged)
+});
+
+const out = join(import.meta.dir, &quot;site&quot;);
+for (const f of generateSite(fw)) {
+  const p = join(out, f.path);
+  mkdirSync(dirname(p), { recursive: true });
+  writeFileSync(p, f.content);
+}
+// → site/index.html, site/&lt;pkg&gt;.html, site/architecture.html, site/style.css, site/.nojekyll, …</code></pre>
+<p><code>generateSite</code> returns <code>SiteFile[]</code> (<code>{ path, content }</code>) — no I/O of its own, so you own where the bytes land. Override the curated pages by passing Markdown:</p>
+<pre><code class="lang-ts">generateSite(fw, {
+  gettingStarted: &quot;# Get started\n\nYour own intro…&quot;,
+  contributing: &quot;# Contributing\n\n…&quot;,
+  community: &quot;# Community\n\n…&quot;,
+});</code></pre>
+<h3>Harvest one package, or render one page</h3>
+<p>The harvest and render steps are exposed individually:</p>
+<pre><code class="lang-ts">import { harvestPackage, renderIndex, renderPackage } from &quot;@suluk/docs&quot;;
+
+const pkg = harvestPackage(&quot;./packages/core&quot;);  // → PackageDoc | null (null if no package.json)
+const indexHtml = renderIndex(fw);              // the landing page
+const pageHtml = renderPackage(fw, fw.packages[0]); // one package page</code></pre>
+<h3>The standalone primitives</h3>
+<pre><code class="lang-ts">import {
+  mdToHtml, parseExports, firstBlockComment,
+  packageGraphD2, krokiD2Url, STYLE,
+} from &quot;@suluk/docs&quot;;
+
+mdToHtml(&quot;# Hi\n\n`code`, **bold**, and a [link](https://suluk.dev)&quot;); // → HTML string
+parseExports(`export { a, b as c } from &quot;./x&quot;;`);                     // → [&quot;a&quot;, &quot;c&quot;]
+firstBlockComment(&quot;/**\n * one\n * two\n */&quot;);                        // → &quot;one\ntwo&quot;
+
+const d2 = packageGraphD2(fw.packages); // D2 of the @suluk dependency graph (private pkgs omitted)
+krokiD2Url(d2);                         // → https://kroki.io/d2/svg/… (deflate+base64url, renders the diagram)
+STYLE;                                  // the site's single stylesheet, if you assemble pages yourself</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>harvest(opts)</code></td><td>Read a packages dir → <code>FrameworkDoc</code> (every package's name, overview, exports, deps, modules).</td></tr>
+<tr><td><code>harvestPackage(dir)</code></td><td>Harvest a single package dir → `PackageDoc \</td><td>null`.</td></tr>
+<tr><td><code>generateSite(fw, opts?)</code></td><td>Assemble the whole site → <code>SiteFile[]</code> (<code>{ path, content }</code>); no I/O.</td></tr>
+<tr><td><code>renderIndex(fw)</code></td><td>Render just the landing page → HTML.</td></tr>
+<tr><td><code>renderPackage(fw, p)</code></td><td>Render one package page → HTML.</td></tr>
+<tr><td><code>renderMarkdownPage(fw, file, title, md)</code></td><td>Render a curated Markdown page into the site chrome → HTML.</td></tr>
+<tr><td><code>mdToHtml(md)</code> / <code>inline(text)</code> / <code>escapeHtml(s)</code></td><td>Dependency-free Markdown / inline-span / HTML-escape helpers.</td></tr>
+<tr><td><code>parseExports(src)</code></td><td>Collect the public symbol names a barrel re-exports.</td></tr>
+<tr><td><code>firstBlockComment(src)</code></td><td>Extract + clean the first JSDoc block comment.</td></tr>
+<tr><td><code>packageGraphD2(packages)</code></td><td>D2 source for the <code>@suluk</code> package-dependency graph.</td></tr>
+<tr><td><code>krokiD2Url(d2)</code></td><td>A <code>kroki.io</code> render URL for D2 source.</td></tr>
+<tr><td><code>STYLE</code></td><td>The site's single stylesheet (string).</td></tr>
+</tbody>
+</table>
+<p>Types: <code>FrameworkDoc</code>, <code>PackageDoc</code>, <code>ModuleDoc</code>, <code>HarvestOptions</code>, <code>SiteOptions</code>, <code>SiteFile</code>.</p>
+<h2>Boundary</h2>
+<p>This package <strong>renders, never hosts</strong> (the L3 line). <code>generateSite</code> returns the files; <em>you</em> write them and serve them (GitHub Pages, any static host). It reads from a directory of packages and emits HTML strings — no network in the harvest/render path, and the only outbound URL it constructs is the kroki render link for the architecture diagram. What it documents is the <em>codebase</em> (package structure + doc-comments), not your runtime API — that projection belongs to <code>@suluk/reference</code> / <code>@suluk/scalar</code> / <code>@suluk/swagger</code>.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">escapeHtml</code><code class="chip">firstBlockComment</code><code class="chip">FrameworkDoc</code><code class="chip">generateSite</code><code class="chip">harvest</code><code class="chip">HarvestOptions</code><code class="chip">harvestPackage</code><code class="chip">inline</code><code class="chip">krokiD2Url</code><code class="chip">mdToHtml</code><code class="chip">ModuleDoc</code><code class="chip">PackageDoc</code><code class="chip">packageGraphD2</code><code class="chip">parseExports</code><code class="chip">renderIndex</code><code class="chip">renderMarkdownPage</code><code class="chip">renderPackage</code><code class="chip">rewriteRepoLinks</code><code class="chip">SiteFile</code><code class="chip">SiteOptions</code><code class="chip">stripReadmeHeader</code><code class="chip">STYLE</code></div>
+    
+    
   </article></main>
 <footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
 </body></html>

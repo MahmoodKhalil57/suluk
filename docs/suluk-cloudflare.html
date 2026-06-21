@@ -1,0 +1,126 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/cloudflare — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/cloudflare — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<header class="top">
+  <a class="brand" href="index.html">Suluk</a>
+  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</header>
+<main>
+  <article class="package">
+    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/cloudflare</p>
+    <h1>@suluk/cloudflare <span class="ver">v0.1.2</span></h1>
+    <p class="lead">Butter-smooth, API-driven provisioning + deployment for a Suluk app on Cloudflare — no wrangler CLI. A typed REST client + idempotent provisioners (D1, KV, R2, secrets) + the Workers module-script + static-assets upload flow, orchestrated into one deploy(). The platform that ships itself, shipping itself. CANDIDATE tooling.</p>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/cloudflare</code></pre>
+<h2>What it does</h2>
+<p>A typed wrapper over the Cloudflare REST API that ships a Worker + its dependencies in dependency order, with no <code>wrangler</code> binary and no <code>wrangler.toml</code>.</p>
+<ul>
+<li><strong><code>CloudflareClient</code></strong> — a thin, typed client over <code>https://api.cloudflare.com/client/v4</code> with Bearer auth, the standard <code>{ success, errors, result }</code> envelope unwrapped, and a <code>CloudflareError</code> that carries the API's own error codes (so a failed deploy says <em>why</em>). <code>fetch</code> is injectable, so the whole library is unit-testable without a network.</li>
+<li><strong>Idempotent provisioners</strong> — <code>provisionD1</code> / <code>provisionKvNamespace</code> / <code>provisionR2Bucket</code> are create-or-get (re-running never errors with &quot;already exists&quot;), <code>applyMigrations</code> keeps a <code>_suluk_migrations</code> ledger so each migration runs at most once (and baselines a DB migrated before the ledger existed), and <code>putSecrets</code> skips empty values.</li>
+<li><strong>Workers static-assets upload</strong> — <code>uploadAssets</code> builds the manifest, opens an upload session, and pushes only the buckets the API asks for (so a redeploy only sends changed files). <code>_headers</code> / <code>_redirects</code> are routed into the worker's <code>assets.config</code> as rules, not uploaded as serveable blobs.</li>
+<li><strong>One-call <code>deploy()</code></strong> — provision → migrate → upload assets → deploy the module worker (with bindings + vars) → push secrets → set cron triggers, in the order where each step's output feeds the next. <code>keep_bindings</code> preserves secrets across redeploys, so you set them once.</li>
+<li><strong><code>kvRateLimitStore</code></strong> — the production, KV-backed <code>RateLimitStore</code> for <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/hono"><code>@suluk/hono</code></a>'s <code>enforceRateLimit</code> (a fixed-window counter that fails <em>open</em> on a KV blip). Structurally typed, so it plugs straight in with no <code>@suluk/hono</code> dependency.</li>
+</ul>
+<h2>When to reach for it</h2>
+<p>Reach for <code>@suluk/cloudflare</code> when you want to deploy a Suluk app (or any static/worker site) to Cloudflare <strong>programmatically</strong> — from a <code>deploy.ts</code> script or CI — rather than via the <code>wrangler</code> CLI. It is the executing adapter: it holds your token and actually calls the API.</p>
+<ul>
+<li><strong>vs <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/deploy"><code>@suluk/deploy</code></a></strong> — <code>@suluk/deploy</code> is <em>pure planning</em> behind a swappable provider interface; it computes the files + ordered steps to ship but never executes anything or touches credentials. <code>@suluk/cloudflare</code> is the concrete Cloudflare <em>doer</em>. Use <code>@suluk/deploy</code> when you want a provider-agnostic plan; use this when you're committing to Cloudflare and want it to run.</li>
+</ul>
+<h2>Usage</h2>
+<h3>The one-call deploy</h3>
+<p><code>deployWith</code> builds a client from your token/account and runs a full deploy. Pass it a <code>DeployPlan</code> of <strong>bytes, not paths</strong> — the disk-reading lives in your app script (see <a href="#boundary">Boundary</a>).</p>
+<pre><code class="lang-ts">import { deployWith, type AssetFile } from &quot;@suluk/cloudflare&quot;;
+import { readFileSync } from &quot;node:fs&quot;;
+
+const assets: AssetFile[] = [
+  { path: &quot;/index.html&quot;, bytes: new Uint8Array(readFileSync(&quot;dist/index.html&quot;)), contentType: &quot;text/html&quot; },
+  // …walk your dist/ dir and map each file to { path, bytes, contentType }
+];
+
+const res = await deployWith(
+  { apiToken: process.env.CLOUDFLARE_API_TOKEN!, accountId: process.env.CLOUDFLARE_ACCOUNT_ID },
+  {
+    scriptName: &quot;saasuluk&quot;,
+    module: readFileSync(&quot;worker/dist/worker.js&quot;, &quot;utf8&quot;), // the bundled ES module
+    compatibilityDate: &quot;2026-06-01&quot;,
+    compatibilityFlags: [&quot;nodejs_compat&quot;],
+    d1: { binding: &quot;DB&quot;, databaseName: &quot;saasuluk-db&quot;, migrations: [{ name: &quot;0000_init.sql&quot;, sql: &quot;CREATE TABLE t (id INTEGER);&quot; }] },
+    kv: [{ binding: &quot;RATE_LIMIT_KV&quot;, title: &quot;saasuluk-ratelimit&quot; }],
+    r2: [{ binding: &quot;MEDIA&quot;, bucketName: &quot;saasuluk-media&quot; }],
+    assets,
+    assetsConfig: { html_handling: &quot;auto-trailing-slash&quot; },
+    vars: { STRIPE_METER_EVENT_NAME: &quot;saasuluk_cost&quot; },     // plain-text bindings
+    secrets: { BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET }, // encrypted; empty/undefined skipped
+    crons: [&quot;0 * * * *&quot;],
+    observability: true,
+  },
+  (msg) =&gt; console.log(&quot;  &quot; + msg), // optional DeployLog — narrates each step
+);
+
+console.log(`Deployed &quot;${res.scriptName}&quot; to ${res.accountId} — D1 ${res.d1?.id}, ${res.assetsUploaded} assets, secrets: ${res.secretsSet.join(&quot;, &quot;)}`);</code></pre>
+<p>The token must be Account-scoped: <strong>Workers Scripts (Edit)</strong>, <strong>D1 (Edit)</strong> (+ KV/R2 Edit if used), and <strong>Account Settings (Read)</strong>. Omit <code>accountId</code> and it resolves to the token's first account.</p>
+<p><code>deploy(cf, plan, log?)</code> is the same orchestration over an existing <code>CloudflareClient</code> if you already hold one.</p>
+<h3>Driving the client / resources directly</h3>
+<p>Every step <code>deploy()</code> runs is also exported. Use them for one-off work the plan doesn't cover (e.g. seeding a DB after migrations, or attaching a route via raw <code>request</code>):</p>
+<pre><code class="lang-ts">import { CloudflareClient, queryD1, provisionKvNamespace } from &quot;@suluk/cloudflare&quot;;
+
+const cf = new CloudflareClient({ apiToken: process.env.CLOUDFLARE_API_TOKEN! });
+
+const db = await provisionKvNamespace(cf, &quot;my-cache&quot;); // create-or-get, idempotent
+await queryD1(cf, databaseId, &quot;INSERT OR REPLACE INTO setting (k, v) VALUES ('seeded', '1');&quot;);
+
+// anything not in the plan yet (routes, custom domains, …) → the raw typed request:
+await cf.request(&quot;PUT&quot;, `/accounts/${await cf.resolveAccountId()}/workers/scripts/saasuluk/routes`, {
+  json: { pattern: &quot;example.com/*&quot;, zone_name: &quot;example.com&quot; },
+});</code></pre>
+<h3>KV-backed rate limiting (inside the Worker)</h3>
+<p><code>kvRateLimitStore</code> is the production store for <code>@suluk/hono</code>'s <code>enforceRateLimit</code>. The KV binding isn't available at module init on Workers, so pass a <strong>lazy getter</strong>; it falls open to an in-memory fallback when KV is absent or errors.</p>
+<pre><code class="lang-ts">import { kvRateLimitStore } from &quot;@suluk/cloudflare&quot;;
+import { enforceRateLimit } from &quot;@suluk/hono&quot;;
+
+let kv: KVNamespace | undefined;
+const store = kvRateLimitStore(() =&gt; kv); // captures the binding on first request
+
+app.use(&quot;*&quot;, async (c, next) =&gt; { if (!kv &amp;&amp; c.env.RATE_LIMIT_KV) kv = c.env.RATE_LIMIT_KV; return next(); });
+app.use(&quot;*&quot;, enforceRateLimit({ store, /* …operationOf, rateLimitOf, keyOf… */ }));</code></pre>
+<p><code>memoryRateLimitStore()</code> is the dev-only / fail-open fallback — per-isolate, not coordinated across Workers instances.</p>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>deploy(cf, plan, log?)</code> / <code>deployWith(opts, plan, log?)</code></td><td>the full orchestration over a <code>DeployPlan</code>; returns a <code>DeployResult</code></td></tr>
+<tr><td><code>CloudflareClient</code></td><td>typed REST client; <code>request(method, path, opts)</code> unwraps <code>result</code>, <code>resolveAccountId()</code> caches the account</td></tr>
+<tr><td><code>CloudflareError</code></td><td>thrown on <code>success:false</code>/non-2xx, carrying <code>status</code> + the API's <code>errors[]</code></td></tr>
+<tr><td><code>provisionD1</code> / <code>provisionKvNamespace</code> / <code>provisionR2Bucket</code></td><td>idempotent create-or-get for D1 / KV / R2</td></tr>
+<tr><td><code>applyMigrations</code> / <code>queryD1</code></td><td>ledgered, run-once D1 migrations / raw D1 SQL</td></tr>
+<tr><td><code>putSecret</code> / <code>putSecrets</code></td><td>encrypted Worker secrets (<code>putSecrets</code> skips empty values, returns the names set)</td></tr>
+<tr><td><code>uploadAssets</code> / <code>assetHash</code> / <code>extractAssetRuleFiles</code></td><td>the Workers static-assets upload flow</td></tr>
+<tr><td><code>deployWorker</code> / <code>putCronTriggers</code></td><td>upload a module worker / set its cron schedule</td></tr>
+<tr><td><code>kvRateLimitStore</code> / <code>memoryRateLimitStore</code></td><td>KV-backed (prod) / in-memory (dev) <code>RateLimitStore</code> for <code>@suluk/hono</code></td></tr>
+</tbody>
+</table>
+<h2>Boundary</h2>
+<p>This package <strong>executes</strong> — it holds your token and calls Cloudflare. But it is pure over its inputs: <code>deploy()</code> takes a <code>DeployPlan</code> of <strong>bytes, not paths</strong> (the module source, the <code>AssetFile[]</code>, the migration SQL), so the whole library is unit-testable without disk or network. The <strong>disk-reading wrapper is the app's seam</strong> — walking <code>dist/</code>, reading the worker bundle and migration files lives in your <code>scripts/deploy.ts</code>, not in here (see saasuluk's <code>scripts/deploy.ts</code>). Inject the bytes; inject the <code>fetch</code>.</p>
+<p>What stays out of the plan today: <strong>routes / custom domains</strong> aren't modeled — attach them via <code>CloudflareClient.request</code> (the typed escape hatch). If that pattern recurs, that's the candidate to fold into <code>DeployPlan</code>.</p>
+<h2>License</h2>
+<p>Apache-2.0.</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">applyMigrations</code><code class="chip">AssetFile</code><code class="chip">assetHash</code><code class="chip">AssetRuleFiles</code><code class="chip">CloudflareClient</code><code class="chip">CloudflareClientOptions</code><code class="chip">CloudflareError</code><code class="chip">ConsumeOptions</code><code class="chip">ConsumeResult</code><code class="chip">D1Database</code><code class="chip">deploy</code><code class="chip">DeployLog</code><code class="chip">DeployPlan</code><code class="chip">DeployResult</code><code class="chip">deployWith</code><code class="chip">deployWorker</code><code class="chip">DeployWorkerOptions</code><code class="chip">extractAssetRuleFiles</code><code class="chip">KvLike</code><code class="chip">KvNamespace</code><code class="chip">kvRateLimitStore</code><code class="chip">memoryRateLimitStore</code><code class="chip">Migration</code><code class="chip">provisionD1</code><code class="chip">provisionKvNamespace</code><code class="chip">provisionR2Bucket</code><code class="chip">putCronTriggers</code><code class="chip">putSecret</code><code class="chip">putSecrets</code><code class="chip">queryD1</code><code class="chip">RateLimitStore</code><code class="chip">RequestOptions</code><code class="chip">uploadAssets</code><code class="chip">UploadSession</code><code class="chip">WorkerBinding</code></div>
+    
+    
+  </article></main>
+<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+</body></html>

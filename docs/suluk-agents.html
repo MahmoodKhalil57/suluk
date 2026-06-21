@@ -1,0 +1,190 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/agents — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/agents — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<header class="top">
+  <a class="brand" href="index.html">Suluk</a>
+  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</header>
+<main>
+  <article class="package">
+    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/agents</p>
+    <h1>@suluk/agents <span class="ver">v0.1.5</span></h1>
+    <p class="lead">Suluk Agent composition (C027): lint + project an <code>x-suluk-agents</code> map (skills + deterministic routes + by-name sub-agents) to a Claude plugin AND an OpenRouter/OpenAI-compatible manifest — one contract, two artifacts, zero network at generate time. Determinism is DECLARED not enforced; the matcher never reads an agent field. CANDIDATE tooling — NOT official OAS.</p>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor <em>candidate</em> of the OpenAPI v4.0 (&quot;Moonwalk&quot;) line, not a ratified spec. <code>x-suluk-agents</code> is a vendor extension; treat these artifacts as proposals, pin your versions, and expect churn.</blockquote>
+<p>Declare an agent <strong>once</strong> inside your v4 document — its skills (model-bearing LLM tiers), its deterministic routes (by-name tool calls to real operations), and its by-name sub-agents — then <em>project</em> that one declaration into the two artifacts that actually run it: a Claude plugin (<code>plugin.json</code> + <code>.mcp.json</code> + generated <code>SKILL.md</code>) and an OpenRouter/OpenAI-compatible tool manifest. Both projections are <strong>pure functions</strong> of <code>(doc, agentName, opts)</code>: no network, deterministic, byte-identical out for the same contract in.</p>
+<p>The hard line this package holds (C027): selection and tiering are <strong>runtime-advisory</strong> — <em>determinism is DECLARED, never enforced</em>. The matcher in <code>@suluk/core</code> (<code>buildAda</code>/<code>matchRequest</code>) provably never reads an <code>x-suluk-agents</code> field; this package is the only thing that does. A maintained tripwire (<code>test/core-boundary.test.ts</code>) enforces that <code>@suluk/core</code> never imports <code>@suluk/agents</code>.</p>
+<h2>Install</h2>
+<pre><code class="lang-bash">bun add @suluk/agents</code></pre>
+<h2>What it does</h2>
+<ul>
+<li><strong>Lints</strong> an <code>x-suluk-agents</code> map against rules JSON-Schema cannot express: acyclicity, declared</li>
+</ul>
+<p>  <code>maxDepth</code>, every <code>operationRef</code> resolving to a real operation, and the D1 red-line — <strong>no agent   field may carry a request-value selector</strong> (a runtime expression), so the matcher can never be   pressured into dynamic dispatch.</p>
+<ul>
+<li><strong>Projects</strong> one agent two ways: <code>projectClaudePlugin</code> (a ready-to-ship Claude plugin) and</li>
+</ul>
+<p>  <code>projectOpenRouter</code> (a function-tool manifest). Both refuse to emit a broken artifact — a dangling   ref or missing depth bound throws (fail-loud), never a silently-broken file.</p>
+<ul>
+<li><strong>Tier-trims</strong> the served surface: <code>resident</code> routes go in the default tool list; <code>cold-tail</code></li>
+</ul>
+<p>  routes sit behind a synthetic <code>discover_tools</code> meta-tool — the conditional context reduction.</p>
+<ul>
+<li><strong>Signs + verifies freshness</strong>: <code>agentManifest</code> emits a canonical, signable manifest carrying each</li>
+</ul>
+<p>  skill's <code>contentHash</code>, so a signature over it covers preprompt drift (<code>verifyAgentFreshness</code>).</p>
+<ul>
+<li><strong>Audits + observes</strong>: a static reachable-surface enumerator + over-serve auditor (<code>conformance</code>),</li>
+</ul>
+<p>  an operator-governance overlay (<code>policy</code>, monotone-narrowing MEET), a context-budget analyzer   (<code>context</code>), a model-selection seam over <code>@suluk/models</code>, and a zoomable agent diagram.</p>
+<h2>When to reach for it</h2>
+<p>Reach for <code>@suluk/agents</code> when you have a v4 document and want to <strong>package its agent surface</strong> for Claude and/or OpenRouter from a single declaration — and to gate that declaration (lint), sign it, and right-size its context before it ships.</p>
+<p>It is the LLM-facing <em>composition</em> layer. Its sibling <code>@suluk/mcp</code> serves the operations as an MCP server (the runtime); this package <em>projects + audits</em> the agent contract that sits on top. It does not host, execute an agent, fetch a preprompt, or hold a credential — see <strong>Boundary</strong>.</p>
+<h2>Usage</h2>
+<p>The input is your v4 document with an <code>x-suluk-agents</code> block; everything below is keyed by the agent name within that block. (<code>agentName</code> = e.g. <code>&quot;conin&quot;</code>.)</p>
+<h3>Lint — the install gate</h3>
+<pre><code class="lang-ts">import { lintAgents, lintOk, assertAgentInstallable } from &quot;@suluk/agents&quot;;
+
+const findings = lintAgents(doc);              // LintFinding[] — severity/code/agent/detail/at
+if (!lintOk(findings)) {                        // false ⇒ at least one error-severity finding
+  for (const f of findings.filter((f) =&gt; f.severity === &quot;error&quot;)) {
+    console.error(`${f.code} @ ${f.agent}.${f.at ?? &quot;&quot;}: ${f.detail}`);
+  }
+}
+
+assertAgentInstallable(doc, &quot;conin&quot;);           // throws if &quot;conin&quot; does not install (else void)</code></pre>
+<h3>Project a Claude plugin</h3>
+<pre><code class="lang-ts">import { projectClaudePlugin } from &quot;@suluk/agents&quot;;
+
+const plugin = projectClaudePlugin(doc, &quot;conin&quot;, {
+  mcpUrl: &quot;https://construction-intelligence.saastemly.com/mcp&quot;,
+  version: &quot;1.0.0&quot;,
+  homepage: &quot;https://construction-intelligence.saastemly.com&quot;,
+  // pinned instruction snapshots per skill name (never fetched at generate time);
+  // a skill without one emits no SKILL.md (we never invent text)
+  instructions: { operate: &quot;You are Conin. Deterministic-first: every NUMBER comes from a tool…&quot; },
+});
+
+plugin.files;
+// {
+//   &quot;plugin.json&quot;:            …,   // name, description, mcpServers: &quot;./.mcp.json&quot;
+//   &quot;.mcp.json&quot;:              …,   // { type: &quot;http&quot;, url, oauth: {} } — NO embedded token (creds host-side)
+//   &quot;skills/operate/SKILL.md&quot;: …,  // carries contentHash + version staleness stamp
+// }</code></pre>
+<h3>Project an OpenRouter / OpenAI-compatible manifest</h3>
+<pre><code class="lang-ts">import { projectOpenRouter } from &quot;@suluk/agents&quot;;
+
+const m = projectOpenRouter(doc, &quot;conin&quot;, {
+  instructions: { operate: &quot;You are Conin…&quot; },   // optional; pins the served contentHash
+});
+
+m.model;          // [&quot;anthropic/claude-opus-4&quot;, &quot;google/gemini-2.5-flash&quot;] — from the primary skill
+m.tier;           // &quot;resident&quot; | &quot;cold-tail&quot;
+m.tools;          // resident routes as { type:&quot;function&quot;, function:{name,description,parameters} }[]
+                  //   + a synthetic `discover_tools` ONLY when cold-tail routes exist
+m.discoverable;   // cold-tail routes — kept OUT of the default surface
+m.subAgents;      // [{ name: &quot;retrieval&quot;, ref: &quot;#/x-suluk-agents/coninRetrieval&quot; }]
+m.instructions;   // { source, contentHash, version } — a pointer + pinned hash, never raw text by default</code></pre>
+<p>Both projections throw on a non-installable agent — a day-one dangling <code>operationRef</code> fails on <strong>both</strong> targets rather than emitting a broken artifact.</p>
+<h3>Sign a manifest + catch preprompt drift</h3>
+<pre><code class="lang-ts">import { agentManifest, verifyAgentFreshness, contentHash } from &quot;@suluk/agents&quot;;
+import { signRegistry, verifyRegistrySignature, generateSigningKeypair } from &quot;@suluk/builder&quot;;
+
+const manifest = agentManifest(doc, &quot;conin&quot;);   // canonical: root + reachable sub-tree, sorted
+// pin each skill's hash to the actually-served snapshot, then sign with the same C021 ECDSA path
+manifest.nodes.find((n) =&gt; n.name === &quot;conin&quot;)!.skills[0].contentHash = contentHash(servedText);
+
+const { publicKey, privateKey } = await generateSigningKeypair();
+const sig = await signRegistry(manifest, privateKey);
+
+await verifyRegistrySignature(manifest, sig, publicKey);              // structural tamper → false
+verifyAgentFreshness(manifest, { &quot;conin/operate&quot;: servedText });     // drifted snapshot → &quot;stale-skill&quot;</code></pre>
+<h3>Conformance — static reachable surface + over-serve auditor</h3>
+<pre><code class="lang-ts">import { reachableSurface, residentToolNames, assertServedSubset, assertDefaultServedResident } from &quot;@suluk/agents&quot;;
+
+reachableSurface(doc, &quot;conin&quot;);
+// { tools: [&quot;find_comparables&quot;,&quot;generate_deliverable&quot;,&quot;run_core_primitive&quot;,&quot;search_library&quot;], agents: [&quot;coninRetrieval&quot;] }
+
+residentToolNames(doc, &quot;conin&quot;);                 // the resident (default-served) tools — feed this to mcpApp({ resident })
+
+assertServedSubset(doc, &quot;conin&quot;, servedNames);   // [] if served ⊆ reachable; else &quot;over-serve&quot; findings
+assertDefaultServedResident(doc, &quot;conin&quot;, served); // &quot;cold-tail-in-default&quot; if a cold-tail tool leaks into the default surface</code></pre>
+<h3>Operator governance (policy) + context budget + model selection</h3>
+<pre><code class="lang-ts">import { effectiveUnderPolicies, lintPolicy, contextReport, skillModels, SEED_CATALOG } from &quot;@suluk/agents&quot;;
+
+// C028: effective = INTERSECT(operator x-suluk-policy, agent) — monotone-narrowing, never widens
+const { effective, narrowings } = effectiveUnderPolicies(doc, &quot;conin&quot;);
+lintPolicy(doc);                                  // policy-unsatisfiable / dangling / request-value-selector …
+
+// C027: estimate each agent's default context load vs its budget + smallest model window
+const report = contextReport(doc, { catalog: SEED_CATALOG });
+report.findings;                                  // no-fitting-model / context-over-budget / flat-agent-overloaded …
+report.suggestions;                               // what to move to cold-tail when overloaded
+
+// C027 × @suluk/models: a needs-based skill resolves to the best CURRENT catalog model (never a hard-coded id)
+const pick = skillModels(doc, &quot;conin&quot;, &quot;operate&quot;, SEED_CATALOG);
+pick.ids;                                          // selected model ids; pick.from === &quot;selected&quot; | &quot;declared&quot;</code></pre>
+<h3>Diagram (OBSERVE)</h3>
+<pre><code class="lang-ts">import { agentDiagram, agentDiagramHtml } from &quot;@suluk/agents&quot;;
+
+agentDiagram(doc, &quot;conin&quot;);        // a zoomable tree: Skills / Resident routes / Cold-tail routes / Sub-agents
+agentDiagramHtml(doc, &quot;conin&quot;);    // a self-contained D3 page (data inlined + HTML-escaped) — open in a browser</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>lintAgents</code> / <code>lintOk</code> / <code>assertAgentInstallable</code></td><td>the C027 install gate (acyclicity, depth, dangling refs, the D1 selector red-line)</td></tr>
+<tr><td><code>projectClaudePlugin</code></td><td>one agent → <code>plugin.json</code> + <code>.mcp.json</code> + generated <code>SKILL.md</code> (pure, fail-loud)</td></tr>
+<tr><td><code>projectOpenRouter</code></td><td>one agent → an OpenRouter/OpenAI function-tool manifest (resident vs <code>discover_tools</code> cold-tail)</td></tr>
+<tr><td><code>agentManifest</code> / <code>verifyAgentFreshness</code></td><td>a canonical signable manifest + preprompt-drift detection over the signed <code>contentHash</code></td></tr>
+<tr><td><code>reachableSurface</code> / <code>residentSurface</code> / <code>residentToolNames</code></td><td>the static, zero-request tool/sub-agent surface; the resident (default-served) partition</td></tr>
+<tr><td><code>assertServedSubset</code> / <code>assertDefaultServedResident</code> / <code>assertServedSubsetGoverned</code> / <code>conformanceOk</code></td><td>over-serve / cold-tail-in-default / policy-denied auditors</td></tr>
+<tr><td><code>verifySkillFreshness</code> / <code>contentHash</code> / <code>renderSkillMd</code></td><td>skill drift detection + the <code>SKILL.md</code> content-hash primitives</td></tr>
+<tr><td><code>effectiveUnderPolicies</code> / <code>policyConstrain</code> / <code>lintPolicy</code> / <code>policyOk</code></td><td>C028 operator-governance overlay (monotone-narrowing MEET)</td></tr>
+<tr><td><code>contextReport</code> / <code>suggestUnflatten</code></td><td>C027 context-budget analyzer (model-fit, over-budget, flatten/unflatten suggestions)</td></tr>
+<tr><td><code>skillModels</code> / <code>resolveSkillModels</code> / <code>deriveCQT</code> / <code>selectModel</code> / <code>SEED_CATALOG</code> / <code>PROFILES</code></td><td>C027 × <code>@suluk/models</code> model-selection seam (pin / router / latest, governance-gated)</td></tr>
+<tr><td><code>intersectScope</code> / <code>analyzeScopes</code> / <code>localEscalations</code></td><td>scope intersection along the reaching path + escalation detection</td></tr>
+<tr><td><code>resolveOperationRef</code> / <code>agentMap</code> / <code>reachableSurface</code> / <code>findCycle</code> …</td><td>the <code>resolve</code> primitives the rest is built on</td></tr>
+<tr><td><code>agentDiagram</code> / <code>agentDiagramHtml</code></td><td>the OBSERVE composition tree + a self-contained D3 page</td></tr>
+</tbody>
+</table>
+<p>All exports live at the single entry point (<code>@suluk/agents</code>) — there are no sub-path exports and no CLI.</p>
+<h2>Boundary</h2>
+<p><code>@suluk/agents</code> is L3: <strong>render/generate, never host.</strong> Both projections are pure functions of the contract plus <em>injected</em> instruction snapshots — the package never opens a socket, fetches a preprompt, or touches a credential. The <code>.mcp.json</code> it emits declares HTTP MCP with host-side OAuth (<code>oauth: {}</code>) and never embeds a token, bearer, or secret (C020/C023 upheld).</p>
+<p>The seams stay app-side:</p>
+<ul>
+<li><strong>Inject the bytes.</strong> Pinned instruction text comes in via <code>instructions: { skillName: text }</code>; a</li>
+</ul>
+<p>  skill without a snapshot simply emits no <code>SKILL.md</code>. The package never invents preprompt text.</p>
+<ul>
+<li><strong>Signing is delegated.</strong> <code>agentManifest</code> produces the canonical object; the actual ECDSA-P256</li>
+</ul>
+<p>  signature is <code>@suluk/builder</code>'s <code>signRegistry</code> / <code>verifyRegistrySignature</code> — one mechanism, reused.</p>
+<ul>
+<li><strong>Serving is delegated.</strong> <code>residentToolNames</code> tells <code>@suluk/mcp</code>'s <code>mcpApp({ resident })</code> which tools</li>
+</ul>
+<p>  to advertise by default; this package decides <em>what</em> the surface is, the MCP server <em>serves</em> it.</p>
+<ul>
+<li><strong>The one-way wall.</strong> <code>@suluk/core</code> must never import <code>@suluk/agents</code>; agent fields are read here and</li>
+</ul>
+<p>  nowhere in the matcher. Determinism and tiering are <strong>declared, never enforced</strong> at runtime.</p>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">AgentContextLoad</code><code class="chip">agentDiagram</code><code class="chip">agentDiagramHtml</code><code class="chip">AgentDiagramOptions</code><code class="chip">agentManifest</code><code class="chip">AgentManifest</code><code class="chip">AgentManifestGoverned</code><code class="chip">AgentManifestNode</code><code class="chip">AgentManifestRoute</code><code class="chip">AgentManifestSkill</code><code class="chip">agentMap</code><code class="chip">analyzeScopes</code><code class="chip">assertAgentInstallable</code><code class="chip">assertDefaultServedResident</code><code class="chip">assertServedSubset</code><code class="chip">assertServedSubsetGoverned</code><code class="chip">childKeys</code><code class="chip">ClaudePluginArtifacts</code><code class="chip">ClaudePluginOptions</code><code class="chip">ConformanceFinding</code><code class="chip">conformanceOk</code><code class="chip">contentHash</code><code class="chip">ContextOptions</code><code class="chip">contextReport</code><code class="chip">ContextReport</code><code class="chip">deepStrings</code><code class="chip">deriveCQT</code><code class="chip">deriveRequirements</code><code class="chip">DiagramKind</code><code class="chip">DiagramNode</code><code class="chip">EffectiveAgent</code><code class="chip">EffectiveSkill</code><code class="chip">effectiveUnderPolicies</code><code class="chip">findCycle</code><code class="chip">FlattenSuggestion</code><code class="chip">HardFilters</code><code class="chip">intersectScope</code><code class="chip">lintAgents</code><code class="chip">LintFinding</code><code class="chip">lintOk</code><code class="chip">lintPolicy</code><code class="chip">localEscalations</code><code class="chip">ModelCatalog</code><code class="chip">ModelFit</code><code class="chip">OpenRouterAgentManifest</code><code class="chip">OpenRouterFunctionTool</code><code class="chip">OpenRouterOptions</code><code class="chip">OperationLocus</code><code class="chip">parsePointer</code><code class="chip">policiesFor</code><code class="chip">policyAppliesTo</code><code class="chip">policyConstrain</code><code class="chip">PolicyConstrainResult</code><code class="chip">PolicyNarrowing</code><code class="chip">policyOk</code><code class="chip">Preferences</code><code class="chip">PROFILES</code><code class="chip">projectClaudePlugin</code><code class="chip">projectOpenRouter</code><code class="chip">reachableSurface</code><code class="chip">renderSkillMd</code><code class="chip">residentSurface</code><code class="chip">residentToolNames</code><code class="chip">ResolvedOperation</code><code class="chip">ResolvedTarget</code><code class="chip">resolveOperationRef</code><code class="chip">resolveSkillModels</code><code class="chip">Scope</code><code class="chip">ScopeEscalation</code><code class="chip">SEED_CATALOG</code><code class="chip">selectModel</code><code class="chip">SelectResult</code><code class="chip">Severity</code><code class="chip">SkillModelResolution</code><code class="chip">skillModels</code><code class="chip">SkillRenderInput</code><code class="chip">subAgentKey</code><code class="chip">subtreeDepth</code><code class="chip">suggestUnflatten</code><code class="chip">ToolContextCost</code><code class="chip">UnflattenSuggestion</code><code class="chip">verifyAgentFreshness</code><code class="chip">verifySkillFreshness</code></div>
+    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/models</code></div>
+    
+  </article></main>
+<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+</body></html>

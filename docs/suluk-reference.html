@@ -1,0 +1,146 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/reference — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/reference — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<header class="top">
+  <a class="brand" href="index.html">Suluk</a>
+  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</header>
+<main>
+  <article class="package">
+    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/reference</p>
+    <h1>@suluk/reference <span class="ver">v0.2.1</span></h1>
+    <p class="lead">Render an OpenAPI v4 'Suluk' document NATIVELY — as v4, not via the 3.1 downgrade. Shows what a 3.x renderer (Scalar/Swagger) cannot: the 4.0.0-candidate identity, the requests-shape (a path has NAMED requests, incl. multiple sharing one method), and the cost facet (x-suluk-cost) as a first-class per-operation badge. Self-contained server-rendered HTML — no client build, Workers-safe. CANDIDATE tooling.</p>
+    
+    <div class="prose readme"><p>One typed v4 contract in, a self-contained reference page out: an operation browser, a cost explorer, an access &quot;View-as&quot; lens, an ADA signature-resolution playground, and an input-hardening report. No client build, no CDN, no <code>eval</code> — it runs unchanged in a Cloudflare Worker.</p>
+<blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-bash">bun add @suluk/reference</code></pre>
+<h2>What it does</h2>
+<ul>
+<li><strong>Renders v4 as v4</strong> — the <code>4.0.0-candidate</code> identity, the named <code>requests</code> map (multiple requests can share</li>
+</ul>
+<p>  one method on one path), <code>parameterSchema</code>, and effective-vs-authored composition (C012 shared params +   <code>apiResponses</code>) — none of which survive a downgrade to a 3.1 view.</p>
+<ul>
+<li>**Surfaces the <code>x-suluk-<em></code> facets<strong> a 3.x tool can't host: </strong>cost</em>* (<code>x-suluk-cost</code> → per-op badge, coverage</li>
+</ul>
+<p>  rollup, declared-vs-actual drift), <strong>access</strong> (<code>x-suluk-access</code> → a &quot;View-as&quot; projection + a 3-state   reachability matrix), and signature <strong>collisions</strong> over requests that share a method (the ADA verdict).</p>
+<ul>
+<li><strong>Grades input hardening</strong> — an A–F badge per operation plus a document rollup, via <code>@suluk/harden</code>.</li>
+<li><strong>Self-contained output</strong> — one HTML string with inlined CSS + JS (try-it executor, filter, theme toggle).</li>
+</ul>
+<p>  No bundler, no network on render; safe in a Worker, an Astro route, or any Bun server.</p>
+<ul>
+<li><strong>Degrades, never crashes</strong> — a dangling <code>$ref</code> renders as a chip and emits a diagnostic instead of throwing.</li>
+</ul>
+<h2>When to reach for it</h2>
+<p>Reach for <code>@suluk/reference</code> when you want a <strong>native-v4</strong> docs page or <strong>embeddable v4 insight panels</strong>, server-rendered with zero client build.</p>
+<ul>
+<li>Want the <strong>Scalar</strong> UI instead (the polished three-column browser, native v4 via the fork or a 3.1</li>
+</ul>
+<p>  fallback)? Use <code>@suluk/scalar</code> (<code>scalarV4Html</code>/<code>scalarHtml</code>).</p>
+<ul>
+<li>Need <strong>Swagger UI</strong> specifically? Use <code>@suluk/swagger</code>.</li>
+<li>Want an <strong>editor</strong> (CodeMirror + live preview)? Use <code>@suluk/editor</code>.</li>
+</ul>
+<p>In practice the two compose: serve Scalar's browser at <code>/reference</code> and embed this package's <code>referenceInsightsHtml</code> in a drawer next to it — so one page carries Scalar's polish <em>and</em> the v4-native analytics Scalar can't render. That is exactly how <code>saasuluk</code> wires it.</p>
+<h2>Usage</h2>
+<h3>A full reference page</h3>
+<pre><code class="lang-ts">import { referenceHtml, referenceResponse } from &quot;@suluk/reference&quot;;
+import type { OpenAPIv4Document } from &quot;@suluk/core&quot;;
+
+const doc: OpenAPIv4Document = /* your v4 'Suluk' document */;
+
+// As a string (Bun.serve / Astro / anywhere):
+const html = referenceHtml(doc, {
+  pageTitle: &quot;My API — OpenAPI v4 reference&quot;,
+  costLedgerUrl: &quot;/cost&quot;,        // same-origin URL returning the cost ledger → live declared-vs-actual drift
+  whoamiUrl: &quot;/api/whoami&quot;,      // same-origin URL returning { viewer: &quot;&lt;id&gt;&quot; } → auto-select that viewer's lens
+  tryIt: true,                   // in-page try-it executor (same-origin fetch); default true
+});
+
+// Or as a Response (Workers / Hono):
+app.get(&quot;/reference&quot;, () =&gt; referenceResponse(doc, { pageTitle: &quot;My API&quot; }));</code></pre>
+<h3>Just the v4 superpower panels (embeddable)</h3>
+<p><code>referenceInsightsHtml</code> drops the operation-browser chrome and renders only the facets / cost explorer / reachability matrix / ADA playground / hardening report — designed to be embedded (a drawer or iframe) next to a Scalar browser on the same origin. This is the real <code>saasuluk</code> route:</p>
+<pre><code class="lang-ts">import { referenceInsightsResponse } from &quot;@suluk/reference&quot;;
+
+app.get(&quot;/reference/insights&quot;, (c) =&gt;
+  referenceInsightsResponse(refProjected(c), { costLedgerUrl: &quot;/cost&quot;, whoamiUrl: &quot;/api/whoami&quot; }));</code></pre>
+<h3>The access lens, used server-side</h3>
+<p><code>DEFAULT_VIEWERS</code> + <code>reachState</code> are the same projection the page's &quot;View-as&quot; lens uses — so you can compute the reachable operation set on the server (e.g. to scrub a document before sending it to a viewer):</p>
+<pre><code class="lang-ts">import { DEFAULT_VIEWERS, reachState, type AccessFacet } from &quot;@suluk/reference&quot;;
+
+const VIEWER = Object.fromEntries(DEFAULT_VIEWERS.map((v) =&gt; [v.id, v])); // anon | user | admin
+const v = VIEWER.user;
+
+// keep an operation iff this viewer can reach it (&quot;none&quot; | &quot;scoped&quot; | &quot;full&quot;)
+if (reachState(req[&quot;x-suluk-access&quot;] as AccessFacet | undefined, v) !== &quot;none&quot;) keep(req);</code></pre>
+<h3>A multi-document portal</h3>
+<pre><code class="lang-ts">import { portalHtml, portalResponse, type PortalEntry } from &quot;@suluk/reference&quot;;
+
+const apis: PortalEntry[] = [
+  { name: &quot;store&quot;, title: &quot;Store API&quot;, href: &quot;/reference&quot;, version: &quot;v4&quot;, description: &quot;the shop&quot; },
+];
+
+app.get(&quot;/&quot;, () =&gt; portalResponse(apis, { pageTitle: &quot;APIs&quot; }));</code></pre>
+<h3>Lower-level building blocks</h3>
+<p>The IR and the pure facet/panel functions are exported, so you can build your own surface:</p>
+<pre><code class="lang-ts">import { normalize, crossCut, costRollup, codeSamples, auditDocument } from &quot;@suluk/reference&quot;;
+
+const ir = normalize(doc);          // raw v4 → the semantic IR (operations, models, webhooks, diagnostics)
+const matrix = crossCut(doc);       // per-viewer reachability rows
+const cost = costRollup(doc);       // { priced, undeclared, totalMicroUsd, deferred }
+const audit = auditDocument(doc);   // A–F hardening grade + per-op findings (from @suluk/harden)
+const samples = codeSamples(server, ir.operations[0], undefined); // [{ lang: &quot;curl&quot; | &quot;js&quot; | &quot;python&quot;, ... }]</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>referenceHtml(doc, opts?)</code> / <code>referenceResponse(...)</code></td><td>the full reference page — string / <code>Response</code></td></tr>
+<tr><td><code>referenceInsightsHtml(doc, opts?)</code> / <code>referenceInsightsResponse(...)</code></td><td>the v4 superpower panels only (embeddable) — string / <code>Response</code></td></tr>
+<tr><td><code>portalHtml(entries, opts?)</code> / <code>portalResponse(...)</code></td><td>a multi-document index landing — string / <code>Response</code></td></tr>
+<tr><td><code>normalize(doc)</code></td><td>raw v4 → the semantic IR (<code>RefDoc</code>) — the only place raw v4 shapes are read</td></tr>
+<tr><td><code>crossCut</code> · <code>reachable</code> · <code>reachState</code> · <code>costRollup</code></td><td>pure facet computations (access projection + cost rollup)</td></tr>
+<tr><td><code>DEFAULT_VIEWERS</code></td><td>the built-in <code>anon</code> / <code>user</code> / <code>admin</code> viewers for the access lens</td></tr>
+<tr><td><code>costExplorer</code> · <code>adaPlayground</code> · <code>projectionMap</code> · <code>hardeningPanel</code> · <code>hardenBadge</code> · <code>facetsPanel</code></td><td>pure HTML-returning panel functions (compose your own page)</td></tr>
+<tr><td><code>schemaHtml</code> · <code>sampleOf</code> · <code>constraintNotes</code></td><td>schema → HTML / sample value / constraint notes</td></tr>
+<tr><td><code>codeSamples(server, op, body)</code></td><td>multi-language request samples (<code>curl</code> / <code>js</code> / <code>python</code>)</td></tr>
+<tr><td><code>auditDocument</code> · <code>auditOperation</code> · <code>assertGrade</code></td><td>re-exported from <code>@suluk/harden</code></td></tr>
+<tr><td><code>escapeHtml</code></td><td>HTML-attribute-safe escaper (escapes <code>'</code> too)</td></tr>
+</tbody>
+</table>
+<p>Types: <code>ReferenceOptions</code>, <code>ReferencePlugin</code>, <code>RefDoc</code>, <code>NormalizedOperation</code>, <code>Viewer</code>, <code>AccessFacet</code>, <code>CostModel</code>, <code>CrossCutRow</code>, <code>PortalEntry</code>, <code>PortalOptions</code>, <code>DocAudit</code>, <code>OpAudit</code>, <code>Grade</code>.</p>
+<h3>Plugin seam</h3>
+<p><code>ReferenceOptions.plugins</code> accepts plugins locked at v1: an <code>onNormalize(ir)</code> hook to mutate the IR, and render <code>slots</code> (<code>heroAfter</code>, <code>opCardAfter</code>) to inject HTML:</p>
+<pre><code class="lang-ts">import type { ReferencePlugin } from &quot;@suluk/reference&quot;;
+
+const plugin: ReferencePlugin = {
+  name: &quot;my-plugin&quot;,
+  onNormalize: (ir) =&gt; { ir.info.title = &quot;Plugged&quot;; return ir; },
+  slots: { opCardAfter: (op) =&gt; `&lt;!-- extra HTML after ${op.name} --&gt;` },
+};
+
+referenceHtml(doc, { plugins: [plugin] });</code></pre>
+<h2>Boundary</h2>
+<p>This is an <strong>L3 renderer: it renders, it never hosts.</strong> The output is one inert HTML string — no runtime to call home to, no black box. The interactive features depend on <strong>same-origin URLs you provide and own</strong>: <code>costLedgerUrl</code> (your cost ledger), <code>whoamiUrl</code> (your session→viewer endpoint), <code>sdkUrl</code> / <code>conformanceUrl</code> (download affordances), and the try-it executor's same-origin <code>fetch</code>. The page reads facets off the document it's handed — it does <strong>not</strong> scrub them; <strong>projecting the right document per viewer stays app-side</strong> (use the exported <code>reachState</code> / <code>DEFAULT_VIEWERS</code> to do it, then pass the projected doc in).</p>
+<p>All facet computation is <strong>pure functions over the v4 document</strong> (no DOM), and every panel is a pure HTML-returning function — embeddable, testable in isolation, and Workers-safe. New v4-only insights belong here, as panels.</p>
+<h2>License</h2>
+<p>Apache-2.0.</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">AccessFacet</code><code class="chip">adaPlayground</code><code class="chip">assertGrade</code><code class="chip">auditDocument</code><code class="chip">auditOperation</code><code class="chip">codeSamples</code><code class="chip">constraintNotes</code><code class="chip">costExplorer</code><code class="chip">CostModel</code><code class="chip">costRollup</code><code class="chip">crossCut</code><code class="chip">CrossCutRow</code><code class="chip">DEFAULT_VIEWERS</code><code class="chip">DocAudit</code><code class="chip">escapeHtml</code><code class="chip">facetsPanel</code><code class="chip">Grade</code><code class="chip">hardenBadge</code><code class="chip">hardeningPanel</code><code class="chip">normalize</code><code class="chip">NormalizedOperation</code><code class="chip">OpAudit</code><code class="chip">PortalEntry</code><code class="chip">portalHtml</code><code class="chip">PortalOptions</code><code class="chip">portalResponse</code><code class="chip">projectionMap</code><code class="chip">reachable</code><code class="chip">reachState</code><code class="chip">RefDoc</code><code class="chip">referenceHtml</code><code class="chip">referenceInsightsHtml</code><code class="chip">referenceInsightsResponse</code><code class="chip">ReferenceOptions</code><code class="chip">ReferencePlugin</code><code class="chip">referenceResponse</code><code class="chip">sampleOf</code><code class="chip">schemaHtml</code><code class="chip">Viewer</code></div>
+    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/harden</code></div>
+    
+  </article></main>
+<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+</body></html>

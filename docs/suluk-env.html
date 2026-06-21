@@ -1,0 +1,100 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/env — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/env — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<header class="top">
+  <a class="brand" href="index.html">Suluk</a>
+  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</header>
+<main>
+  <article class="package">
+    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/env</p>
+    <h1>@suluk/env <span class="ver">v0.1.0</span></h1>
+    <p class="lead">Config + secrets as a single source of truth: declare each env var ONCE (typed, per-surface), encrypt secret values with POST-QUANTUM crypto (ML-KEM-768 + AES-256-GCM) so the .env is safe to commit to git and share over public channels, and project the manifest into every surface — local, Cloudflare, preview, a teammate's machine, the VS Code extension, the admin panel. dotenvx's commit-safely model, quantum-safe, Suluk-native. CANDIDATE tooling.</p>
+    <h2>Install</h2><pre><code>bun add @suluk/env</code></pre>
+    <div class="prose readme"><p>Declare each variable <strong>once</strong>, encrypt the secret <strong>values</strong> with post-quantum crypto so the <code>.env</code> is safe to commit to git and share over public channels, and project that one declaration into <strong>every surface</strong>: local dev, Cloudflare Workers, preview, a teammate's machine, the VS Code extension, the admin panel.</p>
+<p>It's <a href="https://github.com/dotenvx/dotenvx">dotenvx</a>'s commit-safely model (a public key encrypts, a private key decrypts, the encrypted <code>.env</code> is committable), with two differences:</p>
+<ol>
+<li><strong>Post-quantum.</strong> Values are sealed with <strong>ML-KEM-768</strong> (FIPS-203 key-encapsulation) + <strong>AES-256-GCM</strong>,</li>
+</ol>
+<p>   not elliptic-curve ECIES. Quantum-safe, and via <a href="https://github.com/paulmillr/noble-post-quantum"><code>@noble/post-quantum</code></a>    it's pure JS — it runs the same in Node, Bun, the browser, <strong>and a Cloudflare Worker</strong>.</p>
+<ol>
+<li><strong>Suluk-native.</strong> <code>defineEnv</code> makes config a <em>declared</em> thing — typed access, a per-surface manifest,</li>
+</ol>
+<p>   and a config-<strong>health</strong> view — the same &quot;declare once, project everywhere&quot; idea as the entity registry,    applied to configuration.</p>
+<h2>Why it's safe to commit</h2>
+<p>Each value is encrypted to a <strong>public key</strong> (embedded in the <code>.env</code> as <code>SULUK_PUBLIC_KEY</code>). Only the <strong>private key</strong> (<code>SULUK_PRIVATE_KEY</code>, kept in a gitignored <code>.env.keys</code> or a secret binding) can decrypt. So:</p>
+<ul>
+<li>the encrypted <code>.env</code> can live in git and be shared in a Slack message — the ciphertext reveals nothing;</li>
+<li><strong>anyone with just the public key can add or re-encrypt a variable</strong> — a teammate can add a secret</li>
+</ul>
+<p>  without ever holding the decryption key;</p>
+<ul>
+<li>the private key travels out-of-band (a password manager, a CI secret, <code>wrangler secret put</code>).</li>
+</ul>
+<h2>CLI</h2>
+<pre><code class="lang-bash">suluk-env keygen                 # ML-KEM-768 keypair → public in .env, private in .env.keys (auto-gitignored)
+suluk-env set STRIPE_KEY=sk_live_…   # add/update a variable, encrypted (use --plain for non-secrets)
+suluk-env encrypt --skip BASE_URL    # encrypt every plaintext value in .env in place
+suluk-env ls                     # list variables (masked) + their encrypted/plaintext state
+suluk-env get STRIPE_KEY         # decrypt + print one value
+suluk-env decrypt                # print the whole .env decrypted (--out file to write)
+suluk-env run -- bun start       # decrypt into the environment, then run a command</code></pre>
+<p>A committed <code>.env</code> ends up looking like:</p>
+<pre><code class="lang-ini">SULUK_PUBLIC_KEY=&quot;mlkem768:EfIdiAi0Fy…&quot;        # commit this — it can only encrypt
+BASE_URL=&quot;http://localhost:3000&quot;               # left plaintext (not a secret)
+STRIPE_SECRET_KEY=&quot;encrypted:mlkem768:Alu+Ks…&quot; # ciphertext — safe in git</code></pre>
+<h2>Library</h2>
+<p>The core (<code>@suluk/env</code>) is runtime-agnostic — Web Crypto + <code>@noble/post-quantum</code>, no <code>node:fs</code> — so it imports cleanly inside a Worker. The <code>fs</code> helpers + CLI live in <code>@suluk/env/node</code>; the raw primitives (<code>keygen</code> / <code>encrypt</code> / <code>decrypt</code> / <code>publicFromPrivate</code>) are also available standalone at <code>@suluk/env/crypto</code> (and re-exported from the main entry).</p>
+<pre><code class="lang-ts">import { keygen, encrypt, decrypt, loadEnv } from &quot;@suluk/env&quot;;
+
+// decrypt a committed .env at runtime — works in Node, Bun, AND a Cloudflare Worker
+await loadEnv({ content: envFileText, privateKey: env.SULUK_PRIVATE_KEY }); // → injected into process.env</code></pre>
+<p>In a Worker, ship the encrypted <code>.env</code> text in the bundle and pass the private key from a secret binding — the <strong>same one source of truth</strong> decrypts on every surface.</p>
+<h2>Single source of truth — <code>defineEnv</code></h2>
+<pre><code class="lang-ts">import { defineEnv } from &quot;@suluk/env&quot;;
+
+export const env = defineEnv({
+  BASE_URL:          { default: &quot;http://localhost:3000&quot;, surfaces: [&quot;local&quot;, &quot;cloudflare&quot;, &quot;preview&quot;] },
+  STRIPE_SECRET_KEY: { secret: true, required: true,     surfaces: [&quot;local&quot;, &quot;cloudflare&quot;], description: &quot;Stripe API key&quot; },
+  RESEND_API_KEY:    { secret: true,                     surfaces: [&quot;cloudflare&quot;] },
+});
+
+env.parse(process.env).STRIPE_SECRET_KEY;  // typed + validated (required vars are non-null; throws if missing)
+env.forSurface(&quot;cloudflare&quot;);              // which vars to `wrangler secret put` (the deploy planner reads this)
+env.manifest(rawEnvRecord());              // config HEALTH: ok | missing | plaintext-secret | empty + encrypted?</code></pre>
+<p><code>manifest()</code> is what the <strong>admin panel</strong> renders and the <strong>VS Code extension</strong> surfaces: which keys exist, which are encrypted at rest, which required ones are <strong>missing</strong>, and — the high-value check — which secrets are sitting in <strong>plaintext</strong> when they should be encrypted.</p>
+<h3>Fail-closed startup gate — <code>assertEnv</code> / <code>validate</code></h3>
+<p>Add per-var value rules (<code>minLength</code>, <code>pattern</code>, <code>requiredInSurface</code>, <code>forbidInSurface</code>) and validate the config at boot. <code>assertEnv</code> throws on any <strong>error</strong>-severity issue so a misconfigured/short/test secret in prod stops the process instead of shipping; warnings go to <code>onWarn</code> and never throw. <code>validate</code> returns the graded issue list without throwing.</p>
+<pre><code class="lang-ts">const env = defineEnv({
+  STRIPE_SECRET_KEY: {
+    secret: true, minLength: 20, pattern: /^sk_(test|live)_/,
+    requiredInSurface: [&quot;cloudflare&quot;, &quot;preview&quot;],
+    forbidInSurface: [{ pattern: /^sk_test_/, surfaces: [&quot;cloudflare&quot;], message: &quot;a TEST Stripe key in prod&quot;, severity: &quot;warning&quot; }],
+  },
+});
+
+env.validate(process.env, { surface: &quot;cloudflare&quot; });   // → EnvIssue[] (graded; never throws)
+const config = env.assertEnv(process.env, {             // throws on any error; warnings → onWarn
+  surface: &quot;cloudflare&quot;,
+  onWarn: (issue) =&gt; console.warn(issue.message),
+  allow: [],                                            // explicit, auditable per-var error downgrades
+});</code></pre>
+<h2>Cryptographic construction</h2>
+<p>Per value: <code>encapsulate(publicKey) → (kemCiphertext, sharedSecret)</code>; <code>AES-256-GCM(sharedSecret, iv, plaintext)</code>. The token is <code>encrypted:mlkem768:</code> + base64(<code>kemCiphertext[1088] | iv[12] | aesCiphertext+tag</code>). A fresh KEM encapsulation per value is what lets you add one variable with only the public key. A wrong key or a tampered token fails the GCM authentication tag → decryption throws.</p>
+<blockquote>Candidate tooling for the Suluk (OpenAPI v4) ecosystem. Apache-2.0.</blockquote></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">AssertOptions</code><code class="chip">decrypt</code><code class="chip">decryptContent</code><code class="chip">DefinedEnv</code><code class="chip">defineEnv</code><code class="chip">encrypt</code><code class="chip">encryptContent</code><code class="chip">EnvIssue</code><code class="chip">EnvSpec</code><code class="chip">HealthStatus</code><code class="chip">isEncrypted</code><code class="chip">IssueSeverity</code><code class="chip">keygen</code><code class="chip">Keypair</code><code class="chip">loadEnv</code><code class="chip">LoadOptions</code><code class="chip">ManifestEntry</code><code class="chip">Parsed</code><code class="chip">parseEnv</code><code class="chip">PRIVATE_KEY_NAME</code><code class="chip">PUBLIC_KEY_NAME</code><code class="chip">publicFromPrivate</code><code class="chip">resolveEnv</code><code class="chip">SCHEME</code><code class="chip">Surface</code><code class="chip">VarSpec</code></div>
+    <h2>Depends on</h2><div class="chips"><code class="chip">@noble/post-quantum</code></div>
+    
+  </article></main>
+<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+</body></html>

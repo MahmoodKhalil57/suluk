@@ -1,0 +1,142 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/panel — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/panel — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link rel="stylesheet" href="style.css"/>
+</head><body>
+<header class="top">
+  <a class="brand" href="index.html">Suluk</a>
+  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</header>
+<main>
+  <article class="package">
+    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/panel</p>
+    <h1>@suluk/panel <span class="ver">v0.3.1</span></h1>
+    <p class="lead">Contract-first admin panels, in the spirit of Payload but projected from one OpenAPI v4 document. Infers Payload-style field types from the contract, renders shadcn/theme-aware forms + data tables, and mounts a role-aware superadmin (and per-role dashboards) — no config DSL, no framework lock-in. CANDIDATE tooling.</p>
+    
+    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-bash">bun add @suluk/panel</code></pre>
+<p>Peer-depends on <a href="https://hono.dev"><code>hono</code></a> (the panel is a <code>Hono</code> app you mount on your router).</p>
+<h2>What it does</h2>
+<ul>
+<li><strong>Infers Payload-style field types from the contract.</strong> Each entity's <code>components.schemas</code> JSON-Schema is mapped to the right widget — <code>text</code> / <code>textarea</code> / <code>richtext</code> / <code>number</code> / <code>boolean</code> / <code>select</code> / <code>date</code> / <code>datetime</code> / <code>email</code> / <code>url</code> / <code>media</code> / <code>json</code> / <code>relationship</code> — including enum options, required/nullable flags, and relationships (a <code>categoryId</code> whose <code>Category</code> is itself an entity). The contract IS the config; there's no separate collection DSL.</li>
+<li><strong>Renders a Payload-style two-pane admin</strong> — a sidebar of collections plus a content pane with searchable, sortable, paginated data tables and create/edit forms. Ships a light + OS-following dark theme out of the box (themed entirely with CSS variables, so it can inherit the host site's vocabulary via <code>headHtml</code>).</li>
+<li><strong>Role-aware by projection.</strong> Pass a <em>per-role projected</em> document and you get a per-role panel for free: the available CRUD ops are derived from the operations present in the doc, so an op a role can't perform simply isn't there. Admin sees everything; a user sees only their own rows.</li>
+<li><strong>A dashboard framework, not just CRUD.</strong> Beyond the auto collections it mounts host-injected stat cards, sidebar groups, a bespoke home overview, and custom non-CRUD sections (profile, billing, danger zone) — each of which may be a per-request <em>function</em> of the logged-in user.</li>
+<li><strong>Never touches your database.</strong> Forms and tables drive the contract's own REST endpoints (<code>fetch</code> GET/POST/PATCH/DELETE) — there is no DB adapter, so there's no config drift between the spec and the panel.</li>
+</ul>
+<h2>When to reach for it</h2>
+<p>Reach for <code>@suluk/panel</code> when you want a working admin UI <strong>derived from the contract</strong> — a Payload-equivalent that you didn't have to configure, mounted in-process on the same Hono app that serves your API.</p>
+<ul>
+<li>vs <strong><code>@suluk/admin</code></strong> — that's the Suluk <em>cockpit</em> (<code>/superadmin</code>): the exhaustive raw-CRUD console for the spec author. <code>@suluk/panel</code> is the product-facing, role-projected dashboard you ship to end users.</li>
+<li>vs <strong><code>@suluk/shadcn</code></strong> — that <em>generates owned React/shadcn TSX</em> you commit and edit. <code>@suluk/panel</code> renders a complete server-side HTML panel at runtime; reach for shadcn when you want owned components in your own frontend instead.</li>
+</ul>
+<h2>Usage</h2>
+<h3>Mount a panel (the common case)</h3>
+<p><code>panelApp</code> returns a <code>Hono</code> instance. Mount it on your router and gate it with <code>authorize</code>:</p>
+<pre><code class="lang-ts">import { Hono } from &quot;hono&quot;;
+import { panelApp } from &quot;@suluk/panel&quot;;
+import { document } from &quot;./contract&quot;; // your OpenAPI v4 document
+
+const app = new Hono();
+
+app.route(
+  &quot;/&quot;,
+  panelApp({
+    document,                 // the v4 doc (a value, or a per-request function of `c`)
+    basePath: &quot;/panel&quot;,       // default &quot;/panel&quot;
+    title: &quot;Acme&quot;,            // brand shown in the sidebar + titles
+    authorize: (c) =&gt; isSignedIn(c), // default: deny everything
+  }),
+);</code></pre>
+<p>That mounts, under <code>/panel</code>: a card-grid home, and a list + create/edit form for every CRUD-managed entity the document exposes. The forms and tables call your contract's REST endpoints directly.</p>
+<h3>Per-role dashboards (project the document per request)</h3>
+<p><code>document</code> (and <code>stats</code> / <code>groups</code> / <code>sections</code> / <code>home</code> / <code>homeHeading</code>) may each be a <strong>function of the request context</strong>, so one mount serves every audience off a role-projected document:</p>
+<pre><code class="lang-ts">panelApp({
+  document: (c) =&gt; projectDocument(doc, viewerOf(c)), // per-role projection → per-role panel
+  basePath: &quot;/panel&quot;,
+  authorize: (c) =&gt; isSignedIn(c),
+  homeHeading: (c) =&gt; (isAdmin(c) ? &quot;Owner dashboard&quot; : &quot;Your account&quot;),
+  hideEntities: [&quot;AuthToken&quot;],                        // omit some entities entirely
+  groups:   (c) =&gt; (isAdmin(c) ? [...userGroups, ...adminGroups] : userGroups),
+  sections: (c) =&gt; (isAdmin(c) ? [...userSections, ...adminSections] : userSections),
+  stats:    (c) =&gt; (isAdmin(c) ? adminStats() : userStats(c)),
+  home:     (c) =&gt; renderOverview({ admin: isAdmin(c) }), // replaces the auto card-grid
+});</code></pre>
+<p>A <code>StatCard</code> is <code>{ label, value, hint?, href? }</code>. A <code>PanelSection</code> is a custom non-CRUD page mounted at <code>${basePath}/s/&lt;id&gt;</code>, rendered inside the panel shell:</p>
+<pre><code class="lang-ts">import type { PanelSection, StatCard } from &quot;@suluk/panel&quot;;
+
+const sections: PanelSection[] = [
+  {
+    id: &quot;billing&quot;,
+    label: &quot;Billing&quot;,
+    summary: &quot;Plan &amp; invoices&quot;,
+    render: (c) =&gt; `&lt;div class=&quot;pf-section&quot;&gt;…your billing HTML…&lt;/div&gt;`,
+  },
+];</code></pre>
+<h3>Media uploads</h3>
+<p>Media fields (<code>image</code> / <code>cover</code> / <code>avatar</code> / <code>logo</code> / …) degrade to paste-a-URL unless you point them at an upload endpoint that accepts a <code>multipart/form-data</code> <code>file</code> and returns <code>{ url }</code>:</p>
+<pre><code class="lang-ts">panelApp({ document, authorize, uploadPath: &quot;/upload&quot; }); // e.g. an R2-backed worker route</code></pre>
+<h3>Render pieces directly (lower-level building blocks)</h3>
+<p>The inference + render helpers are exported standalone, so you can compose your own surface without <code>panelApp</code>:</p>
+<pre><code class="lang-ts">import { entityModels, renderList, renderForm, renderShell, fieldsOf } from &quot;@suluk/panel&quot;;
+
+const models = entityModels(document);       // EntityModel[] — name, REST path, fields, title, access
+const product = models.find((m) =&gt; m.name === &quot;Product&quot;)!;
+
+const list = renderList(product, { basePath: &quot;/panel&quot; });
+const form = renderForm(product, { basePath: &quot;/panel&quot;, relPaths: { Category: &quot;/category&quot; }, canDelete: true });
+
+const html = renderShell({
+  title: &quot;Acme&quot;, brand: &quot;Acme&quot;, basePath: &quot;/panel&quot;,
+  entities: models.map((m) =&gt; ({ name: m.name })),
+  active: &quot;Product&quot;, heading: &quot;Product&quot;, body: list,
+});
+
+// Or just infer the field set from a raw schema:
+const fields = fieldsOf(document.components.schemas.Product, new Set([&quot;Product&quot;, &quot;Category&quot;]));</code></pre>
+<h2>API</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>panelApp(opts)</code></td><td>Build a <code>Hono</code> admin/dashboard app. Options: <code>document</code>, <code>basePath</code>, <code>title</code>, <code>authorize</code>, <code>headHtml</code>, <code>hide</code>, <code>hideEntities</code>, <code>uploadPath</code>, <code>stats</code>, <code>groups</code>, <code>sections</code>, <code>home</code>, <code>homeHeading</code>, <code>homeLabel</code>.</td></tr>
+<tr><td><code>entityModels(doc, opts?)</code></td><td>Read the v4 doc → an <code>EntityModel[]</code> (REST path, inferred fields, title field, CRUD <code>access</code> derived from present ops).</td></tr>
+<tr><td><code>fieldsOf(schema, entities?, opts?)</code></td><td>Infer the ordered <code>Field[]</code> for one entity schema (widget type, required/nullable/readOnly, enum options, relationships).</td></tr>
+<tr><td><code>titleField(fields)</code></td><td>The entity's best &quot;title&quot; field — for list columns + relationship labels.</td></tr>
+<tr><td><code>humanize(name)</code></td><td><code>&quot;coverImageUrl&quot;</code> → <code>&quot;Cover Image URL&quot;</code>, <code>&quot;categoryId&quot;</code> → <code>&quot;Category&quot;</code>.</td></tr>
+<tr><td><code>renderList(model, { basePath })</code></td><td>Data-table HTML (client-side search / sort / paginate, per-row edit·delete) over the entity's REST list endpoint.</td></tr>
+<tr><td><code>renderForm(model, { basePath, relPaths, canDelete, uploadPath? })</code></td><td>Create/edit form HTML (loads the record on edit, coerces by type, POSTs/PATCHes to REST).</td></tr>
+<tr><td><code>renderInput(field, value?)</code> / <code>renderFieldRow(field, value?)</code></td><td>One widget / one labelled field row for a <code>Field</code>.</td></tr>
+<tr><td><code>renderShell(opts)</code></td><td>The two-pane panel chrome (sidebar nav + content); accepts a flat <code>entities</code> list or grouped <code>nav</code>.</td></tr>
+<tr><td><code>richtextEditor</code> / <code>richtextScript</code> / <code>RICHTEXT_CSS</code></td><td>The dependency-free markdown rich-text editor (toolbar + Write/Preview) and its client init + styles.</td></tr>
+<tr><td><code>mediaEditor</code> / <code>mediaScript</code> / <code>MEDIA_CSS</code></td><td>The media/upload widget (URL input + preview + optional file picker) and its client init + styles.</td></tr>
+<tr><td><code>PANEL_CSS</code></td><td>The panel's theme stylesheet (CSS-variable vocabulary).</td></tr>
+</tbody>
+</table>
+<p>Types: <code>PanelOptions</code>, <code>StatCard</code>, <code>PanelSection</code>, <code>PanelGroup</code>, <code>EntityModel</code>, <code>Field</code>, <code>FieldType</code>, <code>FieldsOptions</code>, <code>ListOptions</code>, <code>FormOptions</code>, <code>ShellOptions</code>, <code>NavGroup</code>, <code>NavItem</code>.</p>
+<h2>Boundary</h2>
+<p><code>@suluk/panel</code> <strong>renders; it does not host or persist</strong> (the Suluk L3 line — render/generate, never host). It emits HTML + client JS that drive <em>your</em> contract's REST endpoints; the database, the auth/session, and file storage stay app-side:</p>
+<ul>
+<li><strong>Inject the document.</strong> The panel reads a v4 doc you pass in (or project per request). It never owns the spec.</li>
+<li><strong>Inject the gate.</strong> <code>authorize</code> is yours; the panel defaults to deny-all. CRUD availability is read off the (projected) operations — projection is how you scope per role.</li>
+<li><strong>Inject the bytes.</strong> Media uploads POST to <em>your</em> <code>uploadPath</code> (e.g. an R2-backed route) that returns <code>{ url }</code>. Without one, media fields are paste-a-URL. Storage is the host's concern.</li>
+<li><strong>No DB adapter.</strong> Lists, forms, and deletes are <code>fetch</code> calls to the contract's own endpoints — so there's no second source of truth to drift.</li>
+</ul>
+<h2>License</h2>
+<p>Apache-2.0</p></div>
+    <h2>Public API</h2><div class="chips"><code class="chip">EntityModel</code><code class="chip">entityModels</code><code class="chip">Field</code><code class="chip">fieldsOf</code><code class="chip">FieldsOptions</code><code class="chip">FieldType</code><code class="chip">FormOptions</code><code class="chip">humanize</code><code class="chip">ListOptions</code><code class="chip">MEDIA_CSS</code><code class="chip">mediaEditor</code><code class="chip">mediaScript</code><code class="chip">NavGroup</code><code class="chip">NavItem</code><code class="chip">PANEL_CSS</code><code class="chip">panelApp</code><code class="chip">PanelGroup</code><code class="chip">PanelOptions</code><code class="chip">PanelSection</code><code class="chip">renderFieldRow</code><code class="chip">renderForm</code><code class="chip">renderInput</code><code class="chip">renderList</code><code class="chip">renderShell</code><code class="chip">RICHTEXT_CSS</code><code class="chip">richtextEditor</code><code class="chip">richtextScript</code><code class="chip">ShellOptions</code><code class="chip">StatCard</code><code class="chip">titleField</code></div>
+    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">hono (peer)</code></div>
+    
+  </article></main>
+<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+</body></html>

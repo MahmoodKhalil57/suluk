@@ -18,13 +18,53 @@
 <main>
   <article class="package">
     <p class="crumb"><a href="index.html#packages">Packages</a> / suluk-vscode</p>
-    <h1>suluk-vscode <span class="ver">v0.1.10</span></h1>
+    <h1>suluk-vscode <span class="ver">v0.1.16</span></h1>
     <p class="lead">The unifying cockpit for the Suluk declarative cycle: validate, audit, preview (Scalar/Swagger), and generate stores/UI from one v4 source. CANDIDATE tooling — not official OAS.</p>
-    <h2>Install</h2><pre><code>bun add suluk-vscode</code></pre>
-    <h2>Overview</h2><div class="prose"><p>_No overview._</p></div>
     
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/cockpit</code></div>
-    <h2>Modules</h2><dl class="modules"><dt><code>extension.ts</code></dt><dd>The VSCode extension shell — the UNIFYING COCKPIT. One v4 &quot;Suluk&quot; document is the hub, and this surface</dd><dt><code>sample.ts</code></dt><dd>A self-contained OpenAPI v4 &quot;Suluk&quot; sample, opened by &quot;Suluk: Open a sample API&quot; so the cockpit lights up</dd></dl>
+    <div class="prose readme"><h1>Suluk — OpenAPI v4 (Candidate)</h1>
+<p>The unifying cockpit for the <strong>Suluk</strong> declarative cycle: author one OpenAPI v4 &quot;Suluk&quot; candidate source and drive the whole loop from inside VS Code.</p>
+<blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<p>This is a VS Code <strong>extension</strong> (<code>MahmoodKhalil.suluk-vscode</code>), not a <code>bun add</code> library. Install it from the Extensions view (<code>Ctrl+Shift+X</code> → search <strong>Suluk</strong>), or build + run it from source:</p>
+<pre><code class="lang-sh">bun install
+bun run build          # bundles src/extension.ts → dist/extension.js</code></pre>
+<p>Then press <code>F5</code> in VS Code to launch the Extension Development Host, or package it with <code>vsce package</code> and install the resulting <code>.vsix</code>. On activation a <strong>Suluk</strong> container appears in the activity bar.</p>
+<h2>Features</h2>
+<ul>
+<li><strong>Validate</strong> a v4 document against the candidate meta-schema.</li>
+<li><strong>Audit</strong> documentation coverage.</li>
+<li><strong>Preview</strong> the contract rendered with Scalar or Swagger UI.</li>
+<li><strong>View as</strong> different principal scopes (per-viewer docs).</li>
+<li><strong>Generate</strong> a shadcn form/table, a Nano Stores client, or a full app (backend + frontend)</li>
+</ul>
+<p>  from one v4 source.</p>
+<ul>
+<li><strong>Run contract checks</strong>, export the v4 document, export the shadcn registry.</li>
+<li><strong>Deploy to Cloudflare</strong> (Workers + D1 + static assets).</li>
+</ul>
+<h2>Getting started</h2>
+<p>Open the Command Palette and run <strong>Suluk: Open a sample API</strong>, or open a <code>.yaml</code>/<code>.json</code> file whose <code>openapi:</code> starts with <code>4</code>. The <strong>Suluk</strong> activity-bar container then lights up with three views:</p>
+<ul>
+<li><strong>Cycle</strong> — every layer of the contract (data · contract · auth · docs · state · UI · cost · tests),</li>
+</ul>
+<p>  each row offering the command that acts on it (validate, preview, generate, …).</p>
+<ul>
+<li><strong>Builder</strong> — composes a full stack from your entities (pages → sections → blocks → components) and</li>
+</ul>
+<p>  generates the app + a shadcn registry.</p>
+<ul>
+<li><strong>Environments</strong> — registered deployments; connect to load a live contract, diff against local,</li>
+</ul>
+<p>  open the live cost ledger / app / Scalar docs.</p>
+<h2>Commands</h2>
+<p>Open the Command Palette and type <strong>Suluk:</strong> to see every command. Highlights: <strong>Validate v4 document</strong>, <strong>Audit documentation coverage</strong>, <strong>Preview in Scalar / Swagger UI</strong>, <strong>View as (principal scopes)</strong>, <strong>Generate shadcn form/table</strong>, <strong>Generate Nano Stores client</strong>, <strong>Generate full app</strong>, <strong>Run contract checks</strong>, <strong>Export v4 document / shadcn registry</strong>, <strong>Converge (coherence audit)</strong>, <strong>Ship readiness checklist</strong>, and <strong>Deploy to Cloudflare</strong>.</p>
+<h2>Requirements</h2>
+<p>VS Code <code>^1.85.0</code>. The extension's brain is the <code>@suluk/cockpit</code>, <code>@suluk/core</code>, <code>@suluk/models</code>, and <code>@suluk/agents</code> packages — it <em>renders and generates</em> from a v4 contract; it never hosts the running app.</p>
+<h2>License</h2>
+<p>Apache-2.0.</p></div>
+    
+    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/cockpit</code><code class="chip">@suluk/models</code><code class="chip">@suluk/agents</code></div>
+    
   </article></main>
 <footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
 </body></html>
