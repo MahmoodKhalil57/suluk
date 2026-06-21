@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/env</p>
-    <h1>@suluk/env <span class="ver">v0.1.0</span></h1>
-    <p class="lead">Config + secrets as a single source of truth: declare each env var ONCE (typed, per-surface), encrypt secret values with POST-QUANTUM crypto (ML-KEM-768 + AES-256-GCM) so the .env is safe to commit to git and share over public channels, and project the manifest into every surface — local, Cloudflare, preview, a teammate's machine, the VS Code extension, the admin panel. dotenvx's commit-safely model, quantum-safe, Suluk-native. CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/env</code></pre>
-    <div class="prose readme"><p>Declare each variable <strong>once</strong>, encrypt the secret <strong>values</strong> with post-quantum crypto so the <code>.env</code> is safe to commit to git and share over public channels, and project that one declaration into <strong>every surface</strong>: local dev, Cloudflare Workers, preview, a teammate's machine, the VS Code extension, the admin panel.</p>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/env</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/env</h1>
+      <span class="badge badge-ghost">v0.1.0</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">Config + secrets as a single source of truth: declare each env var ONCE (typed, per-surface), encrypt secret values with POST-QUANTUM crypto (ML-KEM-768 + AES-256-GCM) so the .env is safe to commit to git and share over public channels, and project the manifest into every surface — local, Cloudflare, preview, a teammate's machine, the VS Code extension, the admin panel. dotenvx's commit-safely model, quantum-safe, Suluk-native. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      <h2>Install</h2><pre><code>bun add @suluk/env</code></pre>
+      <p>Declare each variable <strong>once</strong>, encrypt the secret <strong>values</strong> with post-quantum crypto so the <code>.env</code> is safe to commit to git and share over public channels, and project that one declaration into <strong>every surface</strong>: local dev, Cloudflare Workers, preview, a teammate's machine, the VS Code extension, the admin panel.</p>
 <p>It's <a href="https://github.com/dotenvx/dotenvx">dotenvx</a>'s commit-safely model (a public key encrypts, a private key decrypts, the encrypted <code>.env</code> is committable), with two differences:</p>
 <ol>
 <li><strong>Post-quantum.</strong> Values are sealed with <strong>ML-KEM-768</strong> (FIPS-203 key-encapsulation) + <strong>AES-256-GCM</strong>,</li>
@@ -91,10 +98,13 @@ const config = env.assertEnv(process.env, {             // throws on any error; 
 });</code></pre>
 <h2>Cryptographic construction</h2>
 <p>Per value: <code>encapsulate(publicKey) → (kemCiphertext, sharedSecret)</code>; <code>AES-256-GCM(sharedSecret, iv, plaintext)</code>. The token is <code>encrypted:mlkem768:</code> + base64(<code>kemCiphertext[1088] | iv[12] | aesCiphertext+tag</code>). A fresh KEM encapsulation per value is what lets you add one variable with only the public key. A wrong key or a tampered token fails the GCM authentication tag → decryption throws.</p>
-<blockquote>Candidate tooling for the Suluk (OpenAPI v4) ecosystem. Apache-2.0.</blockquote></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">AssertOptions</code><code class="chip">decrypt</code><code class="chip">decryptContent</code><code class="chip">DefinedEnv</code><code class="chip">defineEnv</code><code class="chip">encrypt</code><code class="chip">encryptContent</code><code class="chip">EnvIssue</code><code class="chip">EnvSpec</code><code class="chip">HealthStatus</code><code class="chip">isEncrypted</code><code class="chip">IssueSeverity</code><code class="chip">keygen</code><code class="chip">Keypair</code><code class="chip">loadEnv</code><code class="chip">LoadOptions</code><code class="chip">ManifestEntry</code><code class="chip">Parsed</code><code class="chip">parseEnv</code><code class="chip">PRIVATE_KEY_NAME</code><code class="chip">PUBLIC_KEY_NAME</code><code class="chip">publicFromPrivate</code><code class="chip">resolveEnv</code><code class="chip">SCHEME</code><code class="chip">Surface</code><code class="chip">VarSpec</code></div>
-    <h2>Depends on</h2><div class="chips"><code class="chip">@noble/post-quantum</code></div>
-    
+<blockquote>Candidate tooling for the Suluk (OpenAPI v4) ecosystem. Apache-2.0.</blockquote>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">AssertOptions</span><span class="badge badge-sm badge-outline font-mono">decrypt</span><span class="badge badge-sm badge-outline font-mono">decryptContent</span><span class="badge badge-sm badge-outline font-mono">DefinedEnv</span><span class="badge badge-sm badge-outline font-mono">defineEnv</span><span class="badge badge-sm badge-outline font-mono">encrypt</span><span class="badge badge-sm badge-outline font-mono">encryptContent</span><span class="badge badge-sm badge-outline font-mono">EnvIssue</span><span class="badge badge-sm badge-outline font-mono">EnvSpec</span><span class="badge badge-sm badge-outline font-mono">HealthStatus</span><span class="badge badge-sm badge-outline font-mono">isEncrypted</span><span class="badge badge-sm badge-outline font-mono">IssueSeverity</span><span class="badge badge-sm badge-outline font-mono">keygen</span><span class="badge badge-sm badge-outline font-mono">Keypair</span><span class="badge badge-sm badge-outline font-mono">loadEnv</span><span class="badge badge-sm badge-outline font-mono">LoadOptions</span><span class="badge badge-sm badge-outline font-mono">ManifestEntry</span><span class="badge badge-sm badge-outline font-mono">Parsed</span><span class="badge badge-sm badge-outline font-mono">parseEnv</span><span class="badge badge-sm badge-outline font-mono">PRIVATE_KEY_NAME</span><span class="badge badge-sm badge-outline font-mono">PUBLIC_KEY_NAME</span><span class="badge badge-sm badge-outline font-mono">publicFromPrivate</span><span class="badge badge-sm badge-outline font-mono">resolveEnv</span><span class="badge badge-sm badge-outline font-mono">SCHEME</span><span class="badge badge-sm badge-outline font-mono">Surface</span><span class="badge badge-sm badge-outline font-mono">VarSpec</span></div>
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@noble/post-quantum</span></div>
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/cloudflare</p>
-    <h1>@suluk/cloudflare <span class="ver">v0.1.2</span></h1>
-    <p class="lead">Butter-smooth, API-driven provisioning + deployment for a Suluk app on Cloudflare — no wrangler CLI. A typed REST client + idempotent provisioners (D1, KV, R2, secrets) + the Workers module-script + static-assets upload flow, orchestrated into one deploy(). The platform that ships itself, shipping itself. CANDIDATE tooling.</p>
-    
-    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/cloudflare</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/cloudflare</h1>
+      <span class="badge badge-ghost">v0.1.2</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">Butter-smooth, API-driven provisioning + deployment for a Suluk app on Cloudflare — no wrangler CLI. A typed REST client + idempotent provisioners (D1, KV, R2, secrets) + the Workers module-script + static-assets upload flow, orchestrated into one deploy(). The platform that ships itself, shipping itself. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      
+      <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <h2>Install</h2>
 <pre><code class="lang-sh">bun add @suluk/cloudflare</code></pre>
 <h2>What it does</h2>
@@ -117,10 +124,13 @@ app.use(&quot;*&quot;, enforceRateLimit({ store, /* …operationOf, rateLimitOf,
 <p>This package <strong>executes</strong> — it holds your token and calls Cloudflare. But it is pure over its inputs: <code>deploy()</code> takes a <code>DeployPlan</code> of <strong>bytes, not paths</strong> (the module source, the <code>AssetFile[]</code>, the migration SQL), so the whole library is unit-testable without disk or network. The <strong>disk-reading wrapper is the app's seam</strong> — walking <code>dist/</code>, reading the worker bundle and migration files lives in your <code>scripts/deploy.ts</code>, not in here (see saasuluk's <code>scripts/deploy.ts</code>). Inject the bytes; inject the <code>fetch</code>.</p>
 <p>What stays out of the plan today: <strong>routes / custom domains</strong> aren't modeled — attach them via <code>CloudflareClient.request</code> (the typed escape hatch). If that pattern recurs, that's the candidate to fold into <code>DeployPlan</code>.</p>
 <h2>License</h2>
-<p>Apache-2.0.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">applyMigrations</code><code class="chip">AssetFile</code><code class="chip">assetHash</code><code class="chip">AssetRuleFiles</code><code class="chip">CloudflareClient</code><code class="chip">CloudflareClientOptions</code><code class="chip">CloudflareError</code><code class="chip">ConsumeOptions</code><code class="chip">ConsumeResult</code><code class="chip">D1Database</code><code class="chip">deploy</code><code class="chip">DeployLog</code><code class="chip">DeployPlan</code><code class="chip">DeployResult</code><code class="chip">deployWith</code><code class="chip">deployWorker</code><code class="chip">DeployWorkerOptions</code><code class="chip">extractAssetRuleFiles</code><code class="chip">KvLike</code><code class="chip">KvNamespace</code><code class="chip">kvRateLimitStore</code><code class="chip">memoryRateLimitStore</code><code class="chip">Migration</code><code class="chip">provisionD1</code><code class="chip">provisionKvNamespace</code><code class="chip">provisionR2Bucket</code><code class="chip">putCronTriggers</code><code class="chip">putSecret</code><code class="chip">putSecrets</code><code class="chip">queryD1</code><code class="chip">RateLimitStore</code><code class="chip">RequestOptions</code><code class="chip">uploadAssets</code><code class="chip">UploadSession</code><code class="chip">WorkerBinding</code></div>
-    
-    
+<p>Apache-2.0.</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">applyMigrations</span><span class="badge badge-sm badge-outline font-mono">AssetFile</span><span class="badge badge-sm badge-outline font-mono">assetHash</span><span class="badge badge-sm badge-outline font-mono">AssetRuleFiles</span><span class="badge badge-sm badge-outline font-mono">CloudflareClient</span><span class="badge badge-sm badge-outline font-mono">CloudflareClientOptions</span><span class="badge badge-sm badge-outline font-mono">CloudflareError</span><span class="badge badge-sm badge-outline font-mono">ConsumeOptions</span><span class="badge badge-sm badge-outline font-mono">ConsumeResult</span><span class="badge badge-sm badge-outline font-mono">D1Database</span><span class="badge badge-sm badge-outline font-mono">deploy</span><span class="badge badge-sm badge-outline font-mono">DeployLog</span><span class="badge badge-sm badge-outline font-mono">DeployPlan</span><span class="badge badge-sm badge-outline font-mono">DeployResult</span><span class="badge badge-sm badge-outline font-mono">deployWith</span><span class="badge badge-sm badge-outline font-mono">deployWorker</span><span class="badge badge-sm badge-outline font-mono">DeployWorkerOptions</span><span class="badge badge-sm badge-outline font-mono">extractAssetRuleFiles</span><span class="badge badge-sm badge-outline font-mono">KvLike</span><span class="badge badge-sm badge-outline font-mono">KvNamespace</span><span class="badge badge-sm badge-outline font-mono">kvRateLimitStore</span><span class="badge badge-sm badge-outline font-mono">memoryRateLimitStore</span><span class="badge badge-sm badge-outline font-mono">Migration</span><span class="badge badge-sm badge-outline font-mono">provisionD1</span><span class="badge badge-sm badge-outline font-mono">provisionKvNamespace</span><span class="badge badge-sm badge-outline font-mono">provisionR2Bucket</span><span class="badge badge-sm badge-outline font-mono">putCronTriggers</span><span class="badge badge-sm badge-outline font-mono">putSecret</span><span class="badge badge-sm badge-outline font-mono">putSecrets</span><span class="badge badge-sm badge-outline font-mono">queryD1</span><span class="badge badge-sm badge-outline font-mono">RateLimitStore</span><span class="badge badge-sm badge-outline font-mono">RequestOptions</span><span class="badge badge-sm badge-outline font-mono">uploadAssets</span><span class="badge badge-sm badge-outline font-mono">UploadSession</span><span class="badge badge-sm badge-outline font-mono">WorkerBinding</span></div>
+      
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,13 +9,16 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html" class="on">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html" class="text-primary font-medium">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main><article class="prose"><h1>Community</h1>
+<main class="max-w-4xl mx-auto px-4 py-10"><article class="prose-suluk"><h1>Community</h1>
 <p>Suluk is meant to be <strong>extended and built upon</strong>. Here is where that happens.</p>
 <h2>Talk about it</h2>
 <ul>
@@ -34,5 +37,7 @@
 </ul>
 <p>See <a href="contributing.html">Contributing</a> for the conventions, and <a href="architecture.html">Architecture</a> for the shape of the whole thing.</p>
 <blockquote>These docs were generated from the repository by <code>@suluk/docs</code> and are hosted on GitHub Pages — the same way your fork's docs can be.</blockquote></article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

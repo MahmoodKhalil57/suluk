@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/reference</p>
-    <h1>@suluk/reference <span class="ver">v0.2.1</span></h1>
-    <p class="lead">Render an OpenAPI v4 'Suluk' document NATIVELY — as v4, not via the 3.1 downgrade. Shows what a 3.x renderer (Scalar/Swagger) cannot: the 4.0.0-candidate identity, the requests-shape (a path has NAMED requests, incl. multiple sharing one method), and the cost facet (x-suluk-cost) as a first-class per-operation badge. Self-contained server-rendered HTML — no client build, Workers-safe. CANDIDATE tooling.</p>
-    
-    <div class="prose readme"><p>One typed v4 contract in, a self-contained reference page out: an operation browser, a cost explorer, an access &quot;View-as&quot; lens, an ADA signature-resolution playground, and an input-hardening report. No client build, no CDN, no <code>eval</code> — it runs unchanged in a Cloudflare Worker.</p>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/reference</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/reference</h1>
+      <span class="badge badge-ghost">v0.2.1</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">Render an OpenAPI v4 'Suluk' document NATIVELY — as v4, not via the 3.1 downgrade. Shows what a 3.x renderer (Scalar/Swagger) cannot: the 4.0.0-candidate identity, the requests-shape (a path has NAMED requests, incl. multiple sharing one method), and the cost facet (x-suluk-cost) as a first-class per-operation badge. Self-contained server-rendered HTML — no client build, Workers-safe. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      
+      <p>One typed v4 contract in, a self-contained reference page out: an operation browser, a cost explorer, an access &quot;View-as&quot; lens, an ADA signature-resolution playground, and an input-hardening report. No client build, no CDN, no <code>eval</code> — it runs unchanged in a Cloudflare Worker.</p>
 <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <h2>Install</h2>
 <pre><code class="lang-bash">bun add @suluk/reference</code></pre>
@@ -137,10 +144,13 @@ referenceHtml(doc, { plugins: [plugin] });</code></pre>
 <p>This is an <strong>L3 renderer: it renders, it never hosts.</strong> The output is one inert HTML string — no runtime to call home to, no black box. The interactive features depend on <strong>same-origin URLs you provide and own</strong>: <code>costLedgerUrl</code> (your cost ledger), <code>whoamiUrl</code> (your session→viewer endpoint), <code>sdkUrl</code> / <code>conformanceUrl</code> (download affordances), and the try-it executor's same-origin <code>fetch</code>. The page reads facets off the document it's handed — it does <strong>not</strong> scrub them; <strong>projecting the right document per viewer stays app-side</strong> (use the exported <code>reachState</code> / <code>DEFAULT_VIEWERS</code> to do it, then pass the projected doc in).</p>
 <p>All facet computation is <strong>pure functions over the v4 document</strong> (no DOM), and every panel is a pure HTML-returning function — embeddable, testable in isolation, and Workers-safe. New v4-only insights belong here, as panels.</p>
 <h2>License</h2>
-<p>Apache-2.0.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">AccessFacet</code><code class="chip">adaPlayground</code><code class="chip">assertGrade</code><code class="chip">auditDocument</code><code class="chip">auditOperation</code><code class="chip">codeSamples</code><code class="chip">constraintNotes</code><code class="chip">costExplorer</code><code class="chip">CostModel</code><code class="chip">costRollup</code><code class="chip">crossCut</code><code class="chip">CrossCutRow</code><code class="chip">DEFAULT_VIEWERS</code><code class="chip">DocAudit</code><code class="chip">escapeHtml</code><code class="chip">facetsPanel</code><code class="chip">Grade</code><code class="chip">hardenBadge</code><code class="chip">hardeningPanel</code><code class="chip">normalize</code><code class="chip">NormalizedOperation</code><code class="chip">OpAudit</code><code class="chip">PortalEntry</code><code class="chip">portalHtml</code><code class="chip">PortalOptions</code><code class="chip">portalResponse</code><code class="chip">projectionMap</code><code class="chip">reachable</code><code class="chip">reachState</code><code class="chip">RefDoc</code><code class="chip">referenceHtml</code><code class="chip">referenceInsightsHtml</code><code class="chip">referenceInsightsResponse</code><code class="chip">ReferenceOptions</code><code class="chip">ReferencePlugin</code><code class="chip">referenceResponse</code><code class="chip">sampleOf</code><code class="chip">schemaHtml</code><code class="chip">Viewer</code></div>
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/harden</code></div>
-    
+<p>Apache-2.0.</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">AccessFacet</span><span class="badge badge-sm badge-outline font-mono">adaPlayground</span><span class="badge badge-sm badge-outline font-mono">assertGrade</span><span class="badge badge-sm badge-outline font-mono">auditDocument</span><span class="badge badge-sm badge-outline font-mono">auditOperation</span><span class="badge badge-sm badge-outline font-mono">codeSamples</span><span class="badge badge-sm badge-outline font-mono">constraintNotes</span><span class="badge badge-sm badge-outline font-mono">costExplorer</span><span class="badge badge-sm badge-outline font-mono">CostModel</span><span class="badge badge-sm badge-outline font-mono">costRollup</span><span class="badge badge-sm badge-outline font-mono">crossCut</span><span class="badge badge-sm badge-outline font-mono">CrossCutRow</span><span class="badge badge-sm badge-outline font-mono">DEFAULT_VIEWERS</span><span class="badge badge-sm badge-outline font-mono">DocAudit</span><span class="badge badge-sm badge-outline font-mono">escapeHtml</span><span class="badge badge-sm badge-outline font-mono">facetsPanel</span><span class="badge badge-sm badge-outline font-mono">Grade</span><span class="badge badge-sm badge-outline font-mono">hardenBadge</span><span class="badge badge-sm badge-outline font-mono">hardeningPanel</span><span class="badge badge-sm badge-outline font-mono">normalize</span><span class="badge badge-sm badge-outline font-mono">NormalizedOperation</span><span class="badge badge-sm badge-outline font-mono">OpAudit</span><span class="badge badge-sm badge-outline font-mono">PortalEntry</span><span class="badge badge-sm badge-outline font-mono">portalHtml</span><span class="badge badge-sm badge-outline font-mono">PortalOptions</span><span class="badge badge-sm badge-outline font-mono">portalResponse</span><span class="badge badge-sm badge-outline font-mono">projectionMap</span><span class="badge badge-sm badge-outline font-mono">reachable</span><span class="badge badge-sm badge-outline font-mono">reachState</span><span class="badge badge-sm badge-outline font-mono">RefDoc</span><span class="badge badge-sm badge-outline font-mono">referenceHtml</span><span class="badge badge-sm badge-outline font-mono">referenceInsightsHtml</span><span class="badge badge-sm badge-outline font-mono">referenceInsightsResponse</span><span class="badge badge-sm badge-outline font-mono">ReferenceOptions</span><span class="badge badge-sm badge-outline font-mono">ReferencePlugin</span><span class="badge badge-sm badge-outline font-mono">referenceResponse</span><span class="badge badge-sm badge-outline font-mono">sampleOf</span><span class="badge badge-sm badge-outline font-mono">schemaHtml</span><span class="badge badge-sm badge-outline font-mono">Viewer</span></div>
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/core</span><span class="badge badge-sm badge-ghost font-mono">@suluk/harden</span></div>
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

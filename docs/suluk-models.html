@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/models</p>
-    <h1>@suluk/models <span class="ver">v0.1.3</span></h1>
-    <p class="lead">A weekly, PUBLIC-DATA-ONLY catalog of OpenRouter models + a selector: a suluk skill declares NEEDS (hard filters) + a small PREFERENCE (a named profile), and selectModel picks the best CURRENT model — never a hard-coded id. Decidable OpenRouter facts as numbers; noisy benchmarks as COARSE TIERS with {source, asOf}; no cross-axis composite (blending is the selector's job). CANDIDATE tooling — NOT official OAS.</p>
-    
-    <div class="prose readme"><h1>@suluk/models</h1>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/models</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/models</h1>
+      <span class="badge badge-ghost">v0.1.3</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">A weekly, PUBLIC-DATA-ONLY catalog of OpenRouter models + a selector: a suluk skill declares NEEDS (hard filters) + a small PREFERENCE (a named profile), and selectModel picks the best CURRENT model — never a hard-coded id. Decidable OpenRouter facts as numbers; noisy benchmarks as COARSE TIERS with {source, asOf}; no cross-axis composite (blending is the selector's job). CANDIDATE tooling — NOT official OAS.</p>
+    <div class="prose-suluk mt-6">
+      
+      <h1>@suluk/models</h1>
 <p><strong>A public-data-only model catalog + a selector — a skill declares NEEDS, the catalog picks the best CURRENT model, never a hard-coded id.</strong></p>
 <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <h2>Install</h2>
@@ -122,10 +129,13 @@ catalog = applyTierOverlay(catalog, KNOWN_TIERS, { source: &quot;public-leaderbo
 <p>This package <strong>selects</strong>, it does not <strong>call</strong>. It hands back ranked ids + a why-explainer; resolving that to a runtime target (pin a concrete id, fence an OpenRouter <code>openrouter/auto</code> router by the survivor set, or defer to a <code>~latest</code> alias) and actually invoking the model lives downstream in <code>@suluk/agents</code> and the runtime client.</p>
 <p>The fact transform is pure and never reaches for the clock or the network: <code>asOf</code> is always <strong>injected</strong> (so a run is reproducible) and the only network call, <code>fetchOpenRouterCatalog</code>, is a thin wrapper you run from a weekly script/CI. The benchmark-tier overlay (<code>intel.*</code>) is a separate, lower-cadence, human-reviewed step — see <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/models/REFRESH.md"><code>REFRESH.md</code></a>. Anything the catalog can't prove stays UNKNOWN; it is never imputed.</p>
 <h2>License</h2>
-<p>Apache-2.0</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">applyBucketing</code><code class="chip">applyTierOverlay</code><code class="chip">AxisRule</code><code class="chip">BUCKETING_RULES</code><code class="chip">catalogFrom</code><code class="chip">Cell</code><code class="chip">DataRetention</code><code class="chip">deriveRequirements</code><code class="chip">fetchOpenRouterCatalog</code><code class="chip">HardFilters</code><code class="chip">IntelAxis</code><code class="chip">KNOWN_TIERS</code><code class="chip">ModelCatalog</code><code class="chip">ModelRecord</code><code class="chip">normalizeOpenRouter</code><code class="chip">normalizeOpenRouterModel</code><code class="chip">OPENROUTER_CATALOG</code><code class="chip">ORModel</code><code class="chip">Preferences</code><code class="chip">Profile</code><code class="chip">PROFILES</code><code class="chip">RankedModel</code><code class="chip">ResolvedProfile</code><code class="chip">SEED_CATALOG</code><code class="chip">selectModel</code><code class="chip">SelectResult</code><code class="chip">snapshotHash</code><code class="chip">Tier</code></div>
-    
-    
+<p>Apache-2.0</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">applyBucketing</span><span class="badge badge-sm badge-outline font-mono">applyTierOverlay</span><span class="badge badge-sm badge-outline font-mono">AxisRule</span><span class="badge badge-sm badge-outline font-mono">BUCKETING_RULES</span><span class="badge badge-sm badge-outline font-mono">catalogFrom</span><span class="badge badge-sm badge-outline font-mono">Cell</span><span class="badge badge-sm badge-outline font-mono">DataRetention</span><span class="badge badge-sm badge-outline font-mono">deriveRequirements</span><span class="badge badge-sm badge-outline font-mono">fetchOpenRouterCatalog</span><span class="badge badge-sm badge-outline font-mono">HardFilters</span><span class="badge badge-sm badge-outline font-mono">IntelAxis</span><span class="badge badge-sm badge-outline font-mono">KNOWN_TIERS</span><span class="badge badge-sm badge-outline font-mono">ModelCatalog</span><span class="badge badge-sm badge-outline font-mono">ModelRecord</span><span class="badge badge-sm badge-outline font-mono">normalizeOpenRouter</span><span class="badge badge-sm badge-outline font-mono">normalizeOpenRouterModel</span><span class="badge badge-sm badge-outline font-mono">OPENROUTER_CATALOG</span><span class="badge badge-sm badge-outline font-mono">ORModel</span><span class="badge badge-sm badge-outline font-mono">Preferences</span><span class="badge badge-sm badge-outline font-mono">Profile</span><span class="badge badge-sm badge-outline font-mono">PROFILES</span><span class="badge badge-sm badge-outline font-mono">RankedModel</span><span class="badge badge-sm badge-outline font-mono">ResolvedProfile</span><span class="badge badge-sm badge-outline font-mono">SEED_CATALOG</span><span class="badge badge-sm badge-outline font-mono">selectModel</span><span class="badge badge-sm badge-outline font-mono">SelectResult</span><span class="badge badge-sm badge-outline font-mono">snapshotHash</span><span class="badge badge-sm badge-outline font-mono">Tier</span></div>
+      
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

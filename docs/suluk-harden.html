@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/harden</p>
-    <h1>@suluk/harden <span class="ver">v0.1.1</span></h1>
-    <p class="lead">Schema HARDENING as a derived contract facet: audit a v4 'Suluk' document's input schemas for the validations that keep weird/oversized input from breaking the system — every string a maxLength + a pattern, every number a maximum, every array a maxItems, every object closed + typed, no any/unknown — score it (A-F), surface the grade to INCENTIVISE the author, and gate CI on a minimum. CANDIDATE tooling.</p>
-    
-    <div class="prose readme"><h1>@suluk/harden</h1>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/harden</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/harden</h1>
+      <span class="badge badge-ghost">v0.1.1</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">Schema HARDENING as a derived contract facet: audit a v4 'Suluk' document's input schemas for the validations that keep weird/oversized input from breaking the system — every string a maxLength + a pattern, every number a maximum, every array a maxItems, every object closed + typed, no any/unknown — score it (A-F), surface the grade to INCENTIVISE the author, and gate CI on a minimum. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      
+      <h1>@suluk/harden</h1>
 <p><strong>Schema hardening as a derived, scored contract facet — grade a v4 document's input schemas A–F, fail CI below a floor, and fill the gaps with one transform.</strong></p>
 <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <h2>Install</h2>
@@ -118,10 +125,13 @@ const tightened = hardenSchema(schema, opts);</code></pre>
 <p>The audit↔transform pair is the template for &quot;ship both halves&quot;: the audit grades the gaps, <code>harden</code> fills them. Hardening is a <strong>derived contract facet</strong> — like <code>x-suluk-cost</code>/<code>x-suluk-access</code>/<code>x-suluk-source</code>, it is <em>projected from</em> the contract, not authored separately.</p>
 <p>This package stays L3 — <strong>render/generate, never host</strong>. It reads and rewrites the schemas inside a v4 document and returns reports/transformed documents; it does not run a server, validate live wire requests, or store anything. You inject the document (the built v4 doc) and consume the result (a grade, findings, or a hardened copy). Surfacing the grade to a developer (a docs panel, an editor bar) is the consumer's job; enforcing the bounds at runtime is the wire's job.</p>
 <h2>License</h2>
-<p>Apache-2.0</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">assertGrade</code><code class="chip">Audit</code><code class="chip">auditDocument</code><code class="chip">auditOperation</code><code class="chip">DocAudit</code><code class="chip">Finding</code><code class="chip">grade</code><code class="chip">Grade</code><code class="chip">hardenDocument</code><code class="chip">HardenOptions</code><code class="chip">hardenSchema</code><code class="chip">OpAudit</code><code class="chip">Severity</code></div>
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code></div>
-    
+<p>Apache-2.0</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">assertGrade</span><span class="badge badge-sm badge-outline font-mono">Audit</span><span class="badge badge-sm badge-outline font-mono">auditDocument</span><span class="badge badge-sm badge-outline font-mono">auditOperation</span><span class="badge badge-sm badge-outline font-mono">DocAudit</span><span class="badge badge-sm badge-outline font-mono">Finding</span><span class="badge badge-sm badge-outline font-mono">grade</span><span class="badge badge-sm badge-outline font-mono">Grade</span><span class="badge badge-sm badge-outline font-mono">hardenDocument</span><span class="badge badge-sm badge-outline font-mono">HardenOptions</span><span class="badge badge-sm badge-outline font-mono">hardenSchema</span><span class="badge badge-sm badge-outline font-mono">OpAudit</span><span class="badge badge-sm badge-outline font-mono">Severity</span></div>
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/core</span></div>
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

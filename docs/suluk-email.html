@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/email</p>
-    <h1>@suluk/email <span class="ver">v0.1.2</span></h1>
-    <p class="lead">The missing EmailProvider binding + a pure renderEmailHtml(options)→HTML generator with a per-event/per-locale branded template set (verify/reset/change-email/delete/order-confirmation/order-status/newsletter). Emits content the app SENDS — never a hosted mailer: consoleProvider (dev) + a Workers-safe resendProvider (REST, no SDK) are swappable bindings. Consumes @suluk/i18n for strings. CANDIDATE tooling.</p>
-    
-    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/email</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/email</h1>
+      <span class="badge badge-ghost">v0.1.2</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">The missing EmailProvider binding + a pure renderEmailHtml(options)→HTML generator with a per-event/per-locale branded template set (verify/reset/change-email/delete/order-confirmation/order-status/newsletter). Emits content the app SENDS — never a hosted mailer: consoleProvider (dev) + a Workers-safe resendProvider (REST, no SDK) are swappable bindings. Consumes @suluk/i18n for strings. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      
+      <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <h2>Install</h2>
 <pre><code class="lang-sh">bun add @suluk/email</code></pre>
 <p>Strings flow through <code>@suluk/i18n</code> (a workspace dependency), so every template works out of the box in English and localizes — including RTL — when you supply a catalog.</p>
@@ -155,10 +162,13 @@ const tally = await syncNewsletter(audience, &quot;aud_123&quot;, rows);
 <h2>Boundary</h2>
 <p>This package <strong>renders and sends — it never hosts a mailer.</strong> <code>resendProvider</code> is a thin binding to an external service (like a rate-limit KV binding), not a Suluk-hosted mail service: it just <code>fetch</code>es the Resend REST API. The send mechanism and the dev/prod switch live here; what stays app-side is your own branding, copy, and the <code>{ to, from }</code> addressing you spread in — and the API key, which you inject (pulled from <code>@suluk/env</code> and passed through, since on Workers the secret comes from the Worker env, not <code>process.env</code>). Templates are pure values: deterministic, testable, localized via an injected <code>@suluk/i18n</code> catalog.</p>
 <h2>License</h2>
-<p>Apache-2.0.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">AudienceContact</code><code class="chip">AudienceProvider</code><code class="chip">AudienceResult</code><code class="chip">BrandedEmailOptions</code><code class="chip">changeEmailEmail</code><code class="chip">consoleAudience</code><code class="chip">ConsoleAudienceOptions</code><code class="chip">consoleProvider</code><code class="chip">ConsoleProviderOptions</code><code class="chip">DEFAULT_EMAIL_STRINGS</code><code class="chip">deleteAccountEmail</code><code class="chip">EmailBrand</code><code class="chip">EmailMessage</code><code class="chip">EmailProvider</code><code class="chip">newsletterEmail</code><code class="chip">NewsletterRow</code><code class="chip">orderConfirmationEmail</code><code class="chip">OrderLine</code><code class="chip">orderStatusEmail</code><code class="chip">pickProvider</code><code class="chip">RenderContext</code><code class="chip">renderEmailHtml</code><code class="chip">resendAudience</code><code class="chip">ResendAudienceOptions</code><code class="chip">resendProvider</code><code class="chip">ResendProviderOptions</code><code class="chip">resetPasswordEmail</code><code class="chip">SendResult</code><code class="chip">syncNewsletter</code><code class="chip">SyncResult</code><code class="chip">TEMPLATE_STRINGS</code><code class="chip">TemplateContext</code><code class="chip">verifyEmail</code></div>
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/i18n</code></div>
-    
+<p>Apache-2.0.</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">AudienceContact</span><span class="badge badge-sm badge-outline font-mono">AudienceProvider</span><span class="badge badge-sm badge-outline font-mono">AudienceResult</span><span class="badge badge-sm badge-outline font-mono">BrandedEmailOptions</span><span class="badge badge-sm badge-outline font-mono">changeEmailEmail</span><span class="badge badge-sm badge-outline font-mono">consoleAudience</span><span class="badge badge-sm badge-outline font-mono">ConsoleAudienceOptions</span><span class="badge badge-sm badge-outline font-mono">consoleProvider</span><span class="badge badge-sm badge-outline font-mono">ConsoleProviderOptions</span><span class="badge badge-sm badge-outline font-mono">DEFAULT_EMAIL_STRINGS</span><span class="badge badge-sm badge-outline font-mono">deleteAccountEmail</span><span class="badge badge-sm badge-outline font-mono">EmailBrand</span><span class="badge badge-sm badge-outline font-mono">EmailMessage</span><span class="badge badge-sm badge-outline font-mono">EmailProvider</span><span class="badge badge-sm badge-outline font-mono">newsletterEmail</span><span class="badge badge-sm badge-outline font-mono">NewsletterRow</span><span class="badge badge-sm badge-outline font-mono">orderConfirmationEmail</span><span class="badge badge-sm badge-outline font-mono">OrderLine</span><span class="badge badge-sm badge-outline font-mono">orderStatusEmail</span><span class="badge badge-sm badge-outline font-mono">pickProvider</span><span class="badge badge-sm badge-outline font-mono">RenderContext</span><span class="badge badge-sm badge-outline font-mono">renderEmailHtml</span><span class="badge badge-sm badge-outline font-mono">resendAudience</span><span class="badge badge-sm badge-outline font-mono">ResendAudienceOptions</span><span class="badge badge-sm badge-outline font-mono">resendProvider</span><span class="badge badge-sm badge-outline font-mono">ResendProviderOptions</span><span class="badge badge-sm badge-outline font-mono">resetPasswordEmail</span><span class="badge badge-sm badge-outline font-mono">SendResult</span><span class="badge badge-sm badge-outline font-mono">syncNewsletter</span><span class="badge badge-sm badge-outline font-mono">SyncResult</span><span class="badge badge-sm badge-outline font-mono">TEMPLATE_STRINGS</span><span class="badge badge-sm badge-outline font-mono">TemplateContext</span><span class="badge badge-sm badge-outline font-mono">verifyEmail</span></div>
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/i18n</span></div>
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

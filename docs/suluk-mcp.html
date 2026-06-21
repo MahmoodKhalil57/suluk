@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/mcp</p>
-    <h1>@suluk/mcp <span class="ver">v0.1.2</span></h1>
-    <p class="lead">Project ONE OpenAPI v4 document into a Model Context Protocol (MCP) server: each operation becomes an MCP tool (read-only by default), served over the Streamable-HTTP JSON-RPC transport as a Hono-mountable app. Same contract that drives the API/SDK/docs/admin/panel now drives an agent-callable surface — zero hand-written tool schemas. CANDIDATE tooling — NOT official OAS.</p>
-    
-    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor <em>candidate</em> of the OpenAPI v4.0 (&quot;Moonwalk&quot;) line, not a ratified spec. The MCP projection here is a vendor extension; treat these artifacts as proposals, pin your versions, and expect churn.</blockquote>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/mcp</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/mcp</h1>
+      <span class="badge badge-ghost">v0.1.2</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">Project ONE OpenAPI v4 document into a Model Context Protocol (MCP) server: each operation becomes an MCP tool (read-only by default), served over the Streamable-HTTP JSON-RPC transport as a Hono-mountable app. Same contract that drives the API/SDK/docs/admin/panel now drives an agent-callable surface — zero hand-written tool schemas. CANDIDATE tooling — NOT official OAS.</p>
+    <div class="prose-suluk mt-6">
+      
+      <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor <em>candidate</em> of the OpenAPI v4.0 (&quot;Moonwalk&quot;) line, not a ratified spec. The MCP projection here is a vendor extension; treat these artifacts as proposals, pin your versions, and expect churn.</blockquote>
 <p>The same contract that drives your API, SDK, docs, admin, and panel now drives a <a href="https://modelcontextprotocol.io">Model Context Protocol</a> surface: every operation is projected into one MCP tool, served over the Streamable-HTTP JSON-RPC transport as a <a href="https://hono.dev">Hono</a>-mountable app. No hand-written tool schemas, no config drift — the contract is the single source.</p>
 <p>The projection (<code>toolsFrom</code>) and the protocol (<code>handleRpc</code>) are <strong>pure</strong> and independently testable; <code>mcpApp</code> wires the transport, and the <code>exec</code> seam turns a tool call back into an HTTP request against your own routes.</p>
 <h2>Install</h2>
@@ -148,10 +155,13 @@ new URL(req.url).pathname;   // &quot;/product/..%2F..%2Fetc%2Fpasswd&quot; — 
 </ul>
 <p>  package serves what it is told. Read-only-by-default is the safe floor — mutations are opt-in.</p>
 <h2>License</h2>
-<p>Apache-2.0</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">appExec</code><code class="chip">buildRequest</code><code class="chip">DISCOVER_TOOL</code><code class="chip">FetchApp</code><code class="chip">handleRpc</code><code class="chip">LATEST_PROTOCOL</code><code class="chip">mcpApp</code><code class="chip">McpOp</code><code class="chip">McpOptions</code><code class="chip">McpTool</code><code class="chip">originExec</code><code class="chip">RpcContext</code><code class="chip">RpcRequest</code><code class="chip">RpcResponse</code><code class="chip">SUPPORTED_PROTOCOLS</code><code class="chip">ToolExec</code><code class="chip">toolsFrom</code><code class="chip">ToolsOptions</code></div>
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">hono (peer)</code></div>
-    
+<p>Apache-2.0</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">appExec</span><span class="badge badge-sm badge-outline font-mono">buildRequest</span><span class="badge badge-sm badge-outline font-mono">DISCOVER_TOOL</span><span class="badge badge-sm badge-outline font-mono">FetchApp</span><span class="badge badge-sm badge-outline font-mono">handleRpc</span><span class="badge badge-sm badge-outline font-mono">LATEST_PROTOCOL</span><span class="badge badge-sm badge-outline font-mono">mcpApp</span><span class="badge badge-sm badge-outline font-mono">McpOp</span><span class="badge badge-sm badge-outline font-mono">McpOptions</span><span class="badge badge-sm badge-outline font-mono">McpTool</span><span class="badge badge-sm badge-outline font-mono">originExec</span><span class="badge badge-sm badge-outline font-mono">RpcContext</span><span class="badge badge-sm badge-outline font-mono">RpcRequest</span><span class="badge badge-sm badge-outline font-mono">RpcResponse</span><span class="badge badge-sm badge-outline font-mono">SUPPORTED_PROTOCOLS</span><span class="badge badge-sm badge-outline font-mono">ToolExec</span><span class="badge badge-sm badge-outline font-mono">toolsFrom</span><span class="badge badge-sm badge-outline font-mono">ToolsOptions</span></div>
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/core</span><span class="badge badge-sm badge-ghost font-mono">hono (peer)</span></div>
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

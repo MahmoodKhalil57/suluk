@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/openapi-compat</p>
-    <h1>@suluk/openapi-compat <span class="ver">v0.1.2</span></h1>
-    <p class="lead">Lossless-where-possible conversion between the OpenAPI v4 'Suluk' candidate and OpenAPI 3.1 (the dialect Scalar/Swagger consume). CANDIDATE tooling.</p>
-    
-    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/openapi-compat</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/openapi-compat</h1>
+      <span class="badge badge-ghost">v0.1.2</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">Lossless-where-possible conversion between the OpenAPI v4 'Suluk' candidate and OpenAPI 3.1 (the dialect Scalar/Swagger consume). CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      
+      <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <h2>Install</h2>
 <pre><code class="lang-sh">bun add @suluk/openapi-compat</code></pre>
 <h2>What it does</h2>
@@ -104,10 +111,13 @@ const back = upgrade(downgrade(v4).document); // names + methods recovered throu
 <p><code>@suluk/openapi-compat</code> is a pure conversion + validation library: three functions, no I/O, no globals, Workers-safe. It <strong>does not</strong> render a page, fetch a remote document, or host anything — it hands back a converted document and an honest diagnostics list, and the caller decides what to do with them. The rendered surfaces (<code>@suluk/scalar</code>, <code>@suluk/swagger</code>, <code>@suluk/editor</code>) are thin shells on top of it: they <code>downgrade</code>, then attach v4 facet badges and wrap the result in HTML.</p>
 <p>The one rule when contributing: <code>downgrade</code> must emit an honest <code>Diagnostic</code> for anything 3.1 cannot express — extend the diagnostics, never the silence.</p>
 <h2>License</h2>
-<p>Apache-2.0</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">Diagnostic</code><code class="chip">downgrade</code><code class="chip">DowngradeResult</code><code class="chip">upgrade</code><code class="chip">validate31</code><code class="chip">Validation31</code></div>
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code></div>
-    
+<p>Apache-2.0</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">Diagnostic</span><span class="badge badge-sm badge-outline font-mono">downgrade</span><span class="badge badge-sm badge-outline font-mono">DowngradeResult</span><span class="badge badge-sm badge-outline font-mono">upgrade</span><span class="badge badge-sm badge-outline font-mono">validate31</span><span class="badge badge-sm badge-outline font-mono">Validation31</span></div>
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/core</span></div>
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

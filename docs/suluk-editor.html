@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/editor</p>
-    <h1>@suluk/editor <span class="ver">v0.1.0</span></h1>
-    <p class="lead">A fully-static, client-only OpenAPI v4 EDITOR (the editor.scalar.com analog, native v4). Two panes: a CodeMirror source editor + a live API reference rendered by the suluk Scalar fork; diagnostics from @suluk/core + @suluk/harden; 3.1→v4 upgrade via @suluk/openapi-compat; v4 superpowers (cost/access/hardening) in the preview. No server: parse→validate→harden→enrich→re-mount all run in the browser. editorHtml() emits a self-contained page; the built client bundle ships in dist/. CANDIDATE tooling.</p>
-    <h2>Install</h2><pre><code>bun add @suluk/editor</code></pre>
-    <div class="prose readme"><p>A fully-static, <strong>client-only OpenAPI v4 editor</strong> — the <a href="https://editor.scalar.com">editor.scalar.com</a> analog, but native to the Suluk candidate <strong>v4</strong> shape (named <code>requests</code> maps, <code>parameterSchema</code>, the <code>4.0.0-candidate</code> identity, and the <code>x-suluk-*</code> facets). Two panes: a CodeMirror source editor on the left, a <strong>live</strong> API reference on the right (rendered by the suluk Scalar fork), with a diagnostics bar below.</p>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/editor</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/editor</h1>
+      <span class="badge badge-ghost">v0.1.0</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">A fully-static, client-only OpenAPI v4 EDITOR (the editor.scalar.com analog, native v4). Two panes: a CodeMirror source editor + a live API reference rendered by the suluk Scalar fork; diagnostics from @suluk/core + @suluk/harden; 3.1→v4 upgrade via @suluk/openapi-compat; v4 superpowers (cost/access/hardening) in the preview. No server: parse→validate→harden→enrich→re-mount all run in the browser. editorHtml() emits a self-contained page; the built client bundle ships in dist/. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      <h2>Install</h2><pre><code>bun add @suluk/editor</code></pre>
+      <p>A fully-static, <strong>client-only OpenAPI v4 editor</strong> — the <a href="https://editor.scalar.com">editor.scalar.com</a> analog, but native to the Suluk candidate <strong>v4</strong> shape (named <code>requests</code> maps, <code>parameterSchema</code>, the <code>4.0.0-candidate</code> identity, and the <code>x-suluk-*</code> facets). Two panes: a CodeMirror source editor on the left, a <strong>live</strong> API reference on the right (rendered by the suluk Scalar fork), with a diagnostics bar below.</p>
 <p>Everything runs in the browser. The page loads two scripts — the Scalar fork bundle (defines <code>window.Scalar</code>) and this package's pre-built client bundle — and then, on every edit, does <code>parse → validate (@suluk/core) → harden (@suluk/harden) → enrich (@suluk/scalar) → re-mount the preview</code>. There are <strong>no server calls</strong>. See <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/doc/architecture/decisions/C033-suluk-editor-thin-shell.md">ADR C033</a>.</p>
 <h2>What it does</h2>
 <ul>
@@ -76,10 +83,13 @@ const html = editorHtml({ examples: [...examples, ...mine], initialDoc: defaultE
 <p>The bundle is committed so consumers don't need a build step. Rebuild it when the client code or its deps change.</p>
 <h2>Boundary</h2>
 <p>This package is the <em>shell</em>. The render engine is the suluk Scalar fork (<code>tooling/ts/scalar-fork</code>), and all validation / audit / conversion is reused verbatim from <code>@suluk/core</code>, <code>@suluk/harden</code>, and <code>@suluk/openapi-compat</code> — in the browser. Nothing of upstream <code>scalar-app</code> is forked; see C033 for why.</p>
-<p>CANDIDATE tooling — part of the Suluk OpenAPI v4.0 candidate, not a SIG deliverable.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">defaultExample</code><code class="chip">EditorExample</code><code class="chip">editorHtml</code><code class="chip">EditorOptions</code><code class="chip">editorResponse</code><code class="chip">examples</code></div>
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/harden</code><code class="chip">@suluk/openapi-compat</code><code class="chip">@suluk/reference</code><code class="chip">@suluk/scalar</code></div>
-    
+<p>CANDIDATE tooling — part of the Suluk OpenAPI v4.0 candidate, not a SIG deliverable.</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">defaultExample</span><span class="badge badge-sm badge-outline font-mono">EditorExample</span><span class="badge badge-sm badge-outline font-mono">editorHtml</span><span class="badge badge-sm badge-outline font-mono">EditorOptions</span><span class="badge badge-sm badge-outline font-mono">editorResponse</span><span class="badge badge-sm badge-outline font-mono">examples</span></div>
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/core</span><span class="badge badge-sm badge-ghost font-mono">@suluk/harden</span><span class="badge badge-sm badge-ghost font-mono">@suluk/openapi-compat</span><span class="badge badge-sm badge-ghost font-mono">@suluk/reference</span><span class="badge badge-sm badge-ghost font-mono">@suluk/scalar</span></div>
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

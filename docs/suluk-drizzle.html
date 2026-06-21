@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/drizzle</p>
-    <h1>@suluk/drizzle <span class="ver">v0.1.6</span></h1>
-    <p class="lead">Drizzle ORM schema -&gt; v4 'Suluk' contract: table -&gt; Zod (drizzle-zod) -&gt; v4 Schema Objects, DB metadata, and generated CRUD RouteContracts. CANDIDATE tooling.</p>
-    
-    <div class="prose readme"><h1>@suluk/drizzle</h1>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/drizzle</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/drizzle</h1>
+      <span class="badge badge-ghost">v0.1.6</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">Drizzle ORM schema -&gt; v4 'Suluk' contract: table -&gt; Zod (drizzle-zod) -&gt; v4 Schema Objects, DB metadata, and generated CRUD RouteContracts. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      
+      <h1>@suluk/drizzle</h1>
 <p><strong>The DATA floor of the Suluk cycle — your Drizzle ORM schema becomes the v4 contract, the CRUD routes, and the dev DDL, with nothing hand-mirrored.</strong></p>
 <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <h2>Install</h2>
@@ -163,10 +170,13 @@ rowsChanged(await db.update(orders).set({ status: &quot;shipped&quot; }).where(e
 <h2>Boundary</h2>
 <p>This package projects <strong>contracts</strong> and supplies <strong>mechanism</strong> — it runs no SQL of its own. The db is an injected port: you hand <code>crudHandlers</code> / <code>claimOnce</code> a resolver (<code>() =&gt; db</code> in dev, <code>(c) =&gt; drizzle(c.env.DB)</code> in a Worker), and the package never owns a connection. The CRUD/CAS skeleton is generic; the order/money <em>machine</em> — which transitions exist, which side-effects fire, the policy of which column is <code>deletedAt</code> or which columns to redact — stays app-side. Prod migrations remain the source of truth for prod; <code>schemaDDL</code> is the dev-schema twin only. New driver-agnostic query mechanics belong here (keep terminals explicitly awaited for D1 parity); the N=1 policy does not.</p>
 <h2>License</h2>
-<p>Apache-2.0</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">anonymizeValues</code><code class="chip">AnyTable</code><code class="chip">ClaimDb</code><code class="chip">claimOnce</code><code class="chip">claimRows</code><code class="chip">ColumnMeta</code><code class="chip">CrudDb</code><code class="chip">CrudHandlerOptions</code><code class="chip">crudHandlers</code><code class="chip">CrudHandlers</code><code class="chip">CrudOptions</code><code class="chip">crudRoutes</code><code class="chip">DdlOptions</code><code class="chip">ListQuery</code><code class="chip">ListQueryOptions</code><code class="chip">listQuerySchema</code><code class="chip">notSoftDeleted</code><code class="chip">parseListQuery</code><code class="chip">pascalCase</code><code class="chip">rowsChanged</code><code class="chip">schemaDDL</code><code class="chip">SoftDeleteOptions</code><code class="chip">softDeleteValues</code><code class="chip">tableComponentName</code><code class="chip">tableComponents</code><code class="chip">tableComponentsAudit</code><code class="chip">tableDDL</code><code class="chip">TableMeta</code><code class="chip">tableMetadata</code><code class="chip">tableSchemas</code><code class="chip">tableToV4</code><code class="chip">tableToV4Warnings</code><code class="chip">TableV4Schemas</code><code class="chip">TableZodSchemas</code><code class="chip">TimestampOptions</code><code class="chip">touchTimestamps</code><code class="chip">WriteResult</code></div>
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/zod</code><code class="chip">@suluk/hono</code><code class="chip">drizzle-orm (peer)</code><code class="chip">drizzle-zod (peer)</code><code class="chip">zod (peer)</code><code class="chip">hono (peer)</code></div>
-    
+<p>Apache-2.0</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">anonymizeValues</span><span class="badge badge-sm badge-outline font-mono">AnyTable</span><span class="badge badge-sm badge-outline font-mono">ClaimDb</span><span class="badge badge-sm badge-outline font-mono">claimOnce</span><span class="badge badge-sm badge-outline font-mono">claimRows</span><span class="badge badge-sm badge-outline font-mono">ColumnMeta</span><span class="badge badge-sm badge-outline font-mono">CrudDb</span><span class="badge badge-sm badge-outline font-mono">CrudHandlerOptions</span><span class="badge badge-sm badge-outline font-mono">crudHandlers</span><span class="badge badge-sm badge-outline font-mono">CrudHandlers</span><span class="badge badge-sm badge-outline font-mono">CrudOptions</span><span class="badge badge-sm badge-outline font-mono">crudRoutes</span><span class="badge badge-sm badge-outline font-mono">DdlOptions</span><span class="badge badge-sm badge-outline font-mono">ListQuery</span><span class="badge badge-sm badge-outline font-mono">ListQueryOptions</span><span class="badge badge-sm badge-outline font-mono">listQuerySchema</span><span class="badge badge-sm badge-outline font-mono">notSoftDeleted</span><span class="badge badge-sm badge-outline font-mono">parseListQuery</span><span class="badge badge-sm badge-outline font-mono">pascalCase</span><span class="badge badge-sm badge-outline font-mono">rowsChanged</span><span class="badge badge-sm badge-outline font-mono">schemaDDL</span><span class="badge badge-sm badge-outline font-mono">SoftDeleteOptions</span><span class="badge badge-sm badge-outline font-mono">softDeleteValues</span><span class="badge badge-sm badge-outline font-mono">tableComponentName</span><span class="badge badge-sm badge-outline font-mono">tableComponents</span><span class="badge badge-sm badge-outline font-mono">tableComponentsAudit</span><span class="badge badge-sm badge-outline font-mono">tableDDL</span><span class="badge badge-sm badge-outline font-mono">TableMeta</span><span class="badge badge-sm badge-outline font-mono">tableMetadata</span><span class="badge badge-sm badge-outline font-mono">tableSchemas</span><span class="badge badge-sm badge-outline font-mono">tableToV4</span><span class="badge badge-sm badge-outline font-mono">tableToV4Warnings</span><span class="badge badge-sm badge-outline font-mono">TableV4Schemas</span><span class="badge badge-sm badge-outline font-mono">TableZodSchemas</span><span class="badge badge-sm badge-outline font-mono">TimestampOptions</span><span class="badge badge-sm badge-outline font-mono">touchTimestamps</span><span class="badge badge-sm badge-outline font-mono">WriteResult</span></div>
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/core</span><span class="badge badge-sm badge-ghost font-mono">@suluk/zod</span><span class="badge badge-sm badge-ghost font-mono">@suluk/hono</span><span class="badge badge-sm badge-ghost font-mono">drizzle-orm (peer)</span><span class="badge badge-sm badge-ghost font-mono">drizzle-zod (peer)</span><span class="badge badge-sm badge-ghost font-mono">zod (peer)</span><span class="badge badge-sm badge-ghost font-mono">hono (peer)</span></div>
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/example-petshop</p>
-    <h1>@suluk/example-petshop <span class="ver">v0.1.1</span></h1>
-    <p class="lead">End-to-end demo: Drizzle tables → @suluk/builder → a live validated CRUD server + Scalar docs + generated frontend, all from one source. CANDIDATE tooling.</p>
-    
-    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/example-petshop</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/example-petshop</h1>
+      <span class="badge badge-ghost">v0.1.1</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">End-to-end demo: Drizzle tables → @suluk/builder → a live validated CRUD server + Scalar docs + generated frontend, all from one source. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      
+      <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <p>This is a <strong>private demo package</strong> (not published to npm). It is the reference you read and run to see how the <code>@suluk/*</code> packages compose into a whole stack. Clone the repo and run it locally.</p>
 <h2>Run the demo</h2>
 <pre><code class="lang-sh">cd tooling/ts/packages/example-petshop
@@ -133,10 +140,13 @@ await api.mutators.createPet.mutate({ data: { name: &quot;Nimbus&quot;, status: 
 <h2>Boundary</h2>
 <p>The demo is the <strong>wiring</strong>, not new capability — every layer comes from a <code>@suluk/<em></code> package this app imports; nothing is reimplemented here. It honours the L3 &quot;render/generate, never host&quot; line: the data floor is injected (real Drizzle handlers are bound to the generated routes; the bytes/DB stay app-side), and the cost sink is an injected port (<code>MemoryCostSink</code> here; swap for a durable one in production). The contract is the source of truth — <code>specification</code> is a projection of it, end to end (schema → contract → routes → Drizzle → SQLite/D1). To extend a layer, change the corresponding <code>@suluk/</em></code> package, not this demo.</p>
 <h2>License</h2>
-<p>Apache-2.0</p></div>
-    
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/builder</code><code class="chip">@suluk/drizzle</code><code class="chip">@suluk/core</code><code class="chip">@suluk/hono</code><code class="chip">@suluk/scalar</code><code class="chip">@suluk/admin</code><code class="chip">@suluk/cost</code></div>
-    
+<p>Apache-2.0</p>
+      
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/builder</span><span class="badge badge-sm badge-ghost font-mono">@suluk/drizzle</span><span class="badge badge-sm badge-ghost font-mono">@suluk/core</span><span class="badge badge-sm badge-ghost font-mono">@suluk/hono</span><span class="badge badge-sm badge-ghost font-mono">@suluk/scalar</span><span class="badge badge-sm badge-ghost font-mono">@suluk/admin</span><span class="badge badge-sm badge-ghost font-mono">@suluk/cost</span></div>
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

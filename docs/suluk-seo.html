@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/seo</p>
-    <h1>@suluk/seo <span class="ver">v0.1.2</span></h1>
-    <p class="lead">A complete, framework-agnostic SEO toolkit for a Suluk app — robots.txt, sitemaps (hreflang + images + index), schema.org JSON-LD, head meta (OpenGraph/Twitter/canonical/hreflang), llms.txt, OG-image SVG, the PWA web manifest, and deploy skew-protection. Pure + Cloudflare-safe; inspired by the Nuxt SEO suite. CANDIDATE tooling.</p>
-    
-    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/seo</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/seo</h1>
+      <span class="badge badge-ghost">v0.1.2</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">A complete, framework-agnostic SEO toolkit for a Suluk app — robots.txt, sitemaps (hreflang + images + index), schema.org JSON-LD, head meta (OpenGraph/Twitter/canonical/hreflang), llms.txt, OG-image SVG, the PWA web manifest, and deploy skew-protection. Pure + Cloudflare-safe; inspired by the Nuxt SEO suite. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      
+      <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <h2>Install</h2>
 <pre><code class="lang-sh">bun add @suluk/seo</code></pre>
 <h2>What it does</h2>
@@ -166,10 +173,13 @@ skewGuardScript();                              // defaults: polls /api/health e
 <h2>Boundary</h2>
 <p>This is an L3 <strong>generator</strong> — it emits owned bytes (strings) and stops there. It never crawls, fetches, hosts, or rasterizes: <code>ogImageSvg</code> returns an SVG string (rasterize to PNG with a renderer if a platform needs it), and serving every output — wiring <code>/robots.txt</code>, <code>/sitemap.xml</code>, <code>/llms.txt</code>, the <code>&lt;head&gt;</code>, <code>/og.svg</code>, the manifest — is your route handler's job. All inputs are injected by the caller: you pass the site origin, the catalog/seed data, and the deploy id (no ambient <code>Date.now()</code>, no env reads). Keep the IO at the app seam; keep the package pure.</p>
 <h2>License</h2>
-<p>Apache-2.0.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">aggregateRating</code><code class="chip">Alternate</code><code class="chip">article</code><code class="chip">ArticleInput</code><code class="chip">breadcrumb</code><code class="chip">ChangeFreq</code><code class="chip">DEPLOYMENT_HEADER</code><code class="chip">deploymentMeta</code><code class="chip">faqPage</code><code class="chip">graph</code><code class="chip">itemList</code><code class="chip">ld</code><code class="chip">LlmsLink</code><code class="chip">LlmsSection</code><code class="chip">llmsTxt</code><code class="chip">LlmsTxtInput</code><code class="chip">ManifestIcon</code><code class="chip">ManifestShortcut</code><code class="chip">offer</code><code class="chip">OfferInput</code><code class="chip">OgImageInput</code><code class="chip">ogImageSvg</code><code class="chip">organization</code><code class="chip">product</code><code class="chip">ProductInput</code><code class="chip">renderTags</code><code class="chip">resolveTitle</code><code class="chip">RobotsGroup</code><code class="chip">RobotsMeta</code><code class="chip">RobotsOptions</code><code class="chip">robotsTxt</code><code class="chip">seoTags</code><code class="chip">SeoTagsInput</code><code class="chip">SitemapAlternate</code><code class="chip">SitemapImage</code><code class="chip">sitemapIndex</code><code class="chip">SitemapUrl</code><code class="chip">sitemapXml</code><code class="chip">SkewGuardOptions</code><code class="chip">skewGuardScript</code><code class="chip">Tag</code><code class="chip">webManifest</code><code class="chip">WebManifestInput</code><code class="chip">website</code></div>
-    
-    
+<p>Apache-2.0.</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">aggregateRating</span><span class="badge badge-sm badge-outline font-mono">Alternate</span><span class="badge badge-sm badge-outline font-mono">article</span><span class="badge badge-sm badge-outline font-mono">ArticleInput</span><span class="badge badge-sm badge-outline font-mono">breadcrumb</span><span class="badge badge-sm badge-outline font-mono">ChangeFreq</span><span class="badge badge-sm badge-outline font-mono">DEPLOYMENT_HEADER</span><span class="badge badge-sm badge-outline font-mono">deploymentMeta</span><span class="badge badge-sm badge-outline font-mono">faqPage</span><span class="badge badge-sm badge-outline font-mono">graph</span><span class="badge badge-sm badge-outline font-mono">itemList</span><span class="badge badge-sm badge-outline font-mono">ld</span><span class="badge badge-sm badge-outline font-mono">LlmsLink</span><span class="badge badge-sm badge-outline font-mono">LlmsSection</span><span class="badge badge-sm badge-outline font-mono">llmsTxt</span><span class="badge badge-sm badge-outline font-mono">LlmsTxtInput</span><span class="badge badge-sm badge-outline font-mono">ManifestIcon</span><span class="badge badge-sm badge-outline font-mono">ManifestShortcut</span><span class="badge badge-sm badge-outline font-mono">offer</span><span class="badge badge-sm badge-outline font-mono">OfferInput</span><span class="badge badge-sm badge-outline font-mono">OgImageInput</span><span class="badge badge-sm badge-outline font-mono">ogImageSvg</span><span class="badge badge-sm badge-outline font-mono">organization</span><span class="badge badge-sm badge-outline font-mono">product</span><span class="badge badge-sm badge-outline font-mono">ProductInput</span><span class="badge badge-sm badge-outline font-mono">renderTags</span><span class="badge badge-sm badge-outline font-mono">resolveTitle</span><span class="badge badge-sm badge-outline font-mono">RobotsGroup</span><span class="badge badge-sm badge-outline font-mono">RobotsMeta</span><span class="badge badge-sm badge-outline font-mono">RobotsOptions</span><span class="badge badge-sm badge-outline font-mono">robotsTxt</span><span class="badge badge-sm badge-outline font-mono">seoTags</span><span class="badge badge-sm badge-outline font-mono">SeoTagsInput</span><span class="badge badge-sm badge-outline font-mono">SitemapAlternate</span><span class="badge badge-sm badge-outline font-mono">SitemapImage</span><span class="badge badge-sm badge-outline font-mono">sitemapIndex</span><span class="badge badge-sm badge-outline font-mono">SitemapUrl</span><span class="badge badge-sm badge-outline font-mono">sitemapXml</span><span class="badge badge-sm badge-outline font-mono">SkewGuardOptions</span><span class="badge badge-sm badge-outline font-mono">skewGuardScript</span><span class="badge badge-sm badge-outline font-mono">Tag</span><span class="badge badge-sm badge-outline font-mono">webManifest</span><span class="badge badge-sm badge-outline font-mono">WebManifestInput</span><span class="badge badge-sm badge-outline font-mono">website</span></div>
+      
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

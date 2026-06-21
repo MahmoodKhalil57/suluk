@@ -135,6 +135,13 @@ describe("generateSite — a complete static site", () => {
   test("links are relative (GitHub-Pages-subpath safe)", () => {
     expect(byPath.get("index.html")!).not.toContain('href="/');
   });
+  test("pages load the daisyUI + Tailwind CDN (static, no build) and a theme", () => {
+    const index = byPath.get("index.html")!;
+    expect(index).toContain("cdn.jsdelivr.net/npm/daisyui@5");
+    expect(index).toContain("@tailwindcss/browser@4");
+    expect(index).toContain('data-theme=');
+    expect(byPath.get("suluk-core.html")!).toContain("cdn.jsdelivr.net/npm/daisyui@5");
+  });
 });
 
 describe("packageGraphD2 — the 'how the tools compose' diagram (D2)", () => {

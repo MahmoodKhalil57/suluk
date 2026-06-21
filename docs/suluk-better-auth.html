@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/better-auth</p>
-    <h1>@suluk/better-auth <span class="ver">v0.1.3</span></h1>
-    <p class="lead">Official Better-Auth-on-Hono support for Suluk: auth methods -&gt; v4 securitySchemes; ingest Better Auth's OpenAPI 3.0 -&gt; v4; session -&gt; principal for per-viewer docs. CANDIDATE tooling.</p>
-    
-    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/better-auth</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/better-auth</h1>
+      <span class="badge badge-ghost">v0.1.3</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">Official Better-Auth-on-Hono support for Suluk: auth methods -&gt; v4 securitySchemes; ingest Better Auth's OpenAPI 3.0 -&gt; v4; session -&gt; principal for per-viewer docs. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      
+      <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <h2>Install</h2>
 <pre><code class="lang-sh">bun add @suluk/better-auth</code></pre>
 <p><code>better-auth</code> and <code>hono</code> are optional peers — everything here is duck-typed, so you only need the ones you actually use.</p>
@@ -153,10 +160,13 @@ return previewLoginHandler(request, env, {
 <h2>Boundary</h2>
 <p>This package <strong>reflects and reads</strong> Better Auth — it never becomes the auth runtime. Better Auth owns sessions, storage, and the credential flows; Suluk turns its configuration into a v4 contract and a scope-bearing principal. The seams are injected, not assumed: <code>mountAuth</code> / <code>verifyApiKey</code> are duck-typed against <code>auth.handler</code> / <code>auth.api</code> (no hard <code>better-auth</code> or <code>hono</code> import); <code>beforeDeleteCascade</code> takes the steps that touch <em>your</em> db; <code>previewLoginHandler</code> takes the <code>mintSession</code> that owns the session lookup. The session→principal <strong>shape</strong> is a stable contract many other <code>@suluk/*</code> packages depend on — extend the method→scheme and session→scope mappings, but keep that shape steady. Rendering the resulting doc, and hosting the auth itself, stay outside this line.</p>
 <h2>License</h2>
-<p>Apache-2.0</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">anonymizeStep</code><code class="chip">ApiKeyMetadata</code><code class="chip">ApiKeyVerifierLike</code><code class="chip">AuthHandlerLike</code><code class="chip">AuthMethods</code><code class="chip">AuthSecurity</code><code class="chip">authSecuritySchemes</code><code class="chip">beforeDeleteCascade</code><code class="chip">CascadeOptions</code><code class="chip">CascadeStep</code><code class="chip">deleteStep</code><code class="chip">emailVerificationConfig</code><code class="chip">EmailVerificationOptions</code><code class="chip">HonoLike</code><code class="chip">ingestAuthOpenAPI</code><code class="chip">IngestOptions</code><code class="chip">isPreviewRuntime</code><code class="chip">isSafeRelativePath</code><code class="chip">mergeAuth</code><code class="chip">MFA_SCOPE</code><code class="chip">MintedSession</code><code class="chip">mountAuth</code><code class="chip">MountAuthOptions</code><code class="chip">normalizeOas30</code><code class="chip">orgScope</code><code class="chip">parseApiKeyMetadata</code><code class="chip">parseOrgScope</code><code class="chip">permissionsToScopes</code><code class="chip">PreviewEnvLike</code><code class="chip">previewLoginHandler</code><code class="chip">PreviewLoginOptions</code><code class="chip">PreviewRequestLike</code><code class="chip">Principal</code><code class="chip">principalFromSession</code><code class="chip">PrincipalOptions</code><code class="chip">resolveRedirectTo</code><code class="chip">scopesToPermissions</code><code class="chip">SessionLike</code><code class="chip">step</code><code class="chip">VerifiedKey</code><code class="chip">verifyApiKey</code><code class="chip">VerifyApiKeyOptions</code><code class="chip">VerifyApiKeyResult</code><code class="chip">VerifyReason</code><code class="chip">withRedirectTo</code></div>
-    <h2>Depends on</h2><div class="chips"><code class="chip">@suluk/core</code><code class="chip">@suluk/openapi-compat</code><code class="chip">better-auth (peer)</code><code class="chip">hono (peer)</code></div>
-    
+<p>Apache-2.0</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">anonymizeStep</span><span class="badge badge-sm badge-outline font-mono">ApiKeyMetadata</span><span class="badge badge-sm badge-outline font-mono">ApiKeyVerifierLike</span><span class="badge badge-sm badge-outline font-mono">AuthHandlerLike</span><span class="badge badge-sm badge-outline font-mono">AuthMethods</span><span class="badge badge-sm badge-outline font-mono">AuthSecurity</span><span class="badge badge-sm badge-outline font-mono">authSecuritySchemes</span><span class="badge badge-sm badge-outline font-mono">beforeDeleteCascade</span><span class="badge badge-sm badge-outline font-mono">CascadeOptions</span><span class="badge badge-sm badge-outline font-mono">CascadeStep</span><span class="badge badge-sm badge-outline font-mono">deleteStep</span><span class="badge badge-sm badge-outline font-mono">emailVerificationConfig</span><span class="badge badge-sm badge-outline font-mono">EmailVerificationOptions</span><span class="badge badge-sm badge-outline font-mono">HonoLike</span><span class="badge badge-sm badge-outline font-mono">ingestAuthOpenAPI</span><span class="badge badge-sm badge-outline font-mono">IngestOptions</span><span class="badge badge-sm badge-outline font-mono">isPreviewRuntime</span><span class="badge badge-sm badge-outline font-mono">isSafeRelativePath</span><span class="badge badge-sm badge-outline font-mono">mergeAuth</span><span class="badge badge-sm badge-outline font-mono">MFA_SCOPE</span><span class="badge badge-sm badge-outline font-mono">MintedSession</span><span class="badge badge-sm badge-outline font-mono">mountAuth</span><span class="badge badge-sm badge-outline font-mono">MountAuthOptions</span><span class="badge badge-sm badge-outline font-mono">normalizeOas30</span><span class="badge badge-sm badge-outline font-mono">orgScope</span><span class="badge badge-sm badge-outline font-mono">parseApiKeyMetadata</span><span class="badge badge-sm badge-outline font-mono">parseOrgScope</span><span class="badge badge-sm badge-outline font-mono">permissionsToScopes</span><span class="badge badge-sm badge-outline font-mono">PreviewEnvLike</span><span class="badge badge-sm badge-outline font-mono">previewLoginHandler</span><span class="badge badge-sm badge-outline font-mono">PreviewLoginOptions</span><span class="badge badge-sm badge-outline font-mono">PreviewRequestLike</span><span class="badge badge-sm badge-outline font-mono">Principal</span><span class="badge badge-sm badge-outline font-mono">principalFromSession</span><span class="badge badge-sm badge-outline font-mono">PrincipalOptions</span><span class="badge badge-sm badge-outline font-mono">resolveRedirectTo</span><span class="badge badge-sm badge-outline font-mono">scopesToPermissions</span><span class="badge badge-sm badge-outline font-mono">SessionLike</span><span class="badge badge-sm badge-outline font-mono">step</span><span class="badge badge-sm badge-outline font-mono">VerifiedKey</span><span class="badge badge-sm badge-outline font-mono">verifyApiKey</span><span class="badge badge-sm badge-outline font-mono">VerifyApiKeyOptions</span><span class="badge badge-sm badge-outline font-mono">VerifyApiKeyResult</span><span class="badge badge-sm badge-outline font-mono">VerifyReason</span><span class="badge badge-sm badge-outline font-mono">withRedirectTo</span></div>
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/core</span><span class="badge badge-sm badge-ghost font-mono">@suluk/openapi-compat</span><span class="badge badge-sm badge-ghost font-mono">better-auth (peer)</span><span class="badge badge-sm badge-ghost font-mono">hono (peer)</span></div>
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

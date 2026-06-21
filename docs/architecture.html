@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,13 +9,16 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html" class="on">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html" class="text-primary font-medium">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main><article class="prose"><h1>Suluk tooling — architecture</h1>
+<main class="max-w-4xl mx-auto px-4 py-10"><article class="prose-suluk"><h1>Suluk tooling — architecture</h1>
 <blockquote>CANDIDATE tooling for the OpenAPI v4.0 &quot;Suluk&quot; candidate (NOT official OAS, NOT SIG-ratified). This doc is the design spine for <code>tooling/</code>. The spec itself lives in <code>specification/candidate-v4/</code>.</blockquote>
 <h2>The thesis: contracts in, everything else derived</h2>
 <p>The user types the <strong>least possible</strong> contract surface:</p>
@@ -182,5 +185,7 @@
 <p>Each package derives one facet from the single v4 contract; here is how they depend on each other.</p>
 <p><img src="https://kroki.io/d2/svg/eJx1lU2OHCEMhfd9CtTZJIteZBd1pCh3yAkY8FShpjAq6B6lo0hZ5QBRTpiTRGAGXFPuXb3HZ4ofY79T367-elH_fv1VM76oPIPKiD4pg0vEBOo9aDOrqM1FT6D-_f6jXE7qa6phFiIEC8E4SB8O1q1gssNwVqub5nw4aLu4cFY_vH4Cf1bHqo-fVZp1hLMquA6Th58HPUHIiaPVENnjE-QM60lf83xkIdyW4p6uzltYeQQ5Im1mnRlapMx5vNpnr1fgdDflGDSX6DbTk_OA3s6ND2dN2ymTPJ-F6PE7I8mQWTT8VoqUudXd754vszkiDdZl5BdBhswu2nmOFi2T4ca5cBOpWa8WeFKSIbMYkJMYUOTcx098xiJFbjGRYYuJMoUWPD91MuS3EHTAU8q4QuJvgdtiHEYIOrpTeec689A3I1J01KGgPaRqkVzhGVYIhmdG98SIZLTXPDfIkHdBY6eUdbDaYwC-kf2g-D974TH2IlPAEyGBnAdp1tbwTCBDZvPqijXYasjsi56mTeVqjkhnSHnapHhzZHqGhS-japG8uXTV_NrJENk7Wgbe0T64v9JGTrdk0G6vjvtSJLUWdfqiSjnkqtbR1k_GeJf0lrY9pGM79-1jeO0hPYLpO1ouS7HgmlKBO61C1k7TJ3wVi4njm9bc9jbQoevPmKbU3ziUMBuLVsSctjhuUW_Y_jtlrikLuEOnXftRXyzNMyTtXdLlHJmsW6P-0OkhqXgzY3djY6jXHea1g6pNpehSuluL6H8rK9iJssrFxJE6vOI-dutu3q6x47WOdtXXKztt67SDjgy5O4lkLwOrdy_I-vxbceq33ZJn4EPv_tJqTWcpPQTZ0m_71sfJCTY97f3I65veDVAi_gdGU70V" alt="Suluk package architecture" loading="lazy"></p>
 <p><a href="architecture.d2">D2 source</a> — render with the d2 CLI or <a href="https://d2lang.com">d2lang.com</a>.</p></article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

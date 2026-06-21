@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/docs</p>
-    <h1>@suluk/docs <span class="ver">v0.1.3</span></h1>
-    <p class="lead">Generate an intuitive static documentation site for a Bun/TS monorepo, straight from source (package.json + doc-comments + exports + README/ARCHITECTURE). Deployable to GitHub Pages. CANDIDATE tooling.</p>
-    
-    <div class="prose readme"><blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/docs</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/docs</h1>
+      <span class="badge badge-ghost">v0.1.3</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">Generate an intuitive static documentation site for a Bun/TS monorepo, straight from source (package.json + doc-comments + exports + README/ARCHITECTURE). Deployable to GitHub Pages. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      
+      <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <h2>Install</h2>
 <pre><code class="lang-sh">bun add @suluk/docs</code></pre>
 <h2>What it does</h2>
@@ -108,10 +115,13 @@ STYLE;                                  // the site's single stylesheet, if you 
 <h2>Boundary</h2>
 <p>This package <strong>renders, never hosts</strong> (the L3 line). <code>generateSite</code> returns the files; <em>you</em> write them and serve them (GitHub Pages, any static host). It reads from a directory of packages and emits HTML strings — no network in the harvest/render path, and the only outbound URL it constructs is the kroki render link for the architecture diagram. What it documents is the <em>codebase</em> (package structure + doc-comments), not your runtime API — that projection belongs to <code>@suluk/reference</code> / <code>@suluk/scalar</code> / <code>@suluk/swagger</code>.</p>
 <h2>License</h2>
-<p>Apache-2.0</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">escapeHtml</code><code class="chip">firstBlockComment</code><code class="chip">FrameworkDoc</code><code class="chip">generateSite</code><code class="chip">harvest</code><code class="chip">HarvestOptions</code><code class="chip">harvestPackage</code><code class="chip">inline</code><code class="chip">krokiD2Url</code><code class="chip">mdToHtml</code><code class="chip">ModuleDoc</code><code class="chip">PackageDoc</code><code class="chip">packageGraphD2</code><code class="chip">parseExports</code><code class="chip">renderIndex</code><code class="chip">renderMarkdownPage</code><code class="chip">renderPackage</code><code class="chip">rewriteRepoLinks</code><code class="chip">SiteFile</code><code class="chip">SiteOptions</code><code class="chip">stripReadmeHeader</code><code class="chip">STYLE</code></div>
-    
-    
+<p>Apache-2.0</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">escapeHtml</span><span class="badge badge-sm badge-outline font-mono">firstBlockComment</span><span class="badge badge-sm badge-outline font-mono">FrameworkDoc</span><span class="badge badge-sm badge-outline font-mono">generateSite</span><span class="badge badge-sm badge-outline font-mono">harvest</span><span class="badge badge-sm badge-outline font-mono">HarvestOptions</span><span class="badge badge-sm badge-outline font-mono">harvestPackage</span><span class="badge badge-sm badge-outline font-mono">inline</span><span class="badge badge-sm badge-outline font-mono">krokiD2Url</span><span class="badge badge-sm badge-outline font-mono">mdToHtml</span><span class="badge badge-sm badge-outline font-mono">ModuleDoc</span><span class="badge badge-sm badge-outline font-mono">PackageDoc</span><span class="badge badge-sm badge-outline font-mono">packageGraphD2</span><span class="badge badge-sm badge-outline font-mono">parseExports</span><span class="badge badge-sm badge-outline font-mono">renderIndex</span><span class="badge badge-sm badge-outline font-mono">renderMarkdownPage</span><span class="badge badge-sm badge-outline font-mono">renderPackage</span><span class="badge badge-sm badge-outline font-mono">rewriteRepoLinks</span><span class="badge badge-sm badge-outline font-mono">SiteFile</span><span class="badge badge-sm badge-outline font-mono">SiteOptions</span><span class="badge badge-sm badge-outline font-mono">stripReadmeHeader</span><span class="badge badge-sm badge-outline font-mono">STYLE</span></div>
+      
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>

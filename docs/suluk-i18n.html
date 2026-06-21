@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head>
+<!doctype html><html lang="en" data-theme="dim"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
 <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
@@ -9,19 +9,26 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <link rel="stylesheet" href="style.css"/>
-</head><body>
-<header class="top">
-  <a class="brand" href="index.html">Suluk</a>
-  <nav><a href="index.html">Home</a><a href="getting-started.html">Get started</a><a href="index.html#packages">Packages</a><a href="architecture.html">Architecture</a><a href="contributing.html">Contributing</a><a href="community.html">Community</a><a class="gh" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></nav>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
 </header>
-<main>
-  <article class="package">
-    <p class="crumb"><a href="index.html#packages">Packages</a> / @suluk/i18n</p>
-    <h1>@suluk/i18n <span class="ver">v0.1.0</span></h1>
-    <p class="lead">The locale primitive every content app needs: a typed locale/direction model (defineLocales), a Workers-safe message loader with default-locale fallback + {token} interpolation, compile-time key-parity + a runtime completeness grade, Intl number/currency/date formatting (incl. Eastern-Arabic numerals), framework-agnostic cookie→locale resolution, and an ./astro middleware glue. The catalog CONTENT stays app-authored; this owns the MECHANISM. CANDIDATE tooling.</p>
-    
-    <div class="prose readme"><h1>@suluk/i18n</h1>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/i18n</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/i18n</h1>
+      <span class="badge badge-ghost">v0.1.0</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">The locale primitive every content app needs: a typed locale/direction model (defineLocales), a Workers-safe message loader with default-locale fallback + {token} interpolation, compile-time key-parity + a runtime completeness grade, Intl number/currency/date formatting (incl. Eastern-Arabic numerals), framework-agnostic cookie→locale resolution, and an ./astro middleware glue. The catalog CONTENT stays app-authored; this owns the MECHANISM. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      
+      <h1>@suluk/i18n</h1>
 <p><strong>The locale primitive every content app needs — a typed locale/direction model, a Workers-safe message loader, and <code>Intl</code> formatting, framework-agnostic and dependency-free.</strong></p>
 <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
 <h2>Install</h2>
@@ -128,10 +135,13 @@ export const onRequest = i18nMiddleware(LOCALES); // → context.locals.locale +
 <h2>Boundary</h2>
 <p>This package owns the <strong>mechanism</strong> and stops at the <strong>content</strong>. It never ships translations — you author the catalogs (the bytes) and inject them; every function is pure and takes the <code>LocaleConfig</code> (and, for loaders, your import thunks) as an argument, so the same code runs in dev, Bun, and a Worker. Resolution reads only a cookie string or a standard <code>Request</code> — framework routing/prerendering and the locale-switch UI stay app-side (the <code>/astro</code> glue is intentionally thin: it resolves + stamps, nothing more). Per the Suluk L3 line — render/generate, never host.</p>
 <h2>License</h2>
-<p>Apache-2.0.</p></div>
-    <h2>Public API</h2><div class="chips"><code class="chip">Catalog</code><code class="chip">CompletenessGrade</code><code class="chip">defineLocales</code><code class="chip">Direction</code><code class="chip">dirOf</code><code class="chip">formatCurrency</code><code class="chip">formatDate</code><code class="chip">formatNumber</code><code class="chip">gradeCompleteness</code><code class="chip">isSupportedLocale</code><code class="chip">KeyParity</code><code class="chip">loadMessages</code><code class="chip">LocaleCode</code><code class="chip">localeCodes</code><code class="chip">LocaleConfig</code><code class="chip">LocaleDef</code><code class="chip">localeFromCookie</code><code class="chip">localeFromRequest</code><code class="chip">NamespaceLoaders</code><code class="chip">negotiateLocale</code><code class="chip">readCookie</code><code class="chip">resolveLocale</code><code class="chip">t</code><code class="chip">translator</code></div>
-    
-    
+<p>Apache-2.0.</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">Catalog</span><span class="badge badge-sm badge-outline font-mono">CompletenessGrade</span><span class="badge badge-sm badge-outline font-mono">defineLocales</span><span class="badge badge-sm badge-outline font-mono">Direction</span><span class="badge badge-sm badge-outline font-mono">dirOf</span><span class="badge badge-sm badge-outline font-mono">formatCurrency</span><span class="badge badge-sm badge-outline font-mono">formatDate</span><span class="badge badge-sm badge-outline font-mono">formatNumber</span><span class="badge badge-sm badge-outline font-mono">gradeCompleteness</span><span class="badge badge-sm badge-outline font-mono">isSupportedLocale</span><span class="badge badge-sm badge-outline font-mono">KeyParity</span><span class="badge badge-sm badge-outline font-mono">loadMessages</span><span class="badge badge-sm badge-outline font-mono">LocaleCode</span><span class="badge badge-sm badge-outline font-mono">localeCodes</span><span class="badge badge-sm badge-outline font-mono">LocaleConfig</span><span class="badge badge-sm badge-outline font-mono">LocaleDef</span><span class="badge badge-sm badge-outline font-mono">localeFromCookie</span><span class="badge badge-sm badge-outline font-mono">localeFromRequest</span><span class="badge badge-sm badge-outline font-mono">NamespaceLoaders</span><span class="badge badge-sm badge-outline font-mono">negotiateLocale</span><span class="badge badge-sm badge-outline font-mono">readCookie</span><span class="badge badge-sm badge-outline font-mono">resolveLocale</span><span class="badge badge-sm badge-outline font-mono">t</span><span class="badge badge-sm badge-outline font-mono">translator</span></div>
+      
+      
+    </div>
   </article></main>
-<footer><span class="candidate">CANDIDATE — not official OpenAPI. Generated from source by @suluk/docs.</span></footer>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
 </body></html>
