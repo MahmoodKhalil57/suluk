@@ -23,7 +23,7 @@
     <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/env</li></ul></div>
     <div class="flex items-center gap-3 flex-wrap mt-1">
       <h1 class="text-3xl font-bold font-mono">@suluk/env</h1>
-      <span class="badge badge-ghost">v0.2.0</span>
+      <span class="badge badge-ghost">v0.1.0</span>
     </div>
     <p class="text-lg text-base-content/70 mt-2">Config + secrets as a single source of truth: declare each env var ONCE (typed, per-surface), encrypt secret values with POST-QUANTUM crypto (ML-KEM-768 + AES-256-GCM) so the .env is safe to commit to git and share over public channels, and project the manifest into every surface — local, Cloudflare, preview, a teammate's machine, the VS Code extension, the admin panel. dotenvx's commit-safely model, quantum-safe, Suluk-native. CANDIDATE tooling.</p>
     <div class="prose-suluk mt-6">
@@ -48,16 +48,6 @@
 <ul>
 <li>the private key travels out-of-band (a password manager, a CI secret, <code>wrangler secret put</code>).</li>
 </ul>
-<h3>Where the private key is read from</h3>
-<p><code>readPrivateKey</code> (Node/Bun) resolves the key in precedence order:</p>
-<ol>
-<li><strong><code>SULUK_PRIVATE_KEY</code> env var</strong> — wins; for CI/prod and secret bindings.</li>
-<li><strong><code>~/.suluk/settings.json</code></strong> — a centralized, machine-local store mapping each project to its key, so a</li>
-</ol>
-<p>   new repo needs <strong>no per-repo <code>.env.keys</code></strong> — just an entry here. The project is matched by the running    directory (<code>SULUK_PROJECT_DIR</code> or cwd), by <code>path</code> prefix, falling back to the project <code>name</code> as a path    segment (so worktrees resolve). Override the location with <code>SULUK_SETTINGS_PATH</code>. Shape:    ``<code>json    { &quot;projects&quot;: [ { &quot;name&quot;: &quot;my-app&quot;, &quot;path&quot;: &quot;/abs/path/my-app&quot;,                      &quot;env&quot;: [ { &quot;key&quot;: &quot;SULUK_PRIVATE_KEY&quot;, &quot;value&quot;: &quot;mlkem768:…&quot; } ] } ] }    </code>``</p>
-<ol>
-<li><strong><code>.env.keys</code></strong> — the legacy per-repo gitignored file (still honored for back-compat).</li>
-</ol>
 <h2>CLI</h2>
 <pre><code class="lang-bash">suluk-env keygen                 # ML-KEM-768 keypair → public in .env, private in .env.keys (auto-gitignored)
 suluk-env set STRIPE_KEY=sk_live_…   # add/update a variable, encrypted (use --plain for non-secrets)
