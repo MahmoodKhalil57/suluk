@@ -1,6 +1,6 @@
 {
   "name": "@suluk/env",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Config + secrets as a single source of truth: declare each env var ONCE (typed, per-surface), encrypt secret values with POST-QUANTUM crypto (ML-KEM-768 + AES-256-GCM) so the .env is safe to commit to git and share over public channels, and project the manifest into every surface — local, Cloudflare, preview, a teammate's machine, the VS Code extension, the admin panel. dotenvx's commit-safely model, quantum-safe, Suluk-native. CANDIDATE tooling.",
   "publishConfig": { "access": "public" },
   "license": "Apache-2.0",

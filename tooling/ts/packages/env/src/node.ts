@@ -4,6 +4,8 @@
  * imports cleanly inside a Cloudflare Worker. The CLI + local dev use this module.
  */
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { homedir } from "node:os";
+import { join, sep } from "node:path";
 import { keygen, publicFromPrivate, isEncrypted, type Keypair } from "./crypto";
 import { encryptContent, decryptContent, resolveEnv, parseEnv, PUBLIC_KEY_NAME, PRIVATE_KEY_NAME } from "./envfile";
 
@@ -12,9 +14,42 @@ const ENV = (o?: FileOpts) => o?.envPath ?? ".env";
 const KEYS = (o?: FileOpts) => o?.keysPath ?? ".env.keys";
 const read = (p: string) => (existsSync(p) ? readFileSync(p, "utf8") : "");
 
-/** The private key, from the SULUK_PRIVATE_KEY env var (wins — for CI/prod) or the .env.keys file. */
+/** Centralized key store: ~/.suluk/settings.json (override with SULUK_SETTINGS_PATH). One file holds every
+ * project's master key, so a new repo needs no per-repo .env.keys — it just gets an entry here. */
+const settingsPath = () => process.env.SULUK_SETTINGS_PATH || join(homedir(), ".suluk", "settings.json");
+
+interface SettingsProject {
+  name?: string;
+  path?: string;
+  env?: { key?: string; value?: string }[];
+}
+
+/**
+ * The current project's SULUK_PRIVATE_KEY from the centralized ~/.suluk/settings.json. The project is matched to
+ * the running directory: SULUK_PROJECT_DIR (set by CI hooks that run in a throwaway worktree) or cwd, by exact/
+ * prefix `path` match, falling back to a project `name` appearing as a path segment (so external worktrees like
+ * .../.worktrees/<name>/<issue> still resolve). Returns undefined on any miss/parse error — caller falls through.
+ */
+function readSettingsKey(): string | undefined {
+  let projects: SettingsProject[];
+  try {
+    const parsed = JSON.parse(readFileSync(settingsPath(), "utf8")) as { projects?: SettingsProject[] };
+    projects = Array.isArray(parsed.projects) ? parsed.projects : []; // fail safe: a non-array `projects` → no match, not a throw
+  } catch {
+    return undefined;
+  }
+  const dir = process.env.SULUK_PROJECT_DIR || process.cwd();
+  const segments = new Set(dir.split(sep).filter(Boolean));
+  const match =
+    projects.find((p) => p.path && (dir === p.path || dir.startsWith(p.path + sep))) ??
+    projects.find((p) => p.name && segments.has(p.name));
+  return match?.env?.find((e) => e.key === PRIVATE_KEY_NAME)?.value || undefined;
+}
+
+/** The private key, in precedence order: the SULUK_PRIVATE_KEY env var (wins — CI/prod), the centralized
+ * ~/.suluk/settings.json entry for this project, then the legacy per-repo .env.keys file (back-compat). */
 export function readPrivateKey(o?: FileOpts): string | undefined {
-  return process.env[PRIVATE_KEY_NAME] || parseEnv(read(KEYS(o)))[PRIVATE_KEY_NAME];
+  return process.env[PRIVATE_KEY_NAME] || readSettingsKey() || parseEnv(read(KEYS(o)))[PRIVATE_KEY_NAME];
 }
 /** The public key, from the .env file's SULUK_PUBLIC_KEY, else derived from the private key. */
 export function readPublicKey(o?: FileOpts): string | undefined {

@@ -28,6 +28,25 @@ So:
   without ever holding the decryption key;
 - the private key travels out-of-band (a password manager, a CI secret, `wrangler secret put`).
 
+### Where the private key is read from
+
+`readPrivateKey` (Node/Bun) resolves the key in precedence order:
+
+1. **`SULUK_PRIVATE_KEY` env var** — wins; for CI/prod and secret bindings.
+2. **`~/.suluk/settings.json`** — a centralized, machine-local store mapping each project to its key, so a
+   new repo needs **no per-repo `.env.keys`** — just an entry here. The project is matched by the running
+   directory (`SULUK_PROJECT_DIR` or cwd), by `path` prefix, falling back to the project `name` as a path
+   segment (so worktrees resolve). Override the location with `SULUK_SETTINGS_PATH`. Shape:
+   ```json
+   { "projects": [ { "name": "my-app", "path": "/abs/path/my-app",
+                     "env": [ { "key": "SULUK_PRIVATE_KEY", "value": "mlkem768:…" } ] } ] }
+   ```
+3. **`.env.keys`** — the legacy per-repo gitignored file (still honored for back-compat).
+
+Both `~/.suluk/settings.json` and `.env.keys` hold the **plaintext** private key — guard them like any
+secret (they live outside the repo / are gitignored, so neither is ever committed). A malformed or
+unreadable `settings.json` is ignored, not fatal: resolution simply falls through to the next source.
+
 ## CLI
 
 ```bash
