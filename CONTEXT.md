@@ -138,9 +138,17 @@ _Avoid_: route, webhook, task
 **Skill** is the one genuine **collision**, kept-and-reserved (C035): Suluk Skill = an agent's *model + instruction
 tier* (presence of `model` is the discriminator); Cloudflare Skill = *loadable on-demand content* with no model. A
 Suluk skill conflates two CF concepts — its `model*` fields → the CF agent's model config; its `provenance.source` →
-the generated `SKILL.md`, which *is* a valid CF Agent-Skill artifact. We keep `skills` unchanged and **reserve**
-`x-suluk-resources` for CF's loadable-catalog meaning (undefined until Suluk grows memory descriptors).
+the generated `SKILL.md`, which *is* a valid CF Agent-Skill artifact. We keep `skills` unchanged; the reserved name
+`x-suluk-resources` was subsequently **defined ([C036](./doc/architecture/decisions/C036-suluk-resources-loadable-catalog.md), operator-directed)** as CF's loadable-catalog concept — see **Resource** below.
 _Avoid_: equating Suluk Skill with Cloudflare's `agents/skills` catalog (opposite granularity)
+
+**Resource** ([C036](./doc/architecture/decisions/C036-suluk-resources-loadable-catalog.md)):
+A member of the top-level `x-suluk-resources` catalog — loadable, on-demand *content* (instructions / reference /
+script) an agent activates when a task matches (Cloudflare "Agent Skills", contract-first). **Content-only, no model**
+— that is what walls it off from a Skill (model-bearing, always-on). Its `provenance` pointer generates a `SKILL.md`
+(a valid CF Agent-Skill artifact), never inlined prose. Structural, advisory, never wire-enforced; experimental-anchored
+(CF Agent Skills are experimental) ⇒ low ceiling. An agent references it by-name via `resources`.
+_Avoid_: skill (model-bearing, always-on — the opposite); calling it always-on (it is lazy/loaded-on-demand)
 
 **Pyramid** ([C035](./doc/architecture/decisions/C035-cloudflare-terminology-alignment.md)):
 The agent stack viewed as determinism layers — the route(no-model)/skill(model) discriminator made vertical. **Layer 0**

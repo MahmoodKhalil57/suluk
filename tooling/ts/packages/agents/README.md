@@ -277,6 +277,19 @@ The projected scaffold then carries `// x-suluk-cost → x402: … server.paidTo
 (`per-call`/`per-request`) cost → a fixed price; usage-metered components are flagged `metered` (MPP `session`
 territory), never folded into the fixed number.
 
+### Loadable resources — `x-suluk-resources` (C036, Cloudflare "Agent Skills")
+
+The `x-suluk-resources` catalog is the on-demand, loadable content (instructions / references / scripts) an agent
+activates when a task matches — Suluk's contract-first form of CF Agent Skills. **Content-only, no model** — that
+walls it off from a `skill` (model-bearing, always-on). Experimental-anchored, structural-only, never enforced.
+
+```ts
+import { resourceCatalog, lintResources } from "@suluk/agents";
+
+resourceCatalog(doc, "assistant");  // the CF get() listing: [{ key, kind, description, provenance, trust }, …]
+lintResources(doc);                 // well-formedness + dangling refs + kind:"script" flagged (CF script exec is experimental)
+```
+
 ### Diagram (OBSERVE)
 
 ```ts
@@ -307,6 +320,7 @@ agentDiagramHtml(doc, "conin");    // a self-contained D3 page (data inlined + H
 | `agentLevel` / `layerReport` / `FLOOR_LEVEL` | C035 agent **pyramid** — `agentLevel` is the pure static composition-height (routes=0, leaf agent=1); `layerReport` folds level + grade + token-budget + context-waste into one per-layer observability surface (a composition of shipped analyzers, never read by D1) |
 | `agenticPatterns` / `affordedPatterns` | C035 — the canonical agentic patterns an agent's composition SHAPE affords (advisory; the runtime trajectory stays opaque per C029) |
 | `paidToolPrice` | C035 — derive an x402 `paidTool` price (USD) from a route's declared `x-suluk-cost`; flat → fixed price, metered → flagged for MPP `session` (declared, not enforced) |
+| `resourceCatalog` / `lintResources` / `resourcesOk` | C036 `x-suluk-resources` — the loadable on-demand catalog (CF "Agent Skills", content-only); `resourceCatalog` is the CF `get()` listing, `lintResources` gates well-formedness + dangling refs + the experimental-script flag |
 | `skillModels` / `resolveSkillModels` / `deriveCQT` / `selectModel` / `SEED_CATALOG` / `PROFILES` | C027 × `@suluk/models` model-selection seam (pin / router / latest, governance-gated) |
 | `intersectScope` / `analyzeScopes` / `localEscalations` | scope intersection along the reaching path + escalation detection |
 | `resolveOperationRef` / `agentMap` / `reachableSurface` / `findCycle` … | the `resolve` primitives the rest is built on |

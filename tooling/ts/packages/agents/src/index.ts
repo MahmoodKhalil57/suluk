@@ -66,3 +66,7 @@ export { agentLevel, layerReport, FLOOR_LEVEL, type AgentLayer, type LayerReport
 // / orchestrator-workers / evaluator-optimizer) an agent's composition SHAPE affords — advisory only; the runtime
 // trajectory stays opaque by design (C029). Pure static, never read by D1.
 export { agenticPatterns, affordedPatterns, type AgenticPattern, type PatternAffordance } from "./patterns";
+// loadable RESOURCES (C036): the `x-suluk-resources` catalog — Suluk's contract-first form of CF "Agent Skills"
+// (on-demand instructions/references/scripts; content-only, no model). `resourceCatalog` is the CF get() listing an
+// agent's catalog projects to; `lintResources` is the well-formedness + dangling-ref + experimental-script gate.
+export { resourceCatalog, lintResources, resourcesOk, resourceMap, resourceKey, type CatalogEntry, type ResourceFinding } from "./resources";
