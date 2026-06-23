@@ -89,6 +89,15 @@ test(&quot;contract input surface stays fully bounded (grade A)&quot;, async () 
   expect(audit.bySeverity.high).toBe(0);
 });</code></pre>
 <p>The thrown message names the worst operations and the high/medium counts, so a failing build tells the author exactly what to add.</p>
+<h3>Unified contract grade — combine the input-schema grade with the agent grade</h3>
+<p>A v4 document has two graded dimensions: its <strong>input schemas</strong> (this package) and its <strong>agent composition</strong> (<a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/agents"><code>@suluk/agents</code></a>' <code>gradeAgent</code>). <code>combineGrades</code> folds them into one contract grade — on the <strong>letter</strong>, never the raw score (the two scores are non-comparable: a clean/nodes ratio vs an absolute <code>100 − Σ penalty</code>). It's a pure combinator, so no package depends on the other — the caller passes the letters:</p>
+<pre><code class="lang-ts">import { auditDocument, combineGrades, assertCombinedGrade } from &quot;@suluk/harden&quot;;
+import { gradeAgents } from &quot;@suluk/agents&quot;;
+
+const grades = [auditDocument(doc).grade, ...gradeAgents(doc).map((g) =&gt; g.grade)];
+combineGrades(grades);             // { worst, average, grades } — `worst` is the value to GATE on (a contract is as strong as its weakest dimension)
+                                   //   `average` is informational; its ties round toward the higher letter, so it only ever masks optimistically
+assertCombinedGrade(grades, &quot;B&quot;);  // CI gate on the worst dimension; pass `&quot;average&quot;` to soften. Pass at least the doc grade — an empty set passes vacuously.</code></pre>
 <h3>Harden — the inverse transform</h3>
 <p><code>hardenSchema</code> adds baseline bounds to a single JSON Schema; <code>hardenDocument</code> does it to <strong>every</strong> input schema in a built v4 document, in place. Both are idempotent and <strong>never override an author-set bound</strong> — they only fill gaps. Strings bounded by <code>enum</code>/<code>const</code>/<code>format</code> are left alone.</p>
 <pre><code class="lang-ts">import { hardenSchema, hardenDocument } from &quot;@suluk/harden&quot;;
@@ -115,6 +124,7 @@ const tightened = hardenSchema(schema, opts);</code></pre>
 <tr><td><code>auditOperation(doc, uri, name, req)</code></td><td>Audit one operation's input surface → <code>OpAudit</code>.</td></tr>
 <tr><td><code>assertGrade(doc, min, opts?)</code></td><td>CI gate: throw if the grade is below <code>min</code>; else return the <code>DocAudit</code>.</td></tr>
 <tr><td><code>grade(score)</code></td><td>Map a 0–100 score to a letter grade (<code>A</code> ≥ 90, <code>B</code> ≥ 75, <code>C</code> ≥ 60, <code>D</code> ≥ 40, else <code>F</code>).</td></tr>
+<tr><td><code>combineGrades(grades)</code> / <code>assertCombinedGrade(grades, min, mode?)</code></td><td>UNIFIED contract grade (Stage 1.5): combine this input-schema grade with <code>@suluk/agents</code>' <code>gradeAgent</code> grade on the LETTER → <code>{ worst, average, grades }</code>; gate on the worst (safe) or <code>&quot;average&quot;</code>.</td></tr>
 <tr><td><code>hardenSchema(schema, opts?)</code></td><td>Add baseline bounds to one JSON Schema (idempotent; never overrides).</td></tr>
 <tr><td><code>hardenDocument(doc, opts?)</code></td><td>Harden every input schema in a built v4 document, in place.</td></tr>
 <tr><td><code>HardenOptions</code></td><td><code>{ maxLength?, textPattern?, numberMax?, numberMin?, maxItems? }</code> — overridable floors for the transform.</td></tr>
@@ -126,7 +136,7 @@ const tightened = hardenSchema(schema, opts);</code></pre>
 <p>This package stays L3 — <strong>render/generate, never host</strong>. It reads and rewrites the schemas inside a v4 document and returns reports/transformed documents; it does not run a server, validate live wire requests, or store anything. You inject the document (the built v4 doc) and consume the result (a grade, findings, or a hardened copy). Surfacing the grade to a developer (a docs panel, an editor bar) is the consumer's job; enforcing the bounds at runtime is the wire's job.</p>
 <h2>License</h2>
 <p>Apache-2.0</p>
-      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">assertGrade</span><span class="badge badge-sm badge-outline font-mono">Audit</span><span class="badge badge-sm badge-outline font-mono">auditDocument</span><span class="badge badge-sm badge-outline font-mono">auditOperation</span><span class="badge badge-sm badge-outline font-mono">DocAudit</span><span class="badge badge-sm badge-outline font-mono">Finding</span><span class="badge badge-sm badge-outline font-mono">grade</span><span class="badge badge-sm badge-outline font-mono">Grade</span><span class="badge badge-sm badge-outline font-mono">hardenDocument</span><span class="badge badge-sm badge-outline font-mono">HardenOptions</span><span class="badge badge-sm badge-outline font-mono">hardenSchema</span><span class="badge badge-sm badge-outline font-mono">OpAudit</span><span class="badge badge-sm badge-outline font-mono">Severity</span></div>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">assertCombinedGrade</span><span class="badge badge-sm badge-outline font-mono">assertGrade</span><span class="badge badge-sm badge-outline font-mono">Audit</span><span class="badge badge-sm badge-outline font-mono">auditDocument</span><span class="badge badge-sm badge-outline font-mono">auditOperation</span><span class="badge badge-sm badge-outline font-mono">CombinedGrade</span><span class="badge badge-sm badge-outline font-mono">DocAudit</span><span class="badge badge-sm badge-outline font-mono">Finding</span><span class="badge badge-sm badge-outline font-mono">grade</span><span class="badge badge-sm badge-outline font-mono">Grade</span><span class="badge badge-sm badge-outline font-mono">hardenDocument</span><span class="badge badge-sm badge-outline font-mono">HardenOptions</span><span class="badge badge-sm badge-outline font-mono">hardenSchema</span><span class="badge badge-sm badge-outline font-mono">OpAudit</span><span class="badge badge-sm badge-outline font-mono">Severity</span></div>
       <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/core</span></div>
       
     </div>
