@@ -246,6 +246,37 @@ signals into one surface: **hardening** (`gradeAgent` A–F), **token-budget** (
 `contextReport` estimate → `overBudget`), and **context-waste** (resident tools the analyzer says to push to
 cold-tail → `contextWaste`). No new mechanism, no enforcement.
 
+### Agentic-pattern affordances (C035)
+
+Which canonical agentic patterns (prompt-chaining · routing · parallelization · orchestrator-workers ·
+evaluator-optimizer) an agent's **composition shape affords** — advisory only. The runtime trajectory (which pattern
+actually runs) stays opaque by design (C029), so this reports *capability*, never an execution claim.
+
+```ts
+import { agenticPatterns, affordedPatterns } from "@suluk/agents";
+
+affordedPatterns(doc, "refiner");      // ["evaluator-optimizer"]  — a thinking envelope of ≥2 rounds
+affordedPatterns(doc, "chain");        // ["prompt-chaining"]       — exactly one sub-agent (a linear pipe)
+affordedPatterns(doc, "coordinator");  // ["orchestrator-workers","parallelization","routing"] — ≥2 sub-agents + a skill
+agenticPatterns(doc, "coordinator");   // each with a rationale + advisory:true
+```
+
+### Charge per call — `x-suluk-cost` → x402 `paidTool` (C035)
+
+A route's declared `x-suluk-cost` projects to an x402 `paidTool` price. The Cloudflare/Node scaffolds surface the
+price + the wiring path (DECLARED, never enforced — an AI-SDK `tool()` isn't itself a `paidTool`).
+
+```ts
+import { paidToolPrice } from "@suluk/agents";
+
+paidToolPrice({ components: [{ basis: "per-call", microUsd: 10_000 }] });  // { priceUsd: 0.01, microUsd: 10000, metered: false }
+paidToolPrice({ components: [{ basis: "per-token", microUsd: 3 }] });      // { priceUsd: 0, microUsd: 0, metered: true } → use MPP session
+```
+
+The projected scaffold then carries `// x-suluk-cost → x402: … server.paidTool("square", desc, 0.01, …)`. Flat
+(`per-call`/`per-request`) cost → a fixed price; usage-metered components are flagged `metered` (MPP `session`
+territory), never folded into the fixed number.
+
 ### Diagram (OBSERVE)
 
 ```ts
@@ -274,6 +305,8 @@ agentDiagramHtml(doc, "conin");    // a self-contained D3 page (data inlined + H
 | `contextReport` / `suggestUnflatten` | C027 context-budget analyzer (model-fit, over-budget, flatten/unflatten suggestions) |
 | `gradeAgent` / `gradeAgents` / `assertAgentGrade` / `agentGradeOk` / `gradeOf` | C027 Stage-1.3 agent-COMPOSITION grade — aggregate lint + context + (served-fact) conformance/freshness into one A–F score + a CI gate (mirrors `@suluk/harden`'s `assertGrade`; F reserved for ship-blocking errors) |
 | `agentLevel` / `layerReport` / `FLOOR_LEVEL` | C035 agent **pyramid** — `agentLevel` is the pure static composition-height (routes=0, leaf agent=1); `layerReport` folds level + grade + token-budget + context-waste into one per-layer observability surface (a composition of shipped analyzers, never read by D1) |
+| `agenticPatterns` / `affordedPatterns` | C035 — the canonical agentic patterns an agent's composition SHAPE affords (advisory; the runtime trajectory stays opaque per C029) |
+| `paidToolPrice` | C035 — derive an x402 `paidTool` price (USD) from a route's declared `x-suluk-cost`; flat → fixed price, metered → flagged for MPP `session` (declared, not enforced) |
 | `skillModels` / `resolveSkillModels` / `deriveCQT` / `selectModel` / `SEED_CATALOG` / `PROFILES` | C027 × `@suluk/models` model-selection seam (pin / router / latest, governance-gated) |
 | `intersectScope` / `analyzeScopes` / `localEscalations` | scope intersection along the reaching path + escalation detection |
 | `resolveOperationRef` / `agentMap` / `reachableSurface` / `findCycle` … | the `resolve` primitives the rest is built on |

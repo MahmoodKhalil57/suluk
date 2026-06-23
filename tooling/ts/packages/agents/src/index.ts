@@ -27,7 +27,7 @@ export { projectNodeAgent, type NodeAgentOptions, type NodeAgentArtifacts } from
 // adapters, so a future Vercel/etc. agent runtime is a new adapter, not a rewrite (mirrors @suluk/deploy's providers).
 export { runtimeProviders, cloudflareRuntime, nodeRuntime, type AgentRuntimeProvider, type AgentRuntimeArtifacts, type RuntimeDeployHint } from "./runtime";
 // the runtime-agnostic derivation shared by the adapters (the contract → tool-def mapping).
-export { routeToolDef, type RouteToolDef } from "./runtime-shared";
+export { routeToolDef, paidToolPrice, type RouteToolDef, type PaidToolPrice } from "./runtime-shared";
 export { reachableSurface, residentSurface, residentToolNames, assertServedSubset, assertServedSubsetGoverned, assertDefaultServedResident, verifySkillFreshness, conformanceOk, type ConformanceFinding } from "./conformance";
 export { intersectScope, analyzeScopes, localEscalations, type Scope, type ScopeEscalation } from "./scope";
 export {
@@ -62,3 +62,7 @@ export {
 // pure static composition-height derivation (reuses `subtreeDepth`); `layerReport` folds level + grade + token-budget
 // + context-waste into one per-layer observability surface — a COMPOSITION of shipped analyzers, not a new mechanism.
 export { agentLevel, layerReport, FLOOR_LEVEL, type AgentLayer, type LayerReport } from "./pyramid";
+// agentic-pattern AFFORDANCES (C035 follow-up): which canonical patterns (prompt-chaining / routing / parallelization
+// / orchestrator-workers / evaluator-optimizer) an agent's composition SHAPE affords — advisory only; the runtime
+// trajectory stays opaque by design (C029). Pure static, never read by D1.
+export { agenticPatterns, affordedPatterns, type AgenticPattern, type PatternAffordance } from "./patterns";
