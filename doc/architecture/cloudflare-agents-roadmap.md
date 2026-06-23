@@ -82,21 +82,21 @@ generator-or-not). Stage 2 is **gated** on the Stage 0 measurement.
 > structured estimate (±10%), tool claims are machine-checked. Value is *correctness of wiring + non-drifting schemas*,
 > not LOC saved. A second pass on an email/scheduled agent would bracket the low end.
 
-### Stage 1 — high-value, low-risk, build regardless. Status: ◑ 1.1 + 1.2 + 1.3 DONE (2026-06-22); 1.4–1.5 pending
+### Stage 1 — high-value, low-risk, build regardless. Status: ◑ 1.1 + 1.2 + 1.3 + 1.4 DONE (2026-06-22..23); 1.5 pending
 
 | # | Task | Where | Est | Done? |
 |---|---|---|---|---|
 | 1.1 | Emit `durable_objects.bindings` + `migrations: [{ tag, new_sqlite_classes }]` + `nodejs_compat` into the generated `wrangler.jsonc`, derived from which agents are runtime DOs. (C032 "complete the half" — deploy owns D1/KV/R2/cron but not DO.) | `@suluk/deploy` | ½ d | ✅ |
 | 1.2 | Add DO binding + sqlite-class **migration** support to the API-driven `deploy()` (the REST path has no wrangler to lean on). | `@suluk/cloudflare` | ½ d | ✅ |
 | 1.3 | **Agent checklist + A–F grade + `assertAgentGrade` CI gate + inverse "fix" transform**, aggregating the existing checks (table below). Reuse `@suluk/harden`'s grade/`assertGrade`/inverse-fix *idiom*; host in `@suluk/agents` (inputs live there, no cycle). Inverse-fix reuses `suggestUnflatten` for the context dimension + existing `hardenDocument` for tool inputs. | `@suluk/agents` | ½–1 d | ✅ |
-| 1.4 | New `x-suluk-approval` facet (or extend `x-suluk-access`) for **HITL gate on mutating tools** → projects to the Agents SDK `needsApproval` predicate. Maps onto the chat example's approval-gated `calculate`. Add a `@suluk/testgen` conformance claim so it's load-bearing. | `@suluk/core` facet + `@suluk/agents` | ½–1 d | ☐ |
+| 1.4 | New `x-suluk-approval` facet for **HITL gate on mutating tools** → projects to the Agents SDK `needsApproval` predicate. Maps onto the chat example's approval-gated `calculate`. | `@suluk/core` facet + `@suluk/agents` | ½–1 d | ✅ (landed with 2.A; `@suluk/testgen` claim deferred) |
 | 1.5 | Optionally fold the agent grade into `@suluk/harden`'s document rollup for one unified "contract grade" (thin bridge; harden depends on agents, never the reverse). | `@suluk/harden` | ¼ d | ☐ |
 
-### Stage 2 — conditional on Stage 0. Status: ☐ UNBLOCKED → **path A (generator)** selected by the 71% measurement
+### Stage 2 — conditional on Stage 0. Status: ◑ **path A (generator) 2.A1 DONE** (2026-06-23); 2.A2 (seam ADR) pending
 
 | # | Task (path A: generator) | Where | Est | Done? |
 |---|---|---|---|---|
-| 2.A1 | `projectCloudflareAgent(doc, agentName, opts)` — third projection target alongside `projectClaudePlugin`/`projectOpenRouter`. Emits **owned source** (L3-pure, source *strings*, no `agents` dep): `Agent<Env,State>` subclass (skills→model via `skillModels`; resident routes→`@callable()`/MCP-tool loop; sub-agents→child-DO routing), `routeAgentRequest()`/`agentsMiddleware()` wiring, `tsconfig`/decorator notes. | `@suluk/agents` | ½–1 d | ☐ |
+| 2.A1 | `projectCloudflareAgent(doc, agentName, opts)` — third projection target alongside `projectClaudePlugin`/`projectOpenRouter`. Emits **owned source** (L3-pure, source *strings*, no `agents` dep): `AIChatAgent` subclass, contract-derived tools (`jsonSchema()` input schemas) + `needsApproval` from `x-suluk-approval`, `routeAgentRequest()` worker. Returns the `durableObjects` descriptor → feeds 1.1/1.2. | `@suluk/agents` | ½–1 d | ✅ |
 | 2.A2 | Keep Cloudflare behind a **runtime-adapter seam** (mirror `@suluk/deploy`'s `DeployProvider`/`providers`) so a future Node/Vercel agent runtime is another adapter, not a rewrite. Emit a `Cxxx` ADR for the seam (hard-to-reverse). | `@suluk/agents` | ¼ d | ☐ |
 
 | # | Task (path B: templates, if 0.3 says so) | Where | Est | Done? |
@@ -160,6 +160,29 @@ now invariant to whether the caller passes a snapshot), the warning-pile-F overl
 `shippable` (honest name), finding dedup, and the O(N²) rollup hoisted. Confidence ≈0.85. The two `❌ new` rows above
 (HITL `x-suluk-approval`, replay-safety) are Stage 1.4 — wiring them adds two checklist rules to this grade.
 
+### Stage 2.A1 + 1.4 — what landed (2026-06-23)
+
+[`@suluk/agents/src/cloudflare.ts`](../../tooling/ts/packages/agents/src/cloudflare.ts) `projectCloudflareAgent` — the
+THIRD projection target. One `x-suluk-agents` declaration → an OWNED Cloudflare Agents-SDK scaffold: `AIChatAgent`
+subclass + `routeAgentRequest` worker + tools derived from each route's operation (name/description/input-schema via the
+`ai` SDK's `jsonSchema()`) + `needsApproval` from the new **`x-suluk-approval`** facet. Model/prompt/loop/`execute`
+bodies are marked TODOs (the bespoke brain). **L3-pure** (source strings, no `agents`/`ai` dep, no credential), pure +
+deterministic + fail-loud. Returns `durableObjects: [{ binding, className }]` — the real caller of the Stage-1.1/1.2
+deploy surface, closing the loop. The **`x-suluk-approval`** facet (1.4) lives in `@suluk/core` (`SulukApproval` +
+`Request["x-suluk-approval"]`), static/advisory like cost/ratelimit — verified (code-read + an executable tripwire in
+`core/test/facets.test.ts`) to NOT perturb the ADA signature (`computeSignature` is a closed field list) and to ride
+the 3.1 downgrade's generic `x-*` passthrough. A `untrusted-mutation-no-approval` rule was added to the Stage-1.3 grade.
+
+**agents 120 pass · core 40 pass · both typecheck clean.** Built understand→implement→review via three workflows; the
+[3-lens review](../../tooling/ts/packages/agents/src/cloudflare.ts) returned *ship-with-fixes* (2× ship, no blocker/major;
+the facet's ADA-identity safety was the explicit refutation target and held by construction) — all applied: deleted a
+dead `MUTATING` const, wired the `mcpUrl` option, guarded an empty-summary description, `await convertToModelMessages`
+(ai SDK ≥6), the grade-scope comment, and **F1 the ADA-invariance tripwire**. Confidence ≈0.85.
+
+**Carried follow-ups:** `@suluk/testgen` conformance claim for `x-suluk-approval`; the runtime-adapter **seam ADR (2.A2)**;
+recursive sub-agent scaffolding (v1 emits the named agent only — `reachableSubAgents` is returned); unify the
+instruction-snapshot key convention (projections use bare `<skill>`, context/grade use `<agent>/<skill>`).
+
 ## What NOT to do (the brakes)
 
 - **No hosting package.** No `@suluk/party` / `@suluk/agents-runtime` that holds live state/credentials — crosses the
@@ -184,16 +207,21 @@ now invariant to whether the caller passes a snapshot), the warning-pile-F overl
 
 ## Resume pointer (cheapest next move)
 
-**Stage 0 closed (✅), Stage 1.1 + 1.2 + 1.3 closed (✅ 2026-06-22, all reviewed ship-with-fixes, fixes applied).** Next:
+**Stages 0, 1.1, 1.2, 1.3, 1.4, and 2.A1 all closed (✅ 2026-06-22..23, each reviewed ship-with-fixes, fixes applied).**
+The full arc is now end-to-end: contract → `projectCloudflareAgent` scaffold → `durableObjects` → `@suluk/deploy`/`@suluk/cloudflare`. Next:
 
-1. **Stage 1.4 — the `x-suluk-approval` HITL facet** (`@suluk/core` facet + `@suluk/agents` projection + a `@suluk/testgen`
-   claim). Reclaims the one `[BESPOKE:GAP]` line from the measurement; adds the "HITL gate on mutating tools" rule to the
-   Stage-1.3 grade. The chat example's approval-gated `calculate` is the worked target.
-2. **Stage 2.A — `projectCloudflareAgent`** now that the 71% justifies it. Build it to emit exactly the `[WIRING]`-tagged
-   blocks in the measurement artifact; leave the `[BESPOKE]` brain as authored stubs. **It becomes the real caller of
-   `durableObjects`** — fold the Stage-1.1/1.2 follow-ups (additive DO evolution via a `prev` set; backend-flip guard) in here.
-3. **Stage 1.5 (optional now) — unified contract grade**: average the `@suluk/harden` doc grade and the `gradeAgent`
-   grade on the LETTER. Thin bridge in `@suluk/harden`.
+1. **Stage 2.A2 — the runtime-adapter seam + a `Cxxx` ADR** (mirror `@suluk/deploy`'s `DeployProvider`/`providers` so a
+   future Node/Vercel agent runtime is another adapter, not a rewrite). Spec-governance: emit the ADR + a daftar receipt.
+2. **Hardening follow-ups** (fold into a Stage-2 pass): the `@suluk/testgen` claim for `x-suluk-approval`; recursive
+   sub-agent scaffolding in `projectCloudflareAgent`; additive DO evolution (`prev` set) + backend-flip guard in deploy;
+   unify the instruction-snapshot key convention.
+3. **Stage 1.5 — unified contract grade**: average the `@suluk/harden` doc grade and the `gradeAgent` grade on the LETTER
+   (a thin bridge in `@suluk/harden`).
+4. **End-to-end smoke** (optional): wire `projectCloudflareAgent`'s output through `@suluk/cloudflare`'s `deploy()` against
+   a real account, or a second Stage-0 pass on an email/scheduled agent.
+
+Strong candidate for a **commit checkpoint** here — Stages 1.1–2.A1 are a large, green, reviewed, uncommitted body across
+`@suluk/{core,deploy,cloudflare,agents}` + docs.
 
 Optional: a **second Stage-0 pass** on an email/scheduled agent to bracket the low end of the derivable range (the chat
 agent is the favorable, tool-heavy case).

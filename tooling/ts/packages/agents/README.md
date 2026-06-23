@@ -111,6 +111,33 @@ m.subAgents;      // [{ name: "retrieval", ref: "#/x-suluk-agents/coninRetrieval
 m.instructions;   // { source, contentHash, version } — a pointer + pinned hash, never raw text by default
 ```
 
+### Project a Cloudflare Agents-SDK scaffold (the RUNTIME — closes the loop with `@suluk/deploy`)
+
+The third projection target: one declaration → an **owned** Cloudflare Agents-SDK Worker. It emits exactly the wiring
+the Stage-0 measurement proved derivable (~71%) — the `AIChatAgent` class, the `routeAgentRequest` worker, the Env
+bindings, and each tool's name/description/**input schema** (via the `ai` SDK's `jsonSchema()`) + the `needsApproval`
+gate from `x-suluk-approval`. The bespoke brain (model, system prompt, loop policy, each tool's `execute`) is left as
+clearly-marked TODOs — generating it would be over-abstraction. L3-pure: source strings only, no `agents`/`ai` dep, no
+credential ever embedded.
+
+```ts
+import { projectCloudflareAgent } from "@suluk/agents";
+
+const a = projectCloudflareAgent(doc, "weatherAssistant", {
+  instructions: { chat: "You are a helpful weather assistant." }, // optional; inlined + contentHash-pinned as the system prompt
+  // className: "WeatherAssistant",   // default = PascalCase(agentName)
+  // mcpUrl: "https://host/mcp",       // optional; referenced in the execute-stub comment (never embedded as a credential)
+});
+
+a.files;             // { "src/agents/WeatherAssistant.ts": …, "src/index.ts": … } — owned source you complete
+a.durableObjects;    // [{ binding: "WeatherAssistant", className: "WeatherAssistant" }] → feed @suluk/deploy's `durableObjects`
+a.reachableSubAgents; // sub-agents (each its own DO) — scaffold separately; v1 emits the named agent only
+```
+
+The returned `durableObjects` is exactly the shape [`@suluk/deploy`](../deploy)'s `DeployInput.durableObjects` /
+[`@suluk/cloudflare`](../cloudflare)'s `DeployPlan.durableObjects` expect — so the same contract that scaffolds the
+agent also declares its Durable Object binding + sqlite migration.
+
 Both projections throw on a non-installable agent — a day-one dangling `operationRef` fails on **both**
 targets rather than emitting a broken artifact.
 
@@ -205,6 +232,7 @@ agentDiagramHtml(doc, "conin");    // a self-contained D3 page (data inlined + H
 | `lintAgents` / `lintOk` / `assertAgentInstallable` | the C027 install gate (acyclicity, depth, dangling refs, the D1 selector red-line) |
 | `projectClaudePlugin` | one agent → `plugin.json` + `.mcp.json` + generated `SKILL.md` (pure, fail-loud) |
 | `projectOpenRouter` | one agent → an OpenRouter/OpenAI function-tool manifest (resident vs `discover_tools` cold-tail) |
+| `projectCloudflareAgent` | one agent → an OWNED Cloudflare Agents-SDK scaffold (AIChatAgent class + `routeAgentRequest` worker + contract-derived tools + `needsApproval` from `x-suluk-approval`) **+ the `durableObjects` descriptor for `@suluk/deploy`** (pure, L3, fail-loud) |
 | `agentManifest` / `verifyAgentFreshness` | a canonical signable manifest + preprompt-drift detection over the signed `contentHash` |
 | `reachableSurface` / `residentSurface` / `residentToolNames` | the static, zero-request tool/sub-agent surface; the resident (default-served) partition |
 | `assertServedSubset` / `assertDefaultServedResident` / `assertServedSubsetGoverned` / `conformanceOk` | over-serve / cold-tail-in-default / policy-denied auditors |

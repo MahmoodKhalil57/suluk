@@ -24,7 +24,7 @@
  */
 import type { OpenAPIv4Document } from "@suluk/core";
 import type { ModelCatalog } from "@suluk/models";
-import { agentMap } from "./resolve";
+import { agentMap, resolveOperationRef } from "./resolve";
 import { lintAgents, type LintFinding } from "./lint";
 import { contextReport, type ContextReport, type UnflattenSuggestion } from "./context";
 import { assertServedSubset, assertDefaultServedResident, verifySkillFreshness } from "./conformance";
@@ -81,8 +81,9 @@ export function gradeOf(score: number): AgentGrade {
 const ORDER: AgentGrade[] = ["F", "D", "C", "B", "A"];
 const PENALTY: Record<GradeSeverity, number> = { error: 40, warning: 12, info: 0 };
 const NO_TIERING_MIN_ROUTES = 8; // ≥ this many own routes with ZERO cold-tail ⇒ the tier-trim is unused
+const MUTATING = new Set(["post", "put", "patch", "delete"]);
 
-/** Two static STRUCTURE checks the lint/context/conformance passes don't cover. */
+/** Static STRUCTURE checks the lint/context/conformance passes don't cover (tiering, unpinned skills, HITL on mutations). */
 function structureFindings(doc: OpenAPIv4Document, agentName: string): AgentGradeFinding[] {
   const agent = agentMap(doc)[agentName];
   if (!agent) return [];
@@ -95,6 +96,22 @@ function structureFindings(doc: OpenAPIv4Document, agentName: string): AgentGrad
       detail: `${routes.length} routes, none cold-tail — the whole tool surface loads on every inference (the tier-trim context reduction is unused)`,
       fix: "mark rarely-used routes `tier: \"cold-tail\"` so they sit behind discover_tools",
     });
+  // HITL (Stage 1.4): an UNTRUSTED tier that can invoke a MUTATING operation with no human-approval gate is a real
+  // blast-radius risk — an autonomous, untrusted LLM running a consequential write unattended. (Trusted tiers are a
+  // deliberate policy choice → not flagged; declare `x-suluk-approval: { required: true }` on the operation to gate.)
+  // NB per-agent-LOCAL: this inspects the agent's OWN routes, not its transitive sub-agent surface (each sub-agent is
+  // graded on its own — gradeAgents rolls them up). An untrusted PARENT delegating a mutation to a child is the child's finding.
+  if (agent.trustBoundary === "untrusted") {
+    for (const [rk, r] of routes) {
+      const req = resolveOperationRef(doc, r.operationRef)?.request;
+      if (req && MUTATING.has(req.method.toLowerCase()) && !req["x-suluk-approval"]?.required)
+        out.push({
+          dimension: "structure", severity: "warning", code: "untrusted-mutation-no-approval",
+          detail: `untrusted tier can invoke mutating tool "${rk}" (${req.method.toUpperCase()}) with no human-approval gate`,
+          fix: "declare `x-suluk-approval: { required: true }` on the operation (projects to the Agents SDK needsApproval)",
+        });
+    }
+  }
   for (const [sk, skill] of Object.entries(agent.skills ?? {})) {
     if (!skill.provenance)
       out.push({

@@ -302,6 +302,26 @@ export interface Request {
    * carries the shape + derived reads (`rateLimitIndex`/`rateLimitCoverage`/`retryAfterSeconds`).
    */
   ["x-suluk-ratelimit"]?: SulukRateLimit;
+  /**
+   * HUMAN-IN-THE-LOOP APPROVAL facet (Stage 1.4): declares that invoking this operation as an AGENT TOOL requires
+   * human approval before it runs — a consequential/irreversible action an autonomous loop must pause on. Advisory,
+   * like {@link SulukApproval} describes.
+   */
+  ["x-suluk-approval"]?: SulukApproval;
+}
+
+/**
+ * HUMAN-IN-THE-LOOP APPROVAL facet (Stage 1.4). Like x-suluk-cost/access/ratelimit it is an ADVISORY vendor extension
+ * in the `x-suluk-*` namespace — the facet DECLARES the gate; a runtime adapter ENFORCES it (e.g. @suluk/agents'
+ * `projectCloudflareAgent` emits the Cloudflare Agents SDK `needsApproval` predicate from it). STATIC by construction:
+ * `required` is a fixed boolean — the facet NEVER carries a request-value selector (the D1 red-line), so a server can
+ * never be pressured into a dynamic dispatch decision; the gate is "this action, always", decided at author time.
+ */
+export interface SulukApproval {
+  /** require human approval before this operation runs as an agent tool. */
+  required: boolean;
+  /** why approval is needed — shown to the human approver and in docs. */
+  reason?: string;
 }
 
 /**

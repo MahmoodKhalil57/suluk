@@ -19,6 +19,9 @@ export {
   type ClaudePluginOptions, type ClaudePluginArtifacts,
   type OpenRouterOptions, type OpenRouterAgentManifest, type OpenRouterFunctionTool,
 } from "./project";
+// the THIRD projection target (Stage 2.A): one agent → an owned Cloudflare Agents-SDK scaffold (the runtime) + its
+// Durable Object descriptor for @suluk/deploy / @suluk/cloudflare. L3-pure (source strings, no `agents` dep).
+export { projectCloudflareAgent, type CloudflareAgentOptions, type CloudflareAgentArtifacts } from "./cloudflare";
 export { reachableSurface, residentSurface, residentToolNames, assertServedSubset, assertServedSubsetGoverned, assertDefaultServedResident, verifySkillFreshness, conformanceOk, type ConformanceFinding } from "./conformance";
 export { intersectScope, analyzeScopes, localEscalations, type Scope, type ScopeEscalation } from "./scope";
 export {

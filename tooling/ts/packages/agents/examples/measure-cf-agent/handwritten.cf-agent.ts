@@ -38,8 +38,8 @@ export class WeatherAssistant extends AIChatAgent<Env> {
       system:
         "You are a helpful assistant. You can check the weather with get_weather and evaluate arithmetic " +
         "with calculate. When the user asks for a calculation, call calculate and report the result. Be concise.",
-      // [WIRING] message conversion + pruning — same every time
-      messages: convertToModelMessages(this.messages),
+      // [WIRING] message conversion + pruning — same every time (ai SDK ≥6: convertToModelMessages is async)
+      messages: await convertToModelMessages(this.messages),
       // [BESPOKE] loop policy — how many tool hops this agent may take
       stopWhen: stepCountIs(5),
       tools: {

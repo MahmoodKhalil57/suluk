@@ -102,6 +102,28 @@ describe("a single missing-provenance defect is NOT double-charged (score is inv
   });
 });
 
+describe("HITL: an untrusted tier invoking a mutating tool with no approval gate (x-suluk-approval) is flagged", () => {
+  // op() is POST (mutating). Build an untrusted agent over it, with and without the approval facet.
+  const base = (approval?: { required: boolean }) => {
+    const d = doc({ retr: { description: "untrusted retrieval tier", maxDepth: 0, trustBoundary: "untrusted", skills: { s: { model: ["m"], provenance: PINNED } }, routes: { a: route("a") }, agents: {} } });
+    if (approval) (d.paths!["v1/a"]!.requests.a as any)["x-suluk-approval"] = approval;
+    return d;
+  };
+  test("untrusted + mutating + no approval → untrusted-mutation-no-approval warning", () => {
+    const r = gradeAgent(base(), "retr");
+    expect(r.byDimension.structure.some((f) => f.code === "untrusted-mutation-no-approval")).toBe(true);
+  });
+  test("declaring x-suluk-approval { required: true } clears it", () => {
+    const r = gradeAgent(base({ required: true }), "retr");
+    expect(r.byDimension.structure.some((f) => f.code === "untrusted-mutation-no-approval")).toBe(false);
+  });
+  test("a TRUSTED agent (no trustBoundary) over the same mutating op is NOT flagged (gating is its policy choice)", () => {
+    const d = doc({ orch: { description: "a trusted orchestrator", maxDepth: 0, skills: { s: { model: ["m"], provenance: PINNED } }, routes: { a: route("a") }, agents: {} } });
+    const r = gradeAgent(d, "orch");
+    expect(r.byDimension.structure.some((f) => f.code === "untrusted-mutation-no-approval")).toBe(false);
+  });
+});
+
 describe("served-fact conformance + freshness fold in ONLY when supplied", () => {
   const d = doc({
     svc: {

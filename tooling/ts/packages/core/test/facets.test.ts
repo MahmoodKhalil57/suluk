@@ -3,8 +3,40 @@ import {
   PROBLEM_STATUS_TABLE, TITLE_BY_TAG, PROBLEM_CONTENT_TYPE,
   isProblemDetails, toProblemDetails,
   rateLimitIndex, rateLimitCoverage, rateLimitOf, retryAfterSeconds, RATELIMIT_EXT,
-  type OpenAPIv4Document,
+  computeSignature, buildAda,
+  type OpenAPIv4Document, type SulukApproval,
 } from "../src/index";
+
+describe("x-suluk-approval (HITL facet, Stage 1.4) is ADVISORY — it never perturbs ADA identity (the load-bearing D1 invariant)", () => {
+  // an operation, with vs without the approval facet — every other identity input held equal.
+  const reqOf = (approval?: SulukApproval) => ({
+    method: "post" as const,
+    contentSchema: { $ref: "#/components/schemas/CalcInput" },
+    responses: { ok: { status: 200 } },
+    ...(approval ? { "x-suluk-approval": approval } : {}),
+  });
+
+  test("computeSignature yields a byte-identical key with vs without x-suluk-approval", () => {
+    const without = computeSignature("v1/calculate", reqOf()).key;
+    const gated = computeSignature("v1/calculate", reqOf({ required: true, reason: "destructive" })).key;
+    expect(gated).toBe(without); // the signature tuple is a closed field list — facets are structurally invisible to it
+  });
+
+  test("buildAda's match-relevant projection is identical with vs without the facet (the matcher never reads it — D1)", () => {
+    const docOf = (approval?: SulukApproval): OpenAPIv4Document => ({
+      openapi: "4.0.0-candidate", info: { title: "t", version: "1.0.0" },
+      components: { schemas: { CalcInput: { type: "object", properties: { expression: { type: "string" } } } } },
+      paths: { "v1/calculate": { requests: { calculate: reqOf(approval) } } },
+    });
+    // project to the match-relevant fields only (buildAda legitimately CARRIES the advisory facet on o.request; what
+    // must be invariant is identity + matching — the signature keys, not the carried metadata).
+    const project = (ada: ReturnType<typeof buildAda>) => ({
+      ops: ada.operations.map((o) => ({ path: o.pathTemplate, name: o.name, method: o.request.method, key: o.signatureKey })),
+      keys: [...ada.bySignature.keys()].sort(),
+    });
+    expect(project(buildAda(docOf({ required: true })))).toEqual(project(buildAda(docOf())));
+  });
+});
 
 describe("error-envelope facet (saastarter-parity Phase 0)", () => {
   test("PROBLEM_STATUS_TABLE ports the saastarter route-handler mapping verbatim (incl. 502)", () => {
