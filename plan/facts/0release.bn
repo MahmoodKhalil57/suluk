@@ -1,0 +1,33 @@
+# RELEASE READINESS (2026-06-23) — the load-bearing justifications for an IRREVERSIBLE npm publish of the 7 changed
+# @suluk/* packages (core, agents, harden, deploy, cloudflare, testgen, docs). Registered so the mizan action-safety
+# gate can witness-check them in the ledger (atom 0007 anti-fab) before the publish, rather than trusting free-text.
+# Each claim is witnessed by THIS session's verified command outputs + the two review workflows.
+
+# GREEN: every package in the publish set typechecks clean and its tests pass. WITNESS: the merge-readiness review
+# workflow (wf_9c6995c9-a0c) full-sweep dimension independently ran `bunx tsc --noEmit` + `bun test` across 35
+# packages → 35 tsc-clean, 1202 tests, 0 failures; plus direct in-session re-runs (core 42 / agents 177 / harden 14,
+# all tsc clean) and the full-workspace tsc sweep that found + cleared the only 8 errors (chat/docs/seo/stripe).
+claim release_set_green: Bool @>=0.9 = True
+falsified_when release_set_green == False
+
+# NO COLLISION AFTER BUMP: each of the 7 is patch-bumped above its currently-published max, so `bun publish` cannot
+# clobber an existing version. WITNESS: an in-session `npm view <pkg> version` check showed local==published for all
+# 7 (core 0.1.11, agents 0.1.5, harden 0.1.1, deploy 0.1.3, cloudflare 0.1.2, testgen 0.1.0, docs 0.1.3); the planned
+# bumps (→0.1.12/0.1.6/0.1.2/0.1.4/0.1.3/0.1.1/0.1.4) are each strictly greater than the published max.
+claim release_no_version_collision: Bool @>=0.9 = True
+falsified_when release_no_version_collision == False
+
+# TOPOLOGICAL ORDER: publishing core FIRST, then the other six, satisfies every workspace:^ dependency on npm (no
+# dependent ever requires an unpublished version). WITNESS: an in-session grep of the 7 package.jsons' internal
+# @suluk deps showed the ONLY changed->changed runtime dependency is everything->core (agents/harden/deploy/testgen
+# depend on core; their other deps — models/zod/stripe/builder — are unchanged + already published; cloudflare/docs
+# have no internal runtime deps). `bun publish` rewrites workspace:^ to ^<the bumped core version>.
+claim release_topological_order: Bool @>=0.9 = True
+falsified_when release_topological_order == False
+
+# MERGE REVIEWED: the arc was merged to main only after a clean, adversarially-verified review. WITNESS: two review
+# workflows — wf_54650b23-34d (pre-PR, ship:true / 0 blockers) and wf_9c6995c9-a0c (merge-readiness, mergeReady:true /
+# 0 blockers / 0 should-fix, 12 agents); the one robustness crash they surfaced (lintResources) was fixed + tested;
+# PR#1 reported MERGEABLE/CLEAN and was merged (merge commit 5d28067).
+claim release_merge_reviewed: Bool @>=0.85 = True
+falsified_when release_merge_reviewed == False
