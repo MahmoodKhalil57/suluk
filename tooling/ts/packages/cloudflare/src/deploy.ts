@@ -22,18 +22,46 @@ export interface DurableObjectBinding {
   scriptName?: string;
 }
 
-/** Build the inline script-migration for the same-script DO classes (cross-script classes are migrated by their
- *  owning script). Uses the API field `new_tag` (NOT wrangler's `tag`). Returns undefined when nothing to create. */
-function durableObjectMigration(dos: DurableObjectBinding[], newTag: string, oldTag?: string): WorkerMigration | undefined {
-  const owned = dos.filter((d) => !d.scriptName);
-  const new_sqlite_classes = owned.filter((d) => d.sqlite !== false).map((d) => d.className);
-  const new_classes = owned.filter((d) => d.sqlite === false).map((d) => d.className);
-  if (!new_sqlite_classes.length && !new_classes.length) return undefined;
+const ownedDOs = (dos: DurableObjectBinding[]) => dos.filter((d) => !d.scriptName);
+const isSqlite = (d: DurableObjectBinding) => d.sqlite !== false;
+
+/** Diff prev→next same-script DO classes by className: ADDED (create), REMOVED (flag — never DROP), BACKEND-FLIPPED (illegal). */
+function diffDurableObjects(prev: DurableObjectBinding[], next: DurableObjectBinding[]): { added: DurableObjectBinding[]; removed: string[]; flipped: string[] } {
+  const prevByName = new Map(ownedDOs(prev).map((d) => [d.className, d]));
+  const nextOwned = ownedDOs(next);
+  const nextNames = new Set(nextOwned.map((d) => d.className));
   return {
-    new_tag: newTag,
-    ...(oldTag ? { old_tag: oldTag } : {}),
-    ...(new_sqlite_classes.length ? { new_sqlite_classes } : {}),
-    ...(new_classes.length ? { new_classes } : {}),
+    added: nextOwned.filter((d) => !prevByName.has(d.className)),
+    removed: ownedDOs(prev).filter((d) => !nextNames.has(d.className)).map((d) => d.className),
+    flipped: nextOwned.filter((d) => prevByName.has(d.className) && isSqlite(prevByName.get(d.className)!) !== isSqlite(d)).map((d) => d.className),
+  };
+}
+
+/**
+ * Build the inline script-migration for the same-script DO classes (cross-script ones are migrated by their owning
+ * script). Uses the API field `new_tag` (NOT wrangler's `tag`). FIRST deploy (no `prev`): create the current set.
+ * EVOLUTION (`prev` given): create ONLY the added classes (an `old_tag`→`new_tag` delta) — a backend-flip THROWS, a
+ * removed class is left to the caller to flag (never an auto `deleted_classes`, which would drop its state). Returns
+ * `{ migration?, removed[] }`; `migration` is undefined when there is nothing new to create.
+ */
+function durableObjectMigration(next: DurableObjectBinding[], newTag: string, oldTag?: string, prev?: DurableObjectBinding[]): { migration?: WorkerMigration; removed: string[] } {
+  const create = prev?.length ? (() => {
+    const { added, flipped, removed } = diffDurableObjects(prev, next);
+    if (flipped.length) throw new Error(`@suluk/cloudflare: Durable Object class(es) ${flipped.join(", ")} changed storage backend (sqlite↔legacy) between deploys — Cloudflare cannot re-back an existing class; keep the backend or rename the class`);
+    return { classes: added, removed };
+  })() : { classes: ownedDOs(next), removed: [] as string[] };
+
+  const new_sqlite_classes = create.classes.filter(isSqlite).map((d) => d.className);
+  const new_classes = create.classes.filter((d) => !isSqlite(d)).map((d) => d.className);
+  if (!new_sqlite_classes.length && !new_classes.length) return { removed: create.removed };
+  return {
+    migration: {
+      new_tag: newTag,
+      ...(oldTag ? { old_tag: oldTag } : {}),
+      ...(new_sqlite_classes.length ? { new_sqlite_classes } : {}),
+      ...(new_classes.length ? { new_classes } : {}),
+    },
+    removed: create.removed,
   };
 }
 
@@ -52,6 +80,9 @@ export interface DeployPlan {
   r2?: { binding: string; bucketName: string }[];
   /** bind Durable Object agents (Cloudflare Agents SDK runtime) + create same-script classes via an inline migration. */
   durableObjects?: DurableObjectBinding[];
+  /** the previously-deployed DO class set. When given, the inline migration creates ONLY the classes added since (a true
+   *  `old_tag`→`new_tag` delta); a removed class is logged (never auto-dropped), a backend-flip throws. Omit on first deploy. */
+  prevDurableObjects?: DurableObjectBinding[];
   /** the DO migration tags — `newTag` defaults to "v1"; pass `oldTag` on a redeploy that ADDS classes (optimistic concurrency). */
   durableObjectMigration?: { newTag?: string; oldTag?: string };
   /** static assets to serve (uploaded; bound as ASSETS by default). */
@@ -74,6 +105,8 @@ export interface DeployResult {
   kv: { binding: string; id: string }[];
   r2: { binding: string; name: string }[];
   durableObjects: { binding: string; className: string }[];
+  /** DO classes present in `prevDurableObjects` but gone from this deploy — orphaned (NOT dropped); a manual decision to delete. */
+  durableObjectsRemoved: string[];
   assetsUploaded: number;
   secretsSet: string[];
   crons: string[];
@@ -109,13 +142,22 @@ export async function deploy(cf: CloudflareClient, plan: DeployPlan, log: Deploy
   // uploaded module; we only (a) bind it and (b) create same-script classes via the inline script migration below.
   const durableObjects: DeployResult["durableObjects"] = [];
   let migrations: WorkerMigration[] | undefined;
-  if (plan.durableObjects?.length) {
-    for (const d of plan.durableObjects) {
+  let durableObjectsRemoved: string[] = [];
+  // run when there are DOs to deploy OR we are EVOLVING (so an all-removed deploy still surfaces the orphaned classes).
+  const evolvingDO = !!plan.prevDurableObjects?.length;
+  if (plan.durableObjects?.length || evolvingDO) {
+    for (const d of plan.durableObjects ?? []) {
       bindings.push({ type: "durable_object_namespace", name: d.binding, class_name: d.className, ...(d.scriptName ? { script_name: d.scriptName } : {}) });
       durableObjects.push({ binding: d.binding, className: d.className });
     }
-    const mig = durableObjectMigration(plan.durableObjects, plan.durableObjectMigration?.newTag ?? "v1", plan.durableObjectMigration?.oldTag);
-    if (mig) { migrations = [mig]; log(`durable objects: ${(mig.new_sqlite_classes ?? []).concat(mig.new_classes ?? []).join(", ")} (migration ${mig.new_tag})`); }
+    // evolution-aware tag defaults — mirror the wrangler path: bump new_tag to v2 + carry old_tag v1 (optimistic
+    // concurrency) so the delta targets a NEW tag, not the one prev was created under (a no-op/invalid re-assert).
+    const newTag = plan.durableObjectMigration?.newTag ?? (evolvingDO ? "v2" : "v1");
+    const oldTag = plan.durableObjectMigration?.oldTag ?? (evolvingDO ? "v1" : undefined);
+    const { migration: mig, removed } = durableObjectMigration(plan.durableObjects ?? [], newTag, oldTag, plan.prevDurableObjects);
+    durableObjectsRemoved = removed;
+    if (mig) { migrations = [mig]; log(`durable objects: ${(mig.new_sqlite_classes ?? []).concat(mig.new_classes ?? []).join(", ")} (migration ${mig.new_tag}${mig.old_tag ? ` from ${mig.old_tag}` : ""})`); }
+    if (removed.length) log(`  durable objects REMOVED (not dropped — state orphaned): ${removed.join(", ")}`);
   }
 
   let assetsJwt: string | null = null;
@@ -157,7 +199,7 @@ export async function deploy(cf: CloudflareClient, plan: DeployPlan, log: Deploy
 
   if (plan.crons?.length) { await putCronTriggers(cf, plan.scriptName, plan.crons); log(`crons: ${plan.crons.join(" · ")}`); }
 
-  return { accountId, scriptName: plan.scriptName, d1, kv, r2, durableObjects, assetsUploaded, secretsSet, crons: plan.crons ?? [] };
+  return { accountId, scriptName: plan.scriptName, d1, kv, r2, durableObjects, durableObjectsRemoved, assetsUploaded, secretsSet, crons: plan.crons ?? [] };
 }
 
 /** Convenience: build a client from token/account options and run a deploy. */

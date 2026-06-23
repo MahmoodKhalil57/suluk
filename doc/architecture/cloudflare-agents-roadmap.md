@@ -92,12 +92,12 @@ generator-or-not). Stage 2 is **gated** on the Stage 0 measurement.
 | 1.4 | New `x-suluk-approval` facet for **HITL gate on mutating tools** → projects to the Agents SDK `needsApproval` predicate. Maps onto the chat example's approval-gated `calculate`. | `@suluk/core` facet + `@suluk/agents` | ½–1 d | ✅ (landed with 2.A; `@suluk/testgen` claim deferred) |
 | 1.5 | Optionally fold the agent grade into `@suluk/harden`'s document rollup for one unified "contract grade" (thin bridge; harden depends on agents, never the reverse). | `@suluk/harden` | ¼ d | ☐ |
 
-### Stage 2 — conditional on Stage 0. Status: ◑ **path A (generator) 2.A1 DONE** (2026-06-23); 2.A2 (seam ADR) pending
+### Stage 2 — conditional on Stage 0. Status: ✅ **path A (generator) 2.A1 + 2.A2 DONE** (2026-06-23)
 
 | # | Task (path A: generator) | Where | Est | Done? |
 |---|---|---|---|---|
 | 2.A1 | `projectCloudflareAgent(doc, agentName, opts)` — third projection target alongside `projectClaudePlugin`/`projectOpenRouter`. Emits **owned source** (L3-pure, source *strings*, no `agents` dep): `AIChatAgent` subclass, contract-derived tools (`jsonSchema()` input schemas) + `needsApproval` from `x-suluk-approval`, `routeAgentRequest()` worker. Returns the `durableObjects` descriptor → feeds 1.1/1.2. | `@suluk/agents` | ½–1 d | ✅ |
-| 2.A2 | Keep Cloudflare behind a **runtime-adapter seam** (mirror `@suluk/deploy`'s `DeployProvider`/`providers`) so a future Node/Vercel agent runtime is another adapter, not a rewrite. Emit a `Cxxx` ADR for the seam (hard-to-reverse). | `@suluk/agents` | ¼ d | ☐ |
+| 2.A2 | Keep Cloudflare behind a **runtime-adapter seam** (mirror `@suluk/deploy`'s `DeployProvider`/`providers`) so a future Node/Vercel agent runtime is another adapter, not a rewrite. Emit a `Cxxx` ADR for the seam (hard-to-reverse). | `@suluk/agents` | ¼ d | ✅ [C034](decisions/C034-agent-runtime-adapter-seam.md) + daftar receipt |
 
 | # | Task (path B: templates, if 0.3 says so) | Where | Est | Done? |
 |---|---|---|---|---|
@@ -179,9 +179,9 @@ the facet's ADA-identity safety was the explicit refutation target and held by c
 dead `MUTATING` const, wired the `mcpUrl` option, guarded an empty-summary description, `await convertToModelMessages`
 (ai SDK ≥6), the grade-scope comment, and **F1 the ADA-invariance tripwire**. Confidence ≈0.85.
 
-**Carried follow-ups:** `@suluk/testgen` conformance claim for `x-suluk-approval`; the runtime-adapter **seam ADR (2.A2)**;
-recursive sub-agent scaffolding (v1 emits the named agent only — `reachableSubAgents` is returned); unify the
-instruction-snapshot key convention (projections use bare `<skill>`, context/grade use `<agent>/<skill>`).
+**Carried follow-ups:** `@suluk/testgen` conformance claim for `x-suluk-approval`; ~~runtime-adapter seam ADR (2.A2)~~ ✅ (C034);
+~~recursive sub-agent scaffolding~~ ✅ (2026-06-23 — a class + DO per reachable agent, collision-guarded); unify the
+instruction-snapshot key convention (projections use bare `<skill>`, context/grade use `<agent>/<skill>`); additive DO evolution + backend-flip guard.
 
 ## What NOT to do (the brakes)
 
@@ -207,16 +207,21 @@ instruction-snapshot key convention (projections use bare `<skill>`, context/gra
 
 ## Resume pointer (cheapest next move)
 
-**Stages 0, 1.1, 1.2, 1.3, 1.4, and 2.A1 all closed (✅ 2026-06-22..23, each reviewed ship-with-fixes, fixes applied).**
-The full arc is now end-to-end: contract → `projectCloudflareAgent` scaffold → `durableObjects` → `@suluk/deploy`/`@suluk/cloudflare`. Next:
+**Stages 0, 1.1, 1.2, 1.3, 1.4, 2.A1, and 2.A2 all closed (✅ 2026-06-22..23, each reviewed, fixes applied).** The full
+arc is end-to-end AND behind a swappable seam: contract → `runtimeProviders.cloudflare` (`projectCloudflareAgent`) →
+`durableObjects` → `@suluk/deploy`/`@suluk/cloudflare`. Next:
 
-1. **Stage 2.A2 — the runtime-adapter seam + a `Cxxx` ADR** (mirror `@suluk/deploy`'s `DeployProvider`/`providers` so a
-   future Node/Vercel agent runtime is another adapter, not a rewrite). Spec-governance: emit the ADR + a daftar receipt.
-2. **Hardening follow-ups** (fold into a Stage-2 pass): the `@suluk/testgen` claim for `x-suluk-approval`; recursive
-   sub-agent scaffolding in `projectCloudflareAgent`; additive DO evolution (`prev` set) + backend-flip guard in deploy;
-   unify the instruction-snapshot key convention.
-3. **Stage 1.5 — unified contract grade**: average the `@suluk/harden` doc grade and the `gradeAgent` grade on the LETTER
+1. **Hardening follow-ups** (fold into a Stage-2 pass): the `@suluk/testgen` claim for `x-suluk-approval`; ~~recursive
+   sub-agent scaffolding in `projectCloudflareAgent`~~ ✅ (2026-06-23); ~~additive DO evolution (`prev` set) + backend-flip
+   guard in deploy~~ ✅ (2026-06-23 — `prevDurableObjects` on both paths: wrangler emits an additive 2-step history,
+   REST a true `old_tag→new_tag` delta; a removed class is flagged/`durableObjectsRemoved`, never DROPped; a backend flip
+   or a colliding tag throws; reviewed ship-with-fixes, 4 majors fixed); unify the instruction-snapshot key convention;
+   tighten the seam's `deploy?: Record<string,unknown>` when a 2nd adapter lands.
+   Doc-only caveats (from the review): a fully-disjoint wrangler evolution starts its history at v2 (out of 2-step scope —
+   hand-edit); `prevDurableObjectMigrationTag` must equal the *latest* tag in the deployed history when real history has >2 entries.
+2. **Stage 1.5 — unified contract grade**: average the `@suluk/harden` doc grade and the `gradeAgent` grade on the LETTER
    (a thin bridge in `@suluk/harden`).
+3. **A second runtime adapter** (validates the C034 seam's generality) — a Node/Vercel agent runtime as a new `AgentRuntimeProvider`.
 4. **End-to-end smoke** (optional): wire `projectCloudflareAgent`'s output through `@suluk/cloudflare`'s `deploy()` against
    a real account, or a second Stage-0 pass on an email/scheduled agent.
 

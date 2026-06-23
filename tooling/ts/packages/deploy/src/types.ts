@@ -53,12 +53,17 @@ export interface DeployInput {
    */
   durableObjects?: DurableObjectBinding[];
   /**
-   * The migration tag for the DO classes above (default "v1"). NB the generator emits a FIRST-DEPLOY migration that
-   * (re)creates the CURRENT set under this one tag — it has no prev-diff, so bumping the tag alone re-lists every class
-   * (a recreate conflict on existing ones). To ADD a class later, hand-append a second entry
-   * `{ tag, new_sqlite_classes: [<only the new class>] }`. First-class additive DO evolution is a tracked follow-up.
+   * The previously-deployed DO class set. When given, the generated `migrations` become an ADDITIVE 2-step history
+   * (recreate prev under `prevDurableObjectMigrationTag`, then create only the classes added since under the new tag)
+   * instead of a from-scratch first-deploy entry; a removed class is flagged in `notes` (never auto-dropped), and a
+   * class that changed storage backend (sqlite↔legacy) throws. Omit on a first deploy. NB this reconstructs at most a
+   * 2-step history — beyond one evolution the user owns the append-only `migrations` array.
    */
+  prevDurableObjects?: DurableObjectBinding[];
+  /** the migration tag for the DO classes above. Default "v1" on first deploy, "v2" when `prevDurableObjects` is given. */
   durableObjectMigrationTag?: string;
+  /** the tag the `prevDurableObjects` set was created under (default "v1") — the first step of the reconstructed history. */
+  prevDurableObjectMigrationTag?: string;
 }
 
 /** A file the provider wants written into the project. */

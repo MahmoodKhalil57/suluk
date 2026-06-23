@@ -200,6 +200,87 @@ describe("deploy() — full orchestration in dependency order", () => {
     expect(meta2.compatibility_flags).toBeUndefined();
   });
 
+  test("DO EVOLUTION: with prevDurableObjects, the inline migration creates ONLY the added class (old_tag→new_tag delta); both stay bound", async () => {
+    const { fetch, calls } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/agent$/, { id: "agent" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    await deploy(cf, {
+      scriptName: "agent", module: "m", compatibilityDate: "2026-06-22", compatibilityFlags: ["nodejs_compat"],
+      prevDurableObjects: [{ binding: "A", className: "A" }],
+      durableObjects: [{ binding: "A", className: "A" }, { binding: "B", className: "B" }],
+      durableObjectMigration: { oldTag: "v1", newTag: "v2" },
+    });
+    const meta = JSON.parse(await ((calls.find((c) => /\/workers\/scripts\/agent$/.test(c.path))!.body as FormData).get("metadata") as Blob).text());
+    // BOTH classes are bound (the current set); only the ADDED one is created (A already exists at v1)
+    expect(meta.bindings.filter((b: { type: string }) => b.type === "durable_object_namespace").map((b: { class_name: string }) => b.class_name)).toEqual(["A", "B"]);
+    expect(meta.migrations).toEqual([{ new_tag: "v2", old_tag: "v1", new_sqlite_classes: ["B"] }]);
+  });
+
+  test("DO EVOLUTION: a REMOVED class emits NO migration (nothing added) and is logged, never auto-dropped", async () => {
+    const { fetch, calls } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/agent$/, { id: "agent" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    const logs: string[] = [];
+    await deploy(cf, {
+      scriptName: "agent", module: "m", compatibilityDate: "2026-06-22",
+      prevDurableObjects: [{ binding: "A", className: "A" }, { binding: "B", className: "B" }],
+      durableObjects: [{ binding: "A", className: "A" }],
+      durableObjectMigration: { oldTag: "v1", newTag: "v2" },
+    }, (m) => logs.push(m));
+    const meta = JSON.parse(await ((calls.find((c) => /\/workers\/scripts\/agent$/.test(c.path))!.body as FormData).get("metadata") as Blob).text());
+    expect(meta.migrations).toBeUndefined();         // nothing added → no migration block (B is NOT deleted)
+    expect(logs.join(" ")).toMatch(/REMOVED.*B/);     // the orphan is surfaced, not silently dropped
+  });
+
+  test("DO EVOLUTION: with prev but NO explicit tags, new_tag defaults to v2 + old_tag v1 (not a no-op re-assert of v1)", async () => {
+    const { fetch, calls } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/agent$/, { id: "agent" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    await deploy(cf, {
+      scriptName: "agent", module: "m", compatibilityDate: "2026-06-22",
+      prevDurableObjects: [{ binding: "A", className: "A" }],
+      durableObjects: [{ binding: "A", className: "A" }, { binding: "B", className: "B" }],
+      // NOTE: no durableObjectMigration — defaults must be evolution-aware
+    });
+    const meta = JSON.parse(await ((calls.find((c) => /\/workers\/scripts\/agent$/.test(c.path))!.body as FormData).get("metadata") as Blob).text());
+    expect(meta.migrations).toEqual([{ new_tag: "v2", old_tag: "v1", new_sqlite_classes: ["B"] }]);
+  });
+
+  test("DO EVOLUTION: removing ALL classes (durableObjects: []) surfaces the orphans structurally + in the log (no silent gap)", async () => {
+    const { fetch } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/agent$/, { id: "agent" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    const logs: string[] = [];
+    const res = await deploy(cf, {
+      scriptName: "agent", module: "m", compatibilityDate: "2026-06-22",
+      prevDurableObjects: [{ binding: "A", className: "A" }, { binding: "B", className: "B" }],
+      durableObjects: [],
+      durableObjectMigration: { oldTag: "v1", newTag: "v2" },
+    }, (m) => logs.push(m));
+    expect(res.durableObjects).toEqual([]);              // nothing bound
+    expect(res.durableObjectsRemoved).toEqual(["A", "B"]); // orphans surfaced as a structured return
+    expect(logs.join(" ")).toMatch(/REMOVED.*A, B/);
+  });
+
+  test("DO EVOLUTION: a backend-flip (sqlite ↔ legacy) THROWS", async () => {
+    const { fetch } = mockCf([[/GET \/accounts$/, [{ id: "acct_1" }]], [/PUT .*\/workers\/scripts\/agent$/, { id: "agent" }]]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    await expect(deploy(cf, {
+      scriptName: "agent", module: "m", compatibilityDate: "2026-06-22",
+      prevDurableObjects: [{ binding: "A", className: "A" }],
+      durableObjects: [{ binding: "A", className: "A", sqlite: false }],
+      durableObjectMigration: { oldTag: "v1", newTag: "v2" },
+    })).rejects.toThrow(/changed storage backend/);
+  });
+
   test("no durableObjects ⇒ no migrations key in the metadata (unchanged upload)", async () => {
     const { fetch, calls } = mockCf([
       [/GET \/accounts$/, [{ id: "acct_1" }]],

@@ -121,6 +121,52 @@ describe("cloudflare provider — Durable Object agents (Cloudflare Agents SDK r
   });
 });
 
+describe("cloudflare provider — additive Durable Object EVOLUTION (prevDurableObjects)", () => {
+  const wrangler = (i: DeployInput) => JSON.parse(cloudflare.generate(i).files.find((f) => f.path === "wrangler.jsonc")!.content);
+  const A = { binding: "A", className: "A" } as const;
+  const B = { binding: "B", className: "B" } as const;
+
+  test("adding a class → an additive 2-step history: recreate the kept class (v1), create ONLY the added one (v2)", () => {
+    const cfg = wrangler({ ...input, prevDurableObjects: [A], durableObjects: [A, B] });
+    expect(cfg.migrations).toEqual([
+      { tag: "v1", new_sqlite_classes: ["A"] },
+      { tag: "v2", new_sqlite_classes: ["B"] },
+    ]);
+  });
+
+  test("a REMOVED class is NOT re-listed and NOT dropped — it's flagged in notes (orphaned state, manual decision)", () => {
+    const i: DeployInput = { ...input, prevDurableObjects: [A, B], durableObjects: [A] };
+    const cfg = wrangler(i);
+    // only the kept class A is created; B (removed) appears in NO migration entry and is NOT bound
+    expect(cfg.migrations).toEqual([{ tag: "v1", new_sqlite_classes: ["A"] }]);
+    expect(cfg.durable_objects.bindings.map((b: { class_name: string }) => b.class_name)).toEqual(["A"]);
+    expect(cloudflare.generate(i).notes.join(" ")).toContain("class(es) B were REMOVED");
+  });
+
+  test("a class that CHANGED storage backend (sqlite ↔ legacy) THROWS — Cloudflare can't re-back an existing class", () => {
+    expect(() => cloudflare.generate({ ...input, prevDurableObjects: [A], durableObjects: [{ binding: "A", className: "A", sqlite: false }] }))
+      .toThrow(/changed storage backend/);
+  });
+
+  test("no net change (prev === next) → just recreates the current set, no spurious v2 entry", () => {
+    const cfg = wrangler({ ...input, prevDurableObjects: [A], durableObjects: [A] });
+    expect(cfg.migrations).toEqual([{ tag: "v1", new_sqlite_classes: ["A"] }]);
+  });
+
+  test("removing ALL classes (durableObjects: []) still flags the orphans in notes (no silent gap)", () => {
+    const i: DeployInput = { ...input, prevDurableObjects: [A, B], durableObjects: [] };
+    const cfg = wrangler(i);
+    expect(cfg.durable_objects).toBeUndefined(); // nothing bound
+    expect(cfg.migrations).toBeUndefined();      // nothing created
+    expect(cloudflare.generate(i).notes.join(" ")).toContain("class(es) A, B were REMOVED");
+  });
+
+  test("a colliding tag (durableObjectMigrationTag === prevTag while evolving) THROWS — wrangler history tags must be distinct", () => {
+    expect(() => cloudflare.generate({ ...input, prevDurableObjects: [A], durableObjects: [A, B], durableObjectMigrationTag: "v1" }))
+      .toThrow(/migration tag "v1" collides/);
+  });
+});
+
 describe("schemaToSql + the provider registry", () => {
   test("schemaToSql is exported standalone", () => {
     expect(schemaToSql(input.entities)).toContain("CREATE TABLE IF NOT EXISTS pet");

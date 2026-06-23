@@ -99,6 +99,63 @@ describe("projectCloudflareAgent — owned Cloudflare Agents-SDK scaffold from o
   });
 });
 
+const PINNED = { source: "https://x/i", contentHash: "sha256-x", version: "v" };
+const multiDoc: OpenAPIv4Document = {
+  openapi: "4.0.0-candidate",
+  info: { title: "Multi", version: "1.0.0" },
+  paths: {
+    "v1/plan": { requests: { plan: op() } },
+    "v1/search": { requests: { search: op({ type: "object", properties: { q: str(100) } }) } },
+  },
+  "x-suluk-agents": {
+    orchestrator: {
+      description: "the root orchestrator", maxDepth: 1,
+      skills: { operate: { model: ["m"], tier: "resident", provenance: PINNED } },
+      routes: { plan: { operationRef: ref("v1/plan", "plan"), tier: "resident" } },
+      agents: { helper: { ref: "#/x-suluk-agents/helperAgent" } },
+    },
+    helperAgent: {
+      description: "the untrusted helper tier", maxDepth: 0, trustBoundary: "untrusted",
+      skills: { search: { model: ["m2"], tier: "resident", provenance: PINNED } },
+      routes: { search: { operationRef: ref("v1/search", "search"), tier: "resident" } },
+      agents: {},
+    },
+  },
+};
+
+describe("projectCloudflareAgent — recursive sub-agent scaffolding", () => {
+  const art = projectCloudflareAgent(multiDoc, "orchestrator");
+
+  test("emits one agent file per REACHABLE agent (root + sub) + the worker", () => {
+    expect(Object.keys(art.files).sort()).toEqual(["src/agents/HelperAgent.ts", "src/agents/Orchestrator.ts", "src/index.ts"]);
+  });
+
+  test("durableObjects covers root + every reachable sub-agent; reachableSubAgents lists the keys", () => {
+    expect(art.durableObjects).toEqual([
+      { binding: "Orchestrator", className: "Orchestrator" },
+      { binding: "HelperAgent", className: "HelperAgent" },
+    ]);
+    expect(art.reachableSubAgents).toEqual(["helperAgent"]);
+  });
+
+  test("each scaffolded agent wires ITS OWN tools (surfaces don't bleed across agents)", () => {
+    expect(art.files["src/agents/Orchestrator.ts"]).toContain("plan: tool({");
+    expect(art.files["src/agents/HelperAgent.ts"]).toContain("search: tool({");
+    expect(art.files["src/agents/Orchestrator.ts"]).not.toContain("search: tool({");
+  });
+
+  test("the worker exports every class and binds each in the combined Env", () => {
+    const w = art.files["src/index.ts"]!;
+    expect(w).toContain("export { Orchestrator, HelperAgent }");
+    expect(w).toContain("Orchestrator: DurableObjectNamespace;");
+    expect(w).toContain("HelperAgent: DurableObjectNamespace;");
+  });
+
+  test("fail-loud on a class-name collision (root override colliding with a sub-agent) — never a silent overwrite", () => {
+    expect(() => projectCloudflareAgent(multiDoc, "orchestrator", { className: "HelperAgent" })).toThrow(/class name "HelperAgent"/);
+  });
+});
+
 describe("projectCloudflareAgent — options + fail-loud", () => {
   test("className override renames the class, file, and binding", () => {
     const art = projectCloudflareAgent(doc, "weatherAssistant", { className: "Weather" });

@@ -44,11 +44,14 @@ steps in a terminal *after the user authenticates*.
   declared cost → a KV sink; a bound storage slot → an R2 bucket).
 - **Durable Object agents** — pass `durableObjects: [{ binding, className }]` (the Cloudflare Agents SDK runs each
   agent as a SQLite-backed Durable Object) and the generated `wrangler.jsonc` gains a `durable_objects.bindings`
-  block + an additive `migrations: [{ tag, new_sqlite_classes }]` entry (`nodejs_compat` stays on; `sqlite: false`
-  routes a class to the legacy `new_classes`). It is a **first-deploy artifact**: the generator emits the current
-  class set under one tag — evolving agents (append a new tag for an added class; a removed class is *not* auto-flagged,
-  unlike `migrationSql`) is a hand-edit today, tracked as a follow-up. The package stays decoupled from the agent
-  contract — the caller (`@suluk/agents`' future `projectCloudflareAgent`) computes which agents are Durable Objects.
+  block + a `migrations: [{ tag, new_sqlite_classes }]` entry (`nodejs_compat` stays on; `sqlite: false` routes a
+  class to the legacy `new_classes`). **Additive evolution:** pass `prevDurableObjects` (the last-deployed set) on a
+  redeploy and the `migrations` become an additive 2-step history (recreate the kept classes under
+  `prevDurableObjectMigrationTag`, create only the *added* classes under a new tag that defaults to `v2`); a **removed**
+  class is flagged in `notes` and never DROPped — its DO state is orphaned, a manual decision, exactly like
+  `migrationSql`; a class that **changed storage backend** throws. (Beyond one evolution step you own the append-only
+  `migrations` array.) The package stays decoupled from the agent contract — the caller (`@suluk/agents`'
+  `projectCloudflareAgent`) computes which agents are Durable Objects.
 - **`r2Storage` / `memoryStorage`** — the swappable `StorageProvider` (the media/upload slot): R2 for
   production, an in-memory impl for dev/tests. `delete` is a first-class GDPR erasure target.
 - **Preview deployments** — opt-in role-preview variant (`preview: true`) with two fail-closed locks and a

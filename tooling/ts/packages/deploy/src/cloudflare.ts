@@ -15,15 +15,53 @@ function slug(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "suluk-app";
 }
 
-/** The wrangler.jsonc `migrations` entry that CREATES the same-script DO classes — SQLite-backed by default (the
- *  Agents SDK + free-plan requirement). Cross-script classes (those with a `scriptName`) are migrated by their
- *  owning script, so they are bound but NOT listed here. Returns [] when there is nothing same-script to create. */
-function durableObjectMigrations(dos: DurableObjectBinding[], tag: string): { tag: string; new_sqlite_classes?: string[]; new_classes?: string[] }[] {
-  const owned = dos.filter((d) => !d.scriptName); // you only migrate classes YOUR script defines
-  const sqliteClasses = owned.filter((d) => d.sqlite !== false).map((d) => d.className);
-  const classes = owned.filter((d) => d.sqlite === false).map((d) => d.className);
+type DoMigrationEntry = { tag: string; new_sqlite_classes?: string[]; new_classes?: string[] };
+const ownedDOs = (dos: DurableObjectBinding[]) => dos.filter((d) => !d.scriptName); // you only migrate classes YOUR script defines
+const isSqlite = (d: DurableObjectBinding) => d.sqlite !== false; // default true (Agents SDK + free-plan requirement)
+
+/** One migration entry that CREATES a set of same-script classes under `tag` (SQLite-backed by default). [] if empty. */
+function createEntry(dos: DurableObjectBinding[], tag: string): DoMigrationEntry[] {
+  const owned = ownedDOs(dos);
+  const sqliteClasses = owned.filter(isSqlite).map((d) => d.className);
+  const classes = owned.filter((d) => !isSqlite(d)).map((d) => d.className);
   if (!sqliteClasses.length && !classes.length) return [];
   return [{ tag, ...(sqliteClasses.length ? { new_sqlite_classes: sqliteClasses } : {}), ...(classes.length ? { new_classes: classes } : {}) }];
+}
+
+/** Diff prev→next same-script DO classes by className: ADDED (create), REMOVED (flag — never DROP), BACKEND-FLIPPED (illegal). */
+function diffDurableObjects(prev: DurableObjectBinding[], next: DurableObjectBinding[]): { added: DurableObjectBinding[]; removed: string[]; flipped: string[] } {
+  const prevByName = new Map(ownedDOs(prev).map((d) => [d.className, d]));
+  const nextOwned = ownedDOs(next);
+  const nextNames = new Set(nextOwned.map((d) => d.className));
+  return {
+    added: nextOwned.filter((d) => !prevByName.has(d.className)),
+    removed: ownedDOs(prev).filter((d) => !nextNames.has(d.className)).map((d) => d.className),
+    flipped: nextOwned.filter((d) => prevByName.has(d.className) && isSqlite(prevByName.get(d.className)!) !== isSqlite(d)).map((d) => d.className),
+  };
+}
+
+/**
+ * The wrangler.jsonc `migrations` array. Cross-script classes (with a `scriptName`) are bound but not migrated here.
+ * - FIRST deploy (no `prev`): one entry creating the current set under `newTag`.
+ * - EVOLUTION (`prev` given): an additive 2-step history — recreate `prev` under `prevTag`, then create only the ADDED
+ *   classes under `newTag`. A REMOVED class is NOT dropped (its DO state would be orphaned — flagged in notes, a manual
+ *   decision, mirroring `migrationSql`); a class that changed storage backend THROWS (Cloudflare can't re-back a class).
+ *   NB this reconstructs at most a 2-step history; beyond one evolution the user owns the append-only `migrations` array.
+ */
+function durableObjectMigrations(next: DurableObjectBinding[], newTag: string, prev?: DurableObjectBinding[], prevTag = "v1"): DoMigrationEntry[] {
+  if (!prev?.length) return createEntry(next, newTag);
+  const { added, flipped } = diffDurableObjects(prev, next);
+  if (flipped.length) throw new Error(`@suluk/deploy: Durable Object class(es) ${flipped.join(", ")} changed storage backend (sqlite↔legacy) between deploys — Cloudflare cannot re-back an existing class; keep the backend or rename the class`);
+  // step 1 recreates the KEPT classes (current ∩ prev) under prevTag — NOT the removed ones (they're orphaned, never
+  // re-listed); step 2 creates the added classes under newTag. kept ∪ added = the current owned set.
+  const addedNames = new Set(added.map((d) => d.className));
+  const kept = ownedDOs(next).filter((d) => !addedNames.has(d.className));
+  const step1 = createEntry(kept, prevTag);
+  const step2 = createEntry(added, newTag);
+  // wrangler's cumulative history tags must be DISTINCT — refuse a collision rather than emit an invalid two-same-tag array.
+  if (step1.length && step2.length && prevTag === newTag)
+    throw new Error(`@suluk/deploy: migration tag "${newTag}" collides — durableObjectMigrationTag must differ from prevDurableObjectMigrationTag when evolving (wrangler history tags must be distinct)`);
+  return [...step1, ...step2];
 }
 
 function wranglerConfig(input: DeployInput, name: string): string {
@@ -51,7 +89,16 @@ function wranglerConfig(input: DeployInput, name: string): string {
             bindings: input.durableObjects.map((d) => ({ name: d.binding, class_name: d.className, ...(d.scriptName ? { script_name: d.scriptName } : {}) })),
           },
           // migrations are omitted entirely when every class is cross-script (migrated by its owning script).
-          ...((m) => (m.length ? { migrations: m } : {}))(durableObjectMigrations(input.durableObjects, input.durableObjectMigrationTag ?? "v1")),
+          // EVOLUTION: with `prevDurableObjects`, emit an additive 2-step history (recreate prev, then create added);
+          // a backend-flip throws here. New-tag defaults to "v2" when evolving so it can't collide with the prev tag.
+          ...((m) => (m.length ? { migrations: m } : {}))(
+            durableObjectMigrations(
+              input.durableObjects,
+              input.durableObjectMigrationTag ?? (input.prevDurableObjects?.length ? "v2" : "v1"),
+              input.prevDurableObjects,
+              input.prevDurableObjectMigrationTag ?? "v1",
+            ),
+          ),
         }
       : {}),
     // static assets (the built frontend); SPA fallback so client routes resolve.
@@ -136,8 +183,17 @@ export const cloudflare: DeployProvider = {
       notes.push(
         `Durable Object agents (Cloudflare Agents SDK): ${input.durableObjects.map((d) => `${d.binding}→${d.className}`).join(", ")} are bound in wrangler.jsonc; ` +
           (owned.length ? `\`wrangler deploy\` creates ${owned.join(", ")} via the \`migrations\` entry (SQLite-backed). ` : "") +
-          "This is a FIRST-DEPLOY artifact: the generator emits the CURRENT class set only (no prev-diff), so EVOLVING agents is a hand-edit — to add a class, append a new entry `{ tag: \"v2\", new_sqlite_classes: [<only the new class>] }`; removing an agent silently drops its class (its stored DO state is orphaned with NO warning — a manual, data-losing decision, unlike the additive D1 migrationSql which flags removals).",
+          (input.prevDurableObjects?.length
+            ? "EVOLUTION: given `prevDurableObjects`, the migrations are an additive 2-step history (recreate prev, then create only the added classes); a class that changed storage backend throws. Beyond one evolution step you own the append-only `migrations` array."
+            : "FIRST-DEPLOY artifact: pass `prevDurableObjects` on a redeploy to get an additive (added-only) migration + removal flagging; otherwise evolving is a hand-edit (append `{ tag: \"v2\", new_sqlite_classes: [<new class>] }`)."),
       );
+    }
+    // additive discipline (mirrors migrationSql): a removed class is FLAGGED, never DROPped — its DO state is orphaned.
+    // Computed OUTSIDE the `durableObjects?.length` gate so an ALL-removed deploy (durableObjects: []) still surfaces it.
+    if (input.prevDurableObjects?.length) {
+      const removed = diffDurableObjects(input.prevDurableObjects, input.durableObjects ?? []).removed;
+      if (removed.length)
+        notes.push(`Durable Object class(es) ${removed.join(", ")} were REMOVED from the contract — they are no longer bound, but their stored DO state is NOT dropped (orphaned). Deleting it is a manual, data-losing decision (a \`deleted_classes\` migration).`);
     }
 
     return { provider: "cloudflare", files, steps, notes };

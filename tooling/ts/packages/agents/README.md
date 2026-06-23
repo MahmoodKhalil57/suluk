@@ -129,10 +129,14 @@ const a = projectCloudflareAgent(doc, "weatherAssistant", {
   // mcpUrl: "https://host/mcp",       // optional; referenced in the execute-stub comment (never embedded as a credential)
 });
 
-a.files;             // { "src/agents/WeatherAssistant.ts": …, "src/index.ts": … } — owned source you complete
-a.durableObjects;    // [{ binding: "WeatherAssistant", className: "WeatherAssistant" }] → feed @suluk/deploy's `durableObjects`
-a.reachableSubAgents; // sub-agents (each its own DO) — scaffold separately; v1 emits the named agent only
+a.files;             // one src/agents/<Class>.ts per REACHABLE agent (root + transitive sub-agents) + src/index.ts (the worker)
+a.durableObjects;    // one { binding, className } per reachable agent → feed @suluk/deploy's `durableObjects` (binds + migrates each DO)
+a.reachableSubAgents; // the sub-agent keys (each now scaffolded as its own file); cross-agent DISPATCH is yours to wire
 ```
+
+A multi-agent contract (e.g. an orchestrator + an untrusted retrieval tier) is scaffolded whole: a Durable Object class
+per reachable agent, each wiring its OWN tools, and one worker exporting them all with a combined `Env`. `opts.className`
+renames only the root; sub-agents use PascalCase of their `x-suluk-agents` key (a class-name collision fails loud).
 
 The returned `durableObjects` is exactly the shape [`@suluk/deploy`](../deploy)'s `DeployInput.durableObjects` /
 [`@suluk/cloudflare`](../cloudflare)'s `DeployPlan.durableObjects` expect — so the same contract that scaffolds the
@@ -233,6 +237,7 @@ agentDiagramHtml(doc, "conin");    // a self-contained D3 page (data inlined + H
 | `projectClaudePlugin` | one agent → `plugin.json` + `.mcp.json` + generated `SKILL.md` (pure, fail-loud) |
 | `projectOpenRouter` | one agent → an OpenRouter/OpenAI function-tool manifest (resident vs `discover_tools` cold-tail) |
 | `projectCloudflareAgent` | one agent → an OWNED Cloudflare Agents-SDK scaffold (AIChatAgent class + `routeAgentRequest` worker + contract-derived tools + `needsApproval` from `x-suluk-approval`) **+ the `durableObjects` descriptor for `@suluk/deploy`** (pure, L3, fail-loud) |
+| `runtimeProviders` / `cloudflareRuntime` / `AgentRuntimeProvider` | C034 runtime-adapter **seam** — Cloudflare is the first adapter; the interface is the swap point so a future Node/Vercel agent runtime is an adapter, not a rewrite (mirrors `@suluk/deploy`'s `providers`) |
 | `agentManifest` / `verifyAgentFreshness` | a canonical signable manifest + preprompt-drift detection over the signed `contentHash` |
 | `reachableSurface` / `residentSurface` / `residentToolNames` | the static, zero-request tool/sub-agent surface; the resident (default-served) partition |
 | `assertServedSubset` / `assertDefaultServedResident` / `assertServedSubsetGoverned` / `conformanceOk` | over-serve / cold-tail-in-default / policy-denied auditors |
