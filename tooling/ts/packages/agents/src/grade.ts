@@ -24,7 +24,7 @@
  */
 import type { OpenAPIv4Document } from "@suluk/core";
 import type { ModelCatalog } from "@suluk/models";
-import { agentMap, resolveOperationRef } from "./resolve";
+import { agentMap, resolveOperationRef, resolveSnapshot } from "./resolve";
 import { lintAgents, type LintFinding } from "./lint";
 import { contextReport, type ContextReport, type UnflattenSuggestion } from "./context";
 import { assertServedSubset, assertDefaultServedResident, verifySkillFreshness } from "./conformance";
@@ -69,7 +69,7 @@ export interface AgentGradeOptions {
   modelWindows?: Record<string, number>;
   /** the tools a server actually advertises by default — folds in the over-serve + cold-tail-in-default conformance checks. */
   served?: string[];
-  /** the CURRENT served instruction snapshot per skill name (bare `"<skill>"`, NOT the `instructions` `<agent>/<skill>` form) — folds in the skill-freshness (drift) check. */
+  /** the CURRENT served instruction snapshot, keyed qualified `"<agent>/<skill>"` (wins) OR bare `"<skill>"` (back-compat) — same dual-accept as `instructions` + `verifyAgentFreshness`; folds in the skill-freshness (drift) check. */
   snapshots?: Record<string, string>;
 }
 
@@ -155,7 +155,7 @@ function scoreAgent(doc: OpenAPIv4Document, agentName: string, opts: AgentGradeO
   if (opts.snapshots) {
     const agent = agentMap(doc)[agentName];
     for (const [sk, skill] of Object.entries(agent.skills ?? {})) {
-      const snap = opts.snapshots[sk];
+      const snap = resolveSnapshot(opts.snapshots, agentName, sk);
       if (snap === undefined) continue;
       for (const f of verifySkillFreshness(skill.provenance?.contentHash, snap)) {
         if (f.code === "unpinned-skill") continue; // redundant with structure/lint — see note above

@@ -116,5 +116,23 @@ export function* deepStrings(v: unknown, path = ""): Generator<{ path: string; v
  * One resolver everywhere means a single instructions map works for every projection AND the grade/context analyzer.
  */
 export function resolveInstruction(instructions: Record<string, string> | undefined, agentName: string, skillName: string): string | undefined {
-  return instructions?.[`${agentName}/${skillName}`] ?? instructions?.[skillName];
+  return dualKey(instructions, agentName, skillName);
+}
+
+/**
+ * The shared dual-accept lookup for any skill-keyed `Record<string,string>`: the QUALIFIED `"<agent>/<skill>"` key
+ * wins (two agents can share a skill name), with a bare `"<skill>"` fallback (back-compat). One convention for every
+ * skill-keyed map in the package.
+ */
+function dualKey(map: Record<string, string> | undefined, agentName: string, skillName: string): string | undefined {
+  return map?.[`${agentName}/${skillName}`] ?? map?.[skillName];
+}
+
+/**
+ * Resolve a served-instruction SNAPSHOT (the drift / skill-freshness check) accepting the SAME dual key convention
+ * as `instructions`: qualified `"<agent>/<skill>"` wins, bare `"<skill>"` is back-compat. Closes the split where
+ * `gradeAgent` read bare keys while `verifyAgentFreshness` read qualified — one `snapshots` map now feeds both.
+ */
+export function resolveSnapshot(snapshots: Record<string, string> | undefined, agentName: string, skillName: string): string | undefined {
+  return dualKey(snapshots, agentName, skillName);
 }
