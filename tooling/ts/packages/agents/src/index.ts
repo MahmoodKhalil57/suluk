@@ -43,3 +43,9 @@ export {
 export { resolveSkillModels, skillModels, deriveCQT, type SkillModelResolution, type ResolvedTarget } from "./model-select";
 export { selectModel, deriveRequirements, SEED_CATALOG, PROFILES, type ModelCatalog, type SelectResult, type Preferences, type HardFilters } from "@suluk/models";
 export { agentDiagram, agentDiagramHtml, type DiagramNode, type DiagramKind, type AgentDiagramOptions } from "./diagram";
+// agent-hardening grade (C027, Stage 1.3): aggregate the install lint + context + (served-fact) conformance/freshness
+// + two structure checks into one A–F score + a CI gate — the harden idiom for the agent-COMPOSITION facet.
+export {
+  gradeAgent, gradeAgents, assertAgentGrade, agentGradeOk, gradeOf,
+  type AgentGrade, type AgentGradeReport, type AgentGradeFinding, type AgentGradeOptions, type GradeDimension, type GradeSeverity,
+} from "./grade";

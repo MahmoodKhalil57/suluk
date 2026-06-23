@@ -11,6 +11,23 @@ export interface DeployEntity {
   schema: SchemaOrRef;
 }
 
+/**
+ * A Durable Object class to bind + migrate. The Cloudflare Agents SDK runs each agent as a SQLite-backed Durable
+ * Object, so a deploy that ships agents must emit BOTH a `durable_objects.bindings` entry AND a `migrations` entry
+ * that creates the class. `@suluk/deploy` stays decoupled from the agent contract: the CALLER (the cockpit, or
+ * `@suluk/agents`' future `projectCloudflareAgent`) computes which agents are Durable Objects and passes them here.
+ */
+export interface DurableObjectBinding {
+  /** the binding name exposed as `env.<binding>` (e.g. "WeatherAssistant"). */
+  binding: string;
+  /** the exported Agent/DO class name (`class WeatherAssistant extends Agent {…}`). */
+  className: string;
+  /** SQLite-backed storage — REQUIRED by the Agents SDK and the Workers free plan. Default true ⇒ `new_sqlite_classes`. */
+  sqlite?: boolean;
+  /** cross-script DO: the script that DEFINES the class. Omit for a same-script class (the only kind we migrate). */
+  scriptName?: string;
+}
+
 export interface DeployInput {
   /** App name (slugified by the provider for resource names). */
   name: string;
@@ -28,6 +45,20 @@ export interface DeployInput {
   preview?: boolean;
   /** The roles to seed for a preview deployment (from the contract's User.role enum; cockpit threads them in). */
   previewRoles?: string[];
+  /**
+   * Durable Object classes to bind + migrate (the Cloudflare Agents SDK runtime surface). When present, the
+   * generated wrangler.jsonc gains a `durable_objects.bindings` block and an additive `migrations` entry that
+   * creates the SQLite-backed classes. Same-script classes only are migrated; a cross-script class (with
+   * `scriptName`) is bound but migrated by its OWNING script. Empty/absent ⇒ no DO output (unchanged plan).
+   */
+  durableObjects?: DurableObjectBinding[];
+  /**
+   * The migration tag for the DO classes above (default "v1"). NB the generator emits a FIRST-DEPLOY migration that
+   * (re)creates the CURRENT set under this one tag — it has no prev-diff, so bumping the tag alone re-lists every class
+   * (a recreate conflict on existing ones). To ADD a class later, hand-append a second entry
+   * `{ tag, new_sqlite_classes: [<only the new class>] }`. First-class additive DO evolution is a tracked follow-up.
+   */
+  durableObjectMigrationTag?: string;
 }
 
 /** A file the provider wants written into the project. */

@@ -4,7 +4,7 @@
  * after the user authenticates. Cloudflare is the first provider (Workers + D1 + static assets) — an adapter,
  * since the stack is already Cloudflare-native (Hono=Workers, sqlite-core=D1, frontend=assets). CANDIDATE.
  */
-export type { DeployProvider, DeployPlan, DeployInput, DeployEntity, DeployFile, DeployStep } from "./types";
+export type { DeployProvider, DeployPlan, DeployInput, DeployEntity, DeployFile, DeployStep, DurableObjectBinding } from "./types";
 export { cloudflare, DEFAULT_COMPAT_DATE } from "./cloudflare";
 export { schemaToSql, createTable, entityColumns, columnDdl, tableName, type ColumnDef } from "./sql";
 // contract-delta → additive migration SQL (Phase 2).

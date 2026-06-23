@@ -66,27 +66,33 @@ the runtime. **Do not build a `@suluk/party` / `@suluk/agents-runtime` that host
 Build Stage 1 + the Stage 0 examples **unconditionally** (they are the real best-practices deliverable and pay off
 generator-or-not). Stage 2 is **gated** on the Stage 0 measurement.
 
-### Stage 0 — measure (the gate). Status: ☐ not started
+### Stage 0 — measure (the gate). Status: ✅ DONE (2026-06-22)
 
 | # | Task | Where | Est | Done? |
 |---|---|---|---|---|
-| 0.1 | Re-implement **one** Cloudflare example (chat **or** email agent) **twice**: (a) hand-written on the `agents` SDK, (b) wired to a Suluk contract via existing `@suluk/mcp` + `@suluk/agents` + `@suluk/zod`. Use `tooling/ts/packages/agents/examples/conin.contract.ts` or a small fresh contract. | new `tooling/ts/packages/agents/examples/` (or a scratch app) | ½ d | ☐ |
-| 0.2 | Diff (a) vs (b). Record the boilerplate-elimination ratio + which of the wiring lines were *correctly* generated vs needed hand-edits. Write the number into this doc's "Stage 0 result" box below. | this doc | — | ☐ |
-| 0.3 | **Decision:** ratio justifies a generator → do Stage 2 generator. Ratio thin / output is a heavily-edited stub → Stage 2 ships templates instead. | — | — | ☐ |
+| 0.1 | Re-implement **one** Cloudflare example (chat **or** email agent) **twice**: (a) hand-written on the `agents` SDK, (b) wired to a Suluk contract via existing `@suluk/mcp` + `@suluk/agents` + `@suluk/zod`. Use `tooling/ts/packages/agents/examples/conin.contract.ts` or a small fresh contract. | [`examples/measure-cf-agent/`](../../tooling/ts/packages/agents/examples/measure-cf-agent/) | ½ d | ✅ |
+| 0.2 | Diff (a) vs (b). Record the boilerplate-elimination ratio + which of the wiring lines were *correctly* generated vs needed hand-edits. Write the number into this doc's "Stage 0 result" box below. | [RESULT.md](../../tooling/ts/packages/agents/examples/measure-cf-agent/RESULT.md) | — | ✅ |
+| 0.3 | **Decision:** ratio justifies a generator → do Stage 2 generator. Ratio thin / output is a heavily-edited stub → Stage 2 ships templates instead. | — | — | ✅ → **generator** |
 
-> **Stage 0 result (fill in):** _measured ratio = ___ ; correctly-generated wiring = ___ ; verdict = generator | template_
+> **Stage 0 result (chat agent, measured against the real projection — [RESULT.md](../../tooling/ts/packages/agents/examples/measure-cf-agent/RESULT.md)):**
+> **derivable now = 71%** (56% wiring + 15% contract-derived tool schemas) · **73% after `x-suluk-approval`** · **27% irreducible brain**.
+> Proven, not asserted: `@suluk/agents` already emits the tiered tool surface, each tool's full input JSON Schema, the
+> model list, the resident set, and a no-secret Claude plugin — with zero new code. **Verdict = GENERATOR (Stage 2 path A).**
+> Caveats: one (favorable, tool-heavy) example → 71% is the high end for thin tool-calling agents; wiring LOC are a
+> structured estimate (±10%), tool claims are machine-checked. Value is *correctness of wiring + non-drifting schemas*,
+> not LOC saved. A second pass on an email/scheduled agent would bracket the low end.
 
-### Stage 1 — high-value, low-risk, build regardless. Status: ☐ not started
+### Stage 1 — high-value, low-risk, build regardless. Status: ◑ 1.1 + 1.2 + 1.3 DONE (2026-06-22); 1.4–1.5 pending
 
 | # | Task | Where | Est | Done? |
 |---|---|---|---|---|
-| 1.1 | Emit `durable_objects.bindings` + `migrations: [{ tag, new_sqlite_classes }]` + `nodejs_compat` into the generated `wrangler.jsonc`, derived from which agents are runtime DOs. (C032 "complete the half" — deploy owns D1/KV/R2/cron but not DO.) | `@suluk/deploy` | ½ d | ☐ |
-| 1.2 | Add DO binding + sqlite-class **migration** support to the API-driven `deploy()` (the REST path has no wrangler to lean on). | `@suluk/cloudflare` | ½ d | ☐ |
-| 1.3 | **Agent checklist + A–F grade + `assertAgentGrade` CI gate + inverse "fix" transform**, aggregating the existing checks (table below). Reuse `@suluk/harden`'s grade/`assertGrade`/inverse-fix *idiom*; host in `@suluk/agents` (inputs live there, no cycle). Inverse-fix reuses `suggestUnflatten` for the context dimension + existing `hardenDocument` for tool inputs. | `@suluk/agents` | ½–1 d | ☐ |
+| 1.1 | Emit `durable_objects.bindings` + `migrations: [{ tag, new_sqlite_classes }]` + `nodejs_compat` into the generated `wrangler.jsonc`, derived from which agents are runtime DOs. (C032 "complete the half" — deploy owns D1/KV/R2/cron but not DO.) | `@suluk/deploy` | ½ d | ✅ |
+| 1.2 | Add DO binding + sqlite-class **migration** support to the API-driven `deploy()` (the REST path has no wrangler to lean on). | `@suluk/cloudflare` | ½ d | ✅ |
+| 1.3 | **Agent checklist + A–F grade + `assertAgentGrade` CI gate + inverse "fix" transform**, aggregating the existing checks (table below). Reuse `@suluk/harden`'s grade/`assertGrade`/inverse-fix *idiom*; host in `@suluk/agents` (inputs live there, no cycle). Inverse-fix reuses `suggestUnflatten` for the context dimension + existing `hardenDocument` for tool inputs. | `@suluk/agents` | ½–1 d | ✅ |
 | 1.4 | New `x-suluk-approval` facet (or extend `x-suluk-access`) for **HITL gate on mutating tools** → projects to the Agents SDK `needsApproval` predicate. Maps onto the chat example's approval-gated `calculate`. Add a `@suluk/testgen` conformance claim so it's load-bearing. | `@suluk/core` facet + `@suluk/agents` | ½–1 d | ☐ |
 | 1.5 | Optionally fold the agent grade into `@suluk/harden`'s document rollup for one unified "contract grade" (thin bridge; harden depends on agents, never the reverse). | `@suluk/harden` | ¼ d | ☐ |
 
-### Stage 2 — conditional on Stage 0. Status: ☐ blocked on 0.3
+### Stage 2 — conditional on Stage 0. Status: ☐ UNBLOCKED → **path A (generator)** selected by the 71% measurement
 
 | # | Task (path A: generator) | Where | Est | Done? |
 |---|---|---|---|---|
@@ -96,6 +102,32 @@ generator-or-not). Stage 2 is **gated** on the Stage 0 measurement.
 | # | Task (path B: templates, if 0.3 says so) | Where | Est | Done? |
 |---|---|---|---|---|
 | 2.B1 | Ship the worked examples as `@suluk/example-agent` **templates** (copy-paste, not generated) + a docs page mirroring Cloudflare's example set (chat / email / scheduled / HITL) so parity is legible without a generator. | new `tooling/ts/packages/example-agent/` | ½ d | ☐ |
+
+### Stage 1.1/1.2 — what landed + the carried follow-up (2026-06-22)
+
+Implemented behind an explicit `durableObjects: [{ binding, className, sqlite?, scriptName? }]` input (deploy stays
+decoupled from `@suluk/agents` — the caller computes the DO list). `@suluk/deploy` emits the wrangler.jsonc
+`durable_objects` + `migrations` (field name `tag`); `@suluk/cloudflare` binds + migrates over the REST script-upload
+(field name `new_tag`, inline on the same `PUT`, `nodejs_compat` auto-injected). Plus a new `cloudflare/tsconfig.json`
+(the package was 1 of 2 of 37 missing one; its `typecheck` was broken). **deploy 33 pass · cloudflare 18 pass · both
+typecheck clean.** Built (understand → implement → review) via two workflows; the [adversarial review](../../tooling/ts/packages/cloudflare/src/deploy.ts)
+returned *ship-with-fixes*, all fixes applied (nodejs_compat REST asymmetry, stale JSDoc, honest no-prev-diff notes,
++2 regression tests).
+
+**Confidence:** first-deploy + redeploy correctness ≈0.85 (wire shapes confirmed against Cloudflare docs + tested,
+both field-name paths right, omit-empty-migrations footgun handled). **NOT yet covered — tracked follow-up (≈0.5):**
+
+- **Additive DO evolution (v1→v2).** Both generators take only the CURRENT class set (no `prev` diff), so adding a
+  class re-lists all classes (recreate conflict) and a removed class silently orphans its DO state — unlike
+  `migrationSql`'s flag-never-DROP. REST plumbs `oldTag`/`newTag` but no caller drives it. *Fix:* thread a
+  `prevDurableObjects` set → emit a real additive multi-entry migration + a loud removed-class review comment; add
+  the v1→v2 end-to-end test (`{ old_tag:"v1", new_tag:"v2", new_sqlite_classes:[onlyNewClass] }`).
+- **Backend-flip guard.** Flipping a class's `sqlite` flag between deploys is invalid (Cloudflare can't re-back an
+  existing class). Since the Agents SDK mandates SQLite, forbid `sqlite:false` for agent classes or pin the backend.
+- Confirm the mixed-backend single-entry shape (one tag carrying both `new_sqlite_classes` + `new_classes`) against
+  the wrangler schema (low risk — Agents callers are all-SQLite).
+
+This is hardening, naturally folded into Stage 2.A when `projectCloudflareAgent` becomes the real DO-list caller.
 
 ## Agent-hardening checklist (Stage 1.3 detail)
 
@@ -112,6 +144,21 @@ Mostly **aggregation of checks already shipped** — the new mechanism is the gr
 | No credential / token in projected output | ✅ | projection boundary invariant (C020/C023) |
 | **HITL gate on mutating tools** | ❌ new (1.4) | `x-suluk-approval` facet → `needsApproval` |
 | **Replay / idempotency-safe side effects** | ❌ new | facet + check |
+
+### Stage 1.3 — what landed (2026-06-22)
+
+[`@suluk/agents/src/grade.ts`](../../tooling/ts/packages/agents/src/grade.ts): `gradeAgent` / `gradeAgents` /
+`assertAgentGrade` / `agentGradeOk` / `gradeOf`. Aggregates the install lint + context-budget/model-fit + (served-fact)
+over-serve/cold-tail/freshness checks + two NEW static structure checks (`no-tiering`, `skill-unpinned`) into one A–F
+score + a CI gate, mirroring `@suluk/harden`. Pure/static by default; no `@suluk/harden` dependency (tool-input
+hardening stays harden's job; the two grades unify on the **letter** in Stage 1.5, not the raw score). **Rubric:** F is
+reserved for a ship-blocking error (`grade==="F" ⟺ !shippable`); warnings alone never drop below D; info findings are
+advisory notes (never scored). **104 `@suluk/agents` tests pass · typecheck clean.** Built understand→implement→review
+via two workflows; the [3-lens adversarial review](../../tooling/ts/packages/agents/src/grade.ts) returned
+*ship-with-fixes* — all applied: README API row (was undiscoverable), the missing-provenance double-penalty (score is
+now invariant to whether the caller passes a snapshot), the warning-pile-F overload (now floored at D), `installable`→
+`shippable` (honest name), finding dedup, and the O(N²) rollup hoisted. Confidence ≈0.85. The two `❌ new` rows above
+(HITL `x-suluk-approval`, replay-safety) are Stage 1.4 — wiring them adds two checklist rules to this grade.
 
 ## What NOT to do (the brakes)
 
@@ -137,6 +184,16 @@ Mostly **aggregation of checks already shipped** — the new mechanism is the gr
 
 ## Resume pointer (cheapest next move)
 
-**Start Stage 0.1** — build the chat (or email) agent both ways and diff. That one number settles the Stage 2
-fork (generator vs template) and surfaces the exact `x-suluk-approval` facet shape better than more planning will.
-Everything in Stage 1 can proceed in parallel and lands value regardless of the Stage 0 verdict.
+**Stage 0 closed (✅), Stage 1.1 + 1.2 + 1.3 closed (✅ 2026-06-22, all reviewed ship-with-fixes, fixes applied).** Next:
+
+1. **Stage 1.4 — the `x-suluk-approval` HITL facet** (`@suluk/core` facet + `@suluk/agents` projection + a `@suluk/testgen`
+   claim). Reclaims the one `[BESPOKE:GAP]` line from the measurement; adds the "HITL gate on mutating tools" rule to the
+   Stage-1.3 grade. The chat example's approval-gated `calculate` is the worked target.
+2. **Stage 2.A — `projectCloudflareAgent`** now that the 71% justifies it. Build it to emit exactly the `[WIRING]`-tagged
+   blocks in the measurement artifact; leave the `[BESPOKE]` brain as authored stubs. **It becomes the real caller of
+   `durableObjects`** — fold the Stage-1.1/1.2 follow-ups (additive DO evolution via a `prev` set; backend-flip guard) in here.
+3. **Stage 1.5 (optional now) — unified contract grade**: average the `@suluk/harden` doc grade and the `gradeAgent`
+   grade on the LETTER. Thin bridge in `@suluk/harden`.
+
+Optional: a **second Stage-0 pass** on an email/scheduled agent to bracket the low end of the derivable range (the chat
+agent is the favorable, tool-heavy case).

@@ -42,6 +42,13 @@ steps in a terminal *after the user authenticates*.
   emits `wrangler secret put` steps that never hold a value. `durableBindings` reads the contract's
   `x-suluk-*` facets and provisions the durable infra they imply (a rate-limit budget → a KV counter; a
   declared cost → a KV sink; a bound storage slot → an R2 bucket).
+- **Durable Object agents** — pass `durableObjects: [{ binding, className }]` (the Cloudflare Agents SDK runs each
+  agent as a SQLite-backed Durable Object) and the generated `wrangler.jsonc` gains a `durable_objects.bindings`
+  block + an additive `migrations: [{ tag, new_sqlite_classes }]` entry (`nodejs_compat` stays on; `sqlite: false`
+  routes a class to the legacy `new_classes`). It is a **first-deploy artifact**: the generator emits the current
+  class set under one tag — evolving agents (append a new tag for an added class; a removed class is *not* auto-flagged,
+  unlike `migrationSql`) is a hand-edit today, tracked as a follow-up. The package stays decoupled from the agent
+  contract — the caller (`@suluk/agents`' future `projectCloudflareAgent`) computes which agents are Durable Objects.
 - **`r2Storage` / `memoryStorage`** — the swappable `StorageProvider` (the media/upload slot): R2 for
   production, an in-memory impl for dev/tests. `delete` is a first-class GDPR erasure target.
 - **Preview deployments** — opt-in role-preview variant (`preview: true`) with two fail-closed locks and a

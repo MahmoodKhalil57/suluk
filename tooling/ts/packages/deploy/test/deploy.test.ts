@@ -65,6 +65,62 @@ describe("cloudflare provider — generate the deploy plan", () => {
   });
 });
 
+describe("cloudflare provider — Durable Object agents (Cloudflare Agents SDK runtime)", () => {
+  const doInput: DeployInput = {
+    ...input,
+    durableObjects: [
+      { binding: "WeatherAssistant", className: "WeatherAssistant" },                 // same-script, sqlite default
+      { binding: "Coordinator", className: "Coordinator", sqlite: false },             // same-script, legacy KV-backed
+      { binding: "Shared", className: "SharedAgent", scriptName: "other-worker" },     // cross-script: bound, NOT migrated
+    ],
+  };
+  const cfg = JSON.parse(cloudflare.generate(doInput).files.find((f) => f.path === "wrangler.jsonc")!.content);
+
+  test("emits a durable_objects.bindings entry per class (with script_name only when cross-script)", () => {
+    expect(cfg.durable_objects.bindings).toEqual([
+      { name: "WeatherAssistant", class_name: "WeatherAssistant" },
+      { name: "Coordinator", class_name: "Coordinator" },
+      { name: "Shared", class_name: "SharedAgent", script_name: "other-worker" },
+    ]);
+  });
+
+  test("emits ONE additive migration: SQLite classes in new_sqlite_classes, legacy in new_classes, cross-script excluded", () => {
+    expect(cfg.migrations).toEqual([
+      { tag: "v1", new_sqlite_classes: ["WeatherAssistant"], new_classes: ["Coordinator"] },
+    ]);
+  });
+
+  test("nodejs_compat stays on (the Agents SDK requires it)", () => {
+    expect(cfg.compatibility_flags).toContain("nodejs_compat");
+  });
+
+  test("the migration tag is overridable (for additive class additions later)", () => {
+    const v2 = JSON.parse(cloudflare.generate({ ...doInput, durableObjectMigrationTag: "v2" }).files.find((f) => f.path === "wrangler.jsonc")!.content);
+    expect(v2.migrations[0].tag).toBe("v2");
+  });
+
+  test("a DO note flags the additive-only / data-losing-delete discipline", () => {
+    const notes = cloudflare.generate(doInput).notes.join(" ");
+    expect(notes).toContain("Durable Object agents");
+    expect(notes.toLowerCase()).toContain("additive");
+  });
+
+  test("omits migrations entirely when EVERY class is cross-script (migrated by its owning script)", () => {
+    const crossOnly = JSON.parse(
+      cloudflare.generate({ ...input, durableObjects: [{ binding: "Shared", className: "SharedAgent", scriptName: "other-worker" }] })
+        .files.find((f) => f.path === "wrangler.jsonc")!.content,
+    );
+    expect(crossOnly.durable_objects.bindings.length).toBe(1);
+    expect(crossOnly.migrations).toBeUndefined();
+  });
+
+  test("a non-agent deploy is byte-identical to before (no durable_objects / migrations keys)", () => {
+    const cfgNoDo = JSON.parse(cloudflare.generate(input).files.find((f) => f.path === "wrangler.jsonc")!.content);
+    expect(cfgNoDo.durable_objects).toBeUndefined();
+    expect(cfgNoDo.migrations).toBeUndefined();
+  });
+});
+
 describe("schemaToSql + the provider registry", () => {
   test("schemaToSql is exported standalone", () => {
     expect(schemaToSql(input.entities)).toContain("CREATE TABLE IF NOT EXISTS pet");

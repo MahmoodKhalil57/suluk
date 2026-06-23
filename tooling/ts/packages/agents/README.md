@@ -164,6 +164,31 @@ const pick = skillModels(doc, "conin", "operate", SEED_CATALOG);
 pick.ids;                                          // selected model ids; pick.from === "selected" | "declared"
 ```
 
+### Grade — one A–F number + a CI gate (the harden idiom for the agent surface)
+
+```ts
+import { gradeAgent, gradeAgents, assertAgentGrade } from "@suluk/agents";
+
+// Static by default — aggregates the install lint + context-budget/model-fit + two structure checks (no-tiering,
+// fully-unpinned skill). Pass a served fact to fold in the over-serve / cold-tail-in-default / drift checks.
+const r = gradeAgent(doc, "conin", {
+  catalog: SEED_CATALOG,                 // enables model-fit
+  served: ["list_library", "get_study"],  // folds in over-serve + cold-tail-in-default conformance
+  snapshots: { operate: servedText },     // folds in skill-freshness (drift) — keyed by bare skill name
+});
+r.grade;        // "A" | "B" | "C" | "D" | "F"   (F ⟺ !shippable — a ship-blocking error; warnings alone never go below D)
+r.shippable;    // false ⇒ at least one error-severity finding (any dimension)
+r.byDimension;  // findings grouped: lint / context / structure / conformance / freshness
+r.suggestions;  // the inverse-fix pointers (which resident tools to push to cold-tail)
+
+gradeAgents(doc);                          // the rollup, weakest first (computes the whole-doc passes once)
+assertAgentGrade(doc, "conin", "B");       // CI gate: throws below the floor (returns the report on pass)
+```
+
+The grade is the agent-COMPOSITION dimension; tool-INPUT hardening stays [`@suluk/harden`](../harden)'s job (an
+agent's tools are operations). `gradeOf` mirrors harden's letter thresholds so a future unified contract grade
+can combine the two on the LETTER (the raw scores differ — harden scores a clean/nodes ratio, this scores `100 − Σ penalty`).
+
 ### Diagram (OBSERVE)
 
 ```ts
@@ -186,6 +211,7 @@ agentDiagramHtml(doc, "conin");    // a self-contained D3 page (data inlined + H
 | `verifySkillFreshness` / `contentHash` / `renderSkillMd` | skill drift detection + the `SKILL.md` content-hash primitives |
 | `effectiveUnderPolicies` / `policyConstrain` / `lintPolicy` / `policyOk` | C028 operator-governance overlay (monotone-narrowing MEET) |
 | `contextReport` / `suggestUnflatten` | C027 context-budget analyzer (model-fit, over-budget, flatten/unflatten suggestions) |
+| `gradeAgent` / `gradeAgents` / `assertAgentGrade` / `agentGradeOk` / `gradeOf` | C027 Stage-1.3 agent-COMPOSITION grade — aggregate lint + context + (served-fact) conformance/freshness into one A–F score + a CI gate (mirrors `@suluk/harden`'s `assertGrade`; F reserved for ship-blocking errors) |
 | `skillModels` / `resolveSkillModels` / `deriveCQT` / `selectModel` / `SEED_CATALOG` / `PROFILES` | C027 × `@suluk/models` model-selection seam (pin / router / latest, governance-gated) |
 | `intersectScope` / `analyzeScopes` / `localEscalations` | scope intersection along the reaching path + escalation detection |
 | `resolveOperationRef` / `agentMap` / `reachableSurface` / `findCycle` … | the `resolve` primitives the rest is built on |

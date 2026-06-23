@@ -7,12 +7,23 @@
  * in a terminal AFTER the user authenticates (`wrangler login`, OAuth), so credentials never touch this code.
  */
 import { schemaToSql } from "./sql";
-import type { DeployInput, DeployPlan, DeployProvider } from "./types";
+import type { DeployInput, DeployPlan, DeployProvider, DurableObjectBinding } from "./types";
 
 export const DEFAULT_COMPAT_DATE = "2026-06-01";
 
 function slug(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "suluk-app";
+}
+
+/** The wrangler.jsonc `migrations` entry that CREATES the same-script DO classes — SQLite-backed by default (the
+ *  Agents SDK + free-plan requirement). Cross-script classes (those with a `scriptName`) are migrated by their
+ *  owning script, so they are bound but NOT listed here. Returns [] when there is nothing same-script to create. */
+function durableObjectMigrations(dos: DurableObjectBinding[], tag: string): { tag: string; new_sqlite_classes?: string[]; new_classes?: string[] }[] {
+  const owned = dos.filter((d) => !d.scriptName); // you only migrate classes YOUR script defines
+  const sqliteClasses = owned.filter((d) => d.sqlite !== false).map((d) => d.className);
+  const classes = owned.filter((d) => d.sqlite === false).map((d) => d.className);
+  if (!sqliteClasses.length && !classes.length) return [];
+  return [{ tag, ...(sqliteClasses.length ? { new_sqlite_classes: sqliteClasses } : {}), ...(classes.length ? { new_classes: classes } : {}) }];
 }
 
 function wranglerConfig(input: DeployInput, name: string): string {
@@ -32,6 +43,17 @@ function wranglerConfig(input: DeployInput, name: string): string {
       : [{ binding: "DB", database_name: `${name}-db`, database_id: "<run: wrangler d1 create>" }],
     // PREVIEW lock 1: the deploy-time flag. A prod config NEVER sets this; previewLoginHandler 404s without it.
     ...(input.preview ? { vars: { SULUK_PREVIEW: "1" } } : {}),
+    // Durable Object agents (Cloudflare Agents SDK runtime): bind each class + an additive migration that creates it.
+    // Gated on `durableObjects` so a non-agent deploy emits exactly what it did before.
+    ...(input.durableObjects?.length
+      ? {
+          durable_objects: {
+            bindings: input.durableObjects.map((d) => ({ name: d.binding, class_name: d.className, ...(d.scriptName ? { script_name: d.scriptName } : {}) })),
+          },
+          // migrations are omitted entirely when every class is cross-script (migrated by its owning script).
+          ...((m) => (m.length ? { migrations: m } : {}))(durableObjectMigrations(input.durableObjects, input.durableObjectMigrationTag ?? "v1")),
+        }
+      : {}),
     // static assets (the built frontend); SPA fallback so client routes resolve.
     assets: { directory: input.assetsDir ?? "./dist/client", binding: "ASSETS", not_found_handling: "single-page-application" },
     observability: { enabled: true },
@@ -108,6 +130,15 @@ export const cloudflare: DeployProvider = {
           `Build your frontend into "${input.assetsDir ?? "./dist/client"}" before \`wrangler deploy\` (it is served by the ASSETS binding).`,
           "Swappable by design: this is the `cloudflare` DeployProvider; other targets implement the same interface.",
         ];
+
+    if (input.durableObjects?.length) {
+      const owned = input.durableObjects.filter((d) => !d.scriptName).map((d) => d.className);
+      notes.push(
+        `Durable Object agents (Cloudflare Agents SDK): ${input.durableObjects.map((d) => `${d.binding}→${d.className}`).join(", ")} are bound in wrangler.jsonc; ` +
+          (owned.length ? `\`wrangler deploy\` creates ${owned.join(", ")} via the \`migrations\` entry (SQLite-backed). ` : "") +
+          "This is a FIRST-DEPLOY artifact: the generator emits the CURRENT class set only (no prev-diff), so EVOLVING agents is a hand-edit — to add a class, append a new entry `{ tag: \"v2\", new_sqlite_classes: [<only the new class>] }`; removing an agent silently drops its class (its stored DO state is orphaned with NO warning — a manual, data-losing decision, unlike the additive D1 migrationSql which flags removals).",
+      );
+    }
 
     return { provider: "cloudflare", files, steps, notes };
   },

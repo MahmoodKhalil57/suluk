@@ -7,7 +7,35 @@
 import { CloudflareClient, type CloudflareClientOptions } from "./client";
 import { provisionD1, provisionKvNamespace, provisionR2Bucket, applyMigrations, putSecrets, type Migration } from "./resources";
 import { uploadAssets, extractAssetRuleFiles, type AssetFile } from "./assets";
-import { deployWorker, putCronTriggers, type WorkerBinding } from "./worker";
+import { deployWorker, putCronTriggers, type WorkerBinding, type WorkerMigration } from "./worker";
+
+/** A Durable Object class to bind + (for same-script classes) create via an inline script migration. Mirrors
+ *  @suluk/deploy's `DurableObjectBinding` so the CLI plan and the no-wrangler REST deploy describe DO agents alike. */
+export interface DurableObjectBinding {
+  /** the binding name exposed as `env.<binding>`. */
+  binding: string;
+  /** the exported Agent/DO class name. */
+  className: string;
+  /** SQLite-backed storage — REQUIRED by the Agents SDK + the free plan. Default true ⇒ `new_sqlite_classes`. */
+  sqlite?: boolean;
+  /** cross-script DO: the script that DEFINES the class. Omit for a same-script class (the only kind we migrate). */
+  scriptName?: string;
+}
+
+/** Build the inline script-migration for the same-script DO classes (cross-script classes are migrated by their
+ *  owning script). Uses the API field `new_tag` (NOT wrangler's `tag`). Returns undefined when nothing to create. */
+function durableObjectMigration(dos: DurableObjectBinding[], newTag: string, oldTag?: string): WorkerMigration | undefined {
+  const owned = dos.filter((d) => !d.scriptName);
+  const new_sqlite_classes = owned.filter((d) => d.sqlite !== false).map((d) => d.className);
+  const new_classes = owned.filter((d) => d.sqlite === false).map((d) => d.className);
+  if (!new_sqlite_classes.length && !new_classes.length) return undefined;
+  return {
+    new_tag: newTag,
+    ...(oldTag ? { old_tag: oldTag } : {}),
+    ...(new_sqlite_classes.length ? { new_sqlite_classes } : {}),
+    ...(new_classes.length ? { new_classes } : {}),
+  };
+}
 
 export interface DeployPlan {
   scriptName: string;
@@ -22,6 +50,10 @@ export interface DeployPlan {
   kv?: { binding: string; title: string }[];
   /** provision + bind R2 buckets (binding → bucketName). */
   r2?: { binding: string; bucketName: string }[];
+  /** bind Durable Object agents (Cloudflare Agents SDK runtime) + create same-script classes via an inline migration. */
+  durableObjects?: DurableObjectBinding[];
+  /** the DO migration tags — `newTag` defaults to "v1"; pass `oldTag` on a redeploy that ADDS classes (optimistic concurrency). */
+  durableObjectMigration?: { newTag?: string; oldTag?: string };
   /** static assets to serve (uploaded; bound as ASSETS by default). */
   assets?: AssetFile[];
   assetsBinding?: string;
@@ -41,6 +73,7 @@ export interface DeployResult {
   d1?: { binding: string; id: string };
   kv: { binding: string; id: string }[];
   r2: { binding: string; name: string }[];
+  durableObjects: { binding: string; className: string }[];
   assetsUploaded: number;
   secretsSet: string[];
   crons: string[];
@@ -72,6 +105,19 @@ export async function deploy(cf: CloudflareClient, plan: DeployPlan, log: Deploy
   const r2: DeployResult["r2"] = [];
   for (const b of plan.r2 ?? []) { const bk = await provisionR2Bucket(cf, b.bucketName); bindings.push({ type: "r2_bucket", name: b.binding, bucket_name: bk.name }); r2.push({ binding: b.binding, name: bk.name }); log(`R2 "${bk.name}" bound`); }
 
+  // Durable Object agents (Cloudflare Agents SDK runtime). A DO needs no provision call — the class is defined in the
+  // uploaded module; we only (a) bind it and (b) create same-script classes via the inline script migration below.
+  const durableObjects: DeployResult["durableObjects"] = [];
+  let migrations: WorkerMigration[] | undefined;
+  if (plan.durableObjects?.length) {
+    for (const d of plan.durableObjects) {
+      bindings.push({ type: "durable_object_namespace", name: d.binding, class_name: d.className, ...(d.scriptName ? { script_name: d.scriptName } : {}) });
+      durableObjects.push({ binding: d.binding, className: d.className });
+    }
+    const mig = durableObjectMigration(plan.durableObjects, plan.durableObjectMigration?.newTag ?? "v1", plan.durableObjectMigration?.oldTag);
+    if (mig) { migrations = [mig]; log(`durable objects: ${(mig.new_sqlite_classes ?? []).concat(mig.new_classes ?? []).join(", ")} (migration ${mig.new_tag})`); }
+  }
+
   let assetsJwt: string | null = null;
   let assetsConfig = plan.assetsConfig;
   let assetsUploaded = 0;
@@ -91,10 +137,16 @@ export async function deploy(cf: CloudflareClient, plan: DeployPlan, log: Deploy
     }
   }
 
+  // Agents-SDK Durable Objects REQUIRE `nodejs_compat`. The wrangler path hardcodes it; the REST path must not ship a
+  // weaker worker, so dedupe-inject it whenever this deploy carries DOs (a caller that forgot it still gets a working agent).
+  const compatibilityFlags = plan.durableObjects?.length
+    ? Array.from(new Set([...(plan.compatibilityFlags ?? []), "nodejs_compat"]))
+    : plan.compatibilityFlags;
+
   await deployWorker(cf, {
     name: plan.scriptName, module: plan.module, mainModule: plan.mainModule,
-    compatibilityDate: plan.compatibilityDate, compatibilityFlags: plan.compatibilityFlags,
-    bindings, vars: plan.vars,
+    compatibilityDate: plan.compatibilityDate, compatibilityFlags,
+    bindings, migrations, vars: plan.vars,
     assets: { jwt: assetsJwt, binding: plan.assetsBinding, config: assetsConfig },
     observability: plan.observability,
   });
@@ -105,7 +157,7 @@ export async function deploy(cf: CloudflareClient, plan: DeployPlan, log: Deploy
 
   if (plan.crons?.length) { await putCronTriggers(cf, plan.scriptName, plan.crons); log(`crons: ${plan.crons.join(" · ")}`); }
 
-  return { accountId, scriptName: plan.scriptName, d1, kv, r2, assetsUploaded, secretsSet, crons: plan.crons ?? [] };
+  return { accountId, scriptName: plan.scriptName, d1, kv, r2, durableObjects, assetsUploaded, secretsSet, crons: plan.crons ?? [] };
 }
 
 /** Convenience: build a client from token/account options and run a deploy. */
