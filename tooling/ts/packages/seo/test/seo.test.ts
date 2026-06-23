@@ -58,7 +58,7 @@ describe("schema.org JSON-LD", () => {
     expect(w.potentialAction["query-input"]).toContain("search_term_string");
   });
   test("product with offer + rating, omitting empty fields", () => {
-    const p = product({ name: "Tee", price: undefined as never, offers: { price: 29 }, rating: { ratingValue: 4.6, reviewCount: 12 }, brand: "Acme" }) as any;
+    const p = product({ name: "Tee", offers: { price: 29 }, rating: { ratingValue: 4.6, reviewCount: 12 }, brand: "Acme" }) as any;
     expect(p["@type"]).toBe("Product");
     expect(p.offers.price).toBe("29.00");
     expect(p.offers.availability).toBe("https://schema.org/InStock");

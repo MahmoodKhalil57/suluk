@@ -31,5 +31,5 @@ export function packageGraphD2(packages: PackageDoc[]): string {
 
 /** A kroki.io render URL for D2 source (deflate + base64url) — the package graph is public, so embedding is fine. */
 export function krokiD2Url(d2: string): string {
-  return `https://kroki.io/d2/svg/${deflateSync(Buffer.from(d2, "utf8")).toString("base64url")}`;
+  return `https://kroki.io/d2/svg/${deflateSync(new TextEncoder().encode(d2)).toString("base64url")}`;
 }

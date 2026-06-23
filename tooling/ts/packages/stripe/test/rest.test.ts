@@ -26,7 +26,7 @@ describe("rest read surface (injected fetch)", () => {
 
   test("retrievePaymentIntent returns the parsed PI + builds the expand query", async () => {
     let seenUrl = "";
-    const fetch = (async (url: string) => { seenUrl = url; return new Response(JSON.stringify({ id: "pi_1", metadata: { orderId: "42" } }), { status: 200 }); }) as unknown as typeof fetch;
+    const fetch = (async (url: string) => { seenUrl = url; return new Response(JSON.stringify({ id: "pi_1", metadata: { orderId: "42" } }), { status: 200 }); }) as unknown as typeof globalThis.fetch;
     const pi = await retrievePaymentIntent<{ metadata?: { orderId?: string } }>("sk_test", "pi_1", { expand: ["latest_charge"], fetch });
     expect(pi?.metadata?.orderId).toBe("42");
     expect(seenUrl).toContain("/payment_intents/pi_1");
@@ -39,7 +39,7 @@ describe("rest read surface (injected fetch)", () => {
 
   test("restStripe.customers.create posts form-encoded + parses the result", async () => {
     let body = "";
-    const fetch = (async (_url: string, init: RequestInit) => { body = String(init.body); return new Response(JSON.stringify({ id: "cus_1" }), { status: 200 }); }) as unknown as typeof fetch;
+    const fetch = (async (_url: string, init: RequestInit) => { body = String(init.body); return new Response(JSON.stringify({ id: "cus_1" }), { status: 200 }); }) as unknown as typeof globalThis.fetch;
     const r = await restStripe("sk_test", { fetch }).customers.create({ email: "a@b.com" });
     expect((r as { id: string }).id).toBe("cus_1");
     expect(body).toContain("email=a%40b.com");

@@ -81,7 +81,7 @@ describe("runAgent loop", () => {
       return { role: "assistant" as const, content: "done" };
     };
     const events: { type: string; [k: string]: unknown }[] = [];
-    const msgs = await runAgent({ messages: [{ role: "user", content: "go" }], tools, exec: async () => ({}), complete: complete as never }, (e) => events.push(e as never));
+    const msgs = await runAgent({ messages: [{ role: "user", content: "go" }], tools, exec: async () => ({}), complete: complete as never }, (e) => { events.push(e as never); });
     expect(events.some((e) => e.type === "tool" && e.phase === "end" && e.ok === false)).toBe(true);
     expect(msgs.find((m) => m.role === "tool")!.content).toContain("unknown tool");
   });
@@ -97,9 +97,9 @@ describe("runAgent loop", () => {
       onText("Added it!"); return { role: "assistant" as const, content: "Added it!" };
     };
     const events: { type: string; [k: string]: unknown }[] = [];
-    const msgs = await runAgent({ messages: [{ role: "user", content: "add product 3" }], tools, clientTools: [{ name: "addToCart", description: "add", parameters: { type: "object", properties: {} } }], exec, complete: complete as never }, (e) => events.push(e as never));
+    const msgs = await runAgent({ messages: [{ role: "user", content: "add product 3" }], tools, clientTools: [{ name: "addToCart", description: "add", parameters: { type: "object", properties: {} } }], exec, complete: complete as never }, (e) => { events.push(e as never); });
     expect(execCalled).toBe(false); // client tool never hits the server exec / enforceAccess path
-    const ct = events.find((e) => e.type === "client_tool") as { name: string; args: unknown };
+    const ct = events.find((e) => e.type === "client_tool") as unknown as { name: string; args: unknown };
     expect(ct.name).toBe("addToCart");
     expect(ct.args).toEqual({ productId: 3 });
     expect(msgs.find((m) => m.role === "tool" && m.name === "addToCart")!.content).toContain("browser");
@@ -110,7 +110,7 @@ describe("runAgent loop", () => {
     const tools = toolsFrom(doc);
     const complete = async () => ({ role: "assistant" as const, content: null, tool_calls: [{ id: "c", type: "function" as const, function: { name: "listProduct", arguments: "{}" } }] });
     const events: { type: string; reason?: string }[] = [];
-    await runAgent({ messages: [{ role: "user", content: "loop" }], tools, exec: async () => ([]), complete: complete as never, maxSteps: 3 }, (e) => events.push(e as never));
+    await runAgent({ messages: [{ role: "user", content: "loop" }], tools, exec: async () => ([]), complete: complete as never, maxSteps: 3 }, (e) => { events.push(e as never); });
     expect(events.filter((e) => e.type === "step")).toHaveLength(3);
     expect(events.some((e) => e.type === "done" && e.reason === "max-steps")).toBe(true);
   });
