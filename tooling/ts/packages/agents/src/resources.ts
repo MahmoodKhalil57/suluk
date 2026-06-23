@@ -70,8 +70,9 @@ export function lintResources(doc: OpenAPIv4Document): ResourceFinding[] {
   const out: ResourceFinding[] = [];
 
   for (const [key, r] of Object.entries(cat)) {
-    if (!(r.description ?? "").trim())
-      out.push({ severity: "error", code: "resource-no-description", detail: `resource "${key}": description is required (the catalog listing the model selects on)` });
+    // a lint must REPORT malformed input, never crash on it — a non-string description is a no-description error, not a throw.
+    if (typeof r.description !== "string" || !r.description.trim())
+      out.push({ severity: "error", code: "resource-no-description", detail: `resource "${key}": a non-empty string description is required (the catalog listing the model selects on)` });
     if (!KINDS.has(r.kind))
       out.push({ severity: "error", code: "resource-bad-kind", detail: `resource "${key}": kind must be instructions | reference | script` });
     if (!r.provenance?.source || !r.provenance?.contentHash)

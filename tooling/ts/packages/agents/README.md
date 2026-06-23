@@ -111,7 +111,7 @@ m.subAgents;      // [{ name: "retrieval", ref: "#/x-suluk-agents/coninRetrieval
 m.instructions;   // { source, contentHash, version } — a pointer + pinned hash, never raw text by default
 ```
 
-### Project a Cloudflare Agents-SDK scaffold (the RUNTIME — closes the loop with `@suluk/deploy`)
+### Project a Cloudflare Agents-SDK scaffold (the RUNTIME — emits the `durableObjects` descriptor `@suluk/deploy` consumes)
 
 The third projection target: one declaration → an **owned** Cloudflare Agents-SDK Worker. It emits exactly the wiring
 the Stage-0 measurement proved derivable (~71%) — the `AIChatAgent` class, the `routeAgentRequest` worker, the Env

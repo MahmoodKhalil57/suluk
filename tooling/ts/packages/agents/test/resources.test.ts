@@ -64,6 +64,14 @@ describe("lintResources (C036) — well-formedness + dangling refs + the experim
     expect(lintResources(d).some((x) => x.code === "resource-unpinned")).toBe(true);
   });
 
+  test("a malformed (non-string) description is REPORTED, never thrown — a lint must survive hostile input", () => {
+    const d = structuredClone(doc);
+    (d["x-suluk-resources"]!.styleGuide as any).description = 123;
+    let findings: ReturnType<typeof lintResources> = [];
+    expect(() => { findings = lintResources(d); }).not.toThrow();
+    expect(findings.some((f) => f.code === "resource-no-description")).toBe(true);
+  });
+
   test("kind:script is flagged a warning (CF script execution is experimental); retrieved content is an info note", () => {
     const d = structuredClone(doc);
     d["x-suluk-resources"]!.runner = { description: "A bundled script.", kind: "script", provenance: { source: "https://e/r", contentHash: "sha256-c" }, trust: "retrieved" };
