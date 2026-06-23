@@ -220,6 +220,32 @@ The grade is the agent-COMPOSITION dimension; tool-INPUT hardening stays [`@sulu
 agent's tools are operations). `gradeOf` mirrors harden's letter thresholds so a future unified contract grade
 can combine the two on the LETTER (the raw scores differ — harden scores a clean/nodes ratio, this scores `100 − Σ penalty`).
 
+### Pyramid — the determinism gradient as layers ([C035](../../../../doc/architecture/decisions/C035-cloudflare-terminology-alignment.md))
+
+The shipped route(no-model)/skill(model) discriminator, made vertical. **Level 0** is the deterministic floor —
+`routes` projecting to MCP tools (the "calculators"). **Level k** is an agent composing skills + lower-level routes
+and sub-agents. Higher ⇒ less deterministic, more general, more convenient. An agent's level is a pure static
+derivation (never read by the D1 matcher).
+
+```ts
+import { agentLevel, layerReport } from "@suluk/agents";
+
+agentLevel(doc, "calculator");  // 1 — a leaf agent (routes only), one step above the floor
+agentLevel(doc, "assistant");   // 2 — composes the calculator sub-agent
+agentLevel(doc, "not-an-agent");// 0 (FLOOR_LEVEL) — routes/leaf capabilities live on the floor
+
+const rep = layerReport(doc, { catalog: SEED_CATALOG });  // same options bag as gradeAgent
+rep.layers;    // per agent, sorted by level: { level, routeCount, skillCount, subAgentCount, grade, contextTokens, overBudget, contextWaste }
+rep.byLevel;   // level → agent names (cyclic agents grouped under -1)
+rep.maxLevel;  // tallest finite layer
+rep.floor;     // the distinct route operationRefs forming the deterministic base
+```
+
+`layerReport` is a **composition** of the shipped analyzers — it folds the three per-layer static-observability
+signals into one surface: **hardening** (`gradeAgent` A–F), **token-budget** (declared `contextBudget` vs the
+`contextReport` estimate → `overBudget`), and **context-waste** (resident tools the analyzer says to push to
+cold-tail → `contextWaste`). No new mechanism, no enforcement.
+
 ### Diagram (OBSERVE)
 
 ```ts
@@ -247,6 +273,7 @@ agentDiagramHtml(doc, "conin");    // a self-contained D3 page (data inlined + H
 | `effectiveUnderPolicies` / `policyConstrain` / `lintPolicy` / `policyOk` | C028 operator-governance overlay (monotone-narrowing MEET) |
 | `contextReport` / `suggestUnflatten` | C027 context-budget analyzer (model-fit, over-budget, flatten/unflatten suggestions) |
 | `gradeAgent` / `gradeAgents` / `assertAgentGrade` / `agentGradeOk` / `gradeOf` | C027 Stage-1.3 agent-COMPOSITION grade — aggregate lint + context + (served-fact) conformance/freshness into one A–F score + a CI gate (mirrors `@suluk/harden`'s `assertGrade`; F reserved for ship-blocking errors) |
+| `agentLevel` / `layerReport` / `FLOOR_LEVEL` | C035 agent **pyramid** — `agentLevel` is the pure static composition-height (routes=0, leaf agent=1); `layerReport` folds level + grade + token-budget + context-waste into one per-layer observability surface (a composition of shipped analyzers, never read by D1) |
 | `skillModels` / `resolveSkillModels` / `deriveCQT` / `selectModel` / `SEED_CATALOG` / `PROFILES` | C027 × `@suluk/models` model-selection seam (pin / router / latest, governance-gated) |
 | `intersectScope` / `analyzeScopes` / `localEscalations` | scope intersection along the reaching path + escalation detection |
 | `resolveOperationRef` / `agentMap` / `reachableSurface` / `findCycle` … | the `resolve` primitives the rest is built on |

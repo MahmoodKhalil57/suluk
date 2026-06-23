@@ -58,3 +58,7 @@ export {
   gradeAgent, gradeAgents, assertAgentGrade, agentGradeOk, gradeOf,
   type AgentGrade, type AgentGradeReport, type AgentGradeFinding, type AgentGradeOptions, type GradeDimension, type GradeSeverity,
 } from "./grade";
+// the agent PYRAMID (C035): the route(no-model)/skill(model) determinism gradient made vertical. `agentLevel` is a
+// pure static composition-height derivation (reuses `subtreeDepth`); `layerReport` folds level + grade + token-budget
+// + context-waste into one per-layer observability surface — a COMPOSITION of shipped analyzers, not a new mechanism.
+export { agentLevel, layerReport, FLOOR_LEVEL, type AgentLayer, type LayerReport } from "./pyramid";
