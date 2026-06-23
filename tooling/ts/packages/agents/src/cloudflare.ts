@@ -16,16 +16,17 @@
  * It also returns the `durableObjects` descriptor to feed `@suluk/deploy` / `@suluk/cloudflare` (Stage 1.1/1.2),
  * closing the loop: the same contract that scaffolds the agent also declares the DO binding + sqlite migration.
  */
-import type { OpenAPIv4Document, SulukSkillRef, SchemaOrRef } from "@suluk/core";
-import { agentMap, resolveOperationRef } from "./resolve";
+import type { OpenAPIv4Document, SulukSkillRef } from "@suluk/core";
+import { agentMap, resolveInstruction } from "./resolve";
 import { reachableSurface, residentSurface } from "./conformance";
 import { assertAgentInstallable } from "./lint";
 import { contentHash } from "./skill";
+import { pascal, primarySkill, toolsConst } from "./runtime-shared";
 
 export interface CloudflareAgentOptions {
   /** the Durable Object class + binding name (default: PascalCase of the agent name). */
   className?: string;
-  /** instruction snapshots per skill name — the primary skill's text is inlined (pinned) as the system prompt. */
+  /** pinned snapshots keyed `"<agent>/<skill>"` (preferred) or bare `"<skill>"`; the primary skill's text is inlined as the system prompt. */
   instructions?: Record<string, string>;
   /** an MCP endpoint the tool `execute` stubs can dispatch to — referenced in a comment, never embedded as a credential. */
   mcpUrl?: string;
@@ -41,46 +42,6 @@ export interface CloudflareAgentArtifacts {
   reachableSubAgents: string[];
 }
 
-/** PascalCase a wire id (e.g. "weatherAssistant" → "WeatherAssistant", "conin-retrieval" → "ConinRetrieval"). */
-function pascal(s: string): string {
-  const t = s.replace(/[^a-zA-Z0-9]+(.)?/g, (_, c) => (c ? c.toUpperCase() : "")).replace(/[^a-zA-Z0-9]/g, "");
-  return (t.charAt(0).toUpperCase() + t.slice(1)) || "Agent";
-}
-
-/** The first skill that declares a model — the agent's primary LLM tier (mirrors project.ts). */
-function primarySkill(skills?: Record<string, SulukSkillRef>): [string, SulukSkillRef] | null {
-  for (const [k, s] of Object.entries(skills ?? {})) if (s.model && s.model.length) return [k, s];
-  return Object.entries(skills ?? {})[0] ?? null;
-}
-
-/** Indent a multi-line block by `n` spaces (for nesting a JSON-schema literal inside a tool definition). */
-const indent = (s: string, n: number) => s.split("\n").map((l, i) => (i === 0 ? l : " ".repeat(n) + l)).join("\n");
-
-/** One tool literal, derived from a route's operation: name + description + input schema (+ approval gate + stub). */
-function toolLiteral(doc: OpenAPIv4Document, routeKey: string, operationRef: string, mcpUrl?: string): string {
-  const req = resolveOperationRef(doc, operationRef)?.request; // installable ⇒ non-null
-  // a TRIMMED-empty summary must fall through (lint allows an empty summary; the LLM routes on this description).
-  const description = (req?.summary?.trim() || req?.description?.trim() || `route ${routeKey}`).replace(/\n/g, " ");
-  const schema: SchemaOrRef = (req?.contentSchema ?? req?.parameterSchema?.body ?? { type: "object" }) as SchemaOrRef;
-  const approval = req?.["x-suluk-approval"];
-  const approvalLine = approval?.required
-    ? `\n    needsApproval: async () => true, // x-suluk-approval${approval.reason ? `: ${approval.reason.replace(/\n/g, " ")}` : ""} — replace with your gate`
-    : "";
-  const dispatch = mcpUrl ? `call your API, or POST to the MCP endpoint ${mcpUrl}` : "call your API (or your MCP endpoint)";
-  return `  ${routeKey}: tool({
-    description: ${JSON.stringify(description)},
-    inputSchema: jsonSchema(${indent(JSON.stringify(schema, null, 2), 4)}),${approvalLine}
-    // TODO (yours): perform the operation — ${dispatch}.
-    execute: async (input) => { throw new Error("TODO: implement ${routeKey} → ${operationRef}"); },
-  }),`;
-}
-
-function toolsConst(doc: OpenAPIv4Document, name: string, keys: string[], routes: Record<string, { operationRef: string }>, mcpUrl?: string): string {
-  if (!keys.length) return `export const ${name} = {};\n`;
-  const body = keys.map((k) => toolLiteral(doc, k, routes[k]!.operationRef, mcpUrl)).join("\n");
-  return `export const ${name} = {\n${body}\n};\n`;
-}
-
 function agentFile(doc: OpenAPIv4Document, agentName: string, className: string, opts: CloudflareAgentOptions): string {
   const agent = agentMap(doc)[agentName]!;
   const routes = (agent.routes ?? {}) as Record<string, { operationRef: string; tier?: string }>;
@@ -88,7 +49,7 @@ function agentFile(doc: OpenAPIv4Document, agentName: string, className: string,
   const coldTail = Object.keys(routes).filter((k) => routes[k]!.tier === "cold-tail");
   const [primName, primSkill] = primarySkill(agent.skills) ?? [undefined, undefined as SulukSkillRef | undefined];
   const model = primSkill?.model?.[0];
-  const snapshot = primName ? opts.instructions?.[primName] : undefined;
+  const snapshot = primName ? resolveInstruction(opts.instructions, agentName, primName) : undefined;
   const system = snapshot !== undefined
     ? `${JSON.stringify(snapshot)}, // pinned from skill "${primName}" (contentHash ${contentHash(snapshot)})`
     : `"TODO: your system prompt", // pin from ${primSkill?.provenance?.source ?? `skill "${primName ?? "—"}"`}`;

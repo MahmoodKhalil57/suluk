@@ -12,12 +12,14 @@ Date: 2026-06-23
 
 ## Status
 
-Accepted (candidate-fork). Decision ceiling **0.8** — the seam is a near-mechanical mirror of `@suluk/deploy`'s
-proven provider pattern (low risk), and it is additive (the direct `projectCloudflareAgent` export is unchanged). The
-residual uncertainty is N=1: Cloudflare is the *only* implemented adapter, so the interface's generality is asserted
-by analogy to the deploy seam, not yet validated by a second runtime (Node/Vercel). The `deploy?: Record<string,
-unknown>` escape hatch (which currently carries Cloudflare's `durableObjects`) is the part most likely to be
-re-typed when a second adapter lands.
+Accepted (candidate-fork). Decision ceiling **0.85** (raised from 0.8 on 2026-06-23) — the seam is a near-mechanical
+mirror of `@suluk/deploy`'s proven provider pattern (low risk) and is additive (the direct `projectCloudflareAgent`
+export is unchanged). **Update (2026-06-23): the N=1 caveat is resolved.** A SECOND adapter landed — `nodeRuntime`
+(`projectNodeAgent`, a Bun-served agent with no Durable Objects) — validating that the interface generalizes to a
+different deploy shape; the contract→tool derivation was extracted to `runtime-shared` and reused (not forked); and the
+`deploy` hint was tightened from `Record<string, unknown>` to the typed union `RuntimeDeployHint` (`{ kind: "cloudflare";
+durableObjects } | { kind: "node" }`), exactly the re-typing this Status predicted. Residual uncertainty is now only
+whether the union generalizes to a *third*, materially-different runtime.
 
 ## Context
 
@@ -43,17 +45,20 @@ typed options, which is why the registry stores `cloudflareRuntime as AgentRunti
 cast the non-generic deploy seam doesn't need; typed-opts callers use the named `cloudflareRuntime` export):
 
 - `interface AgentRuntimeProvider<O> { name: string; project(doc, agentName, opts?: O): AgentRuntimeArtifacts }`
-- `interface AgentRuntimeArtifacts { files: Record<string,string>; reachableSubAgents: string[]; deploy?: Record<string, unknown> }`
-  — owned source + the reachable sub-agent list + a **provider-specific** deploy hint (Cloudflare puts `{ durableObjects }` here).
+- `interface AgentRuntimeArtifacts { files: Record<string,string>; reachableSubAgents: string[]; deploy: RuntimeDeployHint }`
+  — owned source + the reachable sub-agent list + a **typed** deploy hint (the discriminated union below; tightened from
+  `Record<string,unknown>` once the 2nd adapter landed — see the Status update).
   `reachableSubAgents` is surfaced at the seam because each sub-agent is its own runtime unit (a separate Durable Object on
   Cloudflare) the host scaffolds separately — v1 of `projectCloudflareAgent` emits only the named agent.
-- `cloudflareRuntime: AgentRuntimeProvider` — the FIRST adapter, a thin wrapper over `projectCloudflareAgent` (its
-  `durableObjects` becomes the `deploy` hint).
-- `runtimeProviders = { cloudflare: cloudflareRuntime }` — the name-keyed registry; the swap point.
+- `type RuntimeDeployHint = { kind: "cloudflare"; durableObjects: {…}[] } | { kind: "node" }` — Cloudflare ships the DO
+  descriptor for `@suluk/deploy`; the Node runtime is a plain long-lived process with no provisioned infra.
+- `cloudflareRuntime` (wraps `projectCloudflareAgent`, its `durableObjects` → the hint) and `nodeRuntime` (wraps
+  `projectNodeAgent`, a Bun-served process) — the FIRST two adapters.
+- `runtimeProviders = { cloudflare, node }` — the name-keyed registry; the swap point.
 
-`projectCloudflareAgent` stays a first-class, directly-importable export (the typed, ergonomic entry for the common
-case); the seam is the *additional* indirection for target-agnostic callers. A future `nodeRuntime` / `vercelRuntime`
-is a new adapter + a registry entry — no caller change.
+`projectCloudflareAgent` / `projectNodeAgent` stay first-class, directly-importable exports (the typed, ergonomic entry
+for the common case); the seam is the *additional* indirection for target-agnostic callers. A future `vercelRuntime` is a
+new adapter + a registry entry + a new `kind` — no caller change.
 
 ## Consequences
 
@@ -61,7 +66,8 @@ is a new adapter + a registry entry — no caller change.
 cockpit, a CLI) can dispatch by provider name without knowing the concrete runtime; the deploy hint flows generically
 into whatever deploy provider matches; the neutrality claim is now structural, not aspirational.
 
-**Harder / watch:** the `deploy?: Record<string, unknown>` hint is intentionally loose — it sacrifices type-safety on
-the provider-specific payload for generality, and will likely be tightened (a typed union, or per-provider deploy
-descriptors) when a second adapter forces the question; until then it is an N=1 generalization. The seam adds a small
-indirection that must be kept in lockstep with `projectCloudflareAgent`'s return shape (a wrapper test guards this).
+**Harder / watch:** the `deploy` hint is now a typed discriminated union (`RuntimeDeployHint`) — generality preserved
+without the type-safety loss of the original `Record<string,unknown>`, at the cost that adding a runtime means adding a
+`kind` (a deliberate, reviewable touch-point). Whether the union generalizes to a *third*, materially-different runtime
+is the remaining open question. The seam adds a small indirection that must be kept in lockstep with each
+`project*Agent`'s return shape (wrapper tests guard this).

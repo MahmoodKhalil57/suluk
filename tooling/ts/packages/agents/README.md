@@ -237,7 +237,9 @@ agentDiagramHtml(doc, "conin");    // a self-contained D3 page (data inlined + H
 | `projectClaudePlugin` | one agent → `plugin.json` + `.mcp.json` + generated `SKILL.md` (pure, fail-loud) |
 | `projectOpenRouter` | one agent → an OpenRouter/OpenAI function-tool manifest (resident vs `discover_tools` cold-tail) |
 | `projectCloudflareAgent` | one agent → an OWNED Cloudflare Agents-SDK scaffold (AIChatAgent class + `routeAgentRequest` worker + contract-derived tools + `needsApproval` from `x-suluk-approval`) **+ the `durableObjects` descriptor for `@suluk/deploy`** (pure, L3, fail-loud) |
-| `runtimeProviders` / `cloudflareRuntime` / `AgentRuntimeProvider` | C034 runtime-adapter **seam** — Cloudflare is the first adapter; the interface is the swap point so a future Node/Vercel agent runtime is an adapter, not a rewrite (mirrors `@suluk/deploy`'s `providers`) |
+| `projectNodeAgent` | one agent → an OWNED Bun-served agent (`Bun.serve` loop, contract-derived tools, NO Durable Objects) — the second runtime target; v1 scaffolds the named agent only |
+| `runtimeProviders` / `cloudflareRuntime` / `nodeRuntime` / `AgentRuntimeProvider` | C034 runtime-adapter **seam** — `cloudflare` + `node` are the shipped adapters; the interface (+ the typed `RuntimeDeployHint`) is the swap point so a future runtime is a new adapter, not a rewrite (mirrors `@suluk/deploy`'s `providers`) |
+| `routeToolDef` / `RouteToolDef` | the runtime-agnostic contract→tool derivation both adapters share (name + description + input schema + approval gate) |
 | `agentManifest` / `verifyAgentFreshness` | a canonical signable manifest + preprompt-drift detection over the signed `contentHash` |
 | `reachableSurface` / `residentSurface` / `residentToolNames` | the static, zero-request tool/sub-agent surface; the resident (default-served) partition |
 | `assertServedSubset` / `assertDefaultServedResident` / `assertServedSubsetGoverned` / `conformanceOk` | over-serve / cold-tail-in-default / policy-denied auditors |

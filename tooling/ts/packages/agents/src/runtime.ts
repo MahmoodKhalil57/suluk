@@ -14,15 +14,25 @@
  */
 import type { OpenAPIv4Document } from "@suluk/core";
 import { projectCloudflareAgent, type CloudflareAgentOptions } from "./cloudflare";
+import { projectNodeAgent, type NodeAgentOptions } from "./node";
 
-/** What every runtime adapter returns: owned source + the reachable sub-agent list + an optional provider deploy hint. */
+/**
+ * The provider-specific deploy hint — a discriminated union (tightened from `Record<string,unknown>` once a 2nd adapter
+ * landed, per the C034 follow-up). Cloudflare ships the Durable Object descriptor for `@suluk/deploy`; the Node runtime
+ * is a plain long-lived process with no provisioned infra. A future adapter adds a new `kind`.
+ */
+export type RuntimeDeployHint =
+  | { kind: "cloudflare"; durableObjects: { binding: string; className: string }[] }
+  | { kind: "node" };
+
+/** What every runtime adapter returns: owned source + the reachable sub-agent list + the deploy hint. */
 export interface AgentRuntimeArtifacts {
   /** path → owned source the user writes into their project. */
   files: Record<string, string>;
   /** reachable sub-agents (each a separate runtime unit; scaffold per provider). */
   reachableSubAgents: string[];
-  /** provider-specific deploy descriptor (Cloudflare: `{ durableObjects }` for `@suluk/deploy`); absent when the runtime needs none. */
-  deploy?: Record<string, unknown>;
+  /** provider-specific deploy descriptor (Cloudflare → `@suluk/deploy`'s `durableObjects`; Node → none). */
+  deploy: RuntimeDeployHint;
 }
 
 /** A runtime target. PURE: it projects the agent into owned source; the host writes the files + deploys (mirrors DeployProvider). */
@@ -36,11 +46,21 @@ export const cloudflareRuntime: AgentRuntimeProvider<CloudflareAgentOptions> = {
   name: "cloudflare",
   project(doc, agentName, opts) {
     const a = projectCloudflareAgent(doc, agentName, opts);
-    return { files: a.files, reachableSubAgents: a.reachableSubAgents, deploy: { durableObjects: a.durableObjects } };
+    return { files: a.files, reachableSubAgents: a.reachableSubAgents, deploy: { kind: "cloudflare", durableObjects: a.durableObjects } };
+  },
+};
+
+/** The Node/Bun adapter — wraps `projectNodeAgent`. A plain long-lived process, so the deploy hint carries no infra. */
+export const nodeRuntime: AgentRuntimeProvider<NodeAgentOptions> = {
+  name: "node",
+  project(doc, agentName, opts) {
+    const a = projectNodeAgent(doc, agentName, opts);
+    return { files: a.files, reachableSubAgents: a.reachableSubAgents, deploy: { kind: "node" } };
   },
 };
 
 /** The runtime-provider registry. Add new targets here; the interface is the contract (mirrors `@suluk/deploy`'s `providers`). */
 export const runtimeProviders: Record<string, AgentRuntimeProvider> = {
   cloudflare: cloudflareRuntime as AgentRuntimeProvider,
+  node: nodeRuntime as AgentRuntimeProvider,
 };

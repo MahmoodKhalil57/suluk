@@ -10,7 +10,7 @@
  */
 export { lintAgents, lintOk, assertAgentInstallable, type LintFinding, type Severity } from "./lint";
 export {
-  parsePointer, resolveOperationRef, agentMap, subAgentKey, childKeys, findCycle, subtreeDepth, deepStrings,
+  parsePointer, resolveOperationRef, agentMap, subAgentKey, childKeys, findCycle, subtreeDepth, deepStrings, resolveInstruction,
   type OperationLocus, type ResolvedOperation,
 } from "./resolve";
 export { contentHash, renderSkillMd, type SkillRenderInput } from "./skill";
@@ -22,9 +22,12 @@ export {
 // the THIRD projection target (Stage 2.A): one agent → an owned Cloudflare Agents-SDK scaffold (the runtime) + its
 // Durable Object descriptor for @suluk/deploy / @suluk/cloudflare. L3-pure (source strings, no `agents` dep).
 export { projectCloudflareAgent, type CloudflareAgentOptions, type CloudflareAgentArtifacts } from "./cloudflare";
-// the runtime-adapter seam (C034): swappable AgentRuntimeProvider + a registry — Cloudflare is the first adapter, so a
-// future Node/Vercel agent runtime is a new adapter, not a rewrite (mirrors @suluk/deploy's DeployProvider/providers).
-export { runtimeProviders, cloudflareRuntime, type AgentRuntimeProvider, type AgentRuntimeArtifacts } from "./runtime";
+export { projectNodeAgent, type NodeAgentOptions, type NodeAgentArtifacts } from "./node";
+// the runtime-adapter seam (C034): swappable AgentRuntimeProvider + a registry — Cloudflare + Node are the first two
+// adapters, so a future Vercel/etc. agent runtime is a new adapter, not a rewrite (mirrors @suluk/deploy's providers).
+export { runtimeProviders, cloudflareRuntime, nodeRuntime, type AgentRuntimeProvider, type AgentRuntimeArtifacts, type RuntimeDeployHint } from "./runtime";
+// the runtime-agnostic derivation shared by the adapters (the contract → tool-def mapping).
+export { routeToolDef, type RouteToolDef } from "./runtime-shared";
 export { reachableSurface, residentSurface, residentToolNames, assertServedSubset, assertServedSubsetGoverned, assertDefaultServedResident, verifySkillFreshness, conformanceOk, type ConformanceFinding } from "./conformance";
 export { intersectScope, analyzeScopes, localEscalations, type Scope, type ScopeEscalation } from "./scope";
 export {

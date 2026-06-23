@@ -179,9 +179,14 @@ the facet's ADA-identity safety was the explicit refutation target and held by c
 dead `MUTATING` const, wired the `mcpUrl` option, guarded an empty-summary description, `await convertToModelMessages`
 (ai SDK ≥6), the grade-scope comment, and **F1 the ADA-invariance tripwire**. Confidence ≈0.85.
 
-**Carried follow-ups:** `@suluk/testgen` conformance claim for `x-suluk-approval`; ~~runtime-adapter seam ADR (2.A2)~~ ✅ (C034);
-~~recursive sub-agent scaffolding~~ ✅ (2026-06-23 — a class + DO per reachable agent, collision-guarded); unify the
-instruction-snapshot key convention (projections use bare `<skill>`, context/grade use `<agent>/<skill>`); additive DO evolution + backend-flip guard.
+**Carried follow-ups (all closed 2026-06-23 unless noted):** ~~`@suluk/testgen` claim for `x-suluk-approval`~~ ✅ (static
+well-formedness, like `x-suluk-cost` — honest scope: agent-runtime, not wire-enforced); ~~runtime-adapter seam ADR (2.A2)~~
+✅ (C034); ~~recursive sub-agent scaffolding~~ ✅ (collision-guarded); ~~unify the instruction-snapshot key convention~~ ✅
+(`resolveInstruction` accepts `<agent>/<skill>` + bare `<skill>` at all projection sites); ~~additive DO evolution +
+backend-flip guard~~ ✅; ~~2nd runtime adapter~~ ✅ (`projectNodeAgent`/`nodeRuntime` — a Bun-served agent; tightened the
+seam's `deploy` hint to the typed `RuntimeDeployHint` union). **Still open:** the parallel `snapshots` key split
+(`grade.ts` reads bare `<skill>`, `manifest.ts` qualified) — the SAME footgun the `instructions` unification just closed,
+one map over; apply the dual-accept to `snapshots` too.
 
 ## What NOT to do (the brakes)
 

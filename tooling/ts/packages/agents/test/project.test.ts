@@ -95,6 +95,27 @@ describe("C027 tier-trim — cold-tail routes leave the default served surface (
   });
 });
 
+describe("instructions key unification — projections accept BOTH \"<agent>/<skill>\" and bare \"<skill>\"", () => {
+  const opts = { mcpUrl: "https://x/mcp" };
+  test("the QUALIFIED <agent>/<skill> key resolves (the context/grade convention now works for projections too)", () => {
+    const p = projectClaudePlugin(coninDoc, "conin", { ...opts, instructions: { "conin/operate": "QUALIFIED" } });
+    expect(p.files["skills/operate/SKILL.md"]).toContain("QUALIFIED");
+  });
+  test("the bare <skill> key still resolves (back-compat)", () => {
+    const p = projectClaudePlugin(coninDoc, "conin", { ...opts, instructions: { operate: "BARE" } });
+    expect(p.files["skills/operate/SKILL.md"]).toContain("BARE");
+  });
+  test("the qualified key WINS when both are present", () => {
+    const p = projectClaudePlugin(coninDoc, "conin", { ...opts, instructions: { "conin/operate": "QUALIFIED", operate: "BARE" } });
+    expect(p.files["skills/operate/SKILL.md"]).toContain("QUALIFIED");
+    expect(p.files["skills/operate/SKILL.md"]).not.toContain("BARE");
+  });
+  test("projectOpenRouter pins the qualified snapshot's contentHash", () => {
+    const m = projectOpenRouter(coninDoc, "conin", { instructions: { "conin/operate": "QUALIFIED" } });
+    expect(m.instructions.contentHash).toBe(contentHash("QUALIFIED"));
+  });
+});
+
 describe("projection refuses a non-installable agent (fail-loud, not a broken artifact)", () => {
   test("Conin's day-one dangling operationRef throws on BOTH targets", () => {
     expect(() => projectOpenRouter(coninDayOne(), "conin")).toThrow(/does not install|run_core_primitive|dangling/);
