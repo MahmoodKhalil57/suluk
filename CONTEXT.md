@@ -115,3 +115,37 @@ _Avoid_: agent, package, plugin (a plugin is one projection target, not the unit
 **Job** ([C025](./doc/architecture/decisions/C025-jobs-vendor-map.md)):
 A `SulukJob` in `x-suluk-jobs` — non-HTTP background work (cron / queue) with no inbound Request. Disjoint from a route (which has a Request) and from an agent (which orchestrates).
 _Avoid_: route, webhook, task
+
+## Cloudflare alignment — the Rosetta layer ([C035](./doc/architecture/decisions/C035-cloudflare-terminology-alignment.md))
+
+> A legibility layer over C027, **not** a rename. Suluk keeps its deliberate nouns (the contract author's words); this
+> table says what each one *is* in **Cloudflare Agents SDK** terms and what it projects to, so the two vocabularies are
+> readable as one. Suluk names the **contract**; Cloudflare names the **running instance**. Rows marked _provisional_
+> ride Cloudflare APIs that are explicitly experimental and may drift.
+
+| Suluk (contract) | Cloudflare (runtime) | Projects to |
+| --- | --- | --- |
+| **Agent** (`x-suluk-agents.<n>`) | **Agent** (`AIChatAgent`/`Think` Durable Object) | the AIChatAgent scaffold + worker |
+| **Route** (`routes`, no `model`) | **server-side Tool** (`tool()`) | an MCP `tool()` |
+| **sub-agent** (`agents` + `maxDepth`) | **sub-agent** (`subAgent()`) / **agent-as-tool** (`agentTool()`) | a DO per sub-agent + `agentTool` |
+| **`x-suluk-approval`** | **`needsApproval`** / `waitForApproval()` / `elicitInput()` | tool `needsApproval` |
+| **`thinking.maxRounds`** (C029) | **`stopWhen: stepCountIs(n)`** (AI SDK) | `stepCountIs(maxRounds)` |
+| **`tier`** (`resident`/`cold-tail`) | tool-merge-order + lazy Skill loading | `discover_tools` trim |
+| **`x-suluk-cost`** (C026, declared) | **`paidTool`** price (x402) / MPP `charge` | `paidTool(price)` (future) |
+| **Job** (`x-suluk-jobs`, C025) | **Scheduled tasks** (`schedule()`) / Workflows | `schedule()` / Workflow |
+| **Skill** (`skills`, model-bearing) | _provisional:_ **Agent Skills** (`agents/skills`) / read-only **soul** | `SKILL.md` + the agent's model config |
+
+**Skill** is the one genuine **collision**, kept-and-reserved (C035): Suluk Skill = an agent's *model + instruction
+tier* (presence of `model` is the discriminator); Cloudflare Skill = *loadable on-demand content* with no model. A
+Suluk skill conflates two CF concepts — its `model*` fields → the CF agent's model config; its `provenance.source` →
+the generated `SKILL.md`, which *is* a valid CF Agent-Skill artifact. We keep `skills` unchanged and **reserve**
+`x-suluk-resources` for CF's loadable-catalog meaning (undefined until Suluk grows memory descriptors).
+_Avoid_: equating Suluk Skill with Cloudflare's `agents/skills` catalog (opposite granularity)
+
+**Pyramid** ([C035](./doc/architecture/decisions/C035-cloudflare-terminology-alignment.md)):
+The agent stack viewed as determinism layers — the route(no-model)/skill(model) discriminator made vertical. **Layer 0**
+= `routes` (deterministic floor, → MCP tools, the "calculators"); **Layer k** = an agent composing `skills` + lower-layer
+routes + sub-agents; `maxDepth` bounds the height. **Edges** are MCP connections (each agent → a `@suluk/mcp` server; its
+routes/sub-agents are the MCP tools a parent consumes). An agent's **level** is a pure static derivation over the
+composition graph — DECLARED, never schema-enforced, never read by the D1 matcher.
+_Avoid_: hierarchy, tree (the edges are MCP wires, not containment); calling a higher layer "smarter" as fact (it is *less deterministic + more general*, not better)

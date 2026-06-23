@@ -1,0 +1,53 @@
+# C035 (Cloudflare terminology alignment — the Rosetta layer). A DOCUMENTATION-grade Step: it adds a
+# vocabulary-equivalence mapping + one reserved name, and changes NO type, NO schema, NO normative section. It
+# rides entirely on the shipped C027 composable-units glossary (Route/Skill/Agent/sub-agent) and the read-only
+# Cloudflare Agents SDK docs (developers.cloudflare.com/agents, snapshot dated 2026-06, vendored locally as
+# cloudflare-agents-llms-full.md). Provenance: operator asked to align Suluk on Cloudflare's terminology + frame
+# the agent-pyramid (session 2026-06-23). Ceilings are documentation-grade (<=0.7) and never raise C027's own 0.52.
+
+# THE ROSETTA MAPPING IS DOCUMENTED, NOT A RENAME. Each Suluk composable-unit noun maps to a Cloudflare noun AND
+# to the artifact it projects to, WITHOUT renaming any field. CONTEXT.md's C027 glossary already chose its nouns
+# deliberately (Route carries `_Avoid_: tool (ambiguous with MCP tool)`), so alignment = a legibility layer over a
+# considered choice, never an overrule. Suluk Route == CF server-side Tool (projects to an MCP tool); Suluk Agent
+# == CF Agent (contract vs runtime instance); Suluk sub-agent == CF sub-agent / agent-as-tool; x-suluk-approval ==
+# CF needsApproval; thinking.maxRounds == AI-SDK stepCountIs(n); x-suluk-jobs == CF scheduled tasks.
+claim cf_terms_rosetta_documented: Bool @>=0.7 = True
+falsified_when cf_terms_rosetta_documented == False
+
+# THE ONE GENUINE COLLISION (Skill) IS KEPT + RESERVED, NOT RENAMED. Suluk Skill = the agent's model+instruction
+# tier (presence of `model` is the hard route-vs-skill discriminator, C027). Cloudflare Skill = loadable on-demand
+# content (its `agents/skills` catalog + the loadable Session context block) that carries NO model. A Suluk skill
+# CONFLATES two CF concepts: (a) the CF agent's model-binding (model/tier/modelProfile -> CF agent model config)
+# and (b) CF read-only "soul"/system-prompt content (provenance.source -> the GENERATED SKILL.md, which is itself
+# a valid CF Agent-Skill artifact). Resolution (operator-chosen 2026-06-23): KEEP `skills` unchanged (honors
+# shipped, council-resolved, D1-gated C027); RESERVE the name `x-suluk-resources` for CF's loadable-catalog
+# concept, to be defined ONLY when Suluk grows runtime/memory descriptors (built-by-nobody until then).
+claim skill_collision_kept_and_reserved: Bool @>=0.7 = True
+falsified_when skill_collision_kept_and_reserved == False
+
+# THE PYRAMID IS THE EXISTING DETERMINISM GRADIENT, NOT A NEW CONSTRUCT. The operator's agent-pyramid (deterministic
+# floor -> less-deterministic/more-convenient top) IS Suluk's route(no-model)/skill(model) discriminator made into
+# layers: Layer 0 = routes (guarantee same-in-same-out) projecting to MCP tools (the "calculators"); Layer k = an
+# agent = skills(model) + routes(layer<k) + sub-agents(layer<k); maxDepth bounds the height (a leaf = maxDepth 0).
+# Edges = MCP connections (each agent projects to a @suluk/mcp server; routes/sub-agents are the MCP tools the
+# parent consumes). An agent's LEVEL is a PURE STATIC derivation over the route/skill/sub-agent graph — DECLARED /
+# derivable, never schema-enforced, never read by the D1 matcher. No new normative kind; nothing here touches ADA.
+claim pyramid_is_route_skill_gradient: Bool @>=0.65 = True
+falsified_when pyramid_is_route_skill_gradient == False
+
+# PER-LAYER STATIC OBSERVABILITY REUSES SHIPPED INFRA. The operator's three asks already have homes, so the pyramid
+# adds an observability VIEW, not new enforcement: hardening -> gradeAgent (A-F) + @suluk/harden.combineGrades;
+# token-warning -> contextBudget / thinking.budget declared vs the @suluk/agents context analyzer estimate;
+# context-waste -> tier (resident-surface size) + round-accretion in context.ts. The optional layerReport is a
+# COMPOSITION of these, not a new mechanism.
+claim pyramid_observability_reuses_shipped: Bool @>=0.65 = True
+falsified_when pyramid_observability_reuses_shipped == False
+
+# HONEST CAVEAT: two of the Cloudflare anchors are EXPLICITLY EXPERIMENTAL in the vendored docs — `agents/skills`
+# ("Agent Skills are experimental, and script execution in particular is early") and the Session memory APIs
+# (`agents/experimental/memory/session`, "import paths and details may change before graduation"). So the mapping
+# rows that touch CF Skills + CF context-memory are PROVISIONAL and may drift; the Rosetta doc says so inline, and
+# the alignment's ceiling is bounded accordingly (<=0.7). The stable rows (Agent, Tool, sub-agent, needsApproval,
+# scheduled tasks, x402 paidTool) carry the equivalence; the experimental rows carry it with a drift flag.
+claim cf_experimental_anchors_flagged: Bool @>=0.8 = True
+falsified_when cf_experimental_anchors_flagged == False
