@@ -32,6 +32,12 @@ describe("resourceCatalog (C036) — the CF Agent-Skill get() listing an agent's
     expect(cat[1]).toMatchObject({ key: "styleGuide", kind: "reference", trust: "author-declared" }); // default trust
   });
 
+  test("the returned provenance is a defensive copy — mutating a catalog entry never writes through to the document", () => {
+    const cat = resourceCatalog(doc, "assistant");
+    cat[0]!.provenance.contentHash = "MUTATED";
+    expect(doc["x-suluk-resources"]!.deployChecklist.provenance.contentHash).toBe("sha256-a");
+  });
+
   test("an agent with no resources has an empty catalog", () => {
     const d = { ...doc, "x-suluk-agents": { bare: { description: "no resources", maxDepth: 0, skills: {}, routes: {}, agents: {} } } } as OpenAPIv4Document;
     expect(resourceCatalog(d, "bare")).toEqual([]);

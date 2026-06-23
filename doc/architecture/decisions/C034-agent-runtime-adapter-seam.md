@@ -21,6 +21,10 @@ different deploy shape; the contract→tool derivation was extracted to `runtime
 durableObjects } | { kind: "node" }`), exactly the re-typing this Status predicted. Residual uncertainty is now only
 whether the union generalizes to a *third*, materially-different runtime.
 
+Ledger: [`0run-seam.bn`](../../../plan/facts/0run-seam.bn) (burhan True, converge clean 261), witnessed by
+[`tooling/ts/packages/agents/test/runtime.test.ts`](../../../tooling/ts/packages/agents/test/runtime.test.ts) — added
+2026-06-23 to give this ADR's 0.85 ceiling the same ledger-witness as C035/C036 (a pre-PR review honesty nit).
+
 ## Context
 
 `projectCloudflareAgent` (Stage 2.A) turns one agent declaration into an owned Cloudflare Agents-SDK scaffold + a

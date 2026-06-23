@@ -112,7 +112,9 @@ export function layerReport(doc: OpenAPIv4Document, opts: AgentGradeOptions = {}
       ...(g ? { grade: g.grade, shippable: g.shippable } : {}),
       ...(load ? { contextTokens: load.totalTokens } : {}),
       ...(budget !== undefined ? { budget } : {}),
-      ...(budget !== undefined && load ? { overBudget: load.totalTokens > budget } : {}),
+      // the binding basis is PEAK (totalTokens + thinking round-accretion) — same as contextReport's context-over-budget
+      // finding (context.ts) — so a multi-round thinker the analyzer flags isn't silently reported as under-budget here.
+      ...(budget !== undefined && load ? { overBudget: load.peakTokens > budget } : {}),
       ...(w && w.moveToColdTail.length ? { contextWaste: { moveToColdTail: w.moveToColdTail, wouldSaveTokens: w.wouldSaveTokens } } : {}),
     };
   });

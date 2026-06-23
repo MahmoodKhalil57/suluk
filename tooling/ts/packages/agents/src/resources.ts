@@ -46,7 +46,8 @@ export function resourceCatalog(doc: OpenAPIv4Document, agentName: string): Cata
     const key = resourceKey(r.ref);
     const res = key ? cat[key] : undefined;
     if (!key || !res) continue; // dangling/malformed — lintResources owns the error
-    out.push({ key, local, description: res.description, kind: res.kind, trust: res.trust ?? "author-declared", provenance: res.provenance });
+    // shallow-copy provenance so a caller mutating a catalog entry can't write through to the source document.
+    out.push({ key, local, description: res.description, kind: res.kind, trust: res.trust ?? "author-declared", provenance: { ...res.provenance } });
   }
   return out.sort((a, b) => a.key.localeCompare(b.key));
 }

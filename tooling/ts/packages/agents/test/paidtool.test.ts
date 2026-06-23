@@ -28,6 +28,11 @@ describe("paidToolPrice — x-suluk-cost (CostModel) → x402 paidTool price (C0
     expect(paidToolPrice({ components: [] })).toBeNull();
     expect(paidToolPrice({ components: [{ basis: "per-call", microUsd: 0 }] })).toBeNull();
   });
+
+  test("a NEGATIVE declared cost never yields a negative price — floored to 0 (metered) or null (flat)", () => {
+    expect(paidToolPrice({ estimateMicroUsd: -5, components: [{ basis: "per-token", microUsd: 1 }] })).toEqual({ priceUsd: 0, microUsd: 0, metered: true });
+    expect(paidToolPrice({ estimateMicroUsd: -5, components: [{ basis: "per-call", microUsd: 100 }] })).toBeNull();
+  });
 });
 
 describe("the Cloudflare scaffold surfaces the paidTool wiring from x-suluk-cost (declared, not enforced)", () => {

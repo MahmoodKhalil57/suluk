@@ -100,6 +100,27 @@ describe("layerReport (C035) — the per-layer observability surface (a COMPOSIT
     expect(none.overBudget).toBeUndefined();
   });
 
+  test("TOKEN WARNING uses PEAK load (thinking accretion), matching contextReport — not just the default total", () => {
+    const thinker: OpenAPIv4Document = {
+      openapi: "4.0.0-candidate", info: { title: "T", version: "1.0.0" }, paths: {},
+      "x-suluk-agents": {
+        refiner: {
+          description: "Iteratively refines with a large thinking budget.",
+          maxDepth: 0,
+          skills: { chat: { model: ["m"], tier: "resident", provenance: { source: "https://x/i", contentHash: "h", version: "v" } } },
+          thinking: { maxRounds: 4, budget: { tokens: 100_000, basis: "estimate" } },
+          agents: {},
+        },
+      },
+    };
+    const total = layerReport(thinker).layers.find((l) => l.agent === "refiner")!.contextTokens!;
+    // a budget just ABOVE the default load but FAR below the thinking peak — must flag overBudget on the PEAK basis.
+    // The old totalTokens basis would miss it (total > total+1 === false), so this guards the analyzer-vs-pyramid gap.
+    const withBudget = structuredClone(thinker);
+    withBudget["x-suluk-agents"]!.refiner.contextBudget = { tokens: total + 1, basis: "estimate" };
+    expect(layerReport(withBudget).layers.find((l) => l.agent === "refiner")!.overBudget).toBe(true);
+  });
+
   test("a cyclic agent is reported (level -1, cyclic) instead of hanging or poisoning the whole report", () => {
     const cyclic: OpenAPIv4Document = {
       ...doc,

@@ -47,7 +47,10 @@ export function paidToolPrice(cost: unknown): PaidToolPrice | null {
   const c = cost as { components?: { basis?: string; microUsd?: number }[]; estimateMicroUsd?: number };
   const components = Array.isArray(c.components) ? c.components : [];
   const flatMicro = components.filter((x) => FLAT_COST_BASES.has(x.basis ?? "")).reduce((s, x) => s + (Number(x.microUsd) || 0), 0);
-  const micro = typeof c.estimateMicroUsd === "number" ? c.estimateMicroUsd : flatMicro;
+  const raw = typeof c.estimateMicroUsd === "number" ? c.estimateMicroUsd : flatMicro;
+  // a negative declared cost is nonsensical (the field is a "typical total for one call") — floor at 0 so we NEVER emit
+  // a negative price / a negative paidTool() argument into the owned scaffold.
+  const micro = raw > 0 ? raw : 0;
   const metered = components.some((x) => x.basis != null && !FLAT_COST_BASES.has(x.basis));
   if (micro <= 0 && !metered) return null;
   return { priceUsd: micro / 1_000_000, microUsd: micro, metered };

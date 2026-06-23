@@ -1,0 +1,30 @@
+# C034 (the agent-runtime adapter seam) — the LEDGER WITNESS the arc was missing. C034 carries the highest ceiling in
+# the Cloudflare-agents arc (0.85) yet, unlike C035 (0cf-align.bn) and C036 (0resources.bn), shipped without a .bn
+# entry — its 0.85 rested on the wrapper tests alone. This ledger closes that provenance gap: the claims below are
+# witnessed by test/runtime.test.ts (an executable, methodologically-distinct witness to the code-reading), keeping the
+# arc's ledger-witness discipline uniform. Added 2026-06-23 (pre-PR review nit, dim=honesty).
+
+# THE SEAM MIRRORS A PROVEN PATTERN. AgentRuntimeProvider + the runtimeProviders registry in @suluk/agents/src/runtime.ts
+# closely mirror @suluk/deploy's already-shipped DeployProvider/providers seam (the pattern is proven one layer down;
+# Cloudflare was its first + only adapter precisely so a future target is a new adapter, not a rewrite). Low risk +
+# additive: the direct projectCloudflareAgent/projectNodeAgent exports are unchanged. Witness: test/runtime.test.ts
+# (registry resolves the adapter by name; a host dispatches by provider name without knowing the concrete adapter).
+claim runtime_seam_mirrors_deploy_provider: Bool @>=0.85 = True
+falsified_when runtime_seam_mirrors_deploy_provider == False
+
+# L3 HOLDS AT THE SEAM (C023). A runtime provider RENDERS owned source the user controls + a typed deploy hint; it
+# NEVER hosts, opens a socket, or holds a credential. The interface trades in source strings (files: Record<string,string>)
+# + reachableSubAgents + a discriminated-union deploy hint — never a live process. So the seam cannot smuggle a hosted
+# runtime past the L3 line that the whole generator story rests on.
+claim runtime_seam_l3_pure_owned_source: Bool @>=0.85 = True
+falsified_when runtime_seam_l3_pure_owned_source == False
+
+# THE N=1 CAVEAT IS RESOLVED (the 0.8->0.85 lift). A SECOND adapter shipped — nodeRuntime (projectNodeAgent, a Bun-served
+# process, NO Durable Objects = a materially different deploy shape) — validating the interface generalizes; the deploy
+# hint was tightened from Record<string,unknown> to the typed union RuntimeDeployHint ({kind:"cloudflare";durableObjects}
+# | {kind:"node"}); and the contract->tool derivation was EXTRACTED to runtime-shared.ts and REUSED by both adapters
+# (cloudflare output verified byte-identical), not forked. Witness: test/runtime.test.ts (the node adapter conforms to
+# the SAME interface with a DIFFERENT deploy kind; the faithful-wrapper equivalence vs the direct projection). Residual
+# open question (honestly bounded): whether the union generalizes to a THIRD, materially-different runtime.
+claim runtime_seam_two_adapters_typed_hint: Bool @>=0.85 = True
+falsified_when runtime_seam_two_adapters_typed_hint == False
