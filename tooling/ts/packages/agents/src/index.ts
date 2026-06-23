@@ -10,7 +10,7 @@
  */
 export { lintAgents, lintOk, assertAgentInstallable, type LintFinding, type Severity } from "./lint";
 export {
-  parsePointer, resolveOperationRef, agentMap, subAgentKey, childKeys, findCycle, subtreeDepth, deepStrings,
+  parsePointer, resolveOperationRef, agentMap, subAgentKey, childKeys, findCycle, subtreeDepth, deepStrings, resolveInstruction,
   type OperationLocus, type ResolvedOperation,
 } from "./resolve";
 export { contentHash, renderSkillMd, type SkillRenderInput } from "./skill";
@@ -19,6 +19,15 @@ export {
   type ClaudePluginOptions, type ClaudePluginArtifacts,
   type OpenRouterOptions, type OpenRouterAgentManifest, type OpenRouterFunctionTool,
 } from "./project";
+// the THIRD projection target (Stage 2.A): one agent → an owned Cloudflare Agents-SDK scaffold (the runtime) + its
+// Durable Object descriptor for @suluk/deploy / @suluk/cloudflare. L3-pure (source strings, no `agents` dep).
+export { projectCloudflareAgent, type CloudflareAgentOptions, type CloudflareAgentArtifacts } from "./cloudflare";
+export { projectNodeAgent, type NodeAgentOptions, type NodeAgentArtifacts } from "./node";
+// the runtime-adapter seam (C034): swappable AgentRuntimeProvider + a registry — Cloudflare + Node are the first two
+// adapters, so a future Vercel/etc. agent runtime is a new adapter, not a rewrite (mirrors @suluk/deploy's providers).
+export { runtimeProviders, cloudflareRuntime, nodeRuntime, type AgentRuntimeProvider, type AgentRuntimeArtifacts, type RuntimeDeployHint } from "./runtime";
+// the runtime-agnostic derivation shared by the adapters (the contract → tool-def mapping).
+export { routeToolDef, paidToolPrice, type RouteToolDef, type PaidToolPrice } from "./runtime-shared";
 export { reachableSurface, residentSurface, residentToolNames, assertServedSubset, assertServedSubsetGoverned, assertDefaultServedResident, verifySkillFreshness, conformanceOk, type ConformanceFinding } from "./conformance";
 export { intersectScope, analyzeScopes, localEscalations, type Scope, type ScopeEscalation } from "./scope";
 export {
@@ -43,3 +52,21 @@ export {
 export { resolveSkillModels, skillModels, deriveCQT, type SkillModelResolution, type ResolvedTarget } from "./model-select";
 export { selectModel, deriveRequirements, SEED_CATALOG, PROFILES, type ModelCatalog, type SelectResult, type Preferences, type HardFilters } from "@suluk/models";
 export { agentDiagram, agentDiagramHtml, type DiagramNode, type DiagramKind, type AgentDiagramOptions } from "./diagram";
+// agent-hardening grade (C027, Stage 1.3): aggregate the install lint + context + (served-fact) conformance/freshness
+// + two structure checks into one A–F score + a CI gate — the harden idiom for the agent-COMPOSITION facet.
+export {
+  gradeAgent, gradeAgents, assertAgentGrade, agentGradeOk, gradeOf,
+  type AgentGrade, type AgentGradeReport, type AgentGradeFinding, type AgentGradeOptions, type GradeDimension, type GradeSeverity,
+} from "./grade";
+// the agent PYRAMID (C035): the route(no-model)/skill(model) determinism gradient made vertical. `agentLevel` is a
+// pure static composition-height derivation (reuses `subtreeDepth`); `layerReport` folds level + grade + token-budget
+// + context-waste into one per-layer observability surface — a COMPOSITION of shipped analyzers, not a new mechanism.
+export { agentLevel, layerReport, FLOOR_LEVEL, type AgentLayer, type LayerReport } from "./pyramid";
+// agentic-pattern AFFORDANCES (C035 follow-up): which canonical patterns (prompt-chaining / routing / parallelization
+// / orchestrator-workers / evaluator-optimizer) an agent's composition SHAPE affords — advisory only; the runtime
+// trajectory stays opaque by design (C029). Pure static, never read by D1.
+export { agenticPatterns, affordedPatterns, type AgenticPattern, type PatternAffordance } from "./patterns";
+// loadable RESOURCES (C036): the `x-suluk-resources` catalog — Suluk's contract-first form of CF "Agent Skills"
+// (on-demand instructions/references/scripts; content-only, no model). `resourceCatalog` is the CF get() listing an
+// agent's catalog projects to; `lintResources` is the well-formedness + dangling-ref + experimental-script gate.
+export { resourceCatalog, lintResources, resourcesOk, resourceMap, resourceKey, type CatalogEntry, type ResourceFinding } from "./resources";

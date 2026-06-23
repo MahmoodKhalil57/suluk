@@ -10,8 +10,9 @@ export type {
   OpenAPIv4Document, Info, Server, Tag, PathItem, Shared, Request, HttpMethod,
   ParameterSchema, Response, Callback, Components, SecurityRequirement, SecurityScheme,
   Reference, Schema, SchemaOrRef, SulukSource,
-  SulukRateLimit, SchemaProperty, PropertyFacets, SulukJob,
+  SulukRateLimit, SulukApproval, SchemaProperty, PropertyFacets, SulukJob,
   SulukAgent, SulukSkillRef, SulukRouteRef, SulukAgentRef, SulukPolicy,
+  SulukResource, SulukResourceRef,
 } from "./types";
 
 export { parseDocument } from "./parse";

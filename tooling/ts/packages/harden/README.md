@@ -93,6 +93,23 @@ test("contract input surface stays fully bounded (grade A)", async () => {
 
 The thrown message names the worst operations and the high/medium counts, so a failing build tells the author exactly what to add.
 
+### Unified contract grade — combine the input-schema grade with the agent grade
+
+A v4 document has two graded dimensions: its **input schemas** (this package) and its **agent composition**
+([`@suluk/agents`](../agents)' `gradeAgent`). `combineGrades` folds them into one contract grade — on the **letter**,
+never the raw score (the two scores are non-comparable: a clean/nodes ratio vs an absolute `100 − Σ penalty`). It's a
+pure combinator, so no package depends on the other — the caller passes the letters:
+
+```ts
+import { auditDocument, combineGrades, assertCombinedGrade } from "@suluk/harden";
+import { gradeAgents } from "@suluk/agents";
+
+const grades = [auditDocument(doc).grade, ...gradeAgents(doc).map((g) => g.grade)];
+combineGrades(grades);             // { worst, average, grades } — `worst` is the value to GATE on (a contract is as strong as its weakest dimension)
+                                   //   `average` is informational; its ties round toward the higher letter, so it only ever masks optimistically
+assertCombinedGrade(grades, "B");  // CI gate on the worst dimension; pass `"average"` to soften. Pass at least the doc grade — an empty set passes vacuously.
+```
+
 ### Harden — the inverse transform
 
 `hardenSchema` adds baseline bounds to a single JSON Schema; `hardenDocument` does it to **every** input schema in a built v4 document, in place. Both are idempotent and **never override an author-set bound** — they only fill gaps. Strings bounded by `enum`/`const`/`format` are left alone.
@@ -126,6 +143,7 @@ const tightened = hardenSchema(schema, opts);
 | `auditOperation(doc, uri, name, req)` | Audit one operation's input surface → `OpAudit`. |
 | `assertGrade(doc, min, opts?)` | CI gate: throw if the grade is below `min`; else return the `DocAudit`. |
 | `grade(score)` | Map a 0–100 score to a letter grade (`A` ≥ 90, `B` ≥ 75, `C` ≥ 60, `D` ≥ 40, else `F`). |
+| `combineGrades(grades)` / `assertCombinedGrade(grades, min, mode?)` | UNIFIED contract grade (Stage 1.5): combine this input-schema grade with `@suluk/agents`' `gradeAgent` grade on the LETTER → `{ worst, average, grades }`; gate on the worst (safe) or `"average"`. |
 | `hardenSchema(schema, opts?)` | Add baseline bounds to one JSON Schema (idempotent; never overrides). |
 | `hardenDocument(doc, opts?)` | Harden every input schema in a built v4 document, in place. |
 | `HardenOptions` | `{ maxLength?, textPattern?, numberMax?, numberMin?, maxItems? }` — overridable floors for the transform. |

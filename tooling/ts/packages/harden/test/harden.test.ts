@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test";
-import { auditOperation, auditDocument, assertGrade, grade, hardenSchema, hardenDocument } from "../src/index";
+import { auditOperation, auditDocument, assertGrade, grade, hardenSchema, hardenDocument, combineGrades, assertCombinedGrade } from "../src/index";
 import type { OpenAPIv4Document } from "@suluk/core";
 
 const weakReq = { method: "post", contentSchema: { type: "object", properties: {
@@ -61,6 +61,33 @@ describe("@suluk/harden — schema hardening as a scored facet", () => {
     const d = auditDocument(refDoc);
     // Thing.x (no maxLength/pattern) is ONE node deduped across both ops → one string-max-length finding, not two
     expect(d.findings.filter((f) => f.rule === "string-max-length").length).toBe(1);
+  });
+});
+
+describe("combineGrades — the unified contract grade (Stage 1.5: harden doc-grade × agent grade, on the LETTER)", () => {
+  test("worst is the weakest dimension; average is the rounded mean letter", () => {
+    expect(combineGrades(["A", "F"])).toEqual({ worst: "F", average: "C", grades: ["A", "F"] }); // A=4,F=0 → mean 2 → C
+    expect(combineGrades(["B", "B", "A"])).toEqual({ worst: "B", average: "B", grades: ["B", "B", "A"] });
+    expect(combineGrades(["A"])).toEqual({ worst: "A", average: "A", grades: ["A"] }); // single dimension (e.g. no agents)
+  });
+
+  test("empty ⇒ vacuously A (nothing graded)", () => {
+    expect(combineGrades([])).toEqual({ worst: "A", average: "A", grades: [] });
+  });
+
+  test("the unified grade composes the doc grade + every agent grade as letters (the documented bridge)", () => {
+    const docGrade = grade(82);                 // a 'B' document
+    const agentGrades = ["A", "C"] as const;    // e.g. gradeAgents(doc).map(g => g.grade)
+    const unified = combineGrades([docGrade, ...agentGrades]);
+    expect(unified.worst).toBe("C");            // a contract is as strong as its weakest dimension
+    expect(unified.grades).toEqual(["B", "A", "C"]);
+  });
+
+  test("assertCombinedGrade gates on the WORST by default; `average` softens the gate; passing returns the combined grade", () => {
+    expect(() => assertCombinedGrade(["A", "F"], "B")).toThrow(/below the required B/);  // worst F < B → throws
+    expect(() => assertCombinedGrade(["A", "F"], "B", "average")).toThrow();             // average C < B → still throws
+    expect(() => assertCombinedGrade(["A", "F"], "C", "average")).not.toThrow();         // average C ≥ C → passes (worst F would have failed)
+    expect(assertCombinedGrade(["A", "B"], "B").worst).toBe("B");                        // worst B ≥ B → passes, returns the combined grade
   });
 });
 

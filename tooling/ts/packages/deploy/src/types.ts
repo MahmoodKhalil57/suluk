@@ -11,6 +11,23 @@ export interface DeployEntity {
   schema: SchemaOrRef;
 }
 
+/**
+ * A Durable Object class to bind + migrate. The Cloudflare Agents SDK runs each agent as a SQLite-backed Durable
+ * Object, so a deploy that ships agents must emit BOTH a `durable_objects.bindings` entry AND a `migrations` entry
+ * that creates the class. `@suluk/deploy` stays decoupled from the agent contract: the CALLER (the cockpit, or
+ * `@suluk/agents`' future `projectCloudflareAgent`) computes which agents are Durable Objects and passes them here.
+ */
+export interface DurableObjectBinding {
+  /** the binding name exposed as `env.<binding>` (e.g. "WeatherAssistant"). */
+  binding: string;
+  /** the exported Agent/DO class name (`class WeatherAssistant extends Agent {…}`). */
+  className: string;
+  /** SQLite-backed storage — REQUIRED by the Agents SDK and the Workers free plan. Default true ⇒ `new_sqlite_classes`. */
+  sqlite?: boolean;
+  /** cross-script DO: the script that DEFINES the class. Omit for a same-script class (the only kind we migrate). */
+  scriptName?: string;
+}
+
 export interface DeployInput {
   /** App name (slugified by the provider for resource names). */
   name: string;
@@ -28,6 +45,25 @@ export interface DeployInput {
   preview?: boolean;
   /** The roles to seed for a preview deployment (from the contract's User.role enum; cockpit threads them in). */
   previewRoles?: string[];
+  /**
+   * Durable Object classes to bind + migrate (the Cloudflare Agents SDK runtime surface). When present, the
+   * generated wrangler.jsonc gains a `durable_objects.bindings` block and an additive `migrations` entry that
+   * creates the SQLite-backed classes. Same-script classes only are migrated; a cross-script class (with
+   * `scriptName`) is bound but migrated by its OWNING script. Empty/absent ⇒ no DO output (unchanged plan).
+   */
+  durableObjects?: DurableObjectBinding[];
+  /**
+   * The previously-deployed DO class set. When given, the generated `migrations` become an ADDITIVE 2-step history
+   * (recreate prev under `prevDurableObjectMigrationTag`, then create only the classes added since under the new tag)
+   * instead of a from-scratch first-deploy entry; a removed class is flagged in `notes` (never auto-dropped), and a
+   * class that changed storage backend (sqlite↔legacy) throws. Omit on a first deploy. NB this reconstructs at most a
+   * 2-step history — beyond one evolution the user owns the append-only `migrations` array.
+   */
+  prevDurableObjects?: DurableObjectBinding[];
+  /** the migration tag for the DO classes above. Default "v1" on first deploy, "v2" when `prevDurableObjects` is given. */
+  durableObjectMigrationTag?: string;
+  /** the tag the `prevDurableObjects` set was created under (default "v1") — the first step of the reconstructed history. */
+  prevDurableObjectMigrationTag?: string;
 }
 
 /** A file the provider wants written into the project. */

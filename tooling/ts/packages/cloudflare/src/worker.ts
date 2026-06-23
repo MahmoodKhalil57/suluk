@@ -12,6 +12,25 @@ export interface WorkerBinding {
   [k: string]: unknown;
 }
 
+/**
+ * A Durable Object migration, INLINE in the script-upload metadata (NOT the D1 `Migration` in resources.ts — that
+ * is SQL run against a database; this is a declarative tag that tells Workers a DO class exists and which storage
+ * backend it uses). NB the wire field is `new_tag` (+ optional `old_tag`), unlike wrangler.jsonc which uses `tag`.
+ * `new_sqlite_classes` is what the Agents SDK + the Workers free plan require; `new_classes` is the legacy KV backend.
+ */
+export interface WorkerMigration {
+  /** the migration tag this upload advances to (e.g. "v1"). */
+  new_tag: string;
+  /** the tag the server must currently be at — optimistic concurrency; omit on the first deploy. */
+  old_tag?: string;
+  /** classes to create with the SQLite storage backend (Agents SDK requirement). */
+  new_sqlite_classes?: string[];
+  /** classes to create with the legacy key-value backend (Paid plan only). */
+  new_classes?: string[];
+  renamed_classes?: { from: string; to: string }[];
+  deleted_classes?: string[];
+}
+
 export interface DeployWorkerOptions {
   name: string;
   /** the bundled ES-module source. */
@@ -22,11 +41,13 @@ export interface DeployWorkerOptions {
   compatibilityFlags?: string[];
   /** typed bindings (d1, kv_namespace, r2_bucket, durable_object_namespace, …). */
   bindings?: WorkerBinding[];
+  /** Durable Object migrations — ride inline on THIS script upload (no separate call). Omit when there are none. */
+  migrations?: WorkerMigration[];
   /** plain-text vars → `plain_text` bindings. */
   vars?: Record<string, string>;
   /** the static-assets completion JWT (from uploadAssets) + the binding name + assets config. */
   assets?: { jwt: string | null; binding?: string; config?: Record<string, unknown> };
-  /** cron triggers (e.g. ["0 * * * *"]). */
+  /** enable Workers observability (logs/traces). */
   observability?: boolean;
   /** preserve bindings of these types from the prior version (default keeps secrets across deploys). */
   keepBindings?: string[];
@@ -45,6 +66,8 @@ export async function deployWorker(cf: CloudflareClient, opts: DeployWorkerOptio
     compatibility_date: opts.compatibilityDate,
     ...(opts.compatibilityFlags?.length ? { compatibility_flags: opts.compatibilityFlags } : {}),
     bindings,
+    // DO migrations ride inline here — omitted entirely when absent (an empty migrations block can reset DO state).
+    ...(opts.migrations?.length ? { migrations: opts.migrations } : {}),
     keep_bindings: opts.keepBindings ?? ["secret_text", "secret_key"],
     ...(opts.assets?.jwt ? { assets: { jwt: opts.assets.jwt, ...(opts.assets.config ? { config: opts.assets.config } : {}) } } : {}),
     ...(opts.observability !== undefined ? { observability: { enabled: opts.observability } } : {}),

@@ -9,6 +9,9 @@
  */
 export {
   auditDocument, auditOperation, assertGrade, grade,
+  // Stage 1.5: combine THIS package's input-schema grade with @suluk/agents' agent-composition grade into one
+  // contract grade — on the LETTER (the scores are non-comparable). Pure combinator; the caller passes the letters.
+  combineGrades, assertCombinedGrade, type CombinedGrade,
   type Audit, type OpAudit, type DocAudit, type Finding, type Severity, type Grade,
 } from "./audit";
 // the inverse of the audit — the hardening TRANSFORM that adds the baseline bounds the audit grades for.

@@ -125,3 +125,39 @@ export function assertGrade(doc: OpenAPIv4Document, min: Grade, opts: AuditOptio
   }
   return a;
 }
+
+// ─────────────────────────── UNIFIED CONTRACT GRADE (Stage 1.5) ───────────────────────────
+// Combine grades from DIFFERENT dimensions (this package's input-schema grade + `@suluk/agents`' agent-composition
+// grade `gradeAgent`) into ONE contract grade — on the LETTER (ordinal), NEVER the raw score: the two scores live on
+// non-comparable scales (harden = a clean/nodes RATIO; gradeAgent = an absolute 100−Σpenalty), so only the letter is
+// shared. This is a PURE combinator (no `@suluk/agents` dependency — the caller passes the letters): the unified grade
+// is `combineGrades([auditDocument(doc).grade, ...gradeAgents(doc).map(g => g.grade)])`.
+
+export interface CombinedGrade {
+  /** the WORST letter — a contract is as strong as its weakest graded dimension (the safe value to GATE on). */
+  worst: Grade;
+  /** the rounded-mean letter (informational — can mask a single failing dimension, so do not gate on it blindly; ties
+   *  round toward the HIGHER letter, so the masking is always optimistic). */
+  average: Grade;
+  /** the input letters, as given. */
+  grades: Grade[];
+}
+
+/** Combine per-dimension letters into one contract grade (worst + average). Empty ⇒ vacuously A — a caller MUST pass at
+ *  least the doc grade, since gating an empty set passes vacuously (`worst:"A"`). */
+export function combineGrades(grades: Grade[]): CombinedGrade {
+  if (!grades.length) return { worst: "A", average: "A", grades: [] };
+  const ord = grades.map((g) => ORDER.indexOf(g));
+  const worst = ORDER[Math.min(...ord)]!;
+  const average = ORDER[Math.round(ord.reduce((a, b) => a + b, 0) / ord.length)]!;
+  return { worst, average, grades };
+}
+
+/** CI gate over a combined grade. Gates on the WORST dimension by default (safe); pass `mode: "average"` to soften. */
+export function assertCombinedGrade(grades: Grade[], min: Grade, mode: "worst" | "average" = "worst"): CombinedGrade {
+  const c = combineGrades(grades);
+  const g = mode === "average" ? c.average : c.worst;
+  if (ORDER.indexOf(g) < ORDER.indexOf(min))
+    throw new Error(`@suluk/harden: combined contract grade ${g} (${mode} of ${grades.join(", ") || "—"}) is below the required ${min}`);
+  return c;
+}

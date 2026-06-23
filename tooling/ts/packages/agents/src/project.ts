@@ -7,7 +7,7 @@
  * NOT silently emit a broken artifact.
  */
 import type { OpenAPIv4Document, SchemaOrRef, SulukSkillRef } from "@suluk/core";
-import { agentMap, resolveOperationRef } from "./resolve";
+import { agentMap, resolveOperationRef, resolveInstruction } from "./resolve";
 import { assertAgentInstallable } from "./lint";
 import { contentHash, renderSkillMd } from "./skill";
 
@@ -30,7 +30,7 @@ export interface ClaudePluginOptions {
   homepage?: string;
   keywords?: string[];
   author?: { name: string; email?: string };
-  /** instruction snapshots per skill name (the pinned served content); a skill without one emits no SKILL.md. */
+  /** pinned instruction snapshots, keyed `"<agent>/<skill>"` (preferred, unambiguous) or bare `"<skill>"` (back-compat); a skill without one emits no SKILL.md. */
   instructions?: Record<string, string>;
 }
 
@@ -63,7 +63,7 @@ export function projectClaudePlugin(doc: OpenAPIv4Document, agentName: string, o
   };
 
   for (const [sk, skill] of Object.entries(agent.skills ?? {})) {
-    const text = opts.instructions?.[sk];
+    const text = resolveInstruction(opts.instructions, agentName, sk); // accepts "<agent>/<skill>" or bare "<skill>"
     if (text === undefined) continue; // no snapshot supplied → no generated SKILL.md (honest: we never invent text)
     files[`skills/${sk}/SKILL.md`] = renderSkillMd({
       name: sk,
@@ -113,7 +113,7 @@ const DISCOVER_TOOLS_FN: OpenRouterFunctionTool = {
 };
 
 export interface OpenRouterOptions {
-  /** instruction snapshots per skill name; when given for the primary skill, the manifest carries the computed hash. */
+  /** pinned snapshots keyed `"<agent>/<skill>"` (preferred) or bare `"<skill>"`; when given for the primary skill, the manifest carries the computed hash. */
   instructions?: Record<string, string>;
 }
 
@@ -123,7 +123,7 @@ export function projectOpenRouter(doc: OpenAPIv4Document, agentName: string, opt
   const prim = primarySkill(agent.skills);
   const [primName, primSkill] = prim ?? [undefined, undefined as SulukSkillRef | undefined];
 
-  const snapshot = primName ? opts.instructions?.[primName] : undefined;
+  const snapshot = primName ? resolveInstruction(opts.instructions, agentName, primName) : undefined;
   const instructions = {
     source: primSkill?.provenance?.source,
     contentHash: snapshot !== undefined ? contentHash(snapshot) : primSkill?.provenance?.contentHash,

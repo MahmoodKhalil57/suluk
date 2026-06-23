@@ -10,7 +10,7 @@
  */
 import type { OpenAPIv4Document } from "@suluk/core";
 import type { ModelCatalog } from "@suluk/models";
-import { agentMap } from "./resolve";
+import { agentMap, resolveSnapshot } from "./resolve";
 import { reachableSurface, type ConformanceFinding } from "./conformance";
 import { analyzeScopes, type Scope, type ScopeEscalation } from "./scope";
 import { effectiveUnderPolicies, policiesFor } from "./policy";
@@ -124,7 +124,9 @@ export function agentManifest(doc: OpenAPIv4Document, agentName: string, opts: {
  * Verify a signed manifest's skills against the CURRENT served snapshots: each skill's signed `contentHash` must
  * equal the hash of its current snapshot. A mismatch ⇒ the served preprompt drifted after the signature was minted
  * (a stale/unsigned change). A skill with no declared `contentHash` ⇒ unpinned (drift undetectable). Snapshots are
- * keyed `"<agentKey>/<skillName>"`; a skill with no provided snapshot is skipped (cannot be checked here).
+ * keyed qualified `"<agentKey>/<skillName>"` (preferred) OR bare `"<skillName>"` (back-compat) — the same dual-accept
+ * `gradeAgent` and `resolveInstruction` use, so one `snapshots` map feeds every consumer; a skill with no provided
+ * snapshot is skipped (cannot be checked here).
  */
 export function verifyAgentFreshness(manifest: AgentManifest, snapshots: Record<string, string>): ConformanceFinding[] {
   const out: ConformanceFinding[] = [];
@@ -132,7 +134,7 @@ export function verifyAgentFreshness(manifest: AgentManifest, snapshots: Record<
     for (const skill of node.skills) {
       const key = `${node.name}/${skill.name}`;
       if (!skill.contentHash) { out.push({ severity: "warning", code: "unpinned-skill", detail: `${key}: no contentHash — drift undetectable` }); continue; }
-      const snap = snapshots[key];
+      const snap = resolveSnapshot(snapshots, node.name, skill.name);
       if (snap === undefined) continue;
       const now = contentHash(snap);
       if (now !== skill.contentHash) out.push({ severity: "error", code: "stale-skill", detail: `${key}: signed contentHash ${skill.contentHash} ≠ current ${now} — served instructions drifted after mint` });

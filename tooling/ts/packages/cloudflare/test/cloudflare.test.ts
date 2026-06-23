@@ -117,7 +117,7 @@ describe("deploy() — full orchestration in dependency order", () => {
 
     // the worker PUT carried the right metadata (parse the multipart)
     const put = calls.find((c) => c.method === "PUT" && /\/workers\/scripts\/saasuluk$/.test(c.path))!;
-    const meta = JSON.parse(await (put.body as FormData).get("metadata")!.text());
+    const meta = JSON.parse(await ((put.body as FormData).get("metadata") as Blob).text());
     expect(meta.main_module).toBe("worker.js");
     expect(meta.compatibility_flags).toEqual(["nodejs_compat"]);
     expect(meta.bindings).toContainEqual({ type: "d1", name: "DB", id: "db_1" });
@@ -131,6 +131,167 @@ describe("deploy() — full orchestration in dependency order", () => {
     const idx = (re: RegExp) => calls.findIndex((c) => re.test(`${c.method} ${c.path}`));
     expect(idx(/POST .*\/d1\/database\/db_1\/query/)).toBeLessThan(idx(/PUT .*\/workers\/scripts\/saasuluk$/));
     expect(idx(/PUT .*\/workers\/scripts\/saasuluk$/)).toBeLessThan(idx(/\/secrets$/));
+  });
+
+  test("Durable Object agents: binds each class + an inline new_sqlite_classes migration (new_tag), reported in the result", async () => {
+    const { fetch, calls } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/weather$/, { id: "weather" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    const res = await deploy(cf, {
+      scriptName: "weather",
+      module: "export class WeatherAssistant {}; export default {}",
+      compatibilityDate: "2026-06-22",
+      compatibilityFlags: ["nodejs_compat"],
+      durableObjects: [
+        { binding: "WeatherAssistant", className: "WeatherAssistant" },             // same-script, sqlite default
+        { binding: "Shared", className: "SharedAgent", scriptName: "other-worker" }, // cross-script: bound, NOT migrated
+      ],
+    });
+
+    expect(res.durableObjects).toEqual([
+      { binding: "WeatherAssistant", className: "WeatherAssistant" },
+      { binding: "Shared", className: "SharedAgent" },
+    ]);
+
+    const put = calls.find((c) => c.method === "PUT" && /\/workers\/scripts\/weather$/.test(c.path))!;
+    const meta = JSON.parse(await ((put.body as FormData).get("metadata") as Blob).text());
+    // both DO bindings are present; the cross-script one carries script_name
+    expect(meta.bindings).toContainEqual({ type: "durable_object_namespace", name: "WeatherAssistant", class_name: "WeatherAssistant" });
+    expect(meta.bindings).toContainEqual({ type: "durable_object_namespace", name: "Shared", class_name: "SharedAgent", script_name: "other-worker" });
+    // the inline migration uses new_tag (NOT wrangler's "tag") and creates ONLY the same-script class as SQLite-backed
+    expect(meta.migrations).toEqual([{ new_tag: "v1", new_sqlite_classes: ["WeatherAssistant"] }]);
+  });
+
+  test("a DO deploy injects nodejs_compat even when the caller omits compatibilityFlags (REST path is not weaker than wrangler)", async () => {
+    const { fetch, calls } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/agent$/, { id: "agent" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    await deploy(cf, {
+      scriptName: "agent",
+      module: "export class A {}; export default {}",
+      compatibilityDate: "2026-06-22",
+      // compatibilityFlags deliberately OMITTED — the Agents SDK still needs nodejs_compat
+      durableObjects: [{ binding: "A", className: "A" }],
+    });
+    const put = calls.find((c) => c.method === "PUT" && /\/workers\/scripts\/agent$/.test(c.path))!;
+    const meta = JSON.parse(await ((put.body as FormData).get("metadata") as Blob).text());
+    expect(meta.compatibility_flags).toContain("nodejs_compat");
+    // DO bindings are NOT in keep_bindings → they are re-declared in full on every deploy (must not be auto-preserved)
+    expect(meta.keep_bindings).not.toContain("durable_object_namespace");
+  });
+
+  test("nodejs_compat injection dedupes (a caller who already passed it gets no duplicate); a non-DO deploy is untouched", async () => {
+    const { fetch, calls } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/(agent|plain2)$/, { id: "ok" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    await deploy(cf, { scriptName: "agent", module: "m", compatibilityDate: "2026-06-22", compatibilityFlags: ["nodejs_compat"], durableObjects: [{ binding: "A", className: "A" }] });
+    const meta = JSON.parse(await ((calls.find((c) => /\/workers\/scripts\/agent$/.test(c.path))!.body as FormData).get("metadata") as Blob).text());
+    expect(meta.compatibility_flags).toEqual(["nodejs_compat"]); // no duplicate
+
+    // a non-DO deploy must NOT have nodejs_compat injected (we only force it for the Agents-SDK DO case)
+    await deploy(cf, { scriptName: "plain2", module: "m", compatibilityDate: "2026-06-22" });
+    const meta2 = JSON.parse(await ((calls.find((c) => /\/workers\/scripts\/plain2$/.test(c.path))!.body as FormData).get("metadata") as Blob).text());
+    expect(meta2.compatibility_flags).toBeUndefined();
+  });
+
+  test("DO EVOLUTION: with prevDurableObjects, the inline migration creates ONLY the added class (old_tag→new_tag delta); both stay bound", async () => {
+    const { fetch, calls } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/agent$/, { id: "agent" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    await deploy(cf, {
+      scriptName: "agent", module: "m", compatibilityDate: "2026-06-22", compatibilityFlags: ["nodejs_compat"],
+      prevDurableObjects: [{ binding: "A", className: "A" }],
+      durableObjects: [{ binding: "A", className: "A" }, { binding: "B", className: "B" }],
+      durableObjectMigration: { oldTag: "v1", newTag: "v2" },
+    });
+    const meta = JSON.parse(await ((calls.find((c) => /\/workers\/scripts\/agent$/.test(c.path))!.body as FormData).get("metadata") as Blob).text());
+    // BOTH classes are bound (the current set); only the ADDED one is created (A already exists at v1)
+    expect(meta.bindings.filter((b: { type: string }) => b.type === "durable_object_namespace").map((b: { class_name: string }) => b.class_name)).toEqual(["A", "B"]);
+    expect(meta.migrations).toEqual([{ new_tag: "v2", old_tag: "v1", new_sqlite_classes: ["B"] }]);
+  });
+
+  test("DO EVOLUTION: a REMOVED class emits NO migration (nothing added) and is logged, never auto-dropped", async () => {
+    const { fetch, calls } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/agent$/, { id: "agent" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    const logs: string[] = [];
+    await deploy(cf, {
+      scriptName: "agent", module: "m", compatibilityDate: "2026-06-22",
+      prevDurableObjects: [{ binding: "A", className: "A" }, { binding: "B", className: "B" }],
+      durableObjects: [{ binding: "A", className: "A" }],
+      durableObjectMigration: { oldTag: "v1", newTag: "v2" },
+    }, (m) => logs.push(m));
+    const meta = JSON.parse(await ((calls.find((c) => /\/workers\/scripts\/agent$/.test(c.path))!.body as FormData).get("metadata") as Blob).text());
+    expect(meta.migrations).toBeUndefined();         // nothing added → no migration block (B is NOT deleted)
+    expect(logs.join(" ")).toMatch(/REMOVED.*B/);     // the orphan is surfaced, not silently dropped
+  });
+
+  test("DO EVOLUTION: with prev but NO explicit tags, new_tag defaults to v2 + old_tag v1 (not a no-op re-assert of v1)", async () => {
+    const { fetch, calls } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/agent$/, { id: "agent" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    await deploy(cf, {
+      scriptName: "agent", module: "m", compatibilityDate: "2026-06-22",
+      prevDurableObjects: [{ binding: "A", className: "A" }],
+      durableObjects: [{ binding: "A", className: "A" }, { binding: "B", className: "B" }],
+      // NOTE: no durableObjectMigration — defaults must be evolution-aware
+    });
+    const meta = JSON.parse(await ((calls.find((c) => /\/workers\/scripts\/agent$/.test(c.path))!.body as FormData).get("metadata") as Blob).text());
+    expect(meta.migrations).toEqual([{ new_tag: "v2", old_tag: "v1", new_sqlite_classes: ["B"] }]);
+  });
+
+  test("DO EVOLUTION: removing ALL classes (durableObjects: []) surfaces the orphans structurally + in the log (no silent gap)", async () => {
+    const { fetch } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/agent$/, { id: "agent" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    const logs: string[] = [];
+    const res = await deploy(cf, {
+      scriptName: "agent", module: "m", compatibilityDate: "2026-06-22",
+      prevDurableObjects: [{ binding: "A", className: "A" }, { binding: "B", className: "B" }],
+      durableObjects: [],
+      durableObjectMigration: { oldTag: "v1", newTag: "v2" },
+    }, (m) => logs.push(m));
+    expect(res.durableObjects).toEqual([]);              // nothing bound
+    expect(res.durableObjectsRemoved).toEqual(["A", "B"]); // orphans surfaced as a structured return
+    expect(logs.join(" ")).toMatch(/REMOVED.*A, B/);
+  });
+
+  test("DO EVOLUTION: a backend-flip (sqlite ↔ legacy) THROWS", async () => {
+    const { fetch } = mockCf([[/GET \/accounts$/, [{ id: "acct_1" }]], [/PUT .*\/workers\/scripts\/agent$/, { id: "agent" }]]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    await expect(deploy(cf, {
+      scriptName: "agent", module: "m", compatibilityDate: "2026-06-22",
+      prevDurableObjects: [{ binding: "A", className: "A" }],
+      durableObjects: [{ binding: "A", className: "A", sqlite: false }],
+      durableObjectMigration: { oldTag: "v1", newTag: "v2" },
+    })).rejects.toThrow(/changed storage backend/);
+  });
+
+  test("no durableObjects ⇒ no migrations key in the metadata (unchanged upload)", async () => {
+    const { fetch, calls } = mockCf([
+      [/GET \/accounts$/, [{ id: "acct_1" }]],
+      [/PUT .*\/workers\/scripts\/plain$/, { id: "plain" }],
+    ]);
+    const cf = new CloudflareClient({ apiToken: "t", fetch });
+    const res = await deploy(cf, { scriptName: "plain", module: "export default {}", compatibilityDate: "2026-06-22" });
+    expect(res.durableObjects).toEqual([]);
+    const put = calls.find((c) => c.method === "PUT" && /\/workers\/scripts\/plain$/.test(c.path))!;
+    const meta = JSON.parse(await ((put.body as FormData).get("metadata") as Blob).text());
+    expect(meta.migrations).toBeUndefined();
   });
 
   test("routes _headers/_redirects into assets.config and EXCLUDES them from the upload manifest", async () => {
@@ -156,7 +317,7 @@ describe("deploy() — full orchestration in dependency order", () => {
 
     // the worker metadata carried the raw rule-file contents in assets.config, alongside html_handling
     const put = calls.find((c) => c.method === "PUT" && /\/workers\/scripts\/saasuluk$/.test(c.path))!;
-    const meta = JSON.parse(await (put.body as FormData).get("metadata")!.text());
+    const meta = JSON.parse(await ((put.body as FormData).get("metadata") as Blob).text());
     expect(meta.assets.config.html_handling).toBe("auto-trailing-slash");
     expect(meta.assets.config._headers).toContain("immutable");
     expect(meta.assets.config._redirects).toContain("/old /new 301");

@@ -50,8 +50,43 @@ export interface OpenAPIv4Document {
    * ceiling (~0.52); pairs with ADR C028.
    */
   ["x-suluk-policy"]?: Record<string, SulukPolicy>;
+  /**
+   * RESOURCES vendor map (C036) — `x-suluk-resources`. The loadable, on-demand CATALOG of instructions / references /
+   * scripts an agent can ACTIVATE when a task matches (Cloudflare "Agent Skills" / loadable context-memory alignment;
+   * this is the `x-suluk-resources` name C035 RESERVED, now defined by operator direction). Distinct from a `skill`
+   * (model-bearing, always-on system text): a resource is content-only, lazy, and carries no model. Rides the
+   * x-suluk-jobs/agents/policy move EXACTLY — optional, additive, NO new normative kind, NEVER read by the matcher
+   * (D1; a new x-* sibling is invisible to buildAda — see test/resources-d1-invariance.test.ts). Content is a
+   * PROVENANCE POINTER (the catalog/SKILL.md is GENERATED, hashed for drift), never inlined. Experimental-anchored
+   * (CF Agent Skills + script execution are experimental) ⇒ honestly LOW ceiling (~0.5); pairs with ADR C036.
+   */
+  ["x-suluk-resources"]?: Record<string, SulukResource>;
   components?: Components;
   [ext: `x-${string}`]: unknown;
+}
+
+/**
+ * A loadable RESOURCE (C036) — a member of the top-level `x-suluk-resources` catalog. Cloudflare's "Agent Skills"
+ * model, in Suluk's contract-first form: an on-demand bundle of content the agent loads only when a task matches, so
+ * a large library does not bloat every prompt. NOT a {@link SulukSkillRef} (which is model-bearing, always-on system
+ * text) — a resource carries NO model and is content-only. Structural; never read by the matcher.
+ */
+export interface SulukResource {
+  /** required, routing-oriented — the catalog-listing text the model sees and selects on (mirrors a CF skill description). */
+  description: string;
+  /** the kind of loadable content: `instructions` (a SKILL.md the agent activates), `reference` (a bundled doc it reads), `script` (a bundled script it can run — CF script execution is EARLY/experimental). */
+  kind: "instructions" | "reference" | "script";
+  /** single source of truth + staleness binding — the catalog/SKILL.md is GENERATED from `source`, hashed to detect drift (the same pointer-not-prose discipline as a skill, C027). */
+  provenance: { source: string; contentHash: string; version?: string };
+  /** author-declared (trusted) vs retrieved (untrusted) — a retrieved resource may NOT escalate scope/provenance (mirrors SulukSkillRef.trust). */
+  trust?: "author-declared" | "retrieved";
+  [ext: `x-${string}`]: unknown;
+}
+
+/** A by-name reference to a loadable resource within the same `x-suluk-resources` catalog (C036; resolved at projection, never by the matcher; mirrors SulukAgentRef). */
+export interface SulukResourceRef {
+  /** a by-name `$ref` like `#/x-suluk-resources/<key>` (never an inline resource). */
+  ref: string;
 }
 
 /**
@@ -96,6 +131,8 @@ export interface SulukAgent {
   routes?: Record<string, SulukRouteRef>;
   /** by-name sub-agent refs (never inline — inlining would fork C009 identity). */
   agents?: Record<string, SulukAgentRef>;
+  /** by-name refs into the top-level `x-suluk-resources` catalog (C036) — the loadable, on-demand instructions/references/scripts this agent can ACTIVATE (CF "Agent Skills" alignment; lazy + advisory; resolved at projection, never by the matcher). */
+  resources?: Record<string, SulukResourceRef>;
   /** REQUIRED when `agents` is non-empty (a lint, not the schema): the recursion depth ceiling; a leaf is 0. */
   maxDepth?: number;
   /** marks a tier whose retrieved / lower-tier content may NOT escalate scope or upgrade a figure's provenance. */
@@ -302,6 +339,26 @@ export interface Request {
    * carries the shape + derived reads (`rateLimitIndex`/`rateLimitCoverage`/`retryAfterSeconds`).
    */
   ["x-suluk-ratelimit"]?: SulukRateLimit;
+  /**
+   * HUMAN-IN-THE-LOOP APPROVAL facet (Stage 1.4): declares that invoking this operation as an AGENT TOOL requires
+   * human approval before it runs — a consequential/irreversible action an autonomous loop must pause on. Advisory,
+   * like {@link SulukApproval} describes.
+   */
+  ["x-suluk-approval"]?: SulukApproval;
+}
+
+/**
+ * HUMAN-IN-THE-LOOP APPROVAL facet (Stage 1.4). Like x-suluk-cost/access/ratelimit it is an ADVISORY vendor extension
+ * in the `x-suluk-*` namespace — the facet DECLARES the gate; a runtime adapter ENFORCES it (e.g. @suluk/agents'
+ * `projectCloudflareAgent` emits the Cloudflare Agents SDK `needsApproval` predicate from it). STATIC by construction:
+ * `required` is a fixed boolean — the facet NEVER carries a request-value selector (the D1 red-line), so a server can
+ * never be pressured into a dynamic dispatch decision; the gate is "this action, always", decided at author time.
+ */
+export interface SulukApproval {
+  /** require human approval before this operation runs as an agent tool. */
+  required: boolean;
+  /** why approval is needed — shown to the human approver and in docs. */
+  reason?: string;
 }
 
 /**

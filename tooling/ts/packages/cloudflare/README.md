@@ -32,6 +32,7 @@ A typed wrapper over the Cloudflare REST API that ships a Worker + its dependenc
 - **Idempotent provisioners** — `provisionD1` / `provisionKvNamespace` / `provisionR2Bucket` are create-or-get (re-running never errors with "already exists"), `applyMigrations` keeps a `_suluk_migrations` ledger so each migration runs at most once (and baselines a DB migrated before the ledger existed), and `putSecrets` skips empty values.
 - **Workers static-assets upload** — `uploadAssets` builds the manifest, opens an upload session, and pushes only the buckets the API asks for (so a redeploy only sends changed files). `_headers` / `_redirects` are routed into the worker's `assets.config` as rules, not uploaded as serveable blobs.
 - **One-call `deploy()`** — provision → migrate → upload assets → deploy the module worker (with bindings + vars) → push secrets → set cron triggers, in the order where each step's output feeds the next. `keep_bindings` preserves secrets across redeploys, so you set them once.
+- **Durable Object agents** — pass `durableObjects: [{ binding, className }]` and `deploy()` binds each as a `durable_object_namespace` and creates the same-script classes via an inline script migration (`new_sqlite_classes`, the Agents SDK + free-plan backend). The migration rides the same script-upload `PUT` (no versions API) and uses the API field `new_tag` (≠ wrangler's `tag`); it's omitted entirely when there's nothing to create (an empty block can reset DO state). `nodejs_compat` is auto-injected for any DO deploy so the worker can't ship missing the Agents-SDK runtime flag. Safe for first-deploy + redeploy; additive evolution (`oldTag`/`new_tag` to add a class later) is plumbed but caller-driven.
 - **`kvRateLimitStore`** — the production, KV-backed `RateLimitStore` for [`@suluk/hono`](../hono)'s `enforceRateLimit` (a fixed-window counter that fails *open* on a KV blip). Structurally typed, so it plugs straight in with no `@suluk/hono` dependency.
 
 ## When to reach for it
@@ -128,7 +129,8 @@ app.use("*", enforceRateLimit({ store, /* …operationOf, rateLimitOf, keyOf… 
 | `applyMigrations` / `queryD1` | ledgered, run-once D1 migrations / raw D1 SQL |
 | `putSecret` / `putSecrets` | encrypted Worker secrets (`putSecrets` skips empty values, returns the names set) |
 | `uploadAssets` / `assetHash` / `extractAssetRuleFiles` | the Workers static-assets upload flow |
-| `deployWorker` / `putCronTriggers` | upload a module worker / set its cron schedule |
+| `deployWorker` / `putCronTriggers` | upload a module worker (incl. DO bindings + inline `migrations`) / set its cron schedule |
+| `DeployPlan.durableObjects` / `DurableObjectBinding` / `WorkerMigration` | bind + migrate SQLite-backed Durable Object agents (Cloudflare Agents SDK) |
 | `kvRateLimitStore` / `memoryRateLimitStore` | KV-backed (prod) / in-memory (dev) `RateLimitStore` for `@suluk/hono` |
 
 ## Boundary

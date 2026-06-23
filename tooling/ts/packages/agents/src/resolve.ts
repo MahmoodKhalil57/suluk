@@ -108,3 +108,31 @@ export function* deepStrings(v: unknown, path = ""): Generator<{ path: string; v
   if (Array.isArray(v)) { for (let i = 0; i < v.length; i++) yield* deepStrings(v[i], `${path}[${i}]`); return; }
   if (v && typeof v === "object") for (const [k, val] of Object.entries(v)) yield* deepStrings(val, path ? `${path}.${k}` : k);
 }
+
+/**
+ * Resolve a pinned instruction snapshot from an `instructions` map, accepting BOTH key conventions used across the
+ * package: the QUALIFIED `"<agent>/<skill>"` key (unambiguous — two agents can share a skill name; the convention
+ * `context`/`grade` use) and the bare `"<skill>"` key (the original projection convention; back-compat). Qualified wins.
+ * One resolver everywhere means a single instructions map works for every projection AND the grade/context analyzer.
+ */
+export function resolveInstruction(instructions: Record<string, string> | undefined, agentName: string, skillName: string): string | undefined {
+  return dualKey(instructions, agentName, skillName);
+}
+
+/**
+ * The shared dual-accept lookup for any skill-keyed `Record<string,string>`: the QUALIFIED `"<agent>/<skill>"` key
+ * wins (two agents can share a skill name), with a bare `"<skill>"` fallback (back-compat). One convention for every
+ * skill-keyed map in the package.
+ */
+function dualKey(map: Record<string, string> | undefined, agentName: string, skillName: string): string | undefined {
+  return map?.[`${agentName}/${skillName}`] ?? map?.[skillName];
+}
+
+/**
+ * Resolve a served-instruction SNAPSHOT (the drift / skill-freshness check) accepting the SAME dual key convention
+ * as `instructions`: qualified `"<agent>/<skill>"` wins, bare `"<skill>"` is back-compat. Closes the split where
+ * `gradeAgent` read bare keys while `verifyAgentFreshness` read qualified — one `snapshots` map now feeds both.
+ */
+export function resolveSnapshot(snapshots: Record<string, string> | undefined, agentName: string, skillName: string): string | undefined {
+  return dualKey(snapshots, agentName, skillName);
+}

@@ -22,10 +22,13 @@ interface RawReq {
   parameterSchema?: { path?: unknown; query?: unknown; body?: unknown };
   responses?: Record<string, { status: string | number; contentSchema?: unknown }>;
   ["x-suluk-cost"]?: CostModel; ["x-suluk-access"]?: AccessFacet; ["x-suluk-source"]?: SulukSource;
+  ["x-suluk-approval"]?: { required?: unknown; reason?: unknown };
 }
 interface OpInfo {
   name: string; method: string; uri: string; filledPath: string; requires: string;
   declaredStatuses: number[]; okSchema?: unknown; cost: number | null; source?: SulukSource;
+  /** the raw x-suluk-approval.required when the HITL facet is present (else null) — checked WELL-FORMED, statically. */
+  approvalRequired: unknown; hasApproval: boolean;
   hasBody: boolean; paramFree: boolean;
 }
 
@@ -52,6 +55,7 @@ function walkOps(doc: OpenAPIv4Document): OpInfo[] {
         requires: req["x-suluk-access"]?.requires ?? "anyone",
         declaredStatuses: [...new Set(statuses)].sort((a, b) => a - b),
         okSchema: ok?.contentSchema, cost: costOf(req), source: req["x-suluk-source"],
+        approvalRequired: req["x-suluk-approval"]?.required, hasApproval: req["x-suluk-approval"] != null,
         hasBody: req.contentSchema != null || ps.body != null,
         paramFree: method === "GET" && !hasPathParam && reqQuery.length === 0,
       });
@@ -130,6 +134,13 @@ function emitOp(doc: OpenAPIv4Document, op: OpInfo): string {
   // ── L2 (static): a declared cost is well-formed (never a literal µ$ amount) ────────────────────────────────
   if (op.cost != null) tests.push(`  test("cost — declares a well-formed x-suluk-cost", () => {
     expect(Number.isFinite(${op.cost}) && ${op.cost} >= 0, "x-suluk-cost is malformed").toBe(true);
+  });`);
+
+  // ── L2 (static): a declared HITL gate is well-formed. x-suluk-approval is an AGENT-RUNTIME facet (it projects to the
+  //    Agents SDK `needsApproval`), NOT wire-enforced like x-suluk-access — so, like cost, the conformance claim is the
+  //    static well-formedness (`required` is a boolean), which keeps the facet load-bearing (it can't silently malform).
+  if (op.hasApproval) tests.push(`  test("approval — declares a well-formed x-suluk-approval HITL gate (static; enforced by the agent runtime, not the wire)", () => {
+    expect(typeof ${JSON.stringify(op.approvalRequired)} === "boolean", "x-suluk-approval.required must be a boolean").toBe(true);
   });`);
 
   return `describe("${lbl(head)}", () => {\n${tests.join("\n")}\n});`;

@@ -1,0 +1,48 @@
+# C036 (x-suluk-resources) — the loadable-resource catalog. Suluk's contract-first form of Cloudflare's "Agent
+# Skills": an on-demand catalog of instructions/references/scripts an agent ACTIVATES when a task matches (CF Agent
+# Skills + loadable context-memory alignment). This is the `x-suluk-resources` name C035 RESERVED; defined here by
+# explicit OPERATOR direction (a deviate-by-receipt lift of the self-imposed reserve). Rides the C025/C027 precedent
+# EXACTLY. CF's anchor is EXPERIMENTAL, so the ceiling is honestly LOW (<=0.55) and the facet stays structural-only.
+
+# THE MAP (structural, mirrors C027/C025): a top-level OPTIONAL `x-suluk-resources` NAME-keyed map of SulukResource +
+# a by-name `resources` field on a SulukAgent (refs into the catalog). OPTIONAL, additionalProperties-legal under the
+# `[ext: x-${string}]` catch-all, NO new normative kind, NO meta-schema change. A pre-C036 doc and a resources-bearing
+# one validate byte-identically. Types added to core/src/types.ts (SulukResource/SulukResourceRef, structural-only).
+claim resources_toplevel_vendor_map: Bool @>=0.5 = True
+falsified_when resources_toplevel_vendor_map == False
+
+# THE D1 GATE (the load-bearing safety claim, mirrors C027). The DOM->ADA request->operation matcher is UNTOUCHED:
+# buildAda iterates Object.entries(doc.paths) ONLY; it never reads x-suluk-resources or an agent's `resources` (the
+# same construction that keeps x-suluk-jobs/agents/policy out). No field in SulukResource/SulukResourceRef references
+# request/DOM/header/body/query values. WITNESS (independent of the code-reading): test/resources-d1-invariance.test.ts
+# asserts buildAda(docWithResources) deep-equals buildAda(docWithoutResources) and matchRequest resolves every op
+# identically (2 pass). An agents-stripped/resources-stripped doc yields a BYTE-IDENTICAL Ada.
+claim d1_resources_selector_safe: Bool @>=0.55 = True
+falsified_when d1_resources_selector_safe == False
+
+# CONTENT-ONLY, NOT A SKILL (the definitional wall, resolving the C035 collision in CODE). A SulukResource carries NO
+# model and is loadable lazily on demand (CF "Agent Skills"); a SulukSkillRef is model-bearing always-on system text.
+# The two are disjoint: presence-of-model still discriminates skill-vs-route, and now content-only-loadable discriminates
+# resource-vs-skill. Content is a PROVENANCE POINTER (source+contentHash+version; the catalog/SKILL.md is GENERATED +
+# drift-hashed), never inlined prose — the same discipline as C027 skills. The projected SKILL.md is a valid CF
+# Agent-Skill artifact (C035 noted this), so the artifact aligns even though the declaration role differs.
+claim resources_content_only_not_skill: Bool @>=0.55 = True
+falsified_when resources_content_only_not_skill == False
+
+# DEVIATION FROM C035'S RESERVE (recorded, never silent). C035 reserved `x-suluk-resources` as build-by-nobody UNTIL a
+# real memory-descriptor need appears. This Step LIFTS that reserve by explicit operator direction ("pick up all of
+# the deferred follow-ups"). The deviation is honest: a LOW ceiling (<=0.55, tracking C027/C028 originated), structural
+# -only (no runtime/enforcement), and the experimental-anchor caveat carried in the type doc + the ADR. Recorded as a
+# daftar burhan.segment receipt. The operator-surfaced-cowpath pattern (same as C027) applies: the operator owns the
+# call to build it now.
+claim resources_deviates_c035_reserve_by_operator: Bool @>=0.5 = True
+falsified_when resources_deviates_c035_reserve_by_operator == False
+
+# HONEST CEILING + EXPERIMENTAL ANCHOR. Two Cloudflare anchors this facet aligns to are EXPLICITLY experimental in the
+# vendored docs: `agents/skills` ("Agent Skills are experimental, and script execution in particular is early") and the
+# Session loadable-context APIs ("import paths and details may change before graduation"). So the facet is structural +
+# advisory + NEVER enforced; `kind: "script"` is lint-flagged a warning (maps to the early script-execution path); the
+# ceiling is bounded <=0.55. lintResources owns well-formedness (description, valid kind, pinned provenance) + dangling
+# refs; resourceCatalog is the CF get() metadata listing. Nothing here is wire-enforced or read by the matcher.
+claim resources_experimental_anchor_low_ceiling: Bool @>=0.55 = True
+falsified_when resources_experimental_anchor_low_ceiling == False

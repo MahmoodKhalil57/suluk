@@ -10,7 +10,7 @@ const doc = {
     product: {
       requests: {
         listProduct: { method: "get", responses: { ok: { status: 200, contentSchema: { type: "array", items: { type: "object", properties: { id: { type: "integer" } }, required: ["id"], additionalProperties: false } } } }, "x-suluk-access": { requires: "anyone" }, "x-suluk-cost": { estimateMicroUsd: 10 }, "x-suluk-source": { file: "src/schema.ts", symbol: "product", kind: "drizzle-table" } },
-        createProduct: { method: "post", contentSchema: { type: "object", properties: { name: { type: "string" } }, required: ["name"] }, responses: { created: { status: 201 } }, "x-suluk-access": { requires: "admin" }, "x-suluk-cost": { estimateMicroUsd: 145 }, "x-suluk-source": { file: "src/schema.ts", symbol: "product", kind: "drizzle-table" } },
+        createProduct: { method: "post", contentSchema: { type: "object", properties: { name: { type: "string" } }, required: ["name"] }, responses: { created: { status: 201 } }, "x-suluk-access": { requires: "admin" }, "x-suluk-cost": { estimateMicroUsd: 145 }, "x-suluk-approval": { required: true, reason: "creates a billable product" }, "x-suluk-source": { file: "src/schema.ts", symbol: "product", kind: "drizzle-table" } },
       },
     },
     "cart/{id}": { requests: { getCart: { method: "get", responses: { ok: { status: 200 } }, "x-suluk-access": { requires: "authenticated", scope: "owner" }, "x-suluk-source": { file: "src/ops.ts", symbol: "getCart", kind: "operation" } } } },
@@ -57,6 +57,14 @@ describe("@suluk/testgen — generate a conformance suite from a v4 contract", (
     expect(suite).toContain("declares a well-formed x-suluk-cost");
     expect(suite).toContain("145 >= 0");
     expect(suite).not.toMatch(/toBe\(145\)/);                    // never asserts the literal amount
+  });
+
+  test("x-suluk-approval (HITL) is checked as a DECLARED well-formed gate — static, NOT wire-enforced (it's an agent-runtime facet)", () => {
+    expect(suite).toContain("declares a well-formed x-suluk-approval HITL gate");
+    expect(suite).toContain("enforced by the agent runtime, not the wire"); // honest scope — unlike x-suluk-access
+    expect(suite).toContain('typeof true === "boolean"');                    // the static well-formedness assertion on `required`
+    // only the op that declares it gets the claim; a non-gated op (listProduct) does not
+    expect(suite.match(/well-formed x-suluk-approval/g)?.length).toBe(1);
   });
 
   test("each op group is LABELLED with its provenance (x-suluk-source) — a failure points at the source", () => {
