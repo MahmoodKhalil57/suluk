@@ -90,7 +90,7 @@ generator-or-not). Stage 2 is **gated** on the Stage 0 measurement.
 | 1.2 | Add DO binding + sqlite-class **migration** support to the API-driven `deploy()` (the REST path has no wrangler to lean on). | `@suluk/cloudflare` | ½ d | ✅ |
 | 1.3 | **Agent checklist + A–F grade + `assertAgentGrade` CI gate + inverse "fix" transform**, aggregating the existing checks (table below). Reuse `@suluk/harden`'s grade/`assertGrade`/inverse-fix *idiom*; host in `@suluk/agents` (inputs live there, no cycle). Inverse-fix reuses `suggestUnflatten` for the context dimension + existing `hardenDocument` for tool inputs. | `@suluk/agents` | ½–1 d | ✅ |
 | 1.4 | New `x-suluk-approval` facet for **HITL gate on mutating tools** → projects to the Agents SDK `needsApproval` predicate. Maps onto the chat example's approval-gated `calculate`. | `@suluk/core` facet + `@suluk/agents` | ½–1 d | ✅ (landed with 2.A; `@suluk/testgen` claim deferred) |
-| 1.5 | Optionally fold the agent grade into `@suluk/harden`'s document rollup for one unified "contract grade" (thin bridge; harden depends on agents, never the reverse). | `@suluk/harden` | ¼ d | ☐ |
+| 1.5 | Unified "contract grade": combine the `@suluk/harden` doc grade with `gradeAgent` on the LETTER. | `@suluk/harden` | ¼ d | ✅ **DEVIATION**: shipped as a PURE combinator (`combineGrades`/`assertCombinedGrade`), NOT a `harden→agents` one-call — keeps harden lean (core-only) and honors the 1.3 "no harden↔agents coupling" design; the caller composes `auditDocument(doc).grade` + `gradeAgents(doc)`. |
 
 ### Stage 2 — conditional on Stage 0. Status: ✅ **path A (generator) 2.A1 + 2.A2 DONE** (2026-06-23)
 
@@ -219,8 +219,9 @@ arc is end-to-end AND behind a swappable seam: contract → `runtimeProviders.cl
    tighten the seam's `deploy?: Record<string,unknown>` when a 2nd adapter lands.
    Doc-only caveats (from the review): a fully-disjoint wrangler evolution starts its history at v2 (out of 2-step scope —
    hand-edit); `prevDurableObjectMigrationTag` must equal the *latest* tag in the deployed history when real history has >2 entries.
-2. **Stage 1.5 — unified contract grade**: average the `@suluk/harden` doc grade and the `gradeAgent` grade on the LETTER
-   (a thin bridge in `@suluk/harden`).
+2. ~~**Stage 1.5 — unified contract grade**~~ ✅ (2026-06-23 — `combineGrades`/`assertCombinedGrade` in `@suluk/harden`,
+   a PURE letter-combinator: `worst` (the gate value) + `average` (informational, optimistic ties). Reviewed ship-with-fixes;
+   shipped as a combinator NOT a `harden→agents` one-call — see the DEVIATION on the 1.5 row + the daftar receipt).
 3. **A second runtime adapter** (validates the C034 seam's generality) — a Node/Vercel agent runtime as a new `AgentRuntimeProvider`.
 4. **End-to-end smoke** (optional): wire `projectCloudflareAgent`'s output through `@suluk/cloudflare`'s `deploy()` against
    a real account, or a second Stage-0 pass on an email/scheduled agent.
