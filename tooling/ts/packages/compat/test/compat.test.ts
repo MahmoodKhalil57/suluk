@@ -64,8 +64,8 @@ describe("v4 → 3.1 downgrade (the Scalar/Swagger lever)", () => {
   });
 });
 
-describe("collision is reported, never silently lost (C003 lossy boundary)", () => {
-  test("two same-method requests on one path emit a collision diagnostic", () => {
+describe("same-method requests are MERGED into one operation (C003, non-lossy)", () => {
+  test("two same-method bodyless requests collapse to one operation + a collision diagnostic naming both", () => {
     const doc = parseDocument(`
 openapi: 4.0.0-candidate
 info: { title: t, version: "1" }
@@ -78,10 +78,78 @@ paths:
     const { document, diagnostics } = downgrade(doc);
     const collisions = diagnostics.filter((d) => d.kind === "collision");
     expect(collisions.length).toBe(1);
+    expect(collisions[0].message).toContain("merged");
+    expect(collisions[0].message).toContain("listA");
     expect(collisions[0].message).toContain("listB");
-    // still produced VALID 3.1 (first request wins)
+    // still VALID 3.1; first request's name is the operationId
     expect(validate31(document).valid).toBe(true);
     expect((document as any).paths["/thing"].get.operationId).toBe("listA");
+  });
+
+  test("multiple body variants become a oneOf request body, each preserving its discriminator", () => {
+    const doc = parseDocument(`
+openapi: 4.0.0-candidate
+info: { title: t, version: "1" }
+paths:
+  thing:
+    requests:
+      submit:
+        method: patch
+        contentType: application/json
+        contentSchema:
+          type: object
+          properties:
+            action: { type: string, const: SUBMIT }
+            signed: { type: string }
+          required: [action]
+          additionalProperties: false
+        responses:
+          ok: { status: 200 }
+      cancel:
+        method: patch
+        contentType: application/json
+        contentSchema:
+          type: object
+          properties:
+            action: { type: string, const: CANCEL }
+          required: [action]
+          additionalProperties: false
+        responses:
+          ok: { status: 200 }
+`);
+    const { document, diagnostics } = downgrade(doc);
+    const op = (document as any).paths["/thing"].patch;
+    const body = op.requestBody.content["application/json"].schema;
+    // both variants preserved in oneOf
+    expect(Array.isArray(body.oneOf)).toBe(true);
+    expect(body.oneOf).toHaveLength(2);
+    const consts = body.oneOf.map((v: any) => v.properties?.action?.const).sort();
+    expect(consts).toEqual(["CANCEL", "SUBMIT"]);
+    // the description records the merge
+    expect(op.description).toContain("Merged from 2 v4 requests");
+    // one collision diagnostic describing the merge
+    const collisions = diagnostics.filter((d) => d.kind === "collision");
+    expect(collisions.length).toBe(1);
+    expect(collisions[0].message).toContain("merged");
+    expect(validate31(document).valid).toBe(true);
+  });
+
+  test("identical variant bodies collapse to a single schema (no redundant oneOf)", () => {
+    const doc = parseDocument(`
+openapi: 4.0.0-candidate
+info: { title: t, version: "1" }
+paths:
+  thing:
+    requests:
+      a: { method: post, contentType: application/json, contentSchema: { type: object, properties: { x: { type: string } } }, responses: { ok: { status: 200 } } }
+      b: { method: post, contentType: application/json, contentSchema: { type: object, properties: { x: { type: string } } }, responses: { ok: { status: 200 } } }
+`);
+    const { document, diagnostics } = downgrade(doc);
+    const body = (document as any).paths["/thing"].post.requestBody.content["application/json"].schema;
+    // identical bodies → no oneOf wrapper, just the single schema
+    expect(body.oneOf).toBeUndefined();
+    expect(body.properties.x).toBeDefined();
+    expect(diagnostics.filter((d) => d.kind === "collision").length).toBe(1);
   });
 });
 

@@ -10,9 +10,11 @@
  *   v4 Request.contentType + contentSchema         →   3.1 Operation.requestBody.content[mt].schema
  *   v4 Request.responses : Record<name, Response>  →   3.1 Operation.responses[status]
  *
- * Honest lossy boundary: 3.1 keys operations BY METHOD, so two v4 requests sharing a method on one path
- * (the headline v4 capability, C003) CANNOT both be represented. We keep the first and emit a diagnostic
- * naming the dropped request(s); we never silently lose one. `diagnostics` is the audit trail.
+ * Honest boundary: 3.1 keys operations BY METHOD, so two v4 requests sharing a method on one path
+ * (the headline v4 capability, C003) CANNOT each get their own operation. We MERGE them into one
+ * operation whose request body is `oneOf` over the per-variant shapes — every variant is preserved
+ * (each keeps its discriminating field value, e.g. an action const/enum), none is silently dropped.
+ * `diagnostics` records each merge as a `collision` (now non-lossy) so callers can audit it.
  */
 import type {
   OpenAPIv4Document, PathItem, Request, Response, ParameterSchema, SchemaOrRef, Components,
@@ -20,7 +22,7 @@ import type {
 import { isReference } from "@suluk/core";
 
 export interface Diagnostic {
-  /** "collision" (lossy, method clash) | "remap" (ref/feature rewritten) | "drop" (unrepresentable). */
+  /** "collision" (same-method v4 requests merged into one 3.1 operation — non-lossy) | "remap" (ref/feature rewritten) | "drop" (unrepresentable). */
   kind: "collision" | "remap" | "drop";
   path: string;
   message: string;
@@ -166,25 +168,88 @@ function downgradePathItem(uriTemplate: string, pi: PathItem, apiResponses: Resp
   const inherited = [...apiResponses, ...Object.values(pi.pathResponses ?? {})];
   const shared = pi.shared?.parameterSchema;
 
-  const seenByMethod = new Map<string, string>(); // method → winning request name
+  // Group requests by method. OAS 3.1 keys operations by method, so multiple v4 requests sharing a
+  // method on one path (the v4 multi-request capability, C003) cannot each get their own operation.
+  // Merge them into one operation whose request body is oneOf over the per-variant shapes — every
+  // variant is preserved, none is silently dropped. Each variant keeps its discriminating field value
+  // (e.g. an action enum/const), so the oneOf is self-describing and tooling renders all variants.
+  const byMethod = new Map<string, Array<[string, Request]>>();
   for (const [name, req] of Object.entries(pi.requests ?? {})) {
     const method = req.method.toLowerCase();
     if (!METHODS.includes(method as (typeof METHODS)[number])) {
       diags.push({ kind: "drop", path: uriTemplate, message: `request '${name}' has non-3.1 method '${req.method}' — dropped` });
       continue;
     }
-    if (seenByMethod.has(method)) {
-      diags.push({
-        kind: "collision",
-        path: uriTemplate,
-        message: `requests '${seenByMethod.get(method)}' and '${name}' both use ${method.toUpperCase()}; 3.1 keys operations by method, so '${name}' is omitted (lossy — this is the v4 multi-request capability 3.1 cannot express)`,
-      });
-      continue;
-    }
-    seenByMethod.set(method, name);
-    out[method] = downgradeOperation(name, req, shared, inherited, uriTemplate, diags);
+    if (!byMethod.has(method)) byMethod.set(method, []);
+    byMethod.get(method)!.push([name, req]);
+  }
+  for (const [method, group] of byMethod) {
+    out[method] = group.length === 1
+      ? downgradeOperation(group[0][0], group[0][1], shared, inherited, uriTemplate, diags)
+      : downgradeMergedOperation(method, group, shared, inherited, uriTemplate, diags);
   }
   return out;
+}
+
+/** Merge N v4 requests sharing a method (C003 collision) into one 3.1 operation. The request body
+ *  becomes `oneOf` over the per-variant shapes (duplicates collapsed), responses union across all
+ *  variants, and a description records the merged request names. Nothing is dropped. */
+function downgradeMergedOperation(
+  methodName: string,
+  requests: Array<[string, Request]>,
+  shared: ParameterSchema | undefined,
+  inherited: Response[],
+  pathKey: string,
+  diags: Diagnostic[],
+): Record<string, unknown> {
+  const names = requests.map(([n]) => n);
+  // start from the first request's operation (operationId, parameters, summary, x-* extensions, ...).
+  // same-path requests share path params by definition; the first request's params are the operation's.
+  const op = downgradeOperation(names[0], requests[0][1], shared, inherited, pathKey, diags);
+
+  // request body: oneOf over per-variant shapes (collapse exact duplicates). Each variant keeps its
+  // discriminating field value, so the oneOf is self-describing.
+  const variantBodies = requests
+    .map(([, r]) => bodySchema(r))
+    .filter((b): b is SchemaOrRef => b != null);
+  const seenBody = new Set<string>();
+  const uniqueBodies = variantBodies.filter((b) => {
+    const k = JSON.stringify(b);
+    if (seenBody.has(k)) return false;
+    seenBody.add(k);
+    return true;
+  });
+  if (uniqueBodies.length > 1) {
+    const mergedBody: Record<string, unknown> = { oneOf: uniqueBodies };
+    const content = op.requestBody?.content as Record<string, Record<string, unknown>> | undefined;
+    if (content) {
+      for (const mt of Object.keys(content)) content[mt].schema = mergedBody;
+    } else {
+      op.requestBody = { content: { "application/json": { schema: mergedBody } } };
+    }
+  }
+
+  // responses: union of inherited + every variant's own responses (first writer wins per status).
+  const responses: Record<string, unknown> = {};
+  for (const resp of inherited) responses[String(resp.status)] = responseEntry(resp);
+  for (const [, r] of requests) {
+    for (const resp of Object.values(r.responses ?? {})) responses[String(resp.status)] = responseEntry(resp);
+  }
+  if (Object.keys(responses).length === 0) responses.default = { description: "" };
+  op.responses = responses;
+
+  // describe the merge so 3.1 readers know the single operation represents multiple v4 requests.
+  const note = `Merged from ${names.length} v4 requests sharing ${methodName.toUpperCase()} (${names.join(", ")}). Request body is oneOf over per-variant shapes; each variant carries its discriminating field value.`;
+  const existingDesc = (op.description as string | undefined) ?? "";
+  op.description = existingDesc ? `${existingDesc}\n\n${note}` : note;
+
+  diags.push({
+    kind: "collision",
+    path: pathKey,
+    message: `${names.length} v4 requests share ${methodName.toUpperCase()} (${names.join(", ")}); merged into one 3.1 operation — variants preserved as oneOf, not dropped`,
+  });
+
+  return op;
 }
 
 function downgradeComponents(c: Components | undefined, diags: Diagnostic[]): Record<string, unknown> | undefined {
