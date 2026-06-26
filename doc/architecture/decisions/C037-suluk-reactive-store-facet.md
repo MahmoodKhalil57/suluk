@@ -153,3 +153,26 @@ composition seams, by construction — not an ever-richer contract.**
 > projection (the L3 codegen posture of `generateSdk`, self-contained output). A future consolidation could have
 > `generateStores` emit code that delegates to `@suluk/nano-stores`' runtime; for now it emits self-contained source so a
 > consumer's web bundle carries no `@suluk/*` runtime dep (the `generateSdk` property).
+
+## Known limitations (deferred refinements)
+
+Surfaced by the pre-publish adversarial review of `@suluk/sdk@0.2.1` (the generateStores review-fix pass,
+commit `e012714`). Both are **non-regressions** — strictly better than the prior no-dedupe behavior — so they were
+shipped, not blocked. Filed here as the durable home for whoever next touches `generate-stores.ts`.
+
+- **Coarse `_seen` dedupe key — shared across an operation's argument tuples.** The error-toast deduper
+  (`generate-stores.ts:210`, `const _seen = new Map<string, number | "network">()`) is keyed by **operation name only**,
+  not by `(op, args)`. For a *parameterized* query family (one fetcher store invoked with different args), a failure for
+  `args=A` and a failure for `args=B` that share the same `(op, status)` collapse to one notification until any call to
+  that op succeeds (which clears the marker and re-arms — see the `_seen.delete(key)` on the success path at
+  `generate-stores.ts:63`/`:69`). No permanent suppression; worst case is one missed toast for a *concurrently-distinct*
+  argument failure. **Refinement when data warrants:** key `_seen` by `op + "\0" + JSON.stringify(args)` (mirror the
+  NUL-delimited cache key the invalidator already builds at `:62`) so dedupe granularity matches per-arg fetch identity.
+- **Single `_seen` namespace shared by query-keys and action-names.** Queries dedupe on their store key and actions
+  `report(name, e)` on the operation name (`generate-stores.ts:110`); both live in the same `Map`. A theoretical
+  collision exists only if an action name string-equals a query key AND they fail with the same status in the same
+  window — extremely narrow and still self-healing on the next success. **Refinement:** namespace-prefix the two
+  (`q:`/`a:`) if the collision ever shows up in practice.
+
+Neither blocks the 0.5 → witnessed parity lift this ADR is sequenced toward; they are codegen-quality polish on the
+already-shipped notify path, to be picked up only if a real consumer hits them.
