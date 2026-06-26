@@ -24,7 +24,8 @@ describe("@suluk/sdk generateStores — a typed Nano Stores reactive layer from 
     expect(stores).toContain('import { createHooks, type Hookable } from "hookable"');
     expect(stores).toContain('import type { SulukClient } from "./sdk"'); // client TYPE only — self-contained
     expect(stores).toContain("export function createStores(client: SulukClient");
-    expect(stores).toContain("const [createFetcherStore, , ctx] = nanoquery()");
+    expect(stores).toContain("const [createFetcherStore, , ctx] = nanoquery({ cache })"); // bounded cache (no unbounded growth)
+    expect(stores).toContain("if (!cache.has(k) && cache.size >= 500)");
     expect(stores).toContain("Requires: `npm i @nanostores/query nanostores hookable`");
   });
 

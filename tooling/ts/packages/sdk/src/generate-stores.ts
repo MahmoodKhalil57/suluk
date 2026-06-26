@@ -204,7 +204,19 @@ export interface CreateStoresOptions {
 /** Create the reactive store layer for ${title}, bound to an SDK client. The contract declares the policy; you inject the rendering via \`hooks\`. */
 export function createStores(client: SulukClient, options: CreateStoresOptions = {}) {
   const hooks = options.hooks ?? createHooks<StoreHooks>();
-  const [createFetcherStore, , ctx] = nanoquery();
+  // A bounded cache: @nanostores/query's default cache (a plain Map) is never evicted (cacheLifetime only gates a HIT),
+  // so a parameterized store driven by free text (a search box) would grow it for the page's lifetime. Cap it — evict
+  // the oldest entry past the limit (LRU-ish). The entry shape matches @nanostores/query's so the type stays exact.
+  const cache = new Map<string, { data?: unknown; error?: unknown; retryCount?: number; created?: number; expires?: number }>();
+  const _set = cache.set.bind(cache);
+  cache.set = (k, v) => {
+    if (!cache.has(k) && cache.size >= 500) {
+      const oldest = cache.keys().next().value;
+      if (oldest !== undefined) cache.delete(oldest);
+    }
+    return _set(k, v);
+  };
+  const [createFetcherStore, , ctx] = nanoquery({ cache });
   /** last surfaced status per op — so an AUTO re-run of a failing query (retry-backoff / revalidate-on-focus) doesn't
    *  re-toast the SAME failure. A query clears its entry on success; user-triggered actions/one-offs pass dedupe=false. */
   const _seen = new Map<string, number | "network">();
