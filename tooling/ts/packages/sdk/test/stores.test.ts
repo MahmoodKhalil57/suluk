@@ -70,7 +70,7 @@ describe("@suluk/sdk generateStores — a typed Nano Stores reactive layer from 
   });
 
   test("returns the stores + actions + hooks + ctx", () => {
-    expect(stores).toContain("return { $session, $paymentMethods, $pet, actions: { setDefaultPaymentMethod }, hooks, ctx };");
+    expect(stores).toContain("return { $session, $paymentMethods, $pet, actions: { setDefaultPaymentMethod }, report, hooks, ctx };");
     expect(stores).toContain("export type SulukStores = ReturnType<typeof createStores>");
   });
 
@@ -86,7 +86,7 @@ describe("@suluk/sdk generateStores — a typed Nano Stores reactive layer from 
     const bare = generateStores({ openapi: "4.0.0-candidate", info: { title: "Bare" }, paths: { ping: { requests: { getPing: { method: "get", responses: { ok: { status: 200 } } } } } } } as unknown as OpenAPIv4Document);
     expect(bare).toContain("// (no query stores declared)");
     expect(bare).toContain("// (no mutation actions declared)");
-    expect(bare).toContain("return { actions: {  }, hooks, ctx };");
+    expect(bare).toContain("return { actions: {  }, report, hooks, ctx };");
     expect(() => new Bun.Transpiler({ loader: "tsx" }).transformSync(bare)).not.toThrow();
   });
 });
