@@ -37,9 +37,9 @@ describe("@suluk/sdk generateStores — a typed Nano Stores reactive layer from 
     expect(stores).toContain("cacheLifetime: 60000");
   });
 
-  test("a parameterized query (path param) becomes a (…args)=>store factory keyed by the args", () => {
+  test("a parameterized query (path param) becomes a (…args)=>store factory keyed by the args (delimited prefix)", () => {
     expect(stores).toContain('const $pet = (...args: Parameters<SulukClient["pet"]["get"]>) =>');
-    expect(stores).toContain('createFetcherStore<Awaited<ReturnType<SulukClient["pet"]["get"]>>>(["@pet", JSON.stringify(args)]');
+    expect(stores).toContain("JSON.stringify(args)], {"); // parameterized query store keyed by its args
     expect(stores).toContain("client.pet.get(...args)");
   });
 
@@ -59,14 +59,21 @@ describe("@suluk/sdk generateStores — a typed Nano Stores reactive layer from 
     expect(stores).toContain('"network":"error"');
     expect(stores).toContain('"2xx":"silent"');
     expect(stores).toContain("function classify(status: number | \"network\"): NotifySeverity");
-    expect(stores).toContain('if (severity !== "silent") await hooks.callHook("notify"'); // policy decides; renderer injected
+    expect(stores).toContain('if (severity === "silent") return;'); // policy decides; renderer injected
     expect(stores).toContain("export interface StoreHooks");
   });
 
-  test("invalidators — exact .invalidate() for plain stores; prefix match for parameterized families", () => {
+  test("invalidators — REVALIDATE (keep cache visible): exact .revalidate() for plain stores; delimited-prefix for families", () => {
     expect(stores).toContain('"session": () => {');
-    expect(stores).toContain("$session.invalidate()");
-    expect(stores).toContain('ctx.invalidateKeys((k) => typeof k === "string" && k.startsWith("@pet"))'); // pet is parameterized
+    expect(stores).toContain("$session.revalidate()");
+    expect(stores).toContain('ctx.revalidateKeys((k) => typeof k === "string" && k.startsWith('); // parameterized family // pet is parameterized
+  });
+
+  test("query errors dedupe so an auto re-run (retry/refocus) of the SAME failure doesn't re-toast", () => {
+    expect(stores).toContain("const _seen = new Map<string, number | \"network\">()");
+    expect(stores).toContain("if (dedupe && _seen.get(op) === problem.status) return;");
+    expect(stores).toContain('catch (e) { await report("session", e, true); throw e; }'); // queries dedupe
+    expect(stores).toContain('_seen.delete("session")'); // cleared on success → re-arms
   });
 
   test("returns the stores + actions + hooks + ctx", () => {

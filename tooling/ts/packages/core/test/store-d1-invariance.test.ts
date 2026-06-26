@@ -2,6 +2,7 @@ import { test, expect, describe } from "bun:test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parseDocument, buildAda, matchRequest } from "../src/index";
+import type { SulukStore } from "../src/index";
 
 /**
  * D1 SAFETY GATE for C037 (`x-suluk-store` + `x-suluk-notify`) — the INDEPENDENT, MAINTAINED witness for the burhan
@@ -78,9 +79,19 @@ describe("D1 gate (C037): the request→operation matcher is INVARIANT to x-sulu
  * added to SulukStore, OR if any field value smells like a JSON pointer.
  */
 describe("Claim 2 gate (C037): no x-suluk-store / x-suluk-notify field is a request/response VALUE selector", () => {
-  // The COMPLETE allowed field set of SulukStore (must equal the type's keys). Adding a value-extracting field here
-  // without an explicit ledger amendment is the breach this guard exists to catch.
-  const ALLOWED_STORE_FIELDS = new Set(["key", "ttl", "revalidateOnFocus", "params", "invalidates", "onSuccess"]);
+  // TYPE-LINKED exhaustiveness: classify EVERY real SulukStore field (excluding the `x-*` ext index) as a name, a
+  // scalar, or a message — none is a value-EXTRACTOR. Adding a field to SulukStore (e.g. a `nextCursorPtr` / `idFrom`
+  // value selector) FAILS TO COMPILE here until it is classified, forcing an explicit reviewed decision — so the
+  // witness derives from the type, not a hand-kept list (the council's defect-find). ALLOWED is derived from it.
+  const FIELD_KIND: Record<Exclude<keyof SulukStore, `x-${string}`>, "name" | "scalar" | "message"> = {
+    key: "name",
+    params: "name",
+    invalidates: "name",
+    ttl: "scalar",
+    revalidateOnFocus: "scalar",
+    onSuccess: "message",
+  };
+  const ALLOWED_STORE_FIELDS = new Set(Object.keys(FIELD_KIND));
   // A JSON-pointer / path smell: a string that points INTO a payload ("/data/0/id", "#/data", "$.data.id", "data.id").
   const POINTER_SMELL = /^[#$]?\/|^\$\.|(^|\.)[A-Za-z_][\w]*\.[A-Za-z_]/;
 

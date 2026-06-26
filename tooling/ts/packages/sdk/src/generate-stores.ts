@@ -40,7 +40,8 @@ export function generateStores(doc: OpenAPIv4Document, opts: StoresOptions = {})
   const notify = (doc as { ["x-suluk-notify"]?: SulukNotifyPolicy })["x-suluk-notify"] ?? {};
 
   const queries = ops.filter((o) => o.store?.key);
-  const mutations = ops.filter((o) => o.store?.invalidates && o.store.invalidates.length > 0);
+  // a mutation = a store facet that is NOT a query (no `key`) and does something on write: invalidate stores OR toast onSuccess.
+  const mutations = ops.filter((o) => o.store && !o.store.key && ((o.store.invalidates && o.store.invalidates.length > 0) || !!o.store.onSuccess));
 
   // ── STATES: a $<key> fetcher store (or a (…args)=>store factory) per query op ──
   const queryDecls = queries
@@ -53,31 +54,36 @@ export function generateStores(doc: OpenAPIv4Document, opts: StoresOptions = {})
       if (op.store!.ttl != null) settings.push(`cacheLifetime: ${Math.round(op.store!.ttl * 1000)}`);
       if (op.store!.revalidateOnFocus) settings.push(`revalidateOnFocus: true`);
       const setStr = settings.length ? `, ${settings.join(", ")}` : "";
+      // on success clear the per-op dedupe marker so a recovered query re-arms notifications; on error report+dedupe (true)
+      // so nanoquery's retry-backoff + revalidate-on-focus re-runs don't re-toast the SAME failure. Always re-throw.
       if (argful(op)) {
         return (
           `  const ${v} = (...args: Parameters<SulukClient${typeIndex(op)}>) =>\n` +
-          `    createFetcherStore<${T}>([${JSON.stringify("@" + key)}, JSON.stringify(args)], {\n` +
-          `      fetcher: async () => { try { return await client.${acc}(...args); } catch (e) { await report(${JSON.stringify(key)}, e); throw e; } }${setStr},\n` +
+          `    createFetcherStore<${T}>([${JSON.stringify("@" + key + "\u0000")}, JSON.stringify(args)], {\n` +
+          `      fetcher: async () => { try { const v = await client.${acc}(...args); _seen.delete(${JSON.stringify(key)}); return v; } catch (e) { await report(${JSON.stringify(key)}, e, true); throw e; } }${setStr},\n` +
           `    });`
         );
       }
       return (
         `  const ${v} = createFetcherStore<${T}>([${JSON.stringify("@" + key)}], {\n` +
-        `    fetcher: async () => { try { return await client.${acc}(); } catch (e) { await report(${JSON.stringify(key)}, e); throw e; } }${setStr},\n` +
+        `    fetcher: async () => { try { const v = await client.${acc}(); _seen.delete(${JSON.stringify(key)}); return v; } catch (e) { await report(${JSON.stringify(key)}, e, true); throw e; } }${setStr},\n` +
         `  });`
       );
     })
     .join("\n");
 
-  // ── invalidators: store key → a function that refetches it (exact `.invalidate()` for plain stores; prefix-match
-  //    for parameterized families — @nanostores/query joins key parts with "", so a "@<key>" prefix is unambiguous). ──
+  // ── invalidators: store key → a function that refreshes it. Use REVALIDATE (not invalidate): revalidateKeys keeps the
+  //    cached data and refetches in the background, so a list stays on screen during a mutation refresh instead of
+  //    blinking to a spinner. Exact `.revalidate()` for plain stores; a delimited-prefix match for parameterized
+  //    families (@nanostores/query joins key parts with "", so the "@<key>\u0000" prefix — NUL-delimited — is unambiguous
+  //    and can't collide a key that is another key's string-prefix, e.g. "credit" vs "credits"). ──
   const invalDecls = queries
     .map((op) => {
       const key = op.store!.key!;
       const v = "$" + ident(key);
       const body = argful(op)
-        ? `ctx.invalidateKeys((k) => typeof k === "string" && k.startsWith(${JSON.stringify("@" + key)}))`
-        : `${v}.invalidate()`;
+        ? `ctx.revalidateKeys((k) => typeof k === "string" && k.startsWith(${JSON.stringify("@" + key + "\u0000")}))`
+        : `${v}.revalidate()`;
       return `    ${JSON.stringify(key)}: () => { void hooks.callHook("store:invalidate", { store: ${JSON.stringify(key)} }); ${body}; },`;
     })
     .join("\n");
@@ -88,8 +94,8 @@ export function generateStores(doc: OpenAPIv4Document, opts: StoresOptions = {})
     .map((op) => {
       const name = ident(camel(op.name));
       const acc = clientAccessor(op);
-      const inv = op.store!.invalidates!;
-      const invCalls = inv.map((k) => `_invalidate[${JSON.stringify(k)}]?.();`).join(" ");
+      const inv = op.store!.invalidates ?? [];
+      const invCalls = inv.length ? inv.map((k) => `_invalidate[${JSON.stringify(k)}]?.();`).join(" ") : "/* no stores to invalidate */";
       const successHook = op.store!.onSuccess
         ? `\n      await hooks.callHook("notify", { severity: "success", problem: { status: 200, detail: ${JSON.stringify(op.store!.onSuccess)} } });`
         : "";
@@ -131,7 +137,10 @@ export function generateStores(doc: OpenAPIv4Document, opts: StoresOptions = {})
  *   import { toast } from "sonner";
  *   const api = createClient({ baseURL: "…" });
  *   const stores = createStores(api);
- *   stores.hooks.hook("notify", ({ severity, problem }) => severity !== "silent" && toast[severity](problem.detail ?? problem.title ?? "Error"));
+ *   stores.hooks.hook("notify", ({ severity, problem }) => {
+ *     if (severity === "silent") return;                         // sonner exposes toast.warning (not toast.warn) — map it:
+ *     (severity === "warn" ? toast.warning : toast[severity])(problem.detail ?? problem.title ?? "Error");
+ *   });
  *   // component:  const { data } = useStore(stores.$paymentMethods);   action:  await stores.actions.setDefaultPaymentMethod({ id });
  *
  * Requires: \`npm i @nanostores/query nanostores hookable\`.
@@ -167,15 +176,14 @@ export interface StoreHooks {
 /** The DECLARED status→severity policy (x-suluk-notify). Keys: a status ("402"), a class ("2xx"/"4xx"/"5xx"), or "network". */
 const NOTIFY: Record<string, NotifySeverity> = ${JSON.stringify(notify)};
 
-/** Classify a status to a severity: exact status > class (Nxx) > "network" > "silent". */
+/** Classify a status to a severity: exact status ("402" / "network") > class (Nxx) > "silent". */
 function classify(status: number | "network"): NotifySeverity {
-  const k = String(status);
+  const k = String(status); // exact key — covers a numeric status AND "network"
   if (NOTIFY[k]) return NOTIFY[k]!;
   if (typeof status === "number") {
     const cls = Math.floor(status / 100) + "xx";
     if (NOTIFY[cls]) return NOTIFY[cls]!;
   }
-  if (status === "network" && NOTIFY["network"]) return NOTIFY["network"]!;
   return "silent";
 }
 
@@ -197,14 +205,21 @@ export interface CreateStoresOptions {
 export function createStores(client: SulukClient, options: CreateStoresOptions = {}) {
   const hooks = options.hooks ?? createHooks<StoreHooks>();
   const [createFetcherStore, , ctx] = nanoquery();
+  /** last surfaced status per op — so an AUTO re-run of a failing query (retry-backoff / revalidate-on-focus) doesn't
+   *  re-toast the SAME failure. A query clears its entry on success; user-triggered actions/one-offs pass dedupe=false. */
+  const _seen = new Map<string, number | "network">();
 
-  /** classify → fire request:error (always) → fire notify (unless silent). The error seam — exposed as \`report\` so
-   *  one-off / multi-call actions you compose in app code route errors through the SAME declared notify policy. */
-  async function report(op: string, e: unknown): Promise<void> {
+  /** classify → fire request:error (always) → fire notify (unless silent, or — when \`dedupe\` — unchanged since last).
+   *  The error seam — exposed as \`report\` so one-off / multi-call actions you compose in app code route errors through
+   *  the SAME declared notify policy. Pass \`dedupe=true\` for auto-refetching queries; omit it for user-driven calls. */
+  async function report(op: string, e: unknown, dedupe = false): Promise<void> {
     const problem = problemOf(e);
     const severity = classify(problem.status);
     await hooks.callHook("request:error", { op, severity, problem });
-    if (severity !== "silent") await hooks.callHook("notify", { severity, problem });
+    if (severity === "silent") return;
+    if (dedupe && _seen.get(op) === problem.status) return;
+    _seen.set(op, problem.status);
+    await hooks.callHook("notify", { severity, problem });
   }
 
 ${queryDecls || "  // (no query stores declared)"}
