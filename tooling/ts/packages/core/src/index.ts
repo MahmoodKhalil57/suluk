@@ -13,6 +13,7 @@ export type {
   SulukRateLimit, SulukApproval, SchemaProperty, PropertyFacets, SulukJob,
   SulukAgent, SulukSkillRef, SulukRouteRef, SulukAgentRef, SulukPolicy,
   SulukResource, SulukResourceRef,
+  SulukStore, SulukNotifyPolicy, SulukNotifySeverity,
 } from "./types";
 
 export { parseDocument } from "./parse";

@@ -1,0 +1,55 @@
+# C037 (x-suluk-store + x-suluk-notify) — the REACTIVE-CLIENT facet. The contract's statement of how the frontend
+# should turn operations into reactive STATE (a query backs a `$<key>` store), EVENTS (a mutation invalidates stores
+# on success), and CALLBACKS (a 2xx success message + a doc-level status->severity notify policy) — so @suluk/sdk can
+# GENERATE a ready-to-use reactive client instead of every consumer hand-wiring nanostores + invalidation + a toast
+# policy (the exact boilerplate observed in toolfactory: stores/session.ts + lib/api-toast.ts + a per-panel load()).
+# Operator-directed (toolfactory session 2026-06-26). Spec-first: this Step RATIFIES the facet; the @suluk/sdk reactive
+# CODEGEN + the nanostores runtime adapter are the deferred follow-on. ORIGINATED + generator-not-yet-built ⇒ the
+# DESIGN claims carry an honestly LOW ceiling; only the client-only SAFETY claim is higher (it is trivially witnessed).
+
+# CLIENT-CODEGEN ONLY (the load-bearing safety property; STRONGER than every prior facet's D1 claim). x-suluk-store is a
+# per-op Request facet; x-suluk-notify is a doc-level sibling. NEITHER is read by ANY server path: not buildAda, not
+# matchRequest, not the runtime-advisory agent/job/policy selection. The other x-suluk-* facets at least feed
+# runtime-advisory selection; this one feeds ONLY the @suluk/sdk frontend generator. So the request->operation matcher
+# is invariant to it, AND it has zero server-side effect at all. WITNESS (independent of the code-reading):
+# test/store-d1-invariance.test.ts asserts buildAda(docWithStore+notify) deep-equals buildAda(docWithout) and
+# matchRequest resolves every op identically. A store/notify-stripped doc yields a BYTE-IDENTICAL Ada.
+claim d1_store_selector_safe: Bool @>=0.6 = True
+falsified_when d1_store_selector_safe == False
+
+# NO REQUEST-VALUE SELECTOR. Every field of SulukStore / SulukNotifyPolicy names an author-chosen STORE NAME
+# (key/invalidates), a PARAM NAME (params — names, never values), a config scalar (ttl/revalidateOnFocus), an advisory
+# message (onSuccess), or an HTTP status / status-class / "network" (the notify keys). NONE references a request, DOM,
+# header, body, or query VALUE — so nothing here can leak into a matcher selector even if a future reader consulted it
+# (the same wall C018 puts around callback keys and C024 around the event-expression attribution).
+claim store_no_request_value_selector: Bool @>=0.6 = True
+falsified_when store_no_request_value_selector == False
+
+# DISJOINT QUERY / MUTATION ROLES (the discriminator, mirroring C027's presence-of-model). A SulukStore plays ONE of
+# two roles: a QUERY (presence of `key`) projects to a `$<key>` reactive store; a MUTATION (presence of `invalidates`)
+# invalidates named stores on a 2xx. presence-of-`key` discriminates the role exactly as presence-of-`model`
+# discriminates skill-vs-route in C027 — a future lint flags an op declaring both. The states/events split the operator
+# asked for maps onto key/invalidates; the callbacks split maps onto onSuccess (success) + x-suluk-notify (status policy).
+claim store_query_mutation_disjoint_roles: Bool @>=0.5 = True
+falsified_when store_query_mutation_disjoint_roles == False
+
+# TARGET-AGNOSTIC SEAM (rides C034 one layer up). The facet declares a dependency GRAPH (which queries back stores;
+# which mutations invalidate which stores) + cache hints + a status->severity policy — NOT a nanostores program. The
+# @suluk/sdk default adapter projects it to nanostores + @nanostores/query (peer deps, same bring-your-own model as
+# ofetch), but a different adapter could project to TanStack Query / SWR / Pinia Colada; the notify policy projects to
+# an INJECTED notify(severity, problem) renderer (policy declared, rendering injected). This is the C034
+# runtime-adapter-seam move (one declaration -> many targets) applied to the reactive client. ORIGINATED application
+# of a 0.85 precedent ⇒ low ceiling here.
+claim store_target_agnostic_seam: Bool @>=0.45 = True
+falsified_when store_target_agnostic_seam == False
+
+# STRUCTURAL-ONLY + ORIGINATED, RIDES C025/C027/C036 EXACTLY. x-suluk-notify is a doc-level x-* sibling (legal under
+# the document's `[ext: x-${string}]` catch-all); x-suluk-store is an explicit Request facet beside the shipped
+# x-suluk-ratelimit / x-suluk-approval. OPTIONAL, additive, NO new normative kind, NO meta-schema change; a pre-C037 doc
+# and a store/notify-bearing one validate byte-identically; a 3.1 downgrade drops both facets whole and the operations
+# survive unchanged. Types added to core/src/types.ts (SulukStore / SulukNotifyPolicy / SulukNotifySeverity,
+# structural-only) + re-exported. Honest ceiling: the GENERATOR + the nanostores runtime are NOT built in this Step
+# (spec-first per operator), so the design is unwitnessed by a real projection ⇒ ceiling <=0.5. Recorded as a daftar
+# burhan.segment receipt (operator-surfaced-cowpath, same pattern as C027/C036).
+claim store_facet_structural_originated: Bool @>=0.45 = True
+falsified_when store_facet_structural_originated == False

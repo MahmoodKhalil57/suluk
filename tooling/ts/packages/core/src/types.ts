@@ -61,6 +61,14 @@ export interface OpenAPIv4Document {
    * (CF Agent Skills + script execution are experimental) ⇒ honestly LOW ceiling (~0.5); pairs with ADR C036.
    */
   ["x-suluk-resources"]?: Record<string, SulukResource>;
+  /**
+   * REACTIVE notify policy (C037) — `x-suluk-notify`. A document-level status→severity map that drives the CALLBACK
+   * layer of the `@suluk/sdk` reactive client: which responses surface to the user, and how. CLIENT-CODEGEN ONLY —
+   * read by NO server path, NO runtime, NO matcher; strictly weaker than every other x-suluk-* facet (those at least
+   * feed runtime-advisory selection). Optional, additive, NO new normative kind, NO meta-schema change. Pairs with the
+   * per-op `x-suluk-store` facet + ADR C037. Originated, low ceiling (~0.5).
+   */
+  ["x-suluk-notify"]?: SulukNotifyPolicy;
   components?: Components;
   [ext: `x-${string}`]: unknown;
 }
@@ -88,6 +96,43 @@ export interface SulukResourceRef {
   /** a by-name `$ref` like `#/x-suluk-resources/<key>` (never an inline resource). */
   ref: string;
 }
+
+/**
+ * A REACTIVE-STORE declaration (C037) — the per-operation `x-suluk-store` facet. The contract's statement of how the
+ * frontend should turn this operation into reactive state, so the `@suluk/sdk` generator can emit a ready-to-use
+ * reactive client (states + events + callbacks) instead of every consumer hand-wiring stores + invalidation. A QUERY
+ * (read) BACKS a store; a MUTATION (write) INVALIDATES stores on success. `key` (query) and `invalidates` (mutation)
+ * are DISJOINT roles — presence-of-`key` discriminates query-vs-mutation, mirroring C027's presence-of-`model`
+ * skill-vs-route discriminator. CLIENT-CODEGEN ONLY: the reactive layer reads it; the matcher/runtime NEVER do. Every
+ * field names author-chosen STORE names or param NAMES — NEVER a request/header/body/query VALUE — so nothing here can
+ * leak into a request selector (D1 safe; see plan/facts/0reactive.bn + test/store-d1-invariance.test.ts). Structural.
+ */
+export interface SulukStore {
+  /** QUERY role: the stable store name the generator projects to a `$<key>` reactive store (C009 by-name identity). */
+  key?: string;
+  /** QUERY role: cache lifetime in SECONDS before the store revalidates (the generator's cacheLifetime hint). */
+  ttl?: number;
+  /** QUERY role: revalidate the store when the window/tab regains focus (default false). */
+  revalidateOnFocus?: boolean;
+  /** QUERY role: the path/query PARAM NAMES (never values) that key a parameterized store family — one store per distinct arg tuple. */
+  params?: string[];
+  /** MUTATION role: the store `key`s this operation invalidates on a successful (2xx) response → the generated client refetches them. */
+  invalidates?: string[];
+  /** the success message the callback layer surfaces on a 2xx (advisory; the renderer is INJECTED, the text is DECLARED). */
+  onSuccess?: string;
+  [ext: `x-${string}`]: unknown;
+}
+
+/** A status→severity entry value for {@link SulukNotifyPolicy} (C037) — how loudly the generated client surfaces a response. */
+export type SulukNotifySeverity = "silent" | "info" | "success" | "warn" | "error";
+/**
+ * The document-level `x-suluk-notify` policy (C037) — a status→severity map driving the `@suluk/sdk` callback layer.
+ * Keys are an HTTP status (`"402"`), a status CLASS (`"2xx"` | `"4xx"` | `"5xx"`), or `"network"` (no response). The
+ * value is the severity the generated client raises through an INJECTED `notify(severity, problem)` adapter (the
+ * consumer wires it to their toaster — policy DECLARED, rendering INJECTED). A specific status beats its class.
+ * CLIENT-CODEGEN ONLY; never read by the matcher/runtime.
+ */
+export type SulukNotifyPolicy = Record<string, SulukNotifySeverity>;
 
 /**
  * A background job (C025) — non-HTTP work fired by a `scheduled` (cron) or `queue-consumed` trigger. It carries no
@@ -345,6 +390,15 @@ export interface Request {
    * like {@link SulukApproval} describes.
    */
   ["x-suluk-approval"]?: SulukApproval;
+  /**
+   * REACTIVE-STORE facet (C037) — `x-suluk-store`. Declares this operation's role in the `@suluk/sdk` reactive client:
+   * a QUERY (`key` present) projects to a `$<key>` store; a MUTATION (`invalidates` present) invalidates those stores
+   * on success. CLIENT-CODEGEN ONLY — a pure hint for the generated frontend layer; NEVER read by the matcher/runtime
+   * (D1; see {@link SulukStore}, plan/facts/0reactive.bn + test/store-d1-invariance.test.ts). Target-agnostic: the
+   * default adapter projects to nanostores + @nanostores/query, but the declaration is a dependency graph any reactive
+   * runtime (TanStack Query / SWR / Pinia Colada) can consume — the C034 runtime-adapter-seam move, one layer up.
+   */
+  ["x-suluk-store"]?: SulukStore;
 }
 
 /**
