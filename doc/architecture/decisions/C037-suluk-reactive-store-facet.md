@@ -85,6 +85,71 @@ etc.) — the facet declares, the consumer injects. The `D1` invariance must hol
 enforces it); because the facet is client-only, that invariance is the strongest of any facet, but the tripwire stays.
 
 **Not done here (deliberate, the deferred follow-on):** the `@suluk/sdk` `generateStores(doc)` projection (query stores
-+ the mutation→invalidation graph + the injected notify adapter); the nanostores runtime; folding a `lintStores`
++ the mutation→invalidation graph + the injected notify adapter); folding a `lintStores`
 (query/mutation role-exclusivity, dangling `invalidates` keys, duplicate store `key`s) into the grading rubric; wiring a
 real consumer (toolfactory) to emit the facet from its contract and consume the generated stores.
+
+## Parity boundary (council-verified, 2026-06-26)
+
+A subsequent operator question — "can the backend define how the frontend shapes state, events, callbacks, error
+handling, AND multi-call or zero-call actions, or reach parity with hand-written code?" — was put through an adversarial
+panel (an 8-agent workflow: ground-truth from these files + a parity bar from TanStack Query / RTK Query / SWR / Apollo /
+tRPC, then three independent skeptic lenses — D1-safety, contract-overreach, composability; all returned
+*holds-with-caveat* and converged). The verified standard, which **bounds how this facet may grow**:
+
+**The governing split — POLICY vs PLUMBING vs BEHAVIOR.** A reactive layer decomposes into three kinds, identically
+across every mature system: **POLICY/IDENTITY = data** a spec can hold (store keys, the invalidation edge graph,
+status→severity); **PLUMBING = mechanical execution of policy** a generator emits (refetch-on-invalidate, problem
+parse); **BEHAVIOR = arbitrary function bodies** (selectors, merges, redirects, orchestration) reachable **only through a
+typed injection seam** ("name and type the hole; the app fills it"). Parity is therefore **NOT** "generate the whole
+reactive layer" — it is **declare every POLICY, emit every PLUMBING, type a seam at every BEHAVIOR site.**
+
+**The seam mechanism = an unjs `hookable` hook-bus.** Rather than the generator inventing a bespoke callback-bag, the
+generated reactive client exposes a typed [`hookable`](https://unjs.io/packages/hookable) instance — ecosystem-parity
+with `ofetch` (already the SDK's runtime), tiny, tree-shakeable, target-agnostic. The app TAPS typed lifecycle hooks
+(`request:error` `{ op, problem, severity }`, `mutation:success` `{ op, store }`, `mutation:settled`, `store:invalidate`,
+`notify` `{ severity, problem }`) instead of receiving a fixed config object. So the DECLARED status→severity policy
+*classifies* and *emits* the hook; the app's tap *renders/acts* — POLICY stays in the contract, BEHAVIOR stays in app
+code, and every behavior site (onSuccess/onError/onSettled/onMutate/notify) is a uniform, typed `hooks.hook(name, fn)`
+seam with zero new bespoke surface. `hookable` becomes the third generated-output peer dep beside `nanostores` +
+`@nanostores/query`.
+
+**Declare LESS, not more.** The contract declares ONLY what is backend-owned AND composition genuinely cannot recover:
+store `key`/`params`, the mutation→query invalidation graph, and the status / RFC-9457-`type` → severity map. It does
+**NOT** declare client-runtime tuning (retry/backoff, `gcTime`, `refetchInterval`, `fetchPolicy`) or per-op notify
+**overrides** — those are **target-specific adapter config** (TanStack vs SWR vs nanostores diverge), so declaring them
+breaks the C034 target-agnostic property. Nor derived/computed state, normalized cache, or optimistic/rollback — those
+are BEHAVIOR (typed seams) or app-config, never spec.
+
+**Multi-call and zero-call actions = composability, NOT declaration — do not build `x-suluk-action`.** A *real*
+multi-call action needs inter-step data binding + branching = a mini-expression-language a runtime would interpret
+(breaking D1); its D1-safe subset (a branch-free DAG of refetch/invalidate edges) is *barely more than `invalidates` +
+three lines of app code*, so it is high-overreach for ~zero value. Orchestration is volatile, target-specific UX flow —
+a category error in a stable, target-agnostic API contract. A zero-call action references **zero operations**, so an API
+contract structurally has nothing to declare and the backend can never own purely-local state. Parity for both is
+recovered at the **consumer seam** (the generated client exposes raw typed calls + reactive stores; the app composes any
+action over them with full type-safety) or, when orchestration is genuinely backend-owned, via a **server aggregate
+endpoint** (collapse N calls into one operation → one declarable store) — never a client-orchestration DSL in the spec.
+
+**The value-selector wall (claim 2) must be a maintained witness.** D1 here is TWO claims: `d1_store_selector_safe`
+(matcher invariance) AND `store_no_request_value_selector` (no facet field is ever a JSON-pointer/path that extracts a
+request/response **value**). The panel found that the *tempting* state-shaping extensions — pagination `nextCursorPtr` /
+`hasMorePtr`, an optimistic-patch `idFrom`, an entity `keyFields`-as-extractor — would **silently breach claim 2** (a
+response value feeding a later request): matcher-invisible, yet exactly the leak the wall forbids. Those resolutions
+belong in the injected **adapter seam** (the app resolves the pointer in app code), never the contract. Claim 2 is now
+witnessed structurally (see `test/store-d1-invariance.test.ts`) so any such field trips a gate instead of eroding the
+wall. (`when`-style branching on a coarse status-CLASS boolean is the one action-ish mechanism that is clean — it feeds
+nothing back into a request — but it is not enough to justify an action facet.)
+
+**Sequencing.** Build `generateStores(doc)` for the *already-shipped* facet FIRST and prove parity on one real consumed
+client (lifting this ADR's 0.5 "generator-thin, unwitnessed" ceiling) BEFORE declaring any new facet. The smallest
+additions that would later earn their keep, in order: complete the cheap pure-data wins already in scope, then the
+behavior **seam set** (`onError`/`onSettled`/`onMutate` named hooks, typed `Problem<TExt>`) — the actual parity
+mechanism — then, only if data warrants, entity identity (target-gated). Net: **parity = a thin generated core + typed
+composition seams, by construction — not an ever-richer contract.**
+
+> Overlap note: `@suluk/nano-stores` ships a *runtime* `createApiStores(RouteContract[])` (per-op fetcher/mutator stores,
+> Zod-guarded) that does NOT read this facet. `generateStores` is the **owned-source**, v4-doc + C037-facet-driven
+> projection (the L3 codegen posture of `generateSdk`, self-contained output). A future consolidation could have
+> `generateStores` emit code that delegates to `@suluk/nano-stores`' runtime; for now it emits self-contained source so a
+> consumer's web bundle carries no `@suluk/*` runtime dep (the `generateSdk` property).

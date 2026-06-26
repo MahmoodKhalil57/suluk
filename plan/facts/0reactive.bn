@@ -53,3 +53,36 @@ falsified_when store_target_agnostic_seam == False
 # burhan.segment receipt (operator-surfaced-cowpath, same pattern as C027/C036).
 claim store_facet_structural_originated: Bool @>=0.45 = True
 falsified_when store_facet_structural_originated == False
+
+# PARITY BOUNDARY (council-verified 2026-06-26, adversarial panel — D1-safety / contract-overreach / composability, all
+# holds-with-caveat, converged). The reactive facet decomposes into POLICY (data a spec holds: store keys, invalidation
+# edge graph, status->severity), PLUMBING (mechanical, generator-emitted: refetch-on-invalidate, problem parse), and
+# BEHAVIOR (function bodies: selectors, merges, redirects, orchestration) reachable ONLY through a typed injection seam.
+# The contract DECLARES policy + TYPES the seam; the adapter/app IMPLEMENTS behavior. Parity = a thin generated core +
+# typed composition seams, NOT an ever-richer contract. The seam mechanism is an unjs `hookable` hook-bus (ecosystem-
+# parity with ofetch): the app taps typed lifecycle hooks (request:error / mutation:success / mutation:settled /
+# store:invalidate / notify) rather than the generator inventing a bespoke callback-bag.
+claim store_parity_policy_plumbing_behavior_split: Bool @>=0.55 = True
+falsified_when store_parity_policy_plumbing_behavior_split == False
+
+# DECLARE-LESS: multi-call AND zero-call actions are recovered by COMPOSITION, never declared — do NOT build an
+# x-suluk-action facet. A real multi-call action needs inter-step data-binding + branching = a mini-expression-language a
+# runtime would interpret (breaks D1); its D1-safe subset (a branch-free refetch/invalidate DAG) is barely more than
+# `invalidates` + 3 lines of app code => high overreach for ~zero value. Orchestration is volatile, target-specific UX
+# flow (category error in a stable target-agnostic contract). A zero-call action references ZERO operations, so the
+# backend has no surface to own. Parity is recovered at the consumer seam (generated raw typed calls + reactive stores,
+# composed in app code) or via a SERVER AGGREGATE endpoint (collapse N calls into one operation -> one declarable store).
+# Likewise client-runtime tuning (retry/backoff, gcTime, refetchInterval, fetchPolicy) + per-op notify OVERRIDES are
+# target-specific adapter config, NOT contract; derived/normalized/optimistic state is BEHAVIOR (seam), not spec.
+claim store_no_action_facet_compose_instead: Bool @>=0.55 = True
+falsified_when store_no_action_facet_compose_instead == False
+
+# CLAIM 2 NOW WITNESSED (the council's one real defect-find). store_no_request_value_selector previously had NO
+# maintained witness (only claim 1 / d1_store_selector_safe did). test/store-d1-invariance.test.ts now structurally
+# asserts: the x-suluk-store field set equals the allowed (non-extracting) set {key,ttl,revalidateOnFocus,params,
+# invalidates,onSuccess}; no string value smells like a JSON-pointer/path into a payload; x-suluk-notify keys are
+# status/class/network and values are severities. So a future value-extracting field (pagination nextCursorPtr/hasMorePtr,
+# optimistic idFrom, entity keyFields-as-extractor) trips a gate instead of silently eroding the wall — forcing it into
+# the injected adapter seam, OR an explicit reviewed amendment of this claim.
+claim store_no_request_value_selector_witnessed: Bool @>=0.6 = True
+falsified_when store_no_request_value_selector_witnessed == False

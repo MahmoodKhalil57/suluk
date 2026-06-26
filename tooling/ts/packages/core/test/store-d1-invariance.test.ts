@@ -67,3 +67,40 @@ describe("D1 gate (C037): the request→operation matcher is INVARIANT to x-sulu
     }
   });
 });
+
+/**
+ * CLAIM 2 GATE for C037 (`store_no_request_value_selector`) — the SECOND, equally load-bearing D1 claim, given its own
+ * maintained witness per the council parity review (2026-06-26). A facet field must name an author-chosen STORE NAME, a
+ * param NAME, a config scalar, an advisory message, or an HTTP status/class — NEVER a JSON-pointer/path that EXTRACTS a
+ * request/response VALUE. The tempting state-shaping extensions (pagination nextCursorPtr/hasMorePtr, an optimistic
+ * idFrom, an entity keyFields-as-extractor) would be matcher-invisible yet breach this wall (a response value feeding a
+ * later request); they belong in the injected adapter seam, never the contract. This test trips if any such field is
+ * added to SulukStore, OR if any field value smells like a JSON pointer.
+ */
+describe("Claim 2 gate (C037): no x-suluk-store / x-suluk-notify field is a request/response VALUE selector", () => {
+  // The COMPLETE allowed field set of SulukStore (must equal the type's keys). Adding a value-extracting field here
+  // without an explicit ledger amendment is the breach this guard exists to catch.
+  const ALLOWED_STORE_FIELDS = new Set(["key", "ttl", "revalidateOnFocus", "params", "invalidates", "onSuccess"]);
+  // A JSON-pointer / path smell: a string that points INTO a payload ("/data/0/id", "#/data", "$.data.id", "data.id").
+  const POINTER_SMELL = /^[#$]?\/|^\$\.|(^|\.)[A-Za-z_][\w]*\.[A-Za-z_]/;
+
+  const fullStore = { key: "pets", ttl: 300, revalidateOnFocus: true, params: ["id", "page"], invalidates: ["pets", "owners"], onSuccess: "Saved." };
+  const notify = { "2xx": "silent", "402": "error", "4xx": "warn", "5xx": "error", network: "error" } as const;
+
+  test("a fully-populated x-suluk-store uses ONLY allowed (non-extracting) fields", () => {
+    for (const k of Object.keys(fullStore)) expect(ALLOWED_STORE_FIELDS.has(k)).toBe(true);
+  });
+
+  test("no string value in x-suluk-store is a JSON-pointer/path into a payload", () => {
+    const strings = [fullStore.key, ...(fullStore.params ?? []), ...(fullStore.invalidates ?? []), fullStore.onSuccess].filter((x): x is string => typeof x === "string");
+    for (const s of strings) expect(POINTER_SMELL.test(s)).toBe(false);
+  });
+
+  test("x-suluk-notify keys are statuses/classes/network and values are severities — never payload selectors", () => {
+    const SEV = new Set(["silent", "info", "success", "warn", "error"]);
+    for (const [k, v] of Object.entries(notify)) {
+      expect(/^([1-5]\d\d|[1-5]xx|network)$/.test(k)).toBe(true);
+      expect(SEV.has(v)).toBe(true);
+    }
+  });
+});
