@@ -1,6 +1,6 @@
 {
   "name": "@suluk/sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Generate a COMPLETE, intuitive TypeScript SDK from a v4 'Suluk' contract — built on ofetch, entity-grouped, fully typed from the schemas, auth wired (bearer/session) via interceptors, and the v4 superpowers (declared cost + access) surfaced as typed metadata. Not a bag of functions: a library a developer downloads and uses straight away. CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"

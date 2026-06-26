@@ -11,12 +11,12 @@
  *     (the Standard Schema). Metadata + a client-side guard, not enforcement — the server is the boundary (C022).
  * Static TS types come from the SAME JSON Schema (tsType), so the body is typed AND validated from one source.
  */
-import type { OpenAPIv4Document } from "@suluk/core";
+import type { OpenAPIv4Document, SulukStore } from "@suluk/core";
 import { isReference } from "@suluk/core";
 
 const reserved = new Set(["delete", "new", "function", "default", "return", "class", "in", "for"]);
-const ident = (s: string) => { const c = s.replace(/[^a-zA-Z0-9_$]/g, "_").replace(/^[0-9]/, "_$&"); return reserved.has(c) ? `${c}_` : c; };
-const camel = (s: string) => s.replace(/[-_/]+(.)/g, (_, c) => c.toUpperCase()).replace(/[^a-zA-Z0-9_$]/g, "");
+export const ident = (s: string) => { const c = s.replace(/[^a-zA-Z0-9_$]/g, "_").replace(/^[0-9]/, "_$&"); return reserved.has(c) ? `${c}_` : c; };
+export const camel = (s: string) => s.replace(/[-_/]+(.)/g, (_, c) => c.toUpperCase()).replace(/[^a-zA-Z0-9_$]/g, "");
 const jsKey = (k: string) => (/^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(k) ? k : JSON.stringify(k));
 const refName = (r: unknown) => (isReference(r) ? String((r as { $ref: string }).$ref).split("/").pop()! : null);
 
@@ -49,11 +49,13 @@ interface RawReq {
   responses?: Record<string, { status: string | number; contentSchema?: unknown }>;
   ["x-suluk-cost"]?: { estimateMicroUsd?: number; components?: { microUsd?: number }[] };
   ["x-suluk-access"]?: { requires?: string; scope?: string };
+  ["x-suluk-store"]?: SulukStore;
 }
-interface OpInfo {
+export interface OpInfo {
   name: string; ns: string[]; member: string; method: string; uri: string;
   pathParams: string[]; queryRaw?: unknown; bodyRaw?: unknown; respType: string;
   cost: number | null; requires: string; scope?: string; summary?: string;
+  store?: SulukStore; // the C037 reactive facet (read by generateStores, not generateSdk)
   bid?: string; qid?: string; bodyTs?: string; queryTs?: string; // assigned after collision resolution
 }
 
@@ -82,10 +84,40 @@ function walkOps(doc: OpenAPIv4Document): OpInfo[] {
         name, ns, member, method: req.method.toLowerCase(), uri, pathParams: pathVars(uri),
         queryRaw: ps.query, bodyRaw: req.contentSchema ?? ps.body, respType: respType(doc, req),
         cost: costOf(req), requires: acc?.requires ?? "anyone", scope: acc?.scope, summary: req.summary,
+        store: req["x-suluk-store"],
       });
     }
   }
   return ops;
+}
+
+/**
+ * walkOps + DETERMINISTIC method-name collision resolution — SHARED by generateSdk AND generateStores so the client
+ * accessor names (`client.<ns>.<member>`) can NEVER drift between the two projections. Mutates `op.member` in place;
+ * returns the resolved ops + the human-readable collision list (for the SDK header). One source of accessor identity.
+ */
+export function resolveOps(doc: OpenAPIv4Document): { ops: OpInfo[]; collisions: string[] } {
+  const ops = walkOps(doc);
+  const collisions: string[] = [];
+  const byKey = new Map<string, OpInfo[]>();
+  for (const op of ops) { const k = [...op.ns, op.member].join("."); (byKey.get(k) ?? byKey.set(k, []).get(k)!).push(op); }
+  for (const [key, list] of byKey) {
+    if (list.length < 2) continue;
+    collisions.push(`client.${key} ← ${list.map((o) => o.name).join(", ")}`);
+    const used = new Map<string, number>();
+    for (const op of [...list].sort((a, b) => a.name.localeCompare(b.name) || a.method.localeCompare(b.method))) {
+      const cand = op.member + op.method.charAt(0).toUpperCase() + op.method.slice(1);
+      const n = used.get(cand) ?? 0; used.set(cand, n + 1);
+      op.member = n === 0 ? cand : `${cand}${n + 1}`;
+    }
+  }
+  return { ops, collisions };
+}
+
+/** The client accessor for an op — the dotted path AFTER `client.` (e.g. `paymentMethods.list`). Matches emitTree's
+ *  by-last-namespace-segment grouping, so `createStores` calls EXACTLY the method `generateSdk` emitted. */
+export function clientAccessor(op: OpInfo): string {
+  return op.ns.length ? `${ident(op.ns[op.ns.length - 1]!)}.${ident(op.member)}` : ident(op.member);
 }
 
 function emitMethod(op: OpInfo): string {
@@ -113,22 +145,9 @@ function emitTree(ops: OpInfo[]): string {
 export interface SdkOptions { baseURL?: string }
 
 export function generateSdk(doc: OpenAPIv4Document, opts: SdkOptions = {}): string {
-  const ops = walkOps(doc);
-  // resolve method-name collisions DETERMINISTICALLY (council wf4pmh1ie: never a runtime guess) — append the HTTP
-  // method, then a stable index; surface them in the header.
-  const collisions: string[] = [];
-  const byKey = new Map<string, OpInfo[]>();
-  for (const op of ops) { const k = [...op.ns, op.member].join("."); (byKey.get(k) ?? byKey.set(k, []).get(k)!).push(op); }
-  for (const [key, list] of byKey) {
-    if (list.length < 2) continue;
-    collisions.push(`client.${key} ← ${list.map((o) => o.name).join(", ")}`);
-    const used = new Map<string, number>();
-    for (const op of [...list].sort((a, b) => a.name.localeCompare(b.name) || a.method.localeCompare(b.method))) {
-      const cand = op.member + op.method.charAt(0).toUpperCase() + op.method.slice(1);
-      const n = used.get(cand) ?? 0; used.set(cand, n + 1);
-      op.member = n === 0 ? cand : `${cand}${n + 1}`;
-    }
-  }
+  // resolveOps does walkOps + DETERMINISTIC collision resolution (council wf4pmh1ie: never a runtime guess), shared
+  // with generateStores so accessor names can't drift.
+  const { ops, collisions } = resolveOps(doc);
 
   // Emit a JSON Schema AS A LITERAL. When it $refs components, splice them in as $defs and rewrite the pointers,
   // so each validator is self-contained (the generic engine resolves refs without the whole document).

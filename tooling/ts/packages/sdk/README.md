@@ -123,13 +123,50 @@ tsType(doc, { type: "array", items: { type: "integer" } });       // "number[]"
 tsType(doc, { type: "object", properties: { a: { type: "string" } }, required: ["a"] }); // "{ a: string }"
 ```
 
+## Reactive stores (`generateStores`) — the C037 reactive layer
+
+`generateSdk` gives you the typed RPC calls. `generateStores(doc)` projects the **C037 reactive facet**
+(`x-suluk-store` + `x-suluk-notify`) into a typed **Nano Stores** layer *on top of* that client — also a
+self-contained `.ts` string. The contract declares the **policy**; the generator emits the **plumbing**; your
+app fills the **behavior** through an unjs [`hookable`](https://unjs.io/packages/hookable) hook-bus:
+
+- **STATES** — a query op (`x-suluk-store.key`) → a `$<key>` `@nanostores/query` fetcher store (cached by
+  `ttl`, optional `revalidateOnFocus`); a parameterized query → a `(…args) => store` factory.
+- **EVENTS** — a mutation op (`x-suluk-store.invalidates`) → an action that invalidates the named stores on a
+  2xx (→ refetch), re-throwing so callers still `catch` (the propagation contract).
+- **CALLBACKS** — the declared `x-suluk-notify` status→severity policy **classifies + emits**; you tap typed
+  hooks (`notify`, `request:error`, `mutation:success`, `mutation:settled`, `store:invalidate`) to render/act.
+
+```ts
+import { generateSdk, generateStores } from "@suluk/sdk";
+const sdkSrc    = generateSdk(doc, { baseURL });   // -> web/src/lib/sdk.ts
+const storesSrc = generateStores(doc);             // -> web/src/lib/stores.ts (imports SulukClient from ./sdk)
+```
+
+```ts
+// in the app: declare policy in the contract, inject rendering once
+const stores = createStores(api);
+stores.hooks.hook("notify", ({ severity, problem }) => toast[severity](problem.detail ?? problem.title ?? "Error"));
+const { data } = useStore(stores.$paymentMethods);          // STATE
+await stores.actions.setDefaultPaymentMethod({ id });        // EVENT -> auto-invalidates $paymentMethods
+```
+
+It deliberately does **not** declare multi-call / zero-call actions, optimistic/rollback, retry, or
+derived/normalized state — those are composition, app-config, or a typed seam, never the contract (ADR C037
+§"Parity boundary"). The generated peer deps are `@nanostores/query`, `nanostores`, `hookable`.
+
+> Overlap: `@suluk/nano-stores` is a *runtime* `createApiStores(RouteContract[])` that does not read the
+> facet; `generateStores` is the **owned-source**, v4-doc + facet-driven projection (the `generateSdk` posture).
+
 ## API
 
 | Export | What it does |
 | --- | --- |
 | `generateSdk(doc, opts?)` | Takes an `OpenAPIv4Document`, returns a complete self-contained SDK as a TypeScript source string. |
+| `generateStores(doc, opts?)` | Projects the C037 reactive facet into a self-contained Nano Stores layer (states + invalidation + hookable callbacks) over the generated client. |
 | `tsType(doc, schema, depth?)` | Maps a JSON Schema to a TypeScript type string (used for typed inputs/responses). |
-| `SdkOptions` | Options type for `generateSdk` — `{ baseURL?: string }`. |
+| `resolveOps(doc)` | walkOps + deterministic collision resolution — the shared op list (so SDK + stores accessor names never drift). |
+| `SdkOptions` / `StoresOptions` | Options — `{ baseURL? }` / `{ clientModule? }`. |
 
 ## Boundary
 
