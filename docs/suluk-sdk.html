@@ -23,7 +23,7 @@
     <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/sdk</li></ul></div>
     <div class="flex items-center gap-3 flex-wrap mt-1">
       <h1 class="text-3xl font-bold font-mono">@suluk/sdk</h1>
-      <span class="badge badge-ghost">v0.1.0</span>
+      <span class="badge badge-ghost">v0.2.0</span>
     </div>
     <p class="text-lg text-base-content/70 mt-2">Generate a COMPLETE, intuitive TypeScript SDK from a v4 'Suluk' contract — built on ofetch, entity-grouped, fully typed from the schemas, auth wired (bearer/session) via interceptors, and the v4 superpowers (declared cost + access) surfaced as typed metadata. Not a bag of functions: a library a developer downloads and uses straight away. CANDIDATE tooling.</p>
     <div class="prose-suluk mt-6">
@@ -116,6 +116,30 @@ api.$meta;      // { operations, totalDeclaredMicroUsd, version }</code></pre>
 tsType(doc, { type: &quot;string&quot; });                                  // &quot;string&quot;
 tsType(doc, { type: &quot;array&quot;, items: { type: &quot;integer&quot; } });       // &quot;number[]&quot;
 tsType(doc, { type: &quot;object&quot;, properties: { a: { type: &quot;string&quot; } }, required: [&quot;a&quot;] }); // &quot;{ a: string }&quot;</code></pre>
+<h2>Reactive stores (<code>generateStores</code>) — the C037 reactive layer</h2>
+<p><code>generateSdk</code> gives you the typed RPC calls. <code>generateStores(doc)</code> projects the <strong>C037 reactive facet</strong> (<code>x-suluk-store</code> + <code>x-suluk-notify</code>) into a typed <strong>Nano Stores</strong> layer <em>on top of</em> that client — also a self-contained <code>.ts</code> string. The contract declares the <strong>policy</strong>; the generator emits the <strong>plumbing</strong>; your app fills the <strong>behavior</strong> through an unjs <a href="https://unjs.io/packages/hookable"><code>hookable</code></a> hook-bus:</p>
+<ul>
+<li><strong>STATES</strong> — a query op (<code>x-suluk-store.key</code>) → a <code>$&lt;key&gt;</code> <code>@nanostores/query</code> fetcher store (cached by</li>
+</ul>
+<p>  <code>ttl</code>, optional <code>revalidateOnFocus</code>); a parameterized query → a <code>(…args) =&gt; store</code> factory.</p>
+<ul>
+<li><strong>EVENTS</strong> — a mutation op (<code>x-suluk-store.invalidates</code>) → an action that invalidates the named stores on a</li>
+</ul>
+<p>  2xx (→ refetch), re-throwing so callers still <code>catch</code> (the propagation contract).</p>
+<ul>
+<li><strong>CALLBACKS</strong> — the declared <code>x-suluk-notify</code> status→severity policy <strong>classifies + emits</strong>; you tap typed</li>
+</ul>
+<p>  hooks (<code>notify</code>, <code>request:error</code>, <code>mutation:success</code>, <code>mutation:settled</code>, <code>store:invalidate</code>) to render/act.</p>
+<pre><code class="lang-ts">import { generateSdk, generateStores } from &quot;@suluk/sdk&quot;;
+const sdkSrc    = generateSdk(doc, { baseURL });   // -&gt; web/src/lib/sdk.ts
+const storesSrc = generateStores(doc);             // -&gt; web/src/lib/stores.ts (imports SulukClient from ./sdk)</code></pre>
+<pre><code class="lang-ts">// in the app: declare policy in the contract, inject rendering once
+const stores = createStores(api);
+stores.hooks.hook(&quot;notify&quot;, ({ severity, problem }) =&gt; toast[severity](https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/sdk/problem.detail ?? problem.title ?? &quot;Error&quot;));
+const { data } = useStore(stores.$paymentMethods);          // STATE
+await stores.actions.setDefaultPaymentMethod({ id });        // EVENT -&gt; auto-invalidates $paymentMethods</code></pre>
+<p>It deliberately does <strong>not</strong> declare multi-call / zero-call actions, optimistic/rollback, retry, or derived/normalized state — those are composition, app-config, or a typed seam, never the contract (ADR C037 §&quot;Parity boundary&quot;). The generated peer deps are <code>@nanostores/query</code>, <code>nanostores</code>, <code>hookable</code>.</p>
+<blockquote>Overlap: <code>@suluk/nano-stores</code> is a <em>runtime</em> <code>createApiStores(RouteContract[])</code> that does not read the facet; <code>generateStores</code> is the <strong>owned-source</strong>, v4-doc + facet-driven projection (the <code>generateSdk</code> posture).</blockquote>
 <h2>API</h2>
 <table>
 <thead>
@@ -123,15 +147,17 @@ tsType(doc, { type: &quot;object&quot;, properties: { a: { type: &quot;string&qu
 </thead>
 <tbody>
 <tr><td><code>generateSdk(doc, opts?)</code></td><td>Takes an <code>OpenAPIv4Document</code>, returns a complete self-contained SDK as a TypeScript source string.</td></tr>
+<tr><td><code>generateStores(doc, opts?)</code></td><td>Projects the C037 reactive facet into a self-contained Nano Stores layer (states + invalidation + hookable callbacks) over the generated client.</td></tr>
 <tr><td><code>tsType(doc, schema, depth?)</code></td><td>Maps a JSON Schema to a TypeScript type string (used for typed inputs/responses).</td></tr>
-<tr><td><code>SdkOptions</code></td><td>Options type for <code>generateSdk</code> — <code>{ baseURL?: string }</code>.</td></tr>
+<tr><td><code>resolveOps(doc)</code></td><td>walkOps + deterministic collision resolution — the shared op list (so SDK + stores accessor names never drift).</td></tr>
+<tr><td><code>SdkOptions</code> / <code>StoresOptions</code></td><td>Options — <code>{ baseURL? }</code> / <code>{ clientModule? }</code>.</td></tr>
 </tbody>
 </table>
 <h2>Boundary</h2>
 <p>This is <strong>codegen</strong> (L3: render/generate, never host) — <code>generateSdk</code> returns a string of source the consumer owns and can edit; nothing here becomes a runtime they must call home to. The package does <strong>not</strong> fetch your contract, host a client, or enforce the facets: <code>.cost</code> / <code>.requires</code> are inert metadata + a client-side guard, and the <strong>server is the security boundary</strong> (per ADR C022). You inject the v4 document (projected by <code>@suluk/hono</code> / <code>@suluk/drizzle</code> / your own source) and the <code>baseURL</code>; serving the generated file and authenticating real requests stay app-side.</p>
 <h2>License</h2>
 <p>Apache-2.0</p>
-      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">generateSdk</span><span class="badge badge-sm badge-outline font-mono">SdkOptions</span><span class="badge badge-sm badge-outline font-mono">tsType</span></div>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">clientAccessor</span><span class="badge badge-sm badge-outline font-mono">generateSdk</span><span class="badge badge-sm badge-outline font-mono">generateStores</span><span class="badge badge-sm badge-outline font-mono">OpInfo</span><span class="badge badge-sm badge-outline font-mono">resolveOps</span><span class="badge badge-sm badge-outline font-mono">SdkOptions</span><span class="badge badge-sm badge-outline font-mono">StoresOptions</span><span class="badge badge-sm badge-outline font-mono">tsType</span></div>
       <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/core</span><span class="badge badge-sm badge-ghost font-mono">ofetch (peer)</span><span class="badge badge-sm badge-ghost font-mono">@cfworker/json-schema (peer)</span></div>
       
     </div>
