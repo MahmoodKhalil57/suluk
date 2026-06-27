@@ -44,7 +44,7 @@
         @suluk/builder composes it (pages → sections → blocks → components, contract-narrowing)
         @suluk/deploy ships it to Cloudflare · @suluk/cockpit drives it (vscode + /superadmin)</pre>
   </section>
-  <section id="packages" class="mt-10"><h2 class="text-primary font-semibold uppercase tracking-wide text-sm mb-3">Packages <span class="text-base-content/50">(37)</span></h2>
+  <section id="packages" class="mt-10"><h2 class="text-primary font-semibold uppercase tracking-wide text-sm mb-3">Packages <span class="text-base-content/50">(38)</span></h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"><a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-admin.html">
     <div class="card-body p-4 gap-1">
       <h3 class="card-title text-sm font-mono text-primary">@suluk/admin</h3>
@@ -133,6 +133,12 @@
     <div class="card-body p-4 gap-1">
       <h3 class="card-title text-sm font-mono text-primary">@suluk/env</h3>
       <p class="text-sm text-base-content/70 m-0">Config + secrets as a single source of truth: declare each env var ONCE (typed, per-surface), encrypt secret values with POST-QUANTUM crypto (ML-KEM-768 + AES-256-GCM) so the .env is safe to commit to git and share over public channels, and project the manifest into every surface — local, Cloudflare, preview, a teammate's machine, the VS Code extension, the admin panel. dotenvx's commit-safely model, quantum-safe, Suluk-native. CANDIDATE tooling.</p>
+    </div>
+  </a>
+<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-eslint.html">
+    <div class="card-body p-4 gap-1">
+      <h3 class="card-title text-sm font-mono text-primary">@suluk/eslint</h3>
+      <p class="text-sm text-base-content/70 m-0">ESLint rules for Suluk apps. <code>composition-only</code>: enforce the tier discipline (pages &amp; sections stay composition-only; native markup → blocks, logic → controllers) with configurable per-metric budgets. Pure, dependency-free detection core. CANDIDATE tooling.</p>
     </div>
   </a>
 <a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-example-petshop.html">
