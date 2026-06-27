@@ -221,7 +221,7 @@ function downgradeMergedOperation(
   });
   if (uniqueBodies.length > 1) {
     const mergedBody: Record<string, unknown> = { oneOf: uniqueBodies };
-    const content = op.requestBody?.content as Record<string, Record<string, unknown>> | undefined;
+    const content = (op.requestBody as { content?: Record<string, Record<string, unknown>> } | undefined)?.content;
     if (content) {
       for (const mt of Object.keys(content)) content[mt].schema = mergedBody;
     } else {
