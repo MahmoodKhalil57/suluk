@@ -3,7 +3,7 @@
  * else is derived: the v4 document (dynamic per principal + time), request validation, contract tests, and
  * a documentation-coverage audit. See tooling/ARCHITECTURE.md. CANDIDATE tooling.
  */
-export { contract, responseList, type RouteContract, type RouteRequest, type RouteResponse, type Method } from "./contract";
+export { contract, contractDoc, responseList, type RouteContract, type DocumentedRoute, type RouteRequest, type RouteResponse, type Method } from "./contract";
 export { emitV4, type EmitContext, type EmitResult, type EmitDiagnostic } from "./emit";
 export { audit, coverage, autofill, type Finding } from "./audit";
 export { contractChecks, runContractChecks, type Check, type CheckRun } from "./checks";

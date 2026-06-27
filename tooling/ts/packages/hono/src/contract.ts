@@ -73,6 +73,23 @@ export function contract<const T extends readonly RouteContract[]>(routes: T): T
   return routes;
 }
 
+/**
+ * A route that satisfies documentation coverage at the TYPE level: it MUST carry a `summary` or a `description`. Used by
+ * {@link contractDoc} so a route authored with neither fails to type-check.
+ */
+export type DocumentedRoute = RouteContract & ({ summary: string } | { description: string });
+
+/**
+ * Stricter, OPT-IN variant of {@link contract}: identical runtime behavior + literal inference, but every route must be
+ * DOCUMENTED (a `summary` or `description`) or it fails to type-check at the contract site — lifting the doc-coverage
+ * audit (`audit()`'s `missing-doc` finding) into the type system, so an undocumented operation is a red squiggle, not a
+ * CI warning. `contract()` stays UNCHANGED (some callers author docs separately / exercise the advisory audit); adopt
+ * `contractDoc` where you want documentation enforced as you type.
+ */
+export function contractDoc<const T extends readonly DocumentedRoute[]>(routes: T): T {
+  return contract(routes);
+}
+
 /** Normalize responses (list or map) to a list. */
 export function responseList(r: RouteContract["responses"]): RouteResponse[] {
   if (!r) return [];
