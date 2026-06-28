@@ -1,0 +1,91 @@
+# C038 (@suluk/journeys) — the BDD/journeys layer. A non-technical author (PM/BA/QA) writes INTUITIVE, RUNNABLE Gherkin
+# user-stories/journeys against a step VOCABULARY projected from a v4 contract; a bidirectional GAP report tells them
+# (and a developer) exactly what the contract cannot yet back. Decided by three council sessions (wf_2b935f6e-ed3
+# journeys-v1, wf_45bff8f5-5a3 sdk-runnable, wf_ae8159e8-af1 discovery) + a spike on the REAL toolfactory contract
+# (api/src/contract.ts, 31 ops). ORIGINATED; the SPIKE witnessed the binding MECHANISM but not the non-technical-author
+# UX ⇒ honestly LOW ceilings. Rides the projection model (pure f(doc) -> artifact) like @suluk/sdk / @suluk/testgen.
+
+# SIDECAR, NO CONTRACT FACET in v1 (the boundary decision; 6/9 council voices co-first). The step vocabulary is a PURE
+# derivation of names the contract ALREADY holds — operation handles (name + path-uri), param NAMES, response statuses,
+# x-suluk-store keys, x-suluk-access roles — so it carries ZERO information the contract lacks; minting an
+# x-suluk-journeys facet would only add a normative surface + a drift liability for no gain. The authored .feature
+# stories are free human prose (request VALUES the D1 wall forbids in the contract) ⇒ they live as a SIDECAR beside the
+# doc, bound by a C036-style provenance pointer {source, contentHash, version}. Defer a facet until an operator surfaces
+# a real hand-written cowpath for contract-resident journey metadata no existing facet can carry.
+claim journeys_sidecar_no_facet: Bool @>=0.45 = True
+falsified_when journeys_sidecar_no_facet == False
+
+# D1: DOWNSTREAM CONSUMER, never an input (the load-bearing safety claim). v1 adds NO facet, so buildAda/matchRequest
+# have literally nothing new to ignore — @suluk/journeys reads the contract, it is never read BY the matcher. THE WALL
+# sits exactly between the DERIVED step vocabulary (deterministic, generated — operation/param/status/store/role NAMES,
+# all D1-safe contract facts) and the FREE human prose an author types into a step's arg slot (a runtime/test-input
+# VALUE — "a pet named Fluffy", "$20" — which the matcher must NEVER read). A pre-commit core/test/journeys-d1-invariance
+# test (cloning store-d1-invariance.test.ts's two-claim gate) pre-walls a hypothetical future x-suluk-journeys facet so
+# it can never land unwalled. Below the >=0.85 assert-gate ⇒ no mizan-verify mandate; recorded at the originated ceiling.
+claim journeys_d1_downstream_consumer: Bool @>=0.5 = True
+falsified_when journeys_d1_downstream_consumer == False
+
+# EXACT-or-UNBOUND binding, with outcome (Then) steps bound RELATIVE to the scenario's WHEN-subject. A step equals a
+# generated phrase skeleton (slot values stripped BY the generated template's slot positions, never by re-tokenizing
+# arbitrary prose) -> a single stable handle, OR it is UNBOUND (a first-class, blameless, dev-actionable state). NO
+# scoring / lemmatization / embedding EVER decides a bind; string-distance is presentational ("did you mean?") ONLY.
+# SPIKE-WITNESSED + DEFECT-CORRECTED on the toolfactory contract: a naive GLOBAL phrase->handle map mis-bound the generic
+# "Then it succeeds" to an arbitrary op (health) — the council's predicted ambiguity defect — and binding outcomes
+# subject-relative fixed it (now binds to the scenario's actual When-op). Kills the silent-mis-BIND class.
+claim journeys_exact_or_unbound_subject_relative: Bool @>=0.5 = True
+falsified_when journeys_exact_or_unbound_subject_relative == False
+
+# STABLE IDENTITY = op.name + path-uri (the C009 by-name handle), NOT the @suluk/sdk clientAccessor (resolveOps mutates
+# op.member in place during collision resolution, so an accessor-keyed identity churns on sibling-add). clientAccessor is
+# used ONLY as the late call-site lowering in the emitted runnable suite. SPIKE-WITNESSED on a REAL shared path:
+# toolfactory's api/billing/subscription holds BOTH getSubscription and cancelSubscription; name+path keeps them
+# distinct where a name-only or path-only key would mis-merge the adversarial same-name/different-path case.
+claim journeys_stable_identity_name_path: Bool @>=0.55 = True
+falsified_when journeys_stable_identity_name_path == False
+
+# BIDIRECTIONAL, TRI-STATE gaps (the product). DIRECTION (i) authored-step -> backing: each UNBOUND step is classified
+# DETERMINISTICALLY into PARAPHRASE (an editable, author-owned alias resolves it, NO dev), NEEDS-DEV-GLUE (an operation
+# exists but no step wires it), or NEEDS-CONTRACT (nothing backs the intent — a dev extends the contract). DIRECTION
+# (ii) contract -> authored: a pure SET-DIFFERENCE over the stable handle space surfaces every operation/store with no
+# covering scenario (the "COMPLETE" guarantee) + a one-line drop-in stub per hole. SPIKE: 7 toolfactory scenarios ->
+# 16 BOUND / 3 NEEDS-DEV-GLUE / 3 NEEDS-CONTRACT, coverage 4/31 with 27 stubs emitted.
+claim journeys_bidirectional_tristate_gaps: Bool @>=0.5 = True
+falsified_when journeys_bidirectional_tristate_gaps == False
+
+# RUNNABLE through the @suluk/sdk GENERATED CLIENT + the nano-stores reactive layer — NOT raw HTTP. Because that client
+# is the SAME one a large part of the ecosystem builds FRONTENDS on (operator-surfaced), a passing scenario exercises the
+# real frontend DATA-PATH: typed method dispatch, input validation, URL/param assembly, the auth interceptor, response
+# decode, AND the C037 store invalidation/refetch + notify-severity seam. HONEST BOUNDARY (carried as a literal report
+# label, not buried): it tests CLIENT + CONTRACT + WIRE + STORE data layer; it does NOT test rendered UI, layout, visual,
+# events, a11y, or any DOM behavior (no DOM in a bun:test). "tests the frontend DATA-PATH (not the rendered UI)".
+claim journeys_sdk_runnable_frontend_datapath: Bool @>=0.45 = True
+falsified_when journeys_sdk_runnable_frontend_datapath == False
+
+# COWPATH WITNESSED on toolfactory (the verify pass's strongest objection, retired). The BDD cowpath was a FORWARD
+# HYPOTHESIS (no .feature/cucumber consumer in the monorepo). toolfactory is a REAL Suluk consumer with a live v4
+# contract (apiDocument(), 31 ops across credits/billing/subscriptions/payment-methods/MCP/tools/admin) carrying exactly
+# the access/store/cost facets the vocabulary projects from, and an existing DEV bun:test suite that is the WRONG shape
+# for a non-technical author. A spike imported the contract and ran the full projector + binder. RESIDUAL OPEN (not
+# closed by the spike): whether the constrained-vocabulary-plus-alias UX feels INTUITIVE vs RIGID to a real PM — an
+# empirical question no council voice could settle from first principles; needs an author-in-the-loop witness.
+claim journeys_cowpath_witnessed_toolfactory: Bool @>=0.5 = True
+falsified_when journeys_cowpath_witnessed_toolfactory == False
+
+# DISCOVERY (semantic reuse-search; operator-surfaced) — FACETED SPINE INSIDE @suluk/journeys (6/6 discovery-council
+# voices co-first). A second pure projection generateJourneyIndex(doc, corpus) builds a deterministic inverted index
+# over the contract-handle SETS each bound scenario already carries; the reuse/modify/rebuild verdict is pure SET ALGEBRA
+# (exact-equality => REUSE; subset/superset/overlap => MODIFY; disjoint => REBUILD) with OPS weighted hardest. The
+# read-only search SURFACE is a panel in @suluk/editor. Similarity is grounded in CONTRACT-HANDLE OVERLAP, never
+# free-floating prose vibes — the only signal that orders results or feeds a verdict.
+claim journeys_discovery_faceted_spine_inside: Bool @>=0.4 = True
+falsified_when journeys_discovery_faceted_spine_inside == False
+
+# DISCOVERY EMBEDDING OVERLAY — WALLED-OFF, GATED SIBLING (never folded in). The faceted index is corpus-dependent but
+# model/network/float-free, byte-stable and fail-loud (same artifact-class as the rest), so it stays in journeys; the
+# embedding index is the ONLY component that is a function of a model, so it lives in a SEPARATE sibling worker
+# @suluk/journeys-recall (CF Vectorize + Workers AI) that can only ADD human-facing RECALL candidates for a cold author
+# — its cosine is DISCARDED before any verdict/ordering. Type-unreachable from any bind/match/triage output. GATED:
+# designed-but-dark until a real corpus exists. v1 ships only the near-free HandleSet emission + the contract-coverage
+# map (useful at N=0); building the index/overlay/UI is deferred behind a measured corpus-size gate. Honest empty-corpus.
+claim journeys_discovery_embedding_gated_sibling: Bool @>=0.4 = True
+falsified_when journeys_discovery_embedding_gated_sibling == False
