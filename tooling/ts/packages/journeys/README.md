@@ -68,6 +68,33 @@ mutates the accessor in place during collision resolution, so accessor-keyed ide
 operation is added. (Witnessed on toolfactory's `api/billing/subscription`, which holds both `getSubscription` and
 `cancelSubscription`.)
 
+## Two-role authoring + composition (no developer)
+
+A non-technical author can write stories in their **own words** and hand them to a **scaffolder** (a more technical
+author — *not* a developer) who maps that free prose onto the runnable vocabulary. Neither role writes code.
+
+- **`detectUndefined(vocab, features, defs)`** is the scaffolder's worklist (Cucumber-style undefined-step detection,
+  resolved by *mapping* not coding). It splits each not-yet-runnable step into **"the scaffolder can define this"**
+  (an operation/step exists → alias or decompose) vs **"escalate to a developer"** (`NEEDS-CONTRACT` — no operation
+  backs it). `renderScaffold(...)` prints it with paste-ready stubs.
+- A **`Definitions`** artifact (author/scaffolder-owned data) turns prose into runnable steps three ways:
+  - **alias** — `"prose": "When I checkout"` (one canonical step)
+  - **decomposition** — `"I sign up and buy credits": ["Given I am a signed-in user", "When I checkout", "Then it succeeds"]`
+  - **journey** — a named, reusable sequence referenced from a story with `When I complete the "top up" journey`
+
+```ts
+const defs = {
+  steps: { "when i sign up and buy credits": ["Given I am a signed-in user", "When I checkout", "Then it succeeds"] },
+  journeys: { "top up": ["Given I am a signed-in user", "When I checkout", "Then it succeeds"] },
+};
+const report = bindFeatures(vocab, [story], { definitions: defs });   // composed + decomposed, all bound
+const todo = detectUndefined(vocab, [story], { definitions: defs });  // what still needs defining / escalation
+```
+
+**Composition** lets authors build bigger journeys out of existing ones (`complete the "…" journey`), and outcome
+steps bind to the **most-recent** action, so multi-step journeys bind each `Then` to its own `When`. The only thing
+that ever needs a developer is genuinely new backend capability (`NEEDS-CONTRACT`) — composition and mapping do not.
+
 ## Discovery (designed, gated)
 
 A semantic *reuse* search — "find an existing flow to reuse / modify / rebuild" — is designed (a deterministic

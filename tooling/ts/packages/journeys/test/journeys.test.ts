@@ -2,7 +2,7 @@ import { test, expect, describe } from "bun:test";
 import type { OpenAPIv4Document } from "@suluk/core";
 import { generateVocabulary, vocabularyHash, opHandle } from "../src/vocabulary";
 import { parseFeature } from "../src/gherkin";
-import { bindFeatures } from "../src/bind";
+import { bindFeatures, detectUndefined, renderScaffold } from "../src/bind";
 import { emitRunnableSuite } from "../src/emit";
 
 /** A minimal v4 fixture echoing real toolfactory shapes (incl. the shared `api/billing/subscription` path). */
@@ -168,5 +168,114 @@ Feature: f
 
   test("annotates the auth requirement for authenticated operations", () => {
     expect(suite).toContain("requires authenticated");
+  });
+});
+
+describe("most-recent-When subject — multi-step journeys bind each outcome to its own action", () => {
+  const vocab = generateVocabulary(DOC);
+  test("a second When re-targets the following Then (not the first action)", () => {
+    const feature = parseFeature(`
+Feature: f
+  Scenario: top up then check balance
+    Given I am a signed-in user
+    When I checkout
+    Then it succeeds
+    When I view credits
+    Then I see my credits
+`);
+    const r = bindFeatures(vocab, [feature]).scenarios[0].results;
+    expect(r[1].handle).toBe(opHandle("checkout", "api/billing/checkout")); // When I checkout
+    expect(r[2].handle).toBe(opHandle("checkout", "api/billing/checkout")); // Then it succeeds → checkout
+    expect(r[3].handle).toBe(opHandle("getCredits", "api/credits")); // When I view credits (subject moves)
+    expect(r[4].state).toBe("BOUND"); // Then I see my credits → getCredits, NOT checkout
+    expect(r[4].handle).toBe(opHandle("getCredits", "api/credits"));
+  });
+});
+
+describe("composition — compose a story out of a named journey (no developer)", () => {
+  const vocab = generateVocabulary(DOC);
+  const definitions = { journeys: { "top up": ["Given I am a signed-in user", "When I checkout", "Then it succeeds"] } };
+
+  test("a journey reference expands into its (already-bound) steps", () => {
+    const feature = parseFeature(`
+Feature: f
+  Scenario: onboarding
+    When I complete the "top up" journey
+    When I view credits
+    Then I see my credits
+`);
+    const r = bindFeatures(vocab, [feature], { definitions }).scenarios[0].results;
+    // the journey ref expanded to 3 steps, all bound, each tagged with the original prose
+    expect(r.length).toBe(5);
+    expect(r.slice(0, 3).every((x) => x.state === "BOUND")).toBe(true);
+    expect(r[0].expandedFrom?.text).toContain('complete the "top up" journey');
+    expect(r[1].handle).toBe(opHandle("checkout", "api/billing/checkout"));
+    expect(r[4].handle).toBe(opHandle("getCredits", "api/credits"));
+  });
+
+  test("a reference to an UNDEFINED journey is flagged UNDEFINED (scaffolder defines it, no dev)", () => {
+    const feature = parseFeature(`
+Feature: f
+  Scenario: missing
+    When I complete the "checkout flow" journey
+`);
+    const r = bindFeatures(vocab, [feature]).scenarios[0].results;
+    expect(r[0].state).toBe("UNDEFINED");
+    expect(r[0].suggest).toContain("checkout flow");
+  });
+});
+
+describe("two-role authoring — free prose, a scaffolder maps it, undefined is detected", () => {
+  const vocab = generateVocabulary(DOC);
+
+  test("a free-prose decomposition makes a non-technical author's step run (no dev)", () => {
+    const feature = parseFeature(`
+Feature: f
+  Scenario: combined
+    When I sign up and buy credits
+`);
+    const definitions = { steps: { "when i sign up and buy credits": ["Given I am a signed-in user", "When I checkout", "Then it succeeds"] } };
+    const r = bindFeatures(vocab, [feature], { definitions }).scenarios[0].results;
+    expect(r.length).toBe(3);
+    expect(r.every((x) => x.state === "BOUND")).toBe(true);
+    expect(r[1].expandedFrom?.text).toBe("I sign up and buy credits");
+  });
+
+  test("detectUndefined splits 'scaffolder can define' (alias) from 'escalate to a developer'", () => {
+    const feature = parseFeature(`
+Feature: f
+  Scenario: free prose
+    Given I am a signed-in user
+    When I cancel my subscription
+    Then I get a refund to my card
+`);
+    const undefinedSteps = detectUndefined(vocab, [feature]);
+    const cancel = undefinedSteps.find((u) => /cancel my subscription/i.test(u.text))!;
+    expect(cancel.resolution).toBe("alias");
+    expect(cancel.suggestion).toContain("When I cancel subscription"); // the canonical step to map to
+    const refund = undefinedSteps.find((u) => /refund/i.test(u.text))!;
+    expect(refund.resolution).toBe("review"); // no lexical match — the scaffolder decides (NOT falsely 'needs a dev')
+
+    const scaffold = renderScaffold(undefinedSteps);
+    expect(scaffold).toContain("Suggested mappings");
+    expect(scaffold).toContain("Needs your decision");
+  });
+});
+
+describe("emit — a composed/multi-step journey lowers to a sequence of SDK calls", () => {
+  const vocab = generateVocabulary(DOC);
+  test("two bound Whens emit two client calls in order", () => {
+    const feature = parseFeature(`
+Feature: f
+  Scenario: top up then check
+    Given I am a signed-in user
+    When I checkout
+    Then it succeeds
+    When I view credits
+    Then I see my credits
+`);
+    const suite = emitRunnableSuite(DOC, vocab, [feature]);
+    expect(suite).toContain("const result1 = await client.billing.checkout(");
+    expect(suite).toContain("const result2 = await client.credits.get(");
   });
 });

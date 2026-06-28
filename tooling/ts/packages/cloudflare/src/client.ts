@@ -71,8 +71,26 @@ export class CloudflareClient {
     const text = await res.text();
     let env: { success?: boolean; errors?: CloudflareError_t[]; result?: T } = {};
     try { env = text ? JSON.parse(text) : {}; } catch { /* non-JSON (e.g. an asset upload 200) */ }
-    if (!res.ok || env.success === false) throw new CloudflareError(res.status, env.errors?.length ? env.errors : [{ code: res.status, message: text.slice(0, 200) || res.statusText }], path);
+    // NEVER echo the raw response body — for a D1 /query or KV error it can contain row data / secrets (the hatch
+    // points this client at live state). Surface the API's own structured errors, else just the status line.
+    if (!res.ok || env.success === false) throw new CloudflareError(res.status, env.errors?.length ? env.errors : [{ code: res.status, message: res.statusText || "request failed (response body withheld)" }], path);
     return env.result as T;
+  }
+
+  /** Like {@link request} but returns the RAW body (no `{success,result}` envelope) — for KV value reads, which
+   *  return the stored value directly. Returns null on 404 (key not found). Never echoes the body into an error. */
+  async requestText(method: string, path: string, opts: RequestOptions = {}): Promise<string | null> {
+    const qs = opts.query
+      ? "?" + Object.entries(opts.query).filter(([, v]) => v !== undefined).map(([k, v]) => `${k}=${encodeURIComponent(String(v))}`).join("&")
+      : "";
+    const headers: Record<string, string> = { authorization: `Bearer ${opts.token ?? this.token}`, ...opts.headers };
+    let body = opts.body;
+    if (body === undefined && opts.json !== undefined) { headers["content-type"] = "application/json"; body = JSON.stringify(opts.json); }
+    const res = await this.doFetch(`${this.base}${path}${qs}`, { method, headers, body });
+    if (res.status === 404) return null;
+    const text = await res.text();
+    if (!res.ok) throw new CloudflareError(res.status, [{ code: res.status, message: res.statusText || "request failed (response body withheld)" }], path);
+    return text;
   }
 
   /** Resolve (and cache) the account id — the first account the token can see, unless one was supplied. */

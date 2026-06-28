@@ -1,0 +1,71 @@
+# C039 (@suluk/journeys/hatch) — the ESCAPE HATCHES. Compose BDD AS A REAL USER (through @suluk/sdk) BY DEFAULT;
+# direct connection to STATE SERVICES is a deliberately-secondary, clearly-marked, prod-safe FALLBACK used ONLY when a
+# user-path cannot reach it: AUTH bootstrap (OAuth — toolfactory is Google-OAuth-only), an irreducible precondition with
+# no API, internal-state inspection a Then can't observe, teardown. Decided by a security-led council (wf_d65d8c26-0eb,
+# 5/6 -> Candidate 1: a thin in-package hatch/ module reusing @suluk/cloudflare + @suluk/env). ORIGINATED + real
+# prod-safety risk + the auth-mint UNWITNESSED ⇒ honestly LOW ceilings (verify-adjusted aggregate ~0.42).
+
+# USER-DEFAULT BY SURFACE ASYMMETRY (not exhortation). A plain BOUND When lowers to client.<acc>(...) with zero
+# ceremony; a hatch additionally requires importing @suluk/journeys/hatch + CF creds + a resolved target. A scenario
+# composed as a user imports NONE of the hatch subtree (opt-in by absence — you cannot accidentally land in it). The
+# motivating prose "Given I am a signed-in user" stays bound to @access:authenticated, UNCHANGED; the hatch backs it at
+# the consumer's auth seam ONLY when auth is un-scriptable.
+claim hatches_fallback_user_default: Bool @>=0.55 = True
+falsified_when hatches_fallback_user_default == False
+
+# CONTRACT WALL (the strongest, witnessed property). A hatch is runtime IO over live state — provably OUTSIDE the
+# deterministic core. The projector/binder (vocabulary.ts, bind.ts, gherkin.ts, normalize.ts) import NO hatch, NO
+# @suluk/cloudflare, NO env, NO fetch; the emitter/barrel import neither the hatch nor the CF write-client. v1 adds NO
+# contract facet, so buildAda/matchRequest stay invariant (the C038 wall holds). WITNESSED by
+# test/hatch-wall.test.ts (a source-level forbidden-import gate over the core). No SQL/creds/tokens/service-ids ever
+# enter the v4 document or the matcher.
+claim hatch_contract_wall: Bool @>=0.6 = True
+falsified_when hatch_contract_wall == False
+
+# NO TEST INFRA PROVISIONED — TWO BACKENDS + TEST-USER SCOPING (operator-chosen; supersedes the prod-refusal model).
+# The operator declined spinning up test services: a hatch runs EITHER against (a) LOCAL — bun:sqlite over the miniflare
+# local D1 file (`wrangler dev` state): completely local, zero-cost, zero prod risk, full capability (a throwaway file);
+# OR (b) REMOTE — the REAL deployment over CF REST, where the seeded rows ARE test users (BDD-as-living-documentation);
+# reaching it needs an explicit acknowledgeRealDeployment:true (a conscious choice, not an accident). The write-safety
+# guarantee is TEST-USER SCOPING (the precise guard — the real risk was UNSCOPED destructive ops, never "prod" per se):
+# seed(table, ownerColumn, rows) FORCES row[ownerColumn] = the test-user id (you cannot seed another user's row);
+# cleanupScope deletes ONLY rows owned by that id; raw unscoped exec is REFUSED on the real deployment (local-only). So a
+# hatch cannot touch a real user's data even on the production database. WITNESSED by test/hatch.test.ts (a real local
+# bun:sqlite round-trip: seed forces the owner; cleanup leaves a non-test 'real user' row untouched; remote exec refused).
+claim hatch_local_or_scoped_prod: Bool @>=0.55 = True
+falsified_when hatch_local_or_scoped_prod == False
+
+# STATE HATCH — CAPABILITY-BY-TYPE + PARAMS-BOUND (witnessed). The state hatch over a D1 backend is READ-ONLY by
+# default; the WRITE methods (d1.seed / d1.cleanupScope / d1.exec) exist on the returned object ONLY when {write:true}
+# is granted. ALL values go through D1 bound params — never string-interpolated; table/column IDENTIFIERS are validated
+# [A-Za-z0-9_]; seed REQUIRES a `because` + `userPathChecked` (anti-rot audit). The same typed surface runs over EITHER
+# backend (the D1Exec seam): localD1 (bun:sqlite) and remoteD1 (@suluk/cloudflare queryD1, now params-aware) — both
+# unit-tested with zero live IO (bun:sqlite :memory: + a mocked fetch). WITNESSED by test/hatch.test.ts.
+claim hatch_state_capability_by_type: Bool @>=0.6 = True
+falsified_when hatch_state_capability_by_type == False
+
+# AUTH HATCH — FAILS CLOSED, NEVER A FALSE GREEN (design witnessed; live mint UNWITNESSED — the blocking obligation).
+# signInAs NEVER hand-forges a session row: the consumer supplies mintSession (Better Auth's OWN server-side session
+# create) because only the app knows its session shape. Critically, the hatch SELF-VERIFIES — it round-trips the minted
+# cookie against ONE real authenticated endpoint and THROWS if the app rejects it, so a subtly-invalid session fails
+# LOUD instead of manufacturing confidence. The ORCHESTRATION + the fail-loud verify are built; the live auth-mint
+# CORRECTNESS (Better-Auth-over-D1-HTTP adapter, exact session/cookie shape, account-link row) is NOT yet witnessed —
+# the BLOCKING forward obligation is a self-test against a THROWAWAY CF account/D1 (the council's cheapest-next-step).
+claim hatch_auth_fails_closed: Bool @>=0.45 = True
+falsified_when hatch_auth_fails_closed == False
+
+# TEARDOWN — BEST-EFFORT, NOT GUARANTEED (honest, per the security verify). A write hatch tracks the KV keys it writes
+# and reap() deletes them; the auth hatch teardown deletes the seeded session/user rows. ALL best-effort (try/catch) —
+# a crashed/aborted test can leak seeded state. The designed-but-UNBUILT backstop is a run-prefix tag + a standalone
+# `journeys reap --older-than` sweep CI runs unconditionally. Do NOT claim guaranteed teardown.
+claim hatch_teardown_best_effort: Bool @>=0.4 = True
+falsified_when hatch_teardown_best_effort == False
+
+# SERVICE SET — ONLY MANIPULABLE/INSPECTABLE STATE. CODED v1: D1 (SQL rows; also the auth-session substrate), over
+# BOTH backends (local bun:sqlite + remote real-deployment). The KV data-plane verbs (kvGet/kvPut/kvDelete/kvList +
+# requestText) landed in @suluk/cloudflare, but the hatch's KV SURFACE is deferred (toolfactory's only KV is rate-limit
+# state, low BDD value). DESIGNED-in-the-seam, NOT built: KV-hatch-surface, Vectorize, Queues, R2-objects, Analytics
+# Engine. EXCLUDED as stateless invoke-only: Workers AI, Browser Rendering. Workers/Pages = deployment metadata
+# (inspect-only at most). The include/exclude filter is the user's "only ones with state" qualifier.
+claim hatch_services_d1_first: Bool @>=0.55 = True
+falsified_when hatch_services_d1_first == False

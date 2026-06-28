@@ -18,16 +18,45 @@ export async function provisionD1(cf: CloudflareClient, name: string): Promise<D
   return cf.request<D1Database>("POST", `/accounts/${acct}/d1/database`, { json: { name } });
 }
 
-/** Run SQL against a D1 database (D1 accepts multiple `;`-separated statements per call). */
-export async function queryD1(cf: CloudflareClient, databaseId: string, sql: string): Promise<unknown> {
+/** Run SQL against a D1 database (D1 accepts multiple `;`-separated statements per call). `params` are bound via the
+ *  D1 /query `params` array — ALWAYS pass values as params (never string-interpolate user/test data into `sql`). */
+export async function queryD1(cf: CloudflareClient, databaseId: string, sql: string, params?: unknown[]): Promise<unknown> {
   const acct = await cf.resolveAccountId();
-  return cf.request("POST", `/accounts/${acct}/d1/database/${databaseId}/query`, { json: { sql } });
+  return cf.request("POST", `/accounts/${acct}/d1/database/${databaseId}/query`, { json: params && params.length ? { sql, params } : { sql } });
 }
 
-/** Rows from a D1 query response — the API returns `[{ results, success, meta }]` (one per statement). */
-function d1Rows(result: unknown): Record<string, unknown>[] {
+/** Rows from a D1 query response — the API returns `[{ results, success, meta }]` (one per statement); take the last. */
+export function d1Rows(result: unknown): Record<string, unknown>[] {
   const arr = Array.isArray(result) ? (result as { results?: Record<string, unknown>[] }[]) : [];
   return arr[arr.length - 1]?.results ?? [];
+}
+
+// ---- KV data-plane verbs (siblings of provisionKvNamespace) — used by the @suluk/journeys state hatch. ----
+const kvBase = (acct: string, ns: string) => `/accounts/${acct}/storage/kv/namespaces/${ns}`;
+
+/** Read a KV value (raw); null when the key is absent. */
+export async function kvGet(cf: CloudflareClient, namespaceId: string, key: string): Promise<string | null> {
+  const acct = await cf.resolveAccountId();
+  return cf.requestText("GET", `${kvBase(acct, namespaceId)}/values/${encodeURIComponent(key)}`);
+}
+
+/** Write a KV value (optional TTL in seconds). */
+export async function kvPut(cf: CloudflareClient, namespaceId: string, key: string, value: string, opts: { expirationTtl?: number } = {}): Promise<void> {
+  const acct = await cf.resolveAccountId();
+  await cf.request("PUT", `${kvBase(acct, namespaceId)}/values/${encodeURIComponent(key)}`, { body: value, query: { expiration_ttl: opts.expirationTtl } });
+}
+
+/** Delete a KV key. */
+export async function kvDelete(cf: CloudflareClient, namespaceId: string, key: string): Promise<void> {
+  const acct = await cf.resolveAccountId();
+  await cf.request("DELETE", `${kvBase(acct, namespaceId)}/values/${encodeURIComponent(key)}`);
+}
+
+/** List KV keys (optionally by prefix) — returns the key names. */
+export async function kvList(cf: CloudflareClient, namespaceId: string, prefix?: string): Promise<string[]> {
+  const acct = await cf.resolveAccountId();
+  const keys = await cf.request<{ name: string }[]>("GET", `${kvBase(acct, namespaceId)}/keys`, { query: { prefix, limit: 1000 } });
+  return (keys ?? []).map((k) => k.name);
 }
 
 export interface Migration {

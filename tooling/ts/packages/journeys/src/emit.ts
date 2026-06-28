@@ -58,20 +58,28 @@ export function emitRunnableSuite(doc: OpenAPIv4Document, vocab: Vocabulary, fea
 
   const body: string[] = [];
   for (const sc of report.scenarios) {
-    if (!sc.subject) continue; // only emit scenarios whose When-action bound to an operation
-    const op = opByHandle.get(sc.subject);
-    if (!op) {
-      body.push(`// skipped "${sc.scenario}" — ${sc.subject} is not an SDK-surfaced operation (e.g. a webhook); bind via raw HTTP.`, ``);
-      continue;
-    }
-    const acc = clientAccessor(op); // e.g. "billing.checkout", "credits.get"
-    const expectsSuccess = sc.results.some((r) => r.state === "BOUND" && r.step.kind === "then" && /succeed/i.test(r.step.text));
+    // emit a call for EACH bound When (a composed / multi-step journey drives several actions in order).
+    const bound = sc.results.filter((r) => r.state === "BOUND" && r.step.kind === "when");
+    if (!bound.length) continue;
     body.push(`test(${JSON.stringify(sc.scenario)}, async () => {`);
-    body.push(`  // ${op.method.toUpperCase()} ${op.uri}${op.requires !== "anyone" ? `  (requires ${op.requires}: set ${tokenEnv})` : ""}`);
-    body.push(`  const result = await client.${acc}(/* provide input */);`);
-    if (expectsSuccess) body.push(`  expect(result).toBeDefined();`);
-    // C037 store assertions: a mutation should refresh the stores it invalidates.
-    for (const key of op.store?.invalidates ?? []) body.push(`  // store: expect $${key} to have refreshed after this mutation`);
+    let n = 0;
+    let current: OpInfo | undefined;
+    for (const r of sc.results) {
+      if (r.state !== "BOUND") continue;
+      if (r.step.kind === "when") {
+        current = opByHandle.get(r.handle);
+        if (!current) {
+          body.push(`  // skipped ${r.handle} — not an SDK-surfaced operation (e.g. a webhook); bind via raw HTTP.`);
+          continue;
+        }
+        const acc = clientAccessor(current); // e.g. "billing.checkout", "credits.get"
+        body.push(`  // ${current.method.toUpperCase()} ${current.uri}${current.requires !== "anyone" ? `  (requires ${current.requires}: set ${tokenEnv})` : ""}`);
+        body.push(`  const result${++n} = await client.${acc}(/* provide input */);`);
+      } else if (r.step.kind === "then" && current) {
+        if (/succeed/i.test(r.step.text) && n) body.push(`  expect(result${n}).toBeDefined();`);
+        if (/refresh/i.test(r.step.text)) for (const key of current.store?.invalidates ?? []) body.push(`  // store: expect $${key} to have refreshed after this mutation`);
+      }
+    }
     body.push(`});`, ``);
   }
 

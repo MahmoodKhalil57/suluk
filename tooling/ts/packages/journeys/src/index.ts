@@ -24,13 +24,17 @@ export { parseFeature, type Feature, type Scenario, type FeatureStep } from "./g
 
 export {
   bindFeatures,
+  detectUndefined,
   renderGapReport,
+  renderScaffold,
   type GapReport,
   type ScenarioResult,
   type StepResult,
   type BindState,
   type BindOptions,
   type CoverageHole,
+  type Definitions,
+  type UndefinedStep,
 } from "./bind";
 
 export { emitRunnableSuite, type EmitOptions } from "./emit";
