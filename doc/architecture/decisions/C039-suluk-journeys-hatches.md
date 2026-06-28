@@ -79,9 +79,11 @@ tokens, or service ids ever enter the v4 document.
   high-fidelity runs. A least-privilege CF token scoped to the one database is still recommended defense-in-depth.
 - **Teardown is best-effort, not guaranteed:** scoped `cleanupScope` + try/catch; the designed-but-unbuilt backstop is a
   run-prefix tag + a standalone `journeys reap` sweep.
-- **The auth-mint is unwitnessed but now LOCALLY witnessable:** the forward obligation is a self-test (mint via the
-  app's Better Auth → call an authenticated endpoint as a user → assert non-401), which `mode: "local"` lets you run
-  **completely locally** against `bun:sqlite` + a local Better Auth — no throwaway CF account required.
+- **The auth-mint is now WITNESSED, completely locally:** the package pins the fail-closed contract
+  (`test/hatch-auth.test.ts` — `signInAs` throws when the app rejects the cookie; teardown scoped-deletes only the test
+  user), and toolfactory's `scripts/journeys-hatch-selftest.ts` mints a real Better Auth session (signed via
+  better-call's `serializeSignedCookie`) over an in-memory `bun:sqlite` and verifies it through Better Auth's own
+  `getSession` — **PASS**. No throwaway CF account, no `wrangler dev`. The earlier blocking obligation is retired.
 
 ## Consequences
 
