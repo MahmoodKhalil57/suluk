@@ -44,7 +44,7 @@
         @suluk/builder composes it (pages → sections → blocks → components, contract-narrowing)
         @suluk/deploy ships it to Cloudflare · @suluk/cockpit drives it (vscode + /superadmin)</pre>
   </section>
-  <section id="packages" class="mt-10"><h2 class="text-primary font-semibold uppercase tracking-wide text-sm mb-3">Packages <span class="text-base-content/50">(38)</span></h2>
+  <section id="packages" class="mt-10"><h2 class="text-primary font-semibold uppercase tracking-wide text-sm mb-3">Packages <span class="text-base-content/50">(39)</span></h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"><a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-admin.html">
     <div class="card-body p-4 gap-1">
       <h3 class="card-title text-sm font-mono text-primary">@suluk/admin</h3>
@@ -163,6 +163,12 @@
     <div class="card-body p-4 gap-1">
       <h3 class="card-title text-sm font-mono text-primary">@suluk/i18n</h3>
       <p class="text-sm text-base-content/70 m-0">The locale primitive every content app needs: a typed locale/direction model (defineLocales), a Workers-safe message loader with default-locale fallback + {token} interpolation, compile-time key-parity + a runtime completeness grade, Intl number/currency/date formatting (incl. Eastern-Arabic numerals), framework-agnostic cookie→locale resolution, and an ./astro middleware glue. The catalog CONTENT stays app-authored; this owns the MECHANISM. CANDIDATE tooling.</p>
+    </div>
+  </a>
+<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-journeys.html">
+    <div class="card-body p-4 gap-1">
+      <h3 class="card-title text-sm font-mono text-primary">@suluk/journeys</h3>
+      <p class="text-sm text-base-content/70 m-0">Intuitive, runnable BDD over a v4 'Suluk' contract. Projects a deterministic Gherkin step VOCABULARY from the contract (Given from x-suluk-access, When from each operation, Then from declared statuses + x-suluk-store + x-suluk-cost), binds authored .feature stories EXACT-or-UNBOUND with outcome steps resolved relative to the scenario's When-subject, and emits a BIDIRECTIONAL tri-state gap report (PARAPHRASE / NEEDS-DEV-GLUE / NEEDS-CONTRACT) + contract-&gt;authored coverage holes. A pure function of the document. CANDIDATE tooling.</p>
     </div>
   </a>
 <a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-mcp.html">

@@ -20,6 +20,7 @@ eslint: {label: "eslint"; shape: rectangle}
 harden: {label: "harden"; shape: rectangle}
 hono: {label: "hono"; shape: rectangle}
 i18n: {label: "i18n"; shape: rectangle}
+journeys: {label: "journeys"; shape: rectangle}
 mcp: {label: "mcp"; shape: rectangle}
 models: {label: "models"; shape: rectangle}
 "nano-stores": {label: "nano-stores"; shape: rectangle}
@@ -77,6 +78,8 @@ email -> i18n
 harden -> core
 hono -> core
 hono -> zod
+journeys -> core
+journeys -> sdk
 mcp -> core
 "nano-stores" -> core
 "nano-stores" -> hono
