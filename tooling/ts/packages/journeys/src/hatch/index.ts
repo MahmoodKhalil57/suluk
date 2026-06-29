@@ -13,6 +13,7 @@
  *
  * Runtime IO only — provably outside the deterministic core (bind.ts / vocabulary.ts), enforced by hatch-wall.test.ts.
  */
+export { runScope, type RunScope, type RunScopeOptions } from "./runscope";
 export { resolveBackend, localD1, remoteD1, type BackendSpec } from "./backends";
 export { stateHatch, type StateHatchOptions } from "./state";
 export { signInAs, type SignInAsOptions, type SignedInSession, type CleanupTarget } from "./auth";
