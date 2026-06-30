@@ -36,3 +36,19 @@ falsified_when provision_osb_drizzlekit_design_layer_above == False
 # adapter + the file-backed store + the drizzle-kit-style CLI (plan/apply/pull/studio/check) + the toolfactory cutover.
 claim provision_core_osb_framework_built_witnessed: Bool @>=0.55 = True
 falsified_when provision_core_osb_framework_built_witnessed == False
+
+# C047 BUILD #2 — the CLOUDFLARE brokers + the binding sinks built 2026-07-01. brokers/cloudflare.ts: cloudflareD1/Kv/R2/
+# Secrets — each a THIN OSB Broker WRAPPING @suluk/cloudflare's already-witnessed idempotent provisioner (provisionD1/
+# provisionKvNamespace/provisionR2Bucket/putSecrets), never re-implementing it; constructed with a CloudflareClient (the
+# credential seam). Outputs feed the binding chain: d1 -> database_id (+ applyMigrations when params.migrations), kv ->
+# namespace_id, r2 -> bucket_name, secrets -> the pushed names (cloudflare-secrets IS sync-secrets.ts as a broker: params
+# {script, secrets} -> idempotent secret put). deprovision = the REST DELETE (the destructive op the orphan-prune calls).
+# env-sink.ts: envSink — the binding SINK that lands each (output -> env var) through @suluk/env/node setVar (encrypted by
+# default = commit-safe; a `plain` predicate marks non-secret ids readable) — this closes the chain into @suluk/env.
+# file-store.ts: fileStore — the on-disk journal (.suluk/provision.json; missing -> empty; pretty JSON, PR-reviewable).
+# deps += @suluk/cloudflare + @suluk/env. WITNESSED — provision 15 pass (the brokers over a mock CloudflareClient map
+# provisioner->output + hit the right DELETE + skip-empty secrets; envSink writes the mapped vars to a temp .env; fileStore
+# round-trips + mkdir -p). tsc clean. REMAINING: the stripe/domains(async)/tokens brokers + the drizzle-kit-style CLI
+# (plan/apply/pull/studio/check) + the toolfactory cutover.
+claim provision_cloudflare_brokers_and_sinks_built: Bool @>=0.55 = True
+falsified_when provision_cloudflare_brokers_and_sinks_built == False

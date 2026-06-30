@@ -18,6 +18,10 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "dependencies": {
+    "@suluk/cloudflare": "workspace:^",
+    "@suluk/env": "workspace:^"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },

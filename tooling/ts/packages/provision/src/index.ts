@@ -20,3 +20,7 @@ export { plan, type ProvisionPlan, type PlanStep, type StepAction } from "./plan
 export { apply, type ApplyOptions, type ApplyResult, type AppliedStep } from "./apply";
 export { checkDrift, assertNoDrift, type DriftReport } from "./check";
 export { memoryStore, memorySink } from "./memory";
+export { fileStore } from "./file-store";
+export { envSink, type EnvSinkOptions } from "./env-sink";
+// the concrete Cloudflare brokers (wrap @suluk/cloudflare's idempotent provisioners).
+export { cloudflareD1, cloudflareKv, cloudflareR2, cloudflareSecrets } from "./brokers/cloudflare";
