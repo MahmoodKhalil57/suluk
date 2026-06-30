@@ -16,3 +16,5 @@ export {
 } from "./chain";
 export { MAX_KEY_DEPTH, escapeLike, subtreeLikePattern, inSubtree, childPath, pathDepth, ancestorIdsOf, pathAt } from "./path";
 export { parseScopes, parseKeyMeta } from "./scopes";
+// the lineage-tree DB ops (over an injected Drizzle handle) + the pooled-headroom query that joins @suluk/credits.
+export { type KeysDB, keyLineage, subtreeOf, parentPathOf, insertLineage, chainHeadroom, revokeKeyTree } from "./lineage";

@@ -58,3 +58,16 @@ falsified_when runtime_keys_delegation_algebra_core_built == False
 # DB-orchestration seam (now buildable — chainHeadroom joins the credit ledger), then @suluk/billing; toolfactory rewiring.
 claim runtime_credits_ledger_built_atomic_witnessed: Bool @>=0.55 = True
 falsified_when runtime_credits_ledger_built_atomic_witnessed == False
+
+# C046 BUILD #3 — @suluk/keys LINEAGE DB OPS + the keys×credits INTEGRATION built 2026-06-30 (completes the generic keys
+# surface). @suluk/keys now OWNS the key_lineage schema (the delegation tree) + the materialized-path DB ops over an
+# injected Drizzle handle: subtreeOf, parentPathOf, insertLineage (extracted verbatim), revokeKeyTree (cascade with the
+# STRICT-descendant guard; the apikey-disable INJECTED so keys stays free of the Better Auth apikey table), and
+# chainHeadroom — THE INTEGRATION POINT: it joins @suluk/credits' credit_key + credit_transaction (keys deps credits) for
+# per-path spend, then pooledHeadroom -> the abuse-proof cap is REAL end-to-end (a parent cap bounds parent+child TOTAL
+# spend). The app-specific grant-fetch (apikey vs MCP tables) stays in the app and CALLS these primitives. deps +=
+# @suluk/credits + drizzle-orm. WITNESSED against a REAL bun:sqlite — keys 22 pass (the pooled chainHeadroom = {limit 50,
+# spent 40, remaining 10}: 40 = root 30 + child 10, NOT 30; the strict-descendant revoke guard). @suluk/keys generic
+# surface COMPLETE (algebra + path + scopes + lineage + headroom). REMAINING: @suluk/billing; the toolfactory rewiring.
+claim runtime_keys_lineage_and_credits_integration_built: Bool @>=0.55 = True
+falsified_when runtime_keys_lineage_and_credits_integration_built == False

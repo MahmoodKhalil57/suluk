@@ -19,7 +19,9 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@suluk/better-auth": "workspace:^"
+    "@suluk/better-auth": "workspace:^",
+    "@suluk/credits": "workspace:^",
+    "drizzle-orm": "^0.45.2"
   },
   "devDependencies": {
     "@types/bun": "latest"
