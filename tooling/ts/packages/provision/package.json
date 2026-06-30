@@ -15,6 +15,9 @@
   "bugs": "https://github.com/MahmoodKhalil57/suluk/issues",
   "type": "module",
   "main": "src/index.ts",
+  "bin": {
+    "suluk-provision": "bin/provision.ts"
+  },
   "exports": {
     ".": "./src/index.ts"
   },

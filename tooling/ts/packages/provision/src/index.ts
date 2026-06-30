@@ -24,3 +24,6 @@ export { fileStore } from "./file-store";
 export { envSink, type EnvSinkOptions } from "./env-sink";
 // the concrete Cloudflare brokers (wrap @suluk/cloudflare's idempotent provisioners).
 export { cloudflareD1, cloudflareKv, cloudflareR2, cloudflareSecrets } from "./brokers/cloudflare";
+// the drizzle-kit-style app config + CLI (plan / apply / check / status).
+export { defineProvisionApp, type ProvisionApp } from "./app";
+export { runCli, type CliResult } from "./cli";
