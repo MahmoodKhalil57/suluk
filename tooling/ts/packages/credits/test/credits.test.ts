@@ -3,7 +3,7 @@ import { Database } from "bun:sqlite";
 import { drizzle } from "drizzle-orm/bun-sqlite";
 import {
   getBalance, addCredits, debitIfCovers, debitCredits, debitOnceIfCovers, debitOnceAttributed,
-  recordKey, keySpend, listTransactions, ledgerStats, nonceFor, InsufficientCreditsError, type CreditsDB,
+  recordKey, keySpend, listTransactions, ledgerStats, nonceFor, grantOnce, InsufficientCreditsError, type CreditsDB,
 } from "../src/index";
 
 /**
@@ -94,6 +94,34 @@ describe("debitOnceIfCovers — idempotent double-spend guard", () => {
     await debitOnceAttributed(db, U, 25, "bulk", "item_1", "key_x");
     await debitOnceAttributed(db, U, 25, "bulk", "item_1", "key_x"); // replay → no new spend
     expect(await keySpend(db, "key_x")).toBe(25);
+  });
+});
+
+describe("grantOnce — idempotent money-IN (the webhook credit point)", () => {
+  test("a fresh grant credits; a replay of the SAME idemKey does NOT credit again", async () => {
+    expect(await grantOnce(db, U, 600, "pi:abc", "topup", 2000)).toBe(true);
+    expect(await getBalance(db, U)).toBe(600);
+    expect(await grantOnce(db, U, 600, "pi:abc", "topup", 2000)).toBe(false); // redelivery / Resend
+    expect(await getBalance(db, U)).toBe(600); // NOT 1200 — keyed on pi:abc
+  });
+
+  test("legacyKey honoured: a grant already recorded under the OLD key is never re-granted under a new one", async () => {
+    expect(await grantOnce(db, U, 100, "stripe:evt_1", "topup", 500)).toBe(true); // the pre-deploy grant
+    expect(await grantOnce(db, U, 100, "cs:sess_1", "topup", 500, "stripe:evt_1")).toBe(false); // key moved → skip
+    expect(await getBalance(db, U)).toBe(100);
+  });
+
+  test("rejects a non-finite / fractional / non-positive amount (ledger stays integer-by-construction)", async () => {
+    expect(await grantOnce(db, U, Infinity, "pi:x1", "topup")).toBe(false);
+    expect(await grantOnce(db, U, 500.9, "pi:x2", "topup")).toBe(false);
+    expect(await grantOnce(db, U, -100, "pi:x3", "topup")).toBe(false);
+    expect(await getBalance(db, U)).toBe(0);
+  });
+
+  test("annotates the cash that landed (amountCents) on a fresh grant", async () => {
+    await grantOnce(db, U, 600, "pi:amt", "topup", 2000);
+    const txns = await listTransactions(db, U);
+    expect(txns.find((t) => t.id === "pi:amt")?.amountCents).toBe(2000);
   });
 });
 

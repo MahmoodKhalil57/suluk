@@ -190,6 +190,40 @@ export async function ledgerStats(db: CreditsDB): Promise<LedgerStats> {
   return { creditsIssued: Number(ledger[0]?.issued ?? 0), creditsSpent: Number(ledger[0]?.spent ?? 0), balanceOutstanding: Number(ledger[0]?.balance ?? 0) };
 }
 
+/**
+ * Idempotent money-IN grant — credit `amount` exactly once, keyed on the ledger row id `idemKey` (a STABLE per-payment
+ * anchor: `pi:<id>` / `inv:<id>` / `cs:<id>`), so a webhook redelivery or dashboard "Resend" can NEVER double-credit. The
+ * money-IN twin of {@link debitOnceIfCovers} (which guards money-OUT). `legacyKey`, when given, is an ADDITIONAL anchor
+ * honoured: if a row already exists under it the money is already credited and we skip — so MOVING the idempotency key
+ * across a deploy (e.g. event-id → session-id) can't re-grant an in-flight payment. This is the LEDGER-INTEGRITY
+ * chokepoint for every grant: it rejects a non-finite / non-integer / non-positive delta, so an upstream
+ * `Number(metadata.credits)` can never let "Infinity" (which would poison every later balance read) or "500.9" (which
+ * would break balance == SUM(int delta)) reach the ledger. Returns true ONLY on a FRESH grant; on a fresh grant the cash
+ * `amountCents` (when given) is annotated for the $ detail. Use this for Stripe webhook crediting (top-up / subscription).
+ */
+export async function grantOnce(
+  db: CreditsDB,
+  userId: string,
+  amount: number,
+  idemKey: string,
+  reason = "grant",
+  amountCents?: number | null,
+  legacyKey?: string,
+): Promise<boolean> {
+  if (!Number.isFinite(amount) || !Number.isInteger(amount) || amount <= 0) {
+    console.warn(`[credit] rejected non-finite/non-integer/non-positive amount ${amount} for user ${userId} (${idemKey})`);
+    return false;
+  }
+  if (legacyKey) {
+    const prior = await db.select({ id: creditTransaction.id }).from(creditTransaction).where(eq(creditTransaction.id, legacyKey)).limit(1);
+    if (prior.length > 0) return false; // already credited under the pre-deploy key → never grant twice across the key move
+  }
+  const res = await db.insert(creditTransaction).values({ id: idemKey, userId, delta: amount, reason, createdAt: new Date() }).onConflictDoNothing().run();
+  const credited = rowsChanged(res) > 0;
+  if (credited) await recordAmount(db, idemKey, amountCents); // cosmetic $ annotation, only on a real (idempotent) grant
+  return credited;
+}
+
 /** Grant/top-up credits. Returns the new balance. */
 export async function addCredits(db: CreditsDB, userId: string, amount: number, reason: string): Promise<number> {
   if (!Number.isInteger(amount) || amount <= 0) throw new Error("amount must be a positive integer");

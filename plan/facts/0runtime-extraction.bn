@@ -87,3 +87,26 @@ falsified_when runtime_keys_lineage_and_credits_integration_built == False
 # toolfactory rewiring (the live-billing cutover) remains the SEPARATE careful follow-on.
 claim runtime_billing_v1_transport_and_card_surface_built: Bool @>=0.5 = True
 falsified_when runtime_billing_v1_transport_and_card_surface_built == False
+
+# C046 BUILD #5 — @suluk/billing v2: the DEFERRED wrappers FINISHED (2026-07-01), + @suluk/credits gains grantOnce. The
+# v1-deferred surface extracted with the SEAM resolving each entanglement, plain-JSON (no effect dep), source res.ok/field
+# semantics VERBATIM: (a) payments.ts — the money-MOVING paths (createCheckout / createSubscriptionCheckout /
+# createPortalSessionForCustomer / createPaymentIntentOnDefaultCard / chargeOffSession) with the app's product NAME +
+# success/cancel/return URLs injected as PARAMS (no app routes/branding baked in); the off-session decline taxonomy
+# preserved (authentication_required -> authRequired flag; hard 402 RETURNED not thrown; transient THROWS). (b) tax.ts —
+# calculateTax / recordTaxTransaction, graceful (any failure -> taxCents 0, the top-up always proceeds). (c)
+# subscriptions.ts — the PRICING-WOVEN logic made GENERIC over a SubPlan CATALOG the app passes (planById/planByPrice over
+# the injected SubPlan[], a SubscriptionBranding seam for the Product/lookup_key) + the PURE ceilingFor (paid-ceiling
+# math) + ensurePlanPrice/createSubscriptionOnDefaultCard/getSubscriptionStatus/changeSubscriptionPlan — the up>down>up
+# never-recharge invariant intact. (d) account.ts — the package-OWNED billing_account store (userId PK plain col; app
+# injects a Drizzle handle, exactly like credits/keys) with linkBillingCustomer NEVER clearing a subscriber's sub. The
+# "creditOnce" deferred item landed in its RIGHT home: @suluk/credits.grantOnce — the money-IN idempotent grant (legacy-key
+# honoured + non-finite/fraction/negative REJECTED), the money-IN twin of debitOnceIfCovers. STAYS APP (policy, not
+# library; HONEST): the webhook DISPATCH (composes @suluk/stripe webhookRouter/verifyStripeSignature + these primitives +
+# grantOnce + the app's pricing/alerts), the branded email TEMPLATES, the payment-alert kinds, and refund + subscription-
+# POOLING (operator-excluded from the start). deps += @suluk/drizzle + drizzle-orm. WITNESSED — billing 29 pass (mock-fetch
+# request+response + the off-session taxonomy + the ceilingFor money-math + a REAL bun:sqlite account store), credits 14
+# pass (grantOnce idempotency/legacy-key/non-finite), both tsc clean. REMAINING C046: ONLY the toolfactory rewiring (the
+# live-billing cutover — the SEPARATE careful step, after each package proves byte-faithful). The library layer is DONE.
+claim runtime_billing_v2_deferred_wrappers_finished_and_grantonce: Bool @>=0.55 = True
+falsified_when runtime_billing_v2_deferred_wrappers_finished_and_grantonce == False

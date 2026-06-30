@@ -68,3 +68,41 @@ Each package is **generic logic + an injected handle** (a DB / Stripe / env adap
 - **Deferred to the build session:** the exact adapter-seam interface per package (the DB-handle shape), the Drizzle
   schema ownership (package-owned vs app-declared), and whether `@suluk/keys` wraps or re-exports the `@better-auth/api-key`
   plugin.
+
+## Build log (the plan, executed)
+
+The plan was built across five Steps; the ceiling lifted from 0.4 (designed) to ~0.55 (built + witnessed) per package.
+
+- **#1–#3 `@suluk/keys`** — the delegation-chain *algebra* (effectiveCaps / **pooledHeadroom** — the abuse-proof subtree
+  cap / clampChildGrant / read-time revocation cascade), the materialized-path utilities + scopes, then the lineage DB ops
+  + the **keys × credits** integration (`chainHeadroom` joins the credit ledger so the pooled cap is real end-to-end).
+  Witnessed: keys 22 pass.
+- **#2 `@suluk/credits`** — the metered ledger (package owns the schema; app injects a Drizzle handle). The money-OUT
+  core: the **atomic `debitIfCovers`** (can't drive the ledger negative under concurrency) + the idempotent
+  `debitOnceIfCovers` (partial-refund double-spend guard). Witnessed against a real bun:sqlite.
+- **#4 `@suluk/billing` v1** — the Stripe transport (with the refund idempotency-key) + customer/intent creation + the
+  saved-card surface. The Effect-`Schema` defensive decode dropped → no `effect` dep. Witnessed with a mock fetch.
+- **#5 `@suluk/billing` v2 (the deferred wrappers FINISHED) + `@suluk/credits.grantOnce`** — `2026-07-01`. The remaining
+  deferred surface extracted, each entanglement resolved by a **seam**:
+  - **money-moving** (`payments.ts`): hosted Checkout (one-time + subscription), the billing portal, the on-default-card
+    top-up, and the off-session auto-top-up charge — the app's **product name + success/cancel/return URLs injected as
+    params** (no app routes/branding baked in); the off-session decline taxonomy preserved verbatim
+    (`authentication_required` → an `authRequired` flag; a hard 402 *returned* not thrown; a transient failure *throws*).
+  - **Stripe Tax** (`tax.ts`): `calculateTax` / `recordTaxTransaction`, graceful (any failure → `taxCents: 0`, the top-up
+    always proceeds).
+  - **pricing-woven subscription logic** (`subscriptions.ts`): made **generic over a `SubPlan` catalog the app passes** —
+    `planById`/`planByPrice` over the injected `SubPlan[]`, a `SubscriptionBranding` seam for the Product/lookup_key, the
+    **pure `ceilingFor`** paid-ceiling math, and `ensurePlanPrice` / `createSubscriptionOnDefaultCard` /
+    `getSubscriptionStatus` / `changeSubscriptionPlan` (the *up→down→up never-recharge* invariant intact).
+  - **the billing-account store** (`account.ts`): package-**owned** `billing_account` schema (userId PK as a plain column;
+    app injects the Drizzle handle, exactly like credits/keys); `linkBillingCustomer` never clears a subscriber's sub.
+  - **`creditOnce` landed in its right home** — `@suluk/credits.grantOnce`, the money-**IN** idempotent grant (legacy-key
+    honoured; non-finite / fractional / non-positive deltas rejected) — the money-IN twin of `debitOnceIfCovers`.
+  - **Stays app (policy, not library — honest):** the **webhook *dispatch*** (it composes `@suluk/stripe`'s
+    `webhookRouter` / `verifyStripeSignature` + these primitives + `grantOnce` + the app's pricing/alerts), the **branded
+    email templates**, the **payment-alert kinds**, and **refund + subscription-pooling** (operator-excluded from the
+    start). Deps += `@suluk/drizzle` + `drizzle-orm`. Witnessed — billing **29 pass**, credits **14 pass**, both tsc-clean.
+
+**The library layer is DONE.** The only remaining C046 work is the **toolfactory rewiring** (the live-billing cutover) —
+the separate, careful step this ADR always flagged: do it only after each package proves byte-faithful, because the
+atomic-debit CAS + the idempotent grant/debit are load-bearing for money-correctness.

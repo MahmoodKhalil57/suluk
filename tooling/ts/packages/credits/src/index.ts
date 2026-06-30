@@ -13,6 +13,6 @@ export {
   nonceFor, debitOnceIfCovers, debitOnceAttributed, type DebitOutcome,
   ledgerRow, recordAmount, listTransactions, type LedgerEntry,
   ledgerStats, type LedgerStats,
-  addCredits, debitCredits,
+  grantOnce, addCredits, debitCredits,
 } from "./credits";
 export { creditTransaction, creditAmount, creditKey } from "./schema";
