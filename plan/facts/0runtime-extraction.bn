@@ -29,3 +29,18 @@ falsified_when runtime_extraction_three_packages_decomposition == False
 # @better-auth/api-key plugin.
 claim runtime_extraction_designed_not_built_live_billing_caution: Bool @>=0.4 = True
 falsified_when runtime_extraction_designed_not_built_live_billing_caution == False
+
+# C046 BUILD PROGRESS — @suluk/keys PURE CORE built 2026-06-30 (the cleanest, FIRST per the plan). The delegation-chain
+# ALGEBRA extracted VERBATIM from the source: effectiveCaps (intersect scopes, min caps/expiry up the chain),
+# pooledHeadroom (the ABUSE-PROOF property — a parent cap bounds its WHOLE subtree's total spend, so a key can't multiply
+# its budget by minting children), expired/disabledAncestor (the read-time revocation cascade), clampChildGrant, the
+# materialized-path utilities (escapeLike/inSubtree/childPath/...), parseScopes/parseKeyMeta (the scope/metadata model,
+# reusing @suluk/better-auth permissionsToScopes). PURE — the app builds ChainNode[] + per-path SpendRow[] from its DB
+# (the query is the SEAM, deferred per C046) and calls these so the money/abuse-correctness logic can NEVER drift.
+# WITNESSED by keys 18 pass (incl. the load-bearing pooled-headroom abuse-proof test: parent cap 50, child spends 30 ->
+# parent remaining counts the pooled 50, not its own 20). REMAINING in @suluk/keys: the DB-orchestration seam
+# (resolveChain/revokeKeyTree over a KeyStore adapter) + a Drizzle reference impl. NOTE: @suluk/better-auth already
+# exports parseApiKeyMetadata — a possible consolidation to check at the credits/orchestration step. credits + billing +
+# the toolfactory rewiring remain.
+claim runtime_keys_delegation_algebra_core_built: Bool @>=0.5 = True
+falsified_when runtime_keys_delegation_algebra_core_built == False
