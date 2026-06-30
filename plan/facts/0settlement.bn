@@ -1,0 +1,37 @@
+# C044 — cost SETTLEMENT axis: HOW a declared cost is recovered (credit | rate-limited | free). The fifth orthogonal
+# axis on x-suluk-cost (basis=how-meters · trigger=when-fires · attribution=who-pays · reconciliation=declared-vs-actual ·
+# settlement=how-recovered). Operator-surfaced ("define how the cost will be paid — by rate limiting or by credit") AND a
+# real toolfactory COWPATH (its governance gate already checks "every cost names a lever credit|rate-limit|free"). Lives in
+# @suluk/cost (CostModel is there; core treats x-suluk-cost structurally + the matcher ignores it -> NO core change).
+# ORIGINATED but formalizes a deployed cowpath + fully witnessed -> 0.55.
+
+# THE AXIS. settlement?: CostSettlement on CostModel: method "credit"|"rate-limited"|"free" + credits? (the per-call
+# debit for credit; omitted -> derive from estimateMicroUsd x the operator's rate, a runtime concern) + overflow?
+# "deny"|"credit" (when a rate-limited free cap is exhausted). rate-limited = free to the user, the cost is paid by
+# CAPPING usage so the op's x-suluk-ratelimit IS the settlement; credit = a balance is debited; free = truly free.
+# WITNESSED by cost/test/settlement.test.ts (settlementOf reads it).
+claim settlement_fifth_cost_axis_how_recovered: Bool @>=0.55 = True
+falsified_when settlement_fifth_cost_axis_how_recovered == False
+
+# SETTLEMENT AUDIT = the generic "names a lever" governance check (promotes toolfactory's cowpath). settlementAudit(doc):
+# a PRICED op with no settlement -> cost-without-settlement; rate-limited with NO x-suluk-ratelimit -> rate-limited-
+# without-cap (HIGH — nothing to be the payment); credit with neither credits nor an estimate -> credit-without-amount;
+# free yet priced -> free-but-priced (the operator absorbs it). settlementRollup(doc) tallies credit/rate-limited/free/
+# priced-but-unsettled. WITNESSED by cost/test/settlement.test.ts.
+claim settlement_audit_generic_lever_check: Bool @>=0.55 = True
+falsified_when settlement_audit_generic_lever_check == False
+
+# IMPLIED ERRORS = the generic errors-gate. impliedErrorStatuses(req): a request's FACETS imply error responses a
+# contract should declare — credit->402, authenticated/admin->401, owner-scope->403, rate-limit->429, an upstream
+# per-request cost component->502. A PURE function of the declared facets. (Feeds the unified contract audit that extends
+# @suluk/cockpit contractGates next.) WITNESSED by cost/test/settlement.test.ts.
+claim settlement_implied_errors_generic_gate: Bool @>=0.55 = True
+falsified_when settlement_implied_errors_generic_gate == False
+
+# D1 WALL (rides x-suluk-cost, already matcher-invisible since C024). settlement is an enum + an integer + an enum —
+# purely STATIC facts, never a request value or a payload pointer. The matcher has ignored x-suluk-cost since C024
+# (cost is advisory; buildAda/matchRequest never read it), so the new axis needs NO core change. A type-linked test
+# classifies every CostSettlement field as enum/scalar (a value-extracting field fails to compile until classified —
+# the C037 claim-2 discipline). WITNESSED by cost/test/settlement.test.ts (the D1-wall describe block).
+claim settlement_d1_static_facts_no_core_change: Bool @>=0.6 = True
+falsified_when settlement_d1_static_facts_no_core_change == False

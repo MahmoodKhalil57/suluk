@@ -79,10 +79,31 @@ export interface CostModel {
   amountExpression?: string;
   /** the unit `amountExpression` yields (default "micro-usd"). "cents" (Stripe) → ×10_000; "usd" → ×1_000_000. */
   amountUnit?: "micro-usd" | "cents" | "usd";
+  /** HOW the operator RECOVERS this cost (C044). The fifth orthogonal axis — basis=how-meters · trigger=when-fires ·
+   *  attribution=who-pays · reconciliation=declared-vs-actual · **settlement=how-recovered**. */
+  settlement?: CostSettlement;
 }
 
 /** Whether a cost's amount is a declared guess or read from the event payload at runtime (C026). */
 export type ReconciliationBasis = "declared-estimate" | "payload-reconciled";
+
+/**
+ * HOW a declared cost is RECOVERED from the user (C044). `rate-limited` ⇒ free to the user — the cost is "paid" by
+ * CAPPING usage, so the op's `x-suluk-ratelimit` IS the settlement (no money moves). `credit` ⇒ the user pays credits
+ * (a balance is debited). `free` ⇒ truly free (the operator absorbs any cost). A purely STATIC fact (an enum + an
+ * integer + names) — never a request value, so it rides the x-suluk-cost wall (matcher-invisible since C024).
+ */
+export type SettlementMethod = "credit" | "rate-limited" | "free";
+
+export interface CostSettlement {
+  method: SettlementMethod;
+  /** method:"credit" — the credits debited per call (a non-negative integer). Omitted ⇒ derived from
+   *  `estimateMicroUsd` × the operator's credit rate (a runtime concern, not declared here). */
+  credits?: number;
+  /** method:"rate-limited" — what happens when the free cap (`x-suluk-ratelimit`) is exhausted: refuse, or fall back
+   *  to charging credits. Advisory; the runtime enforces it. */
+  overflow?: "deny" | "credit";
+}
 
 /** The principal sentinel for a background cost that resolved to NO principal — billed to nobody, but never silent. */
 export const UNATTRIBUTED = "@unattributed" as const;

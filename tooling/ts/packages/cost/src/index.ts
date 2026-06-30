@@ -11,7 +11,14 @@ export {
   type CostTrigger, type CostAttribution, UNATTRIBUTED,
   // C026 — reconciliation: declared-estimate vs the third party's actual (payload-reconciled) charge.
   type ReconciliationBasis,
+  // C044 — settlement: HOW the cost is recovered (credit | rate-limited | free).
+  type SettlementMethod, type CostSettlement,
 } from "./types";
+// C044 — settlement audit (every priced op names a lever) + the errors a request's facets imply.
+export {
+  settlementOf, settlementAudit, impliedErrorStatuses, settlementRollup,
+  type SettlementFinding, type SettlementSeverity, type SettlementRollup,
+} from "./settlement";
 export {
   COST_EXT, annotateCosts, costOf, costAudit, costTable, computeCost, type CostFinding,
   eachOperation, eachJob, triggerOf, isDeferredCost, type CostRow,
