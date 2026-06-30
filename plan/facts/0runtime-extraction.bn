@@ -44,3 +44,17 @@ falsified_when runtime_extraction_designed_not_built_live_billing_caution == Fal
 # the toolfactory rewiring remain.
 claim runtime_keys_delegation_algebra_core_built: Bool @>=0.5 = True
 falsified_when runtime_keys_delegation_algebra_core_built == False
+
+# C046 BUILD #2 — @suluk/credits (the DEPENDENCY ROOT) built 2026-06-30. The metered ledger extracted VERBATIM: the
+# package OWNS the schema (credit_transaction + credit_amount/credit_key sidecars; userId a plain col — the app owns the
+# user table + any FK), the app injects a Drizzle handle (D1 prod, bun:sqlite tests). Money-correctness core: debitIfCovers
+# (ATOMIC conditional INSERT — can't drive the ledger negative under concurrency; self-guards a negative amount from
+# MINTING), debitOnceIfCovers (INSERT OR IGNORE — the partial-refund double-spend guard: a replay maps to the
+# deterministic nonce row, NEVER a second debit), debitOnceAttributed, getBalance/record/recordKey/keySpend, ledgerRow/
+# recordAmount, listTransactions (the activity log), ledgerStats (the generic admin aggregate; the user-COUNT stays app),
+# addCredits/debitCredits. EXCLUDED (app-specific): payment-alert kinds, the user-table count. deps drizzle-orm +
+# @suluk/drizzle. WITNESSED against a REAL bun:sqlite — credits 10 pass (the atomic floor: debit>balance -> false +
+# balance unchanged; the idempotent replay -> no second debit; keySpend attribution). REMAINING: the @suluk/keys
+# DB-orchestration seam (now buildable — chainHeadroom joins the credit ledger), then @suluk/billing; toolfactory rewiring.
+claim runtime_credits_ledger_built_atomic_witnessed: Bool @>=0.55 = True
+falsified_when runtime_credits_ledger_built_atomic_witnessed == False
