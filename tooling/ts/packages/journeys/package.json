@@ -26,6 +26,7 @@
     "@suluk/cloudflare": "workspace:^",
     "@suluk/core": "workspace:^",
     "@suluk/examples": "workspace:^",
+    "@suluk/harden": "workspace:^",
     "@suluk/sdk": "workspace:^"
   },
   "devDependencies": {

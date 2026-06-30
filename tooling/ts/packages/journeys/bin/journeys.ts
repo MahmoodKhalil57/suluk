@@ -3,19 +3,24 @@
  * @suluk/journeys CLI.
  *   demos    — compile `.feature` files into a Bruno/Postman demo collection (live-prod / dev-local).
  *   promote  — lift a tester's `@public` Examples row into the Zod source as `.meta({ examples })` (C040-P4).
+ *   audit    — the unified contract grade: harden security + readiness + BDD coverage (C043), with a CI gate.
  *
  * `--features` may be repeated and may name a directory (all `*.feature` under it) or a single file.
  */
 import { statSync } from "node:fs";
 import { join } from "node:path";
-import { buildDemoFiles, planPromotions, parseTargetSpec, miniDiff, type DemoFormat, type PromoteTargetSpec } from "../src/cli";
+import { buildDemoFiles, planPromotions, parseTargetSpec, miniDiff, buildAudit, type DemoFormat, type PromoteTargetSpec } from "../src/cli";
+
+const GRADES = ["F", "D", "C", "B", "A"];
 
 const DEMOS_USAGE = `journeys demos --doc <openapi.json> --features <dir-or-file>... --out <dir>
                [--format bruno|postman|both] [--name <name>] [--base-url <prodURL>] [--local-base-url <localURL>]`;
 const PROMOTE_USAGE = `journeys promote --features <dir-or-file>... --target "<scenario>=<file>#<schemaVar>"... [--write] [--because <reason>]
                (dry-run by default — prints a diff; pass --write to apply. Review the diff; a substrate operator
                 runs mizan_check_action_safety before --write.)`;
-const USAGE = `${DEMOS_USAGE}\n\n  ${PROMOTE_USAGE}`;
+const AUDIT_USAGE = `journeys audit --doc <openapi.json> [--features <dir-or-file>...] [--min A|B|C|D|F]
+               (security + readiness from @suluk/harden; BDD coverage when --features is given; --min gates on the worst.)`;
+const USAGE = `${DEMOS_USAGE}\n\n  ${PROMOTE_USAGE}\n\n  ${AUDIT_USAGE}`;
 
 function parseFlags(args: string[]): { cmd?: string; flags: Record<string, string[]> } {
   const flags: Record<string, string[]> = {};
@@ -133,12 +138,55 @@ async function promoteCommand(flags: Record<string, string[]>): Promise<number> 
   return 0;
 }
 
+async function auditCommand(flags: Record<string, string[]>): Promise<number> {
+  const docPath = one(flags, "doc");
+  const featurePaths = flags.features ?? [];
+  const min = one(flags, "min");
+  if (!docPath) {
+    console.error("error: --doc is required.\n\n" + AUDIT_USAGE);
+    return 1;
+  }
+  if (min && !GRADES.includes(min)) {
+    console.error(`error: --min must be A|B|C|D|F (got ${min}).`);
+    return 1;
+  }
+  const docText = await Bun.file(docPath).text();
+  const featureTexts = featurePaths.length ? await loadFeatureTexts(featurePaths) : [];
+  const a = buildAudit(docText, featureTexts);
+
+  const dim = (label: string, d: { grade: string; score: number; findings: { severity: string; rule: string; path: string; message: string }[] }) => {
+    console.log(`\n${label}: ${d.grade} (${d.score}/100)`);
+    for (const f of d.findings.slice(0, 8)) console.log(`  [${f.severity}] ${f.rule}  ${f.path}: ${f.message}`);
+    if (d.findings.length > 8) console.log(`  …and ${d.findings.length - 8} more`);
+  };
+  dim("security ", a.security);
+  dim("readiness", a.readiness);
+  if (a.coverage) {
+    console.log(`\ncoverage : ${a.coverage.grade} (${a.coverage.covered}/${a.coverage.total} ops covered)`);
+    if (a.coverage.uncovered.length) console.log(`  uncovered (generate outlines): ${a.coverage.uncovered.join(", ")}`);
+  } else {
+    console.log(`\ncoverage : (skipped — pass --features to grade BDD coverage)`);
+  }
+  console.log(`\n= combined: worst ${a.combined.worst}, average ${a.combined.average}  [${a.combined.grades.join(" · ")}]`);
+
+  if (min) {
+    if (GRADES.indexOf(a.combined.worst) < GRADES.indexOf(min)) {
+      console.error(`\n✗ combined grade ${a.combined.worst} is below the required ${min}.`);
+      return 1;
+    }
+    console.log(`✓ meets the required ${min}.`);
+  }
+  return 0;
+}
+
 const { cmd, flags } = parseFlags(process.argv.slice(2));
 try {
   if (cmd === "demos") {
     process.exit(await demosCommand(flags));
   } else if (cmd === "promote") {
     process.exit(await promoteCommand(flags));
+  } else if (cmd === "audit") {
+    process.exit(await auditCommand(flags));
   } else {
     console.log(`@suluk/journeys CLI\n\nUsage:\n  ${USAGE}`);
     process.exit(cmd ? 1 : 0);

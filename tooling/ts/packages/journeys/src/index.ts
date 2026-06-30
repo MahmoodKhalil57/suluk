@@ -75,6 +75,7 @@ export {
   planPromotions,
   parseTargetSpec,
   miniDiff,
+  buildAudit,
   type DemoFormat,
   type BuildDemoFilesOptions,
   type DemoFilesResult,
@@ -82,7 +83,11 @@ export {
   type PromotionPlan,
   type PromotionRow,
   type PromotionFileResult,
+  type AuditResult,
+  type DimensionAudit,
 } from "./cli";
+
+export { coverageGrade, type CoverageGrade } from "./coverage";
 
 export {
   resolveExample,

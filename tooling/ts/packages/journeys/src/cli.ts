@@ -4,10 +4,13 @@
  * so the interesting logic stays unit-testable without touching disk.
  */
 import { parseDocument, type OpenAPIv4Document } from "@suluk/core";
+import { auditDocument, auditReadiness, combineGrades, type Grade, type Finding } from "@suluk/harden";
 import { generateVocabulary } from "./vocabulary";
 import { parseFeature } from "./gherkin";
+import { bindFeatures } from "./bind";
 import { compileDemos, renderBruno, renderPostman } from "./demos";
 import { extractPublicRows, buildExampleObject, promoteExampleIntoZod } from "./promote";
+import { coverageGrade, type CoverageGrade } from "./coverage";
 
 export type DemoFormat = "bruno" | "postman" | "both";
 
@@ -117,6 +120,49 @@ export function planPromotions(featureTexts: string[], targets: Map<string, Prom
   }
   const files = Object.keys(sources).map((f) => ({ file: f, original: sources[f], updated: working[f], changed: working[f] !== sources[f] }));
   return { files, rows };
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// `journeys audit` core — the UNIFIED contract grade (C043): harden security + harden readiness + journeys coverage,
+// folded by letter via harden's combineGrades (the established harden+agents seam; harden never deps journeys).
+// ---------------------------------------------------------------------------------------------------------------------
+
+export interface DimensionAudit {
+  grade: Grade;
+  score: number;
+  findings: Finding[];
+}
+export interface AuditResult {
+  /** schema input-hardening (security) — `@suluk/harden` auditDocument. */
+  security: DimensionAudit;
+  /** schema-fact readiness (computed-required / missing-example) — `@suluk/harden` auditReadiness. */
+  readiness: DimensionAudit;
+  /** BDD contract coverage — present only when `.feature` files were given. */
+  coverage?: CoverageGrade;
+  /** the combined grade (worst is the safe value to gate on). */
+  combined: { worst: Grade; average: Grade; grades: Grade[] };
+}
+
+/** Run all readiness dimensions over a contract (+ optional `.feature` texts) and fold them into one grade. Pure. */
+export function buildAudit(docText: string, featureTexts: string[] = []): AuditResult {
+  const doc = parseDocument(docText) as OpenAPIv4Document;
+  const sec = auditDocument(doc);
+  const rd = auditReadiness(doc);
+  const grades: Grade[] = [sec.grade, rd.grade];
+
+  let coverage: CoverageGrade | undefined;
+  if (featureTexts.length) {
+    const report = bindFeatures(generateVocabulary(doc), featureTexts.map((t) => parseFeature(t)));
+    coverage = coverageGrade(report);
+    grades.push(coverage.grade);
+  }
+
+  return {
+    security: { grade: sec.grade, score: sec.score, findings: sec.findings },
+    readiness: { grade: rd.grade, score: rd.score, findings: rd.findings },
+    coverage,
+    combined: combineGrades(grades),
+  };
 }
 
 /** A minimal context diff (the edit is localized to one schema statement). Lines: `  ` ctx, `- ` removed, `+ ` added. */

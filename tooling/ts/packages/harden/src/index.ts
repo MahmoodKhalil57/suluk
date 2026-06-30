@@ -16,3 +16,6 @@ export {
 } from "./audit";
 // the inverse of the audit — the hardening TRANSFORM that adds the baseline bounds the audit grades for.
 export { hardenSchema, hardenDocument, type HardenOptions } from "./harden";
+// C043: a SECOND dimension — schema-fact READINESS (computed-required, request-without-example), separate from the
+// security grade. Fold its letter into `combineGrades` alongside the security grade + journeys coverage.
+export { auditReadiness, type ReadinessAudit, type ReadinessOptions } from "./readiness";

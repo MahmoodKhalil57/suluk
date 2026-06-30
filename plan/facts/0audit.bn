@@ -1,0 +1,33 @@
+# C043 — fold the C040/C041 readiness + journeys BDD coverage into @suluk/harden's unified contract-grade surface
+# (it already ships combineGrades/assertCombinedGrade for harden-security + @suluk/agents-gradeAgent). Operator-surfaced
+# ("shouldn't gaps/outlines be surfaced by @suluk/harden and used in the packages today"). The hard constraint: harden
+# deps only core, journeys deps harden => harden CANNOT import journeys (cycle) and has no .feature files, so BDD coverage
+# is computed in journeys and combined by LETTER (exactly as the agent grade is). ORIGINATED but on harden's blessed
+# combinator + witnessed end-to-end => 0.55.
+
+# HARDEN READINESS — A SECOND, SEPARATE DIMENSION. auditReadiness(doc) (harden/src/readiness.ts) grades schema-FACT
+# readiness the doc can answer alone, kept APART from the security auditDocument grade (a security score never mixes with
+# readiness): computed-required (HIGH — a required computed/readOnly field a client cannot send: a real contract bug) +
+# request-without-example (LOW — no curated example). Reuses harden's Finding/grade machinery; reads origin via
+# @suluk/examples fieldOrigin (the single source of the C041 convention; harden gains a zero-dep @suluk/examples dep, no
+# cycle). WITNESSED by harden/test/readiness.test.ts.
+claim harden_readiness_second_dimension: Bool @>=0.55 = True
+falsified_when harden_readiness_second_dimension == False
+
+# JOURNEYS COVERAGE — A GRADED DIMENSION journeys OWNS. coverageGrade(report) (journeys/src/coverage.ts) turns the binder's
+# covered/total into a LETTER (via harden's grade) and surfaces the uncovered op names (the gaps -> generate a Scenario
+# Outline for each). It lives in journeys because coverage needs the .feature files; journeys gains a @suluk/harden dep.
+# WITNESSED by journeys/test/audit.test.ts (coverage 1/N, uncovered ops surfaced).
+claim journeys_coverage_grade_dimension: Bool @>=0.55 = True
+falsified_when journeys_coverage_grade_dimension == False
+
+# UNIFIED AUDIT — combine via harden, NEVER absorb. buildAudit(docText, featureTexts?) (journeys/src/cli.ts) folds harden
+# SECURITY + harden READINESS + journeys COVERAGE through harden's existing combineGrades([sec, readiness, coverage]) ->
+# worst + average. The `journeys audit` CLI prints all three dimensions + the combined grade; --min A|B|C|D|F gates CI on
+# the WORST (the safe value); coverage included only when --features given. The outline GENERATOR stays in journeys; the
+# audit surfaces WHICH ops need one. harden never imports journeys — it folds a LETTER (the harden+agents seam). Acyclic:
+# @suluk/examples (zero-dep) <- @suluk/harden <- @suluk/journeys. WITNESSED by journeys/test/audit.test.ts (buildAudit
+# units + a REAL `journeys audit` spawn: 3 dimensions + combined + the --min gate) + a manual run (security C / readiness
+# C / coverage F -> worst F).
+claim unified_audit_combines_via_harden_not_absorb: Bool @>=0.55 = True
+falsified_when unified_audit_combines_via_harden_not_absorb == False
