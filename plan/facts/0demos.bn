@@ -1,0 +1,36 @@
+# C042 — Gherkin -> Bruno/Postman DEMO collections. A SECOND emit target on the journeys arc (journeys/src/demos.ts):
+# a bound feature set -> a Bruno or Postman collection a tester clicks through to showcase a feature start-to-end on a
+# LIVE (production) environment in a call; and a developer points the same collection at localhost to rehearse first.
+# Operator-surfaced (demos-on-prod + the dev-local-first follow-up). Reuses C038/C040 binding + C041 origin/chaining.
+# ORIGINATED; mechanism witnessed, format fidelity "good enough to import+run" (not full schema completeness) => 0.5.
+
+# SECOND EMIT TARGET, SAME BINDING. compileDemos(doc, vocab, features) reuses bindFeatures and lowers each bound When to
+# a DemoRequest (method+path+auth+JSON body) — a target-agnostic IR rendered by renderPostman (Collection v2.1.0 string)
+# and renderBruno (a file map: bruno.json + per-request .bru + environments). The body is built from the scenario's FIRST
+# Examples row when present, else SYNTHESIZED from the schema (C041 origin-aware: computed dropped). WITNESSED by
+# journeys/test/demos.test.ts (IR order + body + both renderers).
+claim demos_second_emit_target_reuses_binding: Bool @>=0.55 = True
+falsified_when demos_second_emit_target_reuses_binding == False
+
+# SOURCED -> REQUEST CHAINING (the live-call resolveSourced). A `sourced` field renders as a {{var}} reference and the
+# SOURCE request (the prior bound When whose op produced it) gains a CAPTURE of that field — Postman
+# pm.collectionVariables.set + a {{var}} body ref; Bruno script:post-response bru.setVar + {{var}}. So a demo shows real
+# response data flowing from one request into the next, live. WITNESSED by demos.test.ts (createSubscription captures
+# createSubscription_id; charge references {{createSubscription_id}}).
+claim demos_sourced_field_becomes_request_chaining: Bool @>=0.55 = True
+falsified_when demos_sourced_field_becomes_request_chaining == False
+
+# ENVIRONMENT-AGNOSTIC IR = THE DUAL USE (operator follow-up). The IR holds NO url — only {{baseUrl}}. Both renderers emit
+# a LOCAL and a PROD environment (baseUrl defaults to a wrangler dev port, so a fresh import runs against localhost FIRST);
+# the presenter switches baseUrl to prod for the live call. ONE collection: a developer rehearses locally, the tester runs
+# it live; the only difference is the variable. token is a variable; auth'd ops get Bearer {{token}}. WITNESSED by
+# demos.test.ts (postman baseUrl=local default + prodBaseUrl; bruno environments/local.bru + environments/prod.bru).
+claim demos_environment_agnostic_local_then_prod: Bool @>=0.55 = True
+falsified_when demos_environment_agnostic_local_then_prod == False
+
+# DOWNSTREAM CONSUMER, NO FACET (rides C038/C040/C041). demos.ts reads the bound scenarios + resolved ops + schema; it
+# mints NO facet and never touches buildAda/matchRequest. It sits on the VALUE/emit side (imports @suluk/examples synth +
+# the binder), like emit.ts; the pure projector core does not import it. Example values + captured chaining vars are
+# runtime demo data, never contract facts. (No new D1 surface — the C038 wall holds unchanged.)
+claim demos_downstream_consumer_no_facet: Bool @>=0.6 = True
+falsified_when demos_downstream_consumer_no_facet == False

@@ -59,6 +59,18 @@ export {
 export { emitRunnableSuite, type EmitOptions } from "./emit";
 
 export {
+  compileDemos,
+  renderPostman,
+  renderBruno,
+  type DemoScenario,
+  type DemoRequest,
+  type DemoValue,
+  type DemoCapture,
+  type CompileDemoOptions,
+  type RenderOptions,
+} from "./demos";
+
+export {
   resolveExample,
   synthesize,
   fieldOrigin,
