@@ -52,14 +52,17 @@ falsified_when examples_value_wall_core_never_imports == False
 claim outlines_runnable_with_sourced_chaining: Bool @>=0.5 = True
 falsified_when outlines_runnable_with_sourced_chaining == False
 
-# STUBGEN (P3, DESIGNED not built). A NEW package @suluk/stubgen emits the CONTRACT half generically (a RouteContract
-# literal — the @suluk/hono shape — with request/response Zod inferred HONESTLY-PROVISIONALLY from the Examples columns +
-# Then assertions, // TODO: tighten) and the HANDLER half through a HandlerTarget ADAPTER SEAM (mirroring @suluk/deploy
-# DeployProvider / C034 AgentRuntimeProvider). First adapter = toolfactory's Effect + run() + RouteError<name> target,
-# supplied by the consumer. @suluk/core never imports @suluk/stubgen (the C027 module-boundary rule, to be test-enforced).
-# The inferred Zod is LOSSY by construction; the maintainer owns the final schema (never laundered as authoritative).
-claim stubgen_generic_contract_plus_handler_seam: Bool @>=0.4 = True
-falsified_when stubgen_generic_contract_plus_handler_seam == False
+# STUBGEN (P3, BUILT 2026-06-30). NEW zero-dep package @suluk/stubgen emits the CONTRACT half generically (a RouteContract
+# literal — the @suluk/hono shape — name/method/path inferred from the intent, request Zod inferred from the Examples
+# columns' sample cells, every inference // TODO: tighten) and the HANDLER half through a HandlerTarget ADAPTER SEAM
+# (mirroring @suluk/deploy DeployProvider / C034 AgentRuntimeProvider): honoEffectTarget = toolfactory's Effect + run() +
+# RouteError<name> idiom (the first adapter), honoTarget = a framework-generic fallback. stubSpec/renderContract/
+# generateStub(s). The inferred Zod is LOSSY by construction; the maintainer owns the final schema (never laundered —
+# emitted with TODO markers). @suluk/core never imports @suluk/stubgen — TEST-ENFORCED by stubgen/test/wall.test.ts
+# (also pins the zero-dep leaf). WITNESSED by stubgen/test/stubgen.test.ts (inference, render, both targets) + the visual
+# stub. FOLLOW-ON: a journeys helper to derive StubGaps from a GapReport's NEEDS-CONTRACT + the outline columns; toolfactory wiring.
+claim stubgen_generic_contract_plus_handler_seam_built: Bool @>=0.5 = True
+falsified_when stubgen_generic_contract_plus_handler_seam_built == False
 
 # PROMOTE-INTO-ZOD (P4, PURE CORE BUILT 2026-06-30; operator fork #1). A tester marks an Examples block @public (the
 # parser now captures @-tags); promote.ts lifts the block's first row into the matching Zod schema's SOURCE as
