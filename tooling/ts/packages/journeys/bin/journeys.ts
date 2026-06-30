@@ -1,20 +1,21 @@
 #!/usr/bin/env bun
 /**
- * @suluk/journeys CLI. Today: `demos` — compile Gherkin `.feature` files into a Bruno/Postman demo collection.
+ * @suluk/journeys CLI.
+ *   demos    — compile `.feature` files into a Bruno/Postman demo collection (live-prod / dev-local).
+ *   promote  — lift a tester's `@public` Examples row into the Zod source as `.meta({ examples })` (C040-P4).
  *
- *   journeys demos --doc <openapi.json> --features <dir-or-file>... --out <dir>
- *                  [--format bruno|postman|both] [--name <name>] [--base-url <prodURL>] [--local-base-url <localURL>]
- *
- * `--doc` is a v4 contract (JSON/YAML); generate it from your app (e.g. toolfactory serves `/api/openapi.json`).
  * `--features` may be repeated and may name a directory (all `*.feature` under it) or a single file.
- * The same collection runs against `--local-base-url` (dev rehearsal) or `--base-url` (the live prod demo).
  */
 import { statSync } from "node:fs";
 import { join } from "node:path";
-import { buildDemoFiles, type DemoFormat } from "../src/cli";
+import { buildDemoFiles, planPromotions, parseTargetSpec, miniDiff, type DemoFormat, type PromoteTargetSpec } from "../src/cli";
 
-const USAGE = `journeys demos --doc <openapi.json> --features <dir-or-file>... --out <dir>
+const DEMOS_USAGE = `journeys demos --doc <openapi.json> --features <dir-or-file>... --out <dir>
                [--format bruno|postman|both] [--name <name>] [--base-url <prodURL>] [--local-base-url <localURL>]`;
+const PROMOTE_USAGE = `journeys promote --features <dir-or-file>... --target "<scenario>=<file>#<schemaVar>"... [--write] [--because <reason>]
+               (dry-run by default — prints a diff; pass --write to apply. Review the diff; a substrate operator
+                runs mizan_check_action_safety before --write.)`;
+const USAGE = `${DEMOS_USAGE}\n\n  ${PROMOTE_USAGE}`;
 
 function parseFlags(args: string[]): { cmd?: string; flags: Record<string, string[]> } {
   const flags: Record<string, string[]> = {};
@@ -65,7 +66,7 @@ async function demosCommand(flags: Record<string, string[]>): Promise<number> {
   const out = one(flags, "out");
   const format = (one(flags, "format") ?? "both") as DemoFormat;
   if (!docPath || !featurePaths.length || !out) {
-    console.error("error: --doc, --features and --out are required.\n\n" + USAGE);
+    console.error("error: --doc, --features and --out are required.\n\n" + DEMOS_USAGE);
     return 1;
   }
   if (!["bruno", "postman", "both"].includes(format)) {
@@ -89,10 +90,55 @@ async function demosCommand(flags: Record<string, string[]>): Promise<number> {
   return 0;
 }
 
+async function promoteCommand(flags: Record<string, string[]>): Promise<number> {
+  const featurePaths = flags.features ?? [];
+  const targetSpecs = flags.target ?? [];
+  if (!featurePaths.length || !targetSpecs.length) {
+    console.error("error: --features and at least one --target are required.\n\n" + PROMOTE_USAGE);
+    return 1;
+  }
+  const targets = new Map<string, PromoteTargetSpec>();
+  for (const spec of targetSpecs) {
+    const t = parseTargetSpec(spec);
+    if (!t) {
+      console.error(`error: bad --target ${JSON.stringify(spec)} — expected "<scenario>=<file>#<schemaVar>".`);
+      return 1;
+    }
+    targets.set(t.scenario, { file: t.file, schemaVar: t.schemaVar });
+  }
+  const featureTexts = await loadFeatureTexts(featurePaths);
+  const sources: Record<string, string> = {};
+  for (const t of targets.values()) if (!(t.file in sources)) sources[t.file] = await Bun.file(t.file).text();
+
+  const plan = planPromotions(featureTexts, targets, sources, { because: one(flags, "because") });
+  for (const row of plan.rows) {
+    const where = row.schemaVar ? ` → ${row.schemaVar} (${row.file})` : "";
+    console.log(`${row.status === "applied" ? "✓" : "–"} ${row.scenario}${where}: ${row.reason}`);
+  }
+  const changed = plan.files.filter((f) => f.changed);
+  for (const f of changed) {
+    console.log(`\n--- ${f.file} ---`);
+    console.log(miniDiff(f.original, f.updated));
+  }
+  if (!changed.length) {
+    console.log("\nNothing to promote.");
+    return 0;
+  }
+  if ("write" in flags) {
+    for (const f of changed) await Bun.write(f.file, f.updated);
+    console.log(`\n✓ wrote ${changed.length} file(s).`);
+  } else {
+    console.log(`\n(dry run — pass --write to apply. Review the diff above; a substrate operator runs mizan_check_action_safety before --write.)`);
+  }
+  return 0;
+}
+
 const { cmd, flags } = parseFlags(process.argv.slice(2));
 try {
   if (cmd === "demos") {
     process.exit(await demosCommand(flags));
+  } else if (cmd === "promote") {
+    process.exit(await promoteCommand(flags));
   } else {
     console.log(`@suluk/journeys CLI\n\nUsage:\n  ${USAGE}`);
     process.exit(cmd ? 1 : 0);

@@ -36,12 +36,16 @@ export function extractPublicRows(features: Feature[]): PublicExampleRow[] {
   return out;
 }
 
-/** Coerce a table cell to a concrete value by the field's declared type (string default). */
+/** Coerce a table cell to a concrete value by the field's declared type; with no schema, infer from the cell content. */
 function coerce(cell: string, fieldSchema?: JsonSchema): unknown {
   const t = fieldSchema && typeof fieldSchema === "object" ? fieldSchema.type : undefined;
   const type = Array.isArray(t) ? t[0] : t;
   if ((type === "integer" || type === "number") && cell.trim() !== "" && Number.isFinite(Number(cell))) return Number(cell);
   if (type === "boolean" && (cell === "true" || cell === "false")) return cell === "true";
+  if (type) return cell; // a declared string/other type stays a string verbatim
+  // no schema: infer a number/boolean from the content, else keep the string.
+  if (/^-?\d+(\.\d+)?$/.test(cell.trim())) return Number(cell);
+  if (cell === "true" || cell === "false") return cell === "true";
   return cell;
 }
 

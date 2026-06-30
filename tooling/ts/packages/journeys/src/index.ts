@@ -70,7 +70,19 @@ export {
   type RenderOptions,
 } from "./demos";
 
-export { buildDemoFiles, type DemoFormat, type BuildDemoFilesOptions, type DemoFilesResult } from "./cli";
+export {
+  buildDemoFiles,
+  planPromotions,
+  parseTargetSpec,
+  miniDiff,
+  type DemoFormat,
+  type BuildDemoFilesOptions,
+  type DemoFilesResult,
+  type PromoteTargetSpec,
+  type PromotionPlan,
+  type PromotionRow,
+  type PromotionFileResult,
+} from "./cli";
 
 export {
   resolveExample,

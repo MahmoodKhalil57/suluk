@@ -77,3 +77,15 @@ falsified_when stubgen_generic_contract_plus_handler_seam_built == False
 # review) + toolfactory wiring. The pure source-write is built + tested; the live file-IO + mizan gate are the consumer's.
 claim promote_public_example_into_zod_source_core_built: Bool @>=0.5 = True
 falsified_when promote_public_example_into_zod_source_core_built == False
+
+# PROMOTE BIN (P4 live glue, SHIPPED 2026-06-30). `journeys promote --features <dir|file>... --target
+# "<scenario>=<file>#<schemaVar>"... [--write] [--because <reason>]` over the pure core planPromotions (src/cli.ts):
+# extract @public rows -> build the public example (content-typed coercion when no schema) -> promoteExampleIntoZod per
+# target file -> a reviewable mini-DIFF. SAFETY MODEL (a published @suluk pkg must NOT depend on the adam substrate, so
+# the bin cannot call mizan directly): DRY-RUN BY DEFAULT (prints the diff, writes NOTHING); --write applies; a substrate
+# operator runs mizan_check_action_safety AROUND the --write. Never-clobber refusals surface as skipped rows. WITNESSED by
+# journeys/test/promote-cli.test.ts (planPromotions units incl. never-clobber + a REAL bin spawn: dry-run leaves the file
+# UNCHANGED, --write applies @suluk-public) + a manual run on a MULTILINE z.object (the string-aware statement scan finds
+# the terminating `;` correctly). The mizan gate is the OPERATOR layer, not the bin (keeps @suluk free of the adam substrate).
+claim promote_bin_dry_run_then_write_safe: Bool @>=0.55 = True
+falsified_when promote_bin_dry_run_then_write_safe == False
