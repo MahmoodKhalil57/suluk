@@ -71,3 +71,19 @@ falsified_when runtime_credits_ledger_built_atomic_witnessed == False
 # surface COMPLETE (algebra + path + scopes + lineage + headroom). REMAINING: @suluk/billing; the toolfactory rewiring.
 claim runtime_keys_lineage_and_credits_integration_built: Bool @>=0.55 = True
 falsified_when runtime_keys_lineage_and_credits_integration_built == False
+
+# C046 BUILD #4 — @suluk/billing v1 built 2026-06-30 (the LAST extraction package; a BOUNDED, faithful v1). Stripe
+# PLUMBING over an injected StripeConfig {secretKey, fetch?}: the HTTP transport (STRIPE_POST/GET verbatim incl the refund
+# idempotency-key) + customer/SetupIntent/PaymentIntent creation + the saved-card surface (listPaymentMethods wire-mapping,
+# defaultCard/defaultPaymentMethodId, ownsPaymentMethod, setDefaultPaymentMethod, setSubscriptionDefaultCard,
+# detachPaymentMethod, setSubscriptionCancel, payOpenInvoice). The res.ok + field-presence + throw semantics PRESERVED
+# VERBATIM; the ONLY deliberate change is DROPPING the Effect-Schema defensive response-decode (a robustness layer the app
+# re-adds) -> NO `effect` dep. deps @suluk/stripe (toForm). WITNESSED with a MOCK fetch — billing 7 pass (auth header +
+# idempotency-key + form body + the wire mapping + the error-throw path). DEFERRED (the careful follow-on, NOT v1, found
+# entangled): the money-MOVING paths (createCheckout/chargeOffSession/createPaymentIntentOnDefaultCard — money + metadata),
+# the PRICING-WOVEN subscription logic (getSubscriptionStatus/changeSubscriptionPlan use subPlanById/ceilingFor/SUB_PLANS),
+# the webhook DISPATCH + creditOnce grant, email, the billing-account DB linking. NOTE: @suluk/stripe already exports
+# restStripe/stripeGet — a transport consolidation to check. ALL THREE runtime packages now have shipped cores; the
+# toolfactory rewiring (the live-billing cutover) remains the SEPARATE careful follow-on.
+claim runtime_billing_v1_transport_and_card_surface_built: Bool @>=0.5 = True
+falsified_when runtime_billing_v1_transport_and_card_surface_built == False
