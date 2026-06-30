@@ -1,0 +1,38 @@
+# C047 — @suluk/provision: declarative service provisioning modelled on the Open Service Broker API, driven like
+# drizzle-kit. Operator-surfaced ("toolfactory has a lot of LOC in provisioning/setup scripts; hook it up with @suluk/env
+# + @suluk/cloudflare + @suluk/deploy + a new @suluk/provision; use the Open Service Broker API" + "heavily inspired by
+# the drizzle-kit migrations CLI"). Replaces toolfactory's ~700 LOC of hand-rolled provision*.ts / mint-*.ts /
+# sync-secrets.ts. Operator chose: (1) LAYERING = "a layer ABOVE, composing" — provision owns the catalog/lifecycle/CLI,
+# the brokers WRAP @suluk/cloudflare's existing provisioners + @suluk/stripe, bindings LAND in @suluk/env; (2) v1 SCOPE =
+# "full framework". NOT a contract facet — an app-provisioning library; never touches the matcher (no D1-wall concern).
+
+# THE DESIGN: OSB API gives the LIFECYCLE (catalog -> provision Service Instance -> bind credentials -> deprovision, with
+# last-operation polling for async + orphan mitigation); drizzle-kit gives the CLI ergonomics (a declarative config ->
+# plan/diff -> apply/push -> pull -> check). The LOAD-BEARING idea = the BINDING CHAIN: provisioning is a DAG where each
+# instance's bind OUTPUT feeds the next's params AND the env manifest (create D1 -> bind database_id; mint scoped token ->
+# bind CLOUDFLARE_D1_TOKEN; create Stripe webhook -> bind STRIPE_WEBHOOK_SECRET), all landing in @suluk/env (typed +
+# post-quantum-encrypted + commit-safe). A param string `@<ref>.<key>` is both a DAG edge and a substitution. Brokers
+# grounded in toolfactory's scripts: cloudflare-d1/kv/r2/secrets (wrap @suluk/cloudflare), stripe (provision-stripe.ts),
+# domains (the async 229-LOC one), tokens (mint-*.ts). DESIGNED + core built => ceiling 0.5.
+claim provision_osb_drizzlekit_design_layer_above: Bool @>=0.5 = True
+falsified_when provision_osb_drizzlekit_design_layer_above == False
+
+# C047 BUILD #1 — the CORE OSB framework built 2026-07-01 (broker-agnostic; the design-risk layer FIRST). The Broker
+# interface (catalog/provision/lastOperation/bind/deprovision — OSB-shaped, the optional verbs let a sync/non-bindable/
+# never-torn-down service omit them) + InstanceSpec/InstanceState/ProvisionResult (sync|in-progress, the async ack MAY
+# carry outputs) + BindingSink/StateStore seams. defineProvision validates statically (unique refs, acyclic binding DAG).
+# refs.ts: parseRef/depsOf/resolveParams (FAIL-CLOSED on a missing producer output) + a stable fingerprint (drift detect).
+# dag.ts: topoOrder (Kahn; throws on dup-ref/unknown-ref/cycle) — producers before consumers. plan.ts: the PURE diff
+# (desired config x live state -> create/update/noop/deprovision steps in DAG order + orphans, prune-guarded). apply.ts:
+# the executor — walk the plan, resolve params from accumulated outputs (the binding chain), provision (idempotent), poll
+# lastOperation until an async create settles (clock+sleep INJECTED for determinism), bind, land outputs in the sink,
+# deprovision orphans last, save the journal. check.ts: checkDrift/assertNoDrift (the CI gate). memory.ts: in-memory
+# store+sink (dry-run/test seams). WITNESSED — provision 10 pass through the FULL lifecycle with mock brokers: DAG order +
+# async polling (in-progress->succeeded) + the binding chain (a downstream @ref.key resolving to a freshly provisioned
+# database_id) + idempotent re-apply (all-noops, zero provider calls) + param-drift re-provisions ONLY the drifted
+# instance + orphan prune deprovisions (and WITHOUT --prune never tears down) + the drift gate. tsc clean. A real bug the
+# witness caught + fixed: an async ack that also yields outputs (a D1 uuid known at submit time) must thread them past the
+# poll. REMAINING: the concrete brokers (cloudflare-d1/kv/r2/secrets, stripe, domains, tokens) + the @suluk/env sink
+# adapter + the file-backed store + the drizzle-kit-style CLI (plan/apply/pull/studio/check) + the toolfactory cutover.
+claim provision_core_osb_framework_built_witnessed: Bool @>=0.55 = True
+falsified_when provision_core_osb_framework_built_witnessed == False
