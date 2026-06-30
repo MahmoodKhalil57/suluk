@@ -40,11 +40,17 @@ falsified_when examples_value_wall_core_never_imports == False
 # Examples but DROPPED the table) now CAPTURES the table into Scenario.examples {headers, rows} — and a LATENT parser bug
 # was fixed (the KW alternation listed Scenario before Scenario Outline, so "Scenario Outline: x" mis-parsed as name
 # "Outline: x"; reordered longest-first). WITNESSED by journeys/test/outline.test.ts (generation + computed-dropped +
-# sourced-token + render->parse round-trip). DEFERRED (the runnable half): emit.ts row-iteration (one bun:test per row,
-# resolving sourced cells via resolveSourced). Ceiling stays modest: the "is an Examples table intuitive to a real QA"
-# question is the C038 residual-open, still unwitnessed.
-claim outlines_generator_and_parser_capture_built: Bool @>=0.45 = True
-falsified_when outlines_generator_and_parser_capture_built == False
+# sourced-token + render->parse round-trip). RUNNABLE HALF BUILT 2026-06-30: emit.ts unrolls ONE bun:test per Examples
+# row; the outline's When is the contract's bindable vocabulary phrase (so it binds) and the Examples columns carry the
+# bound When op's request body by NAME; an `input` cell -> a coerced literal, a `sourced` cell <op.select> -> pick(
+# captured, op, select) (resolveSourced's shape, inlined) resolving from a prior step's CAPTURED result -> end-to-end
+# chaining across a multi-step journey (each bound When captured under its op.name). Ops with path/query args fall back to
+# the provide-input placeholder (not yet outline-wired). WITNESSED by journeys/test/emit-outline.test.ts (rows unrolled,
+# body-from-row, sourced chaining, capture) + the visual suite (client.subscription.create({plan:"pro"}) ->
+# captured["createSubscription"] -> client.charge({amountCents:100, subscriptionId: pick(...)})). Ceiling stays modest:
+# the "is an Examples table intuitive to a real QA" question is the C038 residual-open, still unwitnessed.
+claim outlines_runnable_with_sourced_chaining: Bool @>=0.5 = True
+falsified_when outlines_runnable_with_sourced_chaining == False
 
 # STUBGEN (P3, DESIGNED not built). A NEW package @suluk/stubgen emits the CONTRACT half generically (a RouteContract
 # literal — the @suluk/hono shape — with request/response Zod inferred HONESTLY-PROVISIONALLY from the Examples columns +

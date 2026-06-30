@@ -47,8 +47,8 @@ describe("buildScenarioOutlines", () => {
     expect(byName.subscriptionId).toBe("<createSubscription.id>"); // wired, not a value
   });
 
-  test("the When phrase references each column as a placeholder", () => {
-    expect(outlines.charge.whenPhrase).toBe("I charge with amountCents=<amountCents> subscriptionId=<subscriptionId>");
+  test("the When phrase is the contract's bindable vocabulary phrase (columns carry the body, so the outline binds)", () => {
+    expect(outlines.charge.whenPhrase).toBe("I charge");
   });
 
   test("a body-less op has no columns (renders as a plain Scenario, not an Outline)", () => {

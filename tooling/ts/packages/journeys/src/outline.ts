@@ -11,6 +11,7 @@
  */
 import type { OpenAPIv4Document } from "@suluk/core";
 import { describeInputs, resolveExample, type FieldOrigin, type JsonSchema } from "@suluk/examples";
+import { generateVocabulary, opHandle } from "./vocabulary";
 
 export interface OutlineColumn {
   name: string;
@@ -44,6 +45,9 @@ function cell(v: unknown): string {
 
 /** Build the structured outlines for every operation that has a client-facing request body. */
 export function buildScenarioOutlines(doc: OpenAPIv4Document): ScenarioOutline[] {
+  // the When uses the contract's OWN generated phrase (so the outline BINDS); the Examples columns carry the request
+  // body — a Suluk convention: for a Scenario Outline, an Examples column = a request field of the bound When op.
+  const whenByHandle = new Map(generateVocabulary(doc).steps.filter((s) => s.kind === "when").map((s) => [s.handle, s.phrase.replace(/^When\s+/i, "")]));
   const outlines: ScenarioOutline[] = [];
   for (const [uri, piRaw] of Object.entries(doc.paths ?? {})) {
     const pi = piRaw as { requests?: Record<string, RawReq> };
@@ -59,8 +63,8 @@ export function buildScenarioOutlines(doc: OpenAPIv4Document): ScenarioOutline[]
             : cell(resolveExample(props[d.name], {}, d.name, { direction: "request" }).value);
         columns.push({ name: d.name, origin: d.origin, seed });
       }
-      const withClause = columns.length ? ` with ${columns.map((c) => `${c.name}=<${c.name}>`).join(" ")}` : "";
-      outlines.push({ op: name, method: req.method.toLowerCase(), uri, whenPhrase: `I ${name}${withClause}`, columns });
+      const whenPhrase = whenByHandle.get(opHandle(name, uri)) ?? `I ${name}`;
+      outlines.push({ op: name, method: req.method.toLowerCase(), uri, whenPhrase, columns });
     }
   }
   return outlines;
