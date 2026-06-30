@@ -23,6 +23,10 @@ export { componentReport, approveComponents, type ComponentReport } from "./visu
 export { type Baseline, primitiveCss } from "@suluk/visual";
 // lifecycle / ship-readiness (L3): the round-trip loop as one checklist — authored → coherent → confident → generated → deployed.
 export { contractGates, shipSummary, type Gate, type GateStatus } from "./lifecycle";
+// conformance (C045): the UNIFIED contract audit — the readiness DIMENSIONS (harden security + readiness, cost,
+// settlement/lever, implied-errors) folded into the same Gate[] model. A consumer's CI collapses to
+// shipSummary([...contractGates, ...conformanceGates]) or assertConformance(doc).
+export { conformanceGates, assertConformance } from "./conformance";
 // agents (C027, OBSERVE): the x-suluk-agents tier tree, effective scope, gate findings, reachable surface + a
 // projection preview — read-only; agent execution + secrets live OUTSIDE the cockpit (C020 no-credentials seam).
 export {

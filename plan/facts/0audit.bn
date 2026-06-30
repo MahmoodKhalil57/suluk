@@ -31,3 +31,16 @@ falsified_when journeys_coverage_grade_dimension == False
 # C / coverage F -> worst F).
 claim unified_audit_combines_via_harden_not_absorb: Bool @>=0.55 = True
 falsified_when unified_audit_combines_via_harden_not_absorb == False
+
+# C045 — the UNIFIED CONTRACT AUDIT in @suluk/cockpit (operator chose: extend contractGates, not a new @suluk/ci pkg).
+# conformanceGates(doc) COMPOSES the shipped readiness audits into the cockpit's Gate[] model: hardened <- auditDocument,
+# readiness <- auditReadiness (C043), costed <- costAudit, settled <- settlementAudit (C044, the generic "names a lever"
+# governance check), errors <- per-op impliedErrorStatuses vs declared statuses (C044, the generic errors-gate). A grade
+# maps to a status (A/B ok · C/D todo · F error); findings by severity. assertConformance(doc) throws on any error gate
+# (the CI gate). A consumer's CI collapses to shipSummary([...contractGates(doc, baseline), ...conformanceGates(doc)]) or
+# assertConformance(doc) — the generic form of toolfactory's 6 hand-rolled gates. Composition-only (no new audit logic).
+# cockpit gains a @suluk/harden dep (acyclic: examples <- harden <- cockpit); NEVER deps journeys (BDD coverage folds in
+# upstream via combineGrades, C043). WITNESSED by cockpit/test/conformance.test.ts (5 gates over dirty+clean + assert
+# throws on a blocker; cockpit 131 pass). Follow-on dimensions: stores-coherence, agent-grade, sdk-drift.
+claim cockpit_conformance_gates_compose_shipped_audits: Bool @>=0.55 = True
+falsified_when cockpit_conformance_gates_compose_shipped_audits == False

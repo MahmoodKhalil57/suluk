@@ -25,6 +25,7 @@
     "@suluk/builder": "workspace:^",
     "@suluk/deploy": "workspace:^",
     "@suluk/cost": "workspace:^",
+    "@suluk/harden": "workspace:^",
     "@suluk/visual": "workspace:^",
     "@suluk/agents": "workspace:^"
   },
