@@ -34,3 +34,13 @@ falsified_when demos_environment_agnostic_local_then_prod == False
 # runtime demo data, never contract facts. (No new D1 surface — the C038 wall holds unchanged.)
 claim demos_downstream_consumer_no_facet: Bool @>=0.6 = True
 falsified_when demos_downstream_consumer_no_facet == False
+
+# CLI (C042 follow-on, SHIPPED 2026-06-30). A `journeys` bin (bin/journeys.ts) with a `demos` command over the pure core
+# buildDemoFiles (src/cli.ts): load a v4 contract (--doc, JSON/YAML) + .feature files (--features, a dir of *.feature or a
+# single file, repeatable) -> compileDemos -> renderBruno/renderPostman -> WRITE the file map to --out (--format
+# bruno|postman|both with bruno/ + postman/ prefixes; --name, --base-url prod, --local-base-url). buildDemoFiles is
+# FILESYSTEM-FREE + unit-tested; the bin is thin argv+IO around it (Bun.Glob feature scan, Bun.write auto-mkdir). package
+# gains a "bin" entry. WITNESSED by journeys/test/cli.test.ts (buildDemoFiles units for all 3 formats + a REAL bin spawn
+# writing files to a temp dir, asserting the chained .bru on disk, + the missing-flags non-zero-exit path).
+claim demos_cli_writes_collection_to_disk: Bool @>=0.55 = True
+falsified_when demos_cli_writes_collection_to_disk == False

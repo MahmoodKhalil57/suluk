@@ -19,6 +19,9 @@
     ".": "./src/index.ts",
     "./hatch": "./src/hatch/index.ts"
   },
+  "bin": {
+    "journeys": "bin/journeys.ts"
+  },
   "dependencies": {
     "@suluk/cloudflare": "workspace:^",
     "@suluk/core": "workspace:^",

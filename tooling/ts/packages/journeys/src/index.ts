@@ -70,6 +70,8 @@ export {
   type RenderOptions,
 } from "./demos";
 
+export { buildDemoFiles, type DemoFormat, type BuildDemoFilesOptions, type DemoFilesResult } from "./cli";
+
 export {
   resolveExample,
   synthesize,
