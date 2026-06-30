@@ -1,0 +1,31 @@
+# C046 — runtime-extraction PLAN (NOT built): fold toolfactory's generic credit/keys/billing/logging runtime into Suluk
+# packages. Operator-surfaced ("a lot of credit/billing minus topup-subscription pooling+refund, logging, api-key is
+# generic, fold it in") + mapped by a code survey (~1,200 LOC generic vs ~400 app-specific) + operator chose "hold,
+# record the plan as an ADR first". DISTINCT from C043-C045 (the CI/audit layer): this is the RUNTIME LIBRARY layer.
+# DESIGNED-not-built => low ceiling 0.4. NOT a contract facet — app-runtime libs, never touch the matcher (no D1 concern).
+
+# THREE PACKAGES, ADAPTER SEAM, FIXED ORDER. Each = generic logic + an injected DB/Stripe/env handle (the @suluk/deploy/
+# stubgen seam); the package owns schema+logic, the app owns the connection+policy. (1) @suluk/credits (~240 + ~110
+# logging) — the metered ledger: balance, atomic debitIfCovers (the CAS closing the concurrent-charge window), idempotent
+# debit (double-spend guard), per-key spend, txn log, the activity-log query (logging is a read-side projection over the
+# ledger); schema credit_transaction/credit_amount/credit_key; stays app: payment-alert kinds; extends @suluk/drizzle;
+# the DEPENDENCY ROOT. (2) @suluk/keys (~449, 100% GENERIC, the cleanest) — hierarchical API keys: scopes, delegation
+# chain, effective-caps (scope-subset, cap-min, expiry-soonest), POOLED subtree headroom (a parent cap bounds parent+
+# children TOTAL spend, abuse-proof), cascade expiry/disable/revoke, lineage, auth middleware; extends @suluk/better-auth
+# + @suluk/drizzle; pairs with credits. (3) @suluk/billing (~335) — Stripe plumbing: checkout/PaymentIntent/SetupIntent,
+# subscription CRUD, payment methods, refund MECHANICS, tax; stays app (operator exclusions): webhook DISPATCH, pricing
+# MATRIX, alerts/email, subscription-pooling + refund WORKFLOW; extends @suluk/stripe + @suluk/drizzle, depends on credits.
+# BUILD ORDER credits -> keys -> billing.
+claim runtime_extraction_three_packages_decomposition: Bool @>=0.4 = True
+falsified_when runtime_extraction_three_packages_decomposition == False
+
+# DESIGNED-NOT-BUILT + LIVE-BILLING CAUTION (honest). The LOC/boundaries are from a SURVEY, re-confirm at build time.
+# Building the packages is additive + safe (new, test-witnessed); REWIRING toolfactory's LIVE credit/billing to use them
+# is the riskier SEPARATE step — only after each package is byte-faithful to the extracted logic + unit-witnessed; the
+# atomic-debit CAS + idempotency are load-bearing for money-correctness. The contract/runtime layers MEET at C044
+# settlement (the contract declares the lever; @suluk/credits/@suluk/keys enforce it; rate-limit middleware already ships
+# in @suluk/hono, credit debit becomes a thin @suluk/credits call). Deferred to the build session: the exact adapter-seam
+# interface per package, Drizzle schema ownership (package-owned vs app-declared), whether @suluk/keys wraps the
+# @better-auth/api-key plugin.
+claim runtime_extraction_designed_not_built_live_billing_caution: Bool @>=0.4 = True
+falsified_when runtime_extraction_designed_not_built_live_billing_caution == False
