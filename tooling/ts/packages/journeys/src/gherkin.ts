@@ -25,8 +25,11 @@ export interface Scenario {
   rule?: string;
   steps: FeatureStep[];
   line: number;
-  /** the captured `Examples:` table of a Scenario Outline (C040-P1); absent for a plain Scenario. */
-  examples?: { headers: string[]; rows: string[][] };
+  /** tags on this scenario (the leading `@` stripped), e.g. ["public"]. */
+  tags?: string[];
+  /** the captured `Examples:` table of a Scenario Outline (C040-P1); absent for a plain Scenario. `tags` are from a
+   *  `@public`-style line directly above the `Examples:` keyword (C040-P4 promote selection). */
+  examples?: { headers: string[]; rows: string[][]; tags?: string[] };
 }
 
 export interface Feature {
@@ -44,12 +47,19 @@ export function parseFeature(src: string): Feature {
   let cur: Scenario | null = null;
   let last: StepKind = "given";
   let collectingExamples = false;
+  let pendingTags: string[] = [];
   const scenarios: Scenario[] = [];
   const lines = src.split("\n");
 
   lines.forEach((raw, i) => {
     const t = raw.trim();
     if (!t || t.startsWith("#")) return;
+
+    // a tag line (`@public @smoke …`) — attaches to the NEXT Scenario or Examples block.
+    if (t.startsWith("@")) {
+      pendingTags.push(...t.split(/\s+/).filter((x) => x.startsWith("@")).map((x) => x.slice(1)));
+      return;
+    }
 
     // a `|` table row — captured ONLY while inside an Examples block (a Scenario Outline's table); otherwise ignored.
     if (t.startsWith("|")) {
@@ -70,25 +80,30 @@ export function parseFeature(src: string): Feature {
       case "feature":
         feature = rest;
         collectingExamples = false;
+        pendingTags = [];
         return;
       case "rule":
         rule = rest;
         collectingExamples = false;
+        pendingTags = [];
         return;
       case "background":
         collectingExamples = false;
+        pendingTags = [];
         return;
       case "examples":
         if (cur) {
-          cur.examples = { headers: [], rows: [] };
+          cur.examples = { headers: [], rows: [], ...(pendingTags.length ? { tags: pendingTags } : {}) };
           collectingExamples = true;
         }
+        pendingTags = [];
         return;
       case "scenario":
       case "scenario outline":
         collectingExamples = false;
-        cur = { name: rest, rule, steps: [], line: i + 1 };
+        cur = { name: rest, rule, steps: [], line: i + 1, ...(pendingTags.length ? { tags: pendingTags } : {}) };
         scenarios.push(cur);
+        pendingTags = [];
         return;
     }
     // a step keyword

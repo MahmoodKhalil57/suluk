@@ -61,10 +61,16 @@ falsified_when outlines_runnable_with_sourced_chaining == False
 claim stubgen_generic_contract_plus_handler_seam: Bool @>=0.4 = True
 falsified_when stubgen_generic_contract_plus_handler_seam == False
 
-# PROMOTE-INTO-ZOD (P4, DESIGNED not built; operator fork #1). A tester marks an Examples row @public; a promote script
-# lifts it into the matching Zod schema as .meta({examples:[...]}), provenance-stamped, so ZOD IS THE LITERAL HOME for
-# every example and the promoted value flows into the rendered docs (@suluk/reference / scalar) as the .example. The
-# script WRITES the maintainer's source => it must be idempotent + marked + diff-reviewed + trip mizan_check_action_safety
-# when wired; it never clobbers a hand-authored example. UNWITNESSED at this ADR (the strongest forward obligation).
-claim promote_public_example_into_zod_source: Bool @>=0.4 = True
-falsified_when promote_public_example_into_zod_source == False
+# PROMOTE-INTO-ZOD (P4, PURE CORE BUILT 2026-06-30; operator fork #1). A tester marks an Examples block @public (the
+# parser now captures @-tags); promote.ts lifts the block's first row into the matching Zod schema's SOURCE as
+# .meta({examples:[...]}), provenance-stamped, so ZOD IS THE LITERAL HOME for every example (and the value flows into the
+# rendered docs as the request .example). The source-write is SAFE: MARKED (@suluk-public), IDEMPOTENT (re-promote
+# REPLACES the marked block via a string-aware paren scan, never double-appends), and NEVER CLOBBERS a hand-authored
+# top-level .meta({examples}) (it REFUSES) — and a PROPERTY-level .meta is not mistaken for the top-level example meta.
+# Pieces: extractPublicRows + buildExampleObject (typed coercion, wiring-token skipped) + promoteExampleIntoZod (the
+# surgery) + promoteFeatureExamples (orchestrator, target injected per the app's scenario->schemaVar map). WITNESSED by
+# journeys/test/promote.test.ts (append/idempotent/refuse-clobber/property-meta-safe/orchestrate). FOLLOW-ON: the live bin
+# (read feature+source, resolve target from the contract, run mizan_check_action_safety BEFORE writing, write + git-diff
+# review) + toolfactory wiring. The pure source-write is built + tested; the live file-IO + mizan gate are the consumer's.
+claim promote_public_example_into_zod_source_core_built: Bool @>=0.5 = True
+falsified_when promote_public_example_into_zod_source_core_built == False

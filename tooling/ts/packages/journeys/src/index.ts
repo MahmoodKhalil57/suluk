@@ -31,6 +31,17 @@ export {
 } from "./outline";
 
 export {
+  extractPublicRows,
+  buildExampleObject,
+  promoteExampleIntoZod,
+  promoteFeatureExamples,
+  type PublicExampleRow,
+  type PromoteResult,
+  type PromoteTarget,
+  type PromoteFeatureResult,
+} from "./promote";
+
+export {
   bindFeatures,
   detectUndefined,
   renderGapReport,
