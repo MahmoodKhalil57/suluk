@@ -68,3 +68,20 @@ falsified_when provision_cloudflare_brokers_and_sinks_built == False
 # (introspect live -> config); the toolfactory cutover (replace provision.ts/provision-kv/sync-secrets with a config).
 claim provision_drizzlekit_cli_built_witnessed: Bool @>=0.55 = True
 falsified_when provision_drizzlekit_cli_built_witnessed == False
+
+# C047 BUILD #4 — the ASYNC domains broker + the scoped-token broker built 2026-07-01 (completes the generic Cloudflare
+# broker set + the async last-operation story with a REAL broker). cloudflareToken (this is mint-service-tokens.ts): mints
+# a least-privilege CF API token (POST /accounts/:a/tokens with permission-group policies) — the token VALUE is returned
+# only at creation so it rides out as the `token` binding on provision (the framework's noop-on-unchanged never re-mints);
+# deprovision revokes by id. cloudflarePagesDomain (the core of provision-domains.ts, the ASYNC showcase): attaching a
+# custom hostname is idempotent but the edge cert issues over minutes -> the textbook OSB last-operation flow — provision
+# attaches + returns `in progress`, lastOperation polls the Pages domain status until "active". The project+hostname are
+# encoded in the instanceId (the OSB operation anchor) so lastOperation+deprovision are self-contained (no params needed);
+# the app-specific redirect/DNS policy stays in the app config. WITNESSED — provision 24 pass: the token mint/value-binding/
+# revoke; the domain provision->in-progress + lastOperation pending->active; AND a FULL apply integration where the
+# framework polls a real broker's cert to active then lands the url binding (BASE_URL) in the sink. tsc clean. The generic
+# Cloudflare broker set is now COMPLETE (d1/kv/r2/secrets/token/pages-domain). REMAINING: the stripe broker (cross-provider;
+# best built WITH the cutover since which products/webhooks is app-specific), `pull` (introspect live -> config), and the
+# toolfactory cutover (replace provision.ts/provision-kv/provision-domains/mint-*/sync-secrets with a provision.config.ts).
+claim provision_async_domains_and_token_brokers_built: Bool @>=0.55 = True
+falsified_when provision_async_domains_and_token_brokers_built == False

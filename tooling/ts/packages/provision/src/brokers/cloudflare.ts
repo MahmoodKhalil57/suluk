@@ -59,6 +59,26 @@ export function cloudflareR2(cf: CloudflareClient): Broker {
   };
 }
 
+/** A scoped, least-privilege Cloudflare API token (this is `mint-service-tokens.ts`). `params.permissionGroups` is the
+ *  permission-group id list; `params.resources` defaults to the whole account. The token VALUE is returned only at
+ *  creation, so it rides out as the `token` binding on provision (the framework's noop on re-apply never re-mints).
+ *  deprovision revokes it. The minting parent credential is the broker's own `CloudflareClient`. */
+export function cloudflareToken(cf: CloudflareClient): Broker {
+  return {
+    catalog: () => onePlan("cloudflare-token", "Cloudflare API Token", "A scoped, least-privilege API token", true),
+    async provision(req) {
+      const acct = await cf.resolveAccountId();
+      const groups = (req.params.permissionGroups ?? []) as string[];
+      const resources = (req.params.resources ?? { [`com.cloudflare.api.account.${acct}`]: "*" }) as Record<string, string>;
+      const body = { name: req.name, policies: [{ effect: "allow", resources, permission_groups: groups.map((id) => ({ id })) }] };
+      const tok = await cf.request<{ id?: string; value?: string }>("POST", `/accounts/${acct}/tokens`, { json: body });
+      if (!tok?.id || !tok?.value) throw new Error(`provision: cloudflare-token ${req.ref} mint returned no value`);
+      return { state: "succeeded", instanceId: tok.id, outputs: { token: tok.value, token_id: tok.id } };
+    },
+    deprovision: (req) => del(cf, `/tokens/${req.instanceId}`),
+  };
+}
+
 /** Worker secrets — the runtime-secret SINK as a broker (this is `sync-secrets.ts`). `params.script` is the Worker name;
  *  `params.secrets` is a `Record<string,string>` of secret name → value (resolved from upstream `@ref.key` bindings).
  *  Provision is an idempotent `wrangler secret put` for the whole set. Output: `secrets_set` (the names pushed). */
