@@ -8,11 +8,14 @@
  *   • an ofetch-based createClient(config) factory — auth wired via an onRequest interceptor (bearer / cookie)
  *   • methods grouped intuitively: CRUD by entity (client.product.create), custom ops by path (client.checkout.order)
  *   • the v4 SUPERPOWERS surfaced as TYPED METADATA on each method: `.cost` (µ$), `.requires` (access), `.input`
- *     (the Standard Schema). Metadata + a client-side guard, not enforcement — the server is the boundary (C022).
+ *     (the Standard Schema), `.fields` (C041 per-input origin: input/sourced/computed + a wireable source edge — so a
+ *     caller knows which inputs to faker, which to chain from a prior call, and which are server-set). Metadata + a
+ *     client-side guard, not enforcement — the server is the boundary (C022).
  * Static TS types come from the SAME JSON Schema (tsType), so the body is typed AND validated from one source.
  */
 import type { OpenAPIv4Document, SulukStore } from "@suluk/core";
 import { isReference } from "@suluk/core";
+import { describeInputs, type FieldDescriptor } from "@suluk/examples";
 
 const reserved = new Set(["delete", "new", "function", "default", "return", "class", "in", "for"]);
 export const ident = (s: string) => { const c = s.replace(/[^a-zA-Z0-9_$]/g, "_").replace(/^[0-9]/, "_$&"); return reserved.has(c) ? `${c}_` : c; };
@@ -56,6 +59,7 @@ export interface OpInfo {
   pathParams: string[]; queryRaw?: unknown; bodyRaw?: unknown; respType: string;
   cost: number | null; requires: string; scope?: string; summary?: string;
   store?: SulukStore; // the C037 reactive facet (read by generateStores, not generateSdk)
+  fields?: FieldDescriptor[]; // C041 per-input field origin (input/sourced/computed + wireable source edge)
   bid?: string; qid?: string; bodyTs?: string; queryTs?: string; // assigned after collision resolution
 }
 
@@ -80,11 +84,14 @@ function walkOps(doc: OpenAPIv4Document): OpInfo[] {
       else { const segs = uri.split("/").filter((x) => x && !x.startsWith("{")); ns = segs.slice(0, -1).map(camel); member = camel(segs[segs.length - 1] ?? name); }
       const ps = req.parameterSchema ?? {};
       const acc = req["x-suluk-access"];
+      const bodyRaw = req.contentSchema ?? ps.body;
+      const fields = describeInputs(bodyRaw as Record<string, unknown> | undefined);
       ops.push({
         name, ns, member, method: req.method.toLowerCase(), uri, pathParams: pathVars(uri),
-        queryRaw: ps.query, bodyRaw: req.contentSchema ?? ps.body, respType: respType(doc, req),
+        queryRaw: ps.query, bodyRaw, respType: respType(doc, req),
         cost: costOf(req), requires: acc?.requires ?? "anyone", scope: acc?.scope, summary: req.summary,
         store: req["x-suluk-store"],
+        fields: fields.length ? fields : undefined,
       });
     }
   }
@@ -128,7 +135,8 @@ function emitMethod(op: OpInfo): string {
   const opts = [`method: "${op.method.toUpperCase()}"`];
   if (op.bid) opts.push(`body: _v ? parse(${op.bid}, body) : body`);
   if (op.qid) opts.push(`query: _v && query ? parse(${op.qid}, query) : query`);
-  const meta = `{ cost: ${op.cost ?? "null"}, requires: ${JSON.stringify(op.requires)}${op.scope ? `, scope: ${JSON.stringify(op.scope)}` : ""}${op.bid ? `, input: ${op.bid}` : ""} }`;
+  const fieldsMeta = op.fields?.length ? `, fields: ${JSON.stringify(op.fields)}` : "";
+  const meta = `{ cost: ${op.cost ?? "null"}, requires: ${JSON.stringify(op.requires)}${op.scope ? `, scope: ${JSON.stringify(op.scope)}` : ""}${op.bid ? `, input: ${op.bid}` : ""}${fieldsMeta} }`;
   const doc = op.summary ? `      /** ${op.summary.replace(/\*\//g, "*\\/")} — ${op.requires}${op.cost != null ? ` · ⛁ ${op.cost}µ$` : ""} */\n` : "";
   return `${doc}      ${ident(op.member)}: Object.assign(\n        (${args.join(", ")}) => api<${op.respType}>(${url}, { ${opts.join(", ")} }),\n        ${meta},\n      )`;
 }
@@ -177,6 +185,7 @@ export function generateSdk(doc: OpenAPIv4Document, opts: SdkOptions = {}): stri
       inputDecls.push(`const ${op.qid} = std<${op.queryTs}>(schemas.${ident(base + "_q")});`);
     }
   }
+  // $manifest stays the LEAN facet index (cost/requires/scope); the full per-input origin lives on each method's `.fields`.
   const manifest = Object.fromEntries(ops.map((o) => [[...o.ns, o.member].join("."), { cost: o.cost, requires: o.requires, ...(o.scope ? { scope: o.scope } : {}) }]));
   const title = doc.info?.title ?? "API";
   const version = doc.openapi ?? "4.0.0-candidate";
@@ -192,7 +201,8 @@ export function generateSdk(doc: OpenAPIv4Document, opts: SdkOptions = {}): stri
  * single validator's source — so what runs is exactly what the contract stores (lossless). Each input is a STANDARD
  * SCHEMA (\`.input\`), so it drops into react-hook-form / TanStack Form / tRPC unchanged. Auth is wired via an
  * interceptor; every method carries the v4 facets as typed metadata — \`.cost\` (µ$), \`.requires\` (who can call it),
- * \`.input\` (the Standard Schema). Those are HINTS + a client-side guard, not enforcement — the server is the
+ * \`.input\` (the Standard Schema), and \`.fields\` (per-input origin: input/sourced/computed + wireable source edges).
+ * Those are HINTS + a client-side guard, not enforcement — the server is the
  * security boundary.${collisions.length ? `\n * Namespaced ${collisions.length} method collision(s) (a v4 multi-request-per-method capability): ${collisions.join("; ")}.` : ""}
  *
  *   import { createClient } from "./suluk-sdk";

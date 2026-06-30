@@ -25,6 +25,8 @@ export interface Scenario {
   rule?: string;
   steps: FeatureStep[];
   line: number;
+  /** the captured `Examples:` table of a Scenario Outline (C040-P1); absent for a plain Scenario. */
+  examples?: { headers: string[]; rows: string[][] };
 }
 
 export interface Feature {
@@ -32,19 +34,34 @@ export interface Feature {
   scenarios: Scenario[];
 }
 
-const KW = /^(Feature|Background|Rule|Scenario|Scenario Outline|Given|When|Then|And|But|Examples)\b:?\s*(.*)$/i;
+// NB: `Scenario Outline` MUST precede `Scenario` — alternation is ordered, else "Scenario Outline: x" matches the
+// shorter `Scenario` and mis-parses the name as "Outline: x".
+const KW = /^(Feature|Background|Rule|Scenario Outline|Scenario|Given|When|Then|And|But|Examples)\b:?\s*(.*)$/i;
 
 export function parseFeature(src: string): Feature {
   let feature = "";
   let rule: string | undefined;
   let cur: Scenario | null = null;
   let last: StepKind = "given";
+  let collectingExamples = false;
   const scenarios: Scenario[] = [];
   const lines = src.split("\n");
 
   lines.forEach((raw, i) => {
     const t = raw.trim();
     if (!t || t.startsWith("#")) return;
+
+    // a `|` table row — captured ONLY while inside an Examples block (a Scenario Outline's table); otherwise ignored.
+    if (t.startsWith("|")) {
+      const c = cur;
+      if (collectingExamples && c?.examples) {
+        const cells = t.split("|").slice(1, -1).map((s) => s.trim());
+        if (c.examples.headers.length === 0) c.examples.headers = cells;
+        else c.examples.rows.push(cells);
+      }
+      return;
+    }
+
     const m = KW.exec(t);
     if (!m) return;
     const kw = m[1].toLowerCase();
@@ -52,15 +69,24 @@ export function parseFeature(src: string): Feature {
     switch (kw) {
       case "feature":
         feature = rest;
+        collectingExamples = false;
         return;
       case "rule":
         rule = rest;
+        collectingExamples = false;
         return;
       case "background":
+        collectingExamples = false;
+        return;
       case "examples":
+        if (cur) {
+          cur.examples = { headers: [], rows: [] };
+          collectingExamples = true;
+        }
         return;
       case "scenario":
       case "scenario outline":
+        collectingExamples = false;
         cur = { name: rest, rule, steps: [], line: i + 1 };
         scenarios.push(cur);
         return;

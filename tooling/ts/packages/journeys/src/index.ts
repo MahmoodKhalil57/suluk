@@ -23,6 +23,14 @@ export {
 export { parseFeature, type Feature, type Scenario, type FeatureStep } from "./gherkin";
 
 export {
+  buildScenarioOutlines,
+  renderScenarioOutlines,
+  type ScenarioOutline,
+  type OutlineColumn,
+  type OutlineRenderOptions,
+} from "./outline";
+
+export {
   bindFeatures,
   detectUndefined,
   renderGapReport,
@@ -38,3 +46,24 @@ export {
 } from "./bind";
 
 export { emitRunnableSuite, type EmitOptions } from "./emit";
+
+export {
+  resolveExample,
+  synthesize,
+  fieldOrigin,
+  describeInputs,
+  asSourceRef,
+  resolveSourced,
+  ORIGIN_KEYWORD,
+  FROM_KEYWORD,
+  type JsonSchema,
+  type ExampleTier,
+  type ExampleSources,
+  type ResolvedExample,
+  type FieldOrigin,
+  type SourceRef,
+  type FieldSource,
+  type FieldDescriptor,
+  type SynthDirection,
+  type SynthOptions,
+} from "./examples";

@@ -1,0 +1,64 @@
+# C040 — closing the tester->backend loop on the journeys arc (C038 vocabulary/gaps + C039 hatches). FOUR pieces:
+# P1 Scenario-Outline generator + outline-aware parse/emit; P2 example precedence resolver; P3 generic @suluk/stubgen
+# (contract stub + handler via an adapter seam); P4 promote-into-Zod (the tester-curated public example lands in the Zod
+# source as .meta({examples}), so Zod stays the single traceable home for every example). Operator decided the three
+# forks: (1) promote into Zod, (2) all inside @suluk/journeys, (3) a generic @suluk/stubgen now. ORIGINATED + the
+# tester-UX and the source-writing promote step UNWITNESSED => honestly LOW ceilings (aggregate ~0.45). v1 witnesses ONLY
+# the P2 resolver + the wall; P1/P3/P4 are designed, not yet built.
+
+# EXAMPLE PRECEDENCE (P2, the witnessed slice). resolveExample(schema, {public?, maintainer?}, hint) resolves a field/
+# body example by precedence public > maintainer (explicit, or the schema's own examples/example/const) > synthetic, and
+# stamps {tier, synthetic, provenance}. Tier 1 is a DETERMINISTIC schema synthesizer honoring const/enum/default/format/
+# length/numeric-bounds — NO external faker dep in v1 (a recorded deviation from the operator's "take the faker dep"
+# framing): deterministic => BDD tests don't flap, and a synthetic value is ALWAYS lowest-precedence + always overridable
+# + carries synthetic:true, which IS the reconciliation with the arc's never-launder discipline. WITNESSED by
+# tooling/ts/packages/journeys/test/examples.test.ts (precedence order, determinism, type/format/bounds honoring).
+claim examples_precedence_public_over_maintainer_over_synthetic: Bool @>=0.55 = True
+falsified_when examples_precedence_public_over_maintainer_over_synthetic == False
+
+# NEVER-LAUNDER VIA PRECEDENCE. The synthesizer never presents a value as authoritative: tier "synthetic" is only ever
+# reached when NO public and NO maintainer/schema example exists, and the result carries synthetic:true so every
+# downstream (outline seed rows, docs, the runnable suite) can label it honestly. This keeps faker-style synthesis on the
+# right side of the discipline the SDK/journeys emitters already hold ("provide input" placeholders, never invented
+# values presented as real). WITNESSED by test/examples.test.ts (synthetic flag true ONLY when synthesized).
+claim examples_synthetic_is_lowest_and_marked: Bool @>=0.55 = True
+falsified_when examples_synthetic_is_lowest_and_marked == False
+
+# THE VALUE WALL (rides C038/C039). Examples are VALUES, so (a) they stay as .example/examples annotations and NEVER
+# enter the static matcher — buildAda/matchRequest are invariant to any example; NO x-suluk-* facet is minted; and (b)
+# the value-synthesis layer (examples.ts + the future outline emitter) is walled off from the PURE PROJECTOR CORE
+# (vocabulary.ts/bind.ts/gherkin.ts/normalize.ts), which must not import it. examples.ts is self-contained (no
+# journeys-internal, no external import) so it stays a one-file extraction if @suluk/reference / @suluk/sdk later want
+# the resolver. WITNESSED by test/examples-wall.test.ts (a source-level forbidden-import gate cloning hatch-wall.test.ts).
+claim examples_value_wall_core_never_imports: Bool @>=0.6 = True
+falsified_when examples_value_wall_core_never_imports == False
+
+# SCENARIO OUTLINES (P1, GENERATOR + PARSER-CAPTURE BUILT 2026-06-30). buildScenarioOutlines/renderScenarioOutlines
+# (journeys/src/outline.ts) emit, per operation, a Scenario Outline whose Examples columns are the CLIENT-FACING input
+# fields (computed dropped via C041 origin) and whose seed row comes from the resolver: an `input` cell = a synthesized
+# value; a `sourced` cell = the WIRING TOKEN <op.select> (not a value). gherkin.ts (which tokenized Scenario Outline /
+# Examples but DROPPED the table) now CAPTURES the table into Scenario.examples {headers, rows} — and a LATENT parser bug
+# was fixed (the KW alternation listed Scenario before Scenario Outline, so "Scenario Outline: x" mis-parsed as name
+# "Outline: x"; reordered longest-first). WITNESSED by journeys/test/outline.test.ts (generation + computed-dropped +
+# sourced-token + render->parse round-trip). DEFERRED (the runnable half): emit.ts row-iteration (one bun:test per row,
+# resolving sourced cells via resolveSourced). Ceiling stays modest: the "is an Examples table intuitive to a real QA"
+# question is the C038 residual-open, still unwitnessed.
+claim outlines_generator_and_parser_capture_built: Bool @>=0.45 = True
+falsified_when outlines_generator_and_parser_capture_built == False
+
+# STUBGEN (P3, DESIGNED not built). A NEW package @suluk/stubgen emits the CONTRACT half generically (a RouteContract
+# literal — the @suluk/hono shape — with request/response Zod inferred HONESTLY-PROVISIONALLY from the Examples columns +
+# Then assertions, // TODO: tighten) and the HANDLER half through a HandlerTarget ADAPTER SEAM (mirroring @suluk/deploy
+# DeployProvider / C034 AgentRuntimeProvider). First adapter = toolfactory's Effect + run() + RouteError<name> target,
+# supplied by the consumer. @suluk/core never imports @suluk/stubgen (the C027 module-boundary rule, to be test-enforced).
+# The inferred Zod is LOSSY by construction; the maintainer owns the final schema (never laundered as authoritative).
+claim stubgen_generic_contract_plus_handler_seam: Bool @>=0.4 = True
+falsified_when stubgen_generic_contract_plus_handler_seam == False
+
+# PROMOTE-INTO-ZOD (P4, DESIGNED not built; operator fork #1). A tester marks an Examples row @public; a promote script
+# lifts it into the matching Zod schema as .meta({examples:[...]}), provenance-stamped, so ZOD IS THE LITERAL HOME for
+# every example and the promoted value flows into the rendered docs (@suluk/reference / scalar) as the .example. The
+# script WRITES the maintainer's source => it must be idempotent + marked + diff-reviewed + trip mizan_check_action_safety
+# when wired; it never clobbers a hand-authored example. UNWITNESSED at this ADR (the strongest forward obligation).
+claim promote_public_example_into_zod_source: Bool @>=0.4 = True
+falsified_when promote_public_example_into_zod_source == False

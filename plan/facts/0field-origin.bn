@@ -1,0 +1,71 @@
+# C041 — field-origin discipline. A per-property Zod .meta() convention x-suluk-origin (input|sourced|computed) + an
+# optional x-suluk-from, authored where the single source of truth lives (Zod) and read ONLY downstream (the C040
+# example synthesizer + stubgen + a future @suluk/sdk sampler). NO core facet, NO meta-schema change, NO new D1 surface.
+# Sharpens C040's faker (it stops inventing ids/totals) and, per the operator follow-up, makes a `sourced` field a
+# MACHINE-WIREABLE edge usable by BOTH the Gherkin DSL generator AND @suluk/sdk. ORIGINATED; mechanism witnessed, the
+# vocabulary/UX + the emitter/sdk codegen unwitnessed => ceiling 0.5.
+
+# ROUND-TRIP (the load-bearing assumption, WITNESSED). z.toJSONSchema (which zodToV4 wraps) carries arbitrary .meta()
+# keys verbatim: z.number().meta({"x-suluk-origin":"computed","x-suluk-from":"ledger sum"}) -> the v4 property carries
+# x-suluk-origin/x-suluk-from with ZERO warnings; z.string().readonly() -> readOnly:true. So the marker is authored in
+# Zod and read by journeys/sdk with NO change to @suluk/core, the meta-schema, or the contract authoring surface.
+# WITNESSED by tooling/ts/packages/zod/test/meta-passthrough.test.ts (incl. a structured x-suluk-from object).
+claim origin_marker_authored_in_zod_carried_to_doc: Bool @>=0.6 = True
+falsified_when origin_marker_authored_in_zod_carried_to_doc == False
+
+# READER SEMANTICS. fieldOrigin(schema): explicit x-suluk-origin (input|sourced|computed) WINS; else readOnly => computed;
+# else default "input" (declare only the exceptions). describeInputs(schema) -> per-top-level-field {name, origin, from,
+# source?, fakerable=origin==="input", required} — the surface a client/SDK uses to know what it may freely fill.
+# WITNESSED by tooling/ts/packages/journeys/test/origin.test.ts.
+claim origin_reader_default_input_readonly_computed: Bool @>=0.55 = True
+falsified_when origin_reader_default_input_readonly_computed == False
+
+# ORIGIN-AWARE SYNTHESIS (makes the faker CORRECT). synthesize(schema, hint, {direction}) on an object: a REQUEST example
+# OMITS computed fields (a client never sends server-derived values; readOnly is treated as computed), a RESPONSE example
+# omits writeOnly; a `sourced` field IS synthesized to a type-valid representative (completeness + validity) but always
+# carries its true origin in describeInputs/provenance — never laundered as free input. Never-launder preserved + sharpened.
+# WITNESSED by tooling/ts/packages/journeys/test/origin.test.ts.
+claim origin_request_synthesis_omits_computed: Bool @>=0.55 = True
+falsified_when origin_request_synthesis_omits_computed == False
+
+# SOURCED = A WIREABLE EDGE, DUAL CONSUMER (operator follow-up). x-suluk-from for a `sourced` field is EITHER a free note
+# (string, doc-only) OR a structured SourceRef {op, select?}: op = the C009 by-name handle of the source operation,
+# select = a dotted path into that op's RESPONSE (default "id"). It declares a DEPENDENCY EDGE consumed by TWO generators:
+# (1) the journeys/Gherkin emitter captures each bound When <op> response into a scenario-scoped bag keyed by op.name and
+# resolves a sourced cell via the pure primitive resolveSourced(captured, ref) — realizing C038's deferred carried-data;
+# (2) @suluk/sdk surfaces it as a sourced edge (not a free input) for sampleInput/chaining/docs. BUILT + WITNESSED now:
+# the SourceRef type + resolveSourced primitive (journeys/test/origin.test.ts). DESIGNED, follow-on: the emitter capture
+# loop + the sdk codegen change.
+claim sourced_ref_is_wireable_edge_dual_consumer: Bool @>=0.45 = True
+falsified_when sourced_ref_is_wireable_edge_dual_consumer == False
+
+# D1 SAFETY (rides C037/C038; reconciles C037 claim-2). The marker lives on inner JSON Schema PROPERTIES; the matcher
+# treats body schemas as opaque (body -> #inline signature sentinel, never folded into the static key), so buildAda/
+# matchRequest CANNOT consult x-suluk-origin/x-suluk-from. A wireable `sourced` ref DECLARES a response->request edge —
+# which C037 claim-2 kept out of the x-suluk-store FACET — but here it is (a) NOT a matcher-read facet (codegen-only),
+# (b) fits C037's POLICY/PLUMBING/BEHAVIOR split (declares the graph; generator emits plumbing; extraction is generated
+# behavior), (c) an operator-directed lift of a C037 reserve at a lowered ceiling. The thing C037 forbids — a value
+# extractor a MATCHER or SERVER path reads — stays forbidden. WITNESSED by core/test/origin-d1-invariance.test.ts (a
+# petstore provably stamped with the markers incl. a structured x-suluk-from yields a byte-identical ADA + identical
+# matchRequest resolutions). Declared 0.55 sits above the D1 soft-floor 0.139 (mirrors the C037 store gate).
+claim origin_marker_d1_safe_matcher_invariant: Bool @>=0.55 = True
+falsified_when origin_marker_d1_safe_matcher_invariant == False
+
+# SHARED-LEAF EXTRACTION (forced by the dependency graph; BUILT 2026-06-30). Wiring @suluk/sdk required the origin
+# reader/synth to sit BELOW both sdk and journeys, because @suluk/journeys already depends on @suluk/sdk (so sdk cannot
+# import journeys without a cycle). The self-contained examples.ts (built that way on purpose) was lifted verbatim into a
+# NEW zero-dependency leaf @suluk/examples; journeys keeps a one-line re-export shim (public API + the projector-core
+# wall unchanged) and sdk depends on the leaf. Supersedes C040's "all inside @suluk/journeys" fork FOR THE SHARED READER
+# ONLY (the cycle made it infeasible); journeys remains the facade. WITNESSED by examples/test/wall.test.ts (the leaf
+# imports nothing) + the green test sweep (examples 33 / journeys 44 / sdk 23).
+claim examples_extracted_to_zero_dep_leaf: Bool @>=0.6 = True
+falsified_when examples_extracted_to_zero_dep_leaf == False
+
+# SDK SURFACES FIELD ORIGIN (BUILT 2026-06-30). @suluk/sdk reads field origin from @suluk/examples (never re-derives) and
+# emits, per method, `.fields` = the full describeInputs array (origin + the wireable source edge), so a caller knows
+# which inputs to faker (input), which to CHAIN from a prior call (sourced, with {op,select}), and which are server-set
+# (computed). $manifest stays the LEAN facet index (cost/requires/scope) — no fields bloat. A runtime sampleInput (fill
+# only input fields) stays a follow-on. WITNESSED by sdk/test/origin-metadata.test.ts (the generated SDK carries the
+# sourced edge + the input/computed origins; a no-body op emits no fields block).
+claim sdk_surfaces_field_origin_dot_fields: Bool @>=0.55 = True
+falsified_when sdk_surfaces_field_origin_dot_fields == False
