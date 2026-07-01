@@ -1,0 +1,13 @@
+[**Suluk**](../../../README.md)
+
+***
+
+[Suluk](../../../packages.md) / [@suluk/theme](../README.md) / ocean
+
+# Variable: ocean
+
+> `const` **ocean**: [`TokenSpec`](../interfaces/TokenSpec.md)
+
+Defined in: [schemes.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/theme/src/schemes.ts#L39)
+
+Ocean — a cool blue brand, to show a colored hue derives correctly.

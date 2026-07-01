@@ -1,0 +1,37 @@
+[**Suluk**](../../../README.md)
+
+***
+
+[Suluk](../../../packages.md) / [@suluk/cost](../README.md) / computeCost
+
+# Function: computeCost()
+
+> **computeCost**(`model`, `usage?`): `object`
+
+Defined in: [contract.ts:123](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cost/src/contract.ts#L123)
+
+Compute the actual µ$ a request cost, from its declared model + the usage the handler reported. Fixed
+(per-call) components always count; variable components count their reported units × unit cost. Returns
+the per-source breakdown + total — raw, for the meter to record.
+
+## Parameters
+
+### model
+
+[`CostModel`](../interfaces/CostModel.md) \| `undefined`
+
+### usage?
+
+[`UsageReport`](../interfaces/UsageReport.md)[] = `[]`
+
+## Returns
+
+`object`
+
+### breakdown
+
+> **breakdown**: `object`[]
+
+### totalMicroUsd
+
+> **totalMicroUsd**: `number`

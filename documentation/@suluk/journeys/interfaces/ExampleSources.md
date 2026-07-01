@@ -1,0 +1,31 @@
+[**Suluk**](../../../README.md)
+
+***
+
+[Suluk](../../../packages.md) / [@suluk/journeys](../README.md) / ExampleSources
+
+# Interface: ExampleSources
+
+Defined in: [examples/src/index.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/examples/src/index.ts#L26)
+
+The two human-authored tiers a caller may supply; the synthetic tier is derived from the schema.
+
+## Properties
+
+### maintainer?
+
+> `optional` **maintainer?**: `unknown`
+
+Defined in: [examples/src/index.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/examples/src/index.ts#L30)
+
+tier 2 — an explicit maintainer example (overrides the schema's own `examples`/`example`/`const`).
+
+***
+
+### public?
+
+> `optional` **public?**: `unknown`
+
+Defined in: [examples/src/index.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/examples/src/index.ts#L28)
+
+tier 3 (highest) — a tester-curated, willing-to-expose example. After C040-P4 promotion it also lives in Zod meta.

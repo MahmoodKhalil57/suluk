@@ -1,0 +1,25 @@
+[**Suluk**](../../../README.md)
+
+***
+
+[Suluk](../../../packages.md) / [@suluk/docs](../README.md) / harvest
+
+# Function: harvest()
+
+> **harvest**(`opts`): [`FrameworkDoc`](../interfaces/FrameworkDoc.md)
+
+Defined in: [harvest.ts:142](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/docs/src/harvest.ts#L142)
+
+`@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+(package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one
+stylesheet, deployable to GitHub Pages with zero build. Suluk documents itself with it. CANDIDATE tooling.
+
+## Parameters
+
+### opts
+
+[`HarvestOptions`](../interfaces/HarvestOptions.md)
+
+## Returns
+
+[`FrameworkDoc`](../interfaces/FrameworkDoc.md)

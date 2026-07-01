@@ -1,0 +1,25 @@
+[**Suluk**](../../../README.md)
+
+***
+
+[Suluk](../../../packages.md) / [@suluk/core](../README.md) / ValidationIssue
+
+# Interface: ValidationIssue
+
+Defined in: [validate.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/validate.ts#L4)
+
+## Properties
+
+### message
+
+> **message**: `string`
+
+Defined in: [validate.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/validate.ts#L4)
+
+***
+
+### path
+
+> **path**: `string`
+
+Defined in: [validate.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/validate.ts#L4)

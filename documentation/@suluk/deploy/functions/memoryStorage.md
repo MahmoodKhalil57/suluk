@@ -1,0 +1,25 @@
+[**Suluk**](../../../README.md)
+
+***
+
+[Suluk](../../../packages.md) / [@suluk/deploy](../README.md) / memoryStorage
+
+# Function: memoryStorage()
+
+> **memoryStorage**(`opts?`): [`StorageProvider`](../interfaces/StorageProvider.md) & `object`
+
+Defined in: [storage.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/deploy/src/storage.ts#L53)
+
+A DEV in-memory storage (per-process; not durable) — the swap default for local/tests, never production.
+
+## Parameters
+
+### opts?
+
+#### publicBaseUrl?
+
+`string`
+
+## Returns
+
+[`StorageProvider`](../interfaces/StorageProvider.md) & `object`

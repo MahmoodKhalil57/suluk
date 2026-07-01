@@ -1,0 +1,21 @@
+[**Suluk**](../../../README.md)
+
+***
+
+[Suluk](../../../packages.md) / [@suluk/core](../README.md) / SchemaProperty
+
+# Interface: SchemaProperty
+
+Defined in: [types.ts:522](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/types.ts#L522)
+
+The PROPERTY-LEVEL facet locus (saastarter-parity Phase 0). core's `x-suluk-*` facets are operation-level
+today (on [Request](Request.md)); a Schema Object's `properties[name]` is the locus for a FUTURE property-level
+facet — e.g. `@suluk/drizzle` attaching `x-suluk-i18n` to a localized column. This is an ADVISORY typed VIEW
+over the opaque [Schema](../type-aliases/Schema.md): it never narrows the runtime Schema type (which stays 2020-12-opaque), so a
+property carrying an `x-suluk-*` member is still a valid 2020-12 subschema (the dialect ignores `x-*` keywords).
+
+## Indexable
+
+> \[`facet`: `` `x-suluk-${string}` ``\]: `unknown`
+
+a property subschema may carry any vendor `x-suluk-*` facet (advisory; ignored by the 2020-12 validator).

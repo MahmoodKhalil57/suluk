@@ -1,0 +1,27 @@
+[**Suluk**](../../../README.md)
+
+***
+
+[Suluk](../../../packages.md) / [@suluk/builder](../README.md) / marketingPage
+
+# Function: marketingPage()
+
+> **marketingPage**(`name`, `sectionNames`): [`DslDocument`](../interfaces/DslDocument.md)
+
+Defined in: [marketing.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/marketing.ts#L66)
+
+A landing page composing the given marketing sections — mirrors appPage (exposes only { tone, sections }).
+
+## Parameters
+
+### name
+
+`string`
+
+### sectionNames
+
+`string`[]
+
+## Returns
+
+[`DslDocument`](../interfaces/DslDocument.md)

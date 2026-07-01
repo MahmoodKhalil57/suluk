@@ -1,0 +1,245 @@
+[**Suluk**](../../README.md)
+
+***
+
+[Suluk](../../packages.md) / [Guides](../Guides.md) / Architecture
+
+# Architecture
+
+> CANDIDATE tooling for the OpenAPI v4.0 "Suluk" candidate (NOT official OAS, NOT SIG-ratified).
+> This doc is the design spine for `tooling/`. The spec itself lives in `specification/candidate-v4/`.
+
+## The thesis: contracts in, everything else derived
+
+The user types the **least possible** contract surface:
+
+```
+Hono endpoints  +  Zod validations  +  Better Auth settings
+```
+
+…and the system **derives** the rest. The contracts are the single **source of truth**; every other
+artifact is a **Derivation** — a pure projection of the contracts. The OpenAPI v4 document is itself just
+one Derivation, never the source (this mirrors Suluk's own "the Document is a projection of the ledger"
+discipline).
+
+```
+   Data floor               Contracts                         Derivations (projections of the hub)
+  ┌──────────────┐        ┌───────────────┐        ┌──────────────────────────────────────────────┐
+  │ Drizzle      │  CRUD  │ Hono routes   │        │  v4 doc ─▶ 3.1 downgrade ─▶ Scalar / Swagger  │
+  │  tables      │ ─────▶ │ Zod schemas   │ ─────▶ │     │                                          │
+  │ (system of   │        │ Better Auth   │  v4    │     ├──▶ Nano Stores client (state corner)     │
+  │  record)     │        │  settings     │  hub   │     ├──▶ shadcn forms / tables (UI corner)     │
+  └──────────────┘        └───────────────┘        │     ├──▶ request-validation middleware         │
+                                                   │     ├──▶ auto-generated contract TESTS         │
+                                                   │     └──▶ documentation-coverage audit          │
+                                                   └──────────────────────────────────────────────┘
+                                       ▲
+                          ┌────────────┴─────────────┐
+                          │  suluk-vscode = the COCKPIT — every layer above is visible, navigable,
+                          │  and actionable from one surface, re-projected per viewer + time.
+                          └──────────────────────────────────────────────────────────────────────┘
+```
+
+The cycle is now **declarative end to end**: a Drizzle table is the system of record (`@suluk/drizzle`
+emits its CRUD RouteContracts); the contract projects to the v4 hub; and from the hub fall the docs
+(`@suluk/scalar`/`swagger`), the client **state** (`@suluk/nano-stores`), the **UI** (`@suluk/shadcn`),
+the validation, the tests, and the audit. The developer authors the data + contract; everything else is
+derived.
+
+## The doc is a function, not a file
+
+The pivotal requirement: the emitted documentation must be **dynamic** — it varies by **who** and **when**
+is asking. So the central Derivation is not a static document but a pure function:
+
+```ts
+render(contracts, principal, now) -> v4 Document
+```
+
+- **principal** (the *who*): scopes / roles from Better Auth. The v4 by-name security model (C014) makes
+  per-viewer filtering clean — include only operations whose `security` requirements the principal
+  satisfies; redact or annotate the rest. A reader sees *their* API, plus their own facts (API keys,
+  rate-limit budget) injected as examples / `x-` extensions.
+- **now** (the *when*): drives deprecation visibility, version selection, "what is live", scheduled
+  rollouts. `now` is an input, never `Date.now()` read ambiently — so a render is reproducible and
+  testable (you can ask "what did/will the doc look like at time T").
+
+A static export is just `render(contracts, publicPrincipal, now)`. Nothing special-cases it.
+
+## Package map
+
+| Package | Role | Status |
+|---|---|---|
+| `@suluk/core` | parse · validate(meta-schema) · resolve-by-name (own-property only) · signature · ADA · match | ✅ 20 tests |
+| `@suluk/openapi-compat` | v4 ⇄ 3.1 (the Scalar/Swagger lever; ingest external 3.x via `upgrade`) | ✅ 12 tests |
+| `@suluk/zod` | lossless Zod ⇄ v4 Schema Objects (fixpoint-proven) | ✅ 29 tests |
+| `@suluk/scalar` / `@suluk/swagger` | render a v4 doc via the 3.1 downgrade | ✅ 5 + 6 tests |
+| `@suluk/hono` | the derivation engine: `render(routes, principal, now) -> v4`; validation middleware; **audit**; **contract-test generation** | ✅ 14 tests |
+| `@suluk/better-auth` | official Better-Auth-on-Hono: auth settings → securitySchemes/security; ingest its `openAPI()` output via `compat.upgrade`; session → principal; **the fail-closed `previewLoginHandler` (role-preview)** | ✅ 21 tests |
+| `@suluk/drizzle` | **data floor**: Drizzle table → Zod (drizzle-zod) → v4 schemas + DB metadata + **CRUD RouteContracts** | ✅ 17 tests |
+| `@suluk/nano-stores` | **state corner**: v4 contracts → typed `@nanostores/query` fetcher/mutator stores (Zod-guarded I/O) | ✅ 8 tests |
+| `@suluk/shadcn` | **UI corner**: v4 Schema Objects → form/table specs + shadcn TSX (react-hook-form + zodResolver) | ✅ 20 tests |
+| `@suluk/builder` | **the builder**: DSL; `buildApp`/`toShadcnRegistry`; **modules** (C021) — `installModule` (refuse-on-collision + `requires` + dangling-ref backstop + namespacing), curated + **remote** + **signed** registries, `gradeModule`/`previewInstall`, **provider slots** (`swapProvider`), **composition** (`planComposition`/`composeModules` + stack templates — the non-dev "compose a platform" flow) | ✅ 77 tests |
+| `@suluk/deploy` | **the capstone**: swappable `DeployProvider`; Cloudflare (Workers + D1 + assets); **a fail-closed `preview` variant (two locks + seed)** | ✅ 12 tests |
+| `@suluk/cockpit` | the **pure cockpit core** (10-layer cycle · builder · codegen+**diagrams** · deploy · **drift** · **cross-cut** · **converge** · **D2 diagrams** · **component pixel-confidence** · **ship-readiness gates (L3)** · **role-preview** · validate/audit/preview) — shared brain | ✅ 115 tests |
+| `@suluk/admin` | the **/superadmin web panel** — the cockpit rendered as a Hono web UI, superadmin-gated | ✅ 7 tests |
+| `@suluk/example-petshop` | runnable end-to-end demo — real Drizzle → live CRUD + Scalar + frontend + /superadmin + client round-trip | ✅ 10 tests |
+| `@suluk/docs` | generate a GitHub-Pages docs site from source (Suluk documents itself); **`packageGraphD2`** — the "how the tools compose" diagram on the Architecture page | ✅ 14 tests |
+| `@suluk/cost` | **cost as a contract facet** — declare per-op cost (x-suluk-cost, bubbles) + meter actual per-user cost | ✅ 10 tests |
+| `@suluk/stripe` | first-class Stripe behind a swappable `PaymentProvider`; bridges cost → metered billing | ✅ 9 tests |
+| `@suluk/visual` | **pixel-confidence by construction** — verify each primitive's pixels once; confidence propagates via content-hash | ✅ 9 tests |
+| `suluk-core` (Rust) | perf core: parse + signature + reverse-parse matcher; 2nd independent impl | ✅ 9 tests |
+| `suluk-vscode` | the cockpit's **editor face** — a thin vscode shell over `@suluk/cockpit` (Cycle + Builder TreeViews, **Environments** axis: connect/drift/live-cost, "View as", codegen, **install module**, **ship-readiness checklist**, **preview as role**, deploy) | ✅ 6 tests (+ tsc + bundle) |
+
+**Total: 20 TS packages (432 tests) + a Rust core (9 tests) = 441 green.** Shipped: npm (`@suluk/*`),
+crates.io (`suluk-core`), VS Code Marketplace (`MahmoodKhalil.suluk-vscode`). Live demo: a full SaaS
+(`saasuluk`) on Cloudflare Workers + D1 at **saasuluk.saastemly.com** — auth (Better Auth/D1), CRUD,
+Scalar docs, the `/superadmin` cockpit, a durable cost ledger, and a static Astro frontend.
+
+## Pixel confidence by construction (`@suluk/visual`)
+
+You shouldn't re-verify every pixel every time. Verify each UI **primitive** once (render it in isolation,
+screenshot it, approve it); the approval is recorded against the primitive's **content hash**. Thereafter any
+generated UI is pixel-confident *without a new screenshot* iff every primitive it uses is approved + unchanged
+— decided by hashing, not rendering. A primitive is re-verified only when its source changes (the hash
+drifts). Confidence propagates up the component → block → section → page tiers — the same verify-the-source-
+once discipline as the v4 ledger and the conformance grade.
+
+## One brain, two faces
+
+The cockpit's logic lives once, in **`@suluk/cockpit`** (pure: `buildCycle`, `buildBuilderModel`, codegen,
+`deployPlan`, validate/audit/preview — no host API). Two shells render it:
+- **`suluk-vscode`** — the editor face (TreeViews + commands + webviews).
+- **`@suluk/admin`** — the **`/superadmin`** web face (Hono-served HTML, superadmin-gated). Mounted with
+  `app.route("/", adminApp({ document, authorize }))`; the petshop demo mounts it live.
+Because both consume the same core, the admin panel *is* the extension — it cannot drift from it.
+
+## `@suluk/hono` — the derivation engine (design)
+
+1. **Route registry.** A thin wrapper that captures, per route: method, path, Zod schemas for
+   param/query/header/json body and the response, plus optional metadata (summary, tags, security).
+   Hono + `@hono/zod-validator` already declares the input schemas; we read them, so the contract stays
+   in the route definition (minimal extra typing).
+2. **`emitV4(registry, ctx?) -> { document, diagnostics }`.** Zod→v4 via `@suluk/zod`; assemble the v4
+   Document. `ctx = { principal?, now?, servers? }` enables the dynamic projection (filter by scope, set
+   servers by env, mark deprecations by `now`). No `ctx` ⇒ the full public doc.
+3. **`validator()` middleware.** Validate incoming requests against the *same* Zod schemas the doc is
+   built from — the doc and the runtime can never drift, because they are one source.
+4. **`audit(document) -> Finding[]`.** Documentation-coverage: flag operations missing
+   summary/description/response schema/examples. This is the *ceiling* side of the Conformance Grade
+   (an under-documented route indicts the producer). Optional `autofill` synthesizes sane defaults.
+5. **`generateContractTests(document) -> TestCase[]`.** The doc as an executable check: per operation,
+   assert valid example instances satisfy the request schema, invalid ones are rejected, the live
+   response matches the declared response schema, and ADA signatures don't collide (reuse
+   `core.buildAda().collisions`). Emit as `bun:test` cases.
+
+## `@suluk/better-auth` — official Better Auth on Hono (design)
+
+- Derive v4 `securitySchemes` (bearer / session-cookie / apiKey) + by-name `security` from the Better Auth
+  instance config.
+- Ingest Better Auth's own `openAPI()` plugin output (OpenAPI 3.x for `/sign-in`, `/session`, OAuth
+  callbacks, …) → `compat.upgrade()` → v4 → merge into the app doc, so the auth surface is documented
+  without re-typing it.
+- Provide the `principal` extractor that feeds `render(contracts, principal, now)` — closing the loop on
+  per-viewer docs.
+
+## The three cycle-closing packages
+
+- **`@suluk/drizzle` (data floor).** A Drizzle table is the system of record. `tableSchemas` (drizzle-zod
+  select/insert/update) → `tableToV4` (via `@suluk/zod`) → `tableComponents`; `tableMetadata` reads
+  pk/notNull/hasDefault/enum off the column descriptors; `crudRoutes(table)` emits list/get/create/update/
+  delete RouteContracts. `emitV4(crudRoutes(table))` validates against the meta-schema — the floor reaches
+  the hub with no hand-written contract.
+- **`@suluk/nano-stores` (state corner).** The *same* RouteContracts the server is built from project into a
+  typed `@nanostores/query` client: GET → fetcher stores, the rest → mutator stores, with the contract's Zod
+  guarding request **and** response edges (`SchemaViolationError`). One contract, two projections.
+- **`@suluk/shadcn` (UI corner).** v4 Schema Object → `formSpec`/`tableSpec` descriptors → shadcn TSX
+  (`renderFormTsx`/`renderTableTsx`: react-hook-form + zodResolver). Codegen only — no runtime UI deps.
+
+## `suluk-vscode` — the cockpit (the unifying surface)
+
+The extension is where the whole cycle becomes coherent: one v4 document is the hub, and every projection is
+visible, navigable, and actionable from one place.
+
+- **`buildCycle(doc, {principal?})` (pure, tested).** An 8-layer model — *data · contract · auth · document ·
+  docs · state · ui · tests* — each layer a projection of the hub. It is a **function of the viewer**: pass
+  scopes and scope-gated operations the principal can't reach are filtered out (the per-WHO projection,
+  applied at the hub; the hidden count surfaced honestly). `docChecks` = the doc as an executable check.
+- **`codegen` (pure, tested).** Actions that land files, each reusing a projection package: `generateForm`/
+  `generateTable` (shadcn TSX), `generateStoresModule` (the `@suluk/nano-stores` wiring + derived store
+  list), `exportV4Json`. The editor never reimplements a projection.
+- **The shell.** A "Suluk · Cycle" TreeView with status icons; **"View as…"** re-projects the tree to a
+  principal's scopes; commands for every codegen action; Scalar/Swagger webview previews; validate/audit
+  diagnostics in the Problems panel.
+
+## The builder — compose the whole stack (`@suluk/builder`)
+
+Inspired by `~/apps/multivendorbuilder`'s **page → section → block → component** DSL, rebuilt with the Suluk
+discipline. The load-bearing idea is **contract-narrowing**: *a document's `params` is EXACTLY and ONLY what
+the tier above may set.* Each tier consumes the full contract below, hardcodes most of it, and re-publishes a
+narrower `params` upward — the narrowing IS the safety surface (the same discipline as the per-viewer doc
+projection, applied to composition). "The owner can't change the form's fields" isn't a rule — `fields` just
+isn't in the section's `params`.
+
+The Suluk twist binds the tiers to the cycle: lower tiers **auto-generate** from an entity schema (Form/Table
+blocks, a CRUD section, the backend CRUD routes); a **page** composes sections. So `buildApp(spec)` emits
+**both ends from one spec** — backend (routes → `emitV4` → v4 doc) *and* frontend (shadcn components + page
+TSX). Building a page builds the front *and* the back, because each entity carries data + contract + UI.
+
+## Distribution — shadcn registry as the whole-stack package format
+
+shadcn's registry isn't UI-only: a `registry:file` item carries arbitrary files to any target. So
+`toShadcnRegistry(builtApp)` packages **each slice as one installable unit** (`npx shadcn add <item>`) bundling
+its shadcn Form/Table **and** its backend routes module **and** its v4 schema. The registry becomes the
+universal distribution format for every layer — managed from the cockpit. This is what makes the stack modular
+and installable end to end.
+
+## The deployment capstone — Cloudflare (swappable)
+
+The terminal stage: once a user logs into their Cloudflare account *through the extension*, everything deploys
+to Cloudflare — Hono → **Workers**, the frontend → **Pages**, Drizzle(sqlite) → **D1**, plus observability /
+compute. This is an *adapter, not a rewrite*: the stack is already Cloudflare-native by construction (Hono is
+the canonical Workers framework; `@suluk/drizzle` targets `sqlite-core`, which *is* D1). Kept behind a
+**swappable target interface** (`@suluk/deploy`) so Cloudflare is the first provider, not the only one — the
+services are built on good standards we can swap later. **Built** as `@suluk/deploy`: `cloudflare.generate()`
+emits `wrangler.jsonc` (D1 binding + static `assets` SPA-fallback + observability) + `worker.ts`
+(`export default app`) + `schema.sql` (from the entities) + an ordered plan (login → d1 create → apply →
+deploy). The extension's "Deploy to Cloudflare" command writes these + a `DEPLOY.md` and opens a terminal —
+it never runs `wrangler` for you (deploys are consequential; OAuth login happens in your terminal).
+
+## Cost & billing — you can't price what you can't measure
+
+Cost is just another facet of the contract. **`@suluk/cost`** lets an operation declare what it costs you
+(per-call + metered third-party usage, in raw µ$); `annotateCosts` writes it as `x-suluk-cost` on the
+operation, so it **bubbles** like everything else — through the 3.1 downgrade (the converter now passes `x-*`
+through), into Scalar, into the cockpit's **Cost layer**, and into a coverage audit (which operations
+declared nothing). At runtime, `costMeter` (Hono middleware) records what each request **actually** cost,
+attributed all the way down: the **frontend action** (`@suluk/nano-stores` tags requests with
+`x-suluk-action`) → the operation → each source. The ledger shows the raw per-user picture; you display it
+as it is and build pricing on top.
+
+**`@suluk/stripe`** is the reference `PaymentProvider` (swappable — other processors follow Stripe). It
+models the modern usage-based stack (Billing Meters + meter events + metered prices, customers,
+subscriptions, webhooks) as pure param-builders over a duck-typed client, and a bridge turns `@suluk/cost`
+events into Stripe usage — one meter event per principal. You meter usage; the price + your markup = revenue.
+
+## Invariants every package keeps
+
+- **Honest losses are enumerated, never silent** — `compat` collision diagnostics, `zod` lossy-effect
+  warnings, `hono` audit findings, `drizzle`/`shadcn` warnings. The pattern is uniform.
+- **Schema Objects are JSON Schema 2020-12 verbatim** across v4 / 3.1 / Zod / Drizzle — no re-encoding, so the
+  conversions are thin and the round-trips are exact.
+- **One source, many projections.** The data + contract are authored once; docs, state, UI, validation,
+  tests, and audit are all derived — they cannot drift, because they are the same source.
+- **Pure logic + thin adapters.** Every package separates tested pure functions from a duck-typed/host shell
+  (`hono.mount`, `better-auth.mountAuth`, the vscode shell). That is why coverage is high and the host
+  bindings are trivial.
+- **CANDIDATE labeling** stays on every artifact; nothing here is official OAS.
+
+## How the tools compose
+
+Each package derives one facet from the single v4 contract; here is how they depend on each other — every
+package pointing at its `@suluk/*` dependencies.
+
+![Suluk package dependency graph](https://kroki.io/d2/svg/eJx1lk2u0zAQx_c9hVU2sOiCHSoS4g6cwLXnJSaOHdlOHy1CYsUBECd8J0H-iD1uJ7vM378Zf2Vm_I59W_U6sbff_9hoX1kYgQVrtWfCzov1wN4DFyNbuJj4AOztz1-mgmdffXKTsICRYIQC_-EglQMRlDVn5tQwhsOBy1mZM_up-QX0mR2TffzM_MgXOLOIczNo-HXgA5jgMZoEkj1eIARwJ76G8YhcsEz5XZTWygzYIys0vSotwWE6KyQtRh4QGk2a03aVL5o7wHQVaR8rpkV14bOyQ_ex7W5U34f0O_EcSNVdTVFIWsKi7Q3BWaBZK3DYaNKcU_e7xpsqCknHtVl8bVmg2ZkrjdFo06S5Ys5cacprZfCpZoFmf_B50YBPYJNIfuROAk6mLNCsNRaT1liSUx8_4YjRJLnvdnUGbnitm0TyU89Oe9wsFoTNYqEpK0HjeFmga4Phxp58sA48rg1YJv3sAoYv6hTrHg_Y9WGE8l64iWh1SfYOeZsfKt0m0bzm4cW6GfNFonlnr8qnGtwcNo30cPACDozA-VU10sMLrjnOsCzQ55rHTj5wI7m2BvDRPg-S88kJ-8iJpgD_8h7oP96PXAp8OFmg2eBUlBqbhB12vQxdehaFpl_5MHS9pSgkHcCHPnZRaHqEGS862SR5VX7l-LfNAsnerUTg3cqd247PgtPVCyv7i8Y65ZmfCuz0hcWGha3U6cr7oI1XM9eC_k1QsSf1MZm3N0Ec2_IQa6XRbI-BGhjZdyuxGWsttvP_hZUtZnwj1ICbMYulfeetlSNoaLPTZMjO-dQp-b_qpLwipJTFYSm37X5uH7q5U_vBSv59sJKvKT012vLz6wGfRJ6sEkWm7HjYyEz7z_290s0sK2zC0-23oVrxkFZOMz0Koh3bY2nDdbZmbs07Nd82Xoy48K1lpsH65Otl-yDUqFgsG8OSl1Pqummb-K-vajn32HNbfuC2uK-mY348vIqnZtes0p1SRm2Np7Wlh713Ophr60Y1YKeUneebqUgzn27Yy6lhMn3XI82J0IarmUpmKf9dZSjZ1Fya_TRzqdGVzdlBmCUf-xrZLoOQc0l8Htlq4dNAzsP_70_QBw)
+
+[D2 source](https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/tooling/ts/docs-pages/architecture.d2) — render with the [d2 CLI](https://d2lang.com) or paste it into [d2lang.com/playground](https://play.d2lang.com).

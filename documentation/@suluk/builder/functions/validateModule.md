@@ -1,0 +1,31 @@
+[**Suluk**](../../../README.md)
+
+***
+
+[Suluk](../../../packages.md) / [@suluk/builder](../README.md) / validateModule
+
+# Function: validateModule()
+
+> **validateModule**(`m`): `object`
+
+Defined in: [registry-remote.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/registry-remote.ts#L36)
+
+Validate one UNTRUSTED module manifest, VALUE-shapes included. Returns the typed module or a human reason.
+
+## Parameters
+
+### m
+
+`unknown`
+
+## Returns
+
+`object`
+
+### error?
+
+> `optional` **error?**: `string`
+
+### module?
+
+> `optional` **module?**: [`SulukModule`](../interfaces/SulukModule.md)

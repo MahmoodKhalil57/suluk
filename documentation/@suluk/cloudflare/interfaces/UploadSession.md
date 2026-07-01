@@ -1,0 +1,27 @@
+[**Suluk**](../../../README.md)
+
+***
+
+[Suluk](../../../packages.md) / [@suluk/cloudflare](../README.md) / UploadSession
+
+# Interface: UploadSession
+
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cloudflare/src/assets.ts#L30)
+
+## Properties
+
+### buckets?
+
+> `optional` **buckets?**: `string`[][]
+
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cloudflare/src/assets.ts#L33)
+
+the file hashes (grouped into buckets) the API still needs uploaded; empty when everything is cached.
+
+***
+
+### jwt
+
+> **jwt**: `string`
+
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cloudflare/src/assets.ts#L31)

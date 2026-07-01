@@ -1,0 +1,25 @@
+[**Suluk**](../../../README.md)
+
+***
+
+[Suluk](../../../packages.md) / [@suluk/payments](../README.md) / SyncRequest
+
+# Interface: SyncRequest
+
+Defined in: [tooling/ts/packages/payments/src/types.ts:180](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/types.ts#L180)
+
+## Properties
+
+### connectorTransactionId
+
+> **connectorTransactionId**: `string`
+
+Defined in: [tooling/ts/packages/payments/src/types.ts:181](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/types.ts#L181)
+
+***
+
+### testMode?
+
+> `optional` **testMode?**: `boolean`
+
+Defined in: [tooling/ts/packages/payments/src/types.ts:182](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/types.ts#L182)
