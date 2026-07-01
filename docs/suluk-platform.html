@@ -23,15 +23,68 @@
     <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/platform</li></ul></div>
     <div class="flex items-center gap-3 flex-wrap mt-1">
       <h1 class="text-3xl font-bold font-mono">@suluk/platform</h1>
-      <span class="badge badge-ghost">v0.1.10</span>
+      <span class="badge badge-ghost">v0.2.0</span>
     </div>
     <p class="text-lg text-base-content/70 mt-2">The platform generator (C051): write one <code>definePlatform</code> manifest → it plans the shadcn-registry adds, generates the wired Hono entry, and merges each module's provision fragment into a single provision.config. The manifest compiles to a shadcn-add list + a C047 provision.config; the generator runs the adds + <code>@suluk/provision</code>. Turns the Suluk backend registry into a one-command platform. CANDIDATE tooling.</p>
     <div class="prose-suluk mt-6">
       <h2>Install</h2><pre><code>bun add @suluk/platform</code></pre>
-      <h2>Overview</h2><p>@suluk/platform — the platform generator (C051). Write one <code>definePlatform</code> manifest; the generator plans the shadcn-registry adds, generates the wired Hono entry, and merges each module's provision fragment into a single provision.config. The higher-level surface over C047's provision.config + the C050 registry: <code>services: [&quot;auth&quot;, &quot;credits&quot;, &quot;billing&quot;]</code> → a whole backend. The generated <code>provision.config.ts</code> imports <code>mergeProvision</code> from here.</p>
-      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">BASE_DEPS</span><span class="badge badge-sm badge-outline font-mono">buildPackageJson</span><span class="badge badge-sm badge-outline font-mono">CATALOG</span><span class="badge badge-sm badge-outline font-mono">CatalogEntry</span><span class="badge badge-sm badge-outline font-mono">collectEnv</span><span class="badge badge-sm badge-outline font-mono">definePlatform</span><span class="badge badge-sm badge-outline font-mono">DEV_DEPS</span><span class="badge badge-sm badge-outline font-mono">ECOSYSTEM_VERSIONS</span><span class="badge badge-sm badge-outline font-mono">EnvVar</span><span class="badge badge-sm badge-outline font-mono">GenerateOptions</span><span class="badge badge-sm badge-outline font-mono">generatePlatform</span><span class="badge badge-sm badge-outline font-mono">GenerateResult</span><span class="badge badge-sm badge-outline font-mono">mergeGitignore</span><span class="badge badge-sm badge-outline font-mono">mergePackageJson</span><span class="badge badge-sm badge-outline font-mono">mergeProvision</span><span class="badge badge-sm badge-outline font-mono">mergeWranglerToml</span><span class="badge badge-sm badge-outline font-mono">Mount</span><span class="badge badge-sm badge-outline font-mono">orderServices</span><span class="badge badge-sm badge-outline font-mono">planPlatform</span><span class="badge badge-sm badge-outline font-mono">PlatformManifest</span><span class="badge badge-sm badge-outline font-mono">PlatformPlan</span><span class="badge badge-sm badge-outline font-mono">resolveVersion</span></div>
+      <p>Write <strong>one manifest</strong>; the generator plans the shadcn-registry adds, generates the wired Hono entry, merges each module's provision fragment, and emits the whole scaffold (package.json / tsconfig / wrangler.toml / .env.example / …). The higher-level surface over the <a href="https://github.com/MahmoodKhalil57/suluk">Suluk registry</a> + <code>@suluk/provision</code>.</p>
+<p>There are two authoring surfaces. The <strong>legacy</strong> one (C051) is a single object and is supported forever. The <strong>C053</strong> one splits a platform into a reusable <strong>system</strong> and a swappable <strong>brand</strong>, adds typed opts, and lets services <strong>compose</strong>.</p>
+<h2>The C053 model</h2>
+<h3>A service is a common interface</h3>
+<p><code>defineService&lt;SO, BO&gt;({ id, mount, provision?, deps?, env?, serviceOpts?, brandOpts?, reads?, compose? })</code> — the shape a community shadcn registry extends. The 19 core services are exported as typed consts (<code>authService</code>, <code>creditsService</code>, …).</p>
+<h3>System vs brand</h3>
+<pre><code class="lang-ts">import { defineSystem, defineBrand, definePlatform, authService, creditsService, emailService } from &quot;@suluk/platform&quot;;
+import { analyticsService } from &quot;@acme/suluk-analytics&quot;; // a community service
+
+export const system = defineSystem({
+  registry: &quot;MahmoodKhalil57/suluk&quot;,
+  services: [authService, creditsService, emailService, analyticsService],
+  globalServiceOpts: { ENVIRONMENT: &quot;production&quot;, TRUSTED_ORIGINS: &quot;https://app.example&quot; },
+  serviceOpts: { auth: { mcp: { loginPage: &quot;…&quot;, consentPage: &quot;…&quot;, resource: &quot;…&quot;, scopes: [&quot;credits:read&quot;] } } }, // typed by id
+  wire: [{ id: &quot;signup-grant&quot;, from: &quot;auth.onUserCreated&quot;, to: &quot;credits.grantOnSignup&quot;, with: { amount: 100 } }],
+});
+
+export const brand = defineBrand({
+  name: &quot;app&quot;,
+  globalBrandOpts: { BRAND_NAME: &quot;App&quot;, BASE_URL: &quot;https://app.example&quot;, EMAIL_FROM: &quot;hi@app.example&quot; },
+});
+
+export default definePlatform({ system, brand });</code></pre>
+<p>A <strong>system</strong> (services + serviceOpts + globalServiceOpts + wiring) is the reusable, publishable template. A <strong>brand</strong> (brandOpts + globalBrandOpts) is thin and swappable — two businesses run the same system with different brands; the generated entry <em>code</em> is identical, only <code>wrangler.toml [vars]</code> differ.</p>
+<h3>The 2×2 opts matrix</h3>
+<table>
+<thead>
+<tr><th></th><th>per-service</th><th>global</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>service axis</strong> (how it works)</td><td><code>serviceOpts</code> → the entry (mount opts)</td><td><code>globalServiceOpts</code> (a service <code>reads</code> the keys it needs)</td></tr>
+<tr><td><strong>brand axis</strong> (identity)</td><td><code>brandOpts</code> → <code>[vars]</code></td><td><code>globalBrandOpts</code> → <code>[vars]</code></td></tr>
+</tbody>
+</table>
+<p><code>serviceOpts</code> is typed per service id off the imported service objects (or <code>CoreServiceOptsMap</code> for a string id) — a wrong opt is a compile error.</p>
+<h3>Composition (<code>wire</code>)</h3>
+<p>An edge binds a producer <strong>port</strong> to a consumer <strong>capability</strong>. It renders <strong>into the producer's existing mount-opt field</strong> (e.g. <code>auth.onUserCreated</code>), not a separate statement — so it reuses a real seam and the hook closure gets a real <code>env</code>. <code>resolveWiring</code> validates presence, port/capability existence, JSON-safe params, safe identifiers, and acyclicity; fan-out (several wires on one port) composes in declaration order. A community service participates by offering a capability (fills a core port) or exposing its own.</p>
+<h2>CLI</h2>
+<pre><code class="lang-sh">suluk-platform            # generate from ./platform.config.ts (legacy OR { system, brand })
+suluk-platform --config &lt;path&gt;
+suluk-platform migrate    # print the { system, brand } split of a legacy config (a starting point)</code></pre>
+<p><code>migrate</code> is byte-faithful: <code>liftLegacy</code> → the same generated app as the legacy manifest.</p>
+<h2>Guarantees</h2>
+<ul>
+<li><strong>Byte-identity.</strong> A legacy manifest — and any <code>{ system, brand }</code> with no wire — regenerates the exact bytes the C051</li>
+</ul>
+<p>  generator produced (pinned by a golden test over the real 18-service reference app).</p>
+<ul>
+<li><strong>Fail closed.</strong> A missing registry, a wrong-typed wire param, or a colliding wire import throws at generate time, not in</li>
+</ul>
+<p>  the shipped app.</p>
+<ul>
+<li><strong>Own the wiring, npm the logic</strong> (C052). A community extends services <em>and</em> composition without forking <code>@suluk</code> logic.</li>
+</ul>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">adminService</span><span class="badge badge-sm badge-outline font-mono">appService</span><span class="badge badge-sm badge-outline font-mono">assertJsonSafe</span><span class="badge badge-sm badge-outline font-mono">auditService</span><span class="badge badge-sm badge-outline font-mono">authService</span><span class="badge badge-sm badge-outline font-mono">AuthServiceOpts</span><span class="badge badge-sm badge-outline font-mono">BASE_DEPS</span><span class="badge badge-sm badge-outline font-mono">billingService</span><span class="badge badge-sm badge-outline font-mono">BrandManifest</span><span class="badge badge-sm badge-outline font-mono">buildPackageJson</span><span class="badge badge-sm badge-outline font-mono">Capability</span><span class="badge badge-sm badge-outline font-mono">CATALOG</span><span class="badge badge-sm badge-outline font-mono">CatalogEntry</span><span class="badge badge-sm badge-outline font-mono">collectEnv</span><span class="badge badge-sm badge-outline font-mono">CompositionSurface</span><span class="badge badge-sm badge-outline font-mono">contractService</span><span class="badge badge-sm badge-outline font-mono">CORE_SERVICES</span><span class="badge badge-sm badge-outline font-mono">costService</span><span class="badge badge-sm badge-outline font-mono">creditsService</span><span class="badge badge-sm badge-outline font-mono">defineBrand</span><span class="badge badge-sm badge-outline font-mono">definePlatform</span><span class="badge badge-sm badge-outline font-mono">defineService</span><span class="badge badge-sm badge-outline font-mono">defineSystem</span><span class="badge badge-sm badge-outline font-mono">DEV_DEPS</span><span class="badge badge-sm badge-outline font-mono">ECOSYSTEM_VERSIONS</span><span class="badge badge-sm badge-outline font-mono">emailService</span><span class="badge badge-sm badge-outline font-mono">EnvVar</span><span class="badge badge-sm badge-outline font-mono">erasureService</span><span class="badge badge-sm badge-outline font-mono">GenerateOptions</span><span class="badge badge-sm badge-outline font-mono">generatePlatform</span><span class="badge badge-sm badge-outline font-mono">GenerateResult</span><span class="badge badge-sm badge-outline font-mono">groupImports</span><span class="badge badge-sm badge-outline font-mono">i18nService</span><span class="badge badge-sm badge-outline font-mono">isPlatform</span><span class="badge badge-sm badge-outline font-mono">journeysService</span><span class="badge badge-sm badge-outline font-mono">keysService</span><span class="badge badge-sm badge-outline font-mono">liftLegacy</span><span class="badge badge-sm badge-outline font-mono">liftSystemBrand</span><span class="badge badge-sm badge-outline font-mono">lit</span><span class="badge badge-sm badge-outline font-mono">logsService</span><span class="badge badge-sm badge-outline font-mono">McpOAuthOpts</span><span class="badge badge-sm badge-outline font-mono">mcpService</span><span class="badge badge-sm badge-outline font-mono">mergeGitignore</span><span class="badge badge-sm badge-outline font-mono">mergePackageJson</span><span class="badge badge-sm badge-outline font-mono">mergeProvision</span><span class="badge badge-sm badge-outline font-mono">mergeWranglerToml</span><span class="badge badge-sm badge-outline font-mono">Mount</span><span class="badge badge-sm badge-outline font-mono">optsType</span><span class="badge badge-sm badge-outline font-mono">orderServices</span><span class="badge badge-sm badge-outline font-mono">planPlatform</span><span class="badge badge-sm badge-outline font-mono">Platform</span><span class="badge badge-sm badge-outline font-mono">PlatformManifest</span><span class="badge badge-sm badge-outline font-mono">PlatformPlan</span><span class="badge badge-sm badge-outline font-mono">Port</span><span class="badge badge-sm badge-outline font-mono">rateCreditService</span><span class="badge badge-sm badge-outline font-mono">rateLimitService</span><span class="badge badge-sm badge-outline font-mono">referenceService</span><span class="badge badge-sm badge-outline font-mono">resolveNodeOpts</span><span class="badge badge-sm badge-outline font-mono">resolveVersion</span><span class="badge badge-sm badge-outline font-mono">resolveWiring</span><span class="badge badge-sm badge-outline font-mono">Schema</span><span class="badge badge-sm badge-outline font-mono">Service</span><span class="badge badge-sm badge-outline font-mono">serviceId</span><span class="badge badge-sm badge-outline font-mono">ServiceRef</span><span class="badge badge-sm badge-outline font-mono">SystemManifest</span><span class="badge badge-sm badge-outline font-mono">toCatalogEntry</span><span class="badge badge-sm badge-outline font-mono">validateIdentifier</span><span class="badge badge-sm badge-outline font-mono">webhooksService</span><span class="badge badge-sm badge-outline font-mono">WireDecl</span><span class="badge badge-sm badge-outline font-mono">WireImport</span><span class="badge badge-sm badge-outline font-mono">Wiring</span></div>
       <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/provision</span></div>
-      <h2>Modules</h2><dl class="modules"><dt><code>catalog.ts</code></dt><dd>The catalog (C051) — the OSB &quot;offerings&quot;: each service id → how to MOUNT its router into the Hono entry + where its</dd><dt><code>generate.ts</code></dt><dd>The generator (C051) — the impure shell over {@link planPlatform}: run the <code>shadcn add</code>s (which fetch each module's</dd><dt><code>manifest.ts</code></dt><dd>The platform manifest (C051) — the ONLY author-facing document. Name the registry + the services you want; the generator</dd><dt><code>merge.ts</code></dt><dd>Merge each module's provision fragment into ONE instance set (C051). Same-ref instances — every module targets the</dd><dt><code>plan.ts</code></dt><dd>The plan (C051) — PURE: a manifest → the shadcn-add list + the generated <code>src/index.ts</code> (the wired Hono entry) + the</dd></dl>
+      
     </div>
   </article></main>
 <footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
