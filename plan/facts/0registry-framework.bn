@@ -108,3 +108,26 @@ falsified_when registry_c050_build3_auth_foundation_module_scaffold_schema_valid
 # all new npm deps live (cost 0.2.0/journeys 0.4.0/cockpit 0.2.0/harden 0.2.0/core 0.1.13) so autotoolfactory can install.
 claim registry_c050_build4_cost_journeys_audit_modules_auth_reconciled_parity_measured: Bool @>=0.6 = True
 falsified_when registry_c050_build4_cost_journeys_audit_modules_auth_reconciled_parity_measured == False
+
+# C050 BUILD #5 — the `erasure` module (GDPR account-erasure), 2026-07-01. Closes the parity report's erasure-gdpr PARTIAL
+# gap with a proper HYBRID module (the pattern held): npm the fail-closed ORCHESTRATOR (@suluk/better-auth's
+# beforeDeleteCascade — if a cleanup step throws it ABORTS rather than half-erasing then deleting the user, so a fix flows
+# via npm), OWN the wiring. erasure.service.ts: an Effect `Erasure` service (erase = run the cascade then write the
+# receipt) + `sulukCascade(db)` = ordered leaf-first deleteSteps over the core Suluk tables (activity_log, cost_event,
+# billing_account, key_lineage, credit_transaction — ALL key on userId, verified) via parameterized `sql`DELETE FROM
+# ${sql.identifier(table)} WHERE userId = ${id}`` + `erasureHook(db)` (the Better Auth deleteUser.beforeDelete builder,
+# the PROPER integration) + re-exported step/anonymizeStep constructors (the app PICKS the posture delete-vs-anonymize +
+# TRIMS the cascade to installed modules). erasure.schema.ts: an OWNED erasure_receipt GDPR audit table (id/userId/posture/
+# steps-JSON/erasedAt), written only AFTER the cascade succeeds (a failed/aborted erase leaves NO false "erased" record).
+# erasure.routes.ts: POST /erasure/:userId (admin-gate in prod). erasure.provision.ts: 0004_erasure. registryDep app only
+# (the cascade hits other modules' tables by NAME in raw SQL, no code import → decoupled; a missing table fails-closed as
+# designed). @suluk/platform catalog got the erasure route entry; platform tests 10 pass (added the /erasure route +
+# provision-merge assertion). Registry now 10 ITEMS. VALIDATED: 4 erasure TS transpile; `bunx shadcn build` ok all 10;
+# platform 10 pass. CLEAN-ROOM PROOF (end-to-end, without touching autotoolfactory or republishing platform): a FRESH temp
+# project `shadcn add MahmoodKhalil57/suluk/erasure` pulled 5 files (erasure + app via registryDep), bun install + tsc = 0
+# own-code errors (the lone error is the pre-existing @suluk/openapi-compat transitive nit). FINDING: shadcn lands targets
+# at ROOT (not src/) when the project has no pre-existing src/ dir — the whole tree shifts uniformly so relative imports
+# still resolve. Shipped as a LIVE registry module (pushed); the @suluk/platform 0.1.2 republish + autotoolfactory adoption
+# is the batch-cadence follow-up (preserves the build-#4 one-shot-from-installed-generator invariant).
+claim registry_c050_build5_erasure_gdpr_cascade_module_cleanroom_proven: Bool @>=0.6 = True
+falsified_when registry_c050_build5_erasure_gdpr_cascade_module_cleanroom_proven == False
