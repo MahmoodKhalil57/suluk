@@ -13,8 +13,9 @@
  * `scopes`, and every derivation picks it up. The v4 document itself is produced by @suluk/hono's `emitV4` (npm the
  * derivation; own the wiring).
  */
+import type { MiddlewareHandler } from "hono";
 import { contractDoc, emitV4, type RouteContract } from "@suluk/hono";
-import type { OpenAPIv4Document } from "@suluk/core";
+import { toProblemDetails, PROBLEM_CONTENT_TYPE, type OpenAPIv4Document } from "@suluk/core";
 
 /**
  * The base operation surface. Each op carries a `name` (the v4 by-name handle — C009), a `summary` (documentation
@@ -255,3 +256,47 @@ export function apiDocument(principal?: { scopes: string[] }): OpenAPIv4Document
   });
   return document;
 }
+
+/**
+ * Resolve the contract op (and its required scope) a request maps to — by LONGEST static-path-prefix + method match
+ * against the contract. Because a module exposes sub-paths under its op prefix (a request `GET /api/credits/balance/x`
+ * resolves to the `getCredits` op declared at `/api/credits`), the match is on the static prefix (everything before the
+ * first `:param`). Returns `{ op, scope }` (scope `undefined` ⇒ a PUBLIC op) or `undefined` (a non-contract path — no gate).
+ * The METHOD disambiguates a read vs a write sharing a prefix (GET → :read op, POST → :write op).
+ */
+export function scopeForRequest(method: string, path: string): { op: string; scope?: string } | undefined {
+  const m = method.toUpperCase();
+  let best: RouteContract | undefined;
+  let bestLen = -1;
+  for (const r of CONTRACT) {
+    if (r.method.toUpperCase() !== m) continue;
+    const base = r.path.split("/:")[0]; // the static prefix before any :param
+    const hit = path === base || path === r.path || path.startsWith(base + "/");
+    if (hit && base.length > bestLen) {
+      best = r;
+      bestLen = base.length;
+    }
+  }
+  return best?.name ? { op: best.name, scope: best.scopes?.[0] } : undefined;
+}
+
+/**
+ * SCOPE-GATE for KEYED callers (an `x-api-key` / MCP caller — a `keyId` is on the context). A key holds a SUBSET of its
+ * owner's access, so a scoped op requires the key to hold that op's scope (from the contract's `x-suluk-access` facet).
+ * SESSION callers (no `keyId`) pass straight through — a signed-in user is unrestricted here (their own auth gates apply).
+ * Runs AFTER `apiKeyAuth` (which set `keyId` + `scopes`). The server is the ONLY authz boundary; the facet describes it.
+ */
+export const enforceApiKeyScope: MiddlewareHandler = async (c, next) => {
+  const keyId = c.get("keyId") as string | undefined;
+  if (!keyId) return next(); // session / anonymous → unrestricted at this gate
+  const path = new URL(c.req.url).pathname;
+  const match = scopeForRequest(c.req.method, path);
+  if (!match || !match.scope) return next(); // non-contract path or a public op → allow
+  const scopes = (c.get("scopes") as string[] | undefined) ?? [];
+  if (!scopes.includes(match.scope)) {
+    return c.json(toProblemDetails({ tag: "ForbiddenError", detail: `This API key is missing the "${match.scope}" scope.` }), 403, {
+      "content-type": PROBLEM_CONTENT_TYPE,
+    });
+  }
+  return next();
+};

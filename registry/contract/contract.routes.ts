@@ -1,26 +1,20 @@
 /**
- * The contract route (Suluk registry: `contract`) — serves the DERIVED v4 OpenAPI document. Mount it at `/api`:
- * `app.route("/api", contractRoutes())`, so the full path is `GET /api/openapi.json` (the catalog wires this).
- *
- * The document is projected PER CALLER: it reads the request-scoped `scopes` (set by the auth/identity middleware —
- * `c.set("scopes", ...)`) and passes them to `apiDocument`, so `emitV4` HIDES any operation the caller lacks the scope
- * for. An anonymous caller (no scopes) sees only the public surface. The projection is stateless — no DB, no provision.
+ * The contract mount (Suluk registry: `contract`) — a MIDDLEWARE mount that installs, in one place, the two contract-derived
+ * concerns on `/api/*`:
+ *   1. the SCOPE GATE (`enforceApiKeyScope`) — a keyed caller is restricted to the scopes the contract declares per op;
+ *      sessions pass through. It runs AFTER the auth `identity`/`apiKeyAuth` middleware (which set `keyId`/`scopes`).
+ *   2. `GET /api/openapi.json` — the v4 document PROJECTED to the caller's scopes (anonymous → the public surface).
+ * Wired into the generated entry as `mountContract(app)`. Own the wiring; @suluk/hono derives the doc + facets.
  */
-import { Hono } from "hono";
-import { apiDocument } from "../contract";
+import type { Hono, MiddlewareHandler } from "hono";
+import type { Bindings } from "../app";
+import { apiDocument, enforceApiKeyScope } from "../contract";
 
-/** The context variables this route reads — `scopes` is stashed by the identity/scope middleware. */
-type Env = { Variables: { scopes?: string[] } };
-
-export function contractRoutes() {
-  const r = new Hono<Env>();
-
-  // GET /api/openapi.json — the v4 document projected to what THIS caller may see. Anonymous (no scopes) → the PUBLIC
-  // surface only (default to [], never leak the full doc). Build-time tooling calls `apiDocument()` directly for the full doc.
-  r.get("/openapi.json", (c) => {
-    const document = apiDocument({ scopes: c.get("scopes") ?? [] });
-    return c.json(document);
-  });
-
-  return r;
+export function mountContract<T extends Hono<{ Bindings: Bindings }>>(app: T): T {
+  // the scope gate on every /api/* request (after auth's caller-resolution middleware set keyId/scopes).
+  app.use("/api/*", enforceApiKeyScope as MiddlewareHandler);
+  // the derived, per-caller v4 document. Anonymous (no scopes) → the public surface (default []). `scopes` is read off
+  // the variables bag (the app's Variables aren't declared as AppVars here, so cast the read).
+  app.get("/api/openapi.json", (c) => c.json(apiDocument({ scopes: (c.var as { scopes?: string[] }).scopes ?? [] })));
+  return app;
 }

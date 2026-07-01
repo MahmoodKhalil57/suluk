@@ -83,11 +83,13 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
     expect(lastMw).toBeLessThan(p.entry.indexOf('app.route("/api/credits"'));
   });
 
-  test("contract mounts at /api (serving /api/openapi.json) with NO provision; feature routes are under /api/*", () => {
+  test("contract is a MIDDLEWARE mount (scope gate + /api/openapi.json), emitted before routes; feature routes under /api/*", () => {
     const p = planPlatform(definePlatform({ name: "c", registry: "acme/reg", services: ["auth", "contract", "credits"] }));
-    expect(p.entry).toContain('import { contractRoutes } from "./routes/contract";');
-    expect(p.entry).toContain('app.route("/api", contractRoutes());');
+    expect(p.entry).toContain('import { mountContract } from "./routes/contract";');
+    expect(p.entry).toContain("mountContract(app);");
     expect(p.entry).toContain('app.route("/api/credits", creditsRoutes());'); // toolfactory-parity /api/* prefix
+    // the gate (middleware) is emitted before any route.
+    expect(p.entry.indexOf("mountContract(app);")).toBeLessThan(p.entry.indexOf('app.route("/api/credits"'));
     expect(p.provisionConfig).not.toContain("contractProvision");
   });
 

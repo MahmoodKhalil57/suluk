@@ -21,8 +21,10 @@ export interface CatalogEntry {
 export const CATALOG: Record<string, CatalogEntry> = {
   app: { mount: { kind: "base" } },
   auth: { mount: { kind: "middleware", symbol: "mountAuthRoutes", from: "./auth" }, provision: { symbol: "authProvision", from: "./src/provision/auth" } },
+  // the contract is a MIDDLEWARE mount: it installs the scope gate (enforceApiKeyScope) + GET /api/openapi.json. Place it
+  // after `auth` in the manifest so the gate runs after identity/apiKeyAuth set keyId/scopes. Derived + stateless.
+  contract: { mount: { kind: "middleware", symbol: "mountContract", from: "./routes/contract" } },
   // feature routes mount under /api/* — where the caller-resolution + cors + rate-limit middleware live (toolfactory parity).
-  contract: { mount: { kind: "route", path: "/api", symbol: "contractRoutes", from: "./routes/contract" } }, // serves GET /api/openapi.json (derived); stateless
   credits: { mount: { kind: "route", path: "/api/credits", symbol: "creditsRoutes", from: "./routes/credits" }, provision: { symbol: "creditsProvision", from: "./src/provision/credits" } },
   keys: { mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" } },
   billing: { mount: { kind: "route", path: "/api/billing", symbol: "billingRoutes", from: "./routes/billing" }, provision: { symbol: "billingProvision", from: "./src/provision/billing" } },
