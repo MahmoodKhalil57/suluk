@@ -111,3 +111,42 @@ export const passkey = sqliteTable(
     credentialIDIdx: index("passkey_credentialID_idx").on(t.credentialID),
   }),
 );
+
+// ── OAuth 2.1 authorization-server tables (Better Auth `mcp()` = oidc-provider). Only needed when opts.mcp is enabled. ──
+export const oauthApplication = sqliteTable("oauthApplication", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  icon: text("icon"),
+  metadata: text("metadata"),
+  clientId: text("clientId").notNull().unique(),
+  clientSecret: text("clientSecret"),
+  redirectUrls: text("redirectUrls").notNull(),
+  type: text("type").notNull(),
+  disabled: integer("disabled", { mode: "boolean" }).default(false),
+  userId: text("userId").references(() => user.id, { onDelete: "cascade" }),
+  createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
+});
+
+export const oauthAccessToken = sqliteTable("oauthAccessToken", {
+  id: text("id").primaryKey(),
+  accessToken: text("accessToken").notNull().unique(),
+  refreshToken: text("refreshToken").unique(),
+  accessTokenExpiresAt: integer("accessTokenExpiresAt", { mode: "timestamp" }),
+  refreshTokenExpiresAt: integer("refreshTokenExpiresAt", { mode: "timestamp" }),
+  clientId: text("clientId").notNull().references(() => oauthApplication.clientId, { onDelete: "cascade" }),
+  userId: text("userId").references(() => user.id, { onDelete: "cascade" }),
+  scopes: text("scopes").notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
+});
+
+export const oauthConsent = sqliteTable("oauthConsent", {
+  id: text("id").primaryKey(),
+  clientId: text("clientId").notNull().references(() => oauthApplication.clientId, { onDelete: "cascade" }),
+  userId: text("userId").notNull().references(() => user.id, { onDelete: "cascade" }),
+  scopes: text("scopes").notNull(),
+  consentGiven: integer("consentGiven", { mode: "boolean" }).notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
+});

@@ -7,7 +7,7 @@
  */
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { openAPI } from "better-auth/plugins";
+import { openAPI, mcp } from "better-auth/plugins";
 import { apiKey } from "@better-auth/api-key";
 import { passkey } from "@better-auth/passkey";
 import { drizzle } from "drizzle-orm/d1";
@@ -30,6 +30,14 @@ export interface AuthOptions {
   passkey?: { rpID: string; rpName: string; origin?: string | string[] };
   /** run after a user is created (e.g. grant signup credits via @suluk/credits) — the auth ↔ credits seam. */
   onUserCreated?: (userId: string) => Promise<void>;
+  /**
+   * Turn the API-as-MCP server (`/api/mcp`) into an OAuth 2.1 authorization server (Better Auth's `mcp()` plugin composes
+   * oidc-provider: the oauthApplication/oauthAccessToken/oauthConsent tables + `/.well-known/*` + `/api/auth/mcp/{authorize,
+   * token,get-session}` + `/api/auth/oauth2/consent`). The GRANTED scopes should be your API's scope set — so an MCP
+   * connection is gated + attributed by the SAME `enforceApiKeyScope` machinery as an api key (one surface). `loginPage`/
+   * `consentPage` are your web pages (mid-OAuth sign-in + scope-selection). Omit to run without MCP OAuth.
+   */
+  mcp?: { loginPage: string; consentPage: string; resource: string; scopes: string[] };
 }
 
 function buildAuth(env: AuthEnv, opts: AuthOptions = {}) {
@@ -45,6 +53,16 @@ function buildAuth(env: AuthEnv, opts: AuthOptions = {}) {
       openAPI(),
       apiKey({ enableMetadata: true }),
       ...(opts.passkey ? [passkey({ rpID: opts.passkey.rpID, rpName: opts.passkey.rpName, origin: opts.passkey.origin })] : []),
+      ...(opts.mcp
+        ? [
+            mcp({
+              loginPage: opts.mcp.loginPage,
+              resource: opts.mcp.resource,
+              // loginPage is also required on oidcConfig by the type (mcp overrides it with the top-level one); keep equal.
+              oidcConfig: { loginPage: opts.mcp.loginPage, consentPage: opts.mcp.consentPage, scopes: opts.mcp.scopes, requirePKCE: true },
+            }),
+          ]
+        : []),
     ],
   });
 }

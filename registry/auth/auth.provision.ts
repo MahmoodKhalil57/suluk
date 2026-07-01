@@ -21,12 +21,24 @@ CREATE INDEX IF NOT EXISTS passkey_userId_idx ON passkey(userId);
 CREATE INDEX IF NOT EXISTS passkey_credentialID_idx ON passkey(credentialID);
 `.trim();
 
+// The OAuth 2.1 authorization-server tables (Better Auth `mcp()` = oidc-provider) — only needed when opts.mcp is enabled.
+const AUTH_OAUTH_MIGRATION = `
+CREATE TABLE IF NOT EXISTS oauthApplication (id TEXT PRIMARY KEY, name TEXT NOT NULL, icon TEXT, metadata TEXT, clientId TEXT NOT NULL UNIQUE, clientSecret TEXT, redirectUrls TEXT NOT NULL, type TEXT NOT NULL, disabled INTEGER DEFAULT 0, userId TEXT REFERENCES user(id) ON DELETE CASCADE, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS oauthAccessToken (id TEXT PRIMARY KEY, accessToken TEXT NOT NULL UNIQUE, refreshToken TEXT UNIQUE, accessTokenExpiresAt INTEGER, refreshTokenExpiresAt INTEGER, clientId TEXT NOT NULL REFERENCES oauthApplication(clientId) ON DELETE CASCADE, userId TEXT REFERENCES user(id) ON DELETE CASCADE, scopes TEXT NOT NULL, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS oauthConsent (id TEXT PRIMARY KEY, clientId TEXT NOT NULL REFERENCES oauthApplication(clientId) ON DELETE CASCADE, userId TEXT NOT NULL REFERENCES user(id) ON DELETE CASCADE, scopes TEXT NOT NULL, consentGiven INTEGER NOT NULL, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL);
+CREATE INDEX IF NOT EXISTS oauthApplication_userId_idx ON oauthApplication(userId);
+CREATE INDEX IF NOT EXISTS oauthAccessToken_clientId_idx ON oauthAccessToken(clientId);
+CREATE INDEX IF NOT EXISTS oauthAccessToken_userId_idx ON oauthAccessToken(userId);
+CREATE INDEX IF NOT EXISTS oauthConsent_clientId_idx ON oauthConsent(clientId);
+CREATE INDEX IF NOT EXISTS oauthConsent_userId_idx ON oauthConsent(userId);
+`.trim();
+
 export const authProvision: InstanceSpec[] = [
   {
     ref: "db",
     service: "cloudflare-d1",
     name: "app-db",
-    params: { migrations: [{ name: "0000_auth", sql: AUTH_MIGRATION }] },
+    params: { migrations: [{ name: "0000_auth", sql: AUTH_MIGRATION }, { name: "0001_auth_oauth", sql: AUTH_OAUTH_MIGRATION }] },
     bind: { database_id: "CLOUDFLARE_D1_ID" },
     protected: true,
   },
