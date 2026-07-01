@@ -1,37 +1,26 @@
 /**
- * @suluk/stripe — first-class Stripe behind a swappable PaymentProvider. Usage-based billing via the modern
- * Billing Meters API (meters + meter events + metered prices), customers, subscriptions, and webhooks — plus
- * a bridge that turns @suluk/cost events into the usage you bill on. Stripe is the reference processor; the
- * PaymentProvider interface is the swap point for the others that follow it. CANDIDATE tooling.
+ * @deprecated @suluk/stripe is DEPRECATED and gutted (C048) — it is now a thin re-export shell over {@link @suluk/payments}
+ * and will be REMOVED in the next major. Import everything below from `@suluk/payments` instead.
+ *
+ * What moved to @suluk/payments (re-exported here for backward compatibility): the pricing primitives, the Stripe webhook
+ * surface (signature verification + the event router), and the Stripe form-encoder/transport. What was DELETED (dead —
+ * no consumer): the Stripe usage-billing (Billing Meters), the checkout-param builders, the shipping/tax adapters, the
+ * `PaymentProvider`/`StripeLike` types, and `restStripe`/`retrievePaymentIntent`. Use `@suluk/payments`'
+ * `PaymentConnector` (agnostic) or `stripeConnector` for payment flows.
  */
-export type { PaymentProvider, StripeLike, Customer, Subscription, WebhookEvent } from "./types";
-export {
-  customerParams, productParams, meterParams, meteredPriceParams, subscriptionParams, meterEventParams,
-  billingPortalSessionParams, setupUsageBilling, stripeProvider, usageEventsFromCost, reportCostUsage,
-  type UsageBillingConfig, type CostBillingConfig,
-} from "./stripe";
+
+// pricing primitives (processor-agnostic checkout money math).
 export {
   subtotal, computeDiscountAmount, validateDiscount, prorateDiscount, orderTotal, composeTotal, verifyAmount,
   cartFingerprint, idempotencyKey, requiresStripe, STRIPE_MIN_CHARGE_CENTS,
   type CartLine, type Discount, type DiscountResult, type DiscountRejection, type OrderTotal, type OrderTotalFull, type AmountVerdict,
-} from "./pricing";
-// pluggable shipping + tax adapters — swap flat-rate for Shippo/EasyPost/TaxJar/Stripe-Tax without touching checkout.
+} from "@suluk/payments";
+
+// the Stripe webhook surface (SDK-free signature verification + a typed event router).
 export {
-  cartNeedsShipping, flatRateShipping, combineShipping, resolveShipping,
-  type ShippingInput, type ShippingOption, type ShippingProvider,
-} from "./shipping";
-export {
-  flatRateTax, noTax, resolveTax,
-  type TaxInput, type TaxResult, type TaxProvider,
-} from "./tax";
-// the checkout money-path (Phase 1): the pure anti-double-charge / anti-tampering core + the Stripe binding.
-export {
-  planPaymentIntent, cardInfoFrom, ownsPaymentMethod, stripeCheckout,
-  type IntentPlan, type CardInfo, type CheckoutProvider,
-  type StripeCheckoutLike, type PaymentMethodLike, type PaymentIntentLike,
-} from "./checkout";
-export { webhookRouter, STRIPE_EVENTS, type WebhookRouter, type WebhookHandler, type HandleResult } from "./webhook";
-// SDK-free edge webhook verification (Web Crypto) — one verifier for dev + Workers prod, no `stripe` SDK.
-export { verifyStripeSignature, timingSafeHexEqual, type VerifyOptions } from "./webhook-verify";
-// the StripeLike fetch impl (Workers-safe) + read surface for webhook PI→order resolution + refund checks.
-export { restStripe, toForm, stripeGet, retrievePaymentIntent, type RestStripeOptions } from "./rest";
+  verifyStripeSignature, timingSafeHexEqual, webhookRouter, STRIPE_EVENTS,
+  type VerifyOptions, type StripeWebhookEvent, type WebhookHandler, type WebhookRouter, type HandleResult,
+} from "@suluk/payments";
+
+// the Stripe form-encoder + transport.
+export { toForm, stripePost, stripeGet, type StripeConfig } from "@suluk/payments";

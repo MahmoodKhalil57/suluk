@@ -1,8 +1,8 @@
 {
   "name": "@suluk/stripe",
   "version": "0.1.7",
-  "description": "DEPRECATED — SUPERSEDED by @suluk/payments (the provider-agnostic seam, C048). The pricing primitives + webhook signature verification/router have MOVED there (this package now re-exports them as shims); use @suluk/payments for all payment flows, pricing, and webhooks. What remains here (usage-based Billing Meters, the Stripe checkout params, shipping/tax adapters) is Stripe-specific and unported — do NOT reach for it for new work. CANDIDATE tooling.",
-  "deprecated": "Use @suluk/payments (C048). Pricing + webhook surfaces moved there; @suluk/stripe re-exports them as shims and is otherwise frozen.",
+  "description": "DEPRECATED — GUTTED to a thin re-export shell over @suluk/payments (C048), removed in the NEXT MAJOR. The pricing primitives, the Stripe webhook surface (signature verification + event router), and the form-encoder/transport are re-exported from @suluk/payments for backward compatibility; the rest (usage-based Billing Meters, checkout-param builders, shipping/tax adapters, PaymentProvider/StripeLike types, restStripe) was DELETED as dead. Use @suluk/payments — its PaymentConnector (agnostic) / stripeConnector for payment flows.",
+  "deprecated": "GUTTED — use @suluk/payments (C048). This is a backward-compat re-export shell (pricing + webhook + toForm); everything else was deleted. Scheduled for removal in the next major.",
   "publishConfig": { "access": "public" },
   "license": "Apache-2.0",
   "repository": {
@@ -15,9 +15,7 @@
   "type": "module",
   "main": "src/index.ts",
   "exports": { ".": "./src/index.ts" },
-  "dependencies": { "@suluk/cost": "workspace:^", "@suluk/payments": "workspace:^" },
-  "peerDependencies": { "stripe": "^17.0.0 || ^18.0.0" },
-  "peerDependenciesMeta": { "stripe": { "optional": true } },
+  "dependencies": { "@suluk/payments": "workspace:^" },
   "devDependencies": { "@types/bun": "latest" },
   "scripts": { "test": "bun test", "typecheck": "tsc --noEmit -p ." }
 }

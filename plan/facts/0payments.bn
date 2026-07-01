@@ -94,3 +94,20 @@ falsified_when payments_billing_swapped_single_stripe_client_no_legacy == False
 # surface for browser-Element flows; more connectors (adyen/...).
 claim payments_stripe_retired_to_shim_pricing_webhook_ported_testgen_repointed: Bool @>=0.6 = True
 falsified_when payments_stripe_retired_to_shim_pricing_webhook_ported_testgen_repointed == False
+
+# C048 BUILD #5 — GUT @suluk/stripe to a deprecation shell, remove on next major (2026-07-01, operator: "gut it to
+# deprecate it on major update"). VERIFIED SAFE FIRST: grep proved NOTHING in the workspace imports @suluk/stripe (billing
+# swapped, testgen repointed), and the external app (toolfactory) imports ONLY verifyStripeSignature/webhookRouter/
+# STRIPE_EVENTS/toForm — ALL of which now live in @suluk/payments. So the entire Stripe-specific remainder is DEAD
+# everywhere. DELETED (894 LOC, 13 files): src/{stripe(usage Billing-Meters + @suluk/cost bridge),checkout,shipping,tax,
+# rest(restStripe/retrievePaymentIntent),types(PaymentProvider/StripeLike)}.ts + their 4 tests + the now-redundant
+# pricing/webhook/webhook-verify shim FILES. @suluk/stripe/src is now ONE index.ts = a DEPRECATION SHELL re-exporting from
+# @suluk/payments (pricing + webhook verify/router + toForm/transport) so every surviving consumer (the app's 4 imports +
+# the 2 kept tests) keeps working; @deprecated banner + package `deprecated` field say "removed in the next major".
+# package.json dropped the @suluk/cost dep + the stripe SDK peerDep (both only the deleted code used them). WITNESSED —
+# stripe 36 pass (pricing + webhook-verify survivor tests, now exercising @suluk/payments through the shell), payments 21,
+# testgen 14, billing 32; tsc clean all; a runtime probe confirms the app's 4 exports resolve from the gutted index. @suluk/
+# stripe: 836 LOC/10 files -> ~30-line shell. REMAINING: the client-token surface (browser-Element flows) + more connectors
+# (adyen/...) + the eventual major-version DELETION of @suluk/stripe (after the app drops even the shim).
+claim payments_stripe_gutted_to_deprecation_shell_remove_on_major: Bool @>=0.62 = True
+falsified_when payments_stripe_gutted_to_deprecation_shell_remove_on_major == False

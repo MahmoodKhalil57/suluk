@@ -112,8 +112,18 @@ guards), the full auto/manual/void/refund/sync flow, in-band decline, 3DS redire
   cycle (`@suluk/payments` zero-dep; `@suluk/stripe → @suluk/payments` one-way). Parity proof: `@suluk/stripe`'s full
   suite stays green *through the shims*.
 
+- **#5 — gut `@suluk/stripe` to a deprecation shell** (`2026-07-01`, stripe 36 pass, payments 21, testgen 14, billing 32,
+  tsc clean). Verified safe first: nothing in the workspace imports `@suluk/stripe`, and the external app imports only
+  `verifyStripeSignature` / `webhookRouter` / `STRIPE_EVENTS` / `toForm` — all now in `@suluk/payments`. So the entire
+  Stripe-specific remainder was dead. **Deleted 894 LOC / 13 files** (usage Billing-Meters + the `@suluk/cost` bridge,
+  checkout params, shipping/tax adapters, `restStripe`/`retrievePaymentIntent`, `PaymentProvider`/`StripeLike` types, and
+  the redundant pricing/webhook shim files + their tests). `@suluk/stripe/src` is now a **single `index.ts` deprecation
+  shell** re-exporting pricing + webhook + `toForm`/transport from `@suluk/payments` (so the app's four imports + the two
+  kept tests still work); `@deprecated` banner + a `deprecated` package field say **removed in the next major**. Dropped
+  the `@suluk/cost` dep + the `stripe` SDK peerDep (only the deleted code used them). **836 LOC / 10 files → a ~30-line
+  shell.**
+
 ## Deferred (post-approval)
 
-To fully delete `@suluk/stripe`: port (or drop) its Stripe-usage-billing + checkout params + shipping/tax adapters, and
-cut the app's webhook over. Plus: the client-token surface for the browser-Element flows; more connectors (adyen/…); the
-C047 payment-connector broker.
+The client-token surface for the browser-Element flows; more connectors (adyen/…); the C047 payment-connector broker; the
+eventual **major-version deletion** of `@suluk/stripe` (once the app drops even the shim).
