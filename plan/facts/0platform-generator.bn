@@ -64,3 +64,25 @@ falsified_when platform_generator_c051_build1_manifest_catalog_plan_merge_genera
 # signal; provision apply is the operator's live infra step.
 claim platform_c051_build2_oneshot_autotoolfactory_proven_live_shadcn_add: Bool @>=0.6 = True
 falsified_when platform_c051_build2_oneshot_autotoolfactory_proven_live_shadcn_add == False
+
+# C051 BUILD #3 — the FULL 8-SERVICE one-shot regenerated + PARITY MEASURED (2026-07-01). The catalog gained the 3 new
+# C050-build-4 modules (cost as a route+provision entry; journeys/audit under a NEW "dev" Mount kind = files-only, no entry
+# line + no provision fragment) — so the planner's buildEntry naturally skips dev modules (no middleware/route branch
+# matches) and buildProvisionConfig naturally skips them (no `.provision`), needing ZERO new plan/generate logic beyond the
+# type. platform tests now 9 pass (added: cost mounts /cost + folds costProvision into mergeProvision; journeys/audit add
+# shadcn refs but contribute NO entry mount + NO provision import). autotoolfactory REGENERATED from ONE manifest of 8
+# services (auth/credits/keys/billing/cost/logs/journeys/audit): the updated planner emitted the wired src/index.ts (now
+# with app.route("/cost", costRoutes())) + the merged provision.config (costProvision folded in, journeys/audit absent);
+# live `bunx shadcn add` pulled all module files — the 3 new + the reconciled Better-Auth-v1.6.23 auth schema/provision
+# (--overwrite). SHADCN-BASE FINDING (a real bug caught by the live regen): shadcn prefixes NON-src/ registry targets under
+# the components base (src/), so journeys.config.ts + journeys.test.ts land as SIBLINGS in src/ (fix: import ./journeys.config
+# not ../) and scripts/conformance.ts lands at src/scripts/ (fix: conformance uses node:fs not the Bun global so it
+# typechecks under a node-types tsconfig). PARITY SIGNAL: `bunx tsc --noEmit` = 0 errors in the generated src/ + config
+# (the lone error is a pre-existing @suluk/openapi-compat transitive-SOURCE nit, unrelated); tsconfig excludes
+# src/**/*.test.ts (the bun:test journeys harness runs under `bun test`, not the Worker build); `bun test` = 1 skip (the
+# harness skips until a contract exists) + 0 fail. So the one-shot pipeline holds at FULL toolfactory-minus-product parity:
+# one document → generator → 8-service Hono backend, generated code typechecks clean. autotoolfactory is a LOCAL parity
+# oracle (no remote). REMAINING: republish @suluk/platform (0.1.1, the updated catalog) so the one-shot runs from the
+# INSTALLED generator not the source planner; provision apply is the operator's live infra step.
+claim platform_c051_build3_full_8service_oneshot_regenerated_parity_typechecks_clean: Bool @>=0.62 = True
+falsified_when platform_c051_build3_full_8service_oneshot_regenerated_parity_typechecks_clean == False
