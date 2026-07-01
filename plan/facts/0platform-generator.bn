@@ -236,3 +236,34 @@ falsified_when platform_c055_encrypted_committed_env_suluk_env_mlkem_both_runtim
 # OPERATOR-RUN and NOT yet executed end-to-end against a real Cloudflare account (that live run is the missing witness).
 claim platform_c056_provisioning_env_completeness_ephemeral_master_lifecycle_built: Bool @>=0.62 = True
 falsified_when platform_c056_provisioning_env_completeness_ephemeral_master_lifecycle_built == False
+
+# C057 — MOCK-PROVIDER LOCAL DEV (2026-07-02, operator: "allow using other providers... such that we can mock them —
+# cloudflare -> local sqlite file + json KV, google -> better-auth flow that logs in any email, hyperswitch -> static
+# generic responses, resend -> local sqlite/json email store, no separate runtime; then add real keys to .env.temp + run
+# provision to swap to real and remove the mocks"). CLARIFIED (operator): NOT local-vs-prod environments — a SINGLE env,
+# MOCK-UNTIL-KEYED: no key -> mock (temporary mock sqlite, NOT miniflare); key present (after provision) -> real. So the
+# selection is env/binding-PRESENCE autodetect (the design panel's dual-entry + SULUK_LOCAL positive-signal was rejected as
+# overkill — its fail-open worry assumed a separate prod env that does not exist yet; future multi-env + feature-flags is the
+# proper prod-lockdown). C052 SPLIT (the operator's explicit ask): ZERO new packages — every mock extends an EXISTING owner +
+# registry wiring. BUILT + PROVEN END-TO-END + PUBLISHED + LIVE-ADOPTED (autotoolfactory local:true, bun run dev): (1) a
+# manifest `local: true` flag (default false -> the C051/C053 golden stays byte-identical; a companion golden locks the
+# variant) makes the generator emit `src/dev.ts` — a bun server that runs the SAME wired app (index.ts gains `export const
+# app`) under bun with mock bindings; the deployed Worker (src/index.ts) imports NONE of the mocks (grep-verified 0), so
+# bun:sqlite never enters the bundle. (2) CLOUDFLARE: @suluk/cloudflare/local (new bun-only subpath) — d1FromSqlite (a
+# D1Database facade over bun:sqlite, PROVEN against drizzle-orm/d1: insert...returning/where/update/project) + jsonFileKvStore
+# (KVNamespace over JSON) + applyLocalSchema (derives CREATE TABLE DDL from the drizzle schema objects via getTableConfig —
+# there are NO .sql migrations; proven creating all 22 autotoolfactory tables). (3) GOOGLE: @suluk/better-auth devLoginHandler
+# — POST /api/auth/dev-login {email} mints a REAL session via the PUBLIC signUp+signIn(asResponse) API (no internal-adapter/
+# cookie forging; proven: any-email login -> real session token + cookie -> get-session resolves the user). FAIL-CLOSED: the
+# gate lives in the npm handler (armed flag, checked before input); registry/auth arms it only in dev-mock (ENVIRONMENT!=
+# production AND no GOOGLE_CLIENT_ID) + enables email/password there. PROVEN: ENVIRONMENT=production -> 404. (4) STRIPE:
+# @suluk/billing mockStripeFetch — a fetch returning generic parseable objects for every endpoint billing calls (proven
+# through the real transport: createCustomer/checkout/subscription/prices); dev entry injects env.STRIPE_FETCH only when no
+# real key. (5) RESEND: @suluk/email storeProvider(sink) + @suluk/cloudflare/local jsonFileMailbox — dev sends SAVE to a local
+# JSON inbox (route GET /api/email/dev/mailbox); registry/email threads env.SULUK_MAILBOX_SINK. Published email@0.2.0
+# cloudflare@0.3.1 billing@0.2.0 better-auth@0.2.0 platform@0.5.2. CEILING 0.8 not higher: the stripe mock is generic (not a
+# stateful simulator — a webhook-driven credit grant needs the webhook fired manually) and the "local connects to REAL D1/KV
+# after provision" path is DEFERRED (a bun process can't bind remote D1/KV; needs the D1 HTTP API — real HTTP providers
+# Google/Stripe/Resend DO work locally post-provision via decrypted .env).
+claim platform_c057_mock_provider_local_dev_autodetect_built_proven_published_adopted: Bool @>=0.8 = True
+falsified_when platform_c057_mock_provider_local_dev_autodetect_built_proven_published_adopted == False
