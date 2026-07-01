@@ -21,17 +21,19 @@ export interface CatalogEntry {
 export const CATALOG: Record<string, CatalogEntry> = {
   app: { mount: { kind: "base" } },
   auth: { mount: { kind: "middleware", symbol: "mountAuthRoutes", from: "./auth" }, provision: { symbol: "authProvision", from: "./src/provision/auth" } },
-  credits: { mount: { kind: "route", path: "/credits", symbol: "creditsRoutes", from: "./routes/credits" }, provision: { symbol: "creditsProvision", from: "./src/provision/credits" } },
-  keys: { mount: { kind: "route", path: "/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" } },
-  billing: { mount: { kind: "route", path: "/billing", symbol: "billingRoutes", from: "./routes/billing" }, provision: { symbol: "billingProvision", from: "./src/provision/billing" } },
-  cost: { mount: { kind: "route", path: "/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" } },
-  erasure: { mount: { kind: "route", path: "/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" } },
-  email: { mount: { kind: "route", path: "/email", symbol: "emailRoutes", from: "./routes/email" } }, // stateless binding — no provision fragment (C052)
-  webhooks: { mount: { kind: "route", path: "/webhooks", symbol: "webhooksRoutes", from: "./routes/webhooks" }, provision: { symbol: "webhooksProvision", from: "./src/provision/webhooks" } },
+  // feature routes mount under /api/* — where the caller-resolution + cors + rate-limit middleware live (toolfactory parity).
+  contract: { mount: { kind: "route", path: "/api", symbol: "contractRoutes", from: "./routes/contract" } }, // serves GET /api/openapi.json (derived); stateless
+  credits: { mount: { kind: "route", path: "/api/credits", symbol: "creditsRoutes", from: "./routes/credits" }, provision: { symbol: "creditsProvision", from: "./src/provision/credits" } },
+  keys: { mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" } },
+  billing: { mount: { kind: "route", path: "/api/billing", symbol: "billingRoutes", from: "./routes/billing" }, provision: { symbol: "billingProvision", from: "./src/provision/billing" } },
+  cost: { mount: { kind: "route", path: "/api/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" } },
+  erasure: { mount: { kind: "route", path: "/api/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" } },
+  email: { mount: { kind: "route", path: "/api/email", symbol: "emailRoutes", from: "./routes/email" } }, // stateless binding — no provision fragment (C052)
+  webhooks: { mount: { kind: "route", path: "/api/webhooks", symbol: "webhooksRoutes", from: "./routes/webhooks" }, provision: { symbol: "webhooksProvision", from: "./src/provision/webhooks" } },
   // cross-cutting MIDDLEWARE (apply globally via app.use, emitted before any route) — not routed resources.
   "rate-limit": { mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" } },
   i18n: { mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" } },
-  logs: { mount: { kind: "route", path: "/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } },
+  logs: { mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } },
   // dev/CI tooling — pulled in as files, no runtime mount, no provision fragment.
   journeys: { mount: { kind: "dev" } },
   audit: { mount: { kind: "dev" } },

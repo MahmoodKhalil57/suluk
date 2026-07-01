@@ -27,6 +27,18 @@
       ]
     },
     {
+      "name": "contract",
+      "type": "registry:item",
+      "title": "Contract keystone — derived v4 OpenAPI + scope facets",
+      "description": "The keystone: declares the base API surface as @suluk/hono RouteContracts and DERIVES everything downstream consumes — apiDocument(principal?) (the per-principal v4 doc via emitV4), SCOPE_BY_OP + PUBLIC_OPS (the x-suluk-access facets the scope gate / MCP read), and GET /api/openapi.json projected to the caller's scopes. Own the wiring, npm the derivation. Stateless — no schema, no provision.",
+      "registryDependencies": ["MahmoodKhalil57/suluk/app"],
+      "dependencies": ["@suluk/hono", "@suluk/core", "hono"],
+      "files": [
+        { "path": "registry/contract/contract.contract.ts", "type": "registry:file", "target": "src/contract.ts" },
+        { "path": "registry/contract/contract.routes.ts", "type": "registry:file", "target": "src/routes/contract.ts" }
+      ]
+    },
+    {
       "name": "credits",
       "type": "registry:item",
       "title": "Credit ledger — Effect service + metered debit",

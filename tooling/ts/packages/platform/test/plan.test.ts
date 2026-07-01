@@ -20,8 +20,8 @@ describe("planPlatform — manifest → shadcn adds + entry + provision.config",
     expect(plan.entry).toContain('import { mountAuthRoutes } from "./auth";');
     expect(plan.entry).toContain("mountAuthRoutes(app);");
     expect(plan.entry).toContain('import { creditsRoutes } from "./routes/credits";');
-    expect(plan.entry).toContain('app.route("/credits", creditsRoutes());');
-    expect(plan.entry).toContain('app.route("/billing", billingRoutes());');
+    expect(plan.entry).toContain('app.route("/api/credits", creditsRoutes());');
+    expect(plan.entry).toContain('app.route("/api/billing", billingRoutes());');
     expect(plan.entry).toContain("export default app;");
   });
 
@@ -42,7 +42,7 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
 
   test("cost mounts a /cost route and contributes a provision fragment", () => {
     expect(plan.entry).toContain('import { costRoutes } from "./routes/cost";');
-    expect(plan.entry).toContain('app.route("/cost", costRoutes());');
+    expect(plan.entry).toContain('app.route("/api/cost", costRoutes());');
     expect(plan.provisionConfig).toContain('import { costProvision } from "./src/provision/cost";');
     expect(plan.provisionConfig).toContain("mergeProvision([authProvision, creditsProvision, costProvision, logsProvision])");
   });
@@ -50,7 +50,7 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
   test("erasure mounts an /erasure route and contributes a provision fragment", () => {
     const p = planPlatform(definePlatform({ name: "e", registry: "acme/reg", services: ["auth", "erasure"] }));
     expect(p.entry).toContain('import { erasureRoutes } from "./routes/erasure";');
-    expect(p.entry).toContain('app.route("/erasure", erasureRoutes());');
+    expect(p.entry).toContain('app.route("/api/erasure", erasureRoutes());');
     expect(p.provisionConfig).toContain('import { erasureProvision } from "./src/provision/erasure";');
     expect(p.provisionConfig).toContain("mergeProvision([authProvision, erasureProvision])");
   });
@@ -58,7 +58,7 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
   test("email mounts an /email route but contributes NO provision fragment (stateless binding)", () => {
     const p = planPlatform(definePlatform({ name: "m", registry: "acme/reg", services: ["auth", "email", "credits"] }));
     expect(p.entry).toContain('import { emailRoutes } from "./routes/email";');
-    expect(p.entry).toContain('app.route("/email", emailRoutes());');
+    expect(p.entry).toContain('app.route("/api/email", emailRoutes());');
     // email has no provision fragment, so the merge is just auth + credits.
     expect(p.provisionConfig).not.toContain("emailProvision");
     expect(p.provisionConfig).toContain("mergeProvision([authProvision, creditsProvision])");
@@ -67,7 +67,7 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
   test("webhooks mounts a /webhooks route and contributes a provision fragment", () => {
     const p = planPlatform(definePlatform({ name: "w", registry: "acme/reg", services: ["auth", "webhooks"] }));
     expect(p.entry).toContain('import { webhooksRoutes } from "./routes/webhooks";');
-    expect(p.entry).toContain('app.route("/webhooks", webhooksRoutes());');
+    expect(p.entry).toContain('app.route("/api/webhooks", webhooksRoutes());');
     expect(p.provisionConfig).toContain("mergeProvision([authProvision, webhooksProvision])");
   });
 
@@ -80,7 +80,15 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
     expect(p.provisionConfig).toContain("mergeProvision([authProvision, creditsProvision])");
     // two-pass ordering: every middleware mount precedes every route mount, so global middleware applies to all routes.
     const lastMw = Math.max(p.entry.indexOf("mountRateLimit(app);"), p.entry.indexOf("mountI18n(app);"), p.entry.indexOf("mountAuthRoutes(app);"));
-    expect(lastMw).toBeLessThan(p.entry.indexOf('app.route("/credits"'));
+    expect(lastMw).toBeLessThan(p.entry.indexOf('app.route("/api/credits"'));
+  });
+
+  test("contract mounts at /api (serving /api/openapi.json) with NO provision; feature routes are under /api/*", () => {
+    const p = planPlatform(definePlatform({ name: "c", registry: "acme/reg", services: ["auth", "contract", "credits"] }));
+    expect(p.entry).toContain('import { contractRoutes } from "./routes/contract";');
+    expect(p.entry).toContain('app.route("/api", contractRoutes());');
+    expect(p.entry).toContain('app.route("/api/credits", creditsRoutes());'); // toolfactory-parity /api/* prefix
+    expect(p.provisionConfig).not.toContain("contractProvision");
   });
 
   test("dev modules add shadcn refs but NO entry mount and NO provision fragment", () => {
