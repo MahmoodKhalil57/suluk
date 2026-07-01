@@ -9,10 +9,11 @@ Date: 2026-07-01
 
 ## Status
 
-**BUILT + PUBLISHED + LIVE-ADOPTED** (`@suluk/platform@0.3.1`). Ceiling **0.8**. `@suluk/platform` 87 tests pass, tsc clean;
+**BUILT + PUBLISHED + LIVE-ADOPTED** (`@suluk/platform@0.3.2`). Ceiling **0.8**. `@suluk/platform` 88 tests pass, tsc clean;
 the generated env code typechecks against autotoolfactory's real modules; an encrypt→`loadEnv` round-trip decrypts correctly;
-autotoolfactory adopted it (its `.env` is committed with 3 encrypted secrets, the private key gitignored). Ledger:
-[`0platform-generator.bn`](../../../plan/facts/0platform-generator.bn) (burhan True).
+the `link-key` → `~/.suluk/settings.json` round-trip is proven (register, `rm .env.keys`, `readPrivateKey` still resolves);
+autotoolfactory adopted it (its `.env` is committed with 3 encrypted secrets; the private key lives in `~/.suluk/settings.json`
+out of git). Ledger: [`0platform-generator.bn`](../../../plan/facts/0platform-generator.bn) (burhan True).
 
 ## Context — the C051-build-#8 model was "never commit `.env`"
 
@@ -32,8 +33,13 @@ For each generated app's SECRETS (the catalog's `secret` env vars):
 1. **`src/env.ts`** — a `defineEnv({...})` DECLARE-ONCE: every secret `{ secret: true, required?, surfaces: ["cloudflare"],
    description }`. The single typed source of truth; `sync-secrets` reads `forSurface("cloudflare")`.
 2. **`.env` — COMMITTED, values ENCRYPTED.** The operator runs `suluk-env keygen` (once: `SULUK_PUBLIC_KEY` → `.env`, private
-   → `.env.keys`) then `suluk-env set KEY=value` (encrypts each). The generator writes a **values-free scaffold** *only if
-   absent*, so a regenerate never clobbers the encrypted secrets.
+   → `.env.keys`), **`bun run link-key`** (registers the private key into the centralized `~/.suluk/settings.json` keyed by the
+   repo path — then `.env.keys` can be removed), then `suluk-env set KEY=value` (encrypts each). The generator writes a
+   **values-free scaffold** *only if absent*, so a regenerate never clobbers the encrypted secrets.
+   - **Private-key store (0.3.2, toolfactory-exact):** `@suluk/env`'s `readPrivateKey` resolves the key by precedence
+     `SULUK_PRIVATE_KEY` env > **`~/.suluk/settings.json`** (by project path) > legacy `.env.keys`. `scripts/link-key.ts` (a
+     generated, verbatim-from-toolfactory script) populates that central store, so local dev / deploy / a CI worktree (which
+     checks out the encrypted `.env` but not `.env.keys`, using `SULUK_PROJECT_DIR`) all decrypt from one out-of-git place.
 3. **`.gitignore` FLIPPED** — `.env` is NO LONGER ignored (committed, encrypted); **`.env.keys` (the private key) is ignored**.
    `mergeGitignore` performs the transition on an existing app (removes the plaintext-era `.env` ignore when the new baseline
    ignores `.env.keys`) — reversing build #8's "always ignore `.env`" now that the values are encrypted.

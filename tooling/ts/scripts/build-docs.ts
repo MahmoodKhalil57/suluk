@@ -8,7 +8,7 @@
 // Driven via the TypeDoc Node API (one render per root) rather than a single typedoc.json — each root needs its
 // own name/entryPoints/readme/out/navigationLinks. Run `bun scripts/build-docs.ts` (from tooling/ts) or via
 // deploy-docs.ts. cwd is pinned to tooling/ts so the bare `typedoc-github-theme` plugin resolves.
-import { Application } from "typedoc";
+import { Application, TSConfigReader } from "typedoc";
 import { join, dirname } from "node:path";
 import { existsSync, readdirSync } from "node:fs";
 import { generatePages, type DocPackage } from "./gen-doc-pages";
@@ -41,7 +41,9 @@ const BASE = {
 };
 
 async function render(label: string, options: Record<string, unknown>): Promise<void> {
-  const app = await Application.bootstrapWithPlugins(options);
+  // Only the TSConfigReader — deliberately NOT the TypeDocReader, so a stray tooling/ts/typedoc.json (e.g. an
+  // old merged-render config) can never leak its entryPointStrategy/out into these explicit per-render options.
+  const app = await Application.bootstrapWithPlugins(options, [new TSConfigReader()]);
   const project = await app.convert();
   if (!project) throw new Error(`docs: ${label} — convert produced no project`);
   await app.generateOutputs(project);

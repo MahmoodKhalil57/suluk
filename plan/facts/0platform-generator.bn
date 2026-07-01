@@ -203,7 +203,14 @@ falsified_when platform_c051_build8_env_lifecycle_secrets_dotenv_temp_nonsecrets
 # autotoolfactory's REAL modules; an encrypt->loadEnv round-trip decrypts correctly; LIVE-ADOPTED (autotoolfactory .env
 # committed with 3 encrypted secrets, .env.keys gitignored + NOT tracked, tsc clean; c21ed80). Two live-adoption bugs caught +
 # fixed + regression-tested: generatePlatform dropped system.wire (0.2.1); mergeGitignore couldn't un-ignore .env (0.3.1).
-# @suluk/platform 0.3.0 (feature) + 0.3.1 (gitignore-transition fix) published. ADR C055. Ceiling 0.8 (built + tested +
-# round-trip + live-adopted, but production runtime + more consumers pending).
+# @suluk/platform 0.3.0 (feature) + 0.3.1 (gitignore-transition fix) + 0.3.2 (link-key -> ~/.suluk/settings.json) published.
+# 0.3.2 (operator: "reads env from ~/.suluk/settings.json if local — it does that by default"): the generator emits
+# scripts/link-key.ts (verbatim-from-toolfactory, generic) + a `link-key` script that registers this project's private key
+# into the centralized ~/.suluk/settings.json keyed by repo path — the store @suluk/env's readPrivateKey reads BY DEFAULT
+# (precedence: SULUK_PRIVATE_KEY env > ~/.suluk/settings.json by path > legacy .env.keys), so local dev/deploy/CI-worktree all
+# decrypt from one out-of-git store. Setup flow (scaffold + .env.example) updated: keygen -> link-key -> (rm .env.keys) -> set.
+# ROUND-TRIP PROVEN (register, rm .env.keys, readPrivateKey still resolves) + LIVE in autotoolfactory (key in ~/.suluk, tsc
+# clean; 39cbbd5). platform 88 tests pass. ADR C055. Ceiling 0.8 (built + tested + round-trip + live-adopted, production
+# runtime + more consumers pending).
 claim platform_c055_encrypted_committed_env_suluk_env_mlkem_both_runtime_paths_built_live_adopted: Bool @>=0.8 = True
 falsified_when platform_c055_encrypted_committed_env_suluk_env_mlkem_both_runtime_paths_built_live_adopted == False
