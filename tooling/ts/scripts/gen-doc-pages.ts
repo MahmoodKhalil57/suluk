@@ -75,10 +75,13 @@ package pointing at its \`@suluk/*\` dependencies.
   writeFileSync(join(pagesDir, "architecture.md"), architectureMd);
   writeFileSync(join(pagesDir, "architecture.d2"), d2 + "\n");
 
-  // ── packages.md: the index of per-package root sites (raw-HTML links → no TypeDoc link-resolution) ──
+  // ── packages.md: the index of per-package root sites. Links are ABSOLUTE (the umbrella and each root are
+  // SEPARATE renders, so the umbrella can't resolve packages/<name>/ as a local file — TypeDoc would warn and
+  // try to copy it; absolute http(s) URLs it leaves alone). ──
+  const HOSTED = "https://mahmoodkhalil57.github.io/suluk/";
   const pkgs = documentedPackages();
   const rows = pkgs
-    .map((p) => `- <a href="packages/${p.slug}/"><code>${p.name}</code></a> — ${p.description || "&mdash;"}`)
+    .map((p) => `- <a href="${HOSTED}packages/${p.slug}/"><code>${p.name}</code></a> — ${p.description || "&mdash;"}`)
     .join("\n");
   const packagesMd = `---
 title: Packages

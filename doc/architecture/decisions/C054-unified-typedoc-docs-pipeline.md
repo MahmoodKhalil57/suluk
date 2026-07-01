@@ -30,8 +30,18 @@ name/entryPoints/readme/out/navigationLinks):
 
 - **`docs/`** — the **umbrella**: a *documents-only* render (verified supported in 0.28.19 — `entryPoints: []`):
   the narrative home (`readme: index.md`) + `projectDocuments` getting-started / architecture / **packages** /
-  contributing / community. The **Packages index** (`packages.md`) is generated with raw-HTML `<a>` links to each
-  root (so TypeDoc doesn't try to resolve them).
+  **registry** / **specification** / contributing / community. The **Packages index** (`packages.md`) is generated
+  with raw-HTML `<a>` links to each root (so TypeDoc doesn't try to resolve them). A nested **Specification**
+  section (added at the operator's request — *"another directory about Suluk itself as the OpenAPI v4 candidate,
+  the spec … something like swagger.io/specification"*) renders Suluk-the-spec as a document tree (a parent doc
+  with `children` frontmatter): the full 5028-line `SPEC.md`, the design notes (signatures/templating/parameters/
+  collections), conformance, confidence, the Rust **`suluk-core`** reference implementation, and Moonwalk priors,
+  plus links to the associated files (meta-schema, `v4-types.ts`, the petstore example, the conformance corpus). A
+  **Registry** page (from `registry/README.md`) covers the shadcn registry. All umbrella docs are staged into one
+  temp dir before rendering — TypeDoc resolves a document's `children` relative to the *common directory* of all
+  `projectDocuments`, so mixing `docs-pages/` (deep in the repo) with `/tmp` would make that common dir `/` and
+  ENOENT the children glob; one shared base dir avoids it. Spec/registry sources are absolutized + branding-
+  stripped, not committed (the source stays `specification/` + `registry/`).
 - **`docs/packages/<name>/`** — each `@suluk/*` package as its **own complete root site**: README home, any
   per-package guides (`packages/<name>/docs-pages/*.md` if present), the full API, the same theme + icon +
   branding plugins, and a `↑ Suluk` back-link (absolute URL, depth-robust) + a GitHub-source link.
@@ -99,9 +109,11 @@ compiler. The operator asked to adopt it, theme it with `typedoc-github-theme` +
   and a one-command local publish. 7 previously README-less packages (billing, credits, examples, keys, payments,
   provision, stubgen) got real, source-grounded READMEs (also improving their npm pages).
 - **Cost / honest boundaries:** docs no longer auto-update on package changes — someone runs `deploy:docs`
-  (accepted; the operator asked for local push). 63 **cosmetic** build warnings remain (cross-package `{@link}`,
-  internal-type refs, a couple README relative links, one `ini` code fence) — non-blocking, `exit 0`; deferred as
-  hygiene rather than churning 40 packages' doc-comments. The daisyUI `dim` narrative theme, the bespoke
+  (accepted; the operator asked for local push). **Build warnings are now 0** (the multi-root build's warnings
+  were cleaned: `highlightLanguages` gained `ini`; each package README's repo-relative links are absolutized to
+  GitHub `tree/`(dir)/`blob/`(file) URLs at build time via `absolutizeRepoLinks`; the generated `packages.md`
+  index uses absolute hosted URLs; and prose `@word`/`@suluk/x` references in doc-comments were backticked across
+  ~64 files so TypeDoc no longer mis-parses them as block tags). The daisyUI `dim` narrative theme, the bespoke
   per-package README-as-page treatment, and the old HTML card grid are dropped (the unified-site tradeoff the
   operator chose). The icon-object override is the most version-brittle piece — mitigated by the exact `typedoc`
   pin and a documented chrome-only fallback.
