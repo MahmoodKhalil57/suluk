@@ -3,10 +3,16 @@
 import { defineEnv } from "@suluk/env";
 
 export const env = defineEnv({
+  CLOUDFLARE_API_TOKEN: { secret: true, required: true, surfaces: ["local"], description: "CF account-scoped master token (Workers Scripts + D1 + KV Edit) — mints the scoped tokens + provisions, then DELETED (never in git)" },
+  CLOUDFLARE_ACCOUNT_ID: { secret: true, required: true, surfaces: ["local"], description: "CF account id — a KEEPER (routine scoped-token ops need it), kept encrypted in .env" },
+  CLOUDFLARE_D1_TOKEN: { secret: true, surfaces: ["local"], description: "scoped: D1 Write (migrations)" },
+  CLOUDFLARE_WORKERS_TOKEN: { secret: true, surfaces: ["local"], description: "scoped: Workers Scripts Write (deploy + secret put)" },
+  CLOUDFLARE_KV_TOKEN: { secret: true, surfaces: ["local"], description: "scoped: KV Write (rate-limit / rate-credit namespaces)" },
   BETTER_AUTH_SECRET: { secret: true, required: true, surfaces: ["cloudflare"], description: "session-signing key — `openssl rand -base64 32`" },
   GOOGLE_CLIENT_ID: { secret: true, surfaces: ["cloudflare"], description: "optional — enables Google sign-in" },
   GOOGLE_CLIENT_SECRET: { secret: true, surfaces: ["cloudflare"], description: "optional — pairs with GOOGLE_CLIENT_ID" },
   STRIPE_SECRET_KEY: { secret: true, required: true, surfaces: ["cloudflare"], description: "your Stripe secret key" },
   RESEND_API_KEY: { secret: true, surfaces: ["cloudflare"], description: "omit → the console provider (dev)" },
   STRIPE_WEBHOOK_SECRET: { secret: true, required: true, surfaces: ["cloudflare"], description: "verifies inbound Stripe events (POST /api/webhooks/stripe)" },
+  SUPERADMIN_EMAILS: { secret: true, surfaces: ["cloudflare"], description: "comma/space-separated admin emails → the admin scope (secret-surfaced so they stay out of git plaintext)" },
 });

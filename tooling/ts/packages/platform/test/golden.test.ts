@@ -56,6 +56,9 @@ const OUTPUTS: Record<string, string> = {
   envTs: "src_env.ts",
   syncSecrets: "sync-secrets.ts",
   linkKey: "link-key.ts",
+  envTemp: "env.temp",
+  provisionScript: "provision.ts",
+  mintTokens: "mint-tokens.ts",
   envScaffold: "env.scaffold",
 };
 

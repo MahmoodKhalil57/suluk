@@ -163,7 +163,7 @@ describe("generatePlatform — the orchestration (with recorders)", () => {
     expect(ran).toEqual(plannedAdds()); // exactly the planned adds, in order
     expect(ran.length).toBe(6); // app+auth+credits+keys+billing+logs
     // config is written BEFORE the shadcn adds; the glue after. env-example + env-check + wrangler + gitignore included.
-    expect(wrote).toEqual(["package.json", "wrangler.toml", ".gitignore", "tsconfig.json", "components.json", ".env.example", "scripts/env-check.ts", "src/env.ts", "scripts/sync-secrets.ts", "scripts/link-key.ts", ".env", "src/index.ts", "provision.config.ts"]);
+    expect(wrote).toEqual(["package.json", "wrangler.toml", ".gitignore", "tsconfig.json", "components.json", ".env.example", "scripts/env-check.ts", "src/env.ts", "scripts/sync-secrets.ts", "scripts/link-key.ts", "scripts/provision.ts", "scripts/mint-tokens.ts", ".env.temp", ".env", "src/index.ts", "provision.config.ts"]);
     expect(res.added.length).toBe(6);
   });
 
@@ -220,8 +220,9 @@ describe("env — secrets in .env (temp lifecycle), non-secrets in the manifest 
 
   test("the env-check script bakes in the required secrets + checks the encrypted model; merge preserves binding ids", () => {
     const p = planPlatform(definePlatform({ name: "e", registry: "acme/reg", services: ["auth", "billing"] }));
-    expect(p.envCheck).toContain('["BETTER_AUTH_SECRET","STRIPE_SECRET_KEY"]');
-    expect(p.envCheck).toContain("SULUK_PUBLIC_KEY"); // keypair check (not .env.temp anymore)
+    expect(p.envCheck).toContain('["CLOUDFLARE_ACCOUNT_ID","BETTER_AUTH_SECRET","STRIPE_SECRET_KEY"]'); // required keepers (master EXCLUDED — it's ephemeral)
+    expect(p.envCheck).not.toContain('"CLOUDFLARE_API_TOKEN"'); // the ephemeral master is not a required-in-.env keeper
+    expect(p.envCheck).toContain("SULUK_PUBLIC_KEY"); // keypair check
     expect(p.envCheck).toContain('startsWith("encrypted:")'); // flags plaintext secrets
     // wrangler merge keeps the operator's database_id across a regen
     const merged = mergeWranglerToml(p.wranglerToml, 'name="e"\n[[d1_databases]]\nbinding = "DB"\ndatabase_id = "abc-123"');
@@ -251,6 +252,32 @@ describe("env — secrets in .env (temp lifecycle), non-secrets in the manifest 
     expect(p.envScaffold.split("\n").filter((l) => l.trim()).every((l) => l.trim().startsWith("#"))).toBe(true);
     expect(JSON.parse(p.packageJson).dependencies["@suluk/env"]).toBe("latest");
     expect(JSON.parse(p.packageJson).scripts["sync-secrets"]).toBe("bun run scripts/sync-secrets.ts");
+  });
+
+  test("provisioning: CF creds declared (master ephemeral, scoped minted); .env.temp bootstrap; provision/mint scripts; key→Worker", () => {
+    const p = planPlatform(definePlatform({ name: "e", registry: "acme/reg", services: ["auth", "billing", "admin"] }));
+    // env.ts declares the full set: CF provisioning creds (surface local) + SUPERADMIN + runtime secrets (cloudflare).
+    expect(p.envTs).toContain('CLOUDFLARE_API_TOKEN: { secret: true, required: true, surfaces: ["local"]');
+    expect(p.envTs).toContain('CLOUDFLARE_D1_TOKEN: { secret: true, surfaces: ["local"]');
+    expect(p.envTs).toContain("SUPERADMIN_EMAILS");
+    expect(p.envTs).toContain('BETTER_AUTH_SECRET: { secret: true, required: true, surfaces: ["cloudflare"]');
+    // .env.temp = the PLAINTEXT bootstrap (provisioning creds + runtime secrets).
+    expect(p.envTemp).toContain("CLOUDFLARE_API_TOKEN=");
+    expect(p.envTemp).toContain("BETTER_AUTH_SECRET=");
+    // provision.ts: consume .env.temp → provision → mint → encrypt → DELETE the ephemeral master → revoke instruction.
+    expect(p.provisionScript).toContain('EPHEMERAL = ["CLOUDFLARE_API_TOKEN"]');
+    expect(p.provisionScript).toContain('rmSync(".env.temp"');
+    expect(p.provisionScript).toContain("suluk-provision");
+    expect(p.provisionScript).toContain("REVOKE the master CF token");
+    // mint-tokens: scoped least-privilege tokens from the master.
+    expect(p.mintTokens).toContain("CLOUDFLARE_D1_TOKEN");
+    expect(p.mintTokens).toContain("permission_groups");
+    // sync-secrets pushes the DECRYPTION key to the Worker; .gitignore ignores .env.temp; scripts wired.
+    expect(p.syncSecrets).toContain('put("SULUK_PRIVATE_KEY"');
+    expect(p.gitignore).toContain(".env.temp");
+    const pkg = JSON.parse(p.packageJson);
+    expect(pkg.scripts.provision).toBe("bun run scripts/provision.ts");
+    expect(pkg.scripts["mint-tokens"]).toBe("bun run scripts/mint-tokens.ts");
   });
 });
 
