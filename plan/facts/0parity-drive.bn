@@ -120,3 +120,24 @@ falsified_when parity_drive_wave3_billing_completeness_14_routes_proven == False
 # server (the tables + routes are generated regardless).
 claim parity_drive_waves4_5_6_mcp_suite_full_base_parity_achieved: Bool @>=0.62 = True
 falsified_when parity_drive_waves4_5_6_mcp_suite_full_base_parity_achieved == False
+
+# THE 4 REMAINING ITEMS ("okay do those") — 3 DONE, 1 operator-only (2026-07-01). (1) VALIDATION (workflow + adversarial
+# verifier PASS): extended the contract keystone (C052) with zod request.json schemas on the 5 write ops (debit/grant/
+# provisionKey/checkout/subscribe — matched to the REAL handler bodies) + a validateRequest middleware (contract-derived;
+# resolves the op via a SHARED matchRoute the scope gate also uses so the two gates can't disagree; 400 RFC-9457 on a bad
+# body; only tightens ops that DECLARE a schema; mounted after enforceApiKeyScope so 403 precedes 400). Declared the
+# previously-undeclared `subscribe` op (fixed contract/route drift). +zod dep on the contract item. (2) RATE-CREDIT (new
+# module): a credit-backed free-tier limiter — a per-principal µ$ token bucket over a KV binding (env.RATE_CREDIT_KV), lazy
+# epoch-ms regen, FAIL-OPEN/no-op when unbound; the µ$ math is app-owned policy (ported, not a package), only the 429
+# envelope is npm; mountRateCredit(app) middleware mount, no provision (KV is a binding). (3) opts.mcp — a GENERATOR feature:
+# definePlatform({ opts: { <service>: {...} } }) -> buildEntry passes the JSON opts to the mount (mountAuthRoutes(app,
+# {"mcp":{...}})), so the MANIFEST can activate the MCP OAuth server. DEMONSTRATED: autotoolfactory's manifest wires
+# opts.auth.mcp -> the regenerated entry activates the OAuth authz server end-to-end. @suluk/platform 0.1.7 published;
+# 19-service autotoolfactory BYTE-IDENTICAL from the installed generator, tsc 0 own-code errors (autotoolfactory ad8cc7e).
+# Registry 19 items; platform tests 18 pass. (4) suluk-provision apply — CONFIRMED OPERATOR-ONLY, not runnable by the agent:
+# NO Cloudflare creds in .env, the bare CLI needs a wired ProvisionApp (store+brokers) context, and it creates real BILLABLE
+# Cloudflare infra (D1/KV). The generated provision.config.ts is correct (all 18 services' migrations merged); the live
+# apply is the operator's step with their credentials. So the parity drive + its refinements are COMPLETE; only the live
+# infra provisioning (operator) remains.
+claim parity_drive_wave2c_validation_ratecredit_optsmcp_done_provision_operator_only: Bool @>=0.6 = True
+falsified_when parity_drive_wave2c_validation_ratecredit_optsmcp_done_provision_operator_only == False
