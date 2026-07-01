@@ -25,6 +25,7 @@ export const CATALOG: Record<string, CatalogEntry> = {
   keys: { mount: { kind: "route", path: "/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" } },
   billing: { mount: { kind: "route", path: "/billing", symbol: "billingRoutes", from: "./routes/billing" }, provision: { symbol: "billingProvision", from: "./src/provision/billing" } },
   cost: { mount: { kind: "route", path: "/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" } },
+  erasure: { mount: { kind: "route", path: "/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" } },
   logs: { mount: { kind: "route", path: "/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } },
   // dev/CI tooling — pulled in as files, no runtime mount, no provision fragment.
   journeys: { mount: { kind: "dev" } },

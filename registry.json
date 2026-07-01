@@ -83,6 +83,20 @@
       ]
     },
     {
+      "name": "erasure",
+      "type": "registry:item",
+      "title": "GDPR erasure — fail-closed cascade + audit receipt",
+      "description": "An Effect-TS Erasure service over @suluk/better-auth's beforeDeleteCascade (the fail-closed GDPR orchestrator — abort rather than half-erase — stays upstream). Runs an ordered delete/anonymize cascade across the core Suluk tables when a user is erased, wireable into Better Auth's deleteUser.beforeDelete hook, and writes an erasure_receipt audit row. You pick the posture (delete vs anonymize) and trim the cascade to the modules you installed.",
+      "registryDependencies": ["MahmoodKhalil57/suluk/app"],
+      "dependencies": ["@suluk/better-auth", "@suluk/provision", "effect", "drizzle-orm", "hono"],
+      "files": [
+        { "path": "registry/erasure/erasure.service.ts", "type": "registry:file", "target": "src/services/erasure.ts" },
+        { "path": "registry/erasure/erasure.routes.ts", "type": "registry:file", "target": "src/routes/erasure.ts" },
+        { "path": "registry/erasure/erasure.schema.ts", "type": "registry:file", "target": "src/db/erasure.ts" },
+        { "path": "registry/erasure/erasure.provision.ts", "type": "registry:file", "target": "provision/erasure.ts" }
+      ]
+    },
+    {
       "name": "logs",
       "type": "registry:item",
       "title": "Activity log — Effect service (fully owned)",

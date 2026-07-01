@@ -47,6 +47,14 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
     expect(plan.provisionConfig).toContain("mergeProvision([authProvision, creditsProvision, costProvision, logsProvision])");
   });
 
+  test("erasure mounts an /erasure route and contributes a provision fragment", () => {
+    const p = planPlatform(definePlatform({ name: "e", registry: "acme/reg", services: ["auth", "erasure"] }));
+    expect(p.entry).toContain('import { erasureRoutes } from "./routes/erasure";');
+    expect(p.entry).toContain('app.route("/erasure", erasureRoutes());');
+    expect(p.provisionConfig).toContain('import { erasureProvision } from "./src/provision/erasure";');
+    expect(p.provisionConfig).toContain("mergeProvision([authProvision, erasureProvision])");
+  });
+
   test("dev modules add shadcn refs but NO entry mount and NO provision fragment", () => {
     expect(plan.adds).toContain("acme/reg/journeys");
     expect(plan.adds).toContain("acme/reg/audit");
