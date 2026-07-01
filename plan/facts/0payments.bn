@@ -1,0 +1,32 @@
+# C048 — @suluk/payments: provider-agnostic payments, a Workers-native TS reimplementation of the Hyperswitch Prism
+# connector interface. Operator: "use hyperswitch-prism mainly, implement it instead of a stripe broker + in billing,
+# deprecate @suluk/stripe for a more agnostic solution" -> on the Workers-incompatibility finding: "if we cant run it,
+# reimplement their interfaces to stay agnostic + switch providers easily + stay light" -> chose "ADR + interface first".
+# NOT a contract facet (app-runtime lib; never touches the matcher). Supersedes @suluk/billing's payment surface.
+
+# THE LOAD-BEARING FINDING (researched, not assumed): Prism is a stateless UNIFIED connector library (one schema, 100+
+# processors, switch by config) BUT its Node SDK is a NATIVE FFI ADDON (koffi -> connector-service-ffi.node -> Rust core;
+# Node 18+, platform binaries). Cloudflare Workers (V8 isolates) FORBID native modules, and @suluk/billing is
+# Workers-native -> billing CANNOT import hyperswitch-prism. Decision: adopt Prism's INTERFACE + integer-exact status
+# semantics, REIMPLEMENT in TS over fetch (zero native deps, edge-safe, no sidecar) -> agnostic + light, and a real Prism
+# backend stays swappable later. DESIGNED + interface built => ceiling 0.5.
+claim payments_prism_interface_reimpl_workers_native_decision: Bool @>=0.5 = True
+falsified_when payments_prism_interface_reimpl_workers_native_decision == False
+
+# C048 INTERFACE BUILT 2026-07-01 (operator chose interface-first; implementations deferred). @suluk/payments: types.ts —
+# the unified schema (AuthorizeRequest/PaymentResponse/capture/void/refund/sync, MinorAmount, PaymentMethod card|token,
+# Secret<T> PCI-scope wrap) + PaymentStatus/RefundStatus as PRISM-INTEGER-EXACT enums (CHARGED=8, AUTHORIZED=6, VOIDED=11,
+# FAILURE=21, AUTHENTICATION_PENDING=4, REFUND_SUCCESS=4, REFUND_PENDING=3) so a Prism backend drops in + connector
+# semantics match; a soft decline is IN-BAND FAILURE never thrown. connector.ts — the PaymentConnector SEAM (core flows
+# required; customer/tokenize/recurring/webhook optional per-connector) + the Prism-style paymentClient(config, registry)
+# where the CONFIG names the processor (switch by config not code); connectors are fetch-based (HttpOptions.fetch mockable
+# transport). errors.ts — IntegrationError/ConnectorError/NetworkError (Prism's hard-failure split). mock.ts — a mock
+# connector proving the seam + a local/test stand-in (decline card->FAILURE, 3DS->AUTH_PENDING, auto/manual->CHARGED/
+# AUTHORIZED, coherent capture/void/refund/sync). deps: ZERO (Workers-native). WITNESSED — payments 7 pass: integer-exact
+# enums, config-selects-connector + zero/many/unknown IntegrationError guards, the full flow, in-band decline, 3DS
+# redirection. tsc clean. DEFERRED (post-approval): real connectors (stripe first, then adyen/...); the @suluk/billing
+# rewire behind @suluk/payments (parity-tested vs @suluk/stripe); the C047 payment-connector broker (THIN — the interface
+# is stateless, so it validates/registers a connectorConfig, not Stripe products); the eventual @suluk/stripe deprecation
+# (NOT touched yet — deprecating before the replacement is proven would strand the live money path).
+claim payments_agnostic_interface_built_witnessed: Bool @>=0.55 = True
+falsified_when payments_agnostic_interface_built_witnessed == False

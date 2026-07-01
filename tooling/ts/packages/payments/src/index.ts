@@ -1,0 +1,16 @@
+/**
+ * @suluk/payments — provider-agnostic payments for a Suluk app (C048). A Workers-native TypeScript reimplementation of the
+ * Hyperswitch Prism connector interface: ONE unified request schema (authorize / capture / void / refund / sync + the
+ * optional customer / tokenize / recurring / webhook surfaces), and you switch processor by CONFIG, not code. Prism itself
+ * is a native FFI addon that can't run on the edge, so we adopt its interface + status semantics (integer-exact) and
+ * implement over `fetch` — zero native deps, light, swappable. This barrel is the INTERFACE + a mock connector; the real
+ * connectors (stripe, adyen, …) and the @suluk/billing rewire that deprecates @suluk/stripe are the follow-on builds.
+ */
+export * from "./types";
+export { IntegrationError, ConnectorError, NetworkError, PaymentLibError } from "./errors";
+export {
+  paymentClient,
+  type PaymentConnector, type ConnectorConfig, type ConnectorAuth, type ConnectorFactory, type ConnectorRegistry,
+  type HttpOptions, type WebhookEvent,
+} from "./connector";
+export { mockConnector, MOCK_DECLINE_CARD, MOCK_3DS_CARD } from "./mock";
