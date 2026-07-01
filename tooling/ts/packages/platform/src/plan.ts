@@ -78,7 +78,7 @@ export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
     entry: buildEntry(services, manifest.opts, wiring, catalog, local),
     provisionConfig: buildProvisionConfig(services, catalog),
     packageJson: buildPackageJson(manifest.name, services, catalog, local),
-    tsconfig: buildTsconfig(),
+    tsconfig: buildTsconfig(local),
     componentsJson: buildComponentsJson(),
     envExample: buildEnvExample(env),
     wranglerToml: buildWranglerToml(manifest.name, services, env, manifest.vars ?? {}),
@@ -586,13 +586,15 @@ export function mergePackageJson(baselineJson: string, existingJson: string | nu
   return JSON.stringify(merged, null, 2) + "\n";
 }
 
-function buildTsconfig(): string {
+function buildTsconfig(local = false): string {
   return (
     JSON.stringify(
       {
         compilerOptions: { module: "ESNext", target: "ESNext", moduleResolution: "bundler", types: ["node", "@cloudflare/workers-types"], skipLibCheck: true, strict: true, noEmit: true },
         include: ["src", "provision.config.ts", "platform.config.ts"],
-        exclude: ["src/**/*.test.ts"], // the bun:test journeys harness runs under `bun test`, not the Worker build
+        // src/dev.ts is a bun-only runtime file (bun:sqlite + Bun globals), NOT Worker code — exclude it from the Worker
+        // typecheck (it pulls @suluk/cloudflare/local, which the workers-types config can't type); it's boot-tested instead.
+        exclude: ["src/**/*.test.ts", ...(local ? ["src/dev.ts"] : [])], // the bun:test journeys harness runs under `bun test`, not the Worker build
       },
       null,
       2,
