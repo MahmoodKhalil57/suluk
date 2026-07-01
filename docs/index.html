@@ -1,40 +1,12 @@
-<!doctype html><html lang="en" data-theme="dim"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
-<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
-<title>Home — Suluk</title>
-<meta property="og:type" content="website"/>
-<meta property="og:title" content="Home — Suluk"/>
-<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
-<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
-<meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
-<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<link rel="stylesheet" href="style.css"/>
-</head><body class="min-h-screen bg-base-100 text-base-content">
-<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
-  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
-  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html" class="text-primary font-medium">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages" class="text-primary font-medium">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
-</header>
-<main class="max-w-4xl mx-auto px-4 py-10">
-  <section class="hero">
-    <div class="hero-content text-center py-10">
-      <div class="max-w-2xl">
-        <h1 class="text-5xl font-bold">Suluk</h1>
-        <p class="py-5 text-lg text-base-content/70">One typed contract — projected into your entire stack: API, docs, typed client, UI, tests, admin, and deploy.</p>
-        <div class="flex gap-2 justify-center flex-wrap">
-          <a class="btn btn-primary" href="getting-started.html">Get started</a>
-          <a class="btn btn-outline" href="architecture.html">How it works</a>
-          <a class="btn btn-ghost" href="https://github.com/MahmoodKhalil57/suluk">Star on GitHub</a>
-        </div>
-      </div>
-    </div>
-  </section>
-  <section class="prose-suluk"><p><strong>Suluk</strong> is a candidate exploration of OpenAPI v4 &quot;Moonwalk&quot;, built as a framework: you declare your data and routes <strong>once</strong>, and everything else — the OpenAPI v4 document, Scalar/Swagger docs, a typed Nano Stores client, generated shadcn UI, request validation, contract tests, a documentation audit, an admin panel (in your editor <em>and</em> on <code>/superadmin</code>), and a Cloudflare deploy plan — is <strong>derived</strong> from it. One source, many projections; they cannot drift because they are the same source.</p></section>
-  <section class="mt-8"><h2 class="text-primary font-semibold uppercase tracking-wide text-sm mb-3">The cycle</h2>
-    <pre class="bg-base-200 border border-base-300 rounded-box p-4 overflow-auto text-xs text-base-content/70 leading-relaxed">Drizzle  ──▶  contract (Hono + Zod + Better Auth)  ──▶  v4 document (the hub)
+<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><link rel="canonical" href="https://mahmoodkhalil57.github.io/suluk/"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>Suluk</title><meta name="description" content="Documentation for Suluk"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script><script async src="assets/hierarchy.js" id="tsd-hierarchy-script"></script><link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/><link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/><link rel="apple-touch-icon" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/apple-touch-icon.png"/><meta name="description" content="One typed OpenAPI v4 contract, projected into every full-stack layer — API, docs, typed client, UI, tests, admin, and deploy."/><meta property="og:type" content="website"/><meta property="og:site_name" content="Suluk"/><meta property="og:title" content="Suluk"/><meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer — API, docs, typed client, UI, tests, admin, and deploy."/><meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Suluk"/><meta name="twitter:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer — API, docs, typed client, UI, tests, admin, and deploy."/><meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/><link rel="stylesheet" href="assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="index.html" class="title">Suluk</a><div id="tsd-toolbar-links"><a href="https://github.com/MahmoodKhalil57/suluk">GitHub</a></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg viewBox="0 0 16 16" aria-hidden="true" style="color:var(--color-icon-text)" width="16" height="16"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg viewBox="0 0 16 16" aria-hidden="true" style="color:var(--color-icon-text)" width="16" height="16"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>Suluk</h1></div><div class="tsd-panel tsd-typography"><h1 id="suluk" class="tsd-anchor-link">Suluk<a href="#suluk" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p><strong>One typed contract — projected into your entire stack: API, docs, typed client, UI, tests, admin, and deploy.</strong></p>
+<p><strong>Suluk</strong> is a candidate exploration of OpenAPI v4 &quot;Moonwalk&quot;, built as a framework: you declare your
+data and routes <strong>once</strong>, and everything else — the OpenAPI v4 document, Scalar/Swagger docs, a typed
+Nano Stores client, generated shadcn UI, request validation, contract tests, a documentation audit, an
+admin panel (in your editor <em>and</em> on <code>/superadmin</code>), and a Cloudflare deploy plan — is <strong>derived</strong> from
+it. One source, many projections; they cannot drift because they are the same source.</p>
+<h2 id="the-cycle" class="tsd-anchor-link">The cycle<a href="#the-cycle" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<pre><code class="text">Drizzle  ──▶  contract (Hono + Zod + Better Auth)  ──▶  v4 document (the hub)
   data                                                          │
                        ┌──────────────────────────────────────┼─────────────────────────────┐
                        ▼                  ▼                    ▼                ▼              ▼
@@ -42,293 +14,26 @@
                      (docs)         (client state)          (UI)           (the doc as a    (coverage)
                                                                             check)
         @suluk/builder composes it (pages → sections → blocks → components, contract-narrowing)
-        @suluk/deploy ships it to Cloudflare · @suluk/cockpit drives it (vscode + /superadmin)</pre>
-  </section>
-  <section id="packages" class="mt-10"><h2 class="text-primary font-semibold uppercase tracking-wide text-sm mb-3">Packages <span class="text-base-content/50">(47)</span></h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"><a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-admin.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/admin</h3>
-      <p class="text-sm text-base-content/70 m-0">The /superadmin web admin panel — the same cockpit as the vscode extension (@suluk/cockpit core), rendered as a Hono-served web UI. Superadmin-gated. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-agents.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/agents</h3>
-      <p class="text-sm text-base-content/70 m-0">Suluk Agent composition (C027): lint + project an <code>x-suluk-agents</code> map (skills + deterministic routes + by-name sub-agents) to a Claude plugin AND an OpenRouter/OpenAI-compatible manifest — one contract, two artifacts, zero network at generate time. Determinism is DECLARED not enforced; the matcher never reads an agent field. CANDIDATE tooling — NOT official OAS.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-better-auth.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/better-auth</h3>
-      <p class="text-sm text-base-content/70 m-0">Official Better-Auth-on-Hono support for Suluk: auth methods -&gt; v4 securitySchemes; ingest Better Auth's OpenAPI 3.0 -&gt; v4; session -&gt; principal for per-viewer docs. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-billing.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/billing</h3>
-      <p class="text-sm text-base-content/70 m-0">Stripe PLUMBING over an injected config (secret key + a mockable fetch): the HTTP transport (with the refund idempotency-key), customer/SetupIntent/PaymentIntent creation, the saved-card surface, the money-moving paths (hosted Checkout + portal + on-default-card top-up + off-session charge), Stripe Tax, the subscription mechanics over a generic SubPlan catalog, and the package-owned billing-account store. Pure Stripe wrappers — the webhook dispatch, credit grants, branded email, the pricing matrix, and refund/pooling stay in the app. Extracted from a real app (C046). CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-builder.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/builder</h3>
-      <p class="text-sm text-base-content/70 m-0">Tiered contract-narrowing DSL (components→blocks→sections→pages) bound to the Suluk cycle. A page composes sections; buildApp emits backend (routes+v4) AND frontend (page TSX) at once. Inspired by multivendorbuilder's DSL, rebuilt with the Suluk discipline. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-chat.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/chat</h3>
-      <p class="text-sm text-base-content/70 m-0">A contract-driven chat AGENT for any suluk app: an in-page floating assistant that can browse AND act, by running an OpenRouter tool-use loop over the SAME OpenAPI v4 operations (projected via @suluk/mcp, executed in-process via the store's own access gate) — with the model chosen by @suluk/models, never hardcoded. Ships the server loop (Hono-mountable SSE) + a theme-aware floating widget. CANDIDATE tooling — NOT official OAS.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-cloudflare.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/cloudflare</h3>
-      <p class="text-sm text-base-content/70 m-0">Butter-smooth, API-driven provisioning + deployment for a Suluk app on Cloudflare — no wrangler CLI. A typed REST client + idempotent provisioners (D1, KV, R2, secrets) + the Workers module-script + static-assets upload flow, orchestrated into one deploy(). The platform that ships itself, shipping itself. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-cockpit.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/cockpit</h3>
-      <p class="text-sm text-base-content/70 m-0">The pure cockpit core (cycle model · builder model · codegen · deploy planning · validate/audit/preview) shared by the vscode extension and the /superadmin web admin panel. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-core.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/core</h3>
-      <p class="text-sm text-base-content/70 m-0">Core library for the OpenAPI v4.0 Suluk candidate: parse, validate, resolve, signature, ADA, match.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-cost.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/cost</h3>
-      <p class="text-sm text-base-content/70 m-0">Cost as a contract facet: declare per-operation cost (incl. third-party usage), bubble it into the v4 doc/Scalar/tests, and meter the ACTUAL per-user cost at runtime (frontend action -&gt; operation -&gt; third-party). Display as-is. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-credits.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/credits</h3>
-      <p class="text-sm text-base-content/70 m-0">A metered CREDIT LEDGER: append-only transactions, balance, the ATOMIC debit-if-covers (a single conditional INSERT that can never drive the ledger negative under concurrency), the idempotent debit (INSERT OR IGNORE — the money-OUT double-spend guard for partial refunds), per-key spend attribution, the recent-transactions + activity-log query, and aggregate stats. The package OWNS the credit tables; the app injects a Drizzle handle (D1 in prod, bun:sqlite in tests). The money-correctness core, extracted verbatim from a real app (C046). CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-deploy.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/deploy</h3>
-      <p class="text-sm text-base-content/70 m-0">Deploy a Suluk app behind a SWAPPABLE target interface. Cloudflare is the first provider (Workers + D1 + static assets) — an adapter, since the stack is already Cloudflare-native. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-docs.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/docs</h3>
-      <p class="text-sm text-base-content/70 m-0">Generate an intuitive static documentation site for a Bun/TS monorepo, straight from source (package.json + doc-comments + exports + README/ARCHITECTURE). Deployable to GitHub Pages. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-drizzle.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/drizzle</h3>
-      <p class="text-sm text-base-content/70 m-0">Drizzle ORM schema -&gt; v4 'Suluk' contract: table -&gt; Zod (drizzle-zod) -&gt; v4 Schema Objects, DB metadata, and generated CRUD RouteContracts. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-editor.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/editor</h3>
-      <p class="text-sm text-base-content/70 m-0">A fully-static, client-only OpenAPI v4 EDITOR (the editor.scalar.com analog, native v4). Two panes: a CodeMirror source editor + a live API reference rendered by the suluk Scalar fork; diagnostics from @suluk/core + @suluk/harden; 3.1→v4 upgrade via @suluk/openapi-compat; v4 superpowers (cost/access/hardening) in the preview. No server: parse→validate→harden→enrich→re-mount all run in the browser. editorHtml() emits a self-contained page; the built client bundle ships in dist/. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-email.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/email</h3>
-      <p class="text-sm text-base-content/70 m-0">The missing EmailProvider binding + a pure renderEmailHtml(options)→HTML generator with a per-event/per-locale branded template set (verify/reset/change-email/delete/order-confirmation/order-status/newsletter). Emits content the app SENDS — never a hosted mailer: consoleProvider (dev) + a Workers-safe resendProvider (REST, no SDK) are swappable bindings. Consumes @suluk/i18n for strings. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-env.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/env</h3>
-      <p class="text-sm text-base-content/70 m-0">Config + secrets as a single source of truth: declare each env var ONCE (typed, per-surface), encrypt secret values with POST-QUANTUM crypto (ML-KEM-768 + AES-256-GCM) so the .env is safe to commit to git and share over public channels, and project the manifest into every surface — local, Cloudflare, preview, a teammate's machine, the VS Code extension, the admin panel. dotenvx's commit-safely model, quantum-safe, Suluk-native. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-eslint.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/eslint</h3>
-      <p class="text-sm text-base-content/70 m-0">ESLint rules for Suluk apps. <code>composition-only</code>: enforce the tier discipline (pages &amp; sections stay composition-only; native markup → blocks, logic → controllers) with configurable per-metric budgets. Pure, dependency-free detection core. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-example-petshop.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/example-petshop <span class="badge badge-sm badge-warning">demo</span></h3>
-      <p class="text-sm text-base-content/70 m-0">End-to-end demo: Drizzle tables → @suluk/builder → a live validated CRUD server + Scalar docs + generated frontend, all from one source. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-examples.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/examples</h3>
-      <p class="text-sm text-base-content/70 m-0">Example precedence + deterministic, origin-aware schema synthesis from a v4 'Suluk' contract. The shared, zero-dependency leaf both @suluk/journeys and @suluk/sdk read: resolveExample (public &gt; maintainer &gt; synthetic), a deterministic synthesizer, and the C041 field-origin discipline (x-suluk-origin input|sourced|computed + the wireable SourceRef). Pure, self-contained, faker-dep-free. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-harden.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/harden</h3>
-      <p class="text-sm text-base-content/70 m-0">Schema HARDENING as a derived contract facet: audit a v4 'Suluk' document's input schemas for the validations that keep weird/oversized input from breaking the system — every string a maxLength + a pattern, every number a maximum, every array a maxItems, every object closed + typed, no any/unknown — score it (A-F), surface the grade to INCENTIVISE the author, and gate CI on a minimum. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-hono.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/hono</h3>
-      <p class="text-sm text-base-content/70 m-0">The Suluk derivation engine: minimal Hono+Zod RouteContracts in; v4 doc (dynamic per principal+time), validation, contract tests, and doc-coverage audit out. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-i18n.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/i18n</h3>
-      <p class="text-sm text-base-content/70 m-0">The locale primitive every content app needs: a typed locale/direction model (defineLocales), a Workers-safe message loader with default-locale fallback + {token} interpolation, compile-time key-parity + a runtime completeness grade, Intl number/currency/date formatting (incl. Eastern-Arabic numerals), framework-agnostic cookie→locale resolution, and an ./astro middleware glue. The catalog CONTENT stays app-authored; this owns the MECHANISM. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-journeys.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/journeys</h3>
-      <p class="text-sm text-base-content/70 m-0">Intuitive, runnable BDD over a v4 'Suluk' contract. Projects a deterministic Gherkin step VOCABULARY from the contract (Given from x-suluk-access, When from each operation, Then from declared statuses + x-suluk-store + x-suluk-cost), binds authored .feature stories EXACT-or-UNBOUND with outcome steps resolved relative to the scenario's When-subject, and emits a BIDIRECTIONAL tri-state gap report (PARAPHRASE / NEEDS-DEV-GLUE / NEEDS-CONTRACT) + contract-&gt;authored coverage holes. A pure function of the document. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-keys.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/keys</h3>
-      <p class="text-sm text-base-content/70 m-0">The delegation-chain ALGEBRA for hierarchical API keys: effective-caps (scope ∩, cap/expiry min up the chain), POOLED subtree headroom (a parent cap bounds parent+children TOTAL spend — abuse-proof), the cascade read-checks (expired/disabled ancestor), child-grant clamping, the materialized-path utilities, and the scope/metadata model. Pure + portable: the app supplies the chain rows + spend (its DB query is the seam); this owns the money/abuse-correctness logic. Extracted from a real app (C046). CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-mcp.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/mcp</h3>
-      <p class="text-sm text-base-content/70 m-0">Project ONE OpenAPI v4 document into a Model Context Protocol (MCP) server: each operation becomes an MCP tool (read-only by default), served over the Streamable-HTTP JSON-RPC transport as a Hono-mountable app. Same contract that drives the API/SDK/docs/admin/panel now drives an agent-callable surface — zero hand-written tool schemas. CANDIDATE tooling — NOT official OAS.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-models.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/models</h3>
-      <p class="text-sm text-base-content/70 m-0">A weekly, PUBLIC-DATA-ONLY catalog of OpenRouter models + a selector: a suluk skill declares NEEDS (hard filters) + a small PREFERENCE (a named profile), and selectModel picks the best CURRENT model — never a hard-coded id. Decidable OpenRouter facts as numbers; noisy benchmarks as COARSE TIERS with {source, asOf}; no cross-axis composite (blending is the selector's job). CANDIDATE tooling — NOT official OAS.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-nano-stores.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/nano-stores</h3>
-      <p class="text-sm text-base-content/70 m-0">v4 'Suluk' contracts -&gt; typed Nano Stores client: per-operation fetcher/mutator stores (@nanostores/query) with Zod-validated I/O. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-openapi-compat.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/openapi-compat</h3>
-      <p class="text-sm text-base-content/70 m-0">Lossless-where-possible conversion between the OpenAPI v4 'Suluk' candidate and OpenAPI 3.1 (the dialect Scalar/Swagger consume). CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-panel.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/panel</h3>
-      <p class="text-sm text-base-content/70 m-0">Contract-first admin panels, in the spirit of Payload but projected from one OpenAPI v4 document. Infers Payload-style field types from the contract, renders shadcn/theme-aware forms + data tables, and mounts a role-aware superadmin (and per-role dashboards) — no config DSL, no framework lock-in. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-payments.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/payments</h3>
-      <p class="text-sm text-base-content/70 m-0">Provider-agnostic payments — a Workers-native TypeScript reimplementation of the Hyperswitch Prism connector interface. ONE unified request schema (authorize/capture/void/refund/sync + optional customer/tokenize/recurring/webhook); switch processor by config, not code. Prism's native FFI core can't run on the edge, so we adopt its interface + integer-exact status semantics and implement over fetch — zero native deps, light, swappable. The seam that supersedes @suluk/stripe. INTERFACE-first (C048); real connectors + the billing rewire follow. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-platform.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/platform</h3>
-      <p class="text-sm text-base-content/70 m-0">The platform generator (C051): write one <code>definePlatform</code> manifest → it plans the shadcn-registry adds, generates the wired Hono entry, and merges each module's provision fragment into a single provision.config. The manifest compiles to a shadcn-add list + a C047 provision.config; the generator runs the adds + <code>@suluk/provision</code>. Turns the Suluk backend registry into a one-command platform. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-provision.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/provision</h3>
-      <p class="text-sm text-base-content/70 m-0">Declarative service provisioning for a Suluk app, modelled on the Open Service Broker API and driven like drizzle-kit. Declare the infra you want in one provision.config (D1/KV/R2/secrets/Stripe/domains/tokens as OSB brokers); <code>plan</code> diffs desired-vs-live, <code>apply</code> walks the binding DAG (provision → poll async last-operation → bind → land credentials in @suluk/env, encrypted + commit-safe), <code>check</code> flags drift/orphans. A layer ABOVE @suluk/cloudflare / @suluk/deploy / @suluk/env — it orchestrates, they execute. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-reference.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/reference</h3>
-      <p class="text-sm text-base-content/70 m-0">Render an OpenAPI v4 'Suluk' document NATIVELY — as v4, not via the 3.1 downgrade. Shows what a 3.x renderer (Scalar/Swagger) cannot: the 4.0.0-candidate identity, the requests-shape (a path has NAMED requests, incl. multiple sharing one method), and the cost facet (x-suluk-cost) as a first-class per-operation badge. Self-contained server-rendered HTML — no client build, Workers-safe. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-scalar.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/scalar</h3>
-      <p class="text-sm text-base-content/70 m-0">Render an OpenAPI v4 'Suluk' document with Scalar API Reference — NATIVELY via the suluk fork (Scalar ingests v4, shows 4.0.0-candidate; works out of the box, the fork bundle is served from @suluk/scalar-standalone on jsdelivr-npm) or via the 3.1 downgrade for vanilla Scalar. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-scalar-standalone.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/scalar-standalone</h3>
-      <p class="text-sm text-base-content/70 m-0">The suluk-forked Scalar API Reference standalone bundle (Scalar 1.59.0 + the suluk OpenAPI v4 patch-set: native requests-&gt;operations ingest, parameterSchema, multi-request-per-method, facet panels). Served via jsdelivr-npm so @suluk/scalar's native-v4 view renders out of the box. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-sdk.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/sdk</h3>
-      <p class="text-sm text-base-content/70 m-0">Generate a COMPLETE, intuitive TypeScript SDK from a v4 'Suluk' contract — built on ofetch, entity-grouped, fully typed from the schemas, auth wired (bearer/session) via interceptors, and the v4 superpowers (declared cost + access) surfaced as typed metadata. Not a bag of functions: a library a developer downloads and uses straight away. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-seo.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/seo</h3>
-      <p class="text-sm text-base-content/70 m-0">A complete, framework-agnostic SEO toolkit for a Suluk app — robots.txt, sitemaps (hreflang + images + index), schema.org JSON-LD, head meta (OpenGraph/Twitter/canonical/hreflang), llms.txt, OG-image SVG, the PWA web manifest, and deploy skew-protection. Pure + Cloudflare-safe; inspired by the Nuxt SEO suite. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-shadcn.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/shadcn</h3>
-      <p class="text-sm text-base-content/70 m-0">v4 'Suluk' Schema Objects -&gt; shadcn/ui form + table specs and TSX scaffolds (react-hook-form + zodResolver). Codegen, no runtime UI deps. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-stripe.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/stripe</h3>
-      <p class="text-sm text-base-content/70 m-0">DEPRECATED — GUTTED to a thin re-export shell over @suluk/payments (C048), removed in the NEXT MAJOR. The pricing primitives, the Stripe webhook surface (signature verification + event router), and the form-encoder/transport are re-exported from @suluk/payments for backward compatibility; the rest (usage-based Billing Meters, checkout-param builders, shipping/tax adapters, PaymentProvider/StripeLike types, restStripe) was DELETED as dead. Use @suluk/payments — its PaymentConnector (agnostic) / stripeConnector for payment flows.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-stubgen.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/stubgen</h3>
-      <p class="text-sm text-base-content/70 m-0">Generate honestly-provisional backend STUBS from a NEEDS-CONTRACT gap (a tester pre-wrote a scenario the contract can't back). Emits the CONTRACT half generically (a @suluk/hono RouteContract literal with inferred Zod) and the HANDLER half through a HandlerTarget adapter seam (mirroring @suluk/deploy / the C034 runtime seam) — the first adapter is the Effect+run()+RouteError shape. Zero-dep, pure, source-text out. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-swagger.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/swagger</h3>
-      <p class="text-sm text-base-content/70 m-0">Render an OpenAPI v4 'Suluk' document with Swagger UI (via the 3.1 downgrade). CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-testgen.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/testgen</h3>
-      <p class="text-sm text-base-content/70 m-0">Generate a DETERMINISTIC conformance test suite from a v4 'Suluk' contract — the executable form of the contract's claims. Asserts the SERVER ENFORCES x-suluk-access on the real wire (anon rejected on non-public ops; public ops reachable), smoke-tests declared statuses, validates 2xx bodies against their declared schemas, and checks every declared cost is well-formed. A pure function of the document — same contract in, same suite out, no network at generate-time. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-theme.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/theme</h3>
-      <p class="text-sm text-base-content/70 m-0">The design-token CONTRACT: a typed TokenSpec (OKLCH colors + radius/fonts/shadows + type/spacing scales + breakpoints) that PROJECTS into CSS custom properties, the Tailwind v4 @theme block, and a shadcn token map — one source of truth for the look. Includes an OKLCH value type + a deterministic generate-dark-from-light, with reference schemes proving the mechanism (the 40+ curated catalog is meta-product breadth). CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-visual.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/visual</h3>
-      <p class="text-sm text-base-content/70 m-0">Pixel-confidence by construction: verify each UI primitive's pixels ONCE (a golden snapshot), and confidence propagates to every generated UI via content-hashing + the deterministic generator — re-verify a primitive only when its source changes. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-zod.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">@suluk/zod</h3>
-      <p class="text-sm text-base-content/70 m-0">Lossless-where-representable conversion between Zod schemas and OpenAPI v4 'Suluk' Schema Objects (JSON Schema 2020-12). Zod is the source of truth; v4 is the interchange. CANDIDATE tooling.</p>
-    </div>
-  </a>
-<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-vscode.html">
-    <div class="card-body p-4 gap-1">
-      <h3 class="card-title text-sm font-mono text-primary">suluk-vscode</h3>
-      <p class="text-sm text-base-content/70 m-0">The unifying cockpit for the Suluk declarative cycle: validate, audit, preview (Scalar/Swagger), and generate stores/UI from one v4 source. CANDIDATE tooling — not official OAS.</p>
-    </div>
-  </a></div>
-  </section></main>
-<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
-  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
-</footer>
-</body></html>
+        @suluk/deploy ships it to Cloudflare · @suluk/cockpit drives it (vscode + /superadmin)
+</code><button type="button">Copy</button></pre>
+
+<h2 id="explore" class="tsd-anchor-link">Explore<a href="#explore" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li><strong><a href="documents/Getting_Started.html">Getting started</a></strong> — the 30-second tour, from one schema to a running stack.</li>
+<li><strong><a href="documents/Architecture.html">Architecture</a></strong> — how one v4 contract becomes a whole stack (with the package graph).</li>
+<li><strong>API reference</strong> — every <code>@suluk/*</code> package, symbol-by-symbol, is in the sidebar under <strong>Modules</strong>.</li>
+<li><strong><a href="documents/Contributing.html">Contributing</a></strong> · <strong><a href="documents/Community.html">Community</a></strong> — extend and build on Suluk.</li>
+</ul>
+<h2 id="the-discipline-why-it-stays-coherent" class="tsd-anchor-link">The discipline (why it stays coherent)<a href="#the-discipline-why-it-stays-coherent" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li><strong>One source, many projections.</strong> The v4 document is the hub; everything is derived from it.</li>
+<li><strong>Honest losses are enumerated, never silent</strong> — every converter reports what it couldn't carry.</li>
+<li><strong>Schema Objects are JSON Schema 2020-12 verbatim</strong> across v4 / 3.1 / Zod / Drizzle.</li>
+<li><strong>Pure logic + thin shells</strong> — the cockpit runs identically in the editor and on <code>/superadmin</code>.</li>
+</ul>
+<blockquote>
+<p>Suluk is a <strong>candidate</strong> exploration of OpenAPI v4 &quot;Moonwalk&quot; — not the official specification.
+This documentation is generated from the packages' source by <a href="https://typedoc.org" target="_blank" class="external">TypeDoc</a> and
+hosted on GitHub Pages.</p>
+</blockquote>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#suluk"><span>Suluk</span></a><ul><li><a href="#the-cycle"><span>The cycle</span></a></li><li><a href="#explore"><span>Explore</span></a></li><li><a href="#the-discipline-why-it-stays-coherent"><span>The discipline (why it stays coherent)</span></a></li></ul></div></details></div><div class="site-menu"><nav id="tsd-sidebar-links" class="tsd-navigation"><a href="https://github.com/MahmoodKhalil57/suluk" class="tsd-nav-link">GitHub</a></nav><nav class="tsd-navigation"><a href="modules.html">Suluk</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
