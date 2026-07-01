@@ -1,0 +1,52 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+
+  "entryPointStrategy": "packages",
+  "entryPoints": ["packages/*"],
+
+  "packageOptions": {
+    "entryPoints": ["src/index.ts"],
+    "includeVersion": true,
+    "excludeInternal": true,
+    "excludePrivate": true,
+    "skipErrorChecking": true,
+    "sort": ["source-order"]
+  },
+
+  "exclude": [
+    "packages/example-petshop",
+    "packages/scalar-standalone",
+    "packages/vscode"
+  ],
+
+  "name": "Suluk",
+  "plugin": [
+    "typedoc-github-theme",
+    "./scripts/typedoc-vscode-icons.mjs",
+    "./scripts/typedoc-branding-head.mjs"
+  ],
+  "readme": "docs-pages/index.md",
+  "projectDocuments": [
+    "docs-pages/getting-started.md",
+    "docs-pages/architecture.md",
+    "docs-pages/contributing.md",
+    "docs-pages/community.md"
+  ],
+  "out": "../../docs",
+  "cleanOutputDir": true,
+  "githubPages": true,
+  "hostedBaseUrl": "https://mahmoodkhalil57.github.io/suluk/",
+
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true,
+    "includeFolders": true,
+    "compactFolders": false
+  },
+  "categorizeByGroup": true,
+  "sort": ["alphabetical"],
+  "navigationLinks": {
+    "GitHub": "https://github.com/MahmoodKhalil57/suluk"
+  },
+  "searchInComments": true
+}
