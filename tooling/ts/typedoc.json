@@ -20,6 +20,7 @@
   ],
 
   "name": "Suluk",
+  "plugin": ["typedoc-github-theme"],
   "out": "../../docs",
   "cleanOutputDir": true,
   "githubPages": true,

@@ -13,8 +13,8 @@ Date: 2026-07-01
 
 ## Status
 
-**BUILT + PUBLISHED** (`@suluk/platform@0.2.0`, 2026-07-01, operator "go"). Ceiling **0.72** (lifted from the design-only
-0.5). Phases 0–5 shipped and gated on byte-identity at every step:
+**BUILT + PUBLISHED + LIVE-ADOPTED** (`@suluk/platform@0.2.1`, 2026-07-01, operator "go"). Ceiling **0.8** (lifted from the
+design-only 0.5). Phases 0–5 shipped and gated on byte-identity at every step:
 
 - **Phase 0 — golden lock**: a snapshot test pins the real 18-service autotoolfactory output byte-for-byte (the C051 one-shot
   invariant, frozen).
@@ -29,10 +29,18 @@ Date: 2026-07-01
 - **Phase 5 — migrate + publish**: `liftLegacy` round-trips byte-identically; README; published `0.2.0`.
 
 An **11-agent adversarial review** found 6 defects (registry fail-open, wire-param type hole, string-id typing,
-import-collision, inline-service half-land) — **all fixed + regression-tested**. `@suluk/platform` **81 tests pass, tsc
-clean**. Ledger: [`0service-interface.bn`](../../../plan/facts/0service-interface.bn) (burhan True @≥0.72). Remaining witness
-before a higher ceiling: adoption by a **live published consumer** + a re-proof of the one-shot from the *published* 0.2.0.
-Not a contract-facet change (a generator/authoring-surface change; the emitted contract is unaffected).
+import-collision, inline-service half-land) — **all fixed + regression-tested**.
+
+**Live-consumer adoption (0.2.1).** autotoolfactory's manifest was converted from the legacy string form to
+`defineSystem`/`defineBrand` + a **real wire** (grant 100 credits on signup, `auth.onUserCreated → credits.grantOnSignup`)
+and **regenerated from the published 0.2.1 generator**: *every* generated file is byte-identical to the legacy output except
+the `auth` mount line (now carries the grant closure; the mcp value is byte-preserved) + 3 wire imports — and `tsc` is clean
+against the real modules. The live run also surfaced a generator bug (`generatePlatform` pre-lowered `{system,brand}` and
+**dropped `system.wire`**, since the unit tests only exercised `planPlatform` directly) — fixed, regression-tested, and
+republished as 0.2.1. `@suluk/platform` **82 tests pass, tsc clean**. Ledger:
+[`0service-interface.bn`](../../../plan/facts/0service-interface.bn) (burhan True @≥0.8). Remaining before a higher ceiling:
+production runtime + community registries in the wild. Not a contract-facet change (a generator/authoring-surface change; the
+emitted contract is unaffected).
 
 ## Context — the closed catalog is the constraint
 

@@ -47,8 +47,13 @@
 # typecheck-verified (generated wired entry over autotoolfactory's real modules -> tsc clean bar the pre-existing
 # openapi-compat nit); 5 liftLegacy migrate (round-trips byte-identical) + README + published @suluk/platform 0.2.0. An
 # 11-agent ADVERSARIAL review found 6 defects (registry fail-open, wire-param type hole, string-ref typing, import collision,
-# inline-service half-land) -> ALL FIXED + regression-tested. platform 81 tests pass, tsc clean. Ceiling 0.5 (design) -> 0.72:
-# BUILT + 81 tests + golden byte-identity + adversarial-review-with-fixes + empirical env-seam typecheck, but NOT yet adopted
-# by a live published consumer (that witness + the published-generator one-shot re-proof would lift it further).
-claim c053_open_service_interface_typed_2x2_opts_system_brand_split_port_capability_composition_built: Bool @>=0.72 = True
+# inline-service half-land) -> ALL FIXED + regression-tested. LIVE-CONSUMER ADOPTION (0.2.1): autotoolfactory's manifest
+# converted from the legacy string form to defineSystem/defineBrand + a REAL wire (signup-grant auth->credits amount:100);
+# regenerated from the PUBLISHED 0.2.1 generator -> EVERY generated file byte-identical to the legacy output EXCEPT the auth
+# mount line (now carries the grant closure, mcp value byte-preserved) + 3 wire imports; tsc clean against the real modules.
+# A generate.ts bug surfaced by this live run (generatePlatform pre-lowered {system,brand} -> dropped system.wire; unit tests
+# only hit planPlatform directly) -> FIXED + regression-tested + republished 0.2.1. platform 82 tests pass, tsc clean.
+# Ceiling 0.72 -> 0.8: the ADR-named witness (a live published-consumer adoption + the one-shot re-proof from the published
+# generator) has LANDED; remaining before higher is production runtime + more community registries in the wild.
+claim c053_open_service_interface_typed_2x2_opts_system_brand_split_port_capability_composition_built: Bool @>=0.8 = True
 falsified_when c053_open_service_interface_typed_2x2_opts_system_brand_split_port_capability_composition_built == False
