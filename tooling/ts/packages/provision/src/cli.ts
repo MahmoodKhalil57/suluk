@@ -10,6 +10,8 @@ import { apply, type AppliedStep } from "./apply";
 import { checkDrift } from "./check";
 import { pull, reconcile } from "./pull";
 import { teardown } from "./teardown";
+import { generate } from "./generate";
+import { migrate } from "./migrate";
 import type { InstanceState } from "./types";
 
 export interface CliResult {
@@ -105,8 +107,34 @@ export async function runCli(app: ProvisionApp, argv: string[]): Promise<CliResu
       out(`\n✗ torn down ${res.torn.length} instance(s)${res.kept.length ? `; kept ${res.kept.map((k) => `${k.ref} (${k.reason})`).join(", ")}` : ""}.`);
       return done();
     }
+    case "generate": {
+      if (!app.migrations) {
+        out("no migration store configured — set `migrations` in the config to use generate/migrate");
+        return done(2);
+      }
+      const ni = argv.indexOf("--name");
+      const name = ni >= 0 ? argv[ni + 1] : undefined;
+      const m = await generate(app.config, app.migrations, name);
+      if (!m) {
+        out("✓ no changes — the config matches the last snapshot");
+        return done();
+      }
+      out(`✓ generated ${m.tag}:`);
+      for (const s of m.steps) out(`  ${SYM[s.action]} ${s.action.padEnd(11)} ${s.ref} (${s.service} · ${s.name})`);
+      return done();
+    }
+    case "migrate": {
+      if (!app.migrations) {
+        out("no migration store configured — set `migrations` in the config to use generate/migrate");
+        return done(2);
+      }
+      out("── provision migrate ──");
+      const res = await migrate({ brokers: app.brokers, store: app.store, migrations: app.migrations, sink: app.sink, log: out });
+      out(res.upToDate ? "\n✓ up to date — no pending migrations" : `\n✓ applied ${res.applied.length} migration(s)`);
+      return done();
+    }
     default:
-      out(`unknown command "${cmd}". Commands: plan | apply (push) | check | status | pull | teardown. Flags: --prune --reconcile --yes --force`);
+      out(`unknown command "${cmd}". Commands: plan | apply (push) | generate | migrate | check | status | pull | teardown. Flags: --prune --reconcile --yes --force --name`);
       return done(2);
   }
 }

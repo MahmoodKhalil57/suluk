@@ -5,6 +5,7 @@
  * the config + journal; `apply` needs the brokers + sink. `defineProvisionApp` validates the config up front.
  */
 import type { Broker, BindingSink, StateStore } from "./types";
+import type { MigrationStore } from "./migration-store";
 import { defineProvision, type ProvisionConfig } from "./config";
 
 export interface ProvisionApp {
@@ -16,6 +17,9 @@ export interface ProvisionApp {
   store: StateStore;
   /** where bound credentials land (defaults to the @suluk/env sink). Optional. */
   sink?: BindingSink;
+  /** the committed migration history — enables `generate` + `migrate` (the drizzle-style repeatable path). Optional;
+   *  a real config points it at `fileMigrationStore("provision")`. */
+  migrations?: MigrationStore;
 }
 
 /** Validate + return a provision app config (the CLI imports this as the config file's default export). */

@@ -22,6 +22,12 @@ export { pollToDone, type PollOptions } from "./poll";
 export { checkDrift, assertNoDrift, type DriftReport } from "./check";
 export { pull, reconcile, discover, type PullReport, type PullEntry, type PullStatus, type DiscoveredInstance } from "./pull";
 export { teardown, type TeardownOptions, type TeardownResult } from "./teardown";
+// the drizzle-style snapshot + migration model (repeatable, documentable steps).
+export { snapshot, EMPTY_SNAPSHOT, SNAPSHOT_VERSION, type Snapshot } from "./snapshot";
+export { diffSnapshots, migrationTag, type Migration, type MigrationStep } from "./migration";
+export { memoryMigrationStore, fileMigrationStore, type MigrationStore, type MigrationJournal } from "./migration-store";
+export { generate } from "./generate";
+export { migrate, type MigrateOptions, type MigrateResult } from "./migrate";
 export { memoryStore, memorySink } from "./memory";
 export { fileStore } from "./file-store";
 export { envSink, type EnvSinkOptions } from "./env-sink";
