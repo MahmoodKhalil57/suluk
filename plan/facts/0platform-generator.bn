@@ -165,3 +165,24 @@ falsified_when platform_c051_build6_published_0_1_3_two_pass_middleware_13_servi
 # 99.5% of the app (3755 of 3775 code+config lines) is GENERATED or CLONED, 0.5% hand-authored (down from 4.7%).
 claim platform_c051_build7_manifest_only_surface_generates_packagejson_tsconfig_deps_uptodate: Bool @>=0.62 = True
 falsified_when platform_c051_build7_manifest_only_surface_generates_packagejson_tsconfig_deps_uptodate == False
+
+# C051 BUILD #8 — THE ENV LIFECYCLE: secrets in .env (temp preflight), non-secrets in the manifest (2026-07-01; operator:
+# ".env.temp with the minimum keys that gets deleted after a proper .env exists; an example created if we run without it"
+# + "non secrets should be defined in platform.config.ts"). The generator now splits config by SENSITIVITY, both driven
+# from platform.config.ts: (1) SECRETS (BETTER_AUTH_SECRET, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET required; RESEND/GOOGLE
+# optional) -> a generated `.env.example` (required uncommented, optional commented, NO values — safe to commit) + a
+# generated `scripts/env-check.ts` PREFLIGHT wired as `predev`/`check`: if a required secret is missing (checking .env AND
+# process.env), it WRITES .env.temp from the example + reports the missing keys + fails (exit 1); once .env has EVERY
+# required secret it DELETES .env.temp. So an example appears the moment you try to run without one, and is cleaned up once
+# provisioned — TESTED both directions (no-.env -> .env.temp created + exit 1; .env with the 3 secrets -> .env.temp deleted +
+# exit 0). (2) NON-SECRETS (BASE_URL/EMAIL_FROM/TRUSTED_ORIGINS/ENVIRONMENT/STRIPE_PUBLISHABLE_KEY/BETTER_AUTH_URL) -> a new
+# manifest `vars` field -> generated into `wrangler.toml [vars]` (unset ones commented with a hint); wrangler.toml MERGES so
+# provisioned binding ids survive a regen. The CATALOG gained per-service `env` metadata (name/required/secret/hint);
+# collectEnv unions it. Also generates `.gitignore` — MERGE-aware (a SAFETY FIX: an app's minimal .gitignore would else
+# leave .env UNIGNORED -> risk of committing secrets; now the standard ignores are appended, never skipped) + wires
+# dev/deploy/check scripts + the wrangler devDep. platform tests 26 pass. autotoolfactory: manifest vars moved to `vars` ->
+# wrangler [vars] populated; .env.example + env-check + .gitignore generated; tsc 0 own-code errors; .env/.env.temp ignored
+# (autotoolfactory 0be6310). @suluk/platform 0.1.9 (env) + 0.1.10 (the .gitignore-merge safety fix). So platform.config.ts
+# remains the ONLY hand-authored surface, with SECRETS the only thing supplied outside it (via .env, never committed).
+claim platform_c051_build8_env_lifecycle_secrets_dotenv_temp_nonsecrets_manifest_vars: Bool @>=0.6 = True
+falsified_when platform_c051_build8_env_lifecycle_secrets_dotenv_temp_nonsecrets_manifest_vars == False
