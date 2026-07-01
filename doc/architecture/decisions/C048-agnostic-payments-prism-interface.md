@@ -123,7 +123,19 @@ guards), the full auto/manual/void/refund/sync flow, in-band decline, 3DS redire
   the `@suluk/cost` dep + the `stripe` SDK peerDep (only the deleted code used them). **836 LOC / 10 files → a ~30-line
   shell.**
 
+- **#6 — the client-token surface** (`2026-07-01`, payments 25 pass, billing 32 pass, tsc clean). Prism's
+  `MerchantAuthenticationClient` analog — the piece a pure server-side `authorize` can't express: create a server-side
+  intent and hand a **confirmable token** to the browser (PCI-scope reduction; the credit lands on the webhook). Added
+  `ClientSession` + `CreatePaymentSessionRequest`/`CreateSetupSessionRequest` and the optional
+  `createPaymentSession?`/`createSetupSession?` on `PaymentConnector`; `stripeConnector` implements both (Payment-Element →
+  `automatic_payment_methods`; a saved token → one-click pinned charge; setup → `usage=off_session`; **no `confirm`** — the
+  browser confirms). Billing's last direct-Stripe payment-flow functions — `createPaymentIntent` (Element),
+  `createSetupIntent` (add-card), `createPaymentIntentOnDefaultCard` (one-click) — now route through it, parity-proven by
+  the existing billing suite staying green. **Payment flows are now fully agnostic.** What stays on the transport is
+  genuinely Stripe-**platform** (no agnostic equivalent): saved-card list/set-default/detach, hosted Checkout/portal,
+  subscription CRUD, Stripe Tax — all on `@suluk/payments`' one client, no legacy.
+
 ## Deferred (post-approval)
 
-The client-token surface for the browser-Element flows; more connectors (adyen/…); the C047 payment-connector broker; the
-eventual **major-version deletion** of `@suluk/stripe` (once the app drops even the shim).
+More connectors (adyen/…); the C047 payment-connector broker; the eventual **major-version deletion** of `@suluk/stripe`
+(once the app drops even the shim).

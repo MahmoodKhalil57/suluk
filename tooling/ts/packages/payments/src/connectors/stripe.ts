@@ -16,6 +16,7 @@ interface StripePi {
   status?: string;
   amount?: number;
   currency?: string;
+  client_secret?: string;
   next_action?: { redirect_to_url?: { url?: string } };
   last_payment_error?: { code?: string; message?: string; decline_code?: string };
 }
@@ -147,6 +148,35 @@ export const stripeConnector: ConnectorFactory = (auth: ConnectorAuth, http?: Ht
       const c = json as { id?: string } & StripeErr;
       if (!ok || !c.id) throw new ConnectorError(c.error?.code ?? "stripe_error", c.error?.message ?? "Stripe customer create failed");
       return { customerId: c.id };
+    },
+
+    async createPaymentSession(req) {
+      const form: Record<string, unknown> = {
+        amount: req.amount.minorAmount,
+        currency: req.amount.currency.toLowerCase(),
+        customer: req.customerId,
+        metadata: req.metadata,
+        ...(req.captureMethod === CaptureMethod.MANUAL ? { capture_method: "manual" } : {}),
+        ...(req.setupFutureUsage ? { setup_future_usage: "off_session" } : {}),
+      };
+      const token = req.paymentMethod?.value;
+      // a saved token → a one-click charge pinned to it; otherwise the browser collects the card (Payment Element).
+      if (token) { form.payment_method = token; form.payment_method_types = ["card"]; }
+      else form.automatic_payment_methods = { enabled: true };
+      const { ok, status, json } = await call("payment_intents", toForm(form));
+      if (!ok || json.error || !json.client_secret) throw new ConnectorError(json.error?.code ?? "stripe_error", json.error?.message ?? `Stripe payment session failed (HTTP ${status})`);
+      return { clientSecret: json.client_secret, connectorTransactionId: json.id, customerId: req.customerId };
+    },
+
+    async createSetupSession(req) {
+      const { ok, status, json } = await call("setup_intents", toForm({
+        customer: req.customerId,
+        automatic_payment_methods: { enabled: true },
+        usage: "off_session",
+        metadata: req.metadata,
+      }));
+      if (!ok || json.error || !json.client_secret) throw new ConnectorError(json.error?.code ?? "stripe_error", json.error?.message ?? `Stripe setup session failed (HTTP ${status})`);
+      return { clientSecret: json.client_secret, connectorTransactionId: json.id, customerId: req.customerId };
     },
   };
 };

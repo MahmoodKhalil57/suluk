@@ -8,6 +8,7 @@
  */
 import { type StripeConfig, stripePost, stripeGet, toForm } from "./transport";
 import { paymentConnector } from "./agnostic";
+import { Currency } from "@suluk/payments";
 
 type StripeErr = { error?: { message?: string } };
 
@@ -20,29 +21,22 @@ export async function createCustomer(cfg: StripeConfig, email: string | null, us
 
 /** Create a $0 SetupIntent to vault a card without charging ("Add card"). Returns the client secret. */
 export async function createSetupIntent(cfg: StripeConfig, customerId: string, userId: string): Promise<string> {
-  const res = await stripePost(cfg, "setup_intents", toForm({ customer: customerId, automatic_payment_methods: { enabled: true }, usage: "off_session", metadata: { userId } }));
-  const si = (await res.json()) as StripeErr & { client_secret?: string };
-  if (!res.ok || si.error || !si.client_secret) throw new Error(si.error?.message ?? `Stripe setup_intent create failed (${res.status})`);
-  return si.client_secret;
+  // C048 — vault a card ("add card") via @suluk/payments' client-token surface; returns the client secret the browser confirms.
+  const session = await paymentConnector(cfg).createSetupSession!({ customerId, metadata: { userId } });
+  return session.clientSecret;
 }
 
 /** Create a PaymentIntent for an on-site one-time top-up (saves the card; the webhook credits it). Returns the client secret. */
 export async function createPaymentIntent(cfg: StripeConfig, customerId: string, amountCents: number, meta: { userId: string; credits: number; taxCalculation?: string | null }): Promise<string> {
-  const res = await stripePost(
-    cfg,
-    "payment_intents",
-    toForm({
-      amount: amountCents,
-      currency: "usd",
-      customer: customerId,
-      automatic_payment_methods: { enabled: true },
-      setup_future_usage: "off_session",
-      metadata: { userId: meta.userId, credits: meta.credits, source: "onsite_topup", ...(meta.taxCalculation ? { tax_calculation: meta.taxCalculation } : {}) },
-    }),
-  );
-  const pi = (await res.json()) as StripeErr & { client_secret?: string };
-  if (!res.ok || pi.error || !pi.client_secret) throw new Error(pi.error?.message ?? `Stripe payment_intent create failed (${res.status})`);
-  return pi.client_secret;
+  // C048 — the Payment-Element flow via @suluk/payments' client-token surface: creates the PaymentIntent (no
+  // paymentMethod → automatic_payment_methods; saves the card) and returns the client secret the browser confirms.
+  const session = await paymentConnector(cfg).createPaymentSession!({
+    amount: { minorAmount: amountCents, currency: Currency.USD },
+    customerId,
+    setupFutureUsage: true,
+    metadata: { userId: meta.userId, credits: String(meta.credits), source: "onsite_topup", ...(meta.taxCalculation ? { tax_calculation: meta.taxCalculation } : {}) },
+  });
+  return session.clientSecret;
 }
 
 /** A buyer's tax location (from a saved card's billing address). */

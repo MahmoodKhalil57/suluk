@@ -7,6 +7,7 @@
  */
 import type {
   AuthorizeRequest, PaymentResponse, CaptureRequest, VoidRequest, RefundRequest, RefundResponse, SyncRequest, Secret,
+  ClientSession, CreatePaymentSessionRequest, CreateSetupSessionRequest,
 } from "./types";
 import { IntegrationError } from "./errors";
 
@@ -43,6 +44,13 @@ export interface PaymentConnector {
   recurringRevoke?(req: { mandateId: string }): Promise<void>;
   /** verify + normalize a processor webhook into a unified event. */
   handleWebhook?(raw: string, headers: Record<string, string>): Promise<WebhookEvent>;
+
+  // ── the client-token surface (Prism's MerchantAuthenticationClient) — browser-confirmable sessions ──
+  /** Create a browser-confirmable PAYMENT session (Stripe PaymentIntent client_secret) — the Payment-Element / one-click
+   *  path. The browser confirms with the processor SDK; crediting happens on the webhook, not here. */
+  createPaymentSession?(req: CreatePaymentSessionRequest): Promise<ClientSession>;
+  /** Create a browser-confirmable SETUP session (Stripe SetupIntent client_secret) — vault a card without charging. */
+  createSetupSession?(req: CreateSetupSessionRequest): Promise<ClientSession>;
 }
 
 /** A normalized webhook event (the unified shape a connector's handleWebhook produces). */

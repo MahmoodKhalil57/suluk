@@ -102,23 +102,17 @@ export async function createPortalSessionForCustomer(cfg: StripeConfig, customer
  *  confirms (3DS in-page if needed). Returns null when there's no default card to charge. No setup_future_usage — the
  *  card is already saved. */
 export async function createPaymentIntentOnDefaultCard(cfg: StripeConfig, customerId: string, amountCents: number, meta: TopupMeta): Promise<string | null> {
+  // C048 — the one-click flow via @suluk/payments' client-token surface: resolve the default card (client can't inject
+  // one), pin the session to it, return the client secret the browser confirms. Null when there's no default card.
   const pmId = await defaultPaymentMethodId(cfg, customerId);
   if (!pmId) return null;
-  const res = await stripePost(
-    cfg,
-    "payment_intents",
-    toForm({
-      amount: amountCents,
-      currency: "usd",
-      customer: customerId,
-      payment_method: pmId,
-      payment_method_types: ["card"],
-      metadata: { userId: meta.userId, credits: meta.credits, source: "onsite_topup", ...(meta.taxCalculation ? { tax_calculation: meta.taxCalculation } : {}) },
-    }),
-  );
-  const pi = (await res.json()) as StripeErr & { client_secret?: string };
-  if (!res.ok || pi.error || !pi.client_secret) throw new Error(pi.error?.message ?? `Stripe payment_intent create failed (${res.status})`);
-  return pi.client_secret;
+  const session = await paymentConnector(cfg).createPaymentSession!({
+    amount: { minorAmount: amountCents, currency: Currency.USD },
+    customerId,
+    paymentMethod: { value: pmId },
+    metadata: { userId: meta.userId, credits: String(meta.credits), source: "onsite_topup", ...(meta.taxCalculation ? { tax_calculation: meta.taxCalculation } : {}) },
+  });
+  return session.clientSecret;
 }
 
 /** An OFF-SESSION charge on a saved card (auto-top-up). Confirms immediately; metadata carries who + credits + `source`

@@ -181,3 +181,36 @@ export interface SyncRequest {
   connectorTransactionId: string;
   testMode?: boolean;
 }
+
+// ── the client-token surface (Prism's MerchantAuthenticationClient) — browser-confirmable sessions ────────────────────
+
+/**
+ * A browser-confirmable session: the server creates the intent, the browser SDK confirms it with `clientSecret`, so raw
+ * card data never touches the server (PCI-scope reduction). Crediting lands on the processor webhook, not the create
+ * call. This is the piece a pure server-side `authorize` can't express — the Payment-Element / one-click / add-card flows.
+ */
+export interface ClientSession {
+  /** the token the browser SDK confirms with — Stripe's `client_secret`; another processor's equivalent. */
+  clientSecret: string;
+  connectorTransactionId?: string;
+  customerId?: string;
+}
+
+/** Create a PAYMENT session to confirm in-browser. Omit `paymentMethod` for a Payment-Element flow (the browser collects
+ *  the card); pass a saved `paymentMethod` token for a one-click charge on a saved card. */
+export interface CreatePaymentSessionRequest {
+  amount: MinorAmount;
+  customerId?: string;
+  /** pin the charge to a saved instrument (one-click); omit to let the browser collect one (Payment Element). */
+  paymentMethod?: Secret;
+  captureMethod?: CaptureMethod;
+  /** save the collected card for later off-session use. */
+  setupFutureUsage?: boolean;
+  metadata?: Record<string, string>;
+}
+
+/** Create a SETUP session to vault a card without charging ("add card"). */
+export interface CreateSetupSessionRequest {
+  customerId: string;
+  metadata?: Record<string, string>;
+}

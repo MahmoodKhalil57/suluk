@@ -111,3 +111,24 @@ falsified_when payments_stripe_retired_to_shim_pricing_webhook_ported_testgen_re
 # (adyen/...) + the eventual major-version DELETION of @suluk/stripe (after the app drops even the shim).
 claim payments_stripe_gutted_to_deprecation_shell_remove_on_major: Bool @>=0.62 = True
 falsified_when payments_stripe_gutted_to_deprecation_shell_remove_on_major == False
+
+# C048 BUILD #6 — the CLIENT-TOKEN SURFACE (Prism's MerchantAuthenticationClient analog) built 2026-07-01 (operator: "do
+# the client-token surface"). The piece a pure server-side authorize CAN'T express: create a server-side intent, hand a
+# CONFIRMABLE TOKEN to the browser (PCI-scope reduction — raw card never touches the server; credit lands on the webhook).
+# @suluk/payments types: ClientSession {clientSecret, connectorTransactionId?, customerId?} + CreatePaymentSessionRequest
+# (amount, customerId?, paymentMethod? saved-token=one-click | omit=Payment-Element, setupFutureUsage?, captureMethod?,
+# metadata?) + CreateSetupSessionRequest {customerId, metadata?}. PaymentConnector gained OPTIONAL createPaymentSession? +
+# createSetupSession?. stripeConnector impl: createPaymentSession -> POST /payment_intents (token -> payment_method +
+# payment_method_types[card] one-click; else automatic_payment_methods; +setup_future_usage; NO confirm — the BROWSER
+# confirms) -> client_secret; createSetupSession -> POST /setup_intents (usage=off_session) -> client_secret. BILLING
+# REWIRE: the last direct-Stripe PAYMENT-FLOW funcs now route through it — createPaymentIntent (Element) + createSetupIntent
+# (add-card) [billing.ts] + createPaymentIntentOnDefaultCard (one-click, resolves default PM then pins) [payments.ts];
+# same Stripe requests + client-secret returns + null-when-no-card. WITNESSED — payments 25 pass (+4: Element auto-PM +
+# save + no-confirm, one-click pinned no-auto-PM, setup usage=off_session, throw-on-no-secret), billing 32 (existing
+# setup-intent + one-click tests green THROUGH the new innards = parity). tsc clean. Payment FLOWS are now FULLY agnostic
+# (charge/refund/customer + browser-confirmable sessions). What stays on the transport (NOT legacy — @suluk/payments' one
+# client): the genuinely Stripe-PLATFORM ops with no agnostic equivalent — saved-card list/set-default/detach, hosted
+# Checkout/portal, subscription CRUD, Stripe Tax. REMAINING: more connectors (adyen/...); the eventual @suluk/stripe
+# major-version deletion.
+claim payments_client_token_surface_built_billing_element_flows_agnostic: Bool @>=0.6 = True
+falsified_when payments_client_token_surface_built_billing_element_flows_agnostic == False

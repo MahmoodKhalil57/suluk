@@ -117,3 +117,41 @@ describe("capture / void / refund / sync / customer", () => {
     expect(cu.calls[0].body).toContain("metadata%5BuserId%5D=u1");
   });
 });
+
+describe("the client-token surface (browser-confirmable sessions)", () => {
+  test("createPaymentSession (Payment Element): automatic_payment_methods + optional save; returns the client secret", async () => {
+    const m = mock({ "POST payment_intents": { body: { id: "pi_9", client_secret: "pi_9_secret" } } });
+    const s = await stripeConnector(cfg.connectorConfig.stripe, m.http).createPaymentSession!({
+      amount: { minorAmount: 2000, currency: Currency.USD }, customerId: "cus_1", setupFutureUsage: true, metadata: { userId: "u1", source: "onsite_topup" },
+    });
+    expect(s).toEqual({ clientSecret: "pi_9_secret", connectorTransactionId: "pi_9", customerId: "cus_1" });
+    const b = m.calls[0].body;
+    expect(b).toContain("automatic_payment_methods%5Benabled%5D=true");
+    expect(b).toContain("setup_future_usage=off_session");
+    expect(b).toContain("metadata%5Bsource%5D=onsite_topup");
+    expect(b).not.toContain("confirm=true"); // the BROWSER confirms — the server only creates the intent
+  });
+
+  test("createPaymentSession (one-click): pins the saved card, no automatic_payment_methods", async () => {
+    const m = mock({ "POST payment_intents": { body: { id: "pi_10", client_secret: "pi_10_secret" } } });
+    const s = await stripeConnector(cfg.connectorConfig.stripe, m.http).createPaymentSession!({
+      amount: { minorAmount: 2000, currency: Currency.USD }, customerId: "cus_1", paymentMethod: { value: "pm_1" },
+    });
+    expect(s.clientSecret).toBe("pi_10_secret");
+    expect(m.calls[0].body).toContain("payment_method=pm_1");
+    expect(m.calls[0].body).not.toContain("automatic_payment_methods");
+  });
+
+  test("createSetupSession: vaults a card (usage=off_session); returns the client secret", async () => {
+    const m = mock({ "POST setup_intents": { body: { id: "seti_1", client_secret: "seti_secret" } } });
+    const s = await stripeConnector(cfg.connectorConfig.stripe, m.http).createSetupSession!({ customerId: "cus_1", metadata: { userId: "u1" } });
+    expect(s.clientSecret).toBe("seti_secret");
+    expect(m.calls[0].path).toBe("setup_intents");
+    expect(m.calls[0].body).toContain("usage=off_session");
+  });
+
+  test("a session that returns no client_secret throws ConnectorError", async () => {
+    const m = mock({ "POST payment_intents": { status: 400, body: { error: { code: "amount_too_small", message: "Amount too small" } } } });
+    await expect(stripeConnector(cfg.connectorConfig.stripe, m.http).createPaymentSession!({ amount: { minorAmount: 1, currency: Currency.USD } })).rejects.toThrow(ConnectorError);
+  });
+});
