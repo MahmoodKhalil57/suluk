@@ -72,8 +72,9 @@
       "title": "Billing — Stripe customer + browser sessions + cards",
       "description": "An Effect-TS Billing service over @suluk/billing (which runs on @suluk/payments' agnostic connector + client-token surface): ensure-customer, Payment-Element + add-card sessions, saved cards, billing portal. The webhook dispatch + pricing matrix stay in your app (C046/C048).",
       "registryDependencies": ["MahmoodKhalil57/suluk/app"],
-      "dependencies": ["@suluk/billing", "@suluk/payments", "@suluk/provision", "effect", "hono"],
+      "dependencies": ["@suluk/billing", "@suluk/payments", "@suluk/credits", "@suluk/provision", "effect", "drizzle-orm", "hono"],
       "files": [
+        { "path": "registry/billing/billing.pricing.ts", "type": "registry:file", "target": "src/pricing.ts" },
         { "path": "registry/billing/billing.service.ts", "type": "registry:file", "target": "src/services/billing.ts" },
         { "path": "registry/billing/billing.routes.ts", "type": "registry:file", "target": "src/routes/billing.ts" },
         { "path": "registry/billing/billing.schema.ts", "type": "registry:file", "target": "src/db/billing.ts" },
