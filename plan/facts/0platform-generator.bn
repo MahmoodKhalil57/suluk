@@ -144,3 +144,24 @@ falsified_when platform_c051_build5_published_0_1_2_autotoolfactory_10_services_
 # uploads (extend @suluk/deploy) + jobs/mcp/agents (medium); + `suluk-provision apply` (operator live step).
 claim platform_c051_build6_published_0_1_3_two_pass_middleware_13_service_autotoolfactory: Bool @>=0.62 = True
 falsified_when platform_c051_build6_published_0_1_3_two_pass_middleware_13_service_autotoolfactory == False
+
+# C051 BUILD #7 — THE MANIFEST IS THE ONLY SURFACE: the generator now emits the SCAFFOLD CONFIG too (2026-07-01; operator:
+# "expand platform.config.ts to generate everything from it only ... handle package.json thoughtfully to keep up to date").
+# planPlatform now also produces package.json + tsconfig.json + components.json (beyond the entry + provision.config). THE
+# THOUGHTFUL package.json HANDLING: (a) the CATALOG gained per-service npm `deps` (kept in sync with registry.json);
+# buildPackageJson unions BASE_DEPS (@suluk/platform+provision+core, effect, hono, drizzle-orm) + each service's deps. (b)
+# VERSION RESOLUTION: @suluk/* -> "latest" (a package fix flows to the app via `bun update` — the C052 payoff), the ecosystem
+# (better-auth/@better-auth/*, drizzle-orm, effect, hono, zod) -> pinned ranges in ONE ECOSYSTEM_VERSIONS map so every
+# generated app stays consistent + current; DEV_DEPS the Workers+TS toolchain. (c) mergePackageJson: a REGENERATE keeps the
+# framework/module deps current (the baseline WINS for overlaps -> @suluk/* stay "latest") WITHOUT dropping any deps/scripts
+# the app ADDED (preserved; app extras + a custom "deploy" script survive). generate.ts writes the config FIRST (so shadcn
+# has package.json+components.json to install into / resolve targets), package.json merge-aware (read injected), and LEAVES
+# an existing tsconfig/components.json untouched (an app may customize them). CLI (bin/platform.ts) provides the fs read.
+# platform tests 22 pass (buildPackageJson deps+versions, mergePackageJson preserves-extras+baseline-wins, generate writes
+# config-first). PROOF vs autotoolfactory: the generated package.json deps EXACTLY match the hand-authored one (24 deps,
+# NONE dropped/added, all @suluk/* on latest); regenerated ALL config from the INSTALLED 0.1.8 generator -> bun install no
+# dep changes + tsc 0 own-code errors (autotoolfactory). @suluk/platform 0.1.8. IMPACT: autotoolfactory's package.json/
+# tsconfig/components.json are now GENERATED, so the ONLY hand-authored file is the ~20-line platform.config.ts manifest —
+# 99.5% of the app (3755 of 3775 code+config lines) is GENERATED or CLONED, 0.5% hand-authored (down from 4.7%).
+claim platform_c051_build7_manifest_only_surface_generates_packagejson_tsconfig_deps_uptodate: Bool @>=0.62 = True
+falsified_when platform_c051_build7_manifest_only_surface_generates_packagejson_tsconfig_deps_uptodate == False
