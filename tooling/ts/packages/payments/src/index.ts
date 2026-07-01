@@ -16,3 +16,5 @@ export {
 export { mockConnector, MOCK_DECLINE_CARD, MOCK_3DS_CARD } from "./mock";
 // the built-in Stripe connector (the first real backend; fetch → Stripe REST, Workers-native).
 export { stripeConnector } from "./connectors/stripe";
+// the low-level Stripe transport (one Stripe client) — for the Stripe-PLATFORM ops the agnostic seam doesn't model.
+export { type StripeConfig, stripePost, stripeGet, toForm } from "./stripe-transport";

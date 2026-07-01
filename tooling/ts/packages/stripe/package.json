@@ -1,7 +1,7 @@
 {
   "name": "@suluk/stripe",
   "version": "0.1.7",
-  "description": "First-class Stripe via a swappable PaymentProvider: usage-based billing (Billing Meters + meter events), customers, metered prices, subscriptions, webhooks — and a bridge from @suluk/cost to Stripe usage. Other processors follow Stripe. CANDIDATE tooling.",
+  "description": "SUPERSEDED FOR PAYMENT FLOWS by @suluk/payments (the provider-agnostic seam, C048) — use that for charge/refund/customer/off-session. This package remains ONLY for the pieces not yet ported: the pricing primitives (proration/idempotency — @suluk/testgen's money conformance) and webhook signature verification. Do NOT reach for it for new payment work. First-class Stripe via a swappable PaymentProvider: usage-based billing (Billing Meters + meter events), customers, metered prices, subscriptions, webhooks — and a bridge from @suluk/cost to Stripe usage. CANDIDATE tooling.",
   "publishConfig": { "access": "public" },
   "license": "Apache-2.0",
   "repository": {

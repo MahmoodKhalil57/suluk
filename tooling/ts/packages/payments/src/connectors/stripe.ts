@@ -8,20 +8,8 @@
  */
 import type { ConnectorAuth, ConnectorFactory, HttpOptions, PaymentConnector } from "../connector";
 import { ConnectorError, IntegrationError, NetworkError } from "../errors";
-import { PaymentStatus, RefundStatus, CaptureMethod, type PaymentResponse, type RefundResponse, type MinorAmount } from "../types";
-
-const BASE = "https://api.stripe.com/v1";
-
-/** Recursive form encoder for Stripe's bracket-nested `x-www-form-urlencoded` (metadata[k], card[number], …). */
-function toForm(obj: Record<string, unknown>, prefix = "", out = new URLSearchParams()): URLSearchParams {
-  for (const [k, v] of Object.entries(obj)) {
-    if (v === undefined || v === null) continue;
-    const key = prefix ? `${prefix}[${k}]` : k;
-    if (typeof v === "object" && !Array.isArray(v)) toForm(v as Record<string, unknown>, key, out);
-    else out.append(key, String(v));
-  }
-  return out;
-}
+import { PaymentStatus, RefundStatus, CaptureMethod, type PaymentResponse } from "../types";
+import { stripePost, stripeGet, toForm } from "../stripe-transport";
 
 interface StripePi {
   id?: string;
@@ -77,18 +65,11 @@ export const stripeConnector: ConnectorFactory = (auth: ConnectorAuth, http?: Ht
   if (!secret) throw new IntegrationError("INVALID_CONFIGURATION", "stripe connector needs { apiKey: { value } }");
   const doFetch = http?.fetch ?? fetch;
 
+  const cfg = { secretKey: secret, fetch: doFetch };
   async function call(path: string, form: URLSearchParams | null, idempotencyKey?: string): Promise<{ ok: boolean; status: number; json: StripePi & StripeErr }> {
     let res: Response;
     try {
-      res = await doFetch(`${BASE}/${path}`, {
-        method: form ? "POST" : "GET",
-        headers: {
-          authorization: `Bearer ${secret}`,
-          ...(form ? { "content-type": "application/x-www-form-urlencoded" } : {}),
-          ...(idempotencyKey ? { "idempotency-key": idempotencyKey } : {}),
-        },
-        body: form ? form.toString() : undefined,
-      });
+      res = form ? await stripePost(cfg, path, form, idempotencyKey) : await stripeGet(cfg, path);
     } catch (e) {
       throw new NetworkError("CONNECT_TIMEOUT", e instanceof Error ? e.message : String(e));
     }
@@ -170,6 +151,3 @@ export const stripeConnector: ConnectorFactory = (auth: ConnectorAuth, http?: Ht
   };
 };
 
-/** exported for tests + reuse. */
-export const _stripeInternals = { mapPiStatus, mapRefundStatus, toForm };
-export type { MinorAmount };

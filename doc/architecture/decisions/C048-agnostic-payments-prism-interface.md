@@ -86,10 +86,21 @@ guards), the full auto/manual/void/refund/sync flow, in-band decline, 3DS redire
     + the same `{ id, status, authRequired }` return and decline taxonomy (a fresh `crypto.randomUUID()` merchant txn id
     preserves "every call is a new charge"). **Parity proof:** the existing billing-v2 suite stays green *through the new
     innards*, plus a focused agnostic-bridge test.
-  - **Still direct on `@suluk/stripe`:** the browser/Payment-Element/hosted-Checkout + subscription flows (they need the
-    client-token surface — the next migration). `@suluk/stripe` is **not deprecated yet**.
+- **#3 — the swap: billing off `@suluk/stripe`, one Stripe client** (`2026-07-01`, billing 32 pass, payments 16 pass, tsc
+  clean). billing's *only* `@suluk/stripe` import was `toForm`; the browser/checkout/subscription/tax/card ops are
+  Stripe-**platform** ops with no agnostic equivalent (Prism is stateless — no product/price/checkout/customer-PM
+  management), so they can't be *made agnostic*, but they can ride **one** Stripe client. The low-level transport moved to
+  `@suluk/payments/stripe-transport.ts` (`StripeConfig` + `stripePost`/`stripeGet` byte-identical + an **array-aware**
+  `toForm` for the nested checkout/subscription payloads); the connector's `call()` now rides it (one transport impl);
+  `billing/transport.ts` re-exports from `@suluk/payments`; **`@suluk/stripe` removed from billing deps**. Billing now has
+  a SINGLE Stripe access point — agnostic flows via the connector, platform ops via the same transport, no accidental
+  second path. **Parity proof:** the full billing suite (every `%5B0%5D%5B…%5D` form-encoding assertion) stays green
+  through the swapped transport + array-aware `toForm`.
+  - `@suluk/stripe` is **not blanket-deprecated** (honest — still the only impl for `@suluk/testgen`'s pricing-conformance
+    primitives + the app's webhook signature verification), but its description now steers payment-flow work to
+    `@suluk/payments`.
 
 ## Deferred (post-approval)
 
-Migrate the browser/hosted/subscription flows behind the client-token surface → flip the default → mark `@suluk/stripe`
-deprecated + remove; more connectors (adyen/…); the C047 payment-connector broker.
+Port the pricing primitives + webhook-verify off `@suluk/stripe` (then retire it); the client-token surface for the
+browser-Element flows; more connectors (adyen/…); the C047 payment-connector broker.

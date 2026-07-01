@@ -55,3 +55,21 @@ falsified_when payments_agnostic_interface_built_witnessed == False
 # (adyen/...); the C047 payment-connector broker.
 claim payments_stripe_adapter_and_billing_rewire_built: Bool @>=0.6 = True
 falsified_when payments_stripe_adapter_and_billing_rewire_built == False
+
+# C048 BUILD #3 — the SWAP: billing off @suluk/stripe entirely, ONE Stripe client (2026-07-01, operator: "swap it, I dont
+# want to accidentally use legacy"). FINDING: billing's ONLY @suluk/stripe import was `toForm` (transport.ts); the browser/
+# checkout/subscription/tax/card ops are Stripe-PLATFORM ops with NO agnostic equivalent (Prism is stateless — no product/
+# price/checkout/customer-PM management), so they can't be "made agnostic" — but they CAN ride ONE Stripe client instead
+# of a separate legacy path. Moved the low-level Stripe transport into @suluk/payments/stripe-transport.ts (StripeConfig +
+# stripePost/stripeGet byte-identical + an ARRAY-AWARE toForm handling checkout/subscription nested arrays line_items[0]
+# [price_data][...]); the stripeConnector's call() now rides it (one transport impl). billing/transport.ts RE-EXPORTS from
+# @suluk/payments; @suluk/stripe REMOVED from billing deps. Now billing has a SINGLE Stripe access point: agnostic FLOWS
+# (createCustomer/chargeOffSession) via the connector, Stripe-PLATFORM ops via the same transport — no accidental second
+# path. PARITY PROVEN: the full billing suite (32 pass, incl. every checkout/subscription form-encoding assertion
+# %5B0%5D%5B...%5D) stays green through the swapped transport + array-aware toForm; payments 16 pass; tsc clean both.
+# @suluk/stripe NOT blanket-deprecated (honest — still the ONLY impl for testgen's pricing-conformance primitives +
+# the app's webhook signature verification), but its description now steers payment-flow work to @suluk/payments. REMAINING:
+# port the pricing primitives + webhook-verify off @suluk/stripe (then retire it); the client-token surface for the
+# browser-Element flows; more connectors (adyen/...).
+claim payments_billing_swapped_single_stripe_client_no_legacy: Bool @>=0.6 = True
+falsified_when payments_billing_swapped_single_stripe_client_no_legacy == False
