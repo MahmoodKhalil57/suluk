@@ -77,15 +77,11 @@ export interface CardDetails {
   cardHolderName?: Secret;
 }
 
-/** A saved/vaulted instrument referenced by token (the app's or the processor's vault — the library stores nothing). */
-export interface TokenPaymentMethod {
-  token: Secret;
-}
-
-/** The payment instrument. Extend with wallet / bank-transfer as connectors gain coverage; card + token are the core. */
+/** The payment instrument. Extend with wallet / bank-transfer as connectors gain coverage; card + token are the core.
+ *  `token` is a saved/vaulted instrument id (the app's or the processor's vault — the library stores nothing). */
 export interface PaymentMethod {
   card?: CardDetails;
-  token?: TokenPaymentMethod;
+  token?: Secret;
 }
 
 export interface Address {
@@ -133,6 +129,12 @@ export interface AuthorizeRequest {
   customerId?: string;
   /** save the instrument for later off-session use (recurring / one-click). */
   setupFutureUsage?: boolean;
+  /** the charge is happening WITHOUT the cardholder present (auto top-up / recurring) — the processor may decline for
+   *  3DS (`AUTHENTICATION_PENDING`) rather than charge. Maps to Stripe `off_session`, Adyen `ContAuth`, etc. */
+  offSession?: boolean;
+  /** free-form key/value the processor stores + echoes on its webhook (e.g. `{ userId, credits }` the crediting path
+   *  reads). Most processors support it (Stripe metadata, Adyen additionalData). */
+  metadata?: Record<string, string>;
   testMode?: boolean;
 }
 

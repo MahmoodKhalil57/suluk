@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@suluk/stripe": "workspace:^",
+    "@suluk/payments": "workspace:^",
     "@suluk/drizzle": "workspace:^",
     "drizzle-orm": "^0.45.2"
   },

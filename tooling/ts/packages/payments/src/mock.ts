@@ -22,7 +22,7 @@ export const mockConnector: ConnectorFactory = (auth) => {
   const connector: PaymentConnector = {
     name: "mock",
     async authorize(req) {
-      const pan = req.paymentMethod.card?.cardNumber.value ?? req.paymentMethod.token?.token.value ?? "";
+      const pan = req.paymentMethod.card?.cardNumber.value ?? req.paymentMethod.token?.value ?? "";
       if (pan === MOCK_DECLINE_CARD) return { status: PaymentStatus.FAILURE, error: { code: "card_declined", message: "Your card was declined." } };
       if (req.authType === AuthenticationType.THREE_DS || pan === MOCK_3DS_CARD) {
         const txn = id();

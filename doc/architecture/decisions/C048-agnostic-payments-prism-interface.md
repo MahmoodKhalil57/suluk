@@ -67,7 +67,29 @@ guards), the full auto/manual/void/refund/sync flow, in-band decline, 3DS redire
   management, no product catalog). Billing's pricing matrix + subscription-plan logic stay app-side (as C046 already
   scoped); the library handles the charge/refund/mandate flows.
 
+## Build log
+
+- **#1 — the interface** (`2026-07-01`, payments 7 pass). The unified schema + `PaymentConnector` seam +
+  `paymentClient(config, registry)` + errors + a mock connector (above).
+- **#2 — the built-in Stripe adapter + the billing rewire** (`2026-07-01`, payments 16 pass, billing 32 pass, tsc clean).
+  - **`connectors/stripe.ts`** — `stripeConnector`, the first real backend: the unified schema ↔ Stripe REST over
+    `fetch` (Workers-native, no `stripe` SDK, no native dep). The parity-critical piece is the **status mapping**
+    (`succeeded→CHARGED`, `requires_capture→AUTHORIZED`, `requires_action→AUTHENTICATION_PENDING`+redirect,
+    `processing→PENDING`, `canceled→VOIDED`, `requires_payment_method→FAILURE`; refunds `succeeded→SUCCESS`,
+    `pending→PENDING`). `authorize` (raw card **or** saved token, `confirm`, `off_session`, `capture_method`, metadata +
+    an `Idempotency-Key`), `capture`/`void`/`refund`/`sync`/`createCustomer`. **Soft declines are in-band** — a 3DS
+    `authentication_required` → `AUTHENTICATION_PENDING`, an HTTP **402** (or `type: card_error`) → a decline `FAILURE`;
+    only a non-402 hard/transport error throws.
+  - **The billing rewire** — `billing/src/agnostic.ts` (`paymentConnector(cfg)` = `stripeConnector` bound to billing's
+    `StripeConfig`, **swappable in one line**; `statusString` maps the unified status back to billing's Stripe-ish
+    strings). `createCustomer` + `chargeOffSession` now **route through the connector** — the same off-session PI request
+    + the same `{ id, status, authRequired }` return and decline taxonomy (a fresh `crypto.randomUUID()` merchant txn id
+    preserves "every call is a new charge"). **Parity proof:** the existing billing-v2 suite stays green *through the new
+    innards*, plus a focused agnostic-bridge test.
+  - **Still direct on `@suluk/stripe`:** the browser/Payment-Element/hosted-Checkout + subscription flows (they need the
+    client-token surface — the next migration). `@suluk/stripe` is **not deprecated yet**.
+
 ## Deferred (post-approval)
 
-Real connectors (`stripe` first, then adyen/…); the `@suluk/billing` rewire behind `@suluk/payments` (parity-tested); the
-C047 payment-connector broker; the eventual `@suluk/stripe` deprecation notice + removal.
+Migrate the browser/hosted/subscription flows behind the client-token surface → flip the default → mark `@suluk/stripe`
+deprecated + remove; more connectors (adyen/…); the C047 payment-connector broker.

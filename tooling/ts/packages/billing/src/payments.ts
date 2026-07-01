@@ -8,6 +8,8 @@
  */
 import { type StripeConfig, stripePost, toForm } from "./transport";
 import { defaultPaymentMethodId } from "./billing";
+import { paymentConnector, statusString } from "./agnostic";
+import { PaymentStatus, CaptureMethod, AuthenticationType, Currency } from "@suluk/payments";
 import type { SubPlan } from "./subscriptions";
 
 type StripeErr = { error?: { message?: string; code?: string; payment_intent?: { id?: string; status?: string } } };
@@ -130,31 +132,22 @@ export async function chargeOffSession(
   amountCents: number,
   meta: TopupMeta,
 ): Promise<{ id: string | null; status: string | null; authRequired: boolean }> {
-  const res = await stripePost(
-    cfg,
-    "payment_intents",
-    toForm({
-      amount: amountCents,
-      currency: "usd",
-      customer: customerId,
-      payment_method: pmId,
-      off_session: true,
-      confirm: true,
-      metadata: { userId: meta.userId, credits: meta.credits, source: "auto_topup", ...(meta.taxCalculation ? { tax_calculation: meta.taxCalculation } : {}) },
-    }),
-  );
-  const pi = (await res.json()) as StripeErr & { id?: string; status?: string };
-  // A card that requires 3DS declines off-session with code "authentication_required" (an EXPECTED card outcome carrying
-  // the requires_action PI — NOT a transport failure). Surface it as a flag so the caller can email the user.
-  if (pi.error?.code === "authentication_required") {
-    return { id: pi.error.payment_intent?.id ?? null, status: pi.error.payment_intent?.status ?? "requires_action", authRequired: true };
-  }
-  // A hard card DECLINE (insufficient funds, expired/lost card, generic card_declined) is a 402 — an EXPECTED card outcome.
-  // RETURN it (status not "succeeded", authRequired:false) so the caller raises the alert, instead of throwing it into the
-  // catch-all (which can't tell a decline from a transient Stripe/network blip).
-  if (res.status === 402 && pi.error) {
-    return { id: pi.error.payment_intent?.id ?? null, status: pi.error.payment_intent?.status ?? "failed", authRequired: false };
-  }
-  if (!res.ok || pi.error) throw new Error(pi.error?.message ?? `Stripe off-session charge failed (${res.status})`); // transient → throw
-  return { id: pi.id ?? null, status: pi.status ?? null, authRequired: false };
+  // C048 — routed through @suluk/payments (Stripe today, swappable). The connector emits the SAME off-session PI request
+  // (amount/currency/customer/payment_method/off_session/confirm + the app metadata) and returns the unified status; we
+  // map it back to billing's `{ id, status, authRequired }` shape, preserving the decline taxonomy: a 3DS decline
+  // (AUTHENTICATION_PENDING) sets `authRequired` (email the user), a hard card decline (FAILURE) is RETURNED not thrown
+  // (raise the alert), and a transport/unexpected error still THROWS (from the connector). A fresh idempotency key per
+  // call (unique merchantTransactionId) preserves the original's "every call is a new charge" behaviour.
+  const res = await paymentConnector(cfg).authorize({
+    merchantTransactionId: crypto.randomUUID(),
+    amount: { minorAmount: amountCents, currency: Currency.USD },
+    captureMethod: CaptureMethod.AUTOMATIC,
+    paymentMethod: { token: { value: pmId } },
+    authType: AuthenticationType.NO_THREE_DS,
+    customerId,
+    offSession: true,
+    metadata: { userId: meta.userId, credits: String(meta.credits), source: "auto_topup", ...(meta.taxCalculation ? { tax_calculation: meta.taxCalculation } : {}) },
+  });
+  const authRequired = res.status === PaymentStatus.AUTHENTICATION_PENDING;
+  return { id: res.connectorTransactionId ?? null, status: statusString(res.status), authRequired };
 }

@@ -7,15 +7,15 @@
  * grant, email, and the billing-account DB linking are NOT here — they stay in the app (the careful follow-on).
  */
 import { type StripeConfig, stripePost, stripeGet, toForm } from "./transport";
+import { paymentConnector } from "./agnostic";
 
 type StripeErr = { error?: { message?: string } };
 
-/** Create a Stripe customer for the user (the caller persists the id). */
+/** Create a Stripe customer for the user (the caller persists the id). Routed through @suluk/payments (C048) — the
+ *  processor is swappable; the Stripe request (POST /customers with email + metadata[userId]) is unchanged. */
 export async function createCustomer(cfg: StripeConfig, email: string | null, userId: string): Promise<string> {
-  const res = await stripePost(cfg, "customers", toForm({ email: email ?? undefined, metadata: { userId } }));
-  const cust = (await res.json()) as StripeErr & { id?: string };
-  if (!res.ok || !cust.id) throw new Error(cust.error?.message ?? `Stripe customer create failed (${res.status})`);
-  return cust.id;
+  const { customerId } = await paymentConnector(cfg).createCustomer!({ email: email ?? undefined, metadata: { userId } });
+  return customerId;
 }
 
 /** Create a $0 SetupIntent to vault a card without charging ("Add card"). Returns the client secret. */

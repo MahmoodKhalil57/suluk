@@ -14,3 +14,5 @@ export {
   type HttpOptions, type WebhookEvent,
 } from "./connector";
 export { mockConnector, MOCK_DECLINE_CARD, MOCK_3DS_CARD } from "./mock";
+// the built-in Stripe connector (the first real backend; fetch → Stripe REST, Workers-native).
+export { stripeConnector } from "./connectors/stripe";

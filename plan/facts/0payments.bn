@@ -30,3 +30,28 @@ falsified_when payments_prism_interface_reimpl_workers_native_decision == False
 # (NOT touched yet — deprecating before the replacement is proven would strand the live money path).
 claim payments_agnostic_interface_built_witnessed: Bool @>=0.55 = True
 falsified_when payments_agnostic_interface_built_witnessed == False
+
+# C048 BUILD #2 — the BUILT-IN STRIPE ADAPTER + the BILLING REWIRE built 2026-07-01 (operator: "add builtin stripe
+# adapter and rewire billing"). connectors/stripe.ts: stripeConnector — the FIRST real backend, unified schema <-> Stripe
+# REST over fetch (Workers-native, no stripe SDK, no native dep). The PARITY-CRITICAL part is the STATUS MAPPING (a wrong
+# map silently mis-reports money): mapPiStatus (succeeded->CHARGED, requires_capture->AUTHORIZED, requires_action->
+# AUTHENTICATION_PENDING+redirect, processing->PENDING, canceled->VOIDED, requires_payment_method->FAILURE) + mapRefund
+# Status (succeeded->SUCCESS, pending->PENDING, failed/canceled->FAILURE). authorize (raw card OR saved token, confirm,
+# off_session, capture_method, metadata + Idempotency-Key=auth:<merchantTxnId>), capture/void/refund/sync/createCustomer.
+# SOFT declines IN-BAND: a 3DS authentication_required -> AUTHENTICATION_PENDING; an HTTP 402 (or type card_error) -> a
+# card decline FAILURE; only a non-402 hard/transport error THROWS ConnectorError/NetworkError (Prism's contract).
+# PaymentMethod.token flattened to a Secret; AuthorizeRequest gained offSession + metadata. BILLING REWIRE (billing deps
+# += @suluk/payments): agnostic.ts (paymentConnector(cfg)=stripeConnector bound to the billing StripeConfig, swappable in
+# ONE line; statusString maps the unified status back to billing's Stripe-ish strings). createCustomer (billing.ts) +
+# chargeOffSession (payments.ts) NOW ROUTE THROUGH the connector — same off-session PI request (amount/currency/customer/
+# payment_method/off_session/confirm + app metadata userId/credits/source), same {id,status,authRequired} return + decline
+# taxonomy (3DS->authRequired, 402->returned-not-thrown, transport->throws); a fresh crypto.randomUUID() merchantTxnId
+# preserves "every call is a new charge". The browser/Element/hosted-Checkout + subscription flows STAY direct (they need
+# the client-token surface — the next migration). WITNESSED — payments 16 pass (the stripe request shape + EVERY status arm
+# incl. in-band 402 decline + 3DS + throw-on-500), billing 32 pass (the EXISTING billing-v2 suite still green THROUGH the
+# new innards = behavioural parity, + the new agnostic bridge). tsc clean both. @suluk/stripe still NOT deprecated (billing
+# checkout/subscriptions/webhook still use it — the remaining call-by-call migration). REMAINING: migrate the browser/
+# hosted/subscription flows (client-token surface) -> then flip default -> mark @suluk/stripe deprecated; more connectors
+# (adyen/...); the C047 payment-connector broker.
+claim payments_stripe_adapter_and_billing_rewire_built: Bool @>=0.6 = True
+falsified_when payments_stripe_adapter_and_billing_rewire_built == False
