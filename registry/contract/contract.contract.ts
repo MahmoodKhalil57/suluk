@@ -14,6 +14,7 @@
  * derivation; own the wiring).
  */
 import type { MiddlewareHandler } from "hono";
+import { z } from "zod";
 import { contractDoc, emitV4, type RouteContract } from "@suluk/hono";
 import { toProblemDetails, PROBLEM_CONTENT_TYPE, type OpenAPIv4Document } from "@suluk/core";
 
@@ -61,6 +62,13 @@ export const CONTRACT = contractDoc([
     tags: ["Credits"],
     scopes: ["credits:write"],
     errors: [402],
+    request: {
+      json: z.object({
+        userId: z.string().min(1),
+        amount: z.number().int().positive(),
+        reason: z.string().max(200).optional(),
+      }),
+    },
     responses: [{ status: 200, description: "The debit was applied." }],
   },
   {
@@ -70,6 +78,14 @@ export const CONTRACT = contractDoc([
     summary: "Idempotent credit grant (money-IN, safe to retry — keyed on an idempotency key).",
     tags: ["Credits"],
     scopes: ["credits:write"],
+    request: {
+      json: z.object({
+        userId: z.string().min(1),
+        amount: z.number().int().positive(),
+        idemKey: z.string().min(1),
+        reason: z.string().max(200).optional(),
+      }),
+    },
     responses: [{ status: 200, description: "The grant was recorded (or replayed)." }],
   },
 
@@ -90,6 +106,27 @@ export const CONTRACT = contractDoc([
     summary: "Mint a CHILD API key, its caps CLAMPED to the caller's own grant (a child can never out-scope an ancestor). Returns the plaintext key ONCE.",
     tags: ["API keys"],
     scopes: ["keys:write"],
+    request: {
+      json: z.object({
+        userId: z.string().min(1),
+        parentKeyId: z.string().min(1).optional(),
+        // the parent's already-resolved effective caps (an internal shape the app passes through) — bounded, not enumerated.
+        parentCaps: z
+          .object({
+            scopes: z.array(z.string()),
+            creditLimit: z.number().int().nonnegative().nullable().optional(),
+            rateLimitSharePct: z.number().nonnegative().nullable().optional(),
+            expiresAt: z.number().int().nullable().optional(),
+          })
+          .optional(),
+        requested: z.object({
+          scopes: z.array(z.string()),
+          creditLimit: z.number().int().nonnegative().nullable().optional(),
+          rateLimitSharePct: z.number().nonnegative().nullable().optional(),
+          expiresAt: z.number().int().nullable().optional(),
+        }),
+      }),
+    },
     responses: [{ status: 201, description: "The provisioned key (plaintext returned once)." }],
   },
   {
@@ -157,7 +194,32 @@ export const CONTRACT = contractDoc([
     summary: "Start a Stripe checkout / payment session for a credit top-up; returns the client secret or hosted URL.",
     tags: ["Billing"],
     scopes: ["billing:write"],
+    request: {
+      json: z.object({
+        packId: z.string().min(1),
+        successUrl: z.string().url().max(2048),
+        cancelUrl: z.string().url().max(2048),
+      }),
+    },
     responses: [{ status: 200, description: "The checkout session (client secret / URL)." }],
+  },
+  {
+    method: "post",
+    path: "/api/billing/subscribe",
+    name: "subscribe",
+    summary: "Start a subscription for a plan — one-click (client secret + subscription id) or hosted (checkout URL).",
+    tags: ["Billing"],
+    scopes: ["billing:write"],
+    errors: [400],
+    request: {
+      json: z.object({
+        planId: z.string().min(1),
+        hosted: z.boolean().optional(),
+        successUrl: z.string().url().max(2048).optional(),
+        cancelUrl: z.string().url().max(2048).optional(),
+      }),
+    },
+    responses: [{ status: 200, description: "The subscription session (client secret / URL)." }],
   },
   {
     method: "get",
@@ -267,10 +329,14 @@ export function apiDocument(principal?: { scopes: string[] }): OpenAPIv4Document
  *      gated `billing:write`. Returns `undefined` only for a genuinely non-contract module (no gate).
  * The METHOD disambiguates read vs write throughout (GET/HEAD → read, else write).
  */
-export function scopeForRequest(method: string, path: string): { op: string; scope?: string } | undefined {
+/**
+ * TIER-1 route match — the exact declared op a request resolves to: the longest static-path-prefix + same-method match
+ * among the CONTRACT (a `GET /api/credits/balance/x` → the `getCredits` op at `/api/credits`). The single matcher both
+ * `scopeForRequest` (the scope gate) and `validateRequest` (the body gate) read, so they can never disagree on WHICH op
+ * a wire request maps to. Returns the whole {@link RouteContract} (name + scopes + request), or `undefined` if none match.
+ */
+export function matchRoute(method: string, path: string): RouteContract | undefined {
   const m = method.toUpperCase();
-  const wantWrite = m !== "GET" && m !== "HEAD";
-  // tier 1 — exact op (longest static-prefix, same method)
   let best: RouteContract | undefined;
   let bestLen = -1;
   for (const r of CONTRACT) {
@@ -281,6 +347,14 @@ export function scopeForRequest(method: string, path: string): { op: string; sco
       bestLen = base.length;
     }
   }
+  return best;
+}
+
+export function scopeForRequest(method: string, path: string): { op: string; scope?: string } | undefined {
+  const m = method.toUpperCase();
+  const wantWrite = m !== "GET" && m !== "HEAD";
+  // tier 1 — exact op (longest static-prefix, same method)
+  const best = matchRoute(method, path);
   if (best?.name) return { op: best.name, scope: best.scopes?.[0] };
 
   // tier 2 — module fallback: gate an undeclared sub-path by its /api/<module> namespace scope (read vs write).
@@ -320,5 +394,52 @@ export const enforceApiKeyScope: MiddlewareHandler = async (c, next) => {
       "content-type": PROBLEM_CONTENT_TYPE,
     });
   }
+  return next();
+};
+
+/** The methods that carry a body — the only ones `validateRequest` inspects (GET/HEAD/DELETE/OPTIONS skip). */
+const BODY_METHODS = new Set(["POST", "PUT", "PATCH"]);
+
+/**
+ * CONTRACT-DERIVED request-body validation. Resolves the op the SAME way the scope gate does ({@link matchRoute} —
+ * longest static-prefix + method), and, IF that op declares a `request.json` schema AND the method carries a body,
+ * parses `c.req.json()` with it. On a schema failure it synthesizes an RFC-9457 400 (`ValidationError`) with the flattened
+ * Zod issues in `errors`; on success it stashes the parsed body at `c.set("validatedBody", …)` (handlers may re-read the
+ * body themselves — this doesn't consume the stream for them, it only ADDS the pre-parsed value). Any op WITHOUT a
+ * declared `request.json` (or any GET/HEAD) passes straight through, so the gate only ever tightens declared ops — it
+ * never blocks an undeclared surface. Mount AFTER `enforceApiKeyScope` (a missing scope 403 precedes a bad-body 400).
+ */
+export const validateRequest: MiddlewareHandler = async (c, next) => {
+  if (!BODY_METHODS.has(c.req.method.toUpperCase())) return next(); // no body to validate
+  const path = new URL(c.req.url).pathname;
+  const route = matchRoute(c.req.method, path);
+  const schema = route?.request?.json;
+  if (!schema) return next(); // no declared body schema for this op → nothing to validate
+
+  let body: unknown;
+  try {
+    body = await c.req.json();
+  } catch {
+    return c.json(toProblemDetails({ tag: "ValidationError", detail: "The request body is not valid JSON." }), 400, {
+      "content-type": PROBLEM_CONTENT_TYPE,
+    });
+  }
+
+  const parsed = schema.safeParse(body);
+  if (!parsed.success) {
+    return c.json(
+      toProblemDetails({
+        tag: "ValidationError",
+        detail: "The request body does not satisfy the operation's contract.",
+        errors: parsed.error.flatten().fieldErrors as Record<string, unknown>,
+      }),
+      400,
+      { "content-type": PROBLEM_CONTENT_TYPE },
+    );
+  }
+
+  // stash the parsed body for any handler that wants it (handlers re-read c.req.json() as before). `validatedBody` isn't a
+  // declared Variable on this app's context (the registry keeps the contract mount decoupled from AppVars), so cast the set.
+  (c as { set: (k: string, v: unknown) => void }).set("validatedBody", parsed.data);
   return next();
 };

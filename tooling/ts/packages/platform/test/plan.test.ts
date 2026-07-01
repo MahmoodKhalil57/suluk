@@ -35,6 +35,13 @@ describe("planPlatform — manifest → shadcn adds + entry + provision.config",
   test("an unknown service throws", () => {
     expect(() => planPlatform({ name: "x", registry: "r", services: ["nope"] })).toThrow(/unknown service/);
   });
+
+  test("per-service opts are passed to the mount (e.g. auth mcp OAuth config)", () => {
+    const p = planPlatform(definePlatform({ name: "o", registry: "acme/reg", services: ["auth", "credits"], opts: { auth: { mcp: { resource: "https://api.x", scopes: ["credits:read"] } } } }));
+    expect(p.entry).toContain('mountAuthRoutes(app, {"mcp":{"resource":"https://api.x","scopes":["credits:read"]}});');
+    // a service with no opts still gets the bare call.
+    expect(p.entry).toContain('app.route("/api/credits", creditsRoutes());');
+  });
 });
 
 describe("cost (route + provision) + dev modules (journeys/audit — files only)", () => {
@@ -107,6 +114,12 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
     expect(p.entry).toContain("mountMcp(app);");
     expect(p.entry).not.toContain('app.route("/api/mcp"'); // it's a mount, not a route
     expect(p.provisionConfig).toContain("mcpProvision");
+  });
+
+  test("rate-credit is a middleware mount (KV binding) with NO provision fragment", () => {
+    const p = planPlatform(definePlatform({ name: "rc", registry: "acme/reg", services: ["auth", "rate-credit", "credits"] }));
+    expect(p.entry).toContain("mountRateCredit(app);");
+    expect(p.provisionConfig).not.toContain("rateCreditProvision");
   });
 
   test("dev modules add shadcn refs but NO entry mount and NO provision fragment", () => {

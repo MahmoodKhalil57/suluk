@@ -30,9 +30,9 @@
       "name": "contract",
       "type": "registry:item",
       "title": "Contract keystone — derived v4 OpenAPI + scope facets",
-      "description": "The keystone: declares the base API surface as @suluk/hono RouteContracts and DERIVES everything downstream consumes — apiDocument(principal?) (the per-principal v4 doc via emitV4), SCOPE_BY_OP + PUBLIC_OPS (the x-suluk-access facets the scope gate / MCP read), and GET /api/openapi.json projected to the caller's scopes. Own the wiring, npm the derivation. Stateless — no schema, no provision.",
+      "description": "The keystone: declares the base API surface as @suluk/hono RouteContracts (with x-suluk-access scopes + zod request schemas) and DERIVES everything downstream consumes — apiDocument(principal?) (the per-principal v4 doc via emitV4), SCOPE_BY_OP + PUBLIC_OPS (the scope facets the scope gate / MCP read), the enforceApiKeyScope gate, the validateRequest body gate, and GET /api/openapi.json projected to the caller's scopes. Own the wiring, npm the derivation. Stateless — no schema, no provision.",
       "registryDependencies": ["MahmoodKhalil57/suluk/app"],
-      "dependencies": ["@suluk/hono", "@suluk/core", "hono"],
+      "dependencies": ["@suluk/hono", "@suluk/core", "zod", "hono"],
       "files": [
         { "path": "registry/contract/contract.contract.ts", "type": "registry:file", "target": "src/contract.ts" },
         { "path": "registry/contract/contract.routes.ts", "type": "registry:file", "target": "src/routes/contract.ts" }
@@ -144,6 +144,17 @@
       "dependencies": ["@suluk/hono", "@suluk/core", "hono"],
       "files": [
         { "path": "registry/rate-limit/rate-limit.service.ts", "type": "registry:file", "target": "src/services/rate-limit.ts" }
+      ]
+    },
+    {
+      "name": "rate-credit",
+      "type": "registry:item",
+      "title": "Rate credit — credit-backed free-tier limiter (auto-regenerating µ$ allowance)",
+      "description": "A credit-backed free-tier rate limiter alongside the fixed-window rate-limit: a per-principal token bucket denominated in µ$ (the same unit as a route's COGS in cost). Each free-tier request debits a small fixed cost; 429 (RFC-9457 via @suluk/core) when the bucket is empty. C052: the µ$ bucket math is app-owned policy (ported here, not a package); only the RFC-9457 envelope is npm. State is one KV binding env.RATE_CREDIT_KV (a binding, not an owned D1 table — no provision fragment). Lazy epoch-ms regen (no cron), FAIL-OPEN on KV error or an unbound namespace. mountRateCredit(app) applies globally after identity resolves; keys by c.var.user?.id else cf-connecting-ip; skips /api/health + /api/webhooks.",
+      "registryDependencies": ["MahmoodKhalil57/suluk/app"],
+      "dependencies": ["@suluk/core", "hono"],
+      "files": [
+        { "path": "registry/rate-credit/rate-credit.service.ts", "type": "registry:file", "target": "src/services/rate-credit.ts" }
       ]
     },
     {

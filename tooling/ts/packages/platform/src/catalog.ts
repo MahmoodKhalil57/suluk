@@ -36,6 +36,7 @@ export const CATALOG: Record<string, CatalogEntry> = {
   webhooks: { mount: { kind: "route", path: "/api/webhooks", symbol: "webhooksRoutes", from: "./routes/webhooks" }, provision: { symbol: "webhooksProvision", from: "./src/provision/webhooks" } },
   // cross-cutting MIDDLEWARE (apply globally via app.use, emitted before any route) — not routed resources.
   "rate-limit": { mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" } },
+  "rate-credit": { mount: { kind: "middleware", symbol: "mountRateCredit", from: "./services/rate-credit" } }, // credit-backed free-tier bucket (KV binding)
   i18n: { mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" } },
   reference: { mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" } }, // derived doc render — no provision
   admin: { mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" } }, // reads existing tables — no provision

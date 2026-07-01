@@ -11,6 +11,12 @@ export interface PlatformManifest {
   /** the services to include, in mount order — resolved against the catalog. `app` + `auth` are implied if any is listed
    *  but list them for clarity; the base + foundation always come first. */
   services: string[];
+  /**
+   * Per-service static OPTIONS passed to that service's mount in the generated entry (a plain JSON-serializable object).
+   * E.g. enable MCP OAuth: `opts: { auth: { mcp: { loginPage, consentPage, resource, scopes } } }` → the entry emits
+   * `mountAuthRoutes(app, {...})`. Only JSON-safe values (no functions/env-refs — edit the generated entry for those).
+   */
+  opts?: Record<string, Record<string, unknown>>;
 }
 
 /** Validate + return the manifest (throws on an empty service list). */

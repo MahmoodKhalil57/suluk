@@ -23,25 +23,30 @@ export function planPlatform(manifest: PlatformManifest): PlatformPlan {
   return {
     services,
     adds: services.map((s) => `${manifest.registry}/${s}`),
-    entry: buildEntry(services),
+    entry: buildEntry(services, manifest.opts),
     provisionConfig: buildProvisionConfig(services),
   };
 }
 
-function buildEntry(services: string[]): string {
+function buildEntry(services: string[], opts?: Record<string, Record<string, unknown>>): string {
   const imports = ['import { createApp } from "./app";'];
   const middleware: string[] = [];
   const routes: string[] = [];
+  // per-service static options → a JSON literal passed to the mount (e.g. auth's mcp OAuth config). Empty ⇒ no 2nd arg.
+  const optOf = (s: string): string => {
+    const o = opts?.[s];
+    return o && Object.keys(o).length ? `, ${JSON.stringify(o)}` : "";
+  };
   // TWO passes: ALL middleware mounts (app.use / handler) emit BEFORE any route mount, so a cross-cutting concern
   // (auth, rate-limit, i18n) applies to every route regardless of where it sits in the manifest.
   for (const s of services) {
     const m = CATALOG[s].mount;
     if (m.kind === "middleware") {
       imports.push(`import { ${m.symbol} } from "${m.from}";`);
-      middleware.push(`${m.symbol}(app);`);
+      middleware.push(`${m.symbol}(app${optOf(s)});`);
     } else if (m.kind === "route") {
       imports.push(`import { ${m.symbol} } from "${m.from}";`);
-      routes.push(`app.route("${m.path}", ${m.symbol}());`);
+      routes.push(`app.route("${m.path}", ${m.symbol}(${optOf(s).replace(/^, /, "")}));`);
     }
   }
   const body = ["const app = createApp();", ...middleware, ...routes];
