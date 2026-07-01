@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/swagger/index.html</loc>
+		<lastmod>2026-07-01T20:31:25.752Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/swagger/modules.html</loc>
+		<lastmod>2026-07-01T20:31:25.752Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/swagger/hierarchy.html</loc>
+		<lastmod>2026-07-01T20:31:25.752Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/swagger/interfaces/SwaggerOptions.html</loc>
+		<lastmod>2026-07-01T20:31:25.752Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/swagger/interfaces/RenderResult.html</loc>
+		<lastmod>2026-07-01T20:31:25.752Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/swagger/functions/swaggerHtml.html</loc>
+		<lastmod>2026-07-01T20:31:25.752Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/swagger/functions/swaggerResponse.html</loc>
+		<lastmod>2026-07-01T20:31:25.752Z</lastmod>
+	</url>
+</urlset>

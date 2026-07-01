@@ -1,0 +1,118 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><link rel="canonical" href="https://mahmoodkhalil57.github.io/suluk/packages/openapi-compat/"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@suluk/openapi-compat - v0.1.3</title><meta name="description" content="Documentation for @suluk/openapi-compat"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script><link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/><link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/><link rel="apple-touch-icon" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/apple-touch-icon.png"/><meta name="description" content="One typed OpenAPI v4 contract, projected into every full-stack layer — API, docs, typed client, UI, tests, admin, and deploy."/><meta property="og:type" content="website"/><meta property="og:site_name" content="Suluk"/><meta property="og:title" content="@suluk/openapi-compat · Suluk"/><meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer — API, docs, typed client, UI, tests, admin, and deploy."/><meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="@suluk/openapi-compat · Suluk"/><meta name="twitter:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer — API, docs, typed client, UI, tests, admin, and deploy."/><meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/><link rel="stylesheet" href="assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="index.html" class="title">@suluk/openapi-compat - v0.1.3</a><div id="tsd-toolbar-links"><a href="https://mahmoodkhalil57.github.io/suluk/">↑ Suluk</a><a href="https://github.com/MahmoodKhalil57/suluk/tree/main/tooling/ts/packages/compat">GitHub</a></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg viewBox="0 0 16 16" aria-hidden="true" style="color:var(--color-icon-text)" width="16" height="16"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg viewBox="0 0 16 16" aria-hidden="true" style="color:var(--color-icon-text)" width="16" height="16"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>@suluk/openapi-compat - v0.1.3</h1></div><div class="tsd-panel tsd-typography"><p align="center">
+  <a href="https://github.com/MahmoodKhalil57/suluk">
+    <img src="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/wordmark.png" alt="Suluk" width="360" />
+  </a>
+</p>
+<h1 align="center">@suluk/openapi-compat</h1>
+<p align="center"><b>Lossless-where-possible conversion between the OpenAPI v4 "Suluk" candidate and OpenAPI 3.1 — the dialect Scalar and Swagger UI consume.</b></p>
+<p align="center">
+  <em>Part of <a href="https://github.com/MahmoodKhalil57/suluk">Suluk</a> — one typed OpenAPI v4 contract projecting into every full-stack layer.</em>
+</p>
+<hr>
+<blockquote>
+<p><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for
+OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable
+to ratify anything on the SIG's behalf.</p>
+</blockquote>
+<h2 id="install" class="tsd-anchor-link">Install<a href="#install" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<pre><code class="sh"><span class="hl-2">bun</span><span class="hl-1"> </span><span class="hl-6">add</span><span class="hl-1"> </span><span class="hl-6">@suluk/openapi-compat</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="what-it-does" class="tsd-anchor-link">What it does<a href="#what-it-does" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li><strong><code>downgrade(v4) → 3.1</code></strong> — projects a v4 &quot;Suluk&quot; document down to a real OpenAPI 3.1 document, the lever
+that lets 3.x-only renderers (Scalar, Swagger UI) show a v4 contract. Name-keyed <code>requests</code> become
+method-keyed Operations, per-location <code>parameterSchema</code> objects expand into <code>parameters[]</code>, and the v4
+request name is preserved as the <code>operationId</code> (round-trippable).</li>
+<li><strong><code>upgrade(3.1) → v4</code></strong> — the reverse projection. Method-keyed Operations become name-keyed <code>requests</code>;
+flat <code>parameters[]</code> re-collect into per-location <code>parameterSchema</code> objects.</li>
+<li><strong>Honest diagnostics, never silent loss.</strong> Where v4 exceeds 3.1's expressivity — most notably two requests
+sharing one method on one path (C003) — <code>downgrade</code> keeps the first and emits a <code>Diagnostic</code> naming what was
+dropped, instead of losing it quietly. <code>diagnostics</code> is the audit trail.</li>
+<li><strong><code>validate31(doc)</code></strong> — checks a document against the vendored official OpenAPI 3.1 meta-schema (plus a real
+JSON-Schema-2020-12 pass over every Schema Object), proving the downgrade output is 3.1 a renderer will accept.</li>
+<li><strong>Schema Objects pass through verbatim.</strong> v4 and 3.1 share JSON Schema 2020-12 (SPEC C013 == OAS 3.1), so no
+Schema Object is rewritten in either direction — only the surrounding structure changes.</li>
+</ul>
+<h2 id="when-to-reach-for-it" class="tsd-anchor-link">When to reach for it<a href="#when-to-reach-for-it" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li>You have a v4 document and need to feed it to a tool that only speaks OpenAPI 3.x. <code>downgrade</code> is the on-ramp;
+it's exactly what <code>@suluk/scalar</code> and <code>@suluk/swagger</code> call internally before handing the spec to their bundles.</li>
+<li>You're ingesting a standard OpenAPI 3.1 (or 3.0, after normalization) document and want it as a v4 contract —
+the &quot;Upgrade from 3.1&quot; flow in <code>@suluk/editor</code>, or <code>@suluk/better-auth</code>'s ingest of Better Auth's own schema.</li>
+<li>You want a checked, lossless-where-possible round-trip and an explicit list of what 3.1 cannot represent.</li>
+</ul>
+<p>Reach for a sibling instead when you want the rendered page, not the converted document: <code>@suluk/scalar</code> and
+<code>@suluk/swagger</code> produce self-contained HTML (and attach the v4 facet badges a plain downgrade would drop).
+This package is just the conversion + validation primitive underneath them.</p>
+<h2 id="usage" class="tsd-anchor-link">Usage<a href="#usage" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<h3 id="downgrade-a-v4-document-to-31" class="tsd-anchor-link">Downgrade a v4 document to 3.1<a href="#downgrade-a-v4-document-to-31" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<pre><code class="ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-0">downgrade</span><span class="hl-1">, </span><span class="hl-0">validate31</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-6">&quot;@suluk/openapi-compat&quot;</span><span class="hl-1">;</span><br/><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-0">parseDocument</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-6">&quot;@suluk/core&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">v4</span><span class="hl-1"> = </span><span class="hl-2">parseDocument</span><span class="hl-1">(</span><span class="hl-0">yamlOrJsonText</span><span class="hl-1">);          </span><span class="hl-7">// an OpenAPIv4Document</span><br/><span class="hl-3">const</span><span class="hl-1"> { </span><span class="hl-4">document</span><span class="hl-1">, </span><span class="hl-4">diagnostics</span><span class="hl-1"> } = </span><span class="hl-2">downgrade</span><span class="hl-1">(</span><span class="hl-0">v4</span><span class="hl-1">);   </span><span class="hl-7">// document is OpenAPI 3.1</span><br/><br/><span class="hl-7">// Anything 3.1 couldn&#39;t carry losslessly is reported, not dropped silently:</span><br/><span class="hl-8">for</span><span class="hl-1"> (</span><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">d</span><span class="hl-1"> </span><span class="hl-3">of</span><span class="hl-1"> </span><span class="hl-0">diagnostics</span><span class="hl-1">) {</span><br/><span class="hl-1">  </span><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-2">warn</span><span class="hl-1">(</span><span class="hl-6">`[</span><span class="hl-3">${</span><span class="hl-0">d</span><span class="hl-9">.</span><span class="hl-0">kind</span><span class="hl-3">}</span><span class="hl-6">] </span><span class="hl-3">${</span><span class="hl-0">d</span><span class="hl-9">.</span><span class="hl-0">path</span><span class="hl-3">}</span><span class="hl-6">: </span><span class="hl-3">${</span><span class="hl-0">d</span><span class="hl-9">.</span><span class="hl-0">message</span><span class="hl-3">}</span><span class="hl-6">`</span><span class="hl-1">);</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-7">// Prove it&#39;s real 3.1 (validates against the official 3.1 meta-schema):</span><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">v</span><span class="hl-1"> = </span><span class="hl-2">validate31</span><span class="hl-1">(</span><span class="hl-0">document</span><span class="hl-1">);</span><br/><span class="hl-8">if</span><span class="hl-1"> (!</span><span class="hl-0">v</span><span class="hl-1">.</span><span class="hl-0">valid</span><span class="hl-1">) </span><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-2">error</span><span class="hl-1">(</span><span class="hl-0">v</span><span class="hl-1">.</span><span class="hl-0">errors</span><span class="hl-1">); </span><span class="hl-7">// [{ path, message }, …]</span>
+</code><button type="button">Copy</button></pre>
+
+<p><code>downgrade</code> returns <code>{ document, diagnostics }</code>. Each <code>Diagnostic</code> is <code>{ kind, path, message }</code> where
+<code>kind</code> is <code>&quot;collision&quot;</code> (lossy — two requests clash on one method), <code>&quot;remap&quot;</code> (a <code>$ref</code>/feature was rewritten),
+or <code>&quot;drop&quot;</code> (unrepresentable, e.g. a non-3.1 HTTP method).</p>
+<h3 id="upgrade-a-31-document-up-to-v4" class="tsd-anchor-link">Upgrade a 3.1 document up to v4<a href="#upgrade-a-31-document-up-to-v4" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<pre><code class="ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-0">upgrade</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-6">&quot;@suluk/openapi-compat&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">v4doc</span><span class="hl-1"> = </span><span class="hl-2">upgrade</span><span class="hl-1">(</span><span class="hl-0">spec31</span><span class="hl-1">); </span><span class="hl-7">// spec31: a parsed OpenAPI 3.1 document (plain object)</span><br/><span class="hl-7">// → OpenAPIv4Document with openapi: &quot;4.0.0-candidate&quot;</span><br/><span class="hl-7">// Operations become name-keyed `requests`; operationId becomes the request name.</span>
+</code><button type="button">Copy</button></pre>
+
+<p>A document that came <strong>from</strong> <code>downgrade()</code> carries <code>operationId == the original v4 request name</code>, so the
+round-trip recovers the original names:</p>
+<pre><code class="ts"><span class="hl-8">import</span><span class="hl-1"> { </span><span class="hl-0">downgrade</span><span class="hl-1">, </span><span class="hl-0">upgrade</span><span class="hl-1"> } </span><span class="hl-8">from</span><span class="hl-1"> </span><span class="hl-6">&quot;@suluk/openapi-compat&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-3">const</span><span class="hl-1"> </span><span class="hl-4">back</span><span class="hl-1"> = </span><span class="hl-2">upgrade</span><span class="hl-1">(</span><span class="hl-2">downgrade</span><span class="hl-1">(</span><span class="hl-0">v4</span><span class="hl-1">).</span><span class="hl-0">document</span><span class="hl-1">); </span><span class="hl-7">// names + methods recovered through the 3.1 hop</span>
+</code><button type="button">Copy</button></pre>
+
+<h2 id="api" class="tsd-anchor-link">API<a href="#api" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<table>
+<thead>
+<tr>
+<th>Export</th>
+<th>Signature</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>downgrade</code></td>
+<td><code>(doc: OpenAPIv4Document) =&gt; DowngradeResult</code></td>
+<td>v4 → 3.1; returns <code>{ document, diagnostics }</code>.</td>
+</tr>
+<tr>
+<td><code>upgrade</code></td>
+<td><code>(doc31: Record&lt;string, unknown&gt;) =&gt; OpenAPIv4Document</code></td>
+<td>3.1 → v4 (the reverse projection).</td>
+</tr>
+<tr>
+<td><code>validate31</code></td>
+<td><code>(document: unknown) =&gt; Validation31</code></td>
+<td>Validate against the official 3.1 meta-schema; <code>{ valid, errors }</code>.</td>
+</tr>
+<tr>
+<td><code>DowngradeResult</code></td>
+<td><code>{ document: Record&lt;string, unknown&gt;; diagnostics: Diagnostic[] }</code></td>
+<td>type — the downgrade output.</td>
+</tr>
+<tr>
+<td><code>Diagnostic</code></td>
+<td><code>{ kind: &quot;collision&quot; | &quot;remap&quot; | &quot;drop&quot;; path: string; message: string }</code></td>
+<td>type — one lossy/rewrite note.</td>
+</tr>
+<tr>
+<td><code>Validation31</code></td>
+<td><code>{ valid: boolean; errors: { path: string; message: string }[] }</code></td>
+<td>type — the validation result.</td>
+</tr>
+</tbody>
+</table>
+<p>The package has a single entry point (<code>@suluk/openapi-compat</code>) — no sub-path exports and no CLI.</p>
+<h2 id="boundary" class="tsd-anchor-link">Boundary<a href="#boundary" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p><code>@suluk/openapi-compat</code> is a pure conversion + validation library: three functions, no I/O, no globals, Workers-safe.
+It <strong>does not</strong> render a page, fetch a remote document, or host anything — it hands back a converted document and an
+honest diagnostics list, and the caller decides what to do with them. The rendered surfaces (<code>@suluk/scalar</code>,
+<code>@suluk/swagger</code>, <code>@suluk/editor</code>) are thin shells on top of it: they <code>downgrade</code>, then attach v4 facet badges and
+wrap the result in HTML.</p>
+<p>The one rule when contributing: <code>downgrade</code> must emit an honest <code>Diagnostic</code> for anything 3.1 cannot express —
+extend the diagnostics, never the silence.</p>
+<h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Apache-2.0</p>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#install"><span>Install</span></a><a href="#what-it-does"><span>What it does</span></a><a href="#when-to-reach-for-it"><span>When to reach for it</span></a><a href="#usage"><span>Usage</span></a><ul><li><a href="#downgrade-a-v4-document-to-31"><span>Downgrade a v4 document to 3.1</span></a></li><li><a href="#upgrade-a-31-document-up-to-v4"><span>Upgrade a 3.1 document up to v4</span></a></li></ul><a href="#api"><span>API</span></a><a href="#boundary"><span>Boundary</span></a><a href="#license"><span>License</span></a></div></details></div><div class="site-menu"><nav id="tsd-sidebar-links" class="tsd-navigation"><a href="https://mahmoodkhalil57.github.io/suluk/" class="tsd-nav-link">↑ Suluk</a><a href="https://github.com/MahmoodKhalil57/suluk/tree/main/tooling/ts/packages/compat" class="tsd-nav-link">GitHub</a></nav><nav class="tsd-navigation"><a href="modules.html">@suluk/openapi-compat - v0.1.3</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>
