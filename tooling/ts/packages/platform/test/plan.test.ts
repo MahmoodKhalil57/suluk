@@ -101,6 +101,14 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
     expect(p.provisionConfig).not.toContain("adminProvision");
   });
 
+  test("mcp is a middleware mount (server + discovery + connections) with a provision fragment", () => {
+    const p = planPlatform(definePlatform({ name: "m", registry: "acme/reg", services: ["auth", "contract", "mcp", "credits"] }));
+    expect(p.entry).toContain('import { mountMcp } from "./routes/mcp";');
+    expect(p.entry).toContain("mountMcp(app);");
+    expect(p.entry).not.toContain('app.route("/api/mcp"'); // it's a mount, not a route
+    expect(p.provisionConfig).toContain("mcpProvision");
+  });
+
   test("dev modules add shadcn refs but NO entry mount and NO provision fragment", () => {
     expect(plan.adds).toContain("acme/reg/journeys");
     expect(plan.adds).toContain("acme/reg/audit");

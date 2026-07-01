@@ -130,14 +130,54 @@ export const apiKeyAuth: MiddlewareHandler<AppCtx> = async (c, next) => {
   return next();
 };
 
+/** The scoped-caller id for an MCP connection — `mcp:<userId>:<clientId>`, NOT the bare clientId (which is shared across
+ *  every user who authorized the same OAuth app), so per-connection attribution + caps are correctly per-(user,connection). */
+export const mcpConnectionKeyId = (userId: string, clientId: string): string => `mcp:${userId}:${clientId}`;
+
+/** Reach the mcp plugin's `getMcpSession` (added at runtime by `mcp()`, not on the inferred api type) — via a type guard. */
+interface McpSessionApi {
+  getMcpSession(args: { headers: Headers }): Promise<unknown>;
+}
+const hasGetMcpSession = (api: unknown): api is McpSessionApi =>
+  typeof api === "object" && api !== null && "getMcpSession" in api && typeof (api as McpSessionApi).getMcpSession === "function";
+
 /**
- * Mount Better Auth on your app: the caller-resolution middleware (session `identity` + `apiKeyAuth`) on `/api/*` FIRST,
- * then the `/api/auth/*` handler. One auth instance per request's DB binding. Pass `roleScopes` to grant scopes by role.
+ * The THIRD caller kind — an MCP OAuth bearer. When there is no session/api-key and the request carries
+ * `Authorization: Bearer <oauth-token>`, resolve it through the mcp plugin's `getMcpSession` (the OAuthAccessToken's owner +
+ * granted scopes) and stash the owner + scopes on the SAME slots an api key sets — so the connection is gated + attributed
+ * by the EXACT same machinery (`enforceApiKeyScope`). The connection's id flows through `keyId` as `mcp:<userId>:<clientId>`.
+ * Only enabled behavior when `opts.mcp` was passed to `buildAuth` (else `getMcpSession` is absent → a no-op).
+ */
+export const mcpBearerAuth: MiddlewareHandler<AppCtx> = async (c, next) => {
+  const authz = c.req.header("authorization");
+  if (c.get("user") || !authz || !authz.toLowerCase().startsWith("bearer ")) return next();
+  if (new URL(c.req.url).pathname.startsWith("/api/auth")) return next(); // the OAuth endpoints establish the token
+  try {
+    const api = createAuth(c.env).api;
+    if (hasGetMcpSession(api)) {
+      const t = (await api.getMcpSession({ headers: c.req.raw.headers })) as { userId?: unknown; clientId?: unknown; scopes?: unknown } | null;
+      if (t && typeof t.userId === "string" && typeof t.clientId === "string" && typeof t.scopes === "string") {
+        c.set("user", { id: t.userId });
+        c.set("scopes", t.scopes.split(" ").filter(Boolean));
+        c.set("keyId", mcpConnectionKeyId(t.userId, t.clientId));
+      }
+    }
+  } catch {
+    /* no valid bearer → anonymous */
+  }
+  return next();
+};
+
+/**
+ * Mount Better Auth on your app: the caller-resolution middleware (`identity` session · `apiKeyAuth` · `mcpBearerAuth`) on
+ * `/api/*` FIRST, then the `/api/auth/*` handler. One auth instance per request's DB binding. Pass `roleScopes` to grant
+ * scopes by role; pass `opts.mcp` (see AuthOptions) to enable the OAuth server + the bearer path.
  */
 export function mountAuthRoutes<T extends Hono<{ Bindings: AuthEnv }>>(app: T, opts?: AuthOptions & { roleScopes?: Record<string, string[]> }): T {
   // cast to the untyped MiddlewareHandler so these attach to an app whose Variables aren't declared as AppVars.
   app.use("/api/*", identity(opts?.roleScopes) as MiddlewareHandler);
   app.use("/api/*", apiKeyAuth as MiddlewareHandler);
+  app.use("/api/*", mcpBearerAuth as MiddlewareHandler);
   app.on(["GET", "POST"], "/api/auth/*", (c) => createAuth(c.env, opts).handler(c.req.raw));
   return app;
 }

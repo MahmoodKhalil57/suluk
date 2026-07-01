@@ -24,6 +24,8 @@ export const CATALOG: Record<string, CatalogEntry> = {
   // the contract is a MIDDLEWARE mount: it installs the scope gate (enforceApiKeyScope) + GET /api/openapi.json. Place it
   // after `auth` in the manifest so the gate runs after identity/apiKeyAuth set keyId/scopes. Derived + stateless.
   contract: { mount: { kind: "middleware", symbol: "mountContract", from: "./routes/contract" } },
+  // the API-as-MCP server + OAuth discovery + connections — a middleware mount (registers /api/mcp + /.well-known/*).
+  mcp: { mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" } },
   // feature routes mount under /api/* — where the caller-resolution + cors + rate-limit middleware live (toolfactory parity).
   credits: { mount: { kind: "route", path: "/api/credits", symbol: "creditsRoutes", from: "./routes/credits" }, provision: { symbol: "creditsProvision", from: "./src/provision/credits" } },
   keys: { mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" } },

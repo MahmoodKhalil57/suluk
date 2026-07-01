@@ -181,6 +181,21 @@
       ]
     },
     {
+      "name": "mcp",
+      "type": "registry:item",
+      "title": "MCP server — API-as-MCP over the derived contract + OAuth",
+      "description": "The API-as-MCP surface: mounts @suluk/mcp's mcpApp at /api/mcp with the contract's apiDocument(scopes) as the per-caller tool list (a caller only sees the tools its principal can call — the contract-first payoff), executes tools in-process via appExec, exposes the OAuth /.well-known discovery (Better Auth's mcp plugin, enabled in auth via opts.mcp), and manages MCP connections (list/update/revoke; session-only) over an owned mcp_connection table. Own the wiring, npm the protocol + OAuth server.",
+      "registryDependencies": ["MahmoodKhalil57/suluk/app", "MahmoodKhalil57/suluk/auth", "MahmoodKhalil57/suluk/contract"],
+      "dependencies": ["@suluk/mcp", "@suluk/provision", "better-auth", "effect", "drizzle-orm", "hono"],
+      "files": [
+        { "path": "registry/mcp/mcp.routes.ts", "type": "registry:file", "target": "src/routes/mcp.ts" },
+        { "path": "registry/mcp/mcp.connections.service.ts", "type": "registry:file", "target": "src/services/mcp.ts" },
+        { "path": "registry/mcp/mcp.connections.routes.ts", "type": "registry:file", "target": "src/routes/mcp-connections.ts" },
+        { "path": "registry/mcp/mcp.schema.ts", "type": "registry:file", "target": "src/db/mcp.ts" },
+        { "path": "registry/mcp/mcp.provision.ts", "type": "registry:file", "target": "provision/mcp.ts" }
+      ]
+    },
+    {
       "name": "logs",
       "type": "registry:item",
       "title": "Activity log — Effect service (fully owned)",
