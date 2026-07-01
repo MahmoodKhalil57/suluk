@@ -20,7 +20,18 @@
   ],
 
   "name": "Suluk",
-  "plugin": ["typedoc-github-theme"],
+  "plugin": [
+    "typedoc-github-theme",
+    "./scripts/typedoc-vscode-icons.mjs",
+    "./scripts/typedoc-branding-head.mjs"
+  ],
+  "readme": "docs-pages/index.md",
+  "projectDocuments": [
+    "docs-pages/getting-started.md",
+    "docs-pages/architecture.md",
+    "docs-pages/contributing.md",
+    "docs-pages/community.md"
+  ],
   "out": "../../docs",
   "cleanOutputDir": true,
   "githubPages": true,

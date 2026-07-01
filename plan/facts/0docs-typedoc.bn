@@ -1,0 +1,44 @@
+# C054 — UNIFIED TYPEDOC DOCS PIPELINE (built local, verified; live deploy pending operator). Operator:
+# "use typedoc in @suluk/docs to auto generate docs locally for each package + a general suluk docs, host to
+# github pages by building locally and pushing (no github actions), theme with typedoc-github-theme + icones/
+# vscode-icons". Replace-vs-augment fork put to operator -> chose "Unified TypeDoc site" (one themed surface,
+# narrative ported into TypeDoc document pages). Recorded as ADR C054-unified-typedoc-docs-pipeline.md.
+# Grounded in a 7-agent research+probe workflow (real 46-pkg probe build: exit 0, 1697 pages, export counts
+# matching the bespoke harvester) + this session's phase-by-phase scratch builds. Ceilings @>=0.6: BUILT +
+# verified against the real repo end-to-end, NOT yet live-deployed; docs tooling (lower stakes than spec).
+
+# The whole site is ONE typedoc render (entryPointStrategy "packages" over packages/*, packageOptions not 44
+# per-package files; skipErrorChecking lets raw-TS + hoisted peer/workspace deps convert). Witnessed: a real
+# deploy-docs.ts --dry-run built 1652 pages into docs/ (44 library pkgs + 4 guide docs + home), exit 0.
+claim typedoc_packages_mode_builds_whole_site: Bool @>=0.6 = True
+falsified_when typedoc_packages_mode_builds_whole_site == False
+
+# Narrative is ported INTO typedoc: readme=docs-pages/index.md (home) + projectDocuments (getting-started /
+# architecture / contributing / community); internal links are typedoc-resolved relative .md; the Architecture
+# D2 package-graph is regenerated each build by gen-doc-pages.ts (reuses @suluk/docs harvest + packageGraphD2)
+# so it can't drift. Witnessed: index.html carries the hero + <a href="documents/Getting_Started.html">, the
+# Architecture doc embeds the fresh kroki D2 image.
+claim narrative_ported_into_typedoc_documents: Bool @>=0.6 = True
+falsified_when narrative_ported_into_typedoc_documents == False
+
+# Theme + icons: typedoc-github-theme@0.4.0 (peer ~0.28, satisfied by pinned typedoc@0.28.19) + a local plugin
+# re-skins the icon set with vscode-icons (colourful folders) + codicon symbol-* glyphs tinted via TypeDoc's own
+# --color-ts-* vars (color-coding preserved, theme-correct via currentColor/color). Mutates theme.icons at
+# RendererEvent.BEGIN (verified safe vs typedoc@0.28.19 source: prepareTheme precedes BEGIN precedes sprite).
+# Witnessed: 3 plugins load, custom icons.svg sprite (colourful folder #c09553 present), 0 stray fills, per-kind
+# style="color:var(--color-ts-*)" on references across the site.
+claim github_theme_and_vscode_icons_applied: Bool @>=0.6 = True
+falsified_when github_theme_and_vscode_icons_applied == False
+
+# Branding is site-wide: a head.end render-hook plugin injects favicon + OG/Twitter on EVERY page (per-page
+# og:title). Witnessed: social-card.png present on 1647/1647 pages incl. deep classes/*.html (strictly better
+# than the old flat top-level-only inject-head.ts).
+claim branding_head_injected_site_wide: Bool @>=0.6 = True
+falsified_when branding_head_injected_site_wide == False
+
+# Deploy is local build+push, NO Actions: deploy-docs.ts = gen-doc-pages -> typedoc -> .nojekyll -> git add
+# --all docs -> commit -> push; .github/workflows/docs.yml retired (Pages source main:/docs untouched, only
+# auto-regen stops). The published @suluk/docs stays runtime-zero-dep: the typedoc toolchain is a devDependency
+# of the PRIVATE suluk-tooling root (never publishes); @suluk/docs' harvester is reused, not deps-bloated.
+claim local_deploy_no_actions_pkg_stays_zero_dep: Bool @>=0.6 = True
+falsified_when local_deploy_no_actions_pkg_stays_zero_dep == False
