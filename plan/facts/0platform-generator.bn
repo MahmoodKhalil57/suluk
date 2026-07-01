@@ -30,3 +30,21 @@ falsified_when platform_generator_osb_manifest_compiles_to_provision_plus_shadcn
 # parity is Phase 2. DESIGNED-not-built + depends-on-unbuilt-C050 => ceiling 0.45.
 claim platform_generator_supersedes_c049_fresh_parity_app_safer_money: Bool @>=0.45 = True
 falsified_when platform_generator_supersedes_c049_fresh_parity_app_safer_money == False
+
+# C051 BUILD #1 — @suluk/platform (the generator) built 2026-07-01. manifest.ts: definePlatform({name, registry, services})
+# — the higher-level author document. catalog.ts: CATALOG (the OSB offerings — service-id -> {mount: base|middleware|route
+# with symbol/path/from, provision:{symbol,from}}) for the 6 registry modules + orderServices (app+auth first, then
+# manifest order). merge.ts: mergeProvision(fragments[][]) — combines same-ref instances (every module targets ref "db")
+# into ONE, UNIONING migrations in fragment order (auth's tables first) — without it two "db" instances collide on the ref.
+# plan.ts: planPlatform(manifest) PURE -> {services, adds (registry refs), entry (the wired src/index.ts: createApp() +
+# mountAuthRoutes(app) + app.route per feature + export default), provisionConfig (imports each fragment + mergeProvision)}.
+# generate.ts: generatePlatform(manifest, {run, write, log}) — the impure shell: run bunx shadcn add per service (fetches
+# owned code + deps + registryDeps), write the entry + provision.config; STOPS short of provision apply (live infra op).
+# bin/platform.ts: the CLI (Bun.spawn + fs). deps @suluk/provision. WITNESSED — platform 7 pass: plan orders app+auth-first
+# + registry-ref adds; the entry wires base+auth-middleware+each-route; the provision.config imports+merges the fragments;
+# unknown-service throws; mergeProvision unions same-ref migrations in order + keeps distinct refs; generate runs an add
+# per service then writes 2 files. tsc clean. The generator new code is SMALL (a catalog resolver + a shadcn step + the
+# merge) exactly as C051 predicted. REMAINING: scaffold ~/apps/autotoolfactory + run it (shadcn adds are network+npm; a dry
+# generation produces the wiring deterministically) + diff-parity vs toolfactory; provision apply is the operator's live step.
+claim platform_generator_c051_build1_manifest_catalog_plan_merge_generate_built: Bool @>=0.55 = True
+falsified_when platform_generator_c051_build1_manifest_catalog_plan_merge_generate_built == False
