@@ -4,7 +4,7 @@ user-stories and journeys against a step vocabulary <em>generated from the contr
 tells everyone exactly what the contract can and cannot yet back.</p>
 <blockquote>
 <p><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI v4.0 (&quot;Moonwalk&quot;),
-unaffiliated with the OpenAPI Initiative. See <a href="media/C038-suluk-journeys-bdd.md">ADR C038</a>.</p>
+unaffiliated with the OpenAPI Initiative. See <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/doc/architecture/decisions/C038-suluk-journeys-bdd.md" target="_blank" class="external">ADR C038</a>.</p>
 </blockquote>
 <h2 id="the-loop" class="tsd-anchor-link">The loop<a href="#the-loop" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <pre><code><span class="hl-0">contract</span><span class="hl-1"> ──</span><span class="hl-0">generateVocabulary</span><span class="hl-1">──▶ </span><span class="hl-0">step</span><span class="hl-1"> </span><span class="hl-0">palette</span><span class="hl-1"> ──▶ </span><span class="hl-0">humans</span><span class="hl-1"> </span><span class="hl-0">author</span><span class="hl-1"> .</span><span class="hl-0">feature</span><span class="hl-1"> </span><span class="hl-0">stories</span><br/><span class="hl-1">   ▲                                                        │</span><br/><span class="hl-1">   └── </span><span class="hl-0">dev</span><span class="hl-1"> </span><span class="hl-0">fills</span><span class="hl-1"> </span><span class="hl-0">the</span><span class="hl-1"> </span><span class="hl-0">gap</span><span class="hl-1"> ◀── </span><span class="hl-0">bidirectional</span><span class="hl-1"> </span><span class="hl-0">gap</span><span class="hl-1"> </span><span class="hl-0">report</span><span class="hl-1"> ◀── </span><span class="hl-0">bindFeatures</span>
@@ -20,7 +20,7 @@ unaffiliated with the OpenAPI Initiative. See <a href="media/C038-suluk-journeys
 </ul>
 </li>
 <li>A non-technical author writes plain <code>.feature</code> files against that palette (the prose lives in a <strong>sidecar</strong>, never
-in the contract — the <a href="media/C038-suluk-journeys-bdd.md">D1 wall</a>).</li>
+in the contract — the <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/doc/architecture/decisions/C038-suluk-journeys-bdd.md" target="_blank" class="external">D1 wall</a>).</li>
 <li><strong><code>bindFeatures(vocab, features)</code></strong> binds each step <strong>exact-or-UNBOUND</strong>, with outcome (<code>Then</code>) steps resolved
 relative to the scenario's <code>When</code>-subject, and reports the gaps <strong>both ways</strong>.</li>
 </ol>

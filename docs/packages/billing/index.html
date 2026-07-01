@@ -90,8 +90,8 @@ email templates, payment-alert kinds, and refund/subscription pooling.</p>
 <p>The whole surface is <strong>pure Stripe wrappers over an injected config</strong> — inject the config (secret +
 <code>fetch</code>) and the Drizzle handle, and everything is deterministically testable. Charging <strong>policy</strong>
 (webhook routing, crediting, branded email, refund/pooling) is the app's, not the library's.</p>
-<p>Depends on <a href="media/payments"><code>@suluk/payments</code></a>, <a href="media/drizzle"><code>@suluk/drizzle</code></a>, and <code>drizzle-orm</code>. It
-composes with <a href="media/credits"><code>@suluk/credits</code></a> in the app's webhook handler (grant credits on a paid
+<p>Depends on <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/tooling/ts/packages/payments" target="_blank" class="external"><code>@suluk/payments</code></a>, <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/tooling/ts/packages/drizzle" target="_blank" class="external"><code>@suluk/drizzle</code></a>, and <code>drizzle-orm</code>. It
+composes with <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/tooling/ts/packages/credits" target="_blank" class="external"><code>@suluk/credits</code></a> in the app's webhook handler (grant credits on a paid
 invoice).</p>
 <h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>Apache-2.0</p>

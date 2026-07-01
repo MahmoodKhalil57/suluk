@@ -2,110 +2,110 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/index.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/modules.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/hierarchy.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/formatNumber.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/formatCurrency.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/formatDate.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/types/Direction.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/interfaces/LocaleDef.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/interfaces/LocaleConfig.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/types/LocaleCode.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/defineLocales.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/localeCodes.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/isSupportedLocale.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/dirOf.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/resolveLocale.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/readCookie.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/localeFromCookie.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/negotiateLocale.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/localeFromRequest.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/types/Catalog.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/t.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/translator.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/types/NamespaceLoaders.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/loadMessages.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/interfaces/CompletenessGrade.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/functions/gradeCompleteness.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/i18n/types/KeyParity.html</loc>
-		<lastmod>2026-07-01T20:31:16.813Z</lastmod>
+		<lastmod>2026-07-01T20:51:05.246Z</lastmod>
 	</url>
 </urlset>

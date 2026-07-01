@@ -2,86 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/index.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/modules.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/hierarchy.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/variables/DEFAULT_SYSTEM.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/interfaces/ChatOptions.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/functions/sanitizeMessages.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/functions/sanitizeClientTools.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/functions/chatApp.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/interfaces/ClientToolDef.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/types/AgentEvent.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/interfaces/RunAgentOptions.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/functions/runAgent.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/interfaces/ToolCall.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/interfaces/ChatMessage.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/interfaces/OpenAITool.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/interfaces/OpenRouterConfig.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/functions/toolsToOpenAI.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/functions/streamCompletion.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/functions/parseSSEStream.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/interfaces/ChatWidgetOptions.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/chat/functions/chatWidget.html</loc>
-		<lastmod>2026-07-01T20:31:06.222Z</lastmod>
+		<lastmod>2026-07-01T20:50:56.232Z</lastmod>
 	</url>
 </urlset>

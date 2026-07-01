@@ -45,9 +45,7 @@ unreadable <code>settings.json</code> is ignored, not fatal: resolution simply f
 </code><button type="button">Copy</button></pre>
 
 <p>A committed <code>.env</code> ends up looking like:</p>
-<pre><code class="ini">SULUK_PUBLIC_KEY="mlkem768:EfIdiAi0Fy…"        # commit this — it can only encrypt
-BASE_URL="http://localhost:3000"               # left plaintext (not a secret)
-STRIPE_SECRET_KEY="encrypted:mlkem768:Alu+Ks…" # ciphertext — safe in git
+<pre><code class="ini"><span class="hl-3">SULUK_PUBLIC_KEY</span><span class="hl-1">=</span><span class="hl-6">&quot;mlkem768:EfIdiAi0Fy…&quot;</span><span class="hl-1">        </span><span class="hl-7"># commit this — it can only encrypt</span><br/><span class="hl-3">BASE_URL</span><span class="hl-1">=</span><span class="hl-6">&quot;http://localhost:3000&quot;</span><span class="hl-1">               </span><span class="hl-7"># left plaintext (not a secret)</span><br/><span class="hl-3">STRIPE_SECRET_KEY</span><span class="hl-1">=</span><span class="hl-6">&quot;encrypted:mlkem768:Alu+Ks…&quot;</span><span class="hl-1"> </span><span class="hl-7"># ciphertext — safe in git</span>
 </code><button type="button">Copy</button></pre>
 
 <h2 id="library" class="tsd-anchor-link">Library<a href="#library" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>

@@ -5,7 +5,7 @@ and the <code>x-suluk-*</code> facets). Two panes: a CodeMirror source editor on
 (rendered by the suluk Scalar fork), with a diagnostics bar below.</p>
 <p>Everything runs in the browser. The page loads two scripts — the Scalar fork bundle (defines <code>window.Scalar</code>) and this
 package's pre-built client bundle — and then, on every edit, does <code>parse → validate (@suluk/core) → harden (@suluk/harden) → enrich (@suluk/scalar) → re-mount the preview</code>. There are <strong>no server calls</strong>. See
-<a href="media/C033-suluk-editor-thin-shell.md">ADR C033</a>.</p>
+<a href="https://github.com/MahmoodKhalil57/suluk/blob/main/doc/architecture/decisions/C033-suluk-editor-thin-shell.md" target="_blank" class="external">ADR C033</a>.</p>
 <h2 id="what-it-does" class="tsd-anchor-link">What it does<a href="#what-it-does" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <ul>
 <li><strong>Live native-v4 preview</strong> — the fork ingests v4 as v4. It shows what a 3.x editor structurally cannot: multiple
