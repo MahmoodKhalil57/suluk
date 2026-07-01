@@ -2,34 +2,78 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/index.html</loc>
-		<lastmod>2026-07-01T20:50:47.130Z</lastmod>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/modules.html</loc>
-		<lastmod>2026-07-01T20:50:47.130Z</lastmod>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/hierarchy.html</loc>
-		<lastmod>2026-07-01T20:50:47.130Z</lastmod>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Architecture.html</loc>
-		<lastmod>2026-07-01T20:50:47.130Z</lastmod>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Community.html</loc>
-		<lastmod>2026-07-01T20:50:47.130Z</lastmod>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Contributing.html</loc>
-		<lastmod>2026-07-01T20:50:47.130Z</lastmod>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Getting_Started.html</loc>
-		<lastmod>2026-07-01T20:50:47.130Z</lastmod>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Packages.html</loc>
-		<lastmod>2026-07-01T20:50:47.130Z</lastmod>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Registry.html</loc>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Specification.html</loc>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Specification.The_Specification.html</loc>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Specification.Signatures___Request_Matching.html</loc>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Specification.Templating_System.html</loc>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Specification.Parameter_Schema.html</loc>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Specification.Collections__Array_vs_Map.html</loc>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Specification.Conformance.html</loc>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Specification.Confidence___Soft_Points.html</loc>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Specification.Moonwalk_Priors_(upstream).html</loc>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/documents/Specification.Reference_Core_%E2%80%94_Rust_(suluk-core).html</loc>
+		<lastmod>2026-07-01T22:06:42.394Z</lastmod>
 	</url>
 </urlset>

@@ -2,162 +2,162 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/index.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/modules.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/hierarchy.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/types/WriteResult.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/rowsChanged.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/ClaimDb.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/claimOnce.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/claimRows.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/CrudOptions.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/crudRoutes.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/DdlOptions.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/tableDDL.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/schemaDDL.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/CrudDb.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/CrudHandlers.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/CrudHandlerOptions.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/crudHandlers.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/types/AnyTable.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/ColumnMeta.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/TableMeta.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/tableMetadata.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/pascalCase.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/tableComponentName.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/SoftDeleteOptions.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/TimestampOptions.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/softDeleteValues.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/anonymizeValues.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/touchTimestamps.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/notSoftDeleted.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/ListQueryOptions.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/listQuerySchema.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/ListQuery.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/parseListQuery.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/TableZodSchemas.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/interfaces/TableV4Schemas.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/tableSchemas.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/tableToV4.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/tableToV4Warnings.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/tableComponents.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/drizzle/functions/tableComponentsAudit.html</loc>
-		<lastmod>2026-07-01T20:51:01.985Z</lastmod>
+		<lastmod>2026-07-01T22:06:58.864Z</lastmod>
 	</url>
 </urlset>

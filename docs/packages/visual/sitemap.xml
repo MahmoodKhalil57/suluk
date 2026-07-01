@@ -2,90 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/index.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/modules.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/hierarchy.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/functions/hash.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/variables/contentHash.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/variables/snapshotHash.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/interfaces/BaselineEntry.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/types/Baseline.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/interfaces/UsedPrimitive.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/interfaces/ConfidenceReport.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/functions/checkConfidence.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/functions/pendingVerification.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/interfaces/Capture.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/functions/approve.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/functions/confidenceCoverage.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/functions/renderPrimitiveHtml.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/functions/knownWidgets.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/functions/primitiveControl.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/functions/primitiveCss.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/interfaces/PrimitiveSources.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/functions/formPrimitives.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/visual/functions/tablePrimitives.html</loc>
-		<lastmod>2026-07-01T20:51:14.416Z</lastmod>
+		<lastmod>2026-07-01T22:07:12.951Z</lastmod>
 	</url>
 </urlset>
