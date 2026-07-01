@@ -28,8 +28,9 @@ export interface AuthOptions {
   baseURL?: string;
   trustedOrigins?: string[];
   passkey?: { rpID: string; rpName: string; origin?: string | string[] };
-  /** run after a user is created (e.g. grant signup credits via @suluk/credits) — the auth ↔ credits seam. */
-  onUserCreated?: (userId: string) => Promise<void>;
+  /** run after a user is created (e.g. grant signup credits via @suluk/credits) — the auth ↔ credits seam. Receives the
+   *  Worker `env` (so the hook can build its own Effect layers, e.g. `DbLive(env)`); @suluk/platform's composition wires it. */
+  onUserCreated?: (userId: string, env: AuthEnv) => Promise<void>;
   /**
    * Turn the API-as-MCP server (`/api/mcp`) into an OAuth 2.1 authorization server (Better Auth's `mcp()` plugin composes
    * oidc-provider: the oauthApplication/oauthAccessToken/oauthConsent tables + `/.well-known/*` + `/api/auth/mcp/{authorize,
@@ -48,7 +49,7 @@ function buildAuth(env: AuthEnv, opts: AuthOptions = {}) {
     baseURL: opts.baseURL ?? env.BETTER_AUTH_URL,
     trustedOrigins: opts.trustedOrigins,
     ...(env.GOOGLE_CLIENT_ID ? { socialProviders: { google: { clientId: env.GOOGLE_CLIENT_ID, clientSecret: env.GOOGLE_CLIENT_SECRET ?? "" } } } : {}),
-    ...(opts.onUserCreated ? { databaseHooks: { user: { create: { after: async (u: { id: string }) => { await opts.onUserCreated!(u.id); } } } } } : {}),
+    ...(opts.onUserCreated ? { databaseHooks: { user: { create: { after: async (u: { id: string }) => { await opts.onUserCreated!(u.id, env); } } } } } : {}),
     plugins: [
       openAPI(),
       apiKey({ enableMetadata: true }),

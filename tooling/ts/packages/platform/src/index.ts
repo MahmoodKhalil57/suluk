@@ -6,6 +6,7 @@
  */
 export { definePlatform, defineSystem, defineBrand, isPlatform, type PlatformManifest, type SystemManifest, type BrandManifest, type Platform, type ServiceRef, type WireDecl } from "./manifest";
 export { resolveNodeOpts, liftSystemBrand, serviceId } from "./resolve";
+export { resolveWiring, groupImports, assertJsonSafe, validateIdentifier, lit, type Wiring, type WireImport } from "./wire";
 // C053 — the open Service interface (the common shape community registries extend): defineService + the core service set.
 export { defineService, optsType, CORE_SERVICES, toCatalogEntry, type Service, type Port, type Capability, type CompositionSurface, type Schema, type McpOAuthOpts, type AuthServiceOpts } from "./service";
 // the core services as named, typed consts — import these into `defineSystem({ services: [...] })` for typed opts by id.

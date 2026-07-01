@@ -61,13 +61,19 @@ export interface Port<P = unknown> {
   readonly render: (consumerExprs: string[]) => string;
 }
 
-/** A typed CAPABILITY a service OFFERS to fill a port: a TRUSTED symbol + a builder from validated params. (Phase 3.) */
+/**
+ * A typed CAPABILITY a service OFFERS to fill a port. `build` produces the consumer EXPRESSION rendered into the producer's
+ * hook closure — it may reference the closure's fixed params `userId` and `env` (the seam threads env), plus the symbols it
+ * declares in `imports` (all TRUSTED — from the service definition, never manifest free text). `with` is the wire's
+ * schema-validated params (JSON data only). (Consumed in Phase 3.)
+ */
 export interface Capability<A = unknown> {
   readonly kind: "capability";
   readonly param?: Schema<A>;
   readonly symbol: string; // exported name in the service's owned code (import-checked)
   readonly from: string;
-  readonly build: (ctx: { params: string; env?: string }) => string; // `env` names a [vars] key for a brand-tunable param
+  readonly imports?: { symbol: string; from: string }[]; // what the built expr references → unioned into the entry imports
+  readonly build: (ctx: { with: Record<string, unknown> }) => string;
 }
 
 /** What a service brings to the composition graph: the ports it exposes + the capabilities it offers. */
@@ -154,8 +160,9 @@ export const authService = defineService({
   serviceOpts: optsType<AuthServiceOpts>(), // typed: `serviceOpts.auth.mcp` autocompletes + type-checks
   compose: {
     exposes: {
-      // the hook Better Auth already exposes (registry/auth/auth.ts `onUserCreated?: (userId) => Promise<void>`).
-      onUserCreated: { kind: "port", hookOptKey: "onUserCreated", render: (exprs) => `async (userId) => { ${exprs.join("; ")}; }` },
+      // the signup hook. The seam is PINNED to (userId, env) — registry/auth/auth.ts widened to pass the Worker env into the
+      // databaseHook callback (env is already in buildAuth's closure), so a consumer expr can build its Effect layers.
+      onUserCreated: { kind: "port", hookOptKey: "onUserCreated", render: (exprs) => `async (userId, env) => { ${exprs.join("; ")}; }` },
     },
   },
 });
@@ -170,12 +177,20 @@ export const creditsService = defineService({
   deps: ["@suluk/credits"],
   compose: {
     offers: {
-      // PROVISIONAL render (Phase 3 pins env threading): grant N credits on signup, idempotent per user.
+      // grant N credits on signup, idempotent per user (the real Credits Effect service + grantOnce, over the request DB).
+      // References the closure's `userId` + `env`; provides CreditsLive + DbLive(env) and runs the program.
       grantOnSignup: {
         kind: "capability",
         symbol: "Credits",
-        from: "./routes/credits",
-        build: ({ env }) => `await run(env, Effect.flatMap(Credits, (s) => s.grant(userId, Number(${env ?? "100"}), \`signup:\${userId}\`, "signup grant")))`,
+        from: "./services/credits",
+        imports: [
+          { symbol: "Effect", from: "effect" },
+          { symbol: "Credits", from: "./services/credits" },
+          { symbol: "CreditsLive", from: "./services/credits" },
+          { symbol: "DbLive", from: "./app" },
+        ],
+        build: ({ with: w }) =>
+          `await Effect.runPromise(Effect.flatMap(Credits, (s) => s.grant(userId, ${JSON.stringify((w.amount as number | undefined) ?? 100)}, "signup:" + userId, "signup grant")).pipe(Effect.provide(CreditsLive), Effect.provide(DbLive(env))))`,
       },
     },
   },
