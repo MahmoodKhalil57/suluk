@@ -1,0 +1,30 @@
+# C050 — a REGISTRY-DISTRIBUTED SaaS-backend framework (architecture-only; operator chose "record it, build later").
+# Operator realization: ~30 of toolfactory's ~33 api/src modules are GENERIC backend plumbing (auth/keys/credits/billing/
+# cost/logs/rate-limit/erasure/stores/audit/journeys); only whisper.ts + lib/subtitle/ + the transcribe/convert routes are
+# the product. Vision: a framework set up ONCE, that provisions real backend services via OSB (@suluk/provision) and
+# DOWNLOADS modules into a repo via the shadcn GitHub registry (single `shadcn add` command). NOT a contract facet.
+
+# THREE COMPOSABLE LAYERS: @suluk/* (npm) = the LOGIC (credits atomic ledger, keys pooled-cap, payments, cost, harden,
+# journeys) + a shadcn REGISTRY = the OWNED WIRING (per-module routes+schema-fragment+Hono glue, copied in via
+# `shadcn add <user>/<repo>/<item>` — reads registry.json from the repo, no server; files carry `target` paths so backend
+# code lands anywhere; + npm dependencies + registryDependencies chaining + envVars + `#ref` pinning) + @suluk/provision
+# (OSB) = the INFRA (each item ships a PROVISION FRAGMENT = InstanceSpec[] merged into provision.config.ts; generate/
+# migrate creates D1/KV/connector). COMPOSITION = HYBRID (operator decision): items OWN the wiring but DEP the @suluk
+# package for money/security-critical logic, so a correctness fix (atomic-debit CAS / pooled cap / idempotent grant /
+# Stripe status-map) flows to EVERY consumer via npm while the app owns its editable surface — money logic must NOT fork
+# per repo. ~10 items over ~30 files (app/auth/keys/credits/billing/cost/logs/stores/erasure/audit/journeys). Setup-once
+# flow: shadcn add the modules (regDeps chain the order) -> provision apply -> write only the product routes.
+claim registry_framework_three_layers_hybrid_shadcn_osb_npm: Bool @>=0.5 = True
+falsified_when registry_framework_three_layers_hybrid_shadcn_osb_npm == False
+
+# C050 REFRAMES C049 + honest CAVEATS. The toolfactory "adoption" (C049) becomes EXTRACTION: turning its generic modules
+# into registry items IS the generalization; toolfactory then becomes ONE CONSUMER of the registry; C049's phases (A audit
+# -> B provision -> C money) become the EXTRACTION ORDER (money modules last, parity-tested, thin-wiring-over-npm never
+# forked). TWO FEASIBILITY CAVEATS a single-module PoC (credits) MUST close before extracting the rest: (1) the plain
+# user/repo/item GitHub form is PUBLIC-ONLY — a private Suluk registry needs shadcn's namespace+authentication; (2) DB
+# schema/migrations aren't a native registry concept — each item ships a schema FRAGMENT file + a provision fragment and
+# @suluk/provision owns table creation; a backend target also needs a minimal components.json (or absolute target paths).
+# Naming + the registry's home repo are OPEN. Backend-first; a web/UI registry (toolfactory web/) is a natural Phase 2 +
+# the shadcn sweet spot. DESIGNED-not-built => ceiling 0.5.
+claim registry_framework_reframes_c049_extraction_with_poc_caveats: Bool @>=0.5 = True
+falsified_when registry_framework_reframes_c049_extraction_with_poc_caveats == False
