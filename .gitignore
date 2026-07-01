@@ -19,3 +19,4 @@ growth/
 *.vsix
 downloads/
 bun.lock
+public/r/

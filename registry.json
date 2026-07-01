@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "suluk",
+  "homepage": "https://github.com/MahmoodKhalil57/suluk",
+  "items": [
+    {
+      "name": "app",
+      "type": "registry:item",
+      "title": "Hono app + Effect runtime seam",
+      "description": "The base Hono app (error handling + health) plus the Effect-TS `Db` service every feature module depends on. The foundation feature services build on.",
+      "dependencies": ["hono", "effect", "drizzle-orm", "@suluk/core"],
+      "files": [
+        { "path": "registry/app/app.ts", "type": "registry:file", "target": "src/app.ts" }
+      ]
+    },
+    {
+      "name": "credits",
+      "type": "registry:item",
+      "title": "Credit ledger — Effect service + metered debit",
+      "description": "An Effect-TS Credits service (Context.Tag + Layer) wrapping @suluk/credits (the atomic debit CAS + idempotent grant stay upstream), its Hono routes, schema re-export, and a provision fragment for the D1 tables. The hybrid pattern: own the service wiring, npm the money logic.",
+      "registryDependencies": ["app"],
+      "dependencies": ["@suluk/credits", "@suluk/provision", "effect", "drizzle-orm", "hono"],
+      "files": [
+        { "path": "registry/credits/credits.service.ts", "type": "registry:file", "target": "src/services/credits.ts" },
+        { "path": "registry/credits/credits.routes.ts", "type": "registry:file", "target": "src/routes/credits.ts" },
+        { "path": "registry/credits/credits.schema.ts", "type": "registry:file", "target": "src/db/credits.ts" },
+        { "path": "registry/credits/credits.provision.ts", "type": "registry:file", "target": "provision/credits.ts" }
+      ]
+    }
+  ]
+}

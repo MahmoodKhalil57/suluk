@@ -28,3 +28,22 @@ falsified_when registry_framework_three_layers_hybrid_shadcn_osb_npm == False
 # the shadcn sweet spot. DESIGNED-not-built => ceiling 0.5.
 claim registry_framework_reframes_c049_extraction_with_poc_caveats: Bool @>=0.5 = True
 falsified_when registry_framework_reframes_c049_extraction_with_poc_caveats == False
+
+# C050 BUILD #1 — the shadcn registry + first vertical slice built 2026-07-01 (operator: "add a registry to this repo"
+# [shadcn github registry] + "provision effect ts services like toolfactory's auth/billing/credits"). registry.json at the
+# REPO ROOT (public repo MahmoodKhalil57/suluk -> the plain `shadcn add MahmoodKhalil57/suluk/<item>` form works, no
+# namespace/auth). Two items: `app` (base Hono app + the Effect-TS `Db` service — Context.Tag + DbLive(env) Layer from the
+# D1 binding) + `credits` (registryDep app; the HYBRID demonstrator). FINDING (honest): toolfactory does NOT use Effect
+# SERVICES — no Context.Tag/Layer/Effect.Service anywhere; only Effect.Schema+Either in billing.ts. So there was no
+# existing service pattern to copy; the registry modules are made PROPER Effect services (a strict upgrade matching the
+# operator's intent), wrapping the @suluk/* plain-function logic: credits.service.ts = `class Credits extends Context.Tag`
+# + `CreditsLive = Layer.effect(...Effect.gen -> Db, wraps getBalance/debitIfCovers/grantOnce/listTransactions)`;
+# credits.routes.ts = Hono handlers that Effect.provide(CreditsLive, DbLive(env)) + runPromise; credits.schema.ts re-
+# exports @suluk/credits tables; credits.provision.ts = the InstanceSpec[] fragment (shared d1 ref "db", protected, the
+# credit_* migration). HYBRID RULE intact: own the Effect service wiring, npm the money-critical logic (atomic CAS +
+# idempotent grant stay in @suluk/credits so fixes flow). VALIDATED: registry.json valid JSON + all file paths exist; all
+# 5 TS files transpile clean; `bunx shadcn build` SUCCEEDED ("Building app... Building credits... done") — structurally
+# shadcn-consumable. Generated public/r/ gitignored (github form reads registry.json directly). NOT pushed yet (shadcn add
+# needs the commit on the public repo). REMAINING: push; then the generator/manifest (C051) + the other ~8 modules.
+claim registry_c050_build1_shadcn_registry_credits_effect_service_validated: Bool @>=0.55 = True
+falsified_when registry_c050_build1_shadcn_registry_credits_effect_service_validated == False
