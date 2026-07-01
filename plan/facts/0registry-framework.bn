@@ -167,3 +167,25 @@ falsified_when registry_c052_boundary_rule_registry_first_zero_new_packages == F
 # build` ok all 11; platform 11 pass. email's real-consumer typecheck folds into the batched autotoolfactory regen (below).
 claim registry_c050_build6_email_module_registry_over_suluk_email_stateless: Bool @>=0.6 = True
 falsified_when registry_c050_build6_email_module_registry_over_suluk_email_stateless == False
+
+# C050 BUILD #7 — the C052 ROADMAP batch: webhooks + rate-limit + i18n + keys-provision (2026-07-01). Four modules, ALL
+# registry-over-existing-package (C052: zero new packages). webhooks/rate-limit/i18n built IN PARALLEL via a workflow (3
+# builders, each grounded in the REAL package source + transpile-gated + adversarially verified: wraps-real-exports +
+# no-reimplemented-logic + transpiles); keys-provision built + type-checked SOLO (coupling-heavy). (1) `webhooks` over
+# @suluk/payments: POST /webhooks/stripe reads the RAW body (c.req.text(), NOT json — signature needs exact bytes),
+# verifyStripeSignature (SDK-free HMAC-SHA256 stays upstream), dedups on the Stripe event id against an OWNED webhook_event
+# table (onConflictDoNothing().returning() = at-least-once safe), routes via webhookRouter; documented fulfillment STUBS
+# decoupled from @suluk/credits. Route + provision (0005_webhooks). Workflow CAUGHT a naming slip live: the real export is
+# STRIPE_EVENTS.checkoutCompleted NOT checkoutSessionCompleted. (2) `rate-limit` over @suluk/hono: mountRateLimit(app) =
+# principal-aware enforceRateLimit middleware (bucket math + RateLimitStore + 429/Retry-After stay upstream; owns only the
+# keyer + store choice). (3) `i18n` over @suluk/i18n: mountI18n(app) = locale/dir negotiation middleware (?lang > cookie >
+# Accept-Language; the q-weighted matcher stays upstream). BOTH stateless (no schema/provision). CORRECTION I made post-
+# workflow: my prompt steered rate-limit/i18n to ROUTE mounts, but they're CROSS-CUTTING MIDDLEWARE → converted to
+# middleware mounts (mountX(app) doing app.use, single-file, dropping the sub-router wrappers). (4) `keys-provision` EXTENDS
+# the keys module: Keys.provision clamps a child's caps to the parent's via @suluk/keys clampChildGrant (abuse-proof), mints
+# via an injected CreateKey hook (app wires Better Auth auth.api.createApiKey — minting a hashed key is auth's job),
+# insertLineage; POST /keys/provision; the CreateKey requirement is per-call so existing subtree/revoke consumers are
+# untouched. Registry now 14 ITEMS. VALIDATED: all files transpile; shadcn build ok all 14; keys-provision + all 4
+# type-checked in autotoolfactory (real @suluk deps) = 0 own-code errors.
+claim registry_c050_build7_webhooks_ratelimit_i18n_keysprovision_roadmap_batch: Bool @>=0.6 = True
+falsified_when registry_c050_build7_webhooks_ratelimit_i18n_keysprovision_roadmap_batch == False
