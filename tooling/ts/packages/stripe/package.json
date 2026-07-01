@@ -1,6 +1,6 @@
 {
   "name": "@suluk/stripe",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "DEPRECATED — GUTTED to a thin re-export shell over @suluk/payments (C048), removed in the NEXT MAJOR. The pricing primitives, the Stripe webhook surface (signature verification + event router), and the form-encoder/transport are re-exported from @suluk/payments for backward compatibility; the rest (usage-based Billing Meters, checkout-param builders, shipping/tax adapters, PaymentProvider/StripeLike types, restStripe) was DELETED as dead. Use @suluk/payments — its PaymentConnector (agnostic) / stripeConnector for payment flows.",
   "deprecated": "GUTTED — use @suluk/payments (C048). This is a backward-compat re-export shell (pricing + webhook + toForm); everything else was deleted. Scheduled for removal in the next major.",
   "publishConfig": { "access": "public" },

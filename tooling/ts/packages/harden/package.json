@@ -1,6 +1,6 @@
 {
   "name": "@suluk/harden",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Schema HARDENING as a derived contract facet: audit a v4 'Suluk' document's input schemas for the validations that keep weird/oversized input from breaking the system — every string a maxLength + a pattern, every number a maximum, every array a maxItems, every object closed + typed, no any/unknown — score it (A-F), surface the grade to INCENTIVISE the author, and gate CI on a minimum. CANDIDATE tooling.",
   "publishConfig": { "access": "public" },
   "license": "Apache-2.0",
