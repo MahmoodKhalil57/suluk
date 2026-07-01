@@ -131,3 +131,39 @@ falsified_when registry_c050_build4_cost_journeys_audit_modules_auth_reconciled_
 # is the batch-cadence follow-up (preserves the build-#4 one-shot-from-installed-generator invariant).
 claim registry_c050_build5_erasure_gdpr_cascade_module_cleanroom_proven: Bool @>=0.6 = True
 falsified_when registry_c050_build5_erasure_gdpr_cascade_module_cleanroom_proven == False
+
+# C052 — THE npm-PACKAGE vs shadcn-REGISTRY BOUNDARY RULE (2026-07-01; operator: "think what we should add as suluk
+# packages and what we should keep in our shadcn registry"). Settled via a 25-agent multi-lens analysis (classify ->
+# adversarial-verify -> synthesize) over the REAL inventory (~45 @suluk packages, 10 registry modules). THE RULE: a
+# capability is npm-package LOGIC iff a money/security/correctness bug in it MUST flow to every consumer via npm (atomic
+# CAS, cap/headroom algebra, signature/SSRF verify, status/Problem-Details mapping, deterministic contract projection); and
+# since ~45 packages already exist you ALMOST NEVER spawn a new one -> you DEP the package and put only the app-owned,
+# per-repo-editable WIRING (Hono routes, the Effect Context.Tag/Layer to Db/env, the drizzle schema, the provision
+# fragment, app POLICY = which windows/templates/limits) in a shadcn REGISTRY module. New package ONLY for genuinely-novel
+# shared logic with no existing home; EXTEND an existing package/module when the gap is a declared slot. LITMUS (both ways):
+# a registry module that reimplements a package's algorithm is a fork-in-waiting; a "fully-owned" module that hides a shared
+# correctness/security algorithm is the same bug. KEY FINDING: the logic layer is MATURE; growth is REGISTRY-FIRST. Of 12
+# candidates classified, newPackagesNeeded = ZERO. The adversarial pass CAUGHT a wrong "new package" instinct (rate-limit
+# felt like new token-bucket logic but @suluk/hono already ships enforceRateLimit + RateLimitStore + MemoryRateLimitStore;
+# @suluk/cost owns the rate-limited settlement; @suluk/credits the overflow CAS) = the Adam over-build blindspot caught by
+# an independent lens. VERDICTS: email/webhooks(payments)/mcp/agents/jobs(cost)/i18n/bulk-ops(drizzle)/rate-limit(hono) =
+# registry-over-existing-package; keys-provision-route/uploads(deploy)/validation(hono) = extend-existing; seo =
+# not-a-backend-module (build/client-time). ROADMAP (value x genericness): email -> webhooks -> keys-provision-route ->
+# rate-limit -> i18n. ADR C052. This rule governs every subsequent module/package decision (each Cxxx module ADR cites it).
+claim registry_c052_boundary_rule_registry_first_zero_new_packages: Bool @>=0.6 = True
+falsified_when registry_c052_boundary_rule_registry_first_zero_new_packages == False
+
+# C050 BUILD #6 — the `email` module (first roadmap item under the C052 boundary), 2026-07-01. The C052 top priority
+# (blocks real signups; near-universal). Registry-over-existing-package: DEP @suluk/email (the EmailProvider transport +
+# Resend/console impls + branded lifecycle templates stay upstream), own only the wiring. email.service.ts: an Effect
+# `Email` service (send/verify/reset) + `EmailCfg` (Context.Tag) + `emailCfgFromEnv(env)` (console in dev, Resend when
+# ENVIRONMENT=production AND RESEND_API_KEY AND EMAIL_FROM present) + `EmailCfgLive(env)`; EmailLive picks the provider once
+# and composes verifyEmail/resetPasswordEmail templates -> provider.send. The PROPER integration is Better Auth (pass
+# verify/reset into buildAuth's sendVerificationEmail + sendResetPassword); routes are the internal surface. email.routes.ts:
+# POST /email/send + /email/verify. STATELESS binding — NO schema, NO provision fragment (email is a thin provider binding,
+# per C052; audit via the logs module if wanted) — so the catalog entry is a route WITHOUT provision, and buildProvisionConfig
+# naturally omits it. registryDep app; deps @suluk/email + effect + hono (2 files). platform tests 11 pass (added: email
+# mounts /email but adds NO provision to the merge). Registry now 11 ITEMS. VALIDATED: 2 email TS transpile; `bunx shadcn
+# build` ok all 11; platform 11 pass. email's real-consumer typecheck folds into the batched autotoolfactory regen (below).
+claim registry_c050_build6_email_module_registry_over_suluk_email_stateless: Bool @>=0.6 = True
+falsified_when registry_c050_build6_email_module_registry_over_suluk_email_stateless == False

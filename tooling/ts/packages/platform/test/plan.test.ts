@@ -55,6 +55,15 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
     expect(p.provisionConfig).toContain("mergeProvision([authProvision, erasureProvision])");
   });
 
+  test("email mounts an /email route but contributes NO provision fragment (stateless binding)", () => {
+    const p = planPlatform(definePlatform({ name: "m", registry: "acme/reg", services: ["auth", "email", "credits"] }));
+    expect(p.entry).toContain('import { emailRoutes } from "./routes/email";');
+    expect(p.entry).toContain('app.route("/email", emailRoutes());');
+    // email has no provision fragment, so the merge is just auth + credits.
+    expect(p.provisionConfig).not.toContain("emailProvision");
+    expect(p.provisionConfig).toContain("mergeProvision([authProvision, creditsProvision])");
+  });
+
   test("dev modules add shadcn refs but NO entry mount and NO provision fragment", () => {
     expect(plan.adds).toContain("acme/reg/journeys");
     expect(plan.adds).toContain("acme/reg/audit");

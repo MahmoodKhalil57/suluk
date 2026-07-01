@@ -97,6 +97,18 @@
       ]
     },
     {
+      "name": "email",
+      "type": "registry:item",
+      "title": "Email — swappable provider binding + auth lifecycle",
+      "description": "An Effect-TS Email service over @suluk/email (the EmailProvider transport, the Resend/console impls, and the branded lifecycle templates stay upstream). Reads the provider config from env, picks console in dev / Resend in prod, and exposes send + verify + reset — wire verify/reset into Better Auth's sendVerificationEmail + sendResetPassword. A stateless binding: no schema, no provision fragment (C052).",
+      "registryDependencies": ["MahmoodKhalil57/suluk/app"],
+      "dependencies": ["@suluk/email", "effect", "hono"],
+      "files": [
+        { "path": "registry/email/email.service.ts", "type": "registry:file", "target": "src/services/email.ts" },
+        { "path": "registry/email/email.routes.ts", "type": "registry:file", "target": "src/routes/email.ts" }
+      ]
+    },
+    {
       "name": "logs",
       "type": "registry:item",
       "title": "Activity log — Effect service (fully owned)",
