@@ -10,7 +10,7 @@
 <h2 id="concept" class="tsd-anchor-link">Concept<a href="#concept" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>An <strong>operation signature</strong> is what lets a tool route a concrete HTTP request to at most one
 described operation. It generalises the 3.x <code>path + method</code> into a <strong>multi-aspect tuple</strong> over:</p>
-<pre><code><span class="hl-2">signature</span><span class="hl-1"> ⊆ { </span><span class="hl-2">method</span><span class="hl-1">, </span><span class="hl-2">uri</span><span class="hl-1">-</span><span class="hl-7">template</span><span class="hl-1"> (</span><span class="hl-2">incl</span><span class="hl-1">. </span><span class="hl-2">query</span><span class="hl-1">), </span><span class="hl-2">content</span><span class="hl-1">-</span><span class="hl-2">type</span><span class="hl-1">, </span><span class="hl-2">headers</span><span class="hl-1">, </span><span class="hl-2">request</span><span class="hl-1">-</span><span class="hl-2">body</span><span class="hl-1"> </span><span class="hl-2">shape</span><span class="hl-1"> }</span>
+<pre><code><span class="hl-8">signature</span><span class="hl-1"> ⊆ { </span><span class="hl-8">method</span><span class="hl-1">, </span><span class="hl-8">uri</span><span class="hl-1">-</span><span class="hl-9">template</span><span class="hl-1"> (</span><span class="hl-8">incl</span><span class="hl-1">. </span><span class="hl-8">query</span><span class="hl-1">), </span><span class="hl-8">content</span><span class="hl-1">-</span><span class="hl-8">type</span><span class="hl-1">, </span><span class="hl-8">headers</span><span class="hl-1">, </span><span class="hl-8">request</span><span class="hl-1">-</span><span class="hl-8">body</span><span class="hl-1"> </span><span class="hl-8">shape</span><span class="hl-1"> }</span>
 </code><button>Copy</button></pre>
 
 <p>The mechanism is <strong>uniform and implicit</strong> across an API — there is no required per-API
@@ -25,7 +25,7 @@ for the vast majority of APIs.</p>
 <p>Per operation, the ADA exposes a <strong>normalised signature view</strong> (which aspects participate;
 literal vs variable structure). Across operations, the ADA exposes a <strong>three-valued collision
 verdict</strong>:</p>
-<pre><code><span class="hl-2">provably</span><span class="hl-1">-</span><span class="hl-2">disjoint</span><span class="hl-1"> | </span><span class="hl-2">provable</span><span class="hl-1">-</span><span class="hl-2">collision</span><span class="hl-1"> | </span><span class="hl-2">not</span><span class="hl-1">-</span><span class="hl-2">statically</span><span class="hl-1">-</span><span class="hl-2">determinable</span>
+<pre><code><span class="hl-8">provably</span><span class="hl-1">-</span><span class="hl-8">disjoint</span><span class="hl-1"> | </span><span class="hl-8">provable</span><span class="hl-1">-</span><span class="hl-8">collision</span><span class="hl-1"> | </span><span class="hl-8">not</span><span class="hl-1">-</span><span class="hl-8">statically</span><span class="hl-1">-</span><span class="hl-8">determinable</span>
 </code><button>Copy</button></pre>
 
 <h2 id="collision-analysis-detect-and-tolerate" class="tsd-anchor-link">Collision analysis: detect-and-tolerate<a href="#collision-analysis-detect-and-tolerate" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>

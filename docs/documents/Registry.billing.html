@@ -1,0 +1,111 @@
+<!DOCTYPE html><html class="default" lang="en" data-base="../"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>billing | Suluk</title><meta name="description" content="Documentation for Suluk"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/style.css"/><link rel="stylesheet" href="../assets/highlight.css"/><script defer src="../assets/main.js"></script><script async src="../assets/icons.js" id="tsd-icons-script"></script><script async src="../assets/search.js" id="tsd-search-script"></script><script async src="../assets/navigation.js" id="tsd-nav-script"></script><link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/><link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/><link rel="apple-touch-icon" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/apple-touch-icon.png"/><meta name="description" content="One typed OpenAPI v4 contract, projected into every full-stack layer — API, docs, typed client, UI, tests, admin, and deploy."/><meta property="og:type" content="website"/><meta property="og:site_name" content="Suluk"/><meta property="og:title" content="billing · Suluk"/><meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer — API, docs, typed client, UI, tests, admin, and deploy."/><meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="billing · Suluk"/><meta name="twitter:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer — API, docs, typed client, UI, tests, admin, and deploy."/><meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/><link rel="stylesheet" href="../assets/typedoc-github-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="../index.html" class="title">Suluk</a><div id="tsd-toolbar-links"><a href="https://github.com/MahmoodKhalil57/suluk">GitHub</a></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg viewBox="0 0 16 16" aria-hidden="true" style="color:var(--color-icon-text)" width="16" height="16"><use href="../assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg viewBox="0 0 16 16" aria-hidden="true" style="color:var(--color-icon-text)" width="16" height="16"><use href="../assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><ul class="tsd-breadcrumb" aria-label="Breadcrumb"><li><a href="Registry.html">Registry</a></li><li><a href="" aria-current="page">billing</a></li></ul></div><div class="tsd-panel tsd-typography"><h1 id="billing-stripe-customer--browser-sessions--cards" class="tsd-anchor-link">Billing — Stripe customer + browser sessions + cards<a href="#billing-stripe-customer--browser-sessions--cards" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<p>An Effect-TS Billing service over <code>@suluk/billing</code> (which runs on <code>@suluk/payments</code>' agnostic
+connector + client-token surface): ensure-customer, Payment-Element + add-card sessions, saved
+cards, hosted/one-click top-up, subscriptions, tax + purchase quotes, and a module-owned credit
+refund — all <code>/api/billing/*</code>, server-authoritative on price.</p>
+<blockquote>
+<p><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for
+OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to
+ratify anything on the SIG's behalf. This is an own-the-code shadcn registry module (C050/C052),
+not an npm package.</p>
+</blockquote>
+<h2 id="install" class="tsd-anchor-link">Install<a href="#install" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<pre><code class="sh"><span class="hl-9">pnpm</span><span class="hl-1"> </span><span class="hl-5">dlx</span><span class="hl-1"> </span><span class="hl-5">shadcn@latest</span><span class="hl-1"> </span><span class="hl-5">add</span><span class="hl-1"> </span><span class="hl-5">MahmoodKhalil57/suluk/billing</span><br/><span class="hl-4"># or:  npx shadcn@latest add MahmoodKhalil57/suluk/billing</span><br/><span class="hl-4"># pin to a ref:  MahmoodKhalil57/suluk/billing#main</span>
+</code><button type="button">Copy</button></pre>
+
+<p><code>registryDependencies</code> (<code>app</code>) are pulled in automatically. The files drop into your app; then
+merge <code>provision/billing.ts</code> into your <code>provision.config.ts</code> and run <code>@suluk/provision</code>
+(<code>plan</code>/<code>apply</code>).</p>
+<h2 id="what-you-get" class="tsd-anchor-link">What you get<a href="#what-you-get" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Five owned files land in your app:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Lands at</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>billing.service.ts</code></td>
+<td><code>src/services/billing.ts</code></td>
+<td>the <code>Billing</code> Effect service (<code>Context.Tag</code> + <code>BillingLive</code> layer)</td>
+</tr>
+<tr>
+<td><code>billing.routes.ts</code></td>
+<td><code>src/routes/billing.ts</code></td>
+<td>the Hono <code>billingRoutes()</code> — mount at <code>/api/billing</code></td>
+</tr>
+<tr>
+<td><code>billing.schema.ts</code></td>
+<td><code>src/db/billing.ts</code></td>
+<td>the Drizzle tables (one re-exported, two module-owned)</td>
+</tr>
+<tr>
+<td><code>billing.pricing.ts</code></td>
+<td><code>src/pricing.ts</code></td>
+<td>the app-owned pricing matrix (packs, plans, buyback)</td>
+</tr>
+<tr>
+<td><code>billing.provision.ts</code></td>
+<td><code>provision/billing.ts</code></td>
+<td>the D1 provision fragment (migrations + the Stripe secret bind)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The Effect service — <code>Billing</code></strong> (<code>Context.Tag</code> + <code>BillingLive</code>). It injects the shared <code>Db</code>
+service (from <code>app</code>) and a <code>StripeCfg</code> service (built from <code>STRIPE_SECRET_KEY</code> at the route), and
+exposes: <code>packs</code> / <code>plans</code>, <code>ensureCustomer</code>, <code>paymentSession</code> / <code>setupSession</code> (Payment-Element +
+add-card client secrets), <code>checkout</code> / <code>paymentIntent</code> (hosted + one-click top-up),
+<code>subscribe</code> / <code>subscriptionStatus</code> / <code>cancelSubscription</code> / <code>changePlan</code>,
+<code>purchaseQuote</code> / <code>refundQuote</code>, <code>refund</code> (module-owned buyback), <code>cards</code> / <code>setDefaultMethod</code> /
+<code>deleteMethod</code> / <code>portal</code>, and <code>getAutoTopup</code> / <code>saveAutoTopup</code> / <code>paymentHealth</code>.</p>
+<p><strong>The routes — <code>billingRoutes()</code>.</strong> Mount with <code>app.route(&quot;/api/billing&quot;, billingRoutes())</code>; every
+path below is a sub-path:</p>
+<ul>
+<li>Pricing: <code>GET /packs</code>, <code>GET /plans</code>, <code>GET /payment-config</code></li>
+<li>Top-up: <code>POST /checkout</code> (hosted), <code>POST /payment-intent</code> (on-site / one-click on the default card)</li>
+<li>Subscriptions: <code>POST /subscribe</code>, <code>GET|POST /subscription</code>, <code>POST /subscription-plan</code></li>
+<li>Quotes: <code>GET /purchase-quote</code>, <code>GET /refund-quote</code></li>
+<li>Refund: <code>POST /refund</code> (module-owned buyback)</li>
+<li>Cards/methods: <code>GET /methods</code>, <code>GET /cards/:userId</code>, <code>POST /methods/default</code>, <code>POST /methods/delete</code></li>
+<li>Sessions (v1): <code>POST /customer</code>, <code>POST /payment-session</code>, <code>POST /setup-session</code>, <code>POST /portal</code></li>
+<li>Owned tables: <code>GET|POST /auto-topup</code>, <code>GET /payment-health</code></li>
+</ul>
+<p>Money is <strong>server-authoritative</strong>: the client sends a pack/plan ID, never a price — amounts +
+credits are derived from <code>src/pricing.ts</code> inside the service. The mutating routes read the caller's
+<code>userId</code> off the authenticated principal (<code>c.get(&quot;user&quot;)</code> set by <code>auth</code>'s <code>identity</code> middleware),
+never a body/query field, so a caller can only move <strong>their own</strong> money.</p>
+<p><strong>Owned schema (<code>src/db/billing.ts</code>).</strong> <code>billingAccount</code> (user ↔ Stripe customer + subscription) is
+<strong>re-exported from <code>@suluk/billing</code></strong> — the package owns it so a schema change ships as a package
+update. Two tables are <strong>module-owned</strong> (app policy, excluded from the package): <code>auto_topup</code> (the
+off-session auto-recharge config; <code>lastTriggeredAt</code> is the CAS anchor against double-charge) and
+<code>payment_alert</code> (standing payment-health flags surfaced in the billing UI). Wire all three into your
+migrations.</p>
+<p><strong>Provision fragment (<code>provision/billing.ts</code>).</strong> An <code>InstanceSpec[]</code> adding two ordered migrations
+(<code>0003_billing</code>, <code>0006_billing_v2</code>) to the shared app D1 (<code>ref: &quot;db&quot;</code>) and <strong>binding</strong> (not
+creating) the <code>STRIPE_SECRET_KEY</code> secret.</p>
+<h2 id="dependencies" class="tsd-anchor-link">Dependencies<a href="#dependencies" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<ul>
+<li><strong>npm</strong> (<code>dependencies</code>): <code>@suluk/billing</code>, <code>@suluk/payments</code>, <code>@suluk/credits</code>,
+<code>@suluk/provision</code>, <code>effect</code>, <code>drizzle-orm</code>, <code>hono</code>.</li>
+<li><strong>registry</strong> (<code>registryDependencies</code>): <code>MahmoodKhalil57/suluk/app</code> — the base Hono app + the
+Effect <code>Db</code> service, pulled in automatically.</li>
+</ul>
+<h2 id="own-the-wiring-npm-the-logic" class="tsd-anchor-link">Own the wiring, npm the logic<a href="#own-the-wiring-npm-the-logic" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>You <strong>own</strong> the wiring — the <code>Billing</code> Effect service, the <code>/api/billing/*</code> routes, the two
+module-owned tables, the app pricing matrix (COGS → markup → tier-discount packs/plans + the
+buyback rate), and the provision fragment — all yours to edit.</p>
+<p>The <strong>money-correctness logic flows from npm</strong>. <code>@suluk/billing</code> is the Stripe plumbing: customer +
+intent creation, the saved-card surface, hosted Checkout / portal, the on-default-card top-up,
+subscription mechanics over a generic <code>SubPlan</code> catalog, Stripe Tax, and the package-owned
+<code>billing_account</code> store — running on <code>@suluk/payments</code>' agnostic connector + client-token surface.
+The module-owned <code>refund</code> composes <code>@suluk/credits</code> (debit the credits <strong>first</strong>, then refund cash
+across the customer's Stripe charges via the raw <code>stripePost</code>/<code>stripeGet</code> primitives, re-crediting
+any shortfall) so a partial payout never silently swallows credits. What stays in <strong>your app</strong>: the
+crediting Stripe <strong>webhook</strong> dispatch and the <strong>pricing matrix</strong> (C046/C048). A correctness fix in
+the package reaches you via npm; a forked money path never happens.</p>
+<h2 id="license" class="tsd-anchor-link">License<a href="#license" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="../assets/icons.svg#icon-anchor"></use></svg></a></h2>
+<p>Apache-2.0</p>
+</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="../assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#billing-stripe-customer--browser-sessions--cards"><span>Billing — <wbr/>Stripe customer + browser sessions + cards</span></a><ul><li><a href="#install"><span>Install</span></a></li><li><a href="#what-you-get"><span>What you get</span></a></li><li><a href="#dependencies"><span>Dependencies</span></a></li><li><a href="#own-the-wiring-npm-the-logic"><span>Own the wiring, npm the logic</span></a></li><li><a href="#license"><span>License</span></a></li></ul></div></details></div><div class="site-menu"><nav id="tsd-sidebar-links" class="tsd-navigation"><a href="https://github.com/MahmoodKhalil57/suluk" class="tsd-nav-link">GitHub</a></nav><nav class="tsd-navigation"><a href="../modules.html">Suluk</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a> with <a href="https://github.com/JulianWowra/typedoc-github-theme" target="_blank">typedoc-github-theme</a></p></footer><div class="overlay"></div></body></html>

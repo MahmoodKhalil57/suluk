@@ -2,86 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/index.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/modules.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/hierarchy.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/interfaces/McpOptions.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/functions/mcpApp.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/functions/buildRequest.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/functions/originExec.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/interfaces/FetchApp.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/functions/appExec.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/variables/LATEST_PROTOCOL.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/variables/SUPPORTED_PROTOCOLS.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/interfaces/RpcRequest.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/interfaces/RpcResponse.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/types/ToolExec.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/interfaces/RpcContext.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/variables/DISCOVER_TOOL.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/functions/handleRpc.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/interfaces/McpOp.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/interfaces/McpTool.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/interfaces/ToolsOptions.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/mcp/functions/toolsFrom.html</loc>
-		<lastmod>2026-07-01T22:28:17.237Z</lastmod>
+		<lastmod>2026-07-01T22:52:12.064Z</lastmod>
 	</url>
 </urlset>
