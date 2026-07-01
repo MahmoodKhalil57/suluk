@@ -83,6 +83,18 @@ describe("render-into-mount-opt — the auth.onUserCreated ← credits.grantOnSi
     expect(p.entry).toContain("s.grant(userId, 250,");
   });
 
+  test("generatePlatform (the CLI path) renders the wire too — not just planPlatform", async () => {
+    const written: Record<string, string> = {};
+    const { generatePlatform } = await import("../src/generate");
+    await generatePlatform(
+      definePlatform({ system: defineSystem({ registry: "acme/reg", services: [authService, creditsService], wire: [{ from: "auth.onUserCreated", to: "credits.grantOnSignup", with: { amount: 100 } }] }), brand: defineBrand({ name: "g" }) }),
+      { run: async () => {}, write: async (p, c) => void (written[p] = c), read: async () => null },
+    );
+    // regression: generatePlatform must pass the ORIGINAL platform to planPlatform (not a lowered manifest that drops wire).
+    expect(written["src/index.ts"]).toContain('"onUserCreated": async (userId, env) => {');
+    expect(written["src/index.ts"]).toContain("s.grant(userId, 100,");
+  });
+
   test("NO wire → byte-identical legacy rendering (bare mount call, no hook object)", () => {
     const p = planPlatform(definePlatform({ system: defineSystem({ registry: "acme/reg", services: [authService, creditsService] }), brand: defineBrand({ name: "z" }) }));
     expect(p.entry).toContain("mountAuthRoutes(app);"); // exactly as today

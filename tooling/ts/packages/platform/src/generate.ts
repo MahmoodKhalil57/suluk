@@ -5,7 +5,6 @@
  * testable. Stops short of `provision apply` — that's a live infra op the operator triggers.
  */
 import { type PlatformManifest, type Platform, isPlatform } from "./manifest";
-import { liftSystemBrand } from "./resolve";
 import { planPlatform, mergePackageJson, mergeWranglerToml, mergeGitignore, type PlatformPlan } from "./plan";
 
 export interface GenerateOptions {
@@ -29,8 +28,10 @@ export interface GenerateResult {
 export async function generatePlatform(input: PlatformManifest | Platform, opts: GenerateOptions): Promise<GenerateResult> {
   const log = opts.log ?? (() => {});
   const read = opts.read ?? (async () => null);
-  const manifest = isPlatform(input) ? liftSystemBrand(input) : input;
-  const plan = planPlatform(manifest);
+  // pass the ORIGINAL input to planPlatform — it normalizes AND extracts `system.wire`. (Lowering to a legacy manifest here
+  // would DROP the composition wires, since a lowered manifest carries no `wire`.)
+  const name = isPlatform(input) ? input.brand.name : input.name;
+  const plan = planPlatform(input);
   const written: string[] = [];
 
   // 1) the scaffold CONFIG first — so `shadcn add` has a package.json to install into + a components.json to resolve
@@ -78,6 +79,6 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
   await opts.write("provision.config.ts", plan.provisionConfig);
   written.push("src/index.ts", "provision.config.ts");
 
-  log(`✓ generated ${manifest.name}: ${plan.services.length} services. Next: bun install && suluk-provision apply`);
+  log(`✓ generated ${name}: ${plan.services.length} services. Next: bun install && suluk-provision apply`);
   return { plan, added, written };
 }
