@@ -31,6 +31,7 @@ models: {label: "models"; shape: rectangle}
 "openapi-compat": {label: "openapi-compat"; shape: rectangle}
 panel: {label: "panel"; shape: rectangle}
 payments: {label: "payments"; shape: rectangle}
+platform: {label: "platform"; shape: rectangle}
 provision: {label: "provision"; shape: rectangle}
 reference: {label: "reference"; shape: rectangle}
 scalar: {label: "scalar"; shape: rectangle}
@@ -102,6 +103,7 @@ mcp -> core
 "nano-stores" -> hono
 "openapi-compat" -> core
 panel -> core
+platform -> provision
 provision -> cloudflare
 provision -> env
 reference -> core

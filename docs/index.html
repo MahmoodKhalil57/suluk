@@ -44,7 +44,7 @@
         @suluk/builder composes it (pages → sections → blocks → components, contract-narrowing)
         @suluk/deploy ships it to Cloudflare · @suluk/cockpit drives it (vscode + /superadmin)</pre>
   </section>
-  <section id="packages" class="mt-10"><h2 class="text-primary font-semibold uppercase tracking-wide text-sm mb-3">Packages <span class="text-base-content/50">(46)</span></h2>
+  <section id="packages" class="mt-10"><h2 class="text-primary font-semibold uppercase tracking-wide text-sm mb-3">Packages <span class="text-base-content/50">(47)</span></h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"><a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-admin.html">
     <div class="card-body p-4 gap-1">
       <h3 class="card-title text-sm font-mono text-primary">@suluk/admin</h3>
@@ -229,6 +229,12 @@
     <div class="card-body p-4 gap-1">
       <h3 class="card-title text-sm font-mono text-primary">@suluk/payments</h3>
       <p class="text-sm text-base-content/70 m-0">Provider-agnostic payments — a Workers-native TypeScript reimplementation of the Hyperswitch Prism connector interface. ONE unified request schema (authorize/capture/void/refund/sync + optional customer/tokenize/recurring/webhook); switch processor by config, not code. Prism's native FFI core can't run on the edge, so we adopt its interface + integer-exact status semantics and implement over fetch — zero native deps, light, swappable. The seam that supersedes @suluk/stripe. INTERFACE-first (C048); real connectors + the billing rewire follow. CANDIDATE tooling.</p>
+    </div>
+  </a>
+<a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-platform.html">
+    <div class="card-body p-4 gap-1">
+      <h3 class="card-title text-sm font-mono text-primary">@suluk/platform</h3>
+      <p class="text-sm text-base-content/70 m-0">The platform generator (C051): write one <code>definePlatform</code> manifest → it plans the shadcn-registry adds, generates the wired Hono entry, and merges each module's provision fragment into a single provision.config. The manifest compiles to a shadcn-add list + a C047 provision.config; the generator runs the adds + <code>@suluk/provision</code>. Turns the Suluk backend registry into a one-command platform. CANDIDATE tooling.</p>
     </div>
   </a>
 <a class="card bg-base-200 border border-base-300 hover:border-primary transition-colors" href="suluk-provision.html">
