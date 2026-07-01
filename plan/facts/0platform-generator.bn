@@ -108,3 +108,20 @@ falsified_when platform_c051_build3_full_8service_oneshot_regenerated_parity_typ
 # provision apply` is the operator's live infra step; more payment connectors (adyen) is separate.
 claim platform_c051_build4_published_0_1_1_oneshot_from_installed_generator_byte_identical: Bool @>=0.62 = True
 falsified_when platform_c051_build4_published_0_1_1_oneshot_from_installed_generator_byte_identical == False
+
+# C051 BUILD #5 — @suluk/platform@0.1.2 PUBLISHED + the 10-service autotoolfactory (erasure+email adopted), 2026-07-01.
+# The batch-cadence follow-up to C050 builds #5-#6: rather than republish per-module, batched erasure + email into ONE
+# platform patch. Bumped 0.1.1->0.1.2 (catalog now cost/erasure/email + the dev kind); dry-run = catalog.ts 3.1KB, 10
+# files, no secret leak, workspace:^ rewrite; mizan blocked=true again = the low-ceiling single-witness artifact (0.6-0.62
+# < 0.78, no bcmea), overridden on deterministic dry-run + operator auth; PUBLISHED via bun publish (latest=0.1.2).
+# ADOPTED into autotoolfactory: dep ^0.1.2 + @suluk/email, manifest services auth/credits/keys/billing/cost/ERASURE/EMAIL/
+# logs/journeys/audit (10). The INSTALLED 0.1.2 planPlatform() regenerated src/index.ts + provision.config -> BYTE-IDENTICAL
+# to the committed files (11 adds incl app); live shadcn add erasure+email pulled 6 files; bun install + tsc = 0 own-code
+# errors (lone = pre-existing @suluk/openapi-compat transitive nit). VERIFIED the C052 stateless-binding shape end-to-end:
+# email wires app.route("/email", emailRoutes()) with NO emailProvision in the merge (0 matches), while erasure wires
+# /erasure + erasureProvision (0004). So the one-shot-from-INSTALLED-generator invariant holds at 10 services, and both new
+# modules (build #5 erasure + build #6 email) are now proven in a REAL generated app, not just a temp dir. autotoolfactory
+# committed (7f82d0a). Registry 11 items; autotoolfactory adopts 10 (seo/mcp/etc. remain available, unadopted). Remaining:
+# the C052 roadmap (webhooks -> keys-provision-route -> rate-limit -> i18n) + `suluk-provision apply` (operator live step).
+claim platform_c051_build5_published_0_1_2_autotoolfactory_10_services_erasure_email_adopted: Bool @>=0.62 = True
+falsified_when platform_c051_build5_published_0_1_2_autotoolfactory_10_services_erasure_email_adopted == False
