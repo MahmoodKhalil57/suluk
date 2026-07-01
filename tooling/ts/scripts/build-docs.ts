@@ -40,6 +40,7 @@ const PLUGINS = [
   "typedoc-github-theme",
   join(TS, "scripts", "typedoc-vscode-icons.mjs"),
   join(TS, "scripts", "typedoc-branding-head.mjs"),
+  join(TS, "packages", "typedoc-umlclass", "src", "index.js"), // d3 UML class diagrams on class/interface pages
 ];
 
 // Shared render options. No entryPointStrategy:"packages" here — each root is a single-entry "resolve" render.

@@ -1,0 +1,22 @@
+{
+  "name": "@suluk/typedoc-umlclass",
+  "version": "0.1.0",
+  "description": "UML class diagrams for TypeDoc, rendered with d3 — pure client-side SVG. No Java, no PlantUML, no external service. A diagram on every class & interface page (attributes, operations, generalization/realization edges), themed and clickable. CANDIDATE tooling.",
+  "keywords": ["typedoc", "typedoc-plugin", "uml", "class-diagram", "d3", "svg", "documentation"],
+  "publishConfig": { "access": "public" },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MahmoodKhalil57/suluk.git",
+    "directory": "tooling/ts/packages/typedoc-umlclass"
+  },
+  "homepage": "https://github.com/MahmoodKhalil57/suluk/tree/main/tooling/ts/packages/typedoc-umlclass#readme",
+  "bugs": "https://github.com/MahmoodKhalil57/suluk/issues",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": { ".": "./src/index.js" },
+  "files": ["src", "assets"],
+  "peerDependencies": { "typedoc": "0.24.x || 0.25.x || 0.26.x || 0.27.x || 0.28.x" },
+  "devDependencies": { "@types/bun": "latest" },
+  "scripts": { "test": "bun test" }
+}
