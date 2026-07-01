@@ -85,6 +85,12 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
   log("▸ writing provision.config.ts");
   await opts.write("provision.config.ts", plan.provisionConfig);
   written.push("src/index.ts", "provision.config.ts");
+  // the bun MOCK-PROVIDER dev server — only when the manifest sets `local: true` (else undefined → not written).
+  if (plan.devEntry) {
+    log("▸ writing src/dev.ts");
+    await opts.write("src/dev.ts", plan.devEntry);
+    written.push("src/dev.ts");
+  }
 
   log(`✓ generated ${name}: ${plan.services.length} services. Next: bun install && suluk-provision apply`);
   return { plan, added, written };

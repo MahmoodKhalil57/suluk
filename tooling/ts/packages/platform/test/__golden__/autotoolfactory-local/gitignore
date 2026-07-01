@@ -1,0 +1,7 @@
+node_modules/
+.env.keys
+.env.temp
+.dev.vars
+.wrangler/
+dist/
+.suluk/

@@ -87,3 +87,38 @@ describe("GOLDEN — autotoolfactory byte-identity lock (the C053 guardrail)", (
     );
   });
 });
+
+// The `local: true` mock-provider variant — the outputs that DIFFER from the golden above are locked here (the rest are
+// byte-identical to non-local). Freezes the bun dev entry + the `export const app` entry + the `dev`-script package.json.
+const LOCAL = definePlatform({ ...AUTOTOOLFACTORY, local: true });
+const LOCAL_DIR = join(import.meta.dir, "__golden__", "autotoolfactory-local");
+const LOCAL_OUTPUTS: Record<string, string> = { entry: "src_index.ts", devEntry: "src_dev.ts", packageJson: "package.json", gitignore: "gitignore" };
+
+describe("GOLDEN — autotoolfactory `local: true` mock-provider variant", () => {
+  const plan = planPlatform(LOCAL) as unknown as Record<string, string>;
+
+  if (UPDATE) {
+    mkdirSync(LOCAL_DIR, { recursive: true });
+    for (const [key, file] of Object.entries(LOCAL_OUTPUTS)) writeFileSync(join(LOCAL_DIR, file), plan[key]);
+  }
+
+  for (const [key, file] of Object.entries(LOCAL_OUTPUTS)) {
+    test(`local ${key} is byte-identical to its golden fixture`, () => {
+      const path = join(LOCAL_DIR, file);
+      expect(existsSync(path)).toBe(true);
+      expect(plan[key]).toBe(readFileSync(path, "utf8"));
+    });
+  }
+
+  test("local mode exports the wired app + emits src/dev.ts; non-local emits neither", () => {
+    expect(plan.entry).toContain("export const app = createApp();");
+    expect(plan.devEntry).toContain('import { app } from "./index";');
+    expect(plan.devEntry).toContain("d1FromSqlite");
+    expect(JSON.parse(plan.packageJson).scripts.dev).toBe("bun run --hot src/dev.ts");
+    expect(JSON.parse(plan.packageJson).scripts.predev).toBeUndefined();
+    const nonLocal = planPlatform(AUTOTOOLFACTORY) as unknown as Record<string, string>;
+    expect(nonLocal.entry).toContain("const app = createApp();");
+    expect(nonLocal.entry).not.toContain("export const app");
+    expect(nonLocal.devEntry).toBeUndefined();
+  });
+});

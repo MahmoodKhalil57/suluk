@@ -22,6 +22,10 @@ export interface PlatformManifest {
   opts?: Record<string, Record<string, unknown>>;
   /** NON-SECRET config values → generated into `wrangler.toml` `[vars]`. SECRETS never go here (they live in `.env`). */
   vars?: Record<string, string>;
+  /** emit the MOCK-PROVIDER dev runtime: a `src/dev.ts` that runs the app under bun with a bun:sqlite DB + JSON-file KV +
+   *  mocked providers when their keys are absent (mock-until-keyed), and the `dev` script pointed at it. Default false →
+   *  the scaffold is byte-for-byte the C051 golden. */
+  local?: boolean;
 }
 
 // ── C053: the open system/brand surface ──────────────────────────────────────────────────────────────────────────────
@@ -62,6 +66,9 @@ export interface SystemManifest<T extends readonly ServiceRef[] = readonly Servi
   serviceOpts?: Partial<{ [K in T[number] as IdOf<K>]: SoOf<K> }>;
   /** inter-service composition edges (Phase 3). */
   wire?: WireDecl[];
+  /** emit the MOCK-PROVIDER dev runtime (a `src/dev.ts` bun server with a bun:sqlite DB + JSON KV + mocked providers when
+   *  keys are absent). A SYSTEM-level property (the app structure), swappable per brand only if a brand overrides it. */
+  local?: boolean;
 }
 
 /** A BRAND — thin, swappable per deployment. Carries the app identity + the brand-facing opts (→ `[vars]`). */

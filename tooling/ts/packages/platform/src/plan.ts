@@ -49,6 +49,9 @@ export interface PlatformPlan {
   /** the generated `.env` SCAFFOLD (committed) — a header + the setup steps, NO values. `generate` writes it only if absent
    *  (never clobbering the operator's encrypted secrets). Secret VALUES are added encrypted via `suluk-env set`. */
   envScaffold: string;
+  /** the generated `src/dev.ts` — the bun MOCK-PROVIDER dev server (bun:sqlite DB + JSON KV + mocked providers when keys
+   *  absent). Present ONLY when the manifest sets `local: true`; undefined otherwise (so the golden path is unchanged). */
+  devEntry?: string;
 }
 
 export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
@@ -66,18 +69,20 @@ export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
   const env = collectEnv(services, catalog);
   // resolve the wires (a `{system,brand}` platform may carry `wire`; a legacy manifest never does → no wiring → byte-identical).
   const wiring = resolveWiring(services, isPlatform(input) ? input.system.wire ?? [] : [], catalog);
+  // the MOCK-PROVIDER dev runtime is OPT-IN (`local: true`); off → every output below is byte-for-byte the C051 golden.
+  const local = manifest.local === true;
   return {
     services,
     // a service may override the registry it's pulled from (multi-registry); core services fall back to the system registry.
     adds: services.map((s) => `${catalog[s].registry ?? manifest.registry}/${s}`),
-    entry: buildEntry(services, manifest.opts, wiring, catalog),
+    entry: buildEntry(services, manifest.opts, wiring, catalog, local),
     provisionConfig: buildProvisionConfig(services, catalog),
-    packageJson: buildPackageJson(manifest.name, services, catalog),
+    packageJson: buildPackageJson(manifest.name, services, catalog, local),
     tsconfig: buildTsconfig(),
     componentsJson: buildComponentsJson(),
     envExample: buildEnvExample(env),
     wranglerToml: buildWranglerToml(manifest.name, services, env, manifest.vars ?? {}),
-    gitignore: buildGitignore(),
+    gitignore: buildGitignore(local),
     envCheck: buildEnvCheckScript(env),
     envTs: buildEnvTs(env),
     syncSecrets: buildSyncSecrets(),
@@ -86,6 +91,7 @@ export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
     provisionScript: buildProvisionScript(env),
     mintTokens: buildMintTokens(env),
     envScaffold: buildEnvScaffold(env),
+    ...(local ? { devEntry: buildDevEntry(services) } : {}),
   };
 }
 
@@ -445,10 +451,11 @@ export function mergeWranglerToml(generated: string, existing: string | null): s
     .join("\n");
 }
 
-function buildGitignore(): string {
+function buildGitignore(local = false): string {
   // NOTE: `.env` is NOT ignored — it is COMMITTED with its secret values ENCRYPTED (@suluk/env). The PRIVATE key
   // (`.env.keys`) is what must never be committed; that + `.env.temp`/`.dev.vars` are ignored.
-  return ["node_modules/", ".env.keys", ".env.temp", ".dev.vars", ".wrangler/", "dist/", ""].join("\n");
+  // local mode also ignores `.suluk/` (the bun-dev sqlite DB + JSON KV — local dev data, never committed).
+  return ["node_modules/", ".env.keys", ".env.temp", ".dev.vars", ".wrangler/", "dist/", ...(local ? [".suluk/"] : []), ""].join("\n");
 }
 
 /** Merge the generated .gitignore into an existing one — APPEND any missing entries (never skip-if-present, so an app's
@@ -514,7 +521,7 @@ process.exit(0);
 
 /** The framework baseline package.json — name from the manifest, the union of BASE + each service's deps (versions
  *  resolved: @suluk/* → "latest", ecosystem → pinned), + the toolchain devDeps + the regenerate/typecheck scripts. */
-export function buildPackageJson(name: string, services: string[], catalog: Record<string, Service> = CORE_SERVICES): string {
+export function buildPackageJson(name: string, services: string[], catalog: Record<string, Service> = CORE_SERVICES, local = false): string {
   const deps = new Set<string>(BASE_DEPS);
   for (const s of services) for (const d of catalog[s]?.deps ?? []) deps.add(d);
   const dependencies: Record<string, string> = {};
@@ -526,8 +533,10 @@ export function buildPackageJson(name: string, services: string[], catalog: Reco
     scripts: {
       generate: "suluk-platform", // re-pull modules + rewrite the scaffold config + src/index.ts + provision.config.ts
       check: "bun run scripts/env-check.ts", // the encrypted-env preflight (keypair present? required secrets set + encrypted?)
-      predev: "bun run scripts/env-check.ts", // runs automatically before `dev`
-      dev: "wrangler dev",
+      // local mode: `dev` runs the bun mock-provider server (no keys needed → no env-check predev); `dev:cf` keeps wrangler.
+      ...(local ? {} : { predev: "bun run scripts/env-check.ts" }), // (non-local) runs automatically before `dev`
+      dev: local ? "bun run --hot src/dev.ts" : "wrangler dev",
+      ...(local ? { "dev:cf": "wrangler dev" } : {}),
       deploy: "wrangler deploy",
       "env:keygen": "suluk-env keygen", // create the @suluk/env keypair (SULUK_PUBLIC_KEY → .env; private → .env.keys)
       "link-key": "bun run scripts/link-key.ts", // register the private key in ~/.suluk/settings.json (the central store)
@@ -608,7 +617,7 @@ function buildComponentsJson(): string {
   );
 }
 
-function buildEntry(services: string[], opts?: Record<string, Record<string, unknown>>, wiring?: Wiring, catalog: Record<string, Service> = CORE_SERVICES): string {
+function buildEntry(services: string[], opts?: Record<string, Record<string, unknown>>, wiring?: Wiring, catalog: Record<string, Service> = CORE_SERVICES, local = false): string {
   const imports = [
     'import { createApp } from "./app";',
     'import { loadEnv } from "@suluk/env";',
@@ -657,7 +666,10 @@ function buildEntry(services: string[], opts?: Record<string, Record<string, unk
     return false; // same symbol + module already imported → dedup
   });
   for (const line of groupImports(safeWireImports)) imports.push(line);
-  const body = ["const app = createApp();", ...middleware, ...routes];
+  // local mode also EXPORTS the wired app so `src/dev.ts` can serve it under bun with mock bindings (the Worker `fetch`
+  // export is unchanged). Off → `const app` (byte-identical to the golden). The mock modules are imported ONLY by dev.ts,
+  // so `wrangler deploy` (bundling from `src/index.ts`) never pulls bun:sqlite into the Worker.
+  const body = [`${local ? "export const app" : "const app"} = createApp();`, ...middleware, ...routes];
   // the @suluk/env bootstrap: the committed .env holds the app's secrets ENCRYPTED. If SULUK_PRIVATE_KEY is set (a wrangler
   // secret), decrypt them into the request env on first use (the runtime path); otherwise this is a no-op and the secrets come
   // from `wrangler secret put` (the `bun run sync-secrets` deploy path). Decrypt once per isolate (env is stable across requests).
@@ -672,6 +684,54 @@ function buildEntry(services: string[], opts?: Record<string, Record<string, unk
     "};",
   ];
   return `// AUTO-GENERATED by @suluk/platform from platform.config.ts — the wired Hono entry. Edit freely.\n${imports.join("\n")}\n\n${body.join("\n")}\n\n${bootstrap.join("\n")}\n`;
+}
+
+/**
+ * `src/dev.ts` — the bun MOCK-PROVIDER dev server (emitted only when `local: true`). Runs the SAME wired app (imported from
+ * `src/index.ts`) under bun with a bun:sqlite `DB` facade + a JSON-file KV, so `bun run dev` needs no Cloudflare account and
+ * no wrangler. Mock-until-keyed: it decrypts the committed `.env` if the app has been provisioned (real HTTP providers), else
+ * every provider falls to its module's mock. The deployed Worker (`src/index.ts`) imports NONE of this — bun:sqlite stays out.
+ */
+function buildDevEntry(services: string[]): string {
+  const usesKv = services.includes("rate-credit");
+  const kvImport = usesKv ? "jsonFileKvStore, " : "";
+  const kvBind = usesKv ? "\n  RATE_CREDIT_KV: jsonFileKvStore(KV_PATH)," : "";
+  return `// AUTO-GENERATED by @suluk/platform — the bun MOCK-PROVIDER dev server. Runs the wired app under bun with a
+// bun:sqlite DB + JSON-file KV, so \`bun run dev\` works with ZERO Cloudflare account and no wrangler. A provider goes REAL
+// the moment its key is present (mock-until-keyed): add real keys to .env.temp + \`bun run provision\` and this file uses
+// them. NOTE: src/index.ts (the deployed Worker) imports NONE of these mocks — bun:sqlite never enters the Worker bundle.
+import { app } from "./index";
+import { Database } from "bun:sqlite";
+import { d1FromSqlite, ${kvImport}applyLocalSchema } from "@suluk/cloudflare/local";
+import { loadEnvFile } from "@suluk/env/node";
+
+const DB_PATH = process.env.SULUK_DB_PATH ?? ".suluk/dev.sqlite";${usesKv ? '\nconst KV_PATH = process.env.SULUK_KV_PATH ?? ".suluk/dev-kv.json";' : ""}
+const PORT = Number(process.env.PORT ?? 8787);
+
+const sqlite = new Database(DB_PATH, { create: true });
+const tables = await applyLocalSchema(sqlite); // discover src/db/*.ts + create the tables from the drizzle schema
+console.log(\`[suluk dev] sqlite \${DB_PATH} — \${tables.length} tables\`);
+
+// Real secrets (if this app has been provisioned): decrypt the committed .env with the local private key. Fresh app / no
+// key → {} → every provider mocks. Best-effort: a decryption failure never blocks the mock path.
+let secrets: Record<string, string> = {};
+try { secrets = await loadEnvFile(); } catch {}
+
+// The request env: process.env < decrypted secrets < the mock bindings. DB/KV are always local (a bun process can't bind a
+// remote D1/KV); the HTTP providers (Google/Stripe/Resend) use their real key when present, else their module's mock.
+const env: Record<string, unknown> = {
+  ...process.env,
+  ...secrets,
+  DB: d1FromSqlite(sqlite),${kvBind}
+};
+
+const mocked = ["GOOGLE_CLIENT_ID", "STRIPE_SECRET_KEY", "RESEND_API_KEY"].filter((k) => !env[k]);
+if (mocked.length) console.log(\`[suluk dev] mocked (no key): \${mocked.join(", ")}\`);
+
+const ctx = { waitUntil() {}, passThroughOnException() {} } as unknown as ExecutionContext;
+Bun.serve({ port: PORT, idleTimeout: 120, fetch: (req) => app.fetch(req, env as Parameters<typeof app.fetch>[1], ctx) });
+console.log(\`[suluk dev] → http://localhost:\${PORT}  (mock-until-keyed; provision to go live)\`);
+`;
 }
 
 function buildProvisionConfig(services: string[], catalog: Record<string, Service> = CORE_SERVICES): string {

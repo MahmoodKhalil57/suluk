@@ -1,8 +1,10 @@
 {
   "name": "@suluk/cloudflare",
-  "version": "0.2.0",
-  "description": "Butter-smooth, API-driven provisioning + deployment for a Suluk app on Cloudflare — no wrangler CLI. A typed REST client + idempotent provisioners (D1, KV, R2, secrets) + the Workers module-script + static-assets upload flow, orchestrated into one deploy(). The platform that ships itself, shipping itself. CANDIDATE tooling.",
-  "publishConfig": { "access": "public" },
+  "version": "0.3.0",
+  "description": "Butter-smooth, API-driven provisioning + deployment for a Suluk app on Cloudflare \u2014 no wrangler CLI. A typed REST client + idempotent provisioners (D1, KV, R2, secrets) + the Workers module-script + static-assets upload flow, orchestrated into one deploy(). The platform that ships itself, shipping itself. CANDIDATE tooling.",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -15,8 +17,25 @@
   "main": "src/index.ts",
   "module": "src/index.ts",
   "types": "src/index.ts",
-  "exports": { ".": "./src/index.ts" },
+  "exports": {
+    ".": "./src/index.ts",
+    "./local": "./src/local.ts"
+  },
   "dependencies": {},
-  "devDependencies": { "@types/bun": "latest" },
-  "scripts": { "test": "bun test", "typecheck": "tsc --noEmit -p ." }
+  "peerDependencies": {
+    "drizzle-orm": "*"
+  },
+  "peerDependenciesMeta": {
+    "drizzle-orm": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "drizzle-orm": "^0.44.7"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit -p ."
+  }
 }

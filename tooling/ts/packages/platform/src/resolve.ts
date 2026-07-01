@@ -87,6 +87,7 @@ export function liftLegacy(m: PlatformManifest): Platform {
       services: m.services,
       ...(Object.keys(globalServiceOpts).length ? { globalServiceOpts } : {}),
       ...(m.opts && Object.keys(m.opts).length ? { serviceOpts: m.opts } : {}),
+      ...(m.local ? { local: true } : {}),
     },
     brand: {
       name: m.name,
@@ -107,5 +108,6 @@ export function liftSystemBrand(p: Platform): PlatformManifest {
     services,
     ...(Object.keys(opts).length ? { opts } : {}),
     ...(Object.keys(vars).length ? { vars } : {}),
+    ...(p.system.local ? { local: true } : {}),
   };
 }
