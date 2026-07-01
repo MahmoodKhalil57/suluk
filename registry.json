@@ -14,6 +14,19 @@
       ]
     },
     {
+      "name": "auth",
+      "type": "registry:item",
+      "title": "Auth — Better Auth mount + CurrentUser Effect service",
+      "description": "The auth foundation: buildAuth (drizzle adapter + openAPI/apiKey/passkey plugins, parametrized), mountAuthRoutes (the Hono handler), and a CurrentUser Effect service. Owns the user + apikey tables. The schema is a Better-Auth-v1 SCAFFOLD — regenerate with `npx @better-auth/cli generate`. The signup hook (onUserCreated) wires to the `credits` module.",
+      "registryDependencies": ["app"],
+      "dependencies": ["better-auth", "@better-auth/api-key", "@better-auth/passkey", "@suluk/provision", "effect", "hono", "drizzle-orm"],
+      "files": [
+        { "path": "registry/auth/auth.ts", "type": "registry:file", "target": "src/auth.ts" },
+        { "path": "registry/auth/auth.schema.ts", "type": "registry:file", "target": "src/db/auth.ts" },
+        { "path": "registry/auth/auth.provision.ts", "type": "registry:file", "target": "provision/auth.ts" }
+      ]
+    },
+    {
       "name": "credits",
       "type": "registry:item",
       "title": "Credit ledger — Effect service + metered debit",
@@ -32,7 +45,7 @@
       "type": "registry:item",
       "title": "Hierarchical API keys — pooled headroom + cascade revoke",
       "description": "An Effect-TS Keys service over @suluk/keys (the abuse-proof pooled-headroom cap + cascade revocation stay upstream): lineage subtree, cascade revoke, and the pooled headroom over a chain. Key creation is Better Auth's apikey plugin (the `auth` module); this manages the delegation tree.",
-      "registryDependencies": ["app", "credits"],
+      "registryDependencies": ["app", "auth", "credits"],
       "dependencies": ["@suluk/keys", "@suluk/provision", "effect", "drizzle-orm", "hono"],
       "files": [
         { "path": "registry/keys/keys.service.ts", "type": "registry:file", "target": "src/services/keys.ts" },

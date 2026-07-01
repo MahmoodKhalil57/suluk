@@ -41,10 +41,13 @@ correctness fix flows to you via npm; a forked money path never happens.
 | item | what | logic (npm) |
 |---|---|---|
 | `app` | base Hono app + the Effect `Db` service | `@suluk/core` |
+| `auth` | Better Auth mount + `CurrentUser` Effect service (the foundation) | `@suluk/better-auth` |
 | `credits` | Credits service — balance / atomic debit / idempotent grant | `@suluk/credits` |
 | `keys` | Keys service — lineage subtree, cascade revoke, pooled headroom | `@suluk/keys` |
 | `billing` | Billing service — customer / Payment-Element + add-card sessions / cards / portal | `@suluk/billing` (+ `@suluk/payments`) |
 | `logs` | activity log (fully owned Effect service) | — |
 
-_Still to come: `auth` (Better Auth mount — the foundation), then `cost` / `journeys` / `audit`, then the C051 manifest
-generator that assembles a whole platform from one document._
+`auth`'s schema is a Better-Auth-v1 SCAFFOLD — regenerate with `npx @better-auth/cli generate` for byte-exactness.
+
+_Still to come: `cost` / `journeys` / `audit`, then the C051 manifest generator that assembles a whole platform from one
+`platform.config.ts` — the one-shot `autotoolfactory`._

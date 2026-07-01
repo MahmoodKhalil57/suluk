@@ -65,3 +65,21 @@ falsified_when registry_c050_build1_shadcn_registry_credits_effect_service_valid
 # then generate autotoolfactory + diff-parity vs toolfactory. NOT pushed (shadcn add needs the public-repo commit).
 claim registry_c050_build2_keys_billing_logs_effect_modules_validated: Bool @>=0.55 = True
 falsified_when registry_c050_build2_keys_billing_logs_effect_modules_validated == False
+
+# C050 BUILD #3 — the `auth` FOUNDATION module built 2026-07-01 (the coupled Better-Auth mount, given its own careful pass).
+# auth.ts: buildAuth (betterAuth config — drizzleAdapter(sqlite,schema) + plugins openAPI/apiKey/passkey, parametrized
+# secret/baseURL/trustedOrigins/optional-google + an optional onUserCreated hook = the auth<->credits signup-grant seam) +
+# createAuth (WeakMap-cached per DB binding) + mountAuthRoutes (app.on GET/POST /api/auth/* -> createAuth(c.env).handler,
+# the correct per-request pattern — NOT @suluk/better-auth mountAuth which wants a static handler) + a CurrentUser Effect
+# service (Context.Tag + currentUserLayer(env,headers) via api.getSession). auth.schema.ts: the Better-Auth-v1 tables
+# (user/session/account/verification + apikey + passkey) — HONESTLY MARKED A SCAFFOLD (canonical = `@better-auth/cli
+# generate`; the apikey table is what keys' cascade-revoke soft-disables enabled=0). auth.provision.ts: the 6-table
+# migration (0000_auth, FIRST — the user table others reference), scaffold-flagged. registryDeps app; deps better-auth +
+# @better-auth/api-key + @better-auth/passkey + @suluk/provision + effect + hono + drizzle-orm. keys registryDep now +auth
+# (needs the apikey table). Registry now 6 items = a COHERENT SaaS backend CORE (app/auth/credits/keys/billing/logs).
+# VALIDATED: registry.json 6 items all-paths-exist; auth TS transpiles; `bunx shadcn build` SUCCEEDED for all 6. HONESTY:
+# Better Auth's schema is CLI-generated + version/plugin-dependent, so auth ships the correct config/mount/CurrentUser
+# (reusable) + a schema SCAFFOLD to reconcile — not byte-exact. REMAINING for the one-shot: optionally cost/journeys/audit,
+# then the C051 manifest generator, then generate autotoolfactory + diff-parity vs toolfactory.
+claim registry_c050_build3_auth_foundation_module_scaffold_schema_validated: Bool @>=0.5 = True
+falsified_when registry_c050_build3_auth_foundation_module_scaffold_schema_validated == False
