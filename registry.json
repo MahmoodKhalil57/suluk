@@ -157,6 +157,29 @@
       ]
     },
     {
+      "name": "reference",
+      "type": "registry:item",
+      "title": "API reference — v4-native page over the derived contract",
+      "description": "An API reference PAGE rendered by @suluk/reference (the complete v4-native renderer: cost badges, access View-as projection, hardening, try-it) over apiDocument() — the SAME per-principal v4 document the contract keystone derives. GET /api/reference renders the full doc; GET /api/reference/:tool projects it to one operation (by its by-name handle). Own the wiring, npm the renderer. Derived + stateless — no schema, no provision.",
+      "registryDependencies": ["MahmoodKhalil57/suluk/app", "MahmoodKhalil57/suluk/contract"],
+      "dependencies": ["@suluk/reference", "@suluk/core", "hono"],
+      "files": [
+        { "path": "registry/reference/reference.routes.ts", "type": "registry:file", "target": "src/routes/reference.ts" }
+      ]
+    },
+    {
+      "name": "admin",
+      "type": "registry:item",
+      "title": "Admin — ops/usage stats over the credit ledger",
+      "description": "An Effect-TS Admin service exposing GET /api/admin/stats — the admin-scoped ops/usage aggregate. Wraps @suluk/credits' ledgerStats (credits issued vs spent + outstanding balance stay upstream) + the module-owned credit_transaction row count. Admin-scope is enforced globally by the contract's enforceApiKeyScope on /api/admin, so the route does no gating. A stateless read: no schema, no provision (reads existing tables). Own the wiring, npm the aggregate.",
+      "registryDependencies": ["MahmoodKhalil57/suluk/app"],
+      "dependencies": ["@suluk/credits", "effect", "drizzle-orm", "hono"],
+      "files": [
+        { "path": "registry/admin/admin.service.ts", "type": "registry:file", "target": "src/services/admin.ts" },
+        { "path": "registry/admin/admin.routes.ts", "type": "registry:file", "target": "src/routes/admin.ts" }
+      ]
+    },
+    {
       "name": "logs",
       "type": "registry:item",
       "title": "Activity log — Effect service (fully owned)",

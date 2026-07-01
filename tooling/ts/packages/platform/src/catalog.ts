@@ -35,6 +35,8 @@ export const CATALOG: Record<string, CatalogEntry> = {
   // cross-cutting MIDDLEWARE (apply globally via app.use, emitted before any route) — not routed resources.
   "rate-limit": { mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" } },
   i18n: { mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" } },
+  reference: { mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" } }, // derived doc render — no provision
+  admin: { mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" } }, // reads existing tables — no provision
   logs: { mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } },
   // dev/CI tooling — pulled in as files, no runtime mount, no provision fragment.
   journeys: { mount: { kind: "dev" } },

@@ -20,5 +20,16 @@ export function logsRoutes() {
     return c.json({ logs });
   });
 
+  // GET /logs/query?userId=&action=&since=&limit= → the filtered activity slice (closed whitelist; every value a bound
+  // param in the service). `action` may lead with `~` for a substring match; `since` is a ms-since-epoch lower bound.
+  r.get("/query", async (c) => {
+    const userId = c.req.query("userId") || undefined;
+    const action = c.req.query("action") || undefined;
+    const since = c.req.query("since") ? Number(c.req.query("since")) : undefined;
+    const limit = c.req.query("limit") ? Number(c.req.query("limit")) : undefined;
+    const logs = await run(c.env, Effect.flatMap(Logs, (s) => s.query({ userId, action, since, limit })));
+    return c.json({ logs });
+  });
+
   return r;
 }

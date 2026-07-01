@@ -93,6 +93,14 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
     expect(p.provisionConfig).not.toContain("contractProvision");
   });
 
+  test("reference + admin mount /api routes with NO provision (derived / reads existing tables)", () => {
+    const p = planPlatform(definePlatform({ name: "ra", registry: "acme/reg", services: ["auth", "contract", "reference", "admin", "credits"] }));
+    expect(p.entry).toContain('app.route("/api/reference", referenceRoutes());');
+    expect(p.entry).toContain('app.route("/api/admin", adminRoutes());');
+    expect(p.provisionConfig).not.toContain("referenceProvision");
+    expect(p.provisionConfig).not.toContain("adminProvision");
+  });
+
   test("dev modules add shadcn refs but NO entry mount and NO provision fragment", () => {
     expect(plan.adds).toContain("acme/reg/journeys");
     expect(plan.adds).toContain("acme/reg/audit");
