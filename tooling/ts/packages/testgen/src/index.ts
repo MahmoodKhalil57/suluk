@@ -4,5 +4,5 @@
  * conform to their schemas, declared costs are well-formed. A pure function of the document. CANDIDATE tooling.
  */
 export { generateTests, type TestgenOptions } from "./generate";
-// money-correctness conformance (PARITY §2 checkout-resilience over the @suluk/stripe pricing primitives).
+// money-correctness conformance (PARITY §2 checkout-resilience over the @suluk/payments pricing primitives).
 export { generateMoneyTests, type MoneyTestsOptions } from "./money";

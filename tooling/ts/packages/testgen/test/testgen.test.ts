@@ -1,6 +1,6 @@
 import { test, expect, describe } from "bun:test";
 import { generateTests, generateMoneyTests } from "../src/index";
-import { orderTotal, verifyAmount, prorateDiscount, idempotencyKey } from "@suluk/stripe";
+import { orderTotal, verifyAmount, prorateDiscount, idempotencyKey } from "@suluk/payments";
 import type { OpenAPIv4Document } from "@suluk/core";
 
 const doc = {
@@ -87,9 +87,9 @@ describe("@suluk/testgen — generate a conformance suite from a v4 contract", (
 describe("@suluk/testgen — generateMoneyTests (PARITY §2 checkout-resilience, in-process)", () => {
   const money = generateMoneyTests();
 
-  test("emits a self-contained bun:test suite importing the @suluk/stripe primitives", () => {
+  test("emits a self-contained bun:test suite importing the @suluk/payments primitives", () => {
     expect(money).toContain('import { test, expect, describe } from "bun:test"');
-    expect(money).toContain('} from "@suluk/stripe"');
+    expect(money).toContain('} from "@suluk/payments"');
     expect(money).toContain("verifyAmount");
     expect(money).toContain("prorateDiscount");
     expect(money).toContain("idempotencyKey");
@@ -114,8 +114,8 @@ describe("@suluk/testgen — generateMoneyTests (PARITY §2 checkout-resilience,
   });
 });
 
-// Smoke (closes the loop): the invariants the emitter ENCODES actually hold for the real @suluk/stripe build.
-describe("@suluk/testgen — money smoke against the real @suluk/stripe primitives", () => {
+// Smoke (closes the loop): the invariants the emitter ENCODES actually hold for the real @suluk/payments build.
+describe("@suluk/testgen — money smoke against the real @suluk/payments primitives", () => {
   test("verifyAmount rejects tampering; proration sums exactly; idempotency is deterministic", () => {
     const lines = [{ unitCents: 1999, qty: 2, id: "a" }, { unitCents: 500, qty: 1, id: "b" }, { unitCents: 333, qty: 3 }];
     const exact = orderTotal(lines, null).totalCents;

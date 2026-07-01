@@ -1,7 +1,8 @@
 {
   "name": "@suluk/stripe",
   "version": "0.1.7",
-  "description": "SUPERSEDED FOR PAYMENT FLOWS by @suluk/payments (the provider-agnostic seam, C048) — use that for charge/refund/customer/off-session. This package remains ONLY for the pieces not yet ported: the pricing primitives (proration/idempotency — @suluk/testgen's money conformance) and webhook signature verification. Do NOT reach for it for new payment work. First-class Stripe via a swappable PaymentProvider: usage-based billing (Billing Meters + meter events), customers, metered prices, subscriptions, webhooks — and a bridge from @suluk/cost to Stripe usage. CANDIDATE tooling.",
+  "description": "DEPRECATED — SUPERSEDED by @suluk/payments (the provider-agnostic seam, C048). The pricing primitives + webhook signature verification/router have MOVED there (this package now re-exports them as shims); use @suluk/payments for all payment flows, pricing, and webhooks. What remains here (usage-based Billing Meters, the Stripe checkout params, shipping/tax adapters) is Stripe-specific and unported — do NOT reach for it for new work. CANDIDATE tooling.",
+  "deprecated": "Use @suluk/payments (C048). Pricing + webhook surfaces moved there; @suluk/stripe re-exports them as shims and is otherwise frozen.",
   "publishConfig": { "access": "public" },
   "license": "Apache-2.0",
   "repository": {
@@ -14,7 +15,7 @@
   "type": "module",
   "main": "src/index.ts",
   "exports": { ".": "./src/index.ts" },
-  "dependencies": { "@suluk/cost": "workspace:^" },
+  "dependencies": { "@suluk/cost": "workspace:^", "@suluk/payments": "workspace:^" },
   "peerDependencies": { "stripe": "^17.0.0 || ^18.0.0" },
   "peerDependenciesMeta": { "stripe": { "optional": true } },
   "devDependencies": { "@types/bun": "latest" },

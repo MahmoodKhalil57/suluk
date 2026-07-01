@@ -100,7 +100,20 @@ guards), the full auto/manual/void/refund/sync flow, in-band decline, 3DS redire
     primitives + the app's webhook signature verification), but its description now steers payment-flow work to
     `@suluk/payments`.
 
+- **#4 — retire `@suluk/stripe` to a shim: port pricing + webhook, repoint testgen** (`2026-07-01`, payments 21 pass,
+  stripe 71 pass, testgen 14 pass, billing 32 pass, tsc clean). Moved into `@suluk/payments` (the payments+money home):
+  `pricing.ts` **verbatim** (the processor-agnostic checkout math — `verifyAmount` anti-tampering, `prorateDiscount`
+  exact-sum, `idempotencyKey`, …) and `stripe-webhook.ts` (`verifyStripeSignature` Web-Crypto HMAC + `webhookRouter` +
+  `STRIPE_EVENTS`; the router's event type renamed `StripeWebhookEvent` to avoid colliding with the connector's
+  `WebhookEvent`). `@suluk/payments` stays **zero-dep**. `@suluk/stripe`'s `pricing.ts` / `webhook-verify.ts` /
+  `webhook.ts` became **deprecated re-export shims** (so `checkout.ts`'s internal `./pricing` import + the app's
+  webhook-verify keep working), and its `package.json` gained a `deprecated` field. `@suluk/testgen`'s money emitter now
+  defaults to `@suluk/payments` (+ its smoke test imports the primitives from there); its devDep flipped. No dependency
+  cycle (`@suluk/payments` zero-dep; `@suluk/stripe → @suluk/payments` one-way). Parity proof: `@suluk/stripe`'s full
+  suite stays green *through the shims*.
+
 ## Deferred (post-approval)
 
-Port the pricing primitives + webhook-verify off `@suluk/stripe` (then retire it); the client-token surface for the
-browser-Element flows; more connectors (adyen/…); the C047 payment-connector broker.
+To fully delete `@suluk/stripe`: port (or drop) its Stripe-usage-billing + checkout params + shipping/tax adapters, and
+cut the app's webhook over. Plus: the client-token surface for the browser-Element flows; more connectors (adyen/…); the
+C047 payment-connector broker.

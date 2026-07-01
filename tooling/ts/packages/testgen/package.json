@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "@suluk/stripe": "workspace:^"
+    "@suluk/payments": "workspace:^"
   },
   "scripts": {
     "test": "bun test",

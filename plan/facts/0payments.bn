@@ -73,3 +73,24 @@ falsified_when payments_stripe_adapter_and_billing_rewire_built == False
 # browser-Element flows; more connectors (adyen/...).
 claim payments_billing_swapped_single_stripe_client_no_legacy: Bool @>=0.6 = True
 falsified_when payments_billing_swapped_single_stripe_client_no_legacy == False
+
+# C048 BUILD #4 — retire @suluk/stripe to a SHIM: port pricing + webhook, repoint testgen (2026-07-01, operator: "do that
+# update other packages like testgen and stripe"). MOVED into @suluk/payments (the payments+money home): pricing.ts
+# (VERBATIM — the processor-agnostic checkout math: subtotal/orderTotal/composeTotal/verifyAmount anti-tamper/prorate
+# Discount exact-sum/validateDiscount/idempotencyKey/cartFingerprint/requiresStripe/STRIPE_MIN_CHARGE_CENTS) + stripe-
+# webhook.ts (verifyStripeSignature Web-Crypto HMAC + timingSafeHexEqual + webhookRouter + STRIPE_EVENTS; the webhook
+# WebhookEvent renamed StripeWebhookEvent {type; data?} to avoid colliding with the connector's WebhookEvent). @suluk/
+# payments stays ZERO-DEP (pricing pure, webhook Web-Crypto builtin). @suluk/stripe: pricing.ts + webhook-verify.ts +
+# webhook.ts are now DEPRECATED RE-EXPORT SHIMS (`export ... from "@suluk/payments"`), so every existing @suluk/stripe
+# import (incl. checkout.ts's internal `from ./pricing` + the app's webhook-verify) KEEPS WORKING; package.json gains the
+# `deprecated` field + a @suluk/payments dep; the Stripe-specific unported bits (usage Billing-Meters, checkout params,
+# shipping/tax adapters) remain frozen. testgen: generateMoneyTests default module -> "@suluk/payments" (+ provenance
+# comments + its smoke test now imports the primitives from @suluk/payments); devDep @suluk/stripe -> @suluk/payments. NO
+# dependency cycle (@suluk/payments zero-dep; @suluk/stripe -> @suluk/payments one-way). WITNESSED — payments 21 pass (+5:
+# direct pricing anti-tamper/exact-prorate/idempotency + verifyStripeSignature valid/tampered/stale + router dispatch),
+# stripe 71 pass (its full suite green THROUGH the shims = the move is behaviour-preserving), testgen 14 pass (smoke now
+# runs against @suluk/payments), billing 32 pass. tsc clean all. REMAINING to fully delete @suluk/stripe: port the
+# Stripe-usage-billing + checkout-params + shipping/tax (or drop if unused) + the app webhook cutover; the client-token
+# surface for browser-Element flows; more connectors (adyen/...).
+claim payments_stripe_retired_to_shim_pricing_webhook_ported_testgen_repointed: Bool @>=0.6 = True
+falsified_when payments_stripe_retired_to_shim_pricing_webhook_ported_testgen_repointed == False

@@ -18,3 +18,14 @@ export { mockConnector, MOCK_DECLINE_CARD, MOCK_3DS_CARD } from "./mock";
 export { stripeConnector } from "./connectors/stripe";
 // the low-level Stripe transport (one Stripe client) — for the Stripe-PLATFORM ops the agnostic seam doesn't model.
 export { type StripeConfig, stripePost, stripeGet, toForm } from "./stripe-transport";
+// pricing primitives — processor-agnostic checkout money math (moved from @suluk/stripe; anti-tampering, proration, …).
+export {
+  subtotal, computeDiscountAmount, validateDiscount, prorateDiscount, orderTotal, composeTotal, verifyAmount,
+  cartFingerprint, idempotencyKey, requiresStripe, STRIPE_MIN_CHARGE_CENTS,
+  type CartLine, type Discount, type DiscountResult, type DiscountRejection, type OrderTotal, type OrderTotalFull, type AmountVerdict,
+} from "./pricing";
+// the Stripe webhook surface (SDK-free signature verification + a typed event router; moved from @suluk/stripe).
+export {
+  verifyStripeSignature, timingSafeHexEqual, webhookRouter, STRIPE_EVENTS,
+  type VerifyOptions, type StripeWebhookEvent, type WebhookHandler, type WebhookRouter, type HandleResult,
+} from "./stripe-webhook";
