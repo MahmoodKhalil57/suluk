@@ -695,9 +695,15 @@ function buildEntry(services: string[], opts?: Record<string, Record<string, unk
 function buildDevEntry(services: string[]): string {
   const usesKv = services.includes("rate-credit");
   const usesEmail = services.includes("email");
+  const usesBilling = services.includes("billing");
   const localImports = ["d1FromSqlite", ...(usesKv ? ["jsonFileKvStore"] : []), ...(usesEmail ? ["jsonFileMailbox"] : []), "applyLocalSchema"];
+  const billingImport = usesBilling ? '\nimport { mockStripeFetch } from "@suluk/billing";' : "";
   const kvBind = usesKv ? "\n  RATE_CREDIT_KV: jsonFileKvStore(KV_PATH)," : "";
   const mailboxBind = usesEmail ? "\n  SULUK_MAILBOX_SINK: mailbox," : "";
+  // mock-until-keyed: only inject the Stripe fake when there is no real key (a provisioned app hits real Stripe).
+  const stripeInject = usesBilling
+    ? '\nif (!env.STRIPE_SECRET_KEY) { env.STRIPE_SECRET_KEY = "sk_mock_local"; env.STRIPE_FETCH = mockStripeFetch(); }'
+    : "";
   const mailboxRoute = usesEmail
     ? '\n// a dev-only inbox view of the emails the mock provider captured (never mounted on the deployed Worker).\napp.get("/api/email/dev/mailbox", async (c) => c.json(await mailbox.list()));\n'
     : "";
@@ -707,7 +713,7 @@ function buildDevEntry(services: string[]): string {
 // them. NOTE: src/index.ts (the deployed Worker) imports NONE of these mocks — bun:sqlite never enters the Worker bundle.
 import { app } from "./index";
 import { Database } from "bun:sqlite";
-import { ${localImports.join(", ")} } from "@suluk/cloudflare/local";
+import { ${localImports.join(", ")} } from "@suluk/cloudflare/local";${billingImport}
 import { loadEnvFile } from "@suluk/env/node";
 
 const DB_PATH = process.env.SULUK_DB_PATH ?? ".suluk/dev.sqlite";${usesKv ? '\nconst KV_PATH = process.env.SULUK_KV_PATH ?? ".suluk/dev-kv.json";' : ""}${usesEmail ? '\nconst MAILBOX_PATH = process.env.SULUK_MAILBOX_PATH ?? ".suluk/dev-mailbox.json";' : ""}
@@ -731,7 +737,7 @@ const env: Record<string, unknown> = {
 };
 
 const mocked = ["GOOGLE_CLIENT_ID", "STRIPE_SECRET_KEY", "RESEND_API_KEY"].filter((k) => !env[k]);
-if (mocked.length) console.log(\`[suluk dev] mocked (no key): \${mocked.join(", ")}\`);
+if (mocked.length) console.log(\`[suluk dev] mocked (no key): \${mocked.join(", ")}\`);${stripeInject}
 ${mailboxRoute}
 const ctx = { waitUntil() {}, passThroughOnException() {} } as unknown as ExecutionContext;
 Bun.serve({ port: PORT, idleTimeout: 120, fetch: (req) => app.fetch(req, env as Parameters<typeof app.fetch>[1], ctx) });

@@ -5,6 +5,7 @@
 import { app } from "./index";
 import { Database } from "bun:sqlite";
 import { d1FromSqlite, jsonFileKvStore, jsonFileMailbox, applyLocalSchema } from "@suluk/cloudflare/local";
+import { mockStripeFetch } from "@suluk/billing";
 import { loadEnvFile } from "@suluk/env/node";
 
 const DB_PATH = process.env.SULUK_DB_PATH ?? ".suluk/dev.sqlite";
@@ -34,6 +35,7 @@ const env: Record<string, unknown> = {
 
 const mocked = ["GOOGLE_CLIENT_ID", "STRIPE_SECRET_KEY", "RESEND_API_KEY"].filter((k) => !env[k]);
 if (mocked.length) console.log(`[suluk dev] mocked (no key): ${mocked.join(", ")}`);
+if (!env.STRIPE_SECRET_KEY) { env.STRIPE_SECRET_KEY = "sk_mock_local"; env.STRIPE_FETCH = mockStripeFetch(); }
 
 // a dev-only inbox view of the emails the mock provider captured (never mounted on the deployed Worker).
 app.get("/api/email/dev/mailbox", async (c) => c.json(await mailbox.list()));

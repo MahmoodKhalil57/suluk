@@ -8,6 +8,7 @@
  * email templates, payment-alert kinds, and refund/subscription-pooling (operator-excluded from the start).
  */
 export { type StripeConfig, stripePost, stripeGet, toForm } from "./transport";
+export { mockStripeFetch } from "./mock";
 export {
   createCustomer, createSetupIntent, createPaymentIntent,
   listPaymentMethods, defaultCard, defaultPaymentMethodId, ownsPaymentMethod,
