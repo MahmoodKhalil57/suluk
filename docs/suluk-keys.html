@@ -1,0 +1,41 @@
+<!doctype html><html lang="en" data-theme="dim"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/keys — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/keys — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="stylesheet" href="style.css"/>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
+</header>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/keys</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/keys</h1>
+      <span class="badge badge-ghost">v0.1.0</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">The delegation-chain ALGEBRA for hierarchical API keys: effective-caps (scope ∩, cap/expiry min up the chain), POOLED subtree headroom (a parent cap bounds parent+children TOTAL spend — abuse-proof), the cascade read-checks (expired/disabled ancestor), child-grant clamping, the materialized-path utilities, and the scope/metadata model. Pure + portable: the app supplies the chain rows + spend (its DB query is the seam); this owns the money/abuse-correctness logic. Extracted from a real app (C046). CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      <h2>Install</h2><pre><code>bun add @suluk/keys</code></pre>
+      <h2>Overview</h2><p>@suluk/keys — the delegation-chain ALGEBRA for hierarchical API keys (C046, extracted from a real app).</p>
+<p>The app builds a <code>ChainNode[]</code> (a caller + its ancestors) and per-path <code>SpendRow[]</code> from its OWN store — the DB query is the seam (a Drizzle reference adapter is a follow-on, deferred per C046) — then calls these PURE functions for the money/abuse-correctness logic so it can never drift:   • effectiveCaps   — scope ∩, credit-cap/rate-share/expiry min up the chain (a child can't out-scope/out-spend a parent)   • pooledHeadroom  — a node's cap bounds its WHOLE subtree's total spend (the abuse-proof property)   • expired/disabledAncestor — the read-time revocation/expiry cascade   • clampChildGrant — clamp a minted child to the parent's effective grant plus the materialized-path utilities and the scope/metadata model.</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">ancestorIdsOf</span><span class="badge badge-sm badge-outline font-mono">chainHeadroom</span><span class="badge badge-sm badge-outline font-mono">ChainNode</span><span class="badge badge-sm badge-outline font-mono">childPath</span><span class="badge badge-sm badge-outline font-mono">clampChildGrant</span><span class="badge badge-sm badge-outline font-mono">disabledAncestor</span><span class="badge badge-sm badge-outline font-mono">effectiveCaps</span><span class="badge badge-sm badge-outline font-mono">EffectiveCaps</span><span class="badge badge-sm badge-outline font-mono">escapeLike</span><span class="badge badge-sm badge-outline font-mono">expiredAncestor</span><span class="badge badge-sm badge-outline font-mono">Headroom</span><span class="badge badge-sm badge-outline font-mono">insertLineage</span><span class="badge badge-sm badge-outline font-mono">inSubtree</span><span class="badge badge-sm badge-outline font-mono">keyLineage</span><span class="badge badge-sm badge-outline font-mono">KeysDB</span><span class="badge badge-sm badge-outline font-mono">MAX_KEY_DEPTH</span><span class="badge badge-sm badge-outline font-mono">parentPathOf</span><span class="badge badge-sm badge-outline font-mono">parseKeyMeta</span><span class="badge badge-sm badge-outline font-mono">parseScopes</span><span class="badge badge-sm badge-outline font-mono">pathAt</span><span class="badge badge-sm badge-outline font-mono">pathDepth</span><span class="badge badge-sm badge-outline font-mono">pooledHeadroom</span><span class="badge badge-sm badge-outline font-mono">revokeKeyTree</span><span class="badge badge-sm badge-outline font-mono">SpendRow</span><span class="badge badge-sm badge-outline font-mono">subtreeLikePattern</span><span class="badge badge-sm badge-outline font-mono">subtreeOf</span><span class="badge badge-sm badge-outline font-mono">topCappedPath</span></div>
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/better-auth</span><span class="badge badge-sm badge-ghost font-mono">@suluk/credits</span><span class="badge badge-sm badge-ghost font-mono">drizzle-orm</span></div>
+      <h2>Modules</h2><dl class="modules"><dt><code>chain.ts</code></dt><dd>The delegation-chain ALGEBRA (C046) — the money/abuse-correctness logic, pure and portable. A caller's chain is itself</dd><dt><code>lineage.ts</code></dt><dd>The lineage-tree DB ops (C046) — the materialized-path queries over a key delegation tree, plus the POOLED headroom</dd><dt><code>path.ts</code></dt><dd>Materialized-path utilities for a key delegation tree (C046). A node's <code>path</code> is its keyIds root→…→self joined by &quot;/&quot;.</dd><dt><code>scopes.ts</code></dt><dd>The key permission/metadata model (C046) — pure, defensive parsing of what a key carries: its permissions JSON</dd></dl>
+    </div>
+  </article></main>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
+</body></html>

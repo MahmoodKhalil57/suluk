@@ -4,12 +4,14 @@ direction: right
 admin: {label: "admin"; shape: rectangle}
 agents: {label: "agents"; shape: rectangle}
 "better-auth": {label: "better-auth"; shape: rectangle}
+billing: {label: "billing"; shape: rectangle}
 builder: {label: "builder"; shape: rectangle}
 chat: {label: "chat"; shape: rectangle}
 cloudflare: {label: "cloudflare"; shape: rectangle}
 cockpit: {label: "cockpit"; shape: rectangle}
 core: {label: "core"; shape: rectangle}
 cost: {label: "cost"; shape: rectangle}
+credits: {label: "credits"; shape: rectangle}
 deploy: {label: "deploy"; shape: rectangle}
 docs: {label: "docs"; shape: rectangle}
 drizzle: {label: "drizzle"; shape: rectangle}
@@ -17,15 +19,19 @@ editor: {label: "editor"; shape: rectangle}
 email: {label: "email"; shape: rectangle}
 env: {label: "env"; shape: rectangle}
 eslint: {label: "eslint"; shape: rectangle}
+examples: {label: "examples"; shape: rectangle}
 harden: {label: "harden"; shape: rectangle}
 hono: {label: "hono"; shape: rectangle}
 i18n: {label: "i18n"; shape: rectangle}
 journeys: {label: "journeys"; shape: rectangle}
+keys: {label: "keys"; shape: rectangle}
 mcp: {label: "mcp"; shape: rectangle}
 models: {label: "models"; shape: rectangle}
 "nano-stores": {label: "nano-stores"; shape: rectangle}
 "openapi-compat": {label: "openapi-compat"; shape: rectangle}
 panel: {label: "panel"; shape: rectangle}
+payments: {label: "payments"; shape: rectangle}
+provision: {label: "provision"; shape: rectangle}
 reference: {label: "reference"; shape: rectangle}
 scalar: {label: "scalar"; shape: rectangle}
 "scalar-standalone": {label: "scalar-standalone"; shape: rectangle}
@@ -33,6 +39,7 @@ sdk: {label: "sdk"; shape: rectangle}
 seo: {label: "seo"; shape: rectangle}
 shadcn: {label: "shadcn"; shape: rectangle}
 stripe: {label: "stripe"; shape: rectangle}
+stubgen: {label: "stubgen"; shape: rectangle}
 swagger: {label: "swagger"; shape: rectangle}
 testgen: {label: "testgen"; shape: rectangle}
 theme: {label: "theme"; shape: rectangle}
@@ -46,6 +53,8 @@ agents -> core
 agents -> models
 "better-auth" -> core
 "better-auth" -> "openapi-compat"
+billing -> payments
+billing -> drizzle
 builder -> core
 builder -> zod
 builder -> hono
@@ -62,9 +71,11 @@ cockpit -> shadcn
 cockpit -> builder
 cockpit -> deploy
 cockpit -> cost
+cockpit -> harden
 cockpit -> visual
 cockpit -> agents
 cost -> core
+credits -> drizzle
 deploy -> core
 drizzle -> core
 drizzle -> zod
@@ -76,24 +87,32 @@ editor -> reference
 editor -> scalar
 email -> i18n
 harden -> core
+harden -> examples
 hono -> core
 hono -> zod
 journeys -> cloudflare
 journeys -> core
+journeys -> examples
+journeys -> harden
 journeys -> sdk
+keys -> "better-auth"
+keys -> credits
 mcp -> core
 "nano-stores" -> core
 "nano-stores" -> hono
 "openapi-compat" -> core
 panel -> core
+provision -> cloudflare
+provision -> env
 reference -> core
 reference -> harden
 scalar -> core
 scalar -> "openapi-compat"
 sdk -> core
+sdk -> examples
 shadcn -> core
 shadcn -> theme
-stripe -> cost
+stripe -> payments
 swagger -> core
 swagger -> "openapi-compat"
 testgen -> core

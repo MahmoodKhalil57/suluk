@@ -1,0 +1,40 @@
+<!doctype html><html lang="en" data-theme="dim"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/credits — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/credits — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="stylesheet" href="style.css"/>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
+</header>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/credits</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/credits</h1>
+      <span class="badge badge-ghost">v0.1.0</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">A metered CREDIT LEDGER: append-only transactions, balance, the ATOMIC debit-if-covers (a single conditional INSERT that can never drive the ledger negative under concurrency), the idempotent debit (INSERT OR IGNORE — the money-OUT double-spend guard for partial refunds), per-key spend attribution, the recent-transactions + activity-log query, and aggregate stats. The package OWNS the credit tables; the app injects a Drizzle handle (D1 in prod, bun:sqlite in tests). The money-correctness core, extracted verbatim from a real app (C046). CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      <h2>Install</h2><pre><code>bun add @suluk/credits</code></pre>
+      <h2>Overview</h2><p>@suluk/credits — a metered credit ledger (C046, extracted verbatim). The package OWNS the schema (<code>credit_transaction</code> + the <code>credit_amount</code>/<code>credit_key</code> sidecars); the app injects a Drizzle handle (D1 in prod, bun:sqlite in tests). The money-correctness core: the ATOMIC <code>debitIfCovers</code> (a conditional INSERT that can't drive the ledger negative under concurrency) + the idempotent <code>debitOnceIfCovers</code> (the partial-refund double-spend guard) + per-key spend + the activity-log query. App-specific payment-alert kinds + the user-table count stay in the app.</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">addCredits</span><span class="badge badge-sm badge-outline font-mono">creditAmount</span><span class="badge badge-sm badge-outline font-mono">creditKey</span><span class="badge badge-sm badge-outline font-mono">CreditsDB</span><span class="badge badge-sm badge-outline font-mono">creditTransaction</span><span class="badge badge-sm badge-outline font-mono">debitCredits</span><span class="badge badge-sm badge-outline font-mono">debitIfCovers</span><span class="badge badge-sm badge-outline font-mono">debitOnceAttributed</span><span class="badge badge-sm badge-outline font-mono">debitOnceIfCovers</span><span class="badge badge-sm badge-outline font-mono">DebitOutcome</span><span class="badge badge-sm badge-outline font-mono">getBalance</span><span class="badge badge-sm badge-outline font-mono">grantOnce</span><span class="badge badge-sm badge-outline font-mono">InsufficientCreditsError</span><span class="badge badge-sm badge-outline font-mono">keySpend</span><span class="badge badge-sm badge-outline font-mono">LedgerEntry</span><span class="badge badge-sm badge-outline font-mono">ledgerRow</span><span class="badge badge-sm badge-outline font-mono">ledgerStats</span><span class="badge badge-sm badge-outline font-mono">LedgerStats</span><span class="badge badge-sm badge-outline font-mono">listTransactions</span><span class="badge badge-sm badge-outline font-mono">nonceFor</span><span class="badge badge-sm badge-outline font-mono">record</span><span class="badge badge-sm badge-outline font-mono">recordAmount</span><span class="badge badge-sm badge-outline font-mono">recordKey</span></div>
+      <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/drizzle</span><span class="badge badge-sm badge-ghost font-mono">drizzle-orm</span></div>
+      <h2>Modules</h2><dl class="modules"><dt><code>credits.ts</code></dt><dd>The credit ledger (C046) — the money-correctness core, extracted verbatim. The package owns the schema; the app injects</dd><dt><code>schema.ts</code></dt><dd>The credit-ledger schema (C046) — owned by @suluk/credits, applied by the app's migrations. The ledger is the single</dd></dl>
+    </div>
+  </article></main>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
+</body></html>

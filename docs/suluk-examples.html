@@ -1,0 +1,43 @@
+<!doctype html><html lang="en" data-theme="dim"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/icon-32.png"/>
+<title>@suluk/examples — Suluk</title>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="@suluk/examples — Suluk"/>
+<meta property="og:description" content="One typed OpenAPI v4 contract, projected into every full-stack layer."/>
+<meta property="og:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/branding/export/social-card.png"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link rel="stylesheet" href="style.css"/>
+</head><body class="min-h-screen bg-base-100 text-base-content">
+<header class="navbar sticky top-0 z-30 bg-base-200/80 backdrop-blur border-b border-base-300 px-4">
+  <div class="flex-1"><a class="text-primary font-bold tracking-wide text-lg" href="index.html">Suluk</a></div>
+  <nav class="flex-none"><ul class="menu menu-horizontal gap-1 px-1 text-sm"><li><a href="index.html">Home</a></li><li><a href="getting-started.html">Get started</a></li><li><a href="index.html#packages">Packages</a></li><li><a href="architecture.html">Architecture</a></li><li><a href="contributing.html">Contributing</a></li><li><a href="community.html">Community</a></li><li><a class="text-info" href="https://github.com/MahmoodKhalil57/suluk">GitHub ↗</a></li></ul></nav>
+</header>
+<main class="max-w-4xl mx-auto px-4 py-10">
+  <article>
+    <div class="text-sm breadcrumbs text-base-content/60"><ul><li><a href="index.html#packages">Packages</a></li><li>@suluk/examples</li></ul></div>
+    <div class="flex items-center gap-3 flex-wrap mt-1">
+      <h1 class="text-3xl font-bold font-mono">@suluk/examples</h1>
+      <span class="badge badge-ghost">v0.1.0</span>
+    </div>
+    <p class="text-lg text-base-content/70 mt-2">Example precedence + deterministic, origin-aware schema synthesis from a v4 'Suluk' contract. The shared, zero-dependency leaf both @suluk/journeys and @suluk/sdk read: resolveExample (public &gt; maintainer &gt; synthetic), a deterministic synthesizer, and the C041 field-origin discipline (x-suluk-origin input|sourced|computed + the wireable SourceRef). Pure, self-contained, faker-dep-free. CANDIDATE tooling.</p>
+    <div class="prose-suluk mt-6">
+      <h2>Install</h2><pre><code>bun add @suluk/examples</code></pre>
+      <h2>Overview</h2><p>@suluk/examples — example precedence + deterministic, origin-aware schema synthesis.</p>
+<p>The shared, ZERO-DEPENDENCY leaf both @suluk/journeys (BDD outlines + runnable suite) and @suluk/sdk (typed client metadata + sampling) read. Extracted from @suluk/journeys (C040-P2) when @suluk/sdk needed the same reader — journeys already depends on sdk, so the reader had to sit BELOW both (it was built self-contained for exactly this move).</p>
+<p><code>resolveExample</code> picks a request/response example by precedence — a tester-curated PUBLIC example wins over a MAINTAINER example (an explicit one, or the schema's own <code>examples</code>/<code>example</code>/<code>const</code>), which wins over a SYNTHETIC value derived from the schema shape. The synthetic tier is a DETERMINISTIC synthesizer (no external faker dep): same (schema, hint) -&gt; same value, so BDD tests don't flap, and a synthesized value is ALWAYS lowest-precedence, always overridable, and carries <code>synthetic: true</code>. That precedence IS the reconciliation with the journeys arc's never-launder discipline — nothing synthetic is ever presented as authoritative.</p>
+<p>This module imports NOTHING (no @suluk, no external) so it stays on the VALUE side of the C040 wall (a pure projector core must never import it) and is consumable by any package without a dependency cycle. Witnessed by test/wall.test.ts.</p>
+      <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">asSourceRef</span><span class="badge badge-sm badge-outline font-mono">describeInputs</span><span class="badge badge-sm badge-outline font-mono">ExampleSources</span><span class="badge badge-sm badge-outline font-mono">ExampleTier</span><span class="badge badge-sm badge-outline font-mono">FieldDescriptor</span><span class="badge badge-sm badge-outline font-mono">fieldOrigin</span><span class="badge badge-sm badge-outline font-mono">FieldOrigin</span><span class="badge badge-sm badge-outline font-mono">FieldSource</span><span class="badge badge-sm badge-outline font-mono">FROM_KEYWORD</span><span class="badge badge-sm badge-outline font-mono">JsonSchema</span><span class="badge badge-sm badge-outline font-mono">ORIGIN_KEYWORD</span><span class="badge badge-sm badge-outline font-mono">ResolvedExample</span><span class="badge badge-sm badge-outline font-mono">resolveExample</span><span class="badge badge-sm badge-outline font-mono">resolveSourced</span><span class="badge badge-sm badge-outline font-mono">SourceRef</span><span class="badge badge-sm badge-outline font-mono">SynthDirection</span><span class="badge badge-sm badge-outline font-mono">synthesize</span><span class="badge badge-sm badge-outline font-mono">SynthOptions</span></div>
+      
+      
+    </div>
+  </article></main>
+<footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">
+  <p>CANDIDATE — not official OpenAPI. Generated from source by <code>@suluk/docs</code>.</p>
+</footer>
+</body></html>
