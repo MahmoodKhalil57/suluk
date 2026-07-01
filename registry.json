@@ -19,7 +19,7 @@
       "title": "Auth — Better Auth mount + CurrentUser Effect service",
       "description": "The auth foundation: buildAuth (drizzle adapter + openAPI/apiKey/passkey plugins, parametrized), mountAuthRoutes (the Hono handler), and a CurrentUser Effect service. Owns the user + apikey tables. The schema is reconciled against Better Auth v1.6.23 (canonical) — regenerate with `npx @better-auth/cli generate` if you change plugins/version. The signup hook (onUserCreated) wires to the `credits` module.",
       "registryDependencies": ["MahmoodKhalil57/suluk/app"],
-      "dependencies": ["better-auth", "@better-auth/api-key", "@better-auth/passkey", "@suluk/provision", "effect", "hono", "drizzle-orm"],
+      "dependencies": ["better-auth", "@better-auth/api-key", "@better-auth/passkey", "@suluk/better-auth", "@suluk/provision", "effect", "hono", "drizzle-orm"],
       "files": [
         { "path": "registry/auth/auth.ts", "type": "registry:file", "target": "src/auth.ts" },
         { "path": "registry/auth/auth.schema.ts", "type": "registry:file", "target": "src/db/auth.ts" },

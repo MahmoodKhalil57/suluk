@@ -12,7 +12,8 @@ import { apiKey } from "@better-auth/api-key";
 import { passkey } from "@better-auth/passkey";
 import { drizzle } from "drizzle-orm/d1";
 import { Context, Effect, Layer } from "effect";
-import type { Hono } from "hono";
+import type { Hono, MiddlewareHandler } from "hono";
+import { principalFromSession, verifyApiKey, type ApiKeyVerifierLike, type SessionLike } from "@suluk/better-auth";
 import * as schema from "./db/auth";
 
 export interface AuthEnv {
@@ -58,8 +59,67 @@ export function createAuth(env: AuthEnv, opts?: AuthOptions) {
   return auth;
 }
 
-/** Mount Better Auth's handler on your app (default `/api/auth/*`) — one auth instance per request's DB binding. */
-export function mountAuthRoutes<T extends Hono<{ Bindings: AuthEnv }>>(app: T, opts?: AuthOptions): T {
+/**
+ * Request-scoped identity, set by {@link identity} (session) or {@link apiKeyAuth} (an `x-api-key`). `user` is the resolved
+ * principal (rate-limit + routes read `c.get("user")`); `scopes` are its granted scopes; `keyId`/`keyName` are set ONLY for
+ * a KEYED caller — their presence is how the scope gate tells a key call from a session call. Extend with `keyChain` etc.
+ */
+export type AppVars = { user?: { id: string; email?: string }; scopes?: string[]; keyId?: string; keyName?: string };
+export type AppCtx = { Bindings: AuthEnv; Variables: AppVars };
+
+/**
+ * Resolve the Better Auth session ONCE per `/api/*` request and stash the principal on the context (so routes read
+ * `c.get("user")` instead of re-running getSession). Skips `/api/auth/*` (those establish the session) and anonymous
+ * (no cookie). A failed lookup degrades to anonymous — it never 500s. `roleScopes` (via {@link AuthOptions}? — pass your
+ * map) turns a user's role into scopes (e.g. `{ admin: ["admin"] }`); without it, session callers carry no scopes (they
+ * pass the key-scope gate regardless — only KEYED callers are scope-restricted).
+ */
+export function identity(roleScopes?: Record<string, string[]>): MiddlewareHandler<AppCtx> {
+  return async (c, next) => {
+    const path = new URL(c.req.url).pathname;
+    if (!path.startsWith("/api/auth") && c.req.header("cookie")) {
+      try {
+        const s = await createAuth(c.env).api.getSession({ headers: c.req.raw.headers });
+        if (s?.user?.id) {
+          c.set("user", { id: s.user.id, email: s.user.email ?? undefined });
+          c.set("scopes", principalFromSession(s as unknown as SessionLike, roleScopes ? { roleScopes } : {}).scopes);
+        }
+      } catch {
+        /* anonymous */
+      }
+    }
+    return next();
+  };
+}
+
+/**
+ * Programmatic auth via an `x-api-key` header (the api-key plugin) — when there is NO session, verify the key and stash its
+ * OWNER + scopes + key id on the SAME slots a session sets, so a key caller reaches the metered API exactly like a user.
+ * The verification (`verifyApiKey`) + permission→scope mapping stay in `@suluk/better-auth`; this is the wiring.
+ */
+export const apiKeyAuth: MiddlewareHandler<AppCtx> = async (c, next) => {
+  const key = c.req.header("x-api-key");
+  if (key && !c.get("user")) {
+    const res = await verifyApiKey(createAuth(c.env).api as unknown as ApiKeyVerifierLike, key);
+    // VerifyApiKeyResult is a flat interface (not a discriminated union), so guard the fields explicitly.
+    if (res.ok && res.key?.userId && res.principal) {
+      c.set("user", { id: res.key.userId });
+      c.set("scopes", res.principal.scopes);
+      if (res.key.id) c.set("keyId", res.key.id);
+      if (res.key.name) c.set("keyName", res.key.name);
+    }
+  }
+  return next();
+};
+
+/**
+ * Mount Better Auth on your app: the caller-resolution middleware (session `identity` + `apiKeyAuth`) on `/api/*` FIRST,
+ * then the `/api/auth/*` handler. One auth instance per request's DB binding. Pass `roleScopes` to grant scopes by role.
+ */
+export function mountAuthRoutes<T extends Hono<{ Bindings: AuthEnv }>>(app: T, opts?: AuthOptions & { roleScopes?: Record<string, string[]> }): T {
+  // cast to the untyped MiddlewareHandler so these attach to an app whose Variables aren't declared as AppVars.
+  app.use("/api/*", identity(opts?.roleScopes) as MiddlewareHandler);
+  app.use("/api/*", apiKeyAuth as MiddlewareHandler);
   app.on(["GET", "POST"], "/api/auth/*", (c) => createAuth(c.env, opts).handler(c.req.raw));
   return app;
 }
