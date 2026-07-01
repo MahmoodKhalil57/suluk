@@ -1,0 +1,196 @@
+/**
+ * The common Service interface (C053) — "define what each core service is" so community shadcn registries can extend the
+ * platform with the SAME shape. A service = how it MOUNTS + its PROVISION fragment + npm DEPS + runtime ENV (all present
+ * since C051), PLUS (C053) the typed opts surfaces and the COMPOSITION surface (ports it EXPOSES / capabilities it OFFERS).
+ *
+ * PHASE 1 (this file) lands the interface + the 19 core services expressed through it (`CORE_SERVICES`); `catalog.ts`
+ * DERIVES the old `CATALOG` view from it (`toCatalogEntry`) so `planPlatform` is byte-for-byte unchanged. The typed opts
+ * schemas (`serviceOpts`/`brandOpts`) and the composition ENGINE are declared here but not yet consumed — Phase 2 wires the
+ * opts, Phase 3 the composition. Every phase runs against the Phase-0 golden lock.
+ */
+
+/** How a module contributes to the generated `src/index.ts`. (Unchanged from C051.) */
+export type Mount =
+  | { kind: "base" } // the app skeleton — `createApp()`
+  | { kind: "middleware"; symbol: string; from: string } // e.g. `mountAuthRoutes(app)`
+  | { kind: "route"; path: string; symbol: string; from: string } // e.g. `app.route("/api/credits", creditsRoutes())`
+  | { kind: "dev" }; // dev/CI tooling (journeys, audit) — files only, no runtime mount, no provision fragment
+
+/** An env var a module needs at runtime — drives the generated `.env.example` + the env-check preflight. (Unchanged.) */
+export interface EnvVar {
+  name: string;
+  /** the app WON'T work without it (the "minimum keys") — the env-check requires a non-empty value before it's happy. */
+  required?: boolean;
+  /** a credential (never commit) — shown commented in `.env.example` + flagged in the temp file. */
+  secret?: boolean;
+  /** a one-line hint shown as a comment in `.env.example`. */
+  hint?: string;
+}
+
+/** The old catalog record — now a DERIVED VIEW of a {@link Service} (see {@link toCatalogEntry}); kept so `planPlatform`
+ *  and the C051 helpers read the same shape they always did. */
+export interface CatalogEntry {
+  mount: Mount;
+  provision?: { symbol: string; from: string };
+  deps?: string[];
+  env?: EnvVar[];
+}
+
+/**
+ * Standard-Schema v1 shape (zod v4 implements it). Declared LOCALLY so the Service interface can carry the typed-opts slots
+ * with NO runtime validator dependency in Phase 1; Phase 2 replaces this with `@standard-schema/spec` and populates
+ * `serviceOpts`/`brandOpts` with real zod schemas (zod as a peerDependency). `Out` carries the inferred value type.
+ */
+export interface Schema<Out = unknown> {
+  readonly "~standard": {
+    readonly version: 1;
+    readonly vendor: string;
+    readonly validate: (value: unknown) => { value: Out } | { issues: readonly unknown[] } | Promise<unknown>;
+  };
+}
+
+/**
+ * A typed PORT a service EXPOSES: a named hook others fill. `hookOptKey` is the mount-opt field a bound edge renders INTO
+ * (e.g. auth's `onUserCreated`), so an edge never emits a separate post-route statement — it composes into the producer's
+ * own mount call. `render` wraps the consumer expressions for this hook's real signature. (Consumed in Phase 3.)
+ */
+export interface Port<P = unknown> {
+  readonly kind: "port";
+  readonly param?: Schema<P>;
+  readonly hookOptKey: string;
+  readonly render: (consumerExprs: string[]) => string;
+}
+
+/** A typed CAPABILITY a service OFFERS to fill a port: a TRUSTED symbol + a builder from validated params. (Phase 3.) */
+export interface Capability<A = unknown> {
+  readonly kind: "capability";
+  readonly param?: Schema<A>;
+  readonly symbol: string; // exported name in the service's owned code (import-checked)
+  readonly from: string;
+  readonly build: (ctx: { params: string; env?: string }) => string; // `env` names a [vars] key for a brand-tunable param
+}
+
+/** What a service brings to the composition graph: the ports it exposes + the capabilities it offers. */
+export interface CompositionSurface {
+  exposes?: Record<string, Port>;
+  offers?: Record<string, Capability>;
+}
+
+/**
+ * THE COMMON INTERFACE. `SO` = the service-opts value type, `BO` = the brand-opts value type (both Phase 2). A core service
+ * and a community service instantiate the exact same shape via {@link defineService}.
+ */
+export interface Service<SO = {}, BO = {}> {
+  readonly id: string; // "auth" | "acme.analytics"
+  readonly registry?: string; // owning registry (multi-registry, Phase 4); default = the manifest's core alias
+  readonly mount: Mount;
+  readonly provision?: { symbol: string; from: string };
+  readonly deps?: string[];
+  readonly env?: EnvVar[];
+  readonly serviceOpts?: Schema<SO>; // how THIS service works       → the ENTRY (mount 2nd arg)      [Phase 2]
+  readonly brandOpts?: Schema<BO>; // THIS service's brand-facing   → [vars]/env by default            [Phase 2]
+  readonly reads?: { globalService?: string[]; globalBrand?: string[] }; // which globals it consumes  [Phase 2]
+  readonly compose?: CompositionSurface; // ports it exposes + capabilities it offers                   [Phase 3]
+}
+
+/** Author a service. Validates the id; returns the object typed (so `serviceOpts`/`wire` inference works downstream). */
+export function defineService<SO = {}, BO = {}>(s: Service<SO, BO>): Service<SO, BO> {
+  if (!s.id) throw new Error("defineService: `id` is required");
+  return s;
+}
+
+/** Project a Service onto the legacy {@link CatalogEntry} shape the C051 generator reads. Field-for-field — so a derived
+ *  CATALOG is behaviourally identical to the old hardcoded one (proven by the Phase-0 golden lock). */
+export function toCatalogEntry(s: Service): CatalogEntry {
+  return { mount: s.mount, provision: s.provision, deps: s.deps, env: s.env };
+}
+
+/**
+ * The 19 CORE services, expressed through the common interface (the dogfood). Ported field-for-field from the C051 CATALOG;
+ * `auth` and `credits` additionally declare their composition surface (the `auth.onUserCreated` port + the
+ * `credits.grantOnSignup` capability) — inert until the Phase-3 engine consumes them, and the render/build templates are
+ * PROVISIONAL (Phase 3 pins them against the real auth seam signature, see ADR C053 open question #1).
+ */
+const CORE_SERVICE_LIST: Service[] = [
+  defineService({ id: "app", mount: { kind: "base" }, env: [{ name: "TRUSTED_ORIGINS", hint: "comma-separated browser origins allowed on /api/* (CORS)" }] }),
+  defineService({
+    id: "auth",
+    mount: { kind: "middleware", symbol: "mountAuthRoutes", from: "./auth" },
+    provision: { symbol: "authProvision", from: "./src/provision/auth" },
+    deps: ["better-auth", "@better-auth/api-key", "@better-auth/passkey", "@suluk/better-auth"],
+    env: [
+      { name: "BETTER_AUTH_SECRET", required: true, secret: true, hint: "session-signing key — `openssl rand -base64 32`" },
+      { name: "BETTER_AUTH_URL", hint: "your deployed origin, e.g. https://api.example.com" },
+      { name: "GOOGLE_CLIENT_ID", secret: true, hint: "optional — enables Google sign-in" },
+      { name: "GOOGLE_CLIENT_SECRET", secret: true, hint: "optional — pairs with GOOGLE_CLIENT_ID" },
+    ],
+    compose: {
+      exposes: {
+        // the hook Better Auth already exposes (registry/auth/auth.ts `onUserCreated?: (userId) => Promise<void>`).
+        onUserCreated: { kind: "port", hookOptKey: "onUserCreated", render: (exprs) => `async (userId) => { ${exprs.join("; ")}; }` },
+      },
+    },
+  }),
+  defineService({ id: "contract", mount: { kind: "middleware", symbol: "mountContract", from: "./routes/contract" }, deps: ["@suluk/hono", "zod"] }),
+  defineService({ id: "mcp", mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" }, deps: ["@suluk/mcp", "better-auth"] }),
+  defineService({
+    id: "credits",
+    mount: { kind: "route", path: "/api/credits", symbol: "creditsRoutes", from: "./routes/credits" },
+    provision: { symbol: "creditsProvision", from: "./src/provision/credits" },
+    deps: ["@suluk/credits"],
+    compose: {
+      offers: {
+        // PROVISIONAL render (Phase 3 pins env threading): grant N credits on signup, idempotent per user.
+        grantOnSignup: {
+          kind: "capability",
+          symbol: "Credits",
+          from: "./routes/credits",
+          build: ({ env }) => `await run(env, Effect.flatMap(Credits, (s) => s.grant(userId, Number(${env ?? "100"}), \`signup:\${userId}\`, "signup grant")))`,
+        },
+      },
+    },
+  }),
+  defineService({ id: "keys", mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" }, deps: ["@suluk/keys"] }),
+  defineService({
+    id: "billing",
+    mount: { kind: "route", path: "/api/billing", symbol: "billingRoutes", from: "./routes/billing" },
+    provision: { symbol: "billingProvision", from: "./src/provision/billing" },
+    deps: ["@suluk/billing", "@suluk/payments", "@suluk/credits"],
+    env: [
+      { name: "STRIPE_SECRET_KEY", required: true, secret: true, hint: "your Stripe secret key" },
+      { name: "STRIPE_PUBLISHABLE_KEY", hint: "returned by GET /api/billing/payment-config" },
+    ],
+  }),
+  defineService({ id: "cost", mount: { kind: "route", path: "/api/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" }, deps: ["@suluk/cost"] }),
+  defineService({ id: "erasure", mount: { kind: "route", path: "/api/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" }, deps: ["@suluk/better-auth"] }),
+  defineService({
+    id: "email",
+    mount: { kind: "route", path: "/api/email", symbol: "emailRoutes", from: "./routes/email" }, // stateless binding — no provision fragment (C052)
+    deps: ["@suluk/email"],
+    env: [
+      { name: "RESEND_API_KEY", secret: true, hint: "omit → the console provider (dev)" },
+      { name: "EMAIL_FROM", hint: "the from-address" },
+      { name: "BRAND_NAME", hint: "email template branding" },
+      { name: "BASE_URL", hint: "email link base" },
+      { name: "ENVIRONMENT", hint: '"production" → use Resend (else console)' },
+    ],
+  }),
+  defineService({
+    id: "webhooks",
+    mount: { kind: "route", path: "/api/webhooks", symbol: "webhooksRoutes", from: "./routes/webhooks" },
+    provision: { symbol: "webhooksProvision", from: "./src/provision/webhooks" },
+    deps: ["@suluk/payments"],
+    env: [{ name: "STRIPE_WEBHOOK_SECRET", required: true, secret: true, hint: "verifies inbound Stripe events (POST /api/webhooks/stripe)" }],
+  }),
+  defineService({ id: "rate-limit", mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" }, deps: ["@suluk/hono"] }),
+  defineService({ id: "rate-credit", mount: { kind: "middleware", symbol: "mountRateCredit", from: "./services/rate-credit" } }), // credit-backed free-tier bucket (KV binding); base deps cover it
+  defineService({ id: "i18n", mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" }, deps: ["@suluk/i18n"] }),
+  defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, deps: ["@suluk/reference"] }), // derived doc render — no provision
+  defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, deps: ["@suluk/credits"] }), // reads existing tables — no provision
+  defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } }),
+  defineService({ id: "journeys", mount: { kind: "dev" }, deps: ["@suluk/journeys"] }),
+  defineService({ id: "audit", mount: { kind: "dev" }, deps: ["@suluk/cockpit", "@suluk/harden"] }),
+];
+
+/** The core services keyed by id (key === `service.id`, guaranteed by construction). */
+export const CORE_SERVICES: Record<string, Service> = Object.fromEntries(CORE_SERVICE_LIST.map((s) => [s.id, s]));

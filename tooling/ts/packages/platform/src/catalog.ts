@@ -1,102 +1,25 @@
 /**
- * The catalog (C051) — the OSB "offerings": each service id → how to MOUNT its router into the Hono entry + where its
- * PROVISION fragment lives. This is the mapping the generator needs beyond `shadcn add` (which handles files/deps/order on
- * its own). Kept in sync with the registry's module set (C050). `app` is the base (no mount, no fragment).
+ * The catalog (C051) — each service id → how to MOUNT its router + where its PROVISION fragment lives. Since C053 this is a
+ * DERIVED VIEW of {@link CORE_SERVICES} (the common {@link Service} interface): `CATALOG[id] = toCatalogEntry(service)`, so
+ * the C051 generator reads the exact same shape it always did (the Phase-0 golden lock proves byte-identity) while the
+ * authoring surface is now the open Service model. Types + the core service set live in `service.ts`.
  */
+import { CORE_SERVICES, toCatalogEntry, type CatalogEntry, type EnvVar } from "./service";
 
-/** How a module contributes to the generated `src/index.ts`. */
-export type Mount =
-  | { kind: "base" } // the app skeleton — `createApp()`
-  | { kind: "middleware"; symbol: string; from: string } // e.g. `mountAuthRoutes(app)`
-  | { kind: "route"; path: string; symbol: string; from: string } // e.g. `app.route("/credits", creditsRoutes())`
-  | { kind: "dev" }; // dev/CI tooling (journeys, audit) — files only, no runtime mount, no provision fragment
+// re-export the shape types from their new home so `@suluk/platform`'s public surface + `plan.ts` are unchanged.
+export { CORE_SERVICES, toCatalogEntry, defineService } from "./service";
+export type { Mount, EnvVar, CatalogEntry, Service, Port, Capability, CompositionSurface, Schema } from "./service";
 
-/** An env var a module needs at runtime — drives the generated `.env.example` + the env-check preflight. Bindings (D1/KV)
- *  are NOT here (they live in wrangler.toml); only string env vars. */
-export interface EnvVar {
-  name: string;
-  /** the app WON'T work without it (the "minimum keys") — the env-check requires a non-empty value before it's happy. */
-  required?: boolean;
-  /** a credential (never commit) — shown commented in `.env.example` + flagged in the temp file. */
-  secret?: boolean;
-  /** a one-line hint shown as a comment in `.env.example`. */
-  hint?: string;
+/** The offerings, derived from the core service set. `app` is the base (no mount symbol, no fragment). */
+export const CATALOG: Record<string, CatalogEntry> = Object.fromEntries(Object.entries(CORE_SERVICES).map(([id, s]) => [id, toCatalogEntry(s)]));
+
+// DRIFT GUARD: the derived view must expose exactly the core service ids (a dropped/renamed service would silently change
+// the generated app). Trivially true while CATALOG is derived, but asserted so a future hand-edit can't diverge unnoticed.
+{
+  const a = Object.keys(CORE_SERVICES).sort().join(",");
+  const b = Object.keys(CATALOG).sort().join(",");
+  if (a !== b) throw new Error(`platform: CATALOG drifted from CORE_SERVICES (${b} vs ${a})`);
 }
-
-export interface CatalogEntry {
-  /** how it mounts into the entry. */
-  mount: Mount;
-  /** the provision fragment export, if any (`InstanceSpec[]`). */
-  provision?: { symbol: string; from: string };
-  /** the module's npm deps BEYOND the always-present base (see BASE_DEPS) — its @suluk/* logic packages + any extras
-   *  (zod, better-auth). `shadcn add` also installs these; declaring them here lets the generator emit a complete,
-   *  from-the-manifest package.json (so platform.config.ts is the only hand-authored surface). Kept in sync with the
-   *  registry item's `dependencies`. */
-  deps?: string[];
-  /** the runtime env vars this module reads — the generator unions them into `.env.example` + the env-check preflight. */
-  env?: EnvVar[];
-}
-
-export const CATALOG: Record<string, CatalogEntry> = {
-  app: { mount: { kind: "base" }, env: [{ name: "TRUSTED_ORIGINS", hint: "comma-separated browser origins allowed on /api/* (CORS)" }] },
-  auth: {
-    mount: { kind: "middleware", symbol: "mountAuthRoutes", from: "./auth" },
-    provision: { symbol: "authProvision", from: "./src/provision/auth" },
-    deps: ["better-auth", "@better-auth/api-key", "@better-auth/passkey", "@suluk/better-auth"],
-    env: [
-      { name: "BETTER_AUTH_SECRET", required: true, secret: true, hint: "session-signing key — `openssl rand -base64 32`" },
-      { name: "BETTER_AUTH_URL", hint: "your deployed origin, e.g. https://api.example.com" },
-      { name: "GOOGLE_CLIENT_ID", secret: true, hint: "optional — enables Google sign-in" },
-      { name: "GOOGLE_CLIENT_SECRET", secret: true, hint: "optional — pairs with GOOGLE_CLIENT_ID" },
-    ],
-  },
-  // the contract is a MIDDLEWARE mount: it installs the scope gate (enforceApiKeyScope) + GET /api/openapi.json. Place it
-  // after `auth` in the manifest so the gate runs after identity/apiKeyAuth set keyId/scopes. Derived + stateless.
-  contract: { mount: { kind: "middleware", symbol: "mountContract", from: "./routes/contract" }, deps: ["@suluk/hono", "zod"] },
-  // the API-as-MCP server + OAuth discovery + connections — a middleware mount (registers /api/mcp + /.well-known/*).
-  mcp: { mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" }, deps: ["@suluk/mcp", "better-auth"] },
-  // feature routes mount under /api/* — where the caller-resolution + cors + rate-limit middleware live (toolfactory parity).
-  credits: { mount: { kind: "route", path: "/api/credits", symbol: "creditsRoutes", from: "./routes/credits" }, provision: { symbol: "creditsProvision", from: "./src/provision/credits" }, deps: ["@suluk/credits"] },
-  keys: { mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" }, deps: ["@suluk/keys"] },
-  billing: {
-    mount: { kind: "route", path: "/api/billing", symbol: "billingRoutes", from: "./routes/billing" },
-    provision: { symbol: "billingProvision", from: "./src/provision/billing" },
-    deps: ["@suluk/billing", "@suluk/payments", "@suluk/credits"],
-    env: [
-      { name: "STRIPE_SECRET_KEY", required: true, secret: true, hint: "your Stripe secret key" },
-      { name: "STRIPE_PUBLISHABLE_KEY", hint: "returned by GET /api/billing/payment-config" },
-    ],
-  },
-  cost: { mount: { kind: "route", path: "/api/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" }, deps: ["@suluk/cost"] },
-  erasure: { mount: { kind: "route", path: "/api/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" }, deps: ["@suluk/better-auth"] },
-  email: {
-    mount: { kind: "route", path: "/api/email", symbol: "emailRoutes", from: "./routes/email" }, // stateless binding — no provision fragment (C052)
-    deps: ["@suluk/email"],
-    env: [
-      { name: "RESEND_API_KEY", secret: true, hint: "omit → the console provider (dev)" },
-      { name: "EMAIL_FROM", hint: "the from-address" },
-      { name: "BRAND_NAME", hint: "email template branding" },
-      { name: "BASE_URL", hint: "email link base" },
-      { name: "ENVIRONMENT", hint: '"production" → use Resend (else console)' },
-    ],
-  },
-  webhooks: {
-    mount: { kind: "route", path: "/api/webhooks", symbol: "webhooksRoutes", from: "./routes/webhooks" },
-    provision: { symbol: "webhooksProvision", from: "./src/provision/webhooks" },
-    deps: ["@suluk/payments"],
-    env: [{ name: "STRIPE_WEBHOOK_SECRET", required: true, secret: true, hint: "verifies inbound Stripe events (POST /api/webhooks/stripe)" }],
-  },
-  // cross-cutting MIDDLEWARE (apply globally via app.use, emitted before any route) — not routed resources.
-  "rate-limit": { mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" }, deps: ["@suluk/hono"] },
-  "rate-credit": { mount: { kind: "middleware", symbol: "mountRateCredit", from: "./services/rate-credit" } }, // credit-backed free-tier bucket (KV binding); base deps cover it
-  i18n: { mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" }, deps: ["@suluk/i18n"] },
-  reference: { mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, deps: ["@suluk/reference"] }, // derived doc render — no provision
-  admin: { mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, deps: ["@suluk/credits"] }, // reads existing tables — no provision
-  logs: { mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } },
-  // dev/CI tooling — pulled in as files, no runtime mount, no provision fragment.
-  journeys: { mount: { kind: "dev" }, deps: ["@suluk/journeys"] },
-  audit: { mount: { kind: "dev" }, deps: ["@suluk/cockpit", "@suluk/harden"] },
-};
 
 /**
  * The always-present framework deps (every generated app: the Effect services + Hono entry + the merged provision.config

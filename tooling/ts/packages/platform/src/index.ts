@@ -5,6 +5,8 @@
  * "credits", "billing"]` → a whole backend. The generated `provision.config.ts` imports `mergeProvision` from here.
  */
 export { definePlatform, type PlatformManifest } from "./manifest";
+// C053 — the open Service interface (the common shape community registries extend): defineService + the core service set.
+export { defineService, CORE_SERVICES, toCatalogEntry, type Service, type Port, type Capability, type CompositionSurface, type Schema } from "./service";
 export { CATALOG, orderServices, collectEnv, resolveVersion, BASE_DEPS, ECOSYSTEM_VERSIONS, DEV_DEPS, type CatalogEntry, type Mount, type EnvVar } from "./catalog";
 export { mergeProvision } from "./merge";
 export { planPlatform, buildPackageJson, mergePackageJson, mergeWranglerToml, mergeGitignore, type PlatformPlan } from "./plan";
