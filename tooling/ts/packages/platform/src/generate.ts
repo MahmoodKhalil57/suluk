@@ -5,7 +5,7 @@
  * testable. Stops short of `provision apply` — that's a live infra op the operator triggers.
  */
 import type { PlatformManifest } from "./manifest";
-import { planPlatform, mergePackageJson, mergeWranglerToml, type PlatformPlan } from "./plan";
+import { planPlatform, mergePackageJson, mergeWranglerToml, mergeGitignore, type PlatformPlan } from "./plan";
 
 export interface GenerateOptions {
   /** run a command — the CLI spawns `bunx shadcn add <ref>`; a test records. */
@@ -43,10 +43,14 @@ export async function generatePlatform(manifest: PlatformManifest, opts: Generat
   log("▸ writing wrangler.toml");
   await opts.write("wrangler.toml", mergeWranglerToml(plan.wranglerToml, await read("wrangler.toml")));
   written.push("wrangler.toml");
+  // .gitignore MERGES (append missing entries) — critically ensures .env/.env.temp are ignored even if the app already had
+  // a minimal .gitignore, so secrets are never committed. .env.example + the env-check are always (re)written (no values).
+  log("▸ writing .gitignore");
+  await opts.write(".gitignore", mergeGitignore(plan.gitignore, await read(".gitignore")));
+  written.push(".gitignore");
   for (const [file, content, always] of [
     ["tsconfig.json", plan.tsconfig, false],
     ["components.json", plan.componentsJson, false],
-    [".gitignore", plan.gitignore, false],
     [".env.example", plan.envExample, true], // a checked-in template (no values) — keep it current
     ["scripts/env-check.ts", plan.envCheck, true], // the .env.temp lifecycle preflight
   ] as const) {

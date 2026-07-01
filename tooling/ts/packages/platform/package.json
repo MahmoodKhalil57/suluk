@@ -1,6 +1,6 @@
 {
   "name": "@suluk/platform",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "The platform generator (C051): write one `definePlatform` manifest → it plans the shadcn-registry adds, generates the wired Hono entry, and merges each module's provision fragment into a single provision.config. The manifest compiles to a shadcn-add list + a C047 provision.config; the generator runs the adds + `@suluk/provision`. Turns the Suluk backend registry into a one-command platform. CANDIDATE tooling.",
   "publishConfig": { "access": "public" },
   "license": "Apache-2.0",

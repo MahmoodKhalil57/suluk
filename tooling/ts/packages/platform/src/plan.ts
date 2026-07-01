@@ -137,6 +137,18 @@ function buildGitignore(): string {
   return ["node_modules/", ".env", ".env.temp", ".dev.vars", ".wrangler/", "dist/", ""].join("\n");
 }
 
+/** Merge the generated .gitignore into an existing one — APPEND any missing entries (never skip-if-present, so an app's
+ *  minimal .gitignore can't leave `.env`/`.env.temp` UNIGNORED and risk committing secrets). Dedup, preserve app entries. */
+export function mergeGitignore(generated: string, existing: string | null): string {
+  if (!existing) return generated;
+  const norm = (s: string) => s.trim().replace(/\/$/, "");
+  const have = new Set(existing.split("\n").map(norm).filter(Boolean));
+  const add = generated.split("\n").filter((l) => l.trim() && !have.has(norm(l)));
+  if (!add.length) return existing.endsWith("\n") ? existing : existing + "\n";
+  const base = existing.replace(/\n*$/, "");
+  return `${base}\n${add.join("\n")}\n`;
+}
+
 /** The `.env.temp` lifecycle preflight (run via `predev` / `bun run check`): if every REQUIRED secret is present (in `.env`
  *  or the process env), delete `.env.temp`; else write `.env.temp` from `.env.example` + report the missing keys + fail. */
 function buildEnvCheckScript(env: EnvVar[]): string {

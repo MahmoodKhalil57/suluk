@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test";
-import { definePlatform, planPlatform, mergeProvision, generatePlatform, buildPackageJson, mergePackageJson, mergeWranglerToml } from "../src/index";
+import { definePlatform, planPlatform, mergeProvision, generatePlatform, buildPackageJson, mergePackageJson, mergeWranglerToml, mergeGitignore } from "../src/index";
 import type { InstanceSpec } from "@suluk/provision";
 
 /** C051 — the platform generator: manifest → plan (adds + wired entry + merged provision), the provision merge, and the
@@ -162,11 +162,11 @@ describe("generatePlatform — the orchestration (with recorders)", () => {
     expect(ran).toEqual(plannedAdds()); // exactly the planned adds, in order
     expect(ran.length).toBe(6); // app+auth+credits+keys+billing+logs
     // config is written BEFORE the shadcn adds; the glue after. env-example + env-check + wrangler + gitignore included.
-    expect(wrote).toEqual(["package.json", "wrangler.toml", "tsconfig.json", "components.json", ".gitignore", ".env.example", "scripts/env-check.ts", "src/index.ts", "provision.config.ts"]);
+    expect(wrote).toEqual(["package.json", "wrangler.toml", ".gitignore", "tsconfig.json", "components.json", ".env.example", "scripts/env-check.ts", "src/index.ts", "provision.config.ts"]);
     expect(res.added.length).toBe(6);
   });
 
-  test("leaves an existing tsconfig/components.json/.gitignore untouched; always rewrites package.json/.env.example", async () => {
+  test("leaves an existing tsconfig/components.json untouched; always (re)writes package.json/.gitignore/.env.example", async () => {
     const wrote: string[] = [];
     await generatePlatform(manifest, {
       run: async () => {},
@@ -174,10 +174,17 @@ describe("generatePlatform — the orchestration (with recorders)", () => {
       read: async (p) => (p === "package.json" ? '{"name":"x","dependencies":{"my-lib":"^1.0.0"}}' : "existing"),
     });
     expect(wrote).toContain("package.json"); // merged + rewritten
+    expect(wrote).toContain(".gitignore"); // MERGED (never skip — must ensure .env is ignored)
     expect(wrote).toContain(".env.example"); // template — always current
     expect(wrote).toContain("scripts/env-check.ts");
     expect(wrote).not.toContain("tsconfig.json"); // present → left as-is
-    expect(wrote).not.toContain(".gitignore");
+  });
+
+  test("mergeGitignore appends missing entries so .env is always ignored", () => {
+    const merged = mergeGitignore("node_modules/\n.env\n.env.temp\n", "node_modules\n");
+    expect(merged).toContain(".env");
+    expect(merged).toContain(".env.temp");
+    expect(merged.match(/node_modules/g)?.length).toBe(1); // deduped (node_modules vs node_modules/)
   });
 });
 

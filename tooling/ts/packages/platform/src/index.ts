@@ -7,5 +7,5 @@
 export { definePlatform, type PlatformManifest } from "./manifest";
 export { CATALOG, orderServices, collectEnv, resolveVersion, BASE_DEPS, ECOSYSTEM_VERSIONS, DEV_DEPS, type CatalogEntry, type Mount, type EnvVar } from "./catalog";
 export { mergeProvision } from "./merge";
-export { planPlatform, buildPackageJson, mergePackageJson, mergeWranglerToml, type PlatformPlan } from "./plan";
+export { planPlatform, buildPackageJson, mergePackageJson, mergeWranglerToml, mergeGitignore, type PlatformPlan } from "./plan";
 export { generatePlatform, type GenerateOptions, type GenerateResult } from "./generate";
