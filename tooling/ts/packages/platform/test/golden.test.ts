@@ -55,6 +55,7 @@ const OUTPUTS: Record<string, string> = {
   envCheck: "env-check.ts",
   envTs: "src_env.ts",
   syncSecrets: "sync-secrets.ts",
+  linkKey: "link-key.ts",
   envScaffold: "env.scaffold",
 };
 

@@ -30,7 +30,7 @@ Drizzle  ──▶  contract (Hono + Zod + Better Auth)  ──▶  v4 document 
 
 - **[Getting started](getting-started.md)** — the 30-second tour, from one schema to a running stack.
 - **[Architecture](architecture.md)** — how one v4 contract becomes a whole stack (with the package graph).
-- **API reference** — every `@suluk/*` package, symbol-by-symbol, is in the sidebar under **Modules**.
+- **[Packages](packages.md)** — every `@suluk/*` package is its own complete documentation site (README, guides, and full symbol-by-symbol API).
 - **[Contributing](contributing.md)** &middot; **[Community](community.md)** — extend and build on Suluk.
 
 ## The discipline (why it stays coherent)

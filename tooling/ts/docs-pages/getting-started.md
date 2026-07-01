@@ -44,7 +44,7 @@ Everything is a small focused package — add only what you need:
 bun add @suluk/core @suluk/hono @suluk/zod
 ```
 
-Browse every package in the sidebar under **Modules**, and read [how it fits together](architecture.md).
+Browse every package from the **[Packages](packages.md)** index — each one is its own complete docs site — and read [how it fits together](architecture.md).
 
 ## The platform generator
 
@@ -59,6 +59,6 @@ export default definePlatform({
 ```
 
 `@suluk/platform` plans the `shadcn add` list, the wired `src/index.ts`, and the merged `provision.config.ts`
-from that single declaration — see the `@suluk/platform` and `@suluk/provision` entries under **Modules**.
+from that single declaration — see the `@suluk/platform` and `@suluk/provision` sites from the [Packages](packages.md) index.
 
 > Suluk is a **candidate** exploration of OpenAPI v4 "Moonwalk" — not the official specification.

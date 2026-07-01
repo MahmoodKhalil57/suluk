@@ -1,50 +1,61 @@
-// Regenerate the one DERIVED narrative page — docs-pages/architecture.md — so its package-dependency
-// diagram can never drift from the actual @suluk/* dependency graph. The other narrative pages
-// (index / getting-started / contributing / community) are hand-authored and static; only the architecture
-// page carries a generated artifact (the D2 graph), so only it is regenerated here.
+// Regenerate the DERIVED narrative pages for the umbrella site, so they can never drift from the packages:
+//   docs-pages/architecture.md — the design prose (ARCHITECTURE.md) + a fresh D2 of the @suluk/* graph
+//   docs-pages/packages.md     — the Packages index: every documented package → its own root docs site
 //
-// Reuses @suluk/docs (harvest + packageGraphD2 + krokiD2Url) — the same projection idea the site is built on.
-// Run standalone with `bun tooling/ts/scripts/gen-doc-pages.ts`, or via the deploy pipeline (deploy-docs.ts).
-import { harvest, packageGraphD2, krokiD2Url } from "../packages/docs/src/index";
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { join, dirname } from "node:path";
+// Also exports documentedPackages() — the single source of truth for WHICH packages get a root site — reused
+// by build-docs.ts. Reuses @suluk/docs (harvest + packageGraphD2 + krokiD2Url). Runnable standalone
+// (`bun tooling/ts/scripts/gen-doc-pages.ts`) or via build-docs.ts / deploy-docs.ts.
+import { harvest, harvestPackage, packageGraphD2, krokiD2Url } from "../packages/docs/src/index";
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from "node:fs";
+import { join } from "node:path";
 
 const tsRoot = new URL("..", import.meta.url).pathname; // tooling/ts
 const repoRoot = join(tsRoot, "..", "..");
 const pagesDir = join(tsRoot, "docs-pages");
+const packagesRoot = join(tsRoot, "packages");
 const RAW = "https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/tooling/ts/docs-pages/architecture.d2";
 
-const fw = harvest({
-  packagesDir: join(tsRoot, "packages"),
-  title: "Suluk",
-  tagline: "",
-  description: "",
-  repoUrl: "https://github.com/MahmoodKhalil57/suluk",
-  architecturePath: join(tsRoot, "..", "ARCHITECTURE.md"), // tooling/ARCHITECTURE.md
-  repoRoot,
-});
+/** Packages that get NO root docs site: the private demo app, the prebuilt bundle, the editor extension app. */
+export const EXCLUDED = new Set(["example-petshop", "scalar-standalone", "vscode"]);
 
-// The fresh D2 of the @suluk package graph (committed as source too, so it's inspectable/renderable).
-const d2 = packageGraphD2(fw.packages);
-const kroki = krokiD2Url(d2);
+export interface DocPackage {
+  name: string;   // @suluk/<x>
+  slug: string;   // <x> (url + output-dir segment, from the npm name)
+  dir: string;    // absolute package dir
+  description: string;
+  hasReadme: boolean;
+}
 
-// The design prose (ARCHITECTURE.md, verbatim) + the derived diagram section. Strip ARCHITECTURE.md's
-// leading H1 so the frontmatter title is the only page heading (TypeDoc renders `title:` as the page H1).
-const prose = (fw.architecture ?? "# Architecture\n\nSuluk derives a whole stack from one v4 contract.")
-  .replace(/^\s*#\s+.*\r?\n/, "");
+/** The single source of truth for which packages get a root docs site (a library package with src/index.ts). */
+export function documentedPackages(): DocPackage[] {
+  return readdirSync(packagesRoot)
+    .filter((d) => !EXCLUDED.has(d))
+    .map((d) => join(packagesRoot, d))
+    .filter((dir) => existsSync(join(dir, "src", "index.ts")))
+    .map((dir) => ({ dir, p: harvestPackage(dir, repoRoot) }))
+    .filter((x): x is { dir: string; p: NonNullable<typeof x.p> } => !!x.p && !x.p.private)
+    // slug = the npm name minus the "@suluk/" prefix (harvest's slug prepends "suluk-"); strip it so a
+    // root lives at docs/packages/<name>/ (e.g. admin, keys, openapi-compat) — matching the package name.
+    .map(({ dir, p }) => ({ name: p.name, slug: p.slug.replace(/^suluk-/, ""), dir, description: p.description, hasReadme: p.readme.trim().length > 0 }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
 
-const diagram = `
-## How the tools compose
+/** Regenerate architecture.md + packages.md; returns the documented-package list (for build-docs). */
+export function generatePages(): DocPackage[] {
+  mkdirSync(pagesDir, { recursive: true });
 
-Each package derives one facet from the single v4 contract; here is how they depend on each other — every
-package pointing at its \`@suluk/*\` dependencies.
-
-![Suluk package dependency graph](${kroki})
-
-[D2 source](${RAW}) — render with the [d2 CLI](https://d2lang.com) or paste it into [d2lang.com/playground](https://play.d2lang.com).
-`;
-
-const page = `---
+  // ── architecture.md: ARCHITECTURE.md prose + a fresh D2 dependency graph ──
+  const fw = harvest({
+    packagesDir: packagesRoot,
+    title: "Suluk", tagline: "", description: "",
+    repoUrl: "https://github.com/MahmoodKhalil57/suluk",
+    architecturePath: join(tsRoot, "..", "ARCHITECTURE.md"),
+    repoRoot,
+  });
+  const d2 = packageGraphD2(fw.packages);
+  const prose = (fw.architecture ?? "# Architecture\n\nSuluk derives a whole stack from one v4 contract.")
+    .replace(/^\s*#\s+.*\r?\n/, ""); // strip leading H1 (frontmatter title is the page heading)
+  const architectureMd = `---
 title: Architecture
 ---
 
@@ -52,10 +63,38 @@ title: Architecture
 
 ${prose.trim()}
 
-${diagram.trim()}
-`;
+## How the tools compose
 
-mkdirSync(pagesDir, { recursive: true });
-writeFileSync(join(pagesDir, "architecture.md"), page);
-writeFileSync(join(pagesDir, "architecture.d2"), d2 + "\n");
-console.log(`Regenerated architecture.md (+ architecture.d2) — ${fw.packages.length} packages graphed.`);
+Each package derives one facet from the single v4 contract; here is how they depend on each other — every
+package pointing at its \`@suluk/*\` dependencies.
+
+![Suluk package dependency graph](${krokiD2Url(d2)})
+
+[D2 source](${RAW}) — render with the [d2 CLI](https://d2lang.com) or paste it into [d2lang.com/playground](https://play.d2lang.com).
+`;
+  writeFileSync(join(pagesDir, "architecture.md"), architectureMd);
+  writeFileSync(join(pagesDir, "architecture.d2"), d2 + "\n");
+
+  // ── packages.md: the index of per-package root sites (raw-HTML links → no TypeDoc link-resolution) ──
+  const pkgs = documentedPackages();
+  const rows = pkgs
+    .map((p) => `- <a href="packages/${p.slug}/"><code>${p.name}</code></a> — ${p.description || "&mdash;"}`)
+    .join("\n");
+  const packagesMd = `---
+title: Packages
+---
+
+# Packages
+
+Every \`@suluk/*\` package is its **own complete documentation site** — its README as the home page, any
+per-package guides, and the full symbol-by-symbol API reference. ${pkgs.length} packages:
+
+${rows}
+`;
+  writeFileSync(join(pagesDir, "packages.md"), packagesMd);
+
+  console.log(`Regenerated architecture.md (+ .d2) and packages.md — ${pkgs.length} documented packages.`);
+  return pkgs;
+}
+
+if (import.meta.main) generatePages();

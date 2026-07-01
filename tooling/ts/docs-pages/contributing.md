@@ -39,5 +39,6 @@ Open a [discussion](https://github.com/MahmoodKhalil57/suluk/discussions) before
 ## The docs you're reading
 
 This site is regenerated from the packages' source by `@suluk/docs` + [TypeDoc](https://typedoc.org),
-built locally and pushed to GitHub Pages — see [Architecture](architecture.md) for the pipeline. The API
-reference under **Modules** is a projection of the code; it cannot drift from what ships.
+built locally and pushed to GitHub Pages — see [Architecture](architecture.md) for the pipeline. Each
+package (from the [Packages](packages.md) index) has its own complete docs site whose API reference is a
+projection of the code; it cannot drift from what ships.

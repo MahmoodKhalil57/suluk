@@ -163,7 +163,7 @@ describe("generatePlatform — the orchestration (with recorders)", () => {
     expect(ran).toEqual(plannedAdds()); // exactly the planned adds, in order
     expect(ran.length).toBe(6); // app+auth+credits+keys+billing+logs
     // config is written BEFORE the shadcn adds; the glue after. env-example + env-check + wrangler + gitignore included.
-    expect(wrote).toEqual(["package.json", "wrangler.toml", ".gitignore", "tsconfig.json", "components.json", ".env.example", "scripts/env-check.ts", "src/env.ts", "scripts/sync-secrets.ts", ".env", "src/index.ts", "provision.config.ts"]);
+    expect(wrote).toEqual(["package.json", "wrangler.toml", ".gitignore", "tsconfig.json", "components.json", ".env.example", "scripts/env-check.ts", "src/env.ts", "scripts/sync-secrets.ts", "scripts/link-key.ts", ".env", "src/index.ts", "provision.config.ts"]);
     expect(res.added.length).toBe(6);
   });
 
@@ -241,6 +241,12 @@ describe("env — secrets in .env (temp lifecycle), non-secrets in the manifest 
     expect(p.entry).toContain("privateKey: env.SULUK_PRIVATE_KEY");
     expect(p.syncSecrets).toContain('forSurface("cloudflare")');
     expect(p.syncSecrets).toContain("wrangler");
+    // link-key registers the private key into the central ~/.suluk/settings.json store (the @suluk/env default).
+    expect(p.linkKey).toContain(".suluk");
+    expect(p.linkKey).toContain("settings.json");
+    expect(p.linkKey).toContain("readPrivateKey");
+    expect(JSON.parse(p.packageJson).scripts["link-key"]).toBe("bun run scripts/link-key.ts");
+    expect(p.envScaffold).toContain("~/.suluk/settings.json");
     // the committed .env scaffold has NO real values (every non-empty line is a comment); package.json deps @suluk/env.
     expect(p.envScaffold.split("\n").filter((l) => l.trim()).every((l) => l.trim().startsWith("#"))).toBe(true);
     expect(JSON.parse(p.packageJson).dependencies["@suluk/env"]).toBe("latest");

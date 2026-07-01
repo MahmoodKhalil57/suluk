@@ -15,12 +15,30 @@ Date: 2026-07-01
 
 ## Status
 
-**BUILT (local, verified end-to-end) — live deploy pending operator go.** Ceiling **0.6** (built + verified
-against the real repo, not yet published/deployed; docs tooling, lower stakes than spec). The full pipeline runs
-`exit 0`, emits **1652 pages** (44 library packages + 4 guide documents + a narrative home), themed by
-`typedoc-github-theme@0.4.0` with a `vscode-icons`/`codicon` icon plugin, favicon + OG/Twitter on every page,
-and a fresh D2 package-graph on the Architecture page. Verified in a scratch out-dir at every phase and once
-into the real `docs/` (then restored). The first live publish is the operator's `bun run deploy:docs`.
+**BUILT + LIVE.** Ceiling **0.6** (built + verified against the real repo + deployed; docs tooling, lower stakes
+than spec). Themed by `typedoc-github-theme@0.4.0` with a `vscode-icons`/`codicon` icon plugin, favicon +
+OG/Twitter on every page, and a fresh D2 package-graph on the Architecture page. The first form (one merged
+`entryPointStrategy: "packages"` render → 1652 pages) shipped live; then **revised to MULTI-ROOT** (below).
+
+### Revision (2026-07-01) — MULTI-ROOT, operator: *"each module should be treated as a root typedoc complete with documents"*
+
+The single merged render made each package a thin *module* inside one site. Operator wanted each package to be
+its **own complete root** — its README as home, its own guide documents, its own API — with a general Suluk site
+tying them together (operator chose **"umbrella + package index"**: no duplicated merged API). So the pipeline is
+now **N+1 TypeDoc renders** (driven by the Node API, not a single `typedoc.json` — each root needs its own
+name/entryPoints/readme/out/navigationLinks):
+
+- **`docs/`** — the **umbrella**: a *documents-only* render (verified supported in 0.28.19 — `entryPoints: []`):
+  the narrative home (`readme: index.md`) + `projectDocuments` getting-started / architecture / **packages** /
+  contributing / community. The **Packages index** (`packages.md`) is generated with raw-HTML `<a>` links to each
+  root (so TypeDoc doesn't try to resolve them).
+- **`docs/packages/<name>/`** — each `@suluk/*` package as its **own complete root site**: README home, any
+  per-package guides (`packages/<name>/docs-pages/*.md` if present), the full API, the same theme + icon +
+  branding plugins, and a `↑ Suluk` back-link (absolute URL, depth-robust) + a GitHub-source link.
+
+Witnessed: a full build = **umbrella + 44 roots, 1741 pages, exit 0**, every root with `index.html` + `.nojekyll`,
+README homes, colour-tinted vscode-icons, OG/social-card on deep pages, and the umbrella's raw-HTML package links
+resolving to the roots. `typedoc.json` is removed (the build is script-driven: `build-docs.ts` via the Node API).
 
 ## Context
 
@@ -38,15 +56,24 @@ compiler. The operator asked to adopt it, theme it with `typedoc-github-theme` +
 
 ## Decision
 
-1. **One TypeDoc render is the whole site.** `tooling/ts/typedoc.json`, `entryPointStrategy: "packages"` over
-   `packages/*` (44 documented; `example-petshop`/`scalar-standalone`/`vscode` excluded as non-library —
-   private demo, prebuilt bundle, editor-extension app). `packageOptions` (not 44 per-package files) sets
-   `entryPoints: src/index.ts`, `includeVersion`, `excludeInternal/Private`, `skipErrorChecking` (the key that
-   lets raw-TS + hoisted peer/workspace deps convert). `out: ../../docs`, `cleanOutputDir`, `githubPages`.
-2. **Narrative lives in TypeDoc.** `readme: docs-pages/index.md` (home) + `projectDocuments`
-   (getting-started / architecture / contributing / community). Prose ported from the bespoke `site.ts`; internal
-   links are TypeDoc-resolved relative `.md` links. The Architecture page's D2 dependency graph is regenerated
-   each build by `scripts/gen-doc-pages.ts` (reusing `@suluk/docs`' `harvest` + `packageGraphD2`) so it can't drift.
+*(Structure below reflects the multi-root revision; the merged-render details are kept in the Status for history.)*
+
+1. **The site is N+1 TypeDoc renders (`scripts/build-docs.ts`, Node API).** An **umbrella** at `docs/` +
+   one **root per package** at `docs/packages/<name>/`. Documented set = `packages/*` minus
+   `example-petshop`/`scalar-standalone`/`vscode` (private demo / prebuilt bundle / editor-extension app) and any
+   `private` package, resolved by `documentedPackages()` (the single source of truth, in `gen-doc-pages.ts`).
+   Shared render options (theme + icon + branding plugins, `excludeInternal/Private`, `skipErrorChecking` — the
+   key that lets raw-TS + hoisted peer/workspace deps convert — `includeVersion`, `githubPages`,
+   `entryPointStrategy: "resolve"`) live in a `BASE` object; per-render overrides set name/entryPoints/readme/out/
+   navigationLinks. The umbrella builds first (its `cleanOutputDir` wipes `docs/`, incl. a stale `docs/packages/`);
+   roots write into subdirs after. `typedoc.json` is removed (a single config can't express N renders).
+2. **Narrative lives in TypeDoc — as the umbrella.** A *documents-only* render (`entryPoints: []`):
+   `readme: docs-pages/index.md` (home) + `projectDocuments` getting-started / architecture / **packages** /
+   contributing / community. Internal links are TypeDoc-resolved relative `.md`. The **Packages index**
+   (`packages.md`) and the Architecture D2 graph are regenerated each build by `scripts/gen-doc-pages.ts`
+   (reusing `@suluk/docs`' `harvest` + `packageGraphD2`); the index uses raw-HTML `<a href="packages/<name>/">`
+   links (bypassing TypeDoc link-resolution) to each root. **Each package root** carries the package README as its
+   home + any `packages/<name>/docs-pages/*.md` as its own documents + a `↑ Suluk` back-link.
 3. **Theme + icons.** `typedoc-github-theme` (additive, zero-config). A local plugin
    (`scripts/typedoc-vscode-icons.mjs`) re-skins the icon set: reflection kinds → **codicon `symbol-*`** glyphs
    tinted with TypeDoc's own `--color-ts-*` vars (VS Code look, color-coding preserved, theme-correct via

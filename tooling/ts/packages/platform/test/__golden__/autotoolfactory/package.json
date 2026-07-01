@@ -9,6 +9,7 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "env:keygen": "suluk-env keygen",
+    "link-key": "bun run scripts/link-key.ts",
     "env:set": "suluk-env set",
     "sync-secrets": "bun run scripts/sync-secrets.ts",
     "typecheck": "tsc --noEmit -p .",
