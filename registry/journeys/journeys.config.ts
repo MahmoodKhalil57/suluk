@@ -15,7 +15,7 @@ export interface JourneysConfig {
 }
 
 const config: JourneysConfig = {
-  featuresDir: "journeys",
+  featuresDir: "src/journeys", // where `shadcn add` lands the `.feature` files (under the components base)
   contractPath: "openapi.v4.json",
   coverageFloor: "C",
 };

@@ -10,7 +10,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { parseFeature, generateVocabulary, bindFeatures, coverageGrade } from "@suluk/journeys";
 import type { OpenAPIv4Document } from "@suluk/core";
-import config from "../journeys.config";
+import config from "./journeys.config";
 
 const ORDER = ["F", "D", "C", "B", "A"] as const;
 const haveContract = existsSync(config.contractPath);

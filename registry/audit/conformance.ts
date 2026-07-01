@@ -10,6 +10,7 @@
  * combined grade is below the floor — this is the single command your pipeline gates on. Pure logic in the packages; this
  * script is the owned wiring (edit the DOC_PATH default / grade floor to taste).
  */
+import { existsSync, readFileSync } from "node:fs";
 import { conformanceGates, shipSummary } from "@suluk/cockpit";
 import { auditDocument, auditReadiness, combineGrades, type Grade } from "@suluk/harden";
 import type { OpenAPIv4Document } from "@suluk/core";
@@ -20,17 +21,16 @@ const ORDER: Grade[] = ["F", "D", "C", "B", "A"];
 
 const DOC_PATH = process.argv[2] ?? "openapi.v4.json";
 
-async function loadDoc(path: string): Promise<OpenAPIv4Document> {
-  const file = Bun.file(path);
-  if (!(await file.exists())) {
+function loadDoc(path: string): OpenAPIv4Document {
+  if (!existsSync(path)) {
     console.error(`✗ conformance: contract not found at ${path}. Pass a path: bun run scripts/conformance.ts <doc>`);
     process.exit(2);
   }
-  return (await file.json()) as OpenAPIv4Document;
+  return JSON.parse(readFileSync(path, "utf8")) as OpenAPIv4Document;
 }
 
-async function main() {
-  const doc = await loadDoc(DOC_PATH);
+function main() {
+  const doc = loadDoc(DOC_PATH);
 
   // 1) lifecycle gates
   const gates = conformanceGates(doc);
