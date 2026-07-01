@@ -9,7 +9,10 @@ Date: 2026-07-01
 
 ## Status
 
-Accepted as a **ROADMAP** (plan only — no code this pass). Ceiling **0.5** (designed from a code survey; the per-module
+**SUPERSEDED by [C051](C051-platform-generator-autotoolfactory.md)** (2026-07-01) — the operator chose to *leave
+toolfactory alone* and generate a fresh parity app (`autotoolfactory`) instead of migrating toolfactory in place, which
+retires this roadmap's risky live money-cutover (Phase C). C049's module map + phase content is still the useful survey;
+its *in-place migration* approach is not the path. Originally: accepted as a **ROADMAP** (plan only — no code this pass). Ceiling **0.5** (designed from a code survey; the per-module
 LOC/mapping is re-confirmed at build time). Ledger: [`0toolfactory-adoption.bn`](../../../plan/facts/0toolfactory-adoption.bn)
 (burhan True). **Not a contract-facet change** — an app-adoption plan; never touches the matcher.
 

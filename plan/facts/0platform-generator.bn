@@ -1,0 +1,32 @@
+# C051 — OSB-MANIFEST PLATFORM GENERATOR + autotoolfactory (architecture-only; operator chose "new higher-level manifest"
+# + "record it, build later"). Operator vision: a separate package where a user writes ONE OSB-style contract that
+# provisions the ENTIRE Hono backend by adding the shadcn registry components (C050); LEAVE toolfactory alone; create a new
+# ~/apps/autotoolfactory generated from a single document at full toolfactory parity MINUS the product routes (transcribe/
+# subtitle/convert). Sits ATOP C050 (registry) + C047 (provision). NOT a contract facet.
+
+# THE APEX OF C047+C050 fused under one author document. THE MANIFEST (new higher-level schema, definePlatform): services
+# {auth/keys/credits/billing/cost/logs/stores/erasure/journeys/audit} + per-service opts + infra target; COMPILES DOWN to
+# two IRs — (a) a C047 provision.config (merged InstanceSpec[] from each service's provision fragment) + (b) the ordered
+# shadcn-add list (each service's registry component). Manifest = ergonomic surface; provision.config = compiled IR, so
+# NOTHING in C047 changes. THE CATALOG (the one new artifact = OSB offerings): service-id -> {component: shadcn ref,
+# requires: module-deps, npm: hybrid logic dep, provision:(opts)->InstanceSpec[], env}. THE GENERATOR (new pkg, thin over
+# C047 apply + shadcn): read manifest -> topo-resolve vs catalog -> per service `shadcn add` (owned code) + collect
+# provision(opts) -> merge fragments -> provision.config -> @suluk/provision generate/migrate/apply. The ONLY novel step
+# over C047 is per-service CODE materialization; all infra is C047. autotoolfactory = the generator's OUTPUT repo (Hono
+# backend, toolfactory parity minus product), parity MEASURED by diffing routes/schema/journeys vs toolfactory.
+claim platform_generator_osb_manifest_compiles_to_provision_plus_shadcn: Bool @>=0.45 = True
+falsified_when platform_generator_osb_manifest_compiles_to_provision_plus_shadcn == False
+
+# C051 SUPERSEDES C049 + the SAFETY WIN + the dependency chain. "Leave toolfactory alone" RETIRES C049's dangerous path
+# (migrating LIVE credits/billing/keys in a running app = a money-cutover); instead author the registry components FRESH +
+# GENERATE a clean app, using toolfactory as the parity ORACLE (diff target) not a migration subject. So the money modules
+# (credits/keys/billing/payments) are proven in a FRESH generated app (journeys + parity-diff), never touching a live money
+# path — strictly safer than C049 Phase C. C049 SUPERSEDED. HARD DEPENDENCY CHAIN: C050 registry components -> C051
+# generator -> autotoolfactory (the generator can only add components that EXIST). So NOTHING builds until >=1 C050 component
+# is real; first build = a VERTICAL SLICE (one service -> generate -> one component + provision fragment -> running stub) to
+# prove the pipeline before scaling to ~10 modules. The generator's new code is SMALL (apply + shadcn step + a catalog
+# resolver); the BULK of effort is authoring the ~10 C050 components faithfully vs toolfactory. OPEN: generator name,
+# manifest format (.ts definePlatform vs YAML), catalog home, generated-and-committed vs on-demand. Backend-first; web/UI
+# parity is Phase 2. DESIGNED-not-built + depends-on-unbuilt-C050 => ceiling 0.45.
+claim platform_generator_supersedes_c049_fresh_parity_app_safer_money: Bool @>=0.45 = True
+falsified_when platform_generator_supersedes_c049_fresh_parity_app_safer_money == False
