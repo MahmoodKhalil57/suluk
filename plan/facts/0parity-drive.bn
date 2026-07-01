@@ -56,3 +56,29 @@ falsified_when parity_drive_wave1_middleware_foundation_plus_contract_keystone_a
 # is the excluded subtitle route).
 claim parity_drive_wave2_scope_gate_reference_admin_logquery_proven: Bool @>=0.6 = True
 falsified_when parity_drive_wave2_scope_gate_reference_admin_logquery_proven == False
+
+# WAVE 3 DONE + PROVEN — BILLING COMPLETENESS (2026-07-01). Extended the billing module from 5 flows to the FULL
+# /api/billing/* surface (~14 new routes -> 23 total), built by ONE deeply-grounded agent (money-critical, one cohesive
+# module = one context) + an adversarial verifier that PASSED all 6 money checks (correct @suluk/billing call signatures,
+# refund-debits-before-refunding, idempotent grants, parameterized owned tables, transpiles). billing.pricing.ts (OWNED per
+# C052 — pricing is app POLICY): CREDIT_PACKS + SUB_PLANS + quote math (COGS 450µ$/markup 73/tier-discounts/creditsForUsd/
+# refundNetCents) ported from toolfactory pricing.ts; client sends only a pack/plan id, amounts server-authoritative. Routes
+# wire VERIFIED @suluk/billing exports (createCheckout, createSubscriptionOnDefaultCard, getSubscriptionStatus,
+# setSubscriptionCancel, changeSubscriptionPlan, createPaymentIntent[OnDefaultCard], listPaymentMethods/setDefault/detach/
+# ownsPaymentMethod, calculateTax, upsertBillingAccount, ...): packs/plans/payment-config/checkout/payment-intent/subscribe/
+# subscription[get,cancel]/subscription-plan/purchase-quote/refund-quote/refund/methods[default,delete]/auto-topup[get,set]/
+# payment-health. REFUND is MODULE-OWNED (@suluk/billing EXCLUDES refund): ports ~50 LoC of Stripe-refund primitives via the
+# stripePost/stripeGet transport — DEBITS credits BEFORE moving cash, refunds netCents across the customer's succeeded
+# charges newest-first (each idempotent + partial-capped at Stripe's headroom -> can't over-refund), re-credits any shortfall
+# via grantOnce. OWNED tables auto_topup + payment_alert (0006_billing_v2 migration, drizzle-parameterized). SECURITY FIX on
+# integration: the money routes' caller() now reads the AUTHENTICATED principal (c.get("user"), set by the Wave-1 identity
+# middleware) via a c.var cast — NEVER a client-supplied x-user-id (the builder's placeholder would have let a caller move
+# ANYONE's money). +@suluk/credits +drizzle-orm billing deps. VALIDATED: 5 billing files transpile; shadcn build ok (17
+# items); the extended billing type-checks in autotoolfactory against real @suluk/billing + @suluk/credits = 0 own-code
+# errors (Context.Tag.Service typing + caller + all signatures). NO platform republish/regen (billing catalog UNCHANGED —
+# same /api/billing mount); re-shadcn-add billing -> 23 routes, tsc 0 own-code errors (autotoolfactory d255fd5). KNOWN
+# follow-ups (not money bugs): refund uses debitCredits (pre-guarded by getBalance; a race -> 500 no-money-moved; debitIfCovers
+# would be atomic); the maybeAutoTopup BACKGROUND trigger isn't ported (the config surface is — the trigger is a cron the app
+# wires). REMAINING: Waves 4-5 the MCP suite (oauth) + Wave 6 the parity proof.
+claim parity_drive_wave3_billing_completeness_14_routes_proven: Bool @>=0.6 = True
+falsified_when parity_drive_wave3_billing_completeness_14_routes_proven == False

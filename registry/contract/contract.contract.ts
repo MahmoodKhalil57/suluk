@@ -258,26 +258,48 @@ export function apiDocument(principal?: { scopes: string[] }): OpenAPIv4Document
 }
 
 /**
- * Resolve the contract op (and its required scope) a request maps to — by LONGEST static-path-prefix + method match
- * against the contract. Because a module exposes sub-paths under its op prefix (a request `GET /api/credits/balance/x`
- * resolves to the `getCredits` op declared at `/api/credits`), the match is on the static prefix (everything before the
- * first `:param`). Returns `{ op, scope }` (scope `undefined` ⇒ a PUBLIC op) or `undefined` (a non-contract path — no gate).
- * The METHOD disambiguates a read vs a write sharing a prefix (GET → :read op, POST → :write op).
+ * Resolve the required scope a request maps to. TWO tiers, so a keyed caller can NEVER reach an unlisted sub-path ungated:
+ *   1. EXACT op — the longest static-path-prefix + method match among declared ops (a `GET /api/credits/balance/x` resolves
+ *      to the `getCredits` op at `/api/credits`; a declared-public op like `/api/billing/packs` returns scope `undefined`).
+ *   2. MODULE fallback — if no op matched, gate by the /api/<module> namespace: use the module's WRITE scope for a write
+ *      method, else its READ scope (derived from any declared op in that module). This closes the hole where a module
+ *      (e.g. billing) exposes many sub-paths but declares only a few ops — an undeclared `POST /api/billing/refund` is still
+ *      gated `billing:write`. Returns `undefined` only for a genuinely non-contract module (no gate).
+ * The METHOD disambiguates read vs write throughout (GET/HEAD → read, else write).
  */
 export function scopeForRequest(method: string, path: string): { op: string; scope?: string } | undefined {
   const m = method.toUpperCase();
+  const wantWrite = m !== "GET" && m !== "HEAD";
+  // tier 1 — exact op (longest static-prefix, same method)
   let best: RouteContract | undefined;
   let bestLen = -1;
   for (const r of CONTRACT) {
     if (r.method.toUpperCase() !== m) continue;
     const base = r.path.split("/:")[0]; // the static prefix before any :param
-    const hit = path === base || path === r.path || path.startsWith(base + "/");
-    if (hit && base.length > bestLen) {
+    if ((path === base || path === r.path || path.startsWith(base + "/")) && base.length > bestLen) {
       best = r;
       bestLen = base.length;
     }
   }
-  return best?.name ? { op: best.name, scope: best.scopes?.[0] } : undefined;
+  if (best?.name) return { op: best.name, scope: best.scopes?.[0] };
+
+  // tier 2 — module fallback: gate an undeclared sub-path by its /api/<module> namespace scope (read vs write).
+  const modulePrefix = `/api/${path.split("/")[2] ?? ""}`;
+  if (modulePrefix === "/api/") return undefined;
+  let readScope: string | undefined;
+  let writeScope: string | undefined;
+  let known = false;
+  for (const r of CONTRACT) {
+    if (r.path !== modulePrefix && !r.path.startsWith(modulePrefix + "/")) continue;
+    known = true;
+    const s = r.scopes?.[0];
+    if (!s) continue;
+    if (r.method.toUpperCase() === "GET") readScope ??= s;
+    else writeScope ??= s;
+  }
+  if (!known) return undefined; // not a contract module → no gate
+  const scope = wantWrite ? (writeScope ?? readScope) : (readScope ?? writeScope);
+  return { op: modulePrefix, scope };
 }
 
 /**
