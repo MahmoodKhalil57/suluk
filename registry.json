@@ -26,6 +26,48 @@
         { "path": "registry/credits/credits.schema.ts", "type": "registry:file", "target": "src/db/credits.ts" },
         { "path": "registry/credits/credits.provision.ts", "type": "registry:file", "target": "provision/credits.ts" }
       ]
+    },
+    {
+      "name": "keys",
+      "type": "registry:item",
+      "title": "Hierarchical API keys — pooled headroom + cascade revoke",
+      "description": "An Effect-TS Keys service over @suluk/keys (the abuse-proof pooled-headroom cap + cascade revocation stay upstream): lineage subtree, cascade revoke, and the pooled headroom over a chain. Key creation is Better Auth's apikey plugin (the `auth` module); this manages the delegation tree.",
+      "registryDependencies": ["app", "credits"],
+      "dependencies": ["@suluk/keys", "@suluk/provision", "effect", "drizzle-orm", "hono"],
+      "files": [
+        { "path": "registry/keys/keys.service.ts", "type": "registry:file", "target": "src/services/keys.ts" },
+        { "path": "registry/keys/keys.routes.ts", "type": "registry:file", "target": "src/routes/keys.ts" },
+        { "path": "registry/keys/keys.schema.ts", "type": "registry:file", "target": "src/db/keys.ts" },
+        { "path": "registry/keys/keys.provision.ts", "type": "registry:file", "target": "provision/keys.ts" }
+      ]
+    },
+    {
+      "name": "billing",
+      "type": "registry:item",
+      "title": "Billing — Stripe customer + browser sessions + cards",
+      "description": "An Effect-TS Billing service over @suluk/billing (which runs on @suluk/payments' agnostic connector + client-token surface): ensure-customer, Payment-Element + add-card sessions, saved cards, billing portal. The webhook dispatch + pricing matrix stay in your app (C046/C048).",
+      "registryDependencies": ["app"],
+      "dependencies": ["@suluk/billing", "@suluk/payments", "@suluk/provision", "effect", "hono"],
+      "files": [
+        { "path": "registry/billing/billing.service.ts", "type": "registry:file", "target": "src/services/billing.ts" },
+        { "path": "registry/billing/billing.routes.ts", "type": "registry:file", "target": "src/routes/billing.ts" },
+        { "path": "registry/billing/billing.schema.ts", "type": "registry:file", "target": "src/db/billing.ts" },
+        { "path": "registry/billing/billing.provision.ts", "type": "registry:file", "target": "provision/billing.ts" }
+      ]
+    },
+    {
+      "name": "logs",
+      "type": "registry:item",
+      "title": "Activity log — Effect service (fully owned)",
+      "description": "A fully-owned Effect-TS activity log over an append-only table: record an action, read a principal's recent activity. No @suluk logic package — the whole module is yours to extend.",
+      "registryDependencies": ["app"],
+      "dependencies": ["@suluk/provision", "effect", "drizzle-orm", "hono"],
+      "files": [
+        { "path": "registry/logs/logs.service.ts", "type": "registry:file", "target": "src/services/logs.ts" },
+        { "path": "registry/logs/logs.routes.ts", "type": "registry:file", "target": "src/routes/logs.ts" },
+        { "path": "registry/logs/logs.schema.ts", "type": "registry:file", "target": "src/db/logs.ts" },
+        { "path": "registry/logs/logs.provision.ts", "type": "registry:file", "target": "provision/logs.ts" }
+      ]
     }
   ]
 }

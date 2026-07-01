@@ -47,3 +47,21 @@ falsified_when registry_framework_reframes_c049_extraction_with_poc_caveats == F
 # needs the commit on the public repo). REMAINING: push; then the generator/manifest (C051) + the other ~8 modules.
 claim registry_c050_build1_shadcn_registry_credits_effect_service_validated: Bool @>=0.55 = True
 falsified_when registry_c050_build1_shadcn_registry_credits_effect_service_validated == False
+
+# C050 BUILD #2 — three more registry modules built 2026-07-01 (operator: "continue the other modules so we can one-shot
+# build ~/apps/autotoolfactory with toolfactory parity but better integrated"). All Effect-TS services following the
+# credits pattern, wrapping the real @suluk/* signatures (verified before writing): (1) `keys` — the HYBRID key module over
+# @suluk/keys: Keys Context.Tag + KeysLive wrapping subtreeOf/revokeKeyTree(db,{userId,keyId,callerKeyId?},disableKeys)/
+# chainHeadroom(db,ChainNode[])/effectiveCaps; a DisableKeys hook (default: soft-disable Better-Auth apikey rows enabled=0)
+# injected — key CREATION stays in auth's apikey plugin; schema re-exports keyLineage; provision fragment = key_lineage
+# table. (2) `billing` — Billing service over @suluk/billing (on @suluk/payments): ensureCustomer(find-or-create+link),
+# paymentSession(Payment-Element client secret), setupSession(add-card), cards, portal; a StripeCfg service from env; the
+# webhook dispatch + pricing matrix STAY app (C046/C048); schema re-exports billingAccount; provision fragment =
+# billing_account. (3) `logs` — a FULLY-OWNED Effect activity log (no @suluk logic pkg): record/recent over an
+# activity_log table + routes + provision. HYBRID rule intact (own the Effect wiring, npm the money/security logic).
+# registry now 5 items (app/credits/keys/billing/logs). VALIDATED: registry.json 5 items all-paths-exist; all 12 new TS
+# transpile; `bunx shadcn build` SUCCEEDED for all 5. REMAINING before the one-shot autotoolfactory: `auth` (Better Auth
+# mount — the coupled foundation, its own careful pass) + optionally cost/journeys/audit; then the C051 manifest generator;
+# then generate autotoolfactory + diff-parity vs toolfactory. NOT pushed (shadcn add needs the public-repo commit).
+claim registry_c050_build2_keys_billing_logs_effect_modules_validated: Bool @>=0.55 = True
+falsified_when registry_c050_build2_keys_billing_logs_effect_modules_validated == False

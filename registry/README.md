@@ -41,6 +41,10 @@ correctness fix flows to you via npm; a forked money path never happens.
 | item | what | logic (npm) |
 |---|---|---|
 | `app` | base Hono app + the Effect `Db` service | `@suluk/core` |
-| `credits` | Credits Effect service + routes + schema + provision fragment | `@suluk/credits` |
+| `credits` | Credits service — balance / atomic debit / idempotent grant | `@suluk/credits` |
+| `keys` | Keys service — lineage subtree, cascade revoke, pooled headroom | `@suluk/keys` |
+| `billing` | Billing service — customer / Payment-Element + add-card sessions / cards / portal | `@suluk/billing` (+ `@suluk/payments`) |
+| `logs` | activity log (fully owned Effect service) | — |
 
-_Modules follow (`auth`, `keys`, `billing`, `cost`, `logs`, `journeys`, `audit`) — see C050's module map._
+_Still to come: `auth` (Better Auth mount — the foundation), then `cost` / `journeys` / `audit`, then the C051 manifest
+generator that assembles a whole platform from one document._
