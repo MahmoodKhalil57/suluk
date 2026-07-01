@@ -1,5 +1,5 @@
 /**
- * @suluk/billing — Stripe plumbing over an injected config (C046). The transport + customer/intent creation + the
+ * `@suluk/billing` — Stripe plumbing over an injected config (C046). The transport + customer/intent creation + the
  * saved-card surface (v1), plus the money-MOVING paths (hosted Checkout, portal, on-default-card top-up, off-session
  * charge), the pricing-woven subscription logic made generic over a SubPlan catalog, the Stripe Tax mechanics, and the
  * package-owned billing-account store (v2). Ported with the source's `res.ok`/field semantics verbatim; the Effect-Schema

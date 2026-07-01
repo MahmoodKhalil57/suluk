@@ -29,7 +29,7 @@ export const CATALOG: Record<string, CatalogEntry> = Object.fromEntries(Object.e
 export const BASE_DEPS = ["@suluk/platform", "@suluk/provision", "@suluk/core", "@suluk/env", "effect", "hono", "drizzle-orm"];
 
 /** Pinned ranges for the NON-@suluk ecosystem deps — the single place they're kept current for every generated app.
- *  @suluk/* are NOT here: they resolve to "latest" so a package fix flows to the app via `bun update` (the C052 payoff). */
+ *  `@suluk/*` are NOT here: they resolve to "latest" so a package fix flows to the app via `bun update` (the C052 payoff). */
 export const ECOSYSTEM_VERSIONS: Record<string, string> = {
   "better-auth": "^1.0.0",
   "@better-auth/api-key": "^1.0.0",

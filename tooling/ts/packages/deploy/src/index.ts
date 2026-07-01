@@ -1,5 +1,5 @@
 /**
- * @suluk/deploy — ship a Suluk app behind a SWAPPABLE target interface. A DeployProvider turns the app into
+ * `@suluk/deploy` — ship a Suluk app behind a SWAPPABLE target interface. A DeployProvider turns the app into
  * the files + ordered steps that deploy it; the host (the vscode extension) runs the steps in a terminal
  * after the user authenticates. Cloudflare is the first provider (Workers + D1 + static assets) — an adapter,
  * since the stack is already Cloudflare-native (Hono=Workers, sqlite-core=D1, frontend=assets). CANDIDATE.

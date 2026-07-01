@@ -10,12 +10,12 @@ export interface ProviderImpl {
   id: string;
   facet: string;
   title: string;
-  /** the @suluk package (or ecosystem source) that implements this binding, if any */
+  /** the `@suluk` package (or ecosystem source) that implements this binding, if any */
   pkg?: string;
   description: string;
 }
 
-/** The catalog of swappable implementations per facet. First-party bindings carry their @suluk package. */
+/** The catalog of swappable implementations per facet. First-party bindings carry their `@suluk` package. */
 export const PROVIDER_CATALOG: Record<string, ProviderImpl[]> = {
   payments: [
     { id: "stripe", facet: "payments", title: "Stripe", pkg: "@suluk/stripe", description: "Cards + Billing Meters; the reference PaymentProvider." },

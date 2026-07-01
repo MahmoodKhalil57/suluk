@@ -1,5 +1,5 @@
 /**
- * @suluk/journeys/hatch — types for the ESCAPE HATCHES (C039).
+ * `@suluk/journeys`/hatch — types for the ESCAPE HATCHES (C039).
  *
  * Composing BDD AS A REAL USER (through @suluk/sdk) is the default. A hatch is the deliberately-secondary, clearly-
  * marked escape for the cases a user-path cannot reach: AUTH bootstrap (OAuth — mint a session), an irreducible

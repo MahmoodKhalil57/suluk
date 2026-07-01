@@ -1,5 +1,5 @@
 /**
- * @suluk/keys — the delegation-chain ALGEBRA for hierarchical API keys (C046, extracted from a real app).
+ * `@suluk/keys` — the delegation-chain ALGEBRA for hierarchical API keys (C046, extracted from a real app).
  *
  * The app builds a `ChainNode[]` (a caller + its ancestors) and per-path `SpendRow[]` from its OWN store — the DB query
  * is the seam (a Drizzle reference adapter is a follow-on, deferred per C046) — then calls these PURE functions for the

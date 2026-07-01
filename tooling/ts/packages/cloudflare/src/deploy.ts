@@ -10,7 +10,7 @@ import { uploadAssets, extractAssetRuleFiles, type AssetFile } from "./assets";
 import { deployWorker, putCronTriggers, type WorkerBinding, type WorkerMigration } from "./worker";
 
 /** A Durable Object class to bind + (for same-script classes) create via an inline script migration. Mirrors
- *  @suluk/deploy's `DurableObjectBinding` so the CLI plan and the no-wrangler REST deploy describe DO agents alike. */
+ *  `@suluk/deploy`'s `DurableObjectBinding` so the CLI plan and the no-wrangler REST deploy describe DO agents alike. */
 export interface DurableObjectBinding {
   /** the binding name exposed as `env.<binding>`. */
   binding: string;

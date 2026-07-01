@@ -1,5 +1,5 @@
 /**
- * @suluk/docs — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+ * `@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
  * (package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one
  * stylesheet, deployable to GitHub Pages with zero build. Suluk documents itself with it. CANDIDATE tooling.
  */

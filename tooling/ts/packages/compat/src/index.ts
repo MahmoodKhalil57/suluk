@@ -1,5 +1,5 @@
 /**
- * @suluk/openapi-compat — convert between the OpenAPI v4 "Suluk" candidate and OpenAPI 3.1.
+ * `@suluk/openapi-compat` — convert between the OpenAPI v4 "Suluk" candidate and OpenAPI 3.1.
  *
  * downgrade(v4) → 3.1 is the lever for Scalar & Swagger UI (they consume 3.x). upgrade(3.1) → v4 is the
  * reverse. The pair is lossless for documents that fit 3.1's expressivity; where v4 exceeds 3.1 (notably

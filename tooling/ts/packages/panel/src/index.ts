@@ -1,5 +1,5 @@
 /**
- * @suluk/panel — contract-first admin panels, in the spirit of Payload but projected from ONE OpenAPI v4 document.
+ * `@suluk/panel` — contract-first admin panels, in the spirit of Payload but projected from ONE OpenAPI v4 document.
  * Payload makes you configure collections in a framework-coupled DSL; @suluk/panel INFERS the same field types
  * (text/textarea/richtext/number/boolean/select/date/email/url/json/relationship) straight from the contract's
  * component schemas, renders shadcn/theme-aware forms + data tables, and mounts a role-aware admin — pass a

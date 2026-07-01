@@ -1,5 +1,5 @@
 /**
- * @suluk/swagger — render an OpenAPI v4 "Suluk" document with Swagger UI.
+ * `@suluk/swagger` — render an OpenAPI v4 "Suluk" document with Swagger UI.
  *
  * Swagger UI consumes OpenAPI 3.x, so we project the v4 doc down to 3.1 (via @suluk/openapi-compat) and
  * embed the result inline as `SwaggerUIBundle({ spec })`. The page is self-contained: it loads swagger-ui-dist

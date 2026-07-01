@@ -1,6 +1,6 @@
 /**
  * The cockpit's DEPLOY surface (pure logic). Turns the hub document into a Cloudflare deploy plan via
- * @suluk/deploy (the swappable provider), and renders a DEPLOY.md the user follows. The extension writes the
+ * `@suluk/deploy` (the swappable provider), and renders a DEPLOY.md the user follows. The extension writes the
  * files + opens a terminal; it never runs wrangler for you — deploys are consequential, and auth (`wrangler
  * login`, OAuth) happens in your terminal so credentials never touch Suluk.
  */

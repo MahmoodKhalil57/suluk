@@ -1,5 +1,5 @@
 /**
- * @suluk/visual — pixel-confidence by construction.
+ * `@suluk/visual` — pixel-confidence by construction.
  *
  * Verify each UI PRIMITIVE's pixels ONCE (render it in isolation, screenshot it, approve it). The approval is
  * recorded against the primitive's content hash. Thereafter, every generated UI is pixel-confident *without a

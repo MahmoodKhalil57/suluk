@@ -1,5 +1,5 @@
 /**
- * @suluk/editor — a fully-static, client-only OpenAPI **v4** editor (the editor.scalar.com analog, native v4).
+ * `@suluk/editor` — a fully-static, client-only OpenAPI **v4** editor (the editor.scalar.com analog, native v4).
  *
  * `editorHtml(opts)` emits ONE self-contained HTML page: a CodeMirror source pane on the left, a live API reference
  * (rendered by the suluk Scalar fork) on the right, a diagnostics bar below, and a toolbar (format toggle, examples,

@@ -1,5 +1,5 @@
 /**
- * @suluk/journeys — intuitive, runnable BDD over a v4 "Suluk" contract.
+ * `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
  *
  * A non-technical author (PM / BA / QA) writes Gherkin user-stories/journeys against a step VOCABULARY projected
  * deterministically from the contract; the BINDER resolves each step EXACT-or-UNBOUND (outcomes relative to the

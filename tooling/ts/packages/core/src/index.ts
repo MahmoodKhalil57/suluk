@@ -1,5 +1,5 @@
 /**
- * @suluk/core — the foundation library for the OpenAPI v4.0 "Suluk" candidate.
+ * `@suluk/core` — the foundation library for the OpenAPI v4.0 "Suluk" candidate.
  *
  * parse → validate (meta-schema) → resolve references (by-name) → compute signatures → build the ADA →
  * match requests. Implements the structural + behavioral contract in

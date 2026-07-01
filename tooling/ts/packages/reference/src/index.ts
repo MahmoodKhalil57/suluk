@@ -1,5 +1,5 @@
 /**
- * @suluk/reference — a COMPLETE, v4-native OpenAPI reference renderer, built as a PLATFORM (see ROADMAP.md).
+ * `@suluk/reference` — a COMPLETE, v4-native OpenAPI reference renderer, built as a PLATFORM (see ROADMAP.md).
  *
  * Pipeline: normalize(doc) → RefDoc (the semantic IR — the only place raw v4 shapes are read) → render adapter
  * (this file) → self-contained HTML (no client build, no CDN — runs in a Cloudflare Worker). try-it + every code

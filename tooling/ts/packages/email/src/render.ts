@@ -1,6 +1,6 @@
 /**
  * renderEmailHtml — the pure branded-email generator (saastarter-parity Phase 1), the email analogue of
- * @suluk/shadcn's render-form. Ported from saastarter `brandedEmailHtml` (src/lib/email/template.ts) with two
+ * `@suluk/shadcn`'s render-form. Ported from saastarter `brandedEmailHtml` (src/lib/email/template.ts) with two
  * changes that make it reusable: the BRANDING (colors/logo/name/baseUrl, hardcoded there) is a parameter, and the
  * STRINGS are injected via an @suluk/i18n catalog instead of a module-scoped `getMessages` — so one render call
  * serves any brand in any locale (incl. RTL: the `<html dir>` is set from the locale, PARITY §RTL "dir set server-side").

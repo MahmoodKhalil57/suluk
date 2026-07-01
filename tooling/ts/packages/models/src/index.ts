@@ -1,5 +1,5 @@
 /**
- * @suluk/models — a weekly, PUBLIC-DATA-ONLY OpenRouter model catalog + a selector. A suluk skill declares NEEDS
+ * `@suluk/models` — a weekly, PUBLIC-DATA-ONLY OpenRouter model catalog + a selector. A suluk skill declares NEEDS
  * (hard filters) + a small PREFERENCE (a named profile), and selectModel picks the best CURRENT model — never a
  * hard-coded id. Decidable OpenRouter facts are numbers; noisy benchmarks are coarse TIERS with {source, asOf};
  * UNKNOWN is honest (never imputed to worst); no cross-axis composite is stored (blending is the selector's job).

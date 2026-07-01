@@ -1,5 +1,5 @@
 /**
- * @suluk/journeys/hatch — the ESCAPE HATCHES (C039), a deliberately-secondary subpath. Importing it is the explicit,
+ * `@suluk/journeys`/hatch — the ESCAPE HATCHES (C039), a deliberately-secondary subpath. Importing it is the explicit,
  * visible act of stepping OUT of the user-path; a scenario that composes BDD as a real user imports NONE of this.
  *
  * No separate test infrastructure is provisioned. A hatch runs against one of two backends:

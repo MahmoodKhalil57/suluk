@@ -1,5 +1,5 @@
 /**
- * @suluk/cockpit — the PURE cockpit core: the cycle model, the builder model, codegen, deploy planning, and
+ * `@suluk/cockpit` — the PURE cockpit core: the cycle model, the builder model, codegen, deploy planning, and
  * the validate/audit/preview helpers. No host API. Two shells consume this exact core: the vscode extension
  * (suluk-vscode) and the web admin panel (@suluk/admin, served under /superadmin). One brain, two faces.
  * CANDIDATE tooling — NOT official OAS.

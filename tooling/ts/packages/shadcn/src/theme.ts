@@ -1,5 +1,5 @@
 /**
- * @suluk/shadcn ← @suluk/theme (saastarter-parity Phase 2). The TokenSpec contract projects into the two files a
+ * `@suluk/shadcn` ← @suluk/theme (saastarter-parity Phase 2). The TokenSpec contract projects into the two files a
  * shadcn project actually needs: `globals.css` (the token CSS vars for light + dark + the Tailwind v4 `@theme inline`
  * block) and `components.json` (the shadcn CLI config, `cssVariables: true` so the tokens drive every component).
  * One TokenSpec → the whole shadcn theme, instead of hand-syncing globals.css against the component library.

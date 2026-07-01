@@ -64,12 +64,12 @@ export function itemList(items: { name: string; url: string }[]): Node {
   return { "@type": "ItemList", itemListElement: items.map((it, idx) => ({ "@type": "ListItem", position: idx + 1, name: it.name, url: it.url })) };
 }
 
-/** Compose nodes into ONE @graph document — the recommended single-script form (de-duplicates @context). */
+/** Compose nodes into ONE `@graph` document — the recommended single-script form (de-duplicates `@context`). */
 export function graph(...nodes: Node[]): Node {
   return { "@context": CONTEXT, "@graph": nodes };
 }
 
-/** Wrap a single node with @context for a standalone <script type="application/ld+json">. */
+/** Wrap a single node with `@context` for a standalone <script type="application/ld+json">. */
 export function ld(node: Node): Node {
   return { "@context": CONTEXT, ...node };
 }

@@ -1,5 +1,5 @@
 /**
- * @suluk/stubgen — turn a NEEDS-CONTRACT gap (a tester pre-wrote a scenario the contract can't back yet) into
+ * `@suluk/stubgen` — turn a NEEDS-CONTRACT gap (a tester pre-wrote a scenario the contract can't back yet) into
  * honestly-provisional backend STUBS the maintainer then writes pragmatically.
  *
  * Two halves, per C040-P3:

@@ -1,5 +1,5 @@
 /**
- * @suluk/i18n/astro — the thin Astro glue (saastarter-parity Phase 1). Astro owns i18n ROUTING + prerendering;
+ * `@suluk/i18n`/astro — the thin Astro glue (saastarter-parity Phase 1). Astro owns i18n ROUTING + prerendering;
  * this only resolves the request locale (cookie → Accept-Language) and stamps `locale` + `dir` onto
  * `context.locals` so a layout can set `<html lang dir>` server-side (PARITY: "dir/lang set server-side"). The
  * no-flash theme stamper / picker stays an app-layer helper (roadmap) — NOT this package. Duck-typed so it needs

@@ -1,7 +1,7 @@
 /**
  * Error-envelope shapes (saastarter-parity Phase 0) — an RFC-9457 Problem Details body + the closed
  * typed-throw→HTTP-status table, as PURE DATA. Shared in core because the envelope is read ACROSS packages:
- * @suluk/hono renders + synthesizes it, @suluk/sdk's `isApiError` guard discriminates it, @suluk/testgen
+ * `@suluk/hono` renders + synthesizes it, @suluk/sdk's `isApiError` guard discriminates it, @suluk/testgen
  * asserts error-conformance against it, @suluk/reference panels display it. No throwing, no HTTP, no I/O here.
  *
  * The status table is ported verbatim from saastarter's Effect route-handler (src/lib/effect/route-handler.ts:24-86)

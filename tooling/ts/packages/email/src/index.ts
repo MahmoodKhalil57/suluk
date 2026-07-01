@@ -1,8 +1,8 @@
 /**
- * @suluk/email — the missing EmailProvider binding + a per-event/per-locale branded template set. The app RENDERS
+ * `@suluk/email` — the missing EmailProvider binding + a per-event/per-locale branded template set. The app RENDERS
  * a message (pure, branded, localized via @suluk/i18n) and SENDS it through a swappable provider (consoleProvider in
  * dev; a Workers-safe resendProvider in prod). Never a hosted mailer — the provider is a thin binding (the
- * @suluk/builder `email` slot impl). CANDIDATE tooling.
+ * `@suluk/builder` `email` slot impl). CANDIDATE tooling.
  */
 export {
   consoleProvider, resendProvider, pickProvider,

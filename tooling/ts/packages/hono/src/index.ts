@@ -1,5 +1,5 @@
 /**
- * @suluk/hono — the derivation engine. The user authors minimal RouteContracts (Hono + Zod); everything
+ * `@suluk/hono` — the derivation engine. The user authors minimal RouteContracts (Hono + Zod); everything
  * else is derived: the v4 document (dynamic per principal + time), request validation, contract tests, and
  * a documentation-coverage audit. See tooling/ARCHITECTURE.md. CANDIDATE tooling.
  */

@@ -1,5 +1,5 @@
 /**
- * @suluk/i18n — the locale primitive every content app needs. Consolidates the fragmented i18n surface into one
+ * `@suluk/i18n` — the locale primitive every content app needs. Consolidates the fragmented i18n surface into one
  * package: a typed locale/direction model (defineLocales/dirOf), a Workers-safe message loader with default-locale
  * fallback + {token} interpolation (t), compile-time key-parity + a runtime completeness grade, Intl number/
  * currency/date formatting (incl. Eastern-Arabic numerals), and framework-agnostic cookie→locale resolution. The

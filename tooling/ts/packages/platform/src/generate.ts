@@ -59,6 +59,9 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
     ["src/env.ts", plan.envTs, true], // the @suluk/env declare-once (derived from the manifest's secrets)
     ["scripts/sync-secrets.ts", plan.syncSecrets, true], // the deploy-time secret push (derived)
     ["scripts/link-key.ts", plan.linkKey, true], // register the private key into ~/.suluk/settings.json (the central store)
+    ["scripts/provision.ts", plan.provisionScript, true], // the credential lifecycle (source .env.temp/.env → provision → seal)
+    ["scripts/mint-tokens.ts", plan.mintTokens, true], // mint scoped least-privilege CF tokens from the master
+    [".env.temp", plan.envTemp, false], // the PLAINTEXT provisioning bootstrap — SCAFFOLD IF ABSENT (gitignored; consumed by provision)
     [".env", plan.envScaffold, false], // the COMMITTED encrypted-secrets file — SCAFFOLD IF ABSENT (never clobber secrets)
   ] as const) {
     if (always || (await read(file)) == null) {

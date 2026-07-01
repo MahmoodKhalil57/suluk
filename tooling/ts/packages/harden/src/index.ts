@@ -1,5 +1,5 @@
 /**
- * @suluk/harden — schema hardening as a derived, scored contract facet. Audit a v4 'Suluk' document's INPUT
+ * `@suluk/harden` — schema hardening as a derived, scored contract facet. Audit a v4 'Suluk' document's INPUT
  * schemas for the validations that keep malformed/oversized input from breaking the system, grade them A–F,
  * surface the grade to incentivise the author, and gate CI on a minimum.
  *

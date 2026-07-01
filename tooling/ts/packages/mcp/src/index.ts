@@ -1,5 +1,5 @@
 /**
- * @suluk/mcp — project ONE OpenAPI v4 document into a Model Context Protocol server. The same contract that drives
+ * `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server. The same contract that drives
  * the API, SDK, docs, admin, and panel now drives an agent-callable surface: every operation becomes an MCP tool
  * (read-only by default; mutations opt-in via `include:"all"`), served over the Streamable-HTTP JSON-RPC transport
  * as a Hono-mountable app. No hand-written tool schemas, no config drift — the contract is the single source.

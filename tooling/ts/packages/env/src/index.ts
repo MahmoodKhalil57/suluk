@@ -1,5 +1,5 @@
 /**
- * @suluk/env — config + secrets as a single source of truth, made post-quantum-safe.
+ * `@suluk/env` — config + secrets as a single source of truth, made post-quantum-safe.
  *
  * Declare each variable ONCE with defineEnv (typed, per-surface, secret-aware); encrypt secret VALUES with
  * ML-KEM-768 + AES-256-GCM so the .env is safe to commit to git and share over public channels; and project the

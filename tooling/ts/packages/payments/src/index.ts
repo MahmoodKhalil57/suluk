@@ -1,5 +1,5 @@
 /**
- * @suluk/payments — provider-agnostic payments for a Suluk app (C048). A Workers-native TypeScript reimplementation of the
+ * `@suluk/payments` — provider-agnostic payments for a Suluk app (C048). A Workers-native TypeScript reimplementation of the
  * Hyperswitch Prism connector interface: ONE unified request schema (authorize / capture / void / refund / sync + the
  * optional customer / tokenize / recurring / webhook surfaces), and you switch processor by CONFIG, not code. Prism itself
  * is a native FFI addon that can't run on the edge, so we adopt its interface + status semantics (integer-exact) and

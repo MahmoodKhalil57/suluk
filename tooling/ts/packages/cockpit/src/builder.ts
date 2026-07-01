@@ -1,6 +1,6 @@
 /**
  * The cockpit's BUILDER surface (pure logic). Treats the hub document's components.schemas as entities, runs
- * @suluk/builder over them, and exposes the tiered composition (pages → sections → blocks → components) with
+ * `@suluk/builder` over them, and exposes the tiered composition (pages → sections → blocks → components) with
  * EACH tier's param contract attached — so the contract-narrowing is visible in the tree (a section node
  * shows it exposes {tone, blocks}; you can read straight off it that a page can't reach the form's fields).
  * Plus the two actions that land artifacts: generate the whole app, and export the shadcn registry.

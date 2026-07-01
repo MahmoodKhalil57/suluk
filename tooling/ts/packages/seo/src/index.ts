@@ -1,5 +1,5 @@
 /**
- * @suluk/seo — a complete, framework-agnostic SEO toolkit for a Suluk app, inspired by the Nuxt SEO suite but
+ * `@suluk/seo` — a complete, framework-agnostic SEO toolkit for a Suluk app, inspired by the Nuxt SEO suite but
  * pure + Cloudflare-safe (no runtime deps, no argless Date). It generates: robots.txt, sitemaps (with image +
  * hreflang entries, plus a sitemap index), schema.org JSON-LD (the ecommerce graph), head meta (OpenGraph /
  * Twitter / canonical / hreflang / robots), llms.txt, an OG-image SVG, the PWA web manifest, and deploy

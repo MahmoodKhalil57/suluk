@@ -1,5 +1,5 @@
 /**
- * @suluk/scalar — render an OpenAPI v4 "Suluk" document with Scalar API Reference, taught to show v4.
+ * `@suluk/scalar` — render an OpenAPI v4 "Suluk" document with Scalar API Reference, taught to show v4.
  *
  * Scalar's engine is OpenAPI 3.x-shaped, so we project the v4 doc down to 3.1 (via @suluk/openapi-compat) and feed
  * it to the Scalar standalone bundle. But a plain downgrade DROPS the v4-native facets — so this package is the

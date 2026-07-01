@@ -1,6 +1,6 @@
 /**
  * The @suluk/env binding sink (C047) — where provisioned credentials LAND: each (output → env var) goes through
- * @suluk/env/node's `setVar`, which writes the `.env` and POST-QUANTUM-ENCRYPTS secret values so the file stays
+ * `@suluk/env`/node's `setVar`, which writes the `.env` and POST-QUANTUM-ENCRYPTS secret values so the file stays
  * commit-safe. This closes the binding chain: `apply` resolves a token/id, the sink persists it as a typed, encrypted
  * env var the app + the next instance read. By default every binding is encrypted (the safe default); pass `plain` to
  * mark the non-secret ones (a database_id, a bucket name) readable.

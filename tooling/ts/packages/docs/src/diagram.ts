@@ -13,7 +13,7 @@ function d2id(name: string): string {
   return /^[A-Za-z_][A-Za-z0-9_]*$/.test(s) ? s : `"${s.replace(/"/g, '\\"')}"`;
 }
 
-/** D2 source for the @suluk package dependency graph — the tools that come together to derive a whole stack. */
+/** D2 source for the `@suluk` package dependency graph — the tools that come together to derive a whole stack. */
 export function packageGraphD2(packages: PackageDoc[]): string {
   const visible = packages.filter((p) => !p.private);
   // only DRAWN packages are valid edge endpoints — a dep on a private package is omitted (no dangling phantom node)

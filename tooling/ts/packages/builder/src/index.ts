@@ -1,5 +1,5 @@
 /**
- * @suluk/builder — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+ * `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
  * Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
  * discipline (typed, tested, projected from live entities instead of hand-authored). The load-bearing idea is
  * the contract: a document's `params` is EXACTLY and ONLY what the tier above may set — the narrowing is the

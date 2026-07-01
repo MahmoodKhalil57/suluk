@@ -1,5 +1,5 @@
 /**
- * @suluk/eslint — ESLint rules for Suluk apps. CANDIDATE tooling.
+ * `@suluk/eslint` — ESLint rules for Suluk apps. CANDIDATE tooling.
  *
  * `composition-only`: the tier-composition rule (pages & sections stay composition-only; markup → blocks, logic →
  * controllers). The detection core ({@link analyzeComposition}) is a pure, dependency-free function you can also call

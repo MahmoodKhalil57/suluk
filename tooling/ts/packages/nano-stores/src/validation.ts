@@ -1,7 +1,7 @@
 /**
  * Form-error feedback primitives (saastarter parity: "invalid fields ring red + shake", "errors clear as you type").
- * Framework-agnostic — they toggle the SEMANTIC contract (aria-invalid + the .shake class); the LOOK is @suluk/theme
- * base CSS ([aria-invalid] destructive ring + @keyframes shake). So a hand-written form gets accessible, animated
+ * Framework-agnostic — they toggle the SEMANTIC contract (aria-invalid + the .shake class); the LOOK is `@suluk/theme`
+ * base CSS ([aria-invalid] destructive ring + `@keyframes` shake). So a hand-written form gets accessible, animated
  * validation feedback without a component framework.
  */
 export interface FieldLike {

@@ -1,5 +1,5 @@
 /**
- * @suluk/models — the catalog schema (council wf_729cde52-cc7). A row is keyed BY MODEL (id, capabilities, benchmark
+ * `@suluk/models` — the catalog schema (council wf_729cde52-cc7). A row is keyed BY MODEL (id, capabilities, benchmark
  * tiers, context window — all per-model). Per-ENDPOINT axes (price/region/data-retention/latency, which differ across
  * the provider endpoints one model fans out to) belong in a future optional `endpoints[]` sub-list (keying micro-panel
  * wf_27de1bec-a42: model-keyed HYBRID, @0.6 — RESERVED, not built: OpenRouter routes endpoints at runtime + honors ZDR

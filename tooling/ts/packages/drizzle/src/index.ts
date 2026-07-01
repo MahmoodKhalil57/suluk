@@ -1,5 +1,5 @@
 /**
- * @suluk/drizzle — the DATA floor of the Suluk cycle: a Drizzle ORM table is the system of record, and this
+ * `@suluk/drizzle` — the DATA floor of the Suluk cycle: a Drizzle ORM table is the system of record, and this
  * package projects it into the v4 "Suluk" contract. The chain is
  *
  *   Drizzle table

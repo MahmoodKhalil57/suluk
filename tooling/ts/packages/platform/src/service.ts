@@ -16,15 +16,30 @@ export type Mount =
   | { kind: "route"; path: string; symbol: string; from: string } // e.g. `app.route("/api/credits", creditsRoutes())`
   | { kind: "dev" }; // dev/CI tooling (journeys, audit) — files only, no runtime mount, no provision fragment
 
-/** An env var a module needs at runtime — drives the generated `.env.example` + the env-check preflight. (Unchanged.) */
+/** An env var a module (or the app's provisioning) needs — drives the generated `env.ts`, `.env.example`, `.env.temp`, the
+ *  env-check preflight, and the provision/sync-secrets scripts. */
 export interface EnvVar {
   name: string;
   /** the app WON'T work without it (the "minimum keys") — the env-check requires a non-empty value before it's happy. */
   required?: boolean;
-  /** a credential (never commit) — shown commented in `.env.example` + flagged in the temp file. */
+  /** a credential (encrypted at rest in the committed `.env`, or — if `provisioning` — staged plaintext in `.env.temp`). */
   secret?: boolean;
-  /** a one-line hint shown as a comment in `.env.example`. */
+  /** a one-line hint shown as a comment. */
   hint?: string;
+  /**
+   * Where the value is USED. `"cloudflare"` = a Worker RUNTIME secret (pushed by `sync-secrets` / decrypted by `loadEnv`);
+   * `"local"` = used only by provisioning/deploy on this machine, NEVER shipped to the Worker. Defaults: a `secret` → the
+   * Worker runtime (`"cloudflare"`); a `provisioning`/`minted` cred → `"local"`.
+   */
+  surface?: "local" | "cloudflare";
+  /**
+   * An EPHEMERAL provisioning credential (e.g. the Cloudflare API master token): supplied PLAINTEXT in `.env.temp`, used to
+   * provision infra + mint scoped tokens, then DELETED after provisioning — never committed (not even encrypted). Implies
+   * `surface: "local"`.
+   */
+  provisioning?: boolean;
+  /** a scoped least-privilege token MINTED during provisioning (from the master), then kept ENCRYPTED in `.env`. `surface: "local"`. */
+  minted?: boolean;
 }
 
 /** The old catalog record — now a DERIVED VIEW of a {@link Service} (see {@link toCatalogEntry}); kept so `planPlatform`
@@ -153,7 +168,22 @@ export function toCatalogEntry(s: Service): CatalogEntry {
 // Each core service is exported as a NAMED, precisely-typed const so a `defineSystem` author can import it and get typed
 // serviceOpts keyed by id. Ported field-for-field from the C051 CATALOG (byte-identity via the Phase-0 golden lock).
 
-export const appService = defineService({ id: "app", mount: { kind: "base" }, env: [{ name: "TRUSTED_ORIGINS", hint: "comma-separated browser origins allowed on /api/* (CORS)" }] });
+export const appService = defineService({
+  id: "app",
+  mount: { kind: "base" },
+  env: [
+    { name: "TRUSTED_ORIGINS", hint: "comma-separated browser origins allowed on /api/* (CORS)" },
+    // ── Cloudflare provisioning creds (surface "local" — used to stand up + deploy the infra, NEVER shipped to the Worker) ──
+    // The MASTER token is EPHEMERAL: supply it plaintext in .env.temp, it mints the scoped tokens below + provisions, then
+    // it's DELETED (never committed). Routine deploy/migrate then use the minted least-privilege tokens.
+    { name: "CLOUDFLARE_API_TOKEN", required: true, secret: true, provisioning: true, hint: "CF account-scoped master token (Workers Scripts + D1 + KV Edit) — mints the scoped tokens + provisions, then DELETED (never in git)" },
+    { name: "CLOUDFLARE_ACCOUNT_ID", required: true, secret: true, surface: "local", hint: "CF account id — a KEEPER (routine scoped-token ops need it), kept encrypted in .env" },
+    // Scoped least-privilege tokens minted from the master during provisioning; kept ENCRYPTED in .env for routine ops.
+    { name: "CLOUDFLARE_D1_TOKEN", secret: true, minted: true, hint: "scoped: D1 Write (migrations)" },
+    { name: "CLOUDFLARE_WORKERS_TOKEN", secret: true, minted: true, hint: "scoped: Workers Scripts Write (deploy + secret put)" },
+    { name: "CLOUDFLARE_KV_TOKEN", secret: true, minted: true, hint: "scoped: KV Write (rate-limit / rate-credit namespaces)" },
+  ],
+});
 
 export const authService = defineService({
   id: "auth",
@@ -250,7 +280,7 @@ export const rateLimitService = defineService({ id: "rate-limit", mount: { kind:
 export const rateCreditService = defineService({ id: "rate-credit", mount: { kind: "middleware", symbol: "mountRateCredit", from: "./services/rate-credit" } }); // credit-backed free-tier bucket (KV binding)
 export const i18nService = defineService({ id: "i18n", mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" }, deps: ["@suluk/i18n"] });
 export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, deps: ["@suluk/reference"] }); // derived — no provision
-export const adminService = defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, deps: ["@suluk/credits"] }); // reads existing tables — no provision
+export const adminService = defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, deps: ["@suluk/credits"], env: [{ name: "SUPERADMIN_EMAILS", secret: true, hint: "comma/space-separated admin emails → the admin scope (secret-surfaced so they stay out of git plaintext)" }] }); // reads existing tables — no provision
 export const logsService = defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } });
 export const journeysService = defineService({ id: "journeys", mount: { kind: "dev" }, deps: ["@suluk/journeys"] });
 export const auditService = defineService({ id: "audit", mount: { kind: "dev" }, deps: ["@suluk/cockpit", "@suluk/harden"] });

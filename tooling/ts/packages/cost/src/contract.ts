@@ -72,7 +72,7 @@ export interface CostFinding {
 
 /**
  * Cost-coverage audit: which operations have NOT declared what they cost — plus (C024) the background-cost
- * disciplines: a deferred cost that resolves no principal would bill to @unattributed (fail LOUD, never silent),
+ * disciplines: a deferred cost that resolves no principal would bill to `@unattributed` (fail LOUD, never silent),
  * and an attribution read off an UNVERIFIED event payload is attacker-controllable. Walks paths AND webhooks.
  */
 export function costAudit(doc: OpenAPIv4Document): CostFinding[] {

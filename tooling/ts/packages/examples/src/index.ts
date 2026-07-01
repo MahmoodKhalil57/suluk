@@ -1,5 +1,5 @@
 /**
- * @suluk/examples — example precedence + deterministic, origin-aware schema synthesis.
+ * `@suluk/examples` — example precedence + deterministic, origin-aware schema synthesis.
  *
  * The shared, ZERO-DEPENDENCY leaf both @suluk/journeys (BDD outlines + runnable suite) and @suluk/sdk (typed client
  * metadata + sampling) read. Extracted from @suluk/journeys (C040-P2) when @suluk/sdk needed the same reader — journeys

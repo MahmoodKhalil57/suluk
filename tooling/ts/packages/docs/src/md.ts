@@ -29,7 +29,7 @@ export function rewriteRepoLinks(md: string, repoUrl: string, relDir: string, re
   });
 }
 
-/** Inline spans: `code`, ![alt](url) image, [text](url), **bold**, *italic*. Escapes first, then injects safe tags. */
+/** Inline spans: `code`, `![alt](url)` image, `[text](url)`, **bold**, *italic*. Escapes first, then injects safe tags. */
 export function inline(text: string): string {
   let s = escapeHtml(text);
   s = s.replace(/`([^`]+)`/g, (_, c) => `<code>${c}</code>`);

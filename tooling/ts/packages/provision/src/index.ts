@@ -1,5 +1,5 @@
 /**
- * @suluk/provision — declarative service provisioning for a Suluk app, modelled on the Open Service Broker API and
+ * `@suluk/provision` — declarative service provisioning for a Suluk app, modelled on the Open Service Broker API and
  * driven like drizzle-kit (C047). Declare the infra you want in one config; each service (Cloudflare D1/KV/R2/secrets,
  * Stripe, a domain, a scoped token) is an OSB {@link Broker} advertising a {@link Catalog} and answering provision /
  * bind / deprovision. `plan` diffs desired-vs-live (pure), `apply` walks the binding DAG (provision → poll async

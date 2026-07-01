@@ -3,7 +3,7 @@
  * parity: "top progress bar eases fast then crawls toward 90%, completes on load"). The STORE owns the value (0..1)
  * + the asymptotic step schedule via tick(); the CONSUMER drives the cadence (a setInterval, or Astro view-transition
  * events) and the completion. This keeps the timing logic pure + unit-testable while the visual look comes from
- * @suluk/theme's `.navprogress` CSS. Paints an optional element's width + `.active` class.
+ * `@suluk/theme`'s `.navprogress` CSS. Paints an optional element's width + `.active` class.
  */
 import { atom, type ReadableAtom } from "nanostores";
 

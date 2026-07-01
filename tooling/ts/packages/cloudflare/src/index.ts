@@ -1,5 +1,5 @@
 /**
- * @suluk/cloudflare — API-driven provisioning + deployment for a Suluk app on Cloudflare, no wrangler CLI. A typed
+ * `@suluk/cloudflare` — API-driven provisioning + deployment for a Suluk app on Cloudflare, no wrangler CLI. A typed
  * REST client, idempotent provisioners (D1 / KV / R2 / secrets), the Workers module-script + static-assets upload
  * flow, and a one-call `deploy()` that wires them in dependency order. The platform that ships itself, shipping
  * itself — readable, testable, and the same contract-first discipline as the rest of the suite. CANDIDATE tooling.

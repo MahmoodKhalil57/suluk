@@ -1,5 +1,5 @@
 /**
- * @suluk/zod — Zod ⇄ v4 "Suluk" Schema Object conversion.
+ * `@suluk/zod` — Zod ⇄ v4 "Suluk" Schema Object conversion.
  *
  * The user-facing chain is: Zod → v4 → (Scalar/Swagger render) → v4 → Zod. Zod is the source of truth and
  * v4 (= JSON Schema 2020-12) is the interchange. zodToV4 emits a v4 Schema Object; v4ToZod rebuilds a Zod
