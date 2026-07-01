@@ -28,12 +28,16 @@ Drizzle  ──▶  contract (Hono + Zod + Better Auth)  ──▶  v4 document 
 
 ## Explore
 
-- **[Specification](specification.md)** — Suluk *as the OpenAPI v4.0 candidate*: the spec document, object model, signatures, conformance, and the Rust reference core.
-- **[Getting started](getting-started.md)** — the 30-second tour, from one schema to a running stack.
-- **[Architecture](architecture.md)** — how one v4 contract becomes a whole stack (with the package graph).
-- **[Packages](packages.md)** — every `@suluk/*` package is its own complete documentation site (README, guides, and full symbol-by-symbol API).
+**The candidate** — Suluk *as OpenAPI v4.0*:
+
+- **[Specification](specification.md)** — the spec document, object model, signatures, conformance, and the Rust reference core.
+- **[EcoSystem vision](ecosystem-vision.md)** — how one typed contract gives rise to a whole framework.
+
+**The ecosystem** — the framework it enables:
+
+- **[Guides](guides.md)** — the 30-second tour, the architecture, and how to contribute.
+- **[Packages](packages.md)** — every `@suluk/*` package (each its own complete docs site, with its version).
 - **[Registry](registry.md)** — the shadcn registry of own-the-code backend modules.
-- **[Contributing](contributing.md)** &middot; **[Community](community.md)** — extend and build on Suluk.
 
 ## The discipline (why it stays coherent)
 

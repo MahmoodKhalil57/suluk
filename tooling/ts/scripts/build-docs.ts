@@ -24,6 +24,18 @@ const DOCS = process.env.DOCS_OUT || join(REPO, "docs");
 const UMBRELLA_URL = "https://mahmoodkhalil57.github.io/suluk/";
 const REPO_URL = "https://github.com/MahmoodKhalil57/suluk";
 
+// The two top-level nav groups (Suluk's two-layer identity: the candidate/spec, and the ecosystem it enables).
+const CANDIDATE_GROUP = "Suluk independent OpenAPI v4.0 candidate";
+const ECOSYSTEM_GROUP = "EcoSystem";
+
+/** The shadcn-registry items (registry.json), sorted — the source of truth for the Registry folder. */
+function registryItems(): { name: string; title: string; description: string }[] {
+  const reg = JSON.parse(readFileSync(join(REPO, "registry.json"), "utf8")) as { items?: { name: string; title?: string; description?: string }[] };
+  return (reg.items ?? [])
+    .map((i) => ({ name: i.name, title: i.title || i.name, description: i.description || "" }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
 const PLUGINS = [
   "typedoc-github-theme",
   join(TS, "scripts", "typedoc-vscode-icons.mjs"),
@@ -109,7 +121,7 @@ function generateUmbrellaDocs(tmp: string, pkgs: DocPackage[]): { readme: string
   const guides = join(tmp, "guides.md");
   writeFileSync(
     guides,
-    `---\ntitle: Guides\nchildren:\n  - ./getting-started.md\n  - ./architecture.md\n  - ./contributing.md\n  - ./community.md\n---\n\n# Guides\n\nHow to build on the Suluk framework: the 30-second tour, how one contract projects into a whole stack, and how to contribute.\n`,
+    `---\ntitle: Guides\ngroup: ${ECOSYSTEM_GROUP}\nchildren:\n  - ./getting-started.md\n  - ./architecture.md\n  - ./contributing.md\n  - ./community.md\n---\n\n# Guides\n\nHow to build on the Suluk framework: the 30-second tour, how one contract projects into a whole stack, and how to contribute.\n`,
   );
 
   // ── PACKAGES folder: one entry PER package (title = "@suluk/x · vN" → the npm glyph via getReflectionIcon),
@@ -128,7 +140,26 @@ function generateUmbrellaDocs(tmp: string, pkgs: DocPackage[]): { readme: string
   const packages = join(tmp, "packages.md");
   writeFileSync(
     packages,
-    `---\ntitle: Packages\nchildren:\n${pkgChildren.map((c) => `  - ${c}`).join("\n")}\n---\n\n# Packages\n\nEvery \`@suluk/*\` package is its **own complete documentation site**. Pick one from the **sidebar** (each shows its version) or the list below. ${pkgs.length} packages:\n\n${rows.join("\n")}\n`,
+    `---\ntitle: Packages\ngroup: ${ECOSYSTEM_GROUP}\nchildren:\n${pkgChildren.map((c) => `  - ${c}`).join("\n")}\n---\n\n# Packages\n\nEvery \`@suluk/*\` package is its **own complete documentation site**. Pick one from the **sidebar** (each shows its version) or the list below. ${pkgs.length} packages:\n\n${rows.join("\n")}\n`,
+  );
+
+  // ── REGISTRY folder (group: EcoSystem): one page PER shadcn-registry item (its README). ──
+  const items = registryItems();
+  const regChildren: string[] = [];
+  const regRows: string[] = [];
+  for (const it of items) {
+    const readmePath = join(REPO, "registry", it.name, "README.md");
+    const body = existsSync(readmePath)
+      ? absolutizeRepoLinks(readFileSync(readmePath, "utf8"), `registry/${it.name}`).replace(/^﻿?\s*#\s+.*\r?\n/, "")
+      : `${it.description}\n\n\`\`\`bash\npnpm dlx shadcn@latest add MahmoodKhalil57/suluk/${it.name}\n\`\`\``;
+    writeFileSync(join(tmp, `reg-${it.name}.md`), `---\ntitle: ${JSON.stringify(it.name)}\n---\n\n# ${it.title}\n\n${body.trim()}\n`);
+    regChildren.push(`./reg-${it.name}.md`);
+    regRows.push(`- [**${it.name}**](./reg-${it.name}.md) — ${it.description || it.title}`);
+  }
+  const registry = join(tmp, "registry.md");
+  writeFileSync(
+    registry,
+    `---\ntitle: Registry\ngroup: ${ECOSYSTEM_GROUP}\nchildren:\n${regChildren.map((c) => `  - ${c}`).join("\n")}\n---\n\n# Registry\n\nThe [shadcn registry](${REPO_URL}/blob/main/registry/README.md) distributes the generic SaaS-backend modules as **code you own**, wired over the \`@suluk/*\` packages (own the wiring, npm the logic). Install any item with:\n\n\`\`\`bash\npnpm dlx shadcn@latest add MahmoodKhalil57/suluk/<item>\n\`\`\`\n\n${items.length} items:\n\n${regRows.join("\n")}\n`,
   );
 
   const children: string[] = [];
@@ -141,6 +172,7 @@ function generateUmbrellaDocs(tmp: string, pkgs: DocPackage[]): { readme: string
     specification,
     `---
 title: Specification
+group: ${CANDIDATE_GROUP}
 children:
 ${children.map((c) => `  - ${c}`).join("\n")}
 ---
@@ -170,12 +202,14 @@ security.
 `,
   );
 
-  const registryMd = absolutizeRepoLinks(readFileSync(join(REPO, "registry", "README.md"), "utf8"), "registry")
-    .replace(/^﻿?\s*#\s+.*\r?\n/, "");
-  const registry = join(tmp, "registry.md");
-  writeFileSync(registry, `---\ntitle: Registry\n---\n\n# Registry\n\n${registryMd.trim()}\n`);
+  // ── ECOSYSTEM VISION (group: candidate) — the bridge from the spec to the framework it enables. ──
+  const vision = join(tmp, "ecosystem-vision.md");
+  writeFileSync(
+    vision,
+    `---\ntitle: EcoSystem vision\ngroup: ${CANDIDATE_GROUP}\n---\n\n# EcoSystem vision\n\nSuluk is two things at once.\n\n**Layer 1 — the candidate specification.** An independent, single-contributor draft of OpenAPI v4.0 "Moonwalk" — the object model, request signatures, parameters, responses, schemas, components, and security. See the [Specification](specification.md).\n\n**Layer 2 — the ecosystem it makes possible.** Because the v4 document is a single typed contract, everything else can be **derived** from it — the API, a typed client, generated UI, contract tests, an admin panel, a Cloudflare deploy plan. That derivation *is* the framework:\n\n- a family of small **[\`@suluk/*\` packages](packages.md)** (the money/security/correctness **logic**),\n- a **[shadcn registry](registry.md)** of own-the-code backend modules (the app-owned **wiring**), and\n- declarative provisioning (\`@suluk/provision\`) + a manifest generator (\`@suluk/platform\`) that assembles a whole backend from one \`definePlatform\` call.\n\n**One source, many projections; they cannot drift because they are the same source.** The boundary rule (own the wiring, npm the logic) keeps a fix flowing to every consumer while leaving each app in control of its own routes and policy.\n\nStart with the **[Guides](guides.md)**, browse the **[Packages](packages.md)** and the **[Registry](registry.md)**, or read [how it all fits together](architecture.md).\n`,
+  );
 
-  return { readme, projectDocuments: [guides, packages, registry, specification] };
+  return { readme, projectDocuments: [specification, vision, guides, packages, registry] };
 }
 
 async function render(label: string, options: Record<string, unknown>): Promise<void> {
@@ -211,7 +245,10 @@ export async function buildDocs(): Promise<DocPackage[]> {
     projectDocuments,
     out: DOCS,
     hostedBaseUrl: UMBRELLA_URL,
-    sort: ["alphabetical"],
+    // source-order keeps top-level docs in projectDocuments order within each group (Specification before the
+    // vision; Guides/Packages/Registry in that order); folder children follow their `children:` list regardless.
+    sort: ["source-order"],
+    groupOrder: [CANDIDATE_GROUP, ECOSYSTEM_GROUP],
     navigationLinks: { GitHub: REPO_URL },
   });
 
