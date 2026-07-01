@@ -5,7 +5,7 @@
  * testable. Stops short of `provision apply` — that's a live infra op the operator triggers.
  */
 import type { PlatformManifest } from "./manifest";
-import { planPlatform, mergePackageJson, type PlatformPlan } from "./plan";
+import { planPlatform, mergePackageJson, mergeWranglerToml, type PlatformPlan } from "./plan";
 
 export interface GenerateOptions {
   /** run a command — the CLI spawns `bunx shadcn add <ref>`; a test records. */
@@ -38,8 +38,19 @@ export async function generatePlatform(manifest: PlatformManifest, opts: Generat
   log("▸ writing package.json");
   await opts.write("package.json", mergePackageJson(plan.packageJson, existingPkg));
   written.push("package.json");
-  for (const [file, content] of [["tsconfig.json", plan.tsconfig], ["components.json", plan.componentsJson]] as const) {
-    if ((await read(file)) == null) {
+  // wrangler.toml MERGES (preserve the operator's provisioned binding ids across a regen); .env.example + the env-check
+  // preflight always (re)written (a template + a script, no secrets); tsconfig/components.json/.gitignore left if present.
+  log("▸ writing wrangler.toml");
+  await opts.write("wrangler.toml", mergeWranglerToml(plan.wranglerToml, await read("wrangler.toml")));
+  written.push("wrangler.toml");
+  for (const [file, content, always] of [
+    ["tsconfig.json", plan.tsconfig, false],
+    ["components.json", plan.componentsJson, false],
+    [".gitignore", plan.gitignore, false],
+    [".env.example", plan.envExample, true], // a checked-in template (no values) — keep it current
+    ["scripts/env-check.ts", plan.envCheck, true], // the .env.temp lifecycle preflight
+  ] as const) {
+    if (always || (await read(file)) == null) {
       log(`▸ writing ${file}`);
       await opts.write(file, content);
       written.push(file);

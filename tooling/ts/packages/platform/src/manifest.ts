@@ -20,6 +20,12 @@ export interface PlatformManifest {
    * `mountAuthRoutes(app, {...})`. Only JSON-safe values (no functions/env-refs — edit the generated entry for those).
    */
   opts?: Record<string, Record<string, unknown>>;
+  /**
+   * NON-SECRET config values (`BASE_URL`, `EMAIL_FROM`, `TRUSTED_ORIGINS`, `ENVIRONMENT`, `STRIPE_PUBLISHABLE_KEY`, …) —
+   * defined HERE, in the committed manifest, and generated into `wrangler.toml` `[vars]`. SECRETS never go here; they live
+   * in `.env` (see the generated `.env.example` + the env-check preflight). Keyed by the env var name.
+   */
+  vars?: Record<string, string>;
 }
 
 /** Validate + return the manifest (throws on an empty service list). */

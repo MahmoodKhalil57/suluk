@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test";
-import { definePlatform, planPlatform, mergeProvision, generatePlatform, buildPackageJson, mergePackageJson } from "../src/index";
+import { definePlatform, planPlatform, mergeProvision, generatePlatform, buildPackageJson, mergePackageJson, mergeWranglerToml } from "../src/index";
 import type { InstanceSpec } from "@suluk/provision";
 
 /** C051 — the platform generator: manifest → plan (adds + wired entry + merged provision), the provision merge, and the
@@ -161,12 +161,12 @@ describe("generatePlatform — the orchestration (with recorders)", () => {
     });
     expect(ran).toEqual(plannedAdds()); // exactly the planned adds, in order
     expect(ran.length).toBe(6); // app+auth+credits+keys+billing+logs
-    // config (package.json/tsconfig/components.json) is written BEFORE the shadcn adds; the glue after.
-    expect(wrote).toEqual(["package.json", "tsconfig.json", "components.json", "src/index.ts", "provision.config.ts"]);
+    // config is written BEFORE the shadcn adds; the glue after. env-example + env-check + wrangler + gitignore included.
+    expect(wrote).toEqual(["package.json", "wrangler.toml", "tsconfig.json", "components.json", ".gitignore", ".env.example", "scripts/env-check.ts", "src/index.ts", "provision.config.ts"]);
     expect(res.added.length).toBe(6);
   });
 
-  test("leaves an existing tsconfig/components.json untouched but always (re)writes package.json", async () => {
+  test("leaves an existing tsconfig/components.json/.gitignore untouched; always rewrites package.json/.env.example", async () => {
     const wrote: string[] = [];
     await generatePlatform(manifest, {
       run: async () => {},
@@ -174,8 +174,41 @@ describe("generatePlatform — the orchestration (with recorders)", () => {
       read: async (p) => (p === "package.json" ? '{"name":"x","dependencies":{"my-lib":"^1.0.0"}}' : "existing"),
     });
     expect(wrote).toContain("package.json"); // merged + rewritten
+    expect(wrote).toContain(".env.example"); // template — always current
+    expect(wrote).toContain("scripts/env-check.ts");
     expect(wrote).not.toContain("tsconfig.json"); // present → left as-is
-    expect(wrote).not.toContain("components.json");
+    expect(wrote).not.toContain(".gitignore");
+  });
+});
+
+describe("env — secrets in .env (temp lifecycle), non-secrets in the manifest vars", () => {
+  test(".env.example lists ONLY required + optional secrets, never non-secret config", () => {
+    const p = planPlatform(definePlatform({ name: "e", registry: "acme/reg", services: ["auth", "billing", "webhooks", "email"] }));
+    expect(p.envExample).toContain("BETTER_AUTH_SECRET="); // required secret, uncommented
+    expect(p.envExample).toContain("STRIPE_SECRET_KEY=");
+    expect(p.envExample).toContain("STRIPE_WEBHOOK_SECRET=");
+    expect(p.envExample).toContain("# RESEND_API_KEY="); // optional secret, commented
+    expect(p.envExample).not.toContain("BASE_URL"); // non-secret → the manifest vars, NOT .env
+    expect(p.envExample).not.toContain("TRUSTED_ORIGINS");
+  });
+
+  test("wrangler.toml [vars] come from the manifest vars; unset non-secrets are commented; D1 binding present", () => {
+    const p = planPlatform(definePlatform({ name: "myapp", registry: "acme/reg", services: ["auth", "email", "rate-credit"], vars: { BASE_URL: "https://x.dev", ENVIRONMENT: "production" } }));
+    expect(p.wranglerToml).toContain('BASE_URL = "https://x.dev"'); // set in the manifest
+    expect(p.wranglerToml).toContain('ENVIRONMENT = "production"');
+    expect(p.wranglerToml).toContain("# EMAIL_FROM ="); // unset → commented
+    expect(p.wranglerToml).toContain('binding = "DB"');
+    expect(p.wranglerToml).toContain('binding = "RATE_CREDIT_KV"'); // rate-credit selected
+    expect(p.wranglerToml).not.toContain("BETTER_AUTH_SECRET"); // secrets never in [vars]
+  });
+
+  test("the env-check script bakes in the required secrets; merge preserves provisioned binding ids", () => {
+    const p = planPlatform(definePlatform({ name: "e", registry: "acme/reg", services: ["auth", "billing"] }));
+    expect(p.envCheck).toContain('["BETTER_AUTH_SECRET","STRIPE_SECRET_KEY"]');
+    expect(p.envCheck).toContain(".env.temp");
+    // wrangler merge keeps the operator's database_id across a regen
+    const merged = mergeWranglerToml(p.wranglerToml, 'name="e"\n[[d1_databases]]\nbinding = "DB"\ndatabase_id = "abc-123"');
+    expect(merged).toContain('database_id = "abc-123"');
   });
 });
 
