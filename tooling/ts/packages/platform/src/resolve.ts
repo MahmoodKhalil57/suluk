@@ -69,6 +69,32 @@ export function resolveNodeOpts(system: SystemManifest, brand: BrandManifest): {
   return { services, opts, vars };
 }
 
+/** env-shaped globalServiceOpts (system behaviour delivered as a runtime env var) — the rest of `vars` is brand identity. */
+const SYSTEM_VAR_NAMES = new Set(["TRUSTED_ORIGINS", "ENVIRONMENT"]);
+
+/**
+ * The MIGRATE direction — a legacy {@link PlatformManifest} → the C053 `{ system, brand }` split (the inverse of
+ * {@link liftSystemBrand}). `opts` → per-service serviceOpts; `vars` split into globalServiceOpts (system-shaped) vs
+ * globalBrandOpts (identity). Round-trips byte-for-byte: `liftSystemBrand(liftLegacy(m))` generates the same app as `m`.
+ */
+export function liftLegacy(m: PlatformManifest): Platform {
+  const globalServiceOpts: Record<string, string> = {};
+  const globalBrandOpts: Record<string, string> = {};
+  for (const [k, v] of Object.entries(m.vars ?? {})) (SYSTEM_VAR_NAMES.has(k) ? globalServiceOpts : globalBrandOpts)[k] = v;
+  return {
+    system: {
+      registry: m.registry,
+      services: m.services,
+      ...(Object.keys(globalServiceOpts).length ? { globalServiceOpts } : {}),
+      ...(m.opts && Object.keys(m.opts).length ? { serviceOpts: m.opts } : {}),
+    },
+    brand: {
+      name: m.name,
+      ...(Object.keys(globalBrandOpts).length ? { globalBrandOpts } : {}),
+    },
+  };
+}
+
 /** Lower a `{ system, brand }` platform to the legacy {@link PlatformManifest} the C051 generator renders. */
 export function liftSystemBrand(p: Platform): PlatformManifest {
   const { services, opts, vars } = resolveNodeOpts(p.system, p.brand);

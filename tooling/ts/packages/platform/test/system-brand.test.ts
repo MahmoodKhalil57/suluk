@@ -4,6 +4,7 @@ import {
   authService, contractService, mcpService, rateLimitService, rateCreditService, i18nService, creditsService, keysService,
   billingService, costService, erasureService, emailService, webhooksService, logsService, referenceService, adminService, journeysService, auditService,
 } from "../src/index";
+import { liftLegacy } from "../src/index";
 import { AUTOTOOLFACTORY } from "./golden.test";
 
 /**
@@ -49,6 +50,23 @@ describe("system/brand → byte-identical to the legacy manifest (the C053 parit
   }
   test("the shadcn adds match exactly", () => {
     expect(split.adds).toEqual(legacy.adds);
+  });
+});
+
+describe("liftLegacy — migrating a legacy manifest to { system, brand } round-trips byte-identically", () => {
+  const migrated = liftLegacy(AUTOTOOLFACTORY);
+  const fromLegacy = planPlatform(AUTOTOOLFACTORY);
+  const fromMigrated = planPlatform(definePlatform({ system: migrated.system, brand: migrated.brand }));
+  for (const key of ["entry", "provisionConfig", "packageJson", "wranglerToml", "envExample"] as const) {
+    test(`${key} is byte-identical after migrate`, () => {
+      expect(fromMigrated[key]).toBe(fromLegacy[key]);
+    });
+  }
+  test("the split routes opts → system.serviceOpts, brand identity → brand.globalBrandOpts, ENVIRONMENT → system", () => {
+    expect(migrated.system.serviceOpts).toEqual({ auth: { mcp: AUTOTOOLFACTORY.opts!.auth.mcp } });
+    expect(migrated.brand.globalBrandOpts).toHaveProperty("BRAND_NAME", "autotoolfactory");
+    expect(migrated.system.globalServiceOpts).toHaveProperty("ENVIRONMENT", "production");
+    expect(migrated.brand.name).toBe("autotoolfactory");
   });
 });
 
