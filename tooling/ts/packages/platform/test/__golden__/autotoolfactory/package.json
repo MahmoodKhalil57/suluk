@@ -1,0 +1,46 @@
+{
+  "name": "autotoolfactory",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate": "suluk-platform",
+    "check": "bun run scripts/env-check.ts",
+    "predev": "bun run scripts/env-check.ts",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit -p .",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@better-auth/api-key": "^1.0.0",
+    "@better-auth/passkey": "^1.0.0",
+    "@suluk/better-auth": "latest",
+    "@suluk/billing": "latest",
+    "@suluk/cockpit": "latest",
+    "@suluk/core": "latest",
+    "@suluk/cost": "latest",
+    "@suluk/credits": "latest",
+    "@suluk/email": "latest",
+    "@suluk/harden": "latest",
+    "@suluk/hono": "latest",
+    "@suluk/i18n": "latest",
+    "@suluk/journeys": "latest",
+    "@suluk/keys": "latest",
+    "@suluk/mcp": "latest",
+    "@suluk/payments": "latest",
+    "@suluk/platform": "latest",
+    "@suluk/provision": "latest",
+    "@suluk/reference": "latest",
+    "better-auth": "^1.0.0",
+    "drizzle-orm": "^0.45.2",
+    "effect": "^3.0.0",
+    "hono": "^4.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260701.1",
+    "@types/node": "^26.0.1",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.0.0"
+  }
+}

@@ -1,1 +1,1 @@
-{ "extends": "../../tsconfig.base.json", "compilerOptions": { "types": ["bun"] }, "include": ["src", "test", "bin"] }
+{ "extends": "../../tsconfig.base.json", "compilerOptions": { "types": ["bun"] }, "include": ["src", "test", "bin"], "exclude": ["test/__golden__"] }
