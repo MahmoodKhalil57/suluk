@@ -1,5 +1,5 @@
 node_modules/
-.env
+.env.keys
 .env.temp
 .dev.vars
 .wrangler/

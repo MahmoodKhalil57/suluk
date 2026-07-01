@@ -8,6 +8,9 @@
     "predev": "bun run scripts/env-check.ts",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
+    "env:keygen": "suluk-env keygen",
+    "env:set": "suluk-env set",
+    "sync-secrets": "bun run scripts/sync-secrets.ts",
     "typecheck": "tsc --noEmit -p .",
     "test": "bun test"
   },
@@ -21,6 +24,7 @@
     "@suluk/cost": "latest",
     "@suluk/credits": "latest",
     "@suluk/email": "latest",
+    "@suluk/env": "latest",
     "@suluk/harden": "latest",
     "@suluk/hono": "latest",
     "@suluk/i18n": "latest",

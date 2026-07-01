@@ -22,7 +22,8 @@ describe("planPlatform — manifest → shadcn adds + entry + provision.config",
     expect(plan.entry).toContain('import { creditsRoutes } from "./routes/credits";');
     expect(plan.entry).toContain('app.route("/api/credits", creditsRoutes());');
     expect(plan.entry).toContain('app.route("/api/billing", billingRoutes());');
-    expect(plan.entry).toContain("export default app;");
+    expect(plan.entry).toContain("export default {"); // the fetch bootstrap (the @suluk/env loadEnv wrapper)
+    expect(plan.entry).toContain("return app.fetch(request,");
   });
 
   test("the generated provision.config imports each fragment + merges them", () => {
@@ -162,7 +163,7 @@ describe("generatePlatform — the orchestration (with recorders)", () => {
     expect(ran).toEqual(plannedAdds()); // exactly the planned adds, in order
     expect(ran.length).toBe(6); // app+auth+credits+keys+billing+logs
     // config is written BEFORE the shadcn adds; the glue after. env-example + env-check + wrangler + gitignore included.
-    expect(wrote).toEqual(["package.json", "wrangler.toml", ".gitignore", "tsconfig.json", "components.json", ".env.example", "scripts/env-check.ts", "src/index.ts", "provision.config.ts"]);
+    expect(wrote).toEqual(["package.json", "wrangler.toml", ".gitignore", "tsconfig.json", "components.json", ".env.example", "scripts/env-check.ts", "src/env.ts", "scripts/sync-secrets.ts", ".env", "src/index.ts", "provision.config.ts"]);
     expect(res.added.length).toBe(6);
   });
 
@@ -209,13 +210,33 @@ describe("env — secrets in .env (temp lifecycle), non-secrets in the manifest 
     expect(p.wranglerToml).not.toContain("BETTER_AUTH_SECRET"); // secrets never in [vars]
   });
 
-  test("the env-check script bakes in the required secrets; merge preserves provisioned binding ids", () => {
+  test("the env-check script bakes in the required secrets + checks the encrypted model; merge preserves binding ids", () => {
     const p = planPlatform(definePlatform({ name: "e", registry: "acme/reg", services: ["auth", "billing"] }));
     expect(p.envCheck).toContain('["BETTER_AUTH_SECRET","STRIPE_SECRET_KEY"]');
-    expect(p.envCheck).toContain(".env.temp");
+    expect(p.envCheck).toContain("SULUK_PUBLIC_KEY"); // keypair check (not .env.temp anymore)
+    expect(p.envCheck).toContain('startsWith("encrypted:")'); // flags plaintext secrets
     // wrangler merge keeps the operator's database_id across a regen
     const merged = mergeWranglerToml(p.wranglerToml, 'name="e"\n[[d1_databases]]\nbinding = "DB"\ndatabase_id = "abc-123"');
     expect(merged).toContain('database_id = "abc-123"');
+  });
+
+  test("env encryption: .gitignore commits .env (ignores .env.keys); env.ts declares secrets; sync-secrets + loadEnv both emitted", () => {
+    const p = planPlatform(definePlatform({ name: "e", registry: "acme/reg", services: ["auth", "billing", "email"] }));
+    // .env is COMMITTED (encrypted); the PRIVATE key is what's ignored.
+    expect(p.gitignore).toContain(".env.keys");
+    expect(p.gitignore.split("\n")).not.toContain(".env");
+    // env.ts = the @suluk/env declare-once for the secrets (surfaced cloudflare).
+    expect(p.envTs).toContain("import { defineEnv }");
+    expect(p.envTs).toContain('BETTER_AUTH_SECRET: { secret: true, required: true, surfaces: ["cloudflare"]');
+    // BOTH runtime paths: the entry's loadEnv bootstrap + the sync-secrets deploy script.
+    expect(p.entry).toContain('import { loadEnv } from "@suluk/env";');
+    expect(p.entry).toContain("privateKey: env.SULUK_PRIVATE_KEY");
+    expect(p.syncSecrets).toContain('forSurface("cloudflare")');
+    expect(p.syncSecrets).toContain("wrangler");
+    // the committed .env scaffold has NO real values (every non-empty line is a comment); package.json deps @suluk/env.
+    expect(p.envScaffold.split("\n").filter((l) => l.trim()).every((l) => l.trim().startsWith("#"))).toBe(true);
+    expect(JSON.parse(p.packageJson).dependencies["@suluk/env"]).toBe("latest");
+    expect(JSON.parse(p.packageJson).scripts["sync-secrets"]).toBe("bun run scripts/sync-secrets.ts");
   });
 });
 

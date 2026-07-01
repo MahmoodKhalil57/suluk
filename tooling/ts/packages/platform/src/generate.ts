@@ -46,16 +46,19 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
   log("▸ writing wrangler.toml");
   await opts.write("wrangler.toml", mergeWranglerToml(plan.wranglerToml, await read("wrangler.toml")));
   written.push("wrangler.toml");
-  // .gitignore MERGES (append missing entries) — critically ensures .env/.env.temp are ignored even if the app already had
-  // a minimal .gitignore, so secrets are never committed. .env.example + the env-check are always (re)written (no values).
+  // .gitignore MERGES (append missing entries) — ensures `.env.keys` (the PRIVATE key) + `.env.temp` are ignored. `.env`
+  // itself is COMMITTED (its secret values encrypted by @suluk/env). .env.example + env.ts + env-check are always (re)written.
   log("▸ writing .gitignore");
   await opts.write(".gitignore", mergeGitignore(plan.gitignore, await read(".gitignore")));
   written.push(".gitignore");
   for (const [file, content, always] of [
     ["tsconfig.json", plan.tsconfig, false],
     ["components.json", plan.componentsJson, false],
-    [".env.example", plan.envExample, true], // a checked-in template (no values) — keep it current
-    ["scripts/env-check.ts", plan.envCheck, true], // the .env.temp lifecycle preflight
+    [".env.example", plan.envExample, true], // a checked-in keys checklist (no values)
+    ["scripts/env-check.ts", plan.envCheck, true], // the encrypted-env preflight
+    ["src/env.ts", plan.envTs, true], // the @suluk/env declare-once (derived from the manifest's secrets)
+    ["scripts/sync-secrets.ts", plan.syncSecrets, true], // the deploy-time secret push (derived)
+    [".env", plan.envScaffold, false], // the COMMITTED encrypted-secrets file — SCAFFOLD IF ABSENT (never clobber secrets)
   ] as const) {
     if (always || (await read(file)) == null) {
       log(`▸ writing ${file}`);

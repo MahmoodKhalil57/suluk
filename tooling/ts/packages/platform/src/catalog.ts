@@ -26,7 +26,7 @@ export const CATALOG: Record<string, CatalogEntry> = Object.fromEntries(Object.e
  * that imports mergeProvision from @suluk/platform + defineProvision from @suluk/provision). Union'd with each service's
  * `deps` to build package.json.
  */
-export const BASE_DEPS = ["@suluk/platform", "@suluk/provision", "@suluk/core", "effect", "hono", "drizzle-orm"];
+export const BASE_DEPS = ["@suluk/platform", "@suluk/provision", "@suluk/core", "@suluk/env", "effect", "hono", "drizzle-orm"];
 
 /** Pinned ranges for the NON-@suluk ecosystem deps — the single place they're kept current for every generated app.
  *  @suluk/* are NOT here: they resolve to "latest" so a package fix flows to the app via `bun update` (the C052 payoff). */

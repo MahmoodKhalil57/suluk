@@ -53,6 +53,9 @@ const OUTPUTS: Record<string, string> = {
   wranglerToml: "wrangler.toml",
   gitignore: "gitignore",
   envCheck: "env-check.ts",
+  envTs: "src_env.ts",
+  syncSecrets: "sync-secrets.ts",
+  envScaffold: "env.scaffold",
 };
 
 describe("GOLDEN — autotoolfactory byte-identity lock (the C053 guardrail)", () => {
