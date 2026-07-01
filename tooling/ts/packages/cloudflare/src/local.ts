@@ -122,6 +122,28 @@ export function jsonFileKvStore(path: string): KvNamespaceLike {
   };
 }
 
+// ── Local mailbox over a JSON file ────────────────────────────────────────────────────────────────────────────────────
+// A mailbox sink for @suluk/email's storeProvider: captures "sent" emails to a JSON file so local dev has an inspectable
+// inbox with no mail server. Structurally satisfies @suluk/email's MailboxSink (no cross-package dep).
+
+interface StoredEmailRec { to: string | string[]; from?: string; replyTo?: string; subject: string; html: string; text?: string; at: string }
+
+/** A JSON-file mailbox sink — `save` appends a captured email; `list` returns them newest-last. */
+export function jsonFileMailbox(path: string): { save(email: StoredEmailRec): Promise<void>; list(): Promise<StoredEmailRec[]> } {
+  const fs = require("node:fs") as typeof import("node:fs");
+  const load = (): StoredEmailRec[] => { try { return JSON.parse(fs.readFileSync(path, "utf8")) as StoredEmailRec[]; } catch { return []; } };
+  const persist = (arr: StoredEmailRec[]) => {
+    fs.mkdirSync(require("node:path").dirname(path), { recursive: true });
+    const tmp = `${path}.${process.pid}.tmp`;
+    fs.writeFileSync(tmp, JSON.stringify(arr, null, 2));
+    fs.renameSync(tmp, path);
+  };
+  return {
+    async save(email) { const arr = load(); arr.push(email); persist(arr); },
+    async list() { return load(); },
+  };
+}
+
 // ── Schema-as-code → SQLite DDL ───────────────────────────────────────────────────────────────────────────────────────
 // A Suluk app defines its tables as drizzle `sqliteTable()` objects (in `src/db/*.ts`, re-exported from `@suluk/*`); there
 // are no .sql migrations — `@suluk/provision` applies the DDL to D1 out-of-band. Local dev has no provision step, so we

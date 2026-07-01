@@ -57,3 +57,19 @@ test("jsonFileKvStore: get/put round-trip, TTL expiry, delete, prefix list", asy
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("jsonFileMailbox: save appends, list returns in order, survives reopen", async () => {
+  const dir = mkdtempSync(join(tmpdir(), "suluk-mbox-"));
+  try {
+    const { jsonFileMailbox } = await import("../src/local");
+    const path = join(dir, "mbox.json");
+    const mbox = jsonFileMailbox(path);
+    expect(await mbox.list()).toEqual([]);
+    await mbox.save({ to: "a@b.com", subject: "One", html: "<p>1</p>", at: "2026-01-01T00:00:00Z" });
+    await jsonFileMailbox(path).save({ to: ["b@c.com"], subject: "Two", html: "<p>2</p>", at: "2026-01-02T00:00:00Z" });
+    const all = await jsonFileMailbox(path).list();
+    expect(all.map((e) => e.subject)).toEqual(["One", "Two"]);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

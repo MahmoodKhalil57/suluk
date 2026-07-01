@@ -109,3 +109,20 @@ describe("template set — auth lifecycle + ecommerce", () => {
     expect(m.subject).toBe("الطلب 1042: shipped");
   });
 });
+
+test("storeProvider saves to the sink instead of sending; pickProvider(dev+sink) selects it", async () => {
+  const { storeProvider, pickProvider } = await import("../src/provider");
+  const saved: any[] = [];
+  const sink = { async save(e: any) { saved.push(e); } };
+  const p = storeProvider(sink);
+  expect(p.id).toBe("store");
+  const r = await p.send({ to: "a@b.com", subject: "Hi", html: "<p>x</p>" });
+  expect(r.ok).toBe(true);
+  expect(saved).toHaveLength(1);
+  expect(saved[0].subject).toBe("Hi");
+  expect(typeof saved[0].at).toBe("string");
+  // selection: dev + a sink → store; dev + no sink → console; prod (key+from) → resend
+  expect(pickProvider({ dev: true, sink }).id).toBe("store");
+  expect(pickProvider({ dev: true }).id).toBe("console");
+  expect(pickProvider({ dev: false, apiKey: "k", from: "a@b.com" }).id).toBe("resend");
+});

@@ -58,6 +58,36 @@ export function consoleProvider(opts: ConsoleProviderOptions = {}): EmailProvide
   };
 }
 
+/** A stored (mocked) email — what a local mailbox sink persists INSTEAD of sending. */
+export interface StoredEmail extends EmailMessage {
+  /** ISO timestamp the message was captured. */
+  at: string;
+}
+
+/** A mailbox sink — where {@link storeProvider} SAVES instead of sending (a JSON file / sqlite in local dev). `list`
+ *  powers a dev inbox view. Structurally typed so a bun-only file sink (e.g. `@suluk/cloudflare/local`) satisfies it. */
+export interface MailboxSink {
+  save(email: StoredEmail): Promise<void>;
+  list?(): Promise<StoredEmail[]>;
+}
+
+/**
+ * DEV/mock provider — SAVES the message to a mailbox sink (sqlite/json) instead of sending. Inspectable, never touches
+ * the network, needs no separate mail server. The mock-until-keyed default for local dev when no `RESEND_API_KEY` is set.
+ */
+export function storeProvider(sink: MailboxSink): EmailProvider {
+  return {
+    id: "store",
+    async send(message) {
+      const at = new Date().toISOString();
+      await sink.save({ ...message, at });
+      const to = Array.isArray(message.to) ? message.to.join(", ") : message.to;
+      console.log(`📥 [DEV MAILBOX] to=${to} · subject=${message.subject}`);
+      return { ok: true, id: `mailbox_${at}`, costMicroUsd: 0 };
+    },
+  };
+}
+
 export interface ResendProviderOptions {
   /** the Resend API key (the app pulls it from @suluk/env). */
   apiKey: string;
@@ -102,8 +132,12 @@ export function resendProvider(opts: ResendProviderOptions): EmailProvider {
   };
 }
 
-/** Pick the provider the way saastarter's `isLocal` switch does: dev ⇒ console, prod ⇒ resend. */
-export function pickProvider(opts: { dev: boolean; apiKey?: string; from?: string; costMicroUsd?: number }): EmailProvider {
-  if (opts.dev || !opts.apiKey || !opts.from) return consoleProvider();
+/**
+ * Pick the provider the way saastarter's `isLocal` switch does: prod (a key + a from) ⇒ resend. In DEV (or no key) ⇒ a
+ * mailbox {@link storeProvider} when a `sink` is supplied (the mock-until-keyed local default — saves + inspectable),
+ * else the console provider (log-only).
+ */
+export function pickProvider(opts: { dev: boolean; apiKey?: string; from?: string; costMicroUsd?: number; sink?: MailboxSink }): EmailProvider {
+  if (opts.dev || !opts.apiKey || !opts.from) return opts.sink ? storeProvider(opts.sink) : consoleProvider();
   return resendProvider({ apiKey: opts.apiKey, from: opts.from, costMicroUsd: opts.costMicroUsd });
 }

@@ -5,9 +5,10 @@
  * `@suluk/builder` `email` slot impl). CANDIDATE tooling.
  */
 export {
-  consoleProvider, resendProvider, pickProvider,
+  consoleProvider, resendProvider, storeProvider, pickProvider,
   type EmailProvider, type EmailMessage, type SendResult,
   type ConsoleProviderOptions, type ResendProviderOptions,
+  type MailboxSink, type StoredEmail,
 } from "./provider";
 export {
   renderEmailHtml, DEFAULT_EMAIL_STRINGS,

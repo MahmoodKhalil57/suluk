@@ -4,16 +4,18 @@
 // them. NOTE: src/index.ts (the deployed Worker) imports NONE of these mocks — bun:sqlite never enters the Worker bundle.
 import { app } from "./index";
 import { Database } from "bun:sqlite";
-import { d1FromSqlite, jsonFileKvStore, applyLocalSchema } from "@suluk/cloudflare/local";
+import { d1FromSqlite, jsonFileKvStore, jsonFileMailbox, applyLocalSchema } from "@suluk/cloudflare/local";
 import { loadEnvFile } from "@suluk/env/node";
 
 const DB_PATH = process.env.SULUK_DB_PATH ?? ".suluk/dev.sqlite";
 const KV_PATH = process.env.SULUK_KV_PATH ?? ".suluk/dev-kv.json";
+const MAILBOX_PATH = process.env.SULUK_MAILBOX_PATH ?? ".suluk/dev-mailbox.json";
 const PORT = Number(process.env.PORT ?? 8787);
 
 const sqlite = new Database(DB_PATH, { create: true });
 const tables = await applyLocalSchema(sqlite); // discover src/db/*.ts + create the tables from the drizzle schema
 console.log(`[suluk dev] sqlite ${DB_PATH} — ${tables.length} tables`);
+const mailbox = jsonFileMailbox(MAILBOX_PATH); // a local inbox the mock email provider saves to
 
 // Real secrets (if this app has been provisioned): decrypt the committed .env with the local private key. Fresh app / no
 // key → {} → every provider mocks. Best-effort: a decryption failure never blocks the mock path.
@@ -27,10 +29,14 @@ const env: Record<string, unknown> = {
   ...secrets,
   DB: d1FromSqlite(sqlite),
   RATE_CREDIT_KV: jsonFileKvStore(KV_PATH),
+  SULUK_MAILBOX_SINK: mailbox,
 };
 
 const mocked = ["GOOGLE_CLIENT_ID", "STRIPE_SECRET_KEY", "RESEND_API_KEY"].filter((k) => !env[k]);
 if (mocked.length) console.log(`[suluk dev] mocked (no key): ${mocked.join(", ")}`);
+
+// a dev-only inbox view of the emails the mock provider captured (never mounted on the deployed Worker).
+app.get("/api/email/dev/mailbox", async (c) => c.json(await mailbox.list()));
 
 const ctx = { waitUntil() {}, passThroughOnException() {} } as unknown as ExecutionContext;
 Bun.serve({ port: PORT, idleTimeout: 120, fetch: (req) => app.fetch(req, env as Parameters<typeof app.fetch>[1], ctx) });

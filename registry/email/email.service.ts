@@ -17,6 +17,7 @@ import {
   type SendResult,
   type EmailBrand,
   type TemplateContext,
+  type MailboxSink,
 } from "@suluk/email";
 
 /** The env vars the provider binding needs (declare these in your `wrangler`/`.dev.vars`). */
@@ -27,6 +28,9 @@ export interface EmailEnv {
   BASE_URL?: string;
   /** "production" ⇒ use Resend; anything else (or a missing key) ⇒ the console provider. */
   ENVIRONMENT?: string;
+  /** LOCAL DEV ONLY — a mailbox sink injected by `src/dev.ts` (never present on the deployed Worker). When set AND no
+   *  Resend key, emails are SAVED to it (an inspectable local inbox) instead of console-logged. Mock-until-keyed. */
+  SULUK_MAILBOX_SINK?: MailboxSink;
 }
 
 export interface EmailConfig {
@@ -34,6 +38,8 @@ export interface EmailConfig {
   apiKey?: string;
   from?: string;
   brand: EmailBrand;
+  /** the local mailbox sink (dev only) — routes dev sends to a saved inbox instead of the console. */
+  sink?: MailboxSink;
 }
 
 /** Build the config from env — console provider unless production AND a key AND a from-address are all present. */
@@ -43,6 +49,7 @@ export function emailCfgFromEnv(env: EmailEnv): EmailConfig {
     apiKey: env.RESEND_API_KEY,
     from: env.EMAIL_FROM,
     brand: { brandName: env.BRAND_NAME ?? "Suluk", baseUrl: env.BASE_URL ?? "http://localhost:8787" },
+    sink: env.SULUK_MAILBOX_SINK,
   };
 }
 
@@ -65,7 +72,7 @@ export const EmailLive = Layer.effect(
   Email,
   Effect.gen(function* () {
     const cfg = yield* EmailCfg;
-    const provider = pickProvider({ dev: cfg.dev, apiKey: cfg.apiKey, from: cfg.from });
+    const provider = pickProvider({ dev: cfg.dev, apiKey: cfg.apiKey, from: cfg.from, sink: cfg.sink });
     const ctx: TemplateContext = { brand: cfg.brand };
     const sendRendered = (rendered: { subject: string; html: string; text?: string }, to: string) =>
       provider.send({ ...rendered, to, from: cfg.from });
