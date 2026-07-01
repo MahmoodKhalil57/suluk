@@ -186,3 +186,24 @@ falsified_when platform_c051_build7_manifest_only_surface_generates_packagejson_
 # remains the ONLY hand-authored surface, with SECRETS the only thing supplied outside it (via .env, never committed).
 claim platform_c051_build8_env_lifecycle_secrets_dotenv_temp_nonsecrets_manifest_vars: Bool @>=0.6 = True
 falsified_when platform_c051_build8_env_lifecycle_secrets_dotenv_temp_nonsecrets_manifest_vars == False
+
+# C055 — ENCRYPTED-COMMITTED .env via @suluk/env (2026-07-01, operator: "env should be encrypted and decrypted like
+# toolfactory with @suluk/env and pushed with the code"). REVISES build #8's gitignored-.env: now the .env is COMMITTED with
+# its secret VALUES ENCRYPTED (@suluk/env post-quantum ML-KEM-768 + AES-256-GCM, dotenvx's commit-safely model); only the
+# PRIVATE key (SULUK_PRIVATE_KEY / .env.keys) stays out of git. The generator emits: (1) src/env.ts — a @suluk/env defineEnv
+# DECLARE-ONCE for the app's secrets (from the catalog metadata; each surfaces:["cloudflare"]); (2) the .env COMMITTED with
+# values encrypted (operator: suluk-env keygen -> set; the generator writes a values-free scaffold ONLY IF ABSENT so a regen
+# never clobbers secrets); (3) .gitignore FLIPPED (.env committed, .env.keys ignored) — mergeGitignore now performs the
+# plaintext->encrypted transition (removes a stale .env ignore when the baseline ignores .env.keys); (4) BOTH runtime paths
+# (operator chose "both"): a loadEnv bootstrap in src/index.ts (if SULUK_PRIVATE_KEY is a wrangler secret, decrypt the
+# committed .env on first request; no-op otherwise) + scripts/sync-secrets.ts (decrypt cloudflare-surfaced secrets ->
+# `wrangler secret put` each, toolfactory-exact); (5) env-check rewritten (keypair present? required secrets set + encrypted?
+# plaintext flagged) + package.json @suluk/env + env:keygen/env:set/sync-secrets scripts. Non-secret config UNCHANGED (manifest
+# vars -> wrangler [vars]). VERIFIED: platform 87 tests pass, tsc clean; generated entry+env.ts+sync-secrets typecheck vs
+# autotoolfactory's REAL modules; an encrypt->loadEnv round-trip decrypts correctly; LIVE-ADOPTED (autotoolfactory .env
+# committed with 3 encrypted secrets, .env.keys gitignored + NOT tracked, tsc clean; c21ed80). Two live-adoption bugs caught +
+# fixed + regression-tested: generatePlatform dropped system.wire (0.2.1); mergeGitignore couldn't un-ignore .env (0.3.1).
+# @suluk/platform 0.3.0 (feature) + 0.3.1 (gitignore-transition fix) published. ADR C055. Ceiling 0.8 (built + tested +
+# round-trip + live-adopted, but production runtime + more consumers pending).
+claim platform_c055_encrypted_committed_env_suluk_env_mlkem_both_runtime_paths_built_live_adopted: Bool @>=0.8 = True
+falsified_when platform_c055_encrypted_committed_env_suluk_env_mlkem_both_runtime_paths_built_live_adopted == False
