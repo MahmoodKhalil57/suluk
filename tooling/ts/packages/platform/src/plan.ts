@@ -37,21 +37,24 @@ export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
   // C053: a `{ system, brand }` platform lowers to the legacy manifest first, then the UNCHANGED lowering runs — so the
   // legacy path is byte-for-byte identical and the new surface is sugar over it.
   const manifest = isPlatform(input) ? liftSystemBrand(input) : input;
-  const services = orderServices(manifest.services);
-  const unknown = services.filter((s) => !CATALOG[s]);
-  if (unknown.length) throw new Error(`platform: unknown service(s) [${unknown.join(", ")}] — not in the catalog`);
-  const env = collectEnv(services);
-  // C053 composition: resolve the wires (a `{system, brand}` platform may carry `wire`; a legacy manifest never does → no
-  // wiring → byte-identical). The catalog folds in any inline (community) service objects (Phase 4).
+  // the EFFECTIVE catalog = core services + any inline (community) Service objects a `{system,brand}` platform carries. It
+  // threads through EVERY emitter (mounts, provision, deps, env, wiring), so a community service contributes end-to-end. For
+  // the legacy path and an all-core `{system,brand}` it === CORE_SERVICES → the Phase-0 golden lock still holds byte-for-byte.
   const catalog: Record<string, Service> = { ...CORE_SERVICES };
   if (isPlatform(input)) for (const ref of input.system.services) if (typeof ref !== "string") catalog[ref.id] = ref;
+  const services = orderServices(manifest.services);
+  const unknown = services.filter((s) => !catalog[s]);
+  if (unknown.length) throw new Error(`platform: unknown service(s) [${unknown.join(", ")}] — not in the catalog`);
+  const env = collectEnv(services, catalog);
+  // resolve the wires (a `{system,brand}` platform may carry `wire`; a legacy manifest never does → no wiring → byte-identical).
   const wiring = resolveWiring(services, isPlatform(input) ? input.system.wire ?? [] : [], catalog);
   return {
     services,
-    adds: services.map((s) => `${manifest.registry}/${s}`),
-    entry: buildEntry(services, manifest.opts, wiring),
-    provisionConfig: buildProvisionConfig(services),
-    packageJson: buildPackageJson(manifest.name, services),
+    // a service may override the registry it's pulled from (multi-registry); core services fall back to the system registry.
+    adds: services.map((s) => `${catalog[s].registry ?? manifest.registry}/${s}`),
+    entry: buildEntry(services, manifest.opts, wiring, catalog),
+    provisionConfig: buildProvisionConfig(services, catalog),
+    packageJson: buildPackageJson(manifest.name, services, catalog),
     tsconfig: buildTsconfig(),
     componentsJson: buildComponentsJson(),
     envExample: buildEnvExample(env),
@@ -203,9 +206,9 @@ process.exit(1);
 
 /** The framework baseline package.json — name from the manifest, the union of BASE + each service's deps (versions
  *  resolved: @suluk/* → "latest", ecosystem → pinned), + the toolchain devDeps + the regenerate/typecheck scripts. */
-export function buildPackageJson(name: string, services: string[]): string {
+export function buildPackageJson(name: string, services: string[], catalog: Record<string, Service> = CORE_SERVICES): string {
   const deps = new Set<string>(BASE_DEPS);
-  for (const s of services) for (const d of CATALOG[s]?.deps ?? []) deps.add(d);
+  for (const s of services) for (const d of catalog[s]?.deps ?? []) deps.add(d);
   const dependencies: Record<string, string> = {};
   for (const d of [...deps].sort()) dependencies[d] = resolveVersion(d);
   const pkg = {
@@ -291,11 +294,14 @@ function buildComponentsJson(): string {
   );
 }
 
-function buildEntry(services: string[], opts?: Record<string, Record<string, unknown>>, wiring?: Wiring): string {
+function buildEntry(services: string[], opts?: Record<string, Record<string, unknown>>, wiring?: Wiring, catalog: Record<string, Service> = CORE_SERVICES): string {
   const imports = ['import { createApp } from "./app";'];
   const middleware: string[] = [];
   const routes: string[] = [];
   const hooksByService = wiring?.hooksByService ?? {};
+  // every identifier bound at the top of the entry (base + each mount) → its module. A wire import that reuses a symbol from
+  // a DIFFERENT module would shadow/duplicate-declare it, so reject it (fail closed); a same-module re-import is deduped.
+  const bound = new Map<string, string>([["createApp", "./app"]]);
   // a service's mount opts = its serviceOpts (JSON) + any wire-injected hook closures (raw code). With NO hooks, render is
   // the EXACT legacy JSON.stringify path (byte-identical); with hooks, a mixed object literal (JSON values + code fields).
   const optOf = (s: string): string => {
@@ -312,23 +318,32 @@ function buildEntry(services: string[], opts?: Record<string, Record<string, unk
   // TWO passes: ALL middleware mounts (app.use / handler) emit BEFORE any route mount, so a cross-cutting concern
   // (auth, rate-limit, i18n) applies to every route regardless of where it sits in the manifest.
   for (const s of services) {
-    const m = CATALOG[s].mount;
+    const m = catalog[s].mount;
     if (m.kind === "middleware") {
       imports.push(`import { ${m.symbol} } from "${m.from}";`);
+      bound.set(m.symbol, m.from);
       middleware.push(`${m.symbol}(app${optOf(s)});`);
     } else if (m.kind === "route") {
       imports.push(`import { ${m.symbol} } from "${m.from}";`);
+      bound.set(m.symbol, m.from);
       routes.push(`app.route("${m.path}", ${m.symbol}(${optOf(s).replace(/^, /, "")}));`);
     }
   }
-  // the wires' consumed capabilities need imports (e.g. Effect / Credits / CreditsLive / DbLive) — appended after the mounts.
-  for (const line of groupImports(wiring?.imports ?? [])) imports.push(line);
+  // the wires' consumed capabilities need imports (e.g. Effect / Credits / CreditsLive / DbLive) — appended after the mounts,
+  // rejecting any that collides with a base/mount symbol from a different module (would break the generated entry).
+  const safeWireImports = (wiring?.imports ?? []).filter((imp) => {
+    const existing = bound.get(imp.symbol);
+    if (existing === undefined) return (bound.set(imp.symbol, imp.from), true);
+    if (existing !== imp.from) throw new Error(`wire: import symbol "${imp.symbol}" (from "${imp.from}") collides with an existing import from "${existing}" — rename the capability's export`);
+    return false; // same symbol + module already imported → dedup
+  });
+  for (const line of groupImports(safeWireImports)) imports.push(line);
   const body = ["const app = createApp();", ...middleware, ...routes];
   return `// AUTO-GENERATED by @suluk/platform from platform.config.ts — the wired Hono entry. Edit freely.\n${imports.join("\n")}\n\n${body.join("\n")}\n\nexport default app;\n`;
 }
 
-function buildProvisionConfig(services: string[]): string {
-  const frags = services.map((s) => CATALOG[s].provision).filter((p): p is NonNullable<typeof p> => !!p);
+function buildProvisionConfig(services: string[], catalog: Record<string, Service> = CORE_SERVICES): string {
+  const frags = services.map((s) => catalog[s].provision).filter((p): p is NonNullable<typeof p> => !!p);
   const imports = frags.map((f) => `import { ${f.symbol} } from "${f.from}";`);
   return [
     "// AUTO-GENERATED by @suluk/platform — the merged provision config. Run `suluk-provision apply`.",

@@ -72,7 +72,9 @@ export function resolveNodeOpts(system: SystemManifest, brand: BrandManifest): {
 /** Lower a `{ system, brand }` platform to the legacy {@link PlatformManifest} the C051 generator renders. */
 export function liftSystemBrand(p: Platform): PlatformManifest {
   const { services, opts, vars } = resolveNodeOpts(p.system, p.brand);
-  const registry = p.system.registry ?? p.system.registries?.core ?? "";
+  const registry = p.system.registry ?? p.system.registries?.core;
+  // backstop (definePlatform also guards): never lower to an empty registry → malformed "/service" adds.
+  if (!registry) throw new Error('platform: `system.registry` (or `system.registries.core`) is required (e.g. "MahmoodKhalil57/suluk")');
   return {
     name: p.brand.name,
     registry,

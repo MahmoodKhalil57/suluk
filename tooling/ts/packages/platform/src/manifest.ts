@@ -8,7 +8,7 @@
  *    imported service objects — no codegen. The new shape LOWERS into a legacy manifest (`liftSystemBrand`) and runs the same
  *    generator.
  */
-import type { Service, Schema } from "./service";
+import type { Service, Schema, CoreServiceOptsMap } from "./service";
 
 /** The C051 legacy manifest — still valid, still the byte-identity anchor. */
 export interface PlatformManifest {
@@ -32,9 +32,10 @@ export type ServiceRef = string | Service<any, any>;
 
 /** the service id of a ref (a Service object's literal `id`, or the string itself). */
 type IdOf<R> = R extends { id: infer Id extends string } ? Id : R extends string ? R : never;
-/** the serviceOpts value type a ref carries (from its `serviceOpts` marker; `{}` for a typed service without opts,
- *  `unknown` for a bare string). */
-type SoOf<R> = R extends { serviceOpts: Schema<infer SO> } ? SO : R extends string ? unknown : {};
+/** the serviceOpts value type a ref carries: from its `serviceOpts` marker (imported object); else the {@link
+ *  CoreServiceOptsMap} entry for a known core string id; else `unknown` for an unknown string; `{}` for a typed service
+ *  without opts. */
+type SoOf<R> = R extends { serviceOpts: Schema<infer SO> } ? SO : R extends keyof CoreServiceOptsMap ? CoreServiceOptsMap[R] : R extends string ? unknown : {};
 
 /**
  * An inter-service composition EDGE (Phase 3). Declared here so a Phase-2 manifest's shape is forward-compatible; the
@@ -103,6 +104,8 @@ export function definePlatform(input: PlatformManifest | Platform): PlatformMani
   if (isPlatform(input)) {
     if (!input.system?.services?.length) throw new Error("platform: `system.services` must list at least one service");
     if (!input.brand?.name) throw new Error("platform: `brand.name` is required");
+    // fail CLOSED on a missing registry (the legacy surface does), so every `adds` entry is `<registry>/<service>`.
+    if (!input.system.registry && !input.system.registries?.core) throw new Error('platform: `system.registry` (or `system.registries.core`) is required (e.g. "MahmoodKhalil57/suluk")');
     return input;
   }
   if (!input.registry) throw new Error('platform: `registry` is required (e.g. "MahmoodKhalil57/suluk")');

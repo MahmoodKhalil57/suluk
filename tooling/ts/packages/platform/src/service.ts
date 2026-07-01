@@ -129,6 +129,15 @@ export interface AuthServiceOpts {
   mcp?: McpOAuthOpts;
 }
 
+/**
+ * Core service id → its serviceOpts value type. Lets a STRING-referenced core service (e.g. `services: ["auth", …]`) get the
+ * SAME typed serviceOpts as the imported-object form (`services: [authService, …]`), instead of collapsing to `unknown`.
+ * Extend as core services gain typed opts.
+ */
+export interface CoreServiceOptsMap {
+  auth: AuthServiceOpts;
+}
+
 /** Project a Service onto the legacy {@link CatalogEntry} shape the C051 generator reads. Field-for-field — so a derived
  *  CATALOG is behaviourally identical to the old hardcoded one (proven by the Phase-0 golden lock). */
 export function toCatalogEntry(s: Service): CatalogEntry {
@@ -189,8 +198,12 @@ export const creditsService = defineService({
           { symbol: "CreditsLive", from: "./services/credits" },
           { symbol: "DbLive", from: "./app" },
         ],
-        build: ({ with: w }) =>
-          `await Effect.runPromise(Effect.flatMap(Credits, (s) => s.grant(userId, ${JSON.stringify((w.amount as number | undefined) ?? 100)}, "signup:" + userId, "signup grant")).pipe(Effect.provide(CreditsLive), Effect.provide(DbLive(env))))`,
+        build: ({ with: w }) => {
+          // fail LOUDLY at generate time on a wrong-typed money param — never render an invalid literal into the app.
+          if (w.amount !== undefined && typeof w.amount !== "number") throw new Error(`credits.grantOnSignup: 'amount' must be a number (got ${typeof w.amount})`);
+          const amount = (w.amount as number | undefined) ?? 100;
+          return `await Effect.runPromise(Effect.flatMap(Credits, (s) => s.grant(userId, ${JSON.stringify(amount)}, "signup:" + userId, "signup grant")).pipe(Effect.provide(CreditsLive), Effect.provide(DbLive(env))))`;
+        },
       },
     },
   },

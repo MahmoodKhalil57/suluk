@@ -57,10 +57,10 @@ export function resolveVersion(dep: string): string {
 
 /** The env vars the selected services need, de-duped by name (first declaration wins). Split with `.secret` into the
  *  `.env` secrets (the .env.temp lifecycle) vs the non-secret CONFIG (defined in platform.config.ts `vars` → wrangler `[vars]`). */
-export function collectEnv(services: string[]): EnvVar[] {
+export function collectEnv(services: string[], catalog: Record<string, { env?: EnvVar[] }> = CATALOG): EnvVar[] {
   const seen = new Set<string>();
   const out: EnvVar[] = [];
-  for (const s of services) for (const e of CATALOG[s]?.env ?? []) if (!seen.has(e.name)) (seen.add(e.name), out.push(e));
+  for (const s of services) for (const e of catalog[s]?.env ?? []) if (!seen.has(e.name)) (seen.add(e.name), out.push(e));
   return out;
 }
 
