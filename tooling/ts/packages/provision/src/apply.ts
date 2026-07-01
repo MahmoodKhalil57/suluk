@@ -6,11 +6,12 @@
  * the brokers; this is the pure orchestration over them — the clock + sleep are injected so it's deterministically
  * testable.
  */
-import type { Broker, BindingSink, InstanceState, OperationState, ProvisionResult, StateStore } from "./types";
+import type { Broker, BindingSink, InstanceState, ProvisionResult, StateStore } from "./types";
 import type { ProvisionConfig } from "./config";
 import type { PlanStep, StepAction } from "./plan";
 import { plan } from "./plan";
 import { resolveParams, fingerprint } from "./refs";
+import { pollToDone, type PollOptions } from "./poll";
 
 export interface ApplyOptions {
   /** broker id → broker (the catalog of executors). A step whose `service` is absent here is an error. */
@@ -21,8 +22,8 @@ export interface ApplyOptions {
   sink?: BindingSink;
   /** deprovision orphans (state − config). Defaults to the config's `pruneOrphans`. */
   prune?: boolean;
-  /** async-poll tuning + seams. `sleep` defaults to real setTimeout; `now` to Date.now (both injected for tests). */
-  poll?: { intervalMs?: number; timeoutMs?: number; sleep?: (ms: number) => Promise<void>; now?: () => number };
+  /** async-poll tuning + seams (see {@link PollOptions}). */
+  poll?: PollOptions;
   log?: (msg: string) => void;
 }
 
@@ -40,37 +41,12 @@ export interface ApplyResult {
   outputsByRef: Record<string, Record<string, string>>;
 }
 
-const sleepReal = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
-
-/** Poll an async operation to a terminal state (OSB last-operation). Throws on "failed" or timeout. */
-async function pollToDone(
-  broker: Broker,
-  req: { ref: string; name: string; instanceId?: string; operation: string },
-  poll: NonNullable<ApplyOptions["poll"]>,
-  log: (m: string) => void,
-): Promise<void> {
-  if (!broker.lastOperation) throw new Error(`provision: ${req.ref} returned an async operation but its broker has no lastOperation()`);
-  const intervalMs = poll.intervalMs ?? 2000;
-  const timeoutMs = poll.timeoutMs ?? 600_000;
-  const now = poll.now ?? Date.now;
-  const sleep = poll.sleep ?? sleepReal;
-  const start = now();
-  for (;;) {
-    const { state, description }: { state: OperationState; description?: string } = await broker.lastOperation(req);
-    if (state === "succeeded") return;
-    if (state === "failed") throw new Error(`provision: ${req.ref} operation failed${description ? ` — ${description}` : ""}`);
-    if (now() - start > timeoutMs) throw new Error(`provision: ${req.ref} operation timed out after ${timeoutMs}ms`);
-    log(`  … ${req.ref} provisioning (in progress)`);
-    await sleep(intervalMs);
-  }
-}
-
 /** Resolve the instance id from a provision result, settling an async op first via polling. */
 async function settle(
   broker: Broker,
   spec: { ref: string; name: string },
   result: ProvisionResult,
-  poll: NonNullable<ApplyOptions["poll"]>,
+  poll: PollOptions,
   log: (m: string) => void,
 ): Promise<{ instanceId: string; outputs: Record<string, string> }> {
   if (result.state === "succeeded") return { instanceId: result.instanceId, outputs: result.outputs ?? {} };
@@ -135,7 +111,7 @@ export async function apply(config: ProvisionConfig, opts: ApplyOptions): Promis
 
     stateByRef.set(spec.ref, {
       ref: spec.ref, service: spec.service, plan: spec.plan, name: spec.name,
-      instanceId, outputs, fingerprint: fingerprint(spec), provisionedAt: now(),
+      instanceId, outputs, fingerprint: fingerprint(spec), protected: spec.protected, provisionedAt: now(),
     });
     applied.push({ ref: spec.ref, action: step.action as StepAction, instanceId, outputs });
   }

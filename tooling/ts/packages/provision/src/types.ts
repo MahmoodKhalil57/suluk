@@ -50,6 +50,9 @@ export interface InstanceSpec {
   /** binding outputs → env var names: where this instance's credentials/ids LAND (the binding-chain sink). e.g.
    *  `{ database_id: "CLOUDFLARE_D1_ID" }`. */
   bind?: Record<string, string>;
+  /** guard a stateful resource (a database, a bucket) from destruction: `prune` + `teardown` SKIP it unless forced.
+   *  The terraform `prevent_destroy` analog — the safety rail for the resources whose loss is unrecoverable. */
+  protected?: boolean;
 }
 
 /** The live record of a provisioned instance (the journal `plan` diffs against — like drizzle's migration meta). */
@@ -64,6 +67,8 @@ export interface InstanceState {
   outputs: Record<string, string>;
   /** a stable fingerprint of (name + plan + params), to detect drift → an `update` step. */
   fingerprint: string;
+  /** carried from the spec so `teardown`/`prune` (which work off the journal) honour the destroy guard. */
+  protected?: boolean;
   provisionedAt: number;
 }
 
@@ -117,8 +122,14 @@ export interface Broker {
   lastOperation?(req: OperationRequest): Promise<{ state: OperationState; description?: string }>;
   /** Bind (OSB): generate the credentials / config the platform + downstream instances consume. Optional (non-bindable). */
   bind?(req: BindRequest): Promise<BindResult>;
-  /** Deprovision (OSB): tear down the Service Instance. Optional — orphan mitigation + `apply --prune` call it. */
+  /** Deprovision (OSB): tear down the Service Instance. Optional — orphan mitigation, `apply --prune`, + `teardown` call it. */
   deprovision?(req: OperationRequest): Promise<{ state: OperationState; operation?: string }>;
+  /** Fetch a Service Instance (OSB): the live state of a KNOWN instance — used by `pull` to detect EXTERNAL drift (a
+   *  resource deleted/changed in the provider's dashboard, behind the config's back). Optional; absent → "unknown". */
+  fetch?(req: OperationRequest): Promise<{ exists: boolean; outputs?: Record<string, string> }>;
+  /** Discover existing instances of this service — used by `pull --discover` to ADOPT untracked resources into the
+   *  journal. Optional; absent → discovery skipped for this service. */
+  list?(): Promise<Array<{ name: string; instanceId: string; outputs?: Record<string, string> }>>;
 }
 
 /** Where bound credentials LAND. The default sink writes the @suluk/env manifest (typed + post-quantum-encrypted +

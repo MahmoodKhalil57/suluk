@@ -8,6 +8,8 @@ import type { ProvisionApp } from "./app";
 import { plan, type ProvisionPlan, type PlanStep } from "./plan";
 import { apply, type AppliedStep } from "./apply";
 import { checkDrift } from "./check";
+import { pull, reconcile } from "./pull";
+import { teardown } from "./teardown";
 import type { InstanceState } from "./types";
 
 export interface CliResult {
@@ -70,12 +72,41 @@ export async function runCli(app: ProvisionApp, argv: string[]): Promise<CliResu
       out("── provisioned ──");
       for (const s of state) {
         const outs = Object.keys(s.outputs).length ? ` → ${Object.entries(s.outputs).map(([k, v]) => `${k}=${v}`).join(", ")}` : "";
-        out(`  ${s.ref} (${s.service} · ${s.name})${outs}`);
+        out(`  ${s.ref} (${s.service} · ${s.name})${s.protected ? " 🔒" : ""}${outs}`);
       }
       return done();
     }
+    case "pull": {
+      const state = await app.store.load();
+      const report = await pull(state, app.brokers);
+      out("── provision pull (live vs journal) ──");
+      for (const e of report.entries) out(`  ${e.status.padEnd(8)} ${e.ref} (${e.service} · ${e.name})`);
+      if (report.clean) {
+        out("\n✓ journal matches the provider");
+        return done();
+      }
+      out(`\ndrift: ${report.missing.length} missing, ${report.drifted.length} changed`);
+      if (argv.includes("--reconcile")) {
+        await app.store.save(reconcile(state, report));
+        out("✓ reconciled the journal (externally-deleted dropped, drifted outputs updated)");
+      } else {
+        out("run `pull --reconcile` to fold this into the journal");
+      }
+      return done();
+    }
+    case "teardown": {
+      const yes = argv.includes("--yes");
+      const force = argv.includes("--force");
+      const res = await teardown({ brokers: app.brokers, store: app.store, force, dryRun: !yes, log: out });
+      if (!yes) {
+        out(`\n⚠ DRY RUN — would tear down ${res.torn.length} instance(s)${res.kept.length ? `, keep ${res.kept.length}` : ""}. Re-run with --yes to DESTROY${res.kept.some((k) => k.reason === "protected") ? " (--force to include protected)" : ""}.`);
+        return done();
+      }
+      out(`\n✗ torn down ${res.torn.length} instance(s)${res.kept.length ? `; kept ${res.kept.map((k) => `${k.ref} (${k.reason})`).join(", ")}` : ""}.`);
+      return done();
+    }
     default:
-      out(`unknown command "${cmd}". Commands: plan | apply (push) | check | status (studio). Flags: --prune`);
+      out(`unknown command "${cmd}". Commands: plan | apply (push) | check | status | pull | teardown. Flags: --prune --reconcile --yes --force`);
       return done(2);
   }
 }

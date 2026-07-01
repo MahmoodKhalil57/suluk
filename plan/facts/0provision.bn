@@ -85,3 +85,22 @@ falsified_when provision_drizzlekit_cli_built_witnessed == False
 # toolfactory cutover (replace provision.ts/provision-kv/provision-domains/mint-*/sync-secrets with a provision.config.ts).
 claim provision_async_domains_and_token_brokers_built: Bool @>=0.55 = True
 falsified_when provision_async_domains_and_token_brokers_built == False
+
+# C047 BUILD #5 — the CAREFUL features built 2026-07-01 (operator: "add more features like pull and even more careful
+# features like teardown etc"). pull.ts: `pull` — introspection over OSB "Fetching a Service Instance" (Broker.fetch): plan
+# compares config vs the JOURNAL, pull compares the journal vs the PROVIDER, catching EXTERNAL drift (a db dropped in the
+# dashboard = missing; an id changed = drifted; no fetch = unknown). `reconcile` folds it back (drop externally-deleted so
+# next apply re-creates; MERGE live outputs over drifted, never dropping a bound token the provider can't see). `discover`
+# (Broker.list) finds untracked live resources to adopt. teardown.ts: `teardown` — the destructive op: deprovision the
+# WHOLE journal CONSUMERS-FIRST (reverse journal order, so a producer isn't removed under a live consumer), async-aware
+# (polls). RAILS: a `protected` instance (InstanceSpec+InstanceState gained the flag; prune already skips it) is KEPT
+# unless `force`; a no-deprovision broker is kept; `dryRun` previews touching no provider + not saving. CLI: `pull`
+# (+--reconcile) + `teardown` GATED behind confirmation (bare teardown = DRY RUN, --yes destroys, --force includes
+# protected). Shared poll.ts extracted (apply+teardown). Added Broker.fetch/list + cloudflareD1.fetch/list (the real
+# introspection example). WITNESSED — provision 32 pass: pull live/missing/drifted/unknown + reconcile drop+merge +
+# discover; teardown reverse-order + dryRun-no-touch + protected-kept-unless-force; a protected orphan kept under prune;
+# the CLI teardown dry-run/--yes/--force gate + pull-clean. tsc clean. REMAINING: the SNAPSHOT+MIGRATION model (operator's
+# next ask — repeatable/documentable steps like drizzle: generate a migration + snapshot, migrate applies pending in
+# order), the stripe broker, + the toolfactory cutover.
+claim provision_pull_teardown_protected_careful_features_built: Bool @>=0.55 = True
+falsified_when provision_pull_teardown_protected_careful_features_built == False

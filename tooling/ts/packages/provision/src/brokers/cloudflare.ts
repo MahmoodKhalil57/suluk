@@ -31,6 +31,21 @@ export function cloudflareD1(cf: CloudflareClient): Broker {
       if (migrations?.length) await applyMigrations(cf, db.uuid, migrations);
       return { state: "succeeded", instanceId: db.uuid, outputs: { database_id: db.uuid } };
     },
+    async fetch(req) {
+      if (!req.instanceId) return { exists: false };
+      const acct = await cf.resolveAccountId();
+      try {
+        await cf.request("GET", `/accounts/${acct}/d1/database/${req.instanceId}`);
+        return { exists: true, outputs: { database_id: req.instanceId } };
+      } catch {
+        return { exists: false }; // 404 / deleted in the dashboard → external drift
+      }
+    },
+    async list() {
+      const acct = await cf.resolveAccountId();
+      const dbs = (await cf.request<{ uuid: string; name: string }[]>("GET", `/accounts/${acct}/d1/database`)) ?? [];
+      return dbs.map((d) => ({ name: d.name, instanceId: d.uuid, outputs: { database_id: d.uuid } }));
+    },
     deprovision: (req) => del(cf, `/d1/database/${req.instanceId}`),
   };
 }

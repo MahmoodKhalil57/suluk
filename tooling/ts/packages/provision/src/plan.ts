@@ -47,10 +47,14 @@ export function plan(config: ProvisionConfig, state: InstanceState[], prune = co
   if (prune) {
     for (const ref of orphans) {
       const s = byRef.get(ref)!;
-      steps.push({ ref, service: s.service, name: s.name, action: "deprovision", reason: "orphan (in state, not in config)" });
+      // a PROTECTED orphan is surfaced but NOT scheduled for destruction — the prevent-destroy safety rail.
+      if (s.protected) steps.push({ ref, service: s.service, name: s.name, action: "noop", reason: "orphan but protected — kept" });
+      else steps.push({ ref, service: s.service, name: s.name, action: "deprovision", reason: "orphan (in state, not in config)" });
     }
   }
 
-  const clean = steps.every((s) => s.action === "noop") && (!prune || orphans.length === 0);
+  // "clean" ignores protected-orphan noops (they're intentionally kept, not pending work).
+  const prunable = prune ? orphans.filter((ref) => !byRef.get(ref)?.protected) : [];
+  const clean = steps.every((s) => s.action === "noop") && prunable.length === 0;
   return { steps, orphans, clean };
 }
