@@ -239,14 +239,19 @@ function buildGitignore(): string {
 }
 
 /** Merge the generated .gitignore into an existing one — APPEND any missing entries (never skip-if-present, so an app's
- *  minimal .gitignore can't leave `.env`/`.env.temp` UNIGNORED and risk committing secrets). Dedup, preserve app entries. */
+ *  minimal .gitignore can't leave `.env.keys`/`.env.temp` UNIGNORED and risk committing the private key). Dedup, preserve app
+ *  entries. ENCRYPTED-ENV TRANSITION: if the new baseline ignores `.env.keys` (the private key) but NOT `.env`, a plaintext-era
+ *  `.env` ignore is REMOVED — the .env is now COMMITTED with its values encrypted, so ignoring it is wrong (and safe to undo). */
 export function mergeGitignore(generated: string, existing: string | null): string {
   if (!existing) return generated;
   const norm = (s: string) => s.trim().replace(/\/$/, "");
-  const have = new Set(existing.split("\n").map(norm).filter(Boolean));
+  const genLines = generated.split("\n").map(norm);
+  const encryptedModel = genLines.includes(".env.keys") && !genLines.includes(".env");
+  const existingClean = encryptedModel ? existing.split("\n").filter((l) => norm(l) !== ".env").join("\n") : existing;
+  const have = new Set(existingClean.split("\n").map(norm).filter(Boolean));
   const add = generated.split("\n").filter((l) => l.trim() && !have.has(norm(l)));
-  if (!add.length) return existing.endsWith("\n") ? existing : existing + "\n";
-  const base = existing.replace(/\n*$/, "");
+  if (!add.length) return existingClean.endsWith("\n") ? existingClean : existingClean + "\n";
+  const base = existingClean.replace(/\n*$/, "");
   return `${base}\n${add.join("\n")}\n`;
 }
 

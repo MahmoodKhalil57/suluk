@@ -181,11 +181,19 @@ describe("generatePlatform — the orchestration (with recorders)", () => {
     expect(wrote).not.toContain("tsconfig.json"); // present → left as-is
   });
 
-  test("mergeGitignore appends missing entries so .env is always ignored", () => {
+  test("mergeGitignore appends missing entries (generic, non-encrypted baseline)", () => {
     const merged = mergeGitignore("node_modules/\n.env\n.env.temp\n", "node_modules\n");
     expect(merged).toContain(".env");
     expect(merged).toContain(".env.temp");
     expect(merged.match(/node_modules/g)?.length).toBe(1); // deduped (node_modules vs node_modules/)
+  });
+
+  test("mergeGitignore encrypted-env transition: REMOVES a plaintext-era `.env` ignore, keeps `.env.keys`", () => {
+    // an app whose old .gitignore ignored `.env` (build #8) → regenerated with the encrypted baseline (ignores .env.keys).
+    const merged = mergeGitignore("node_modules/\n.env.keys\n.env.temp\ndist/\n", "node_modules\n.env\n.env.temp\nmy-extra/\n");
+    expect(merged.split("\n").map((l) => l.trim())).not.toContain(".env"); // .env un-ignored → committable (encrypted)
+    expect(merged).toContain(".env.keys"); // the PRIVATE key stays ignored
+    expect(merged).toContain("my-extra/"); // app entries preserved
   });
 });
 
