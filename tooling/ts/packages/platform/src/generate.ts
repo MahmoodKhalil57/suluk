@@ -4,7 +4,8 @@
  * `run` + `write` are INJECTED (the CLI provides a real spawn + fs; a test provides recorders), so the orchestration is
  * testable. Stops short of `provision apply` — that's a live infra op the operator triggers.
  */
-import type { PlatformManifest } from "./manifest";
+import { type PlatformManifest, type Platform, isPlatform } from "./manifest";
+import { liftSystemBrand } from "./resolve";
 import { planPlatform, mergePackageJson, mergeWranglerToml, mergeGitignore, type PlatformPlan } from "./plan";
 
 export interface GenerateOptions {
@@ -25,9 +26,10 @@ export interface GenerateResult {
   written: string[];
 }
 
-export async function generatePlatform(manifest: PlatformManifest, opts: GenerateOptions): Promise<GenerateResult> {
+export async function generatePlatform(input: PlatformManifest | Platform, opts: GenerateOptions): Promise<GenerateResult> {
   const log = opts.log ?? (() => {});
   const read = opts.read ?? (async () => null);
+  const manifest = isPlatform(input) ? liftSystemBrand(input) : input;
   const plan = planPlatform(manifest);
   const written: string[] = [];
 

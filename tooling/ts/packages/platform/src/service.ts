@@ -93,10 +93,34 @@ export interface Service<SO = {}, BO = {}> {
   readonly compose?: CompositionSurface; // ports it exposes + capabilities it offers                   [Phase 3]
 }
 
-/** Author a service. Validates the id; returns the object typed (so `serviceOpts`/`wire` inference works downstream). */
-export function defineService<SO = {}, BO = {}>(s: Service<SO, BO>): Service<SO, BO> {
+/**
+ * Author a service. `const S` PRESERVES the literal `id` + the precise `serviceOpts`/`brandOpts` marker types, so the
+ * manifest (`defineSystem`) can key typed opts by service id off the imported service objects — no codegen. Validates the id.
+ */
+export function defineService<const S extends Service<any, any>>(s: S): S {
   if (!s.id) throw new Error("defineService: `id` is required");
   return s;
+}
+
+/**
+ * A TYPED opts marker for a service's `serviceOpts`/`brandOpts`. Phase 2 uses it purely for TYPES — the manifest author
+ * gets autocomplete + type-checking on that service's opts. It carries the value type `T` in the `Schema<T>` slot; Phase 3
+ * swaps it for a runtime-validating zod schema of the SAME type (a drop-in — the field type is `Schema<T>` either way).
+ */
+export function optsType<T>(): Schema<T> {
+  return { "~standard": { version: 1, vendor: "suluk", validate: (value) => ({ value: value as T }) } };
+}
+
+/** The MCP OAuth authorization-server config (auth's `serviceOpts.mcp`) — the frontend OAuth pages + resource + scope set. */
+export interface McpOAuthOpts {
+  loginPage: string;
+  consentPage: string;
+  resource: string;
+  scopes: string[];
+}
+/** auth's serviceOpts: optionally activate the MCP OAuth server (Better Auth `mcp()` plugin). */
+export interface AuthServiceOpts {
+  mcp?: McpOAuthOpts;
 }
 
 /** Project a Service onto the legacy {@link CatalogEntry} shape the C051 generator reads. Field-for-field — so a derived
@@ -111,85 +135,102 @@ export function toCatalogEntry(s: Service): CatalogEntry {
  * `credits.grantOnSignup` capability) — inert until the Phase-3 engine consumes them, and the render/build templates are
  * PROVISIONAL (Phase 3 pins them against the real auth seam signature, see ADR C053 open question #1).
  */
+// Each core service is exported as a NAMED, precisely-typed const so a `defineSystem` author can import it and get typed
+// serviceOpts keyed by id. Ported field-for-field from the C051 CATALOG (byte-identity via the Phase-0 golden lock).
+
+export const appService = defineService({ id: "app", mount: { kind: "base" }, env: [{ name: "TRUSTED_ORIGINS", hint: "comma-separated browser origins allowed on /api/* (CORS)" }] });
+
+export const authService = defineService({
+  id: "auth",
+  mount: { kind: "middleware", symbol: "mountAuthRoutes", from: "./auth" },
+  provision: { symbol: "authProvision", from: "./src/provision/auth" },
+  deps: ["better-auth", "@better-auth/api-key", "@better-auth/passkey", "@suluk/better-auth"],
+  env: [
+    { name: "BETTER_AUTH_SECRET", required: true, secret: true, hint: "session-signing key — `openssl rand -base64 32`" },
+    { name: "BETTER_AUTH_URL", hint: "your deployed origin, e.g. https://api.example.com" },
+    { name: "GOOGLE_CLIENT_ID", secret: true, hint: "optional — enables Google sign-in" },
+    { name: "GOOGLE_CLIENT_SECRET", secret: true, hint: "optional — pairs with GOOGLE_CLIENT_ID" },
+  ],
+  serviceOpts: optsType<AuthServiceOpts>(), // typed: `serviceOpts.auth.mcp` autocompletes + type-checks
+  compose: {
+    exposes: {
+      // the hook Better Auth already exposes (registry/auth/auth.ts `onUserCreated?: (userId) => Promise<void>`).
+      onUserCreated: { kind: "port", hookOptKey: "onUserCreated", render: (exprs) => `async (userId) => { ${exprs.join("; ")}; }` },
+    },
+  },
+});
+
+export const contractService = defineService({ id: "contract", mount: { kind: "middleware", symbol: "mountContract", from: "./routes/contract" }, deps: ["@suluk/hono", "zod"] });
+export const mcpService = defineService({ id: "mcp", mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" }, deps: ["@suluk/mcp", "better-auth"] });
+
+export const creditsService = defineService({
+  id: "credits",
+  mount: { kind: "route", path: "/api/credits", symbol: "creditsRoutes", from: "./routes/credits" },
+  provision: { symbol: "creditsProvision", from: "./src/provision/credits" },
+  deps: ["@suluk/credits"],
+  compose: {
+    offers: {
+      // PROVISIONAL render (Phase 3 pins env threading): grant N credits on signup, idempotent per user.
+      grantOnSignup: {
+        kind: "capability",
+        symbol: "Credits",
+        from: "./routes/credits",
+        build: ({ env }) => `await run(env, Effect.flatMap(Credits, (s) => s.grant(userId, Number(${env ?? "100"}), \`signup:\${userId}\`, "signup grant")))`,
+      },
+    },
+  },
+});
+
+export const keysService = defineService({ id: "keys", mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" }, deps: ["@suluk/keys"] });
+
+export const billingService = defineService({
+  id: "billing",
+  mount: { kind: "route", path: "/api/billing", symbol: "billingRoutes", from: "./routes/billing" },
+  provision: { symbol: "billingProvision", from: "./src/provision/billing" },
+  deps: ["@suluk/billing", "@suluk/payments", "@suluk/credits"],
+  env: [
+    { name: "STRIPE_SECRET_KEY", required: true, secret: true, hint: "your Stripe secret key" },
+    { name: "STRIPE_PUBLISHABLE_KEY", hint: "returned by GET /api/billing/payment-config" },
+  ],
+});
+
+export const costService = defineService({ id: "cost", mount: { kind: "route", path: "/api/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" }, deps: ["@suluk/cost"] });
+export const erasureService = defineService({ id: "erasure", mount: { kind: "route", path: "/api/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" }, deps: ["@suluk/better-auth"] });
+
+export const emailService = defineService({
+  id: "email",
+  mount: { kind: "route", path: "/api/email", symbol: "emailRoutes", from: "./routes/email" }, // stateless binding — no provision fragment (C052)
+  deps: ["@suluk/email"],
+  env: [
+    { name: "RESEND_API_KEY", secret: true, hint: "omit → the console provider (dev)" },
+    { name: "EMAIL_FROM", hint: "the from-address" },
+    { name: "BRAND_NAME", hint: "email template branding" },
+    { name: "BASE_URL", hint: "email link base" },
+    { name: "ENVIRONMENT", hint: '"production" → use Resend (else console)' },
+  ],
+});
+
+export const webhooksService = defineService({
+  id: "webhooks",
+  mount: { kind: "route", path: "/api/webhooks", symbol: "webhooksRoutes", from: "./routes/webhooks" },
+  provision: { symbol: "webhooksProvision", from: "./src/provision/webhooks" },
+  deps: ["@suluk/payments"],
+  env: [{ name: "STRIPE_WEBHOOK_SECRET", required: true, secret: true, hint: "verifies inbound Stripe events (POST /api/webhooks/stripe)" }],
+});
+
+export const rateLimitService = defineService({ id: "rate-limit", mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" }, deps: ["@suluk/hono"] });
+export const rateCreditService = defineService({ id: "rate-credit", mount: { kind: "middleware", symbol: "mountRateCredit", from: "./services/rate-credit" } }); // credit-backed free-tier bucket (KV binding)
+export const i18nService = defineService({ id: "i18n", mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" }, deps: ["@suluk/i18n"] });
+export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, deps: ["@suluk/reference"] }); // derived — no provision
+export const adminService = defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, deps: ["@suluk/credits"] }); // reads existing tables — no provision
+export const logsService = defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } });
+export const journeysService = defineService({ id: "journeys", mount: { kind: "dev" }, deps: ["@suluk/journeys"] });
+export const auditService = defineService({ id: "audit", mount: { kind: "dev" }, deps: ["@suluk/cockpit", "@suluk/harden"] });
+
+/** The 19 core services, in the C051 catalog order. */
 const CORE_SERVICE_LIST: Service[] = [
-  defineService({ id: "app", mount: { kind: "base" }, env: [{ name: "TRUSTED_ORIGINS", hint: "comma-separated browser origins allowed on /api/* (CORS)" }] }),
-  defineService({
-    id: "auth",
-    mount: { kind: "middleware", symbol: "mountAuthRoutes", from: "./auth" },
-    provision: { symbol: "authProvision", from: "./src/provision/auth" },
-    deps: ["better-auth", "@better-auth/api-key", "@better-auth/passkey", "@suluk/better-auth"],
-    env: [
-      { name: "BETTER_AUTH_SECRET", required: true, secret: true, hint: "session-signing key — `openssl rand -base64 32`" },
-      { name: "BETTER_AUTH_URL", hint: "your deployed origin, e.g. https://api.example.com" },
-      { name: "GOOGLE_CLIENT_ID", secret: true, hint: "optional — enables Google sign-in" },
-      { name: "GOOGLE_CLIENT_SECRET", secret: true, hint: "optional — pairs with GOOGLE_CLIENT_ID" },
-    ],
-    compose: {
-      exposes: {
-        // the hook Better Auth already exposes (registry/auth/auth.ts `onUserCreated?: (userId) => Promise<void>`).
-        onUserCreated: { kind: "port", hookOptKey: "onUserCreated", render: (exprs) => `async (userId) => { ${exprs.join("; ")}; }` },
-      },
-    },
-  }),
-  defineService({ id: "contract", mount: { kind: "middleware", symbol: "mountContract", from: "./routes/contract" }, deps: ["@suluk/hono", "zod"] }),
-  defineService({ id: "mcp", mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" }, deps: ["@suluk/mcp", "better-auth"] }),
-  defineService({
-    id: "credits",
-    mount: { kind: "route", path: "/api/credits", symbol: "creditsRoutes", from: "./routes/credits" },
-    provision: { symbol: "creditsProvision", from: "./src/provision/credits" },
-    deps: ["@suluk/credits"],
-    compose: {
-      offers: {
-        // PROVISIONAL render (Phase 3 pins env threading): grant N credits on signup, idempotent per user.
-        grantOnSignup: {
-          kind: "capability",
-          symbol: "Credits",
-          from: "./routes/credits",
-          build: ({ env }) => `await run(env, Effect.flatMap(Credits, (s) => s.grant(userId, Number(${env ?? "100"}), \`signup:\${userId}\`, "signup grant")))`,
-        },
-      },
-    },
-  }),
-  defineService({ id: "keys", mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" }, deps: ["@suluk/keys"] }),
-  defineService({
-    id: "billing",
-    mount: { kind: "route", path: "/api/billing", symbol: "billingRoutes", from: "./routes/billing" },
-    provision: { symbol: "billingProvision", from: "./src/provision/billing" },
-    deps: ["@suluk/billing", "@suluk/payments", "@suluk/credits"],
-    env: [
-      { name: "STRIPE_SECRET_KEY", required: true, secret: true, hint: "your Stripe secret key" },
-      { name: "STRIPE_PUBLISHABLE_KEY", hint: "returned by GET /api/billing/payment-config" },
-    ],
-  }),
-  defineService({ id: "cost", mount: { kind: "route", path: "/api/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" }, deps: ["@suluk/cost"] }),
-  defineService({ id: "erasure", mount: { kind: "route", path: "/api/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" }, deps: ["@suluk/better-auth"] }),
-  defineService({
-    id: "email",
-    mount: { kind: "route", path: "/api/email", symbol: "emailRoutes", from: "./routes/email" }, // stateless binding — no provision fragment (C052)
-    deps: ["@suluk/email"],
-    env: [
-      { name: "RESEND_API_KEY", secret: true, hint: "omit → the console provider (dev)" },
-      { name: "EMAIL_FROM", hint: "the from-address" },
-      { name: "BRAND_NAME", hint: "email template branding" },
-      { name: "BASE_URL", hint: "email link base" },
-      { name: "ENVIRONMENT", hint: '"production" → use Resend (else console)' },
-    ],
-  }),
-  defineService({
-    id: "webhooks",
-    mount: { kind: "route", path: "/api/webhooks", symbol: "webhooksRoutes", from: "./routes/webhooks" },
-    provision: { symbol: "webhooksProvision", from: "./src/provision/webhooks" },
-    deps: ["@suluk/payments"],
-    env: [{ name: "STRIPE_WEBHOOK_SECRET", required: true, secret: true, hint: "verifies inbound Stripe events (POST /api/webhooks/stripe)" }],
-  }),
-  defineService({ id: "rate-limit", mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" }, deps: ["@suluk/hono"] }),
-  defineService({ id: "rate-credit", mount: { kind: "middleware", symbol: "mountRateCredit", from: "./services/rate-credit" } }), // credit-backed free-tier bucket (KV binding); base deps cover it
-  defineService({ id: "i18n", mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" }, deps: ["@suluk/i18n"] }),
-  defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, deps: ["@suluk/reference"] }), // derived doc render — no provision
-  defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, deps: ["@suluk/credits"] }), // reads existing tables — no provision
-  defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } }),
-  defineService({ id: "journeys", mount: { kind: "dev" }, deps: ["@suluk/journeys"] }),
-  defineService({ id: "audit", mount: { kind: "dev" }, deps: ["@suluk/cockpit", "@suluk/harden"] }),
+  appService, authService, contractService, mcpService, creditsService, keysService, billingService, costService, erasureService, emailService,
+  webhooksService, rateLimitService, rateCreditService, i18nService, referenceService, adminService, logsService, journeysService, auditService,
 ];
 
 /** The core services keyed by id (key === `service.id`, guaranteed by construction). */

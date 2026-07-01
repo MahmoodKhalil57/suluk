@@ -3,7 +3,8 @@
  * generated `provision.config.ts` (importing + merging the fragments). No I/O; `generate` executes this. Testable to the
  * character.
  */
-import type { PlatformManifest } from "./manifest";
+import { type PlatformManifest, type Platform, isPlatform } from "./manifest";
+import { liftSystemBrand } from "./resolve";
 import { CATALOG, orderServices, collectEnv, BASE_DEPS, DEV_DEPS, resolveVersion, type EnvVar } from "./catalog";
 
 export interface PlatformPlan {
@@ -31,7 +32,10 @@ export interface PlatformPlan {
   envCheck: string;
 }
 
-export function planPlatform(manifest: PlatformManifest): PlatformPlan {
+export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
+  // C053: a `{ system, brand }` platform lowers to the legacy manifest first, then the UNCHANGED lowering runs — so the
+  // legacy path is byte-for-byte identical and the new surface is sugar over it.
+  const manifest = isPlatform(input) ? liftSystemBrand(input) : input;
   const services = orderServices(manifest.services);
   const unknown = services.filter((s) => !CATALOG[s]);
   if (unknown.length) throw new Error(`platform: unknown service(s) [${unknown.join(", ")}] — not in the catalog`);
