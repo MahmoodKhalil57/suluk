@@ -96,21 +96,21 @@ const secretsOf = (env: EnvVar[]): EnvVar[] => env.filter((e) => e.secret);
  *  Non-secret config is NOT here — it's in the manifest `vars` → wrangler `[vars]`. Safe to commit (no values). */
 function buildEnvExample(env: EnvVar[]): string {
   const line = (e: EnvVar) => `${e.name}=${e.hint ? `        # ${e.hint}` : ""}`;
-  const provisioning = provisioningOf(env).filter((e) => !e.minted); // the master + account id (the raw inputs)
-  const minted = env.filter((e) => e.minted); // the scoped tokens the mint step creates
+  // .env.example mirrors the COMMITTED .env AFTER provisioning: SULUK_PUBLIC_KEY (plaintext) + every secret EXCEPT the
+  // EPHEMERAL master (deleted after minting). Keepers + minted scoped tokens + runtime secrets — all encrypted at rest.
+  const localKeepers = secretsOf(env).filter((e) => !e.provisioning && (e.minted || e.surface === "local")); // account-id + minted tokens
   const runtime = runtimeSecretsOf(env);
   return [
-    "# Secret keys checklist (generated). SETUP: fill `.env.temp` (plaintext) → `bun run provision`. It creates the keypair,",
-    "# provisions infra, mints the scoped tokens, ENCRYPTS the keepers into the COMMITTED `.env` (@suluk/env ML-KEM-768), and",
-    "# DELETES the ephemeral CF master token. Non-secret config lives in platform.config.ts `vars` (→ wrangler.toml [vars]).",
+    "# .env.example — the keys in the COMMITTED .env AFTER `bun run provision` (values ENCRYPTED with @suluk/env;",
+    "# SULUK_PUBLIC_KEY plaintext). The EPHEMERAL CF master token (CLOUDFLARE_API_TOKEN) is supplied in .env.temp and DELETED",
+    "# after minting — it is NOT here. Non-secret config lives in platform.config.ts `vars` (→ wrangler.toml [vars]).",
     "",
-    "# PROVISIONING creds — supply in .env.temp (plaintext). The master is EPHEMERAL (deleted after minting; never committed):",
-    ...provisioning.map(line),
+    "SULUK_PUBLIC_KEY=        # @suluk/env public key (plaintext; can only encrypt)",
     "",
-    "# Scoped least-privilege tokens — MINTED by `bun run provision`/`mint-tokens` (you don't supply these); kept encrypted:",
-    ...minted.map((e) => `# ${line(e)}`),
+    "# Provisioning keeper + minted scoped tokens (surface local — never shipped to the Worker; encrypted):",
+    ...localKeepers.map(line),
     "",
-    "# RUNTIME secrets — supply in .env.temp; encrypted into .env + shipped to the Worker:",
+    "# Runtime secrets (encrypted; reach the Worker via loadEnv / sync-secrets):",
     ...runtime.map((e) => (e.required ? line(e) : `# ${line(e)}`)),
     "",
   ].join("\n");

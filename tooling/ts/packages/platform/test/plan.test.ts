@@ -198,12 +198,17 @@ describe("generatePlatform — the orchestration (with recorders)", () => {
 });
 
 describe("env — secrets in .env (temp lifecycle), non-secrets in the manifest vars", () => {
-  test(".env.example lists ONLY required + optional secrets, never non-secret config", () => {
+  test(".env.example mirrors the POST-provisioning .env: public key + keepers + minted + runtime; NO ephemeral master, no non-secret config", () => {
     const p = planPlatform(definePlatform({ name: "e", registry: "acme/reg", services: ["auth", "billing", "webhooks", "email"] }));
-    expect(p.envExample).toContain("BETTER_AUTH_SECRET="); // required secret, uncommented
+    expect(p.envExample).toContain("SULUK_PUBLIC_KEY="); // the committed public key (plaintext)
+    expect(p.envExample).toContain("CLOUDFLARE_ACCOUNT_ID="); // provisioning KEEPER (encrypted)
+    expect(p.envExample).toContain("CLOUDFLARE_D1_TOKEN="); // minted scoped token (in .env after provisioning)
+    expect(p.envExample).not.toContain("CLOUDFLARE_API_TOKEN="); // the EPHEMERAL master is DELETED → NOT a key in the end-state (the header just names it)
+    expect(p.envExample.split("\n").some((l) => /^#?\s*CLOUDFLARE_API_TOKEN\s*=/.test(l))).toBe(false);
+    expect(p.envExample).toContain("BETTER_AUTH_SECRET="); // required runtime secret, uncommented
     expect(p.envExample).toContain("STRIPE_SECRET_KEY=");
     expect(p.envExample).toContain("STRIPE_WEBHOOK_SECRET=");
-    expect(p.envExample).toContain("# RESEND_API_KEY="); // optional secret, commented
+    expect(p.envExample).toContain("# RESEND_API_KEY="); // optional runtime secret, commented
     expect(p.envExample).not.toContain("BASE_URL"); // non-secret → the manifest vars, NOT .env
     expect(p.envExample).not.toContain("TRUSTED_ORIGINS");
   });
