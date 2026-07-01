@@ -18,6 +18,15 @@ Suluk is an independent, single-contributor candidate for **OpenAPI Specificatio
 
 **Honest disclaimer.** Suluk is **not** the OpenAPI Moonwalk SIG, is **unaffiliated** with the OpenAPI Initiative, and **cannot ratify anything** on the SIG's behalf. It is a personal candidate document that adopts the SIG's published work as priors and deviates only by recorded receipt.
 
+## Documentation
+
+The full docs cover the specification, the ecosystem it enables — every `@suluk/*` package (each with its own API reference), the shadcn registry, and the guides:
+
+- **[Browse online →](https://mahmoodkhalil57.github.io/suluk/)** — the themed HTML site.
+- **[Read on GitHub / download →](documentation/)** — the *same content* as a plain-markdown tree with relative links, so it renders on GitHub and works offline once cloned.
+
+Both are generated from source by `@suluk/docs` + TypeDoc; see [Architecture](tooling/ARCHITECTURE.md).
+
 ## Inherited principles
 
 These six principles come from the Moonwalk effort and are documented in more detail in the OpenAPI Initiative's [2025 blog post](https://www.openapis.org/blog/2025/02/05/moonwalk-2025-update) (an update to the [2024 post](https://www.openapis.org/blog/2023/12/06/openapi-moonwalk-2024)). Suluk **adopts** them as inherited priors:

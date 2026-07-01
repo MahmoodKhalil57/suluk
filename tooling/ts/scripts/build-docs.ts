@@ -108,7 +108,7 @@ function writeDoc(tmp: string, name: string, title: string, srcFile: string, rel
 // projectDocuments. All-in-one-dir is deliberate: TypeDoc resolves a document's `children` relative to the
 // COMMON directory of all projectDocuments — if they span docs-pages/ (deep in the repo) and /tmp, that common
 // dir is `/` and the children glob ENOENTs. Staging the hand-authored/generated guides here too keeps it clean.
-function generateUmbrellaDocs(tmp: string, pkgs: DocPackage[]): { readme: string; projectDocuments: string[] } {
+function generateUmbrellaDocs(tmp: string, pkgs: DocPackage[], opts: { forMarkdown?: boolean } = {}): { readme: string; projectDocuments: string[] } {
   const copy = (n: string): string => {
     const out = join(tmp, `${n}.md`);
     writeFileSync(out, readFileSync(join(TS, "docs-pages", `${n}.md`), "utf8"));
@@ -124,24 +124,28 @@ function generateUmbrellaDocs(tmp: string, pkgs: DocPackage[]): { readme: string
     `---\ntitle: Guides\ngroup: ${ECOSYSTEM_GROUP}\nchildren:\n  - ./getting-started.md\n  - ./architecture.md\n  - ./contributing.md\n  - ./community.md\n---\n\n# Guides\n\nHow to build on the Suluk framework: the 30-second tour, how one contract projects into a whole stack, and how to contribute.\n`,
   );
 
-  // ── PACKAGES folder: one entry PER package (title = "@suluk/x · vN" → the npm glyph via getReflectionIcon),
-  //    each linking to that package's own root docs site. Lists every package + version directly in the sidebar. ──
-  const pkgChildren: string[] = [];
-  const rows: string[] = [];
-  for (const p of pkgs) {
-    const url = `${UMBRELLA_URL}packages/${p.slug}/`;
+  // ── PACKAGES folder (HTML only): one entry PER package (title "@suluk/x vN" → npm glyph), each linking to that
+  //    package's own root docs site. In the MARKDOWN mirror the packages are entry-point modules (a merged tree),
+  //    so this stub folder is skipped there. ──
+  let packages: string | undefined;
+  if (!opts.forMarkdown) {
+    const pkgChildren: string[] = [];
+    const rows: string[] = [];
+    for (const p of pkgs) {
+      const url = `${UMBRELLA_URL}packages/${p.slug}/`;
+      writeFileSync(
+        join(tmp, `pkg-${p.slug}.md`),
+        `---\ntitle: ${JSON.stringify(`${p.name}  v${p.version}`)}\n---\n\n# ${p.name}\n\n\`v${p.version}\`${p.description ? ` — ${p.description}` : ""}\n\n**[Open the full ${p.name} documentation →](${url})**\n`,
+      );
+      pkgChildren.push(`./pkg-${p.slug}.md`);
+      rows.push(`- <a href="${url}"><code>${p.name}</code></a> <code>v${p.version}</code> — ${p.description || "&mdash;"}`);
+    }
+    packages = join(tmp, "packages.md");
     writeFileSync(
-      join(tmp, `pkg-${p.slug}.md`),
-      `---\ntitle: ${JSON.stringify(`${p.name}  v${p.version}`)}\n---\n\n# ${p.name}\n\n\`v${p.version}\`${p.description ? ` — ${p.description}` : ""}\n\n**[Open the full ${p.name} documentation →](${url})**\n`,
+      packages,
+      `---\ntitle: Packages\ngroup: ${ECOSYSTEM_GROUP}\nchildren:\n${pkgChildren.map((c) => `  - ${c}`).join("\n")}\n---\n\n# Packages\n\nEvery \`@suluk/*\` package is its **own complete documentation site**. Pick one from the **sidebar** (each shows its version) or the list below. ${pkgs.length} packages:\n\n${rows.join("\n")}\n`,
     );
-    pkgChildren.push(`./pkg-${p.slug}.md`);
-    rows.push(`- <a href="${url}"><code>${p.name}</code></a> <code>v${p.version}</code> — ${p.description || "&mdash;"}`);
   }
-  const packages = join(tmp, "packages.md");
-  writeFileSync(
-    packages,
-    `---\ntitle: Packages\ngroup: ${ECOSYSTEM_GROUP}\nchildren:\n${pkgChildren.map((c) => `  - ${c}`).join("\n")}\n---\n\n# Packages\n\nEvery \`@suluk/*\` package is its **own complete documentation site**. Pick one from the **sidebar** (each shows its version) or the list below. ${pkgs.length} packages:\n\n${rows.join("\n")}\n`,
-  );
 
   // ── REGISTRY folder (group: EcoSystem): one page PER shadcn-registry item (its README). ──
   const items = registryItems();
@@ -209,7 +213,8 @@ security.
     `---\ntitle: EcoSystem vision\ngroup: ${CANDIDATE_GROUP}\n---\n\n# EcoSystem vision\n\nSuluk is two things at once.\n\n**Layer 1 — the candidate specification.** An independent, single-contributor draft of OpenAPI v4.0 "Moonwalk" — the object model, request signatures, parameters, responses, schemas, components, and security. See the [Specification](specification.md).\n\n**Layer 2 — the ecosystem it makes possible.** Because the v4 document is a single typed contract, everything else can be **derived** from it — the API, a typed client, generated UI, contract tests, an admin panel, a Cloudflare deploy plan. That derivation *is* the framework:\n\n- a family of small **[\`@suluk/*\` packages](packages.md)** (the money/security/correctness **logic**),\n- a **[shadcn registry](registry.md)** of own-the-code backend modules (the app-owned **wiring**), and\n- declarative provisioning (\`@suluk/provision\`) + a manifest generator (\`@suluk/platform\`) that assembles a whole backend from one \`definePlatform\` call.\n\n**One source, many projections; they cannot drift because they are the same source.** The boundary rule (own the wiring, npm the logic) keeps a fix flowing to every consumer while leaving each app in control of its own routes and policy.\n\nStart with the **[Guides](guides.md)**, browse the **[Packages](packages.md)** and the **[Registry](registry.md)**, or read [how it all fits together](architecture.md).\n`,
   );
 
-  return { readme, projectDocuments: [specification, vision, guides, packages, registry] };
+  const projectDocuments = [specification, vision, guides, packages, registry].filter((d): d is string => !!d);
+  return { readme, projectDocuments };
 }
 
 async function render(label: string, options: Record<string, unknown>): Promise<void> {
@@ -291,4 +296,42 @@ export async function buildDocs(): Promise<DocPackage[]> {
   return pkgs;
 }
 
-if (import.meta.main) await buildDocs();
+/**
+ * Build the MARKDOWN mirror of the docs (typedoc-plugin-markdown) into `documentation/` — a single, navigable
+ * tree with **relative `.md` links** (GitHub-browsable, downloadable, offline). Same content as the HTML `docs/`,
+ * "less pretty": one `entryPointStrategy: "packages"` render (all packages as modules in one tree) + the same
+ * guides / specification / registry / vision documents. NO github-theme / icon / branding plugins (HTML-only).
+ * `MD_OUT` overrides the output dir for dev builds.
+ */
+export async function buildMarkdown(): Promise<void> {
+  process.chdir(TS);
+  const pkgs = generatePages();
+  const out = process.env.MD_OUT || join(REPO, "documentation");
+  const tmp = mkdtempSync(join(tmpdir(), "suluk-md-"));
+  const { readme, projectDocuments } = generateUmbrellaDocs(tmp, pkgs, { forMarkdown: true });
+
+  console.log("• markdown → documentation/ …");
+  await render("markdown", {
+    plugin: ["typedoc-plugin-markdown"],
+    entryPointStrategy: "packages",
+    entryPoints: pkgs.map((p) => p.dir),
+    packageOptions: { entryPoints: ["src/index.ts"], readme: "README.md", skipErrorChecking: true, excludeInternal: true, excludePrivate: true, includeVersion: true },
+    readme,
+    projectDocuments,
+    name: "Suluk",
+    out,
+    cleanOutputDir: true,
+    sort: ["source-order"],
+    groupOrder: [CANDIDATE_GROUP, ECOSYSTEM_GROUP],
+    // packages-mode reports internal-type refs (notExported) and the READMEs' ../sibling links (invalidPath) that
+    // the HTML multi-root doesn't; they're build-noise, not user-facing (the links resolve within the md tree).
+    validation: { notExported: false, invalidPath: false, invalidLink: true },
+  });
+  rmSync(tmp, { recursive: true, force: true });
+  console.log(`Built markdown mirror → ${out} (${pkgs.length} packages)`);
+}
+
+if (import.meta.main) {
+  if (process.argv.includes("--markdown")) await buildMarkdown();
+  else await buildDocs();
+}

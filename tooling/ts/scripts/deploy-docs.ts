@@ -10,7 +10,7 @@
 import { $ } from "bun";
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { buildDocs } from "./build-docs";
+import { buildDocs, buildMarkdown } from "./build-docs";
 
 const tsRoot = new URL("..", import.meta.url).pathname; // tooling/ts (captured before buildDocs chdirs)
 const repoRoot = join(tsRoot, "..", "..");
@@ -19,28 +19,32 @@ const args = new Set(process.argv.slice(2));
 const dryRun = args.has("--dry-run");
 const noPush = args.has("--no-push") || dryRun;
 
-// 1. BUILD — the umbrella (its cleanOutputDir wipes docs/) + every package root into docs/packages/<name>/.
+// 1. BUILD — the HTML umbrella (its cleanOutputDir wipes docs/) + every package root into docs/packages/<name>/.
 //    buildDocs() regenerates the derived narrative (architecture D2 + the Packages index) first.
 const pkgs = await buildDocs();
 
-// 2. .nojekyll at the site root (TypeDoc writes one per render via githubPages, but never assume).
+// 2. .nojekyll at the HTML site root (TypeDoc writes one per render via githubPages, but never assume).
 await writeFile(join(docsDir, ".nojekyll"), "");
 
+// 3. MARKDOWN MIRROR — the same content as docs/, in one navigable markdown tree with relative .md links, into
+//    documentation/ (GitHub-browsable + downloadable). Not served by Pages; linked from the repo README.
+await buildMarkdown();
+
 if (dryRun) {
-  console.log(`✓ dry-run: built the umbrella + ${pkgs.length} package roots into docs/ (no git).`);
+  console.log(`✓ dry-run: built the umbrella + ${pkgs.length} package roots into docs/ + the markdown mirror into documentation/ (no git).`);
   process.exit(0);
 }
 
-// 3. COMMIT the whole docs/ tree (adds, mods, AND deletes from the clean rebuild).
+// 4. COMMIT the whole docs/ + documentation/ trees (adds, mods, AND deletes from the clean rebuilds).
 $.cwd(repoRoot);
-await $`git add --all docs`;
-const status = (await $`git status --porcelain docs`.text()).trim();
+await $`git add --all docs documentation`;
+const status = (await $`git status --porcelain docs documentation`.text()).trim();
 if (!status) {
   console.log("✓ docs already up to date — nothing to commit.");
   process.exit(0);
 }
 const stamp = new Date().toISOString();
-await $`git commit -m ${`docs: rebuild Pages site — TypeDoc multi-root (${stamp})`}`;
+await $`git commit -m ${`docs: rebuild Pages site + markdown mirror — TypeDoc (${stamp})`}`;
 
 // 4. PUSH — main:/docs is the live Pages source; pushing publishes it.
 if (noPush) {
