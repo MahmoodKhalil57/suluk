@@ -6,7 +6,7 @@
 
 # Interface: Violation
 
-Defined in: [analyze.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/eslint/src/analyze.ts#L24)
+Defined in: [analyze.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/eslint/src/analyze.ts#L24)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [analyze.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/c1aead
 
 > **data**: `object`
 
-Defined in: [analyze.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/eslint/src/analyze.ts#L30)
+Defined in: [analyze.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/eslint/src/analyze.ts#L30)
 
 Message interpolation data: tag (native), attr (handler), or token (frontmatter).
 
@@ -36,7 +36,7 @@ Message interpolation data: tag (native), attr (handler), or token (frontmatter)
 
 > **index**: `number`
 
-Defined in: [analyze.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/eslint/src/analyze.ts#L27)
+Defined in: [analyze.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/eslint/src/analyze.ts#L27)
 
 Char offset into the original source (for the ESLint wrapper's getLocFromIndex).
 
@@ -46,7 +46,7 @@ Char offset into the original source (for the ESLint wrapper's getLocFromIndex).
 
 > **length**: `number`
 
-Defined in: [analyze.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/eslint/src/analyze.ts#L28)
+Defined in: [analyze.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/eslint/src/analyze.ts#L28)
 
 ***
 
@@ -54,4 +54,4 @@ Defined in: [analyze.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/c1aead
 
 > **metric**: [`Metric`](../type-aliases/Metric.md)
 
-Defined in: [analyze.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/eslint/src/analyze.ts#L25)
+Defined in: [analyze.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/eslint/src/analyze.ts#L25)

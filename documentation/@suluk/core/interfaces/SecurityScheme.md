@@ -6,7 +6,7 @@
 
 # Interface: SecurityScheme
 
-Defined in: [types.ts:489](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/types.ts#L489)
+Defined in: [types.ts:489](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L489)
 
 `@suluk/core` — the foundation library for the OpenAPI v4.0 "Suluk" candidate.
 
@@ -21,7 +21,7 @@ CANDIDATE tooling — provisional; the soft points (CONFIDENCE.md) are isolated 
 
 > `optional` **flows?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [types.ts:494](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/types.ts#L494)
+Defined in: [types.ts:494](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L494)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [types.ts:494](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **in?**: `"query"` \| `"header"` \| `"cookie"`
 
-Defined in: [types.ts:492](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/types.ts#L492)
+Defined in: [types.ts:492](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L492)
 
 ***
 
@@ -37,7 +37,7 @@ Defined in: [types.ts:492](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **name?**: `string`
 
-Defined in: [types.ts:491](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/types.ts#L491)
+Defined in: [types.ts:491](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L491)
 
 ***
 
@@ -45,7 +45,7 @@ Defined in: [types.ts:491](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **openIdConnectUrl?**: `string`
 
-Defined in: [types.ts:495](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/types.ts#L495)
+Defined in: [types.ts:495](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L495)
 
 ***
 
@@ -53,7 +53,7 @@ Defined in: [types.ts:495](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **scheme?**: `string`
 
-Defined in: [types.ts:493](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/types.ts#L493)
+Defined in: [types.ts:493](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L493)
 
 ***
 
@@ -61,4 +61,4 @@ Defined in: [types.ts:493](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **type**: `"apiKey"` \| `"http"` \| `"oauth2"` \| `"openIdConnect"` \| `"mutualTLS"`
 
-Defined in: [types.ts:490](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/types.ts#L490)
+Defined in: [types.ts:490](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L490)

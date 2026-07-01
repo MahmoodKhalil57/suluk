@@ -8,7 +8,7 @@
 
 > **permissionsToScopes**(`perms`): `string`[]
 
-Defined in: [apikey.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/better-auth/src/apikey.ts#L62)
+Defined in: [apikey.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/better-auth/src/apikey.ts#L62)
 
 Better Auth permissions → flat scopes. `{ cart: ["read","write"] }` → `["cart:read","cart:write"]`.
 DEVIATION from saastarter scopes.ts:167-179 (receipted): the `if (scope in API_SCOPES)` catalog filter is REMOVED.

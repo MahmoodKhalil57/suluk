@@ -6,7 +6,7 @@
 
 # Interface: InstanceState
 
-Defined in: [provision/src/types.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L59)
+Defined in: [provision/src/types.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L59)
 
 The live record of a provisioned instance (the journal `plan` diffs against — like drizzle's migration meta).
 
@@ -16,7 +16,7 @@ The live record of a provisioned instance (the journal `plan` diffs against — 
 
 > **fingerprint**: `string`
 
-Defined in: [provision/src/types.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L69)
+Defined in: [provision/src/types.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L69)
 
 a stable fingerprint of (name + plan + params), to detect drift → an `update` step.
 
@@ -26,7 +26,7 @@ a stable fingerprint of (name + plan + params), to detect drift → an `update` 
 
 > **instanceId**: `string`
 
-Defined in: [provision/src/types.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L65)
+Defined in: [provision/src/types.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L65)
 
 the provider's instance id (e.g. the D1 uuid, the KV namespace id).
 
@@ -36,7 +36,7 @@ the provider's instance id (e.g. the D1 uuid, the KV namespace id).
 
 > **name**: `string`
 
-Defined in: [provision/src/types.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L63)
+Defined in: [provision/src/types.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L63)
 
 ***
 
@@ -44,7 +44,7 @@ Defined in: [provision/src/types.ts:63](https://github.com/MahmoodKhalil57/suluk
 
 > **outputs**: `Record`\<`string`, `string`\>
 
-Defined in: [provision/src/types.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L67)
+Defined in: [provision/src/types.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L67)
 
 the binding outputs captured at provision/bind time (so downstream refs resolve without re-calling the provider).
 
@@ -54,7 +54,7 @@ the binding outputs captured at provision/bind time (so downstream refs resolve 
 
 > `optional` **plan?**: `string`
 
-Defined in: [provision/src/types.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L62)
+Defined in: [provision/src/types.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L62)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [provision/src/types.ts:62](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **protected?**: `boolean`
 
-Defined in: [provision/src/types.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L71)
+Defined in: [provision/src/types.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L71)
 
 carried from the spec so `teardown`/`prune` (which work off the journal) honour the destroy guard.
 
@@ -72,7 +72,7 @@ carried from the spec so `teardown`/`prune` (which work off the journal) honour 
 
 > **provisionedAt**: `number`
 
-Defined in: [provision/src/types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L72)
+Defined in: [provision/src/types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L72)
 
 ***
 
@@ -80,7 +80,7 @@ Defined in: [provision/src/types.ts:72](https://github.com/MahmoodKhalil57/suluk
 
 > **ref**: `string`
 
-Defined in: [provision/src/types.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L60)
+Defined in: [provision/src/types.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L60)
 
 ***
 
@@ -88,4 +88,4 @@ Defined in: [provision/src/types.ts:60](https://github.com/MahmoodKhalil57/suluk
 
 > **service**: `string`
 
-Defined in: [provision/src/types.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L61)
+Defined in: [provision/src/types.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L61)

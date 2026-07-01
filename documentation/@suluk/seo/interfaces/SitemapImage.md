@@ -6,7 +6,7 @@
 
 # Interface: SitemapImage
 
-Defined in: [sitemap.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/sitemap.ts#L5)
+Defined in: [sitemap.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/sitemap.ts#L5)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [sitemap.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **caption?**: `string`
 
-Defined in: [sitemap.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/sitemap.ts#L5)
+Defined in: [sitemap.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/sitemap.ts#L5)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [sitemap.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **loc**: `string`
 
-Defined in: [sitemap.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/sitemap.ts#L5)
+Defined in: [sitemap.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/sitemap.ts#L5)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [sitemap.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **title?**: `string`
 
-Defined in: [sitemap.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/sitemap.ts#L5)
+Defined in: [sitemap.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/sitemap.ts#L5)

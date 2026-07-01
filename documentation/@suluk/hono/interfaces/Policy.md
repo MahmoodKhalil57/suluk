@@ -6,7 +6,7 @@
 
 # Interface: Policy
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/access.ts#L13)
+Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/access.ts#L13)
 
 The five CRUD operations' rules for one access mode.
 
@@ -16,7 +16,7 @@ The five CRUD operations' rules for one access mode.
 
 > **create**: [`Rule`](../type-aliases/Rule.md)
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/access.ts#L13)
+Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/access.ts#L13)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/Mahmo
 
 > **delete**: [`Rule`](../type-aliases/Rule.md)
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/access.ts#L13)
+Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/access.ts#L13)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/Mahmo
 
 > **get**: [`Rule`](../type-aliases/Rule.md)
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/access.ts#L13)
+Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/access.ts#L13)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/Mahmo
 
 > **list**: [`Rule`](../type-aliases/Rule.md)
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/access.ts#L13)
+Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/access.ts#L13)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/Mahmo
 
 > **update**: [`Rule`](../type-aliases/Rule.md)
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/access.ts#L13)
+Defined in: [tooling/ts/packages/hono/src/access.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/access.ts#L13)

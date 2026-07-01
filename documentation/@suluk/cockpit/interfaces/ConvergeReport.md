@@ -6,7 +6,7 @@
 
 # Interface: ConvergeReport
 
-Defined in: [cockpit/src/converge.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cockpit/src/converge.ts#L21)
+Defined in: [cockpit/src/converge.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/converge.ts#L21)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/converge.ts:21](https://github.com/MahmoodKhalil57/sulu
 
 > **clean**: `boolean`
 
-Defined in: [cockpit/src/converge.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cockpit/src/converge.ts#L24)
+Defined in: [cockpit/src/converge.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/converge.ts#L24)
 
 true ⇒ no error-severity findings — the contract is self-consistent
 
@@ -24,4 +24,4 @@ true ⇒ no error-severity findings — the contract is self-consistent
 
 > **findings**: [`ConvergeFinding`](ConvergeFinding.md)[]
 
-Defined in: [cockpit/src/converge.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cockpit/src/converge.ts#L22)
+Defined in: [cockpit/src/converge.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/converge.ts#L22)

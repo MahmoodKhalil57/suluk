@@ -8,7 +8,7 @@
 
 > **isListSpec**(`s`): `s is { controls: ListControl[]; default?: string[]; options: string[]; type: "list" }`
 
-Defined in: [dsl.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/dsl.ts#L83)
+Defined in: [dsl.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/dsl.ts#L83)
 
 `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
 Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk

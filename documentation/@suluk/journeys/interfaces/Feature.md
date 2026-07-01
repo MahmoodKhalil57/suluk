@@ -6,7 +6,7 @@
 
 # Interface: Feature
 
-Defined in: [journeys/src/gherkin.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/gherkin.ts#L35)
+Defined in: [journeys/src/gherkin.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/gherkin.ts#L35)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/gherkin.ts:35](https://github.com/MahmoodKhalil57/sulu
 
 > **feature**: `string`
 
-Defined in: [journeys/src/gherkin.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/gherkin.ts#L36)
+Defined in: [journeys/src/gherkin.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/gherkin.ts#L36)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [journeys/src/gherkin.ts:36](https://github.com/MahmoodKhalil57/sulu
 
 > **scenarios**: [`Scenario`](Scenario.md)[]
 
-Defined in: [journeys/src/gherkin.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/gherkin.ts#L37)
+Defined in: [journeys/src/gherkin.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/gherkin.ts#L37)

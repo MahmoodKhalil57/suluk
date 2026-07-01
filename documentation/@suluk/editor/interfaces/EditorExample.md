@@ -6,7 +6,7 @@
 
 # Interface: EditorExample
 
-Defined in: [examples.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/editor/src/examples.ts#L11)
+Defined in: [examples.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/editor/src/examples.ts#L11)
 
 Seed documents the editor can open with. These are deliberately v4-NATIVE: the flagship "Suluk Galaxy" puts TWO
 named requests on one path sharing the same HTTP method (`checkout` → guestCheckout + memberCheckout) — the headline
@@ -23,7 +23,7 @@ re-parses + validates it like any user input — so these are held to the same b
 
 > `optional` **description?**: `string`
 
-Defined in: [examples.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/editor/src/examples.ts#L14)
+Defined in: [examples.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/editor/src/examples.ts#L14)
 
 ***
 
@@ -31,7 +31,7 @@ Defined in: [examples.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > **doc**: `unknown`
 
-Defined in: [examples.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/editor/src/examples.ts#L16)
+Defined in: [examples.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/editor/src/examples.ts#L16)
 
 A v4 document (or, for the upgrade demo, a 3.1 document). Parsed + validated like any user input.
 
@@ -41,7 +41,7 @@ A v4 document (or, for the upgrade demo, a 3.1 document). Parsed + validated lik
 
 > **id**: `string`
 
-Defined in: [examples.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/editor/src/examples.ts#L12)
+Defined in: [examples.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/editor/src/examples.ts#L12)
 
 ***
 
@@ -49,4 +49,4 @@ Defined in: [examples.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > **label**: `string`
 
-Defined in: [examples.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/editor/src/examples.ts#L13)
+Defined in: [examples.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/editor/src/examples.ts#L13)

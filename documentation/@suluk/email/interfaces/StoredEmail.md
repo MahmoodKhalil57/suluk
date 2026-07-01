@@ -6,7 +6,7 @@
 
 # Interface: StoredEmail
 
-Defined in: [provider.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/email/src/provider.ts#L62)
+Defined in: [provider.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L62)
 
 A stored (mocked) email — what a local mailbox sink persists INSTEAD of sending.
 
@@ -20,7 +20,7 @@ A stored (mocked) email — what a local mailbox sink persists INSTEAD of sendin
 
 > **at**: `string`
 
-Defined in: [provider.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/email/src/provider.ts#L64)
+Defined in: [provider.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L64)
 
 ISO timestamp the message was captured.
 
@@ -30,7 +30,7 @@ ISO timestamp the message was captured.
 
 > `optional` **from?**: `string`
 
-Defined in: [provider.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/email/src/provider.ts#L23)
+Defined in: [provider.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L23)
 
 override the provider's default From.
 
@@ -44,7 +44,7 @@ override the provider's default From.
 
 > **html**: `string`
 
-Defined in: [provider.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/email/src/provider.ts#L15)
+Defined in: [provider.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L15)
 
 #### Inherited from
 
@@ -56,7 +56,7 @@ Defined in: [provider.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **replyTo?**: `string`
 
-Defined in: [provider.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/email/src/provider.ts#L24)
+Defined in: [provider.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L24)
 
 #### Inherited from
 
@@ -68,7 +68,7 @@ Defined in: [provider.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > **subject**: `string`
 
-Defined in: [provider.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/email/src/provider.ts#L14)
+Defined in: [provider.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L14)
 
 #### Inherited from
 
@@ -80,7 +80,7 @@ Defined in: [provider.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **text?**: `string`
 
-Defined in: [provider.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/email/src/provider.ts#L16)
+Defined in: [provider.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L16)
 
 #### Inherited from
 
@@ -92,7 +92,7 @@ Defined in: [provider.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > **to**: `string` \| `string`[]
 
-Defined in: [provider.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/email/src/provider.ts#L21)
+Defined in: [provider.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L21)
 
 #### Inherited from
 

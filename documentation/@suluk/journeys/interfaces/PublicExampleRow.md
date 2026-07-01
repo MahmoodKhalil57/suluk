@@ -6,7 +6,7 @@
 
 # Interface: PublicExampleRow
 
-Defined in: [journeys/src/promote.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/promote.ts#L17)
+Defined in: [journeys/src/promote.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/promote.ts#L17)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/promote.ts:17](https://github.com/MahmoodKhalil57/sulu
 
 > **headers**: `string`[]
 
-Defined in: [journeys/src/promote.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/promote.ts#L19)
+Defined in: [journeys/src/promote.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/promote.ts#L19)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [journeys/src/promote.ts:19](https://github.com/MahmoodKhalil57/sulu
 
 > **row**: `string`[]
 
-Defined in: [journeys/src/promote.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/promote.ts#L21)
+Defined in: [journeys/src/promote.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/promote.ts#L21)
 
 the FIRST row of the `@public`-tagged Examples block — the canonical public example.
 
@@ -32,4 +32,4 @@ the FIRST row of the `@public`-tagged Examples block — the canonical public ex
 
 > **scenario**: `string`
 
-Defined in: [journeys/src/promote.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/promote.ts#L18)
+Defined in: [journeys/src/promote.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/promote.ts#L18)

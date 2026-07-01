@@ -8,7 +8,7 @@
 
 > **resolveSourced**(`captured`, `ref`): `unknown`
 
-Defined in: [examples/src/index.ts:121](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/examples/src/index.ts#L121)
+Defined in: [examples/src/index.ts:121](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/examples/src/index.ts#L121)
 
 Resolve a `sourced` field's value from a scenario-scoped bag of captured operation results (keyed by `op.name`). The
 shared primitive both the journeys emitter (carried-data across a journey) and an sdk chaining helper use. Pure.

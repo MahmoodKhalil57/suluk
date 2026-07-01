@@ -8,7 +8,7 @@
 
 > **ResolvedTarget** = \{ `kind`: `"pinned"`; `model`: `string`; \} \| \{ `allowedModels`: `string`[]; `costQualityTradeoff`: `number`; `kind`: `"router"`; `model`: `"openrouter/auto"`; `provider?`: \{ `zdr`: `true`; \}; \} \| \{ `kind`: `"latest"`; `model`: `string`; `note`: `string`; \}
 
-Defined in: [agents/src/model-select.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/model-select.ts#L19)
+Defined in: [agents/src/model-select.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/model-select.ts#L19)
 
 How a skill RESOLVES to a runtime model (C030, council wf_75f87ab6-b1b — unanimous hybrid). We keep the survivor
 SET (governance + caps + min-context, the moat) and either PIN a concrete reproducible id, or DELEGATE the

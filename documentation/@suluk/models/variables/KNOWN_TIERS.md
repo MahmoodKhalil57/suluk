@@ -8,7 +8,7 @@
 
 > `const` **KNOWN\_TIERS**: `Record`\<`string`, `Partial`\<`Record`\<[`IntelAxis`](../type-aliases/IntelAxis.md), [`Tier`](../type-aliases/Tier.md)\>\>\>
 
-Defined in: [overlay.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/models/src/overlay.ts#L33)
+Defined in: [overlay.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/overlay.ts#L33)
 
 A SMALL, conservatively-CITED seed of coarse public standings for headline frontier models (the bootstrap until
 the full Class-B curation lands). These are adopted public-consensus priors at a LOW ceiling — verify at source;

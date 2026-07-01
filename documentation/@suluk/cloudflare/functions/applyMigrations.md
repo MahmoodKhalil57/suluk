@@ -8,7 +8,7 @@
 
 > **applyMigrations**(`cf`, `databaseId`, `migrations`, `now?`): `Promise`\<`string`[]\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cloudflare/src/resources.ts#L77)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/resources.ts#L77)
 
 Apply D1 migrations with a LEDGER (`_suluk_migrations`) so each runs exactly once — the missing piece that makes a
 redeploy safe. A migration not yet in the ledger is run and recorded; if it fails because the schema is ALREADY

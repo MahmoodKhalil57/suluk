@@ -6,7 +6,7 @@
 
 # Interface: WebManifestInput
 
-Defined in: [manifest.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L5)
+Defined in: [manifest.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L5)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [manifest.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/c1aead
 
 > `optional` **backgroundColor?**: `string`
 
-Defined in: [manifest.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L14)
+Defined in: [manifest.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L14)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [manifest.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **categories?**: `string`[]
 
-Defined in: [manifest.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L17)
+Defined in: [manifest.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L17)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [manifest.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **description?**: `string`
 
-Defined in: [manifest.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L8)
+Defined in: [manifest.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L8)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [manifest.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/c1aead
 
 > `optional` **dir?**: `"ltr"` \| `"rtl"` \| `"auto"`
 
-Defined in: [manifest.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L16)
+Defined in: [manifest.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L16)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [manifest.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **display?**: `"fullscreen"` \| `"standalone"` \| `"minimal-ui"` \| `"browser"`
 
-Defined in: [manifest.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L11)
+Defined in: [manifest.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L11)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [manifest.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **icons?**: [`ManifestIcon`](ManifestIcon.md)[]
 
-Defined in: [manifest.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L18)
+Defined in: [manifest.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L18)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [manifest.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **lang?**: `string`
 
-Defined in: [manifest.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L15)
+Defined in: [manifest.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L15)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [manifest.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > **name**: `string`
 
-Defined in: [manifest.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L6)
+Defined in: [manifest.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L6)
 
 ***
 
@@ -78,7 +78,7 @@ Defined in: [manifest.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/c1aead
 
 > `optional` **orientation?**: `string`
 
-Defined in: [manifest.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L12)
+Defined in: [manifest.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L12)
 
 ***
 
@@ -86,7 +86,7 @@ Defined in: [manifest.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **scope?**: `string`
 
-Defined in: [manifest.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L10)
+Defined in: [manifest.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L10)
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: [manifest.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **shortcuts?**: [`ManifestShortcut`](ManifestShortcut.md)[]
 
-Defined in: [manifest.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L19)
+Defined in: [manifest.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L19)
 
 ***
 
@@ -102,7 +102,7 @@ Defined in: [manifest.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **shortName?**: `string`
 
-Defined in: [manifest.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L7)
+Defined in: [manifest.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L7)
 
 ***
 
@@ -110,7 +110,7 @@ Defined in: [manifest.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/c1aead
 
 > `optional` **startUrl?**: `string`
 
-Defined in: [manifest.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L9)
+Defined in: [manifest.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L9)
 
 ***
 
@@ -118,4 +118,4 @@ Defined in: [manifest.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/c1aead
 
 > `optional` **themeColor?**: `string`
 
-Defined in: [manifest.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/manifest.ts#L13)
+Defined in: [manifest.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/manifest.ts#L13)

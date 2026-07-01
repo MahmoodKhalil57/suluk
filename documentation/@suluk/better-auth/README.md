@@ -231,6 +231,8 @@ Apache-2.0
 - [AuthSecurity](interfaces/AuthSecurity.md)
 - [CascadeOptions](interfaces/CascadeOptions.md)
 - [CascadeStep](interfaces/CascadeStep.md)
+- [DevLoginAuthLike](interfaces/DevLoginAuthLike.md)
+- [DevLoginOptions](interfaces/DevLoginOptions.md)
 - [EmailVerificationOptions](interfaces/EmailVerificationOptions.md)
 - [HonoLike](interfaces/HonoLike.md)
 - [IngestOptions](interfaces/IngestOptions.md)
@@ -252,6 +254,7 @@ Apache-2.0
 
 ## Variables
 
+- [DEV\_LOGIN\_PASSWORD](variables/DEV_LOGIN_PASSWORD.md)
 - [MFA\_SCOPE](variables/MFA_SCOPE.md)
 
 ## Functions
@@ -260,6 +263,7 @@ Apache-2.0
 - [authSecuritySchemes](functions/authSecuritySchemes.md)
 - [beforeDeleteCascade](functions/beforeDeleteCascade.md)
 - [deleteStep](functions/deleteStep.md)
+- [devLoginHandler](functions/devLoginHandler.md)
 - [emailVerificationConfig](functions/emailVerificationConfig.md)
 - [ingestAuthOpenAPI](functions/ingestAuthOpenAPI.md)
 - [isPreviewRuntime](functions/isPreviewRuntime.md)

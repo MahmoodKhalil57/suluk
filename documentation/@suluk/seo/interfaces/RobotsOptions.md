@@ -6,7 +6,7 @@
 
 # Interface: RobotsOptions
 
-Defined in: [robots.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/robots.ts#L9)
+Defined in: [robots.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/robots.ts#L9)
 
 `@suluk/seo` — a complete, framework-agnostic SEO toolkit for a Suluk app, inspired by the Nuxt SEO suite but
 pure + Cloudflare-safe (no runtime deps, no argless Date). It generates: robots.txt, sitemaps (with image +
@@ -20,7 +20,7 @@ skew-protection. One import → every SEO surface a real ecommerce template need
 
 > `optional` **groups?**: [`RobotsGroup`](RobotsGroup.md)[]
 
-Defined in: [robots.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/robots.ts#L11)
+Defined in: [robots.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/robots.ts#L11)
 
 Groups; defaults to a single `User-agent: *` / `Allow: /` group.
 
@@ -30,7 +30,7 @@ Groups; defaults to a single `User-agent: *` / `Allow: /` group.
 
 > `optional` **host?**: `string`
 
-Defined in: [robots.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/robots.ts#L15)
+Defined in: [robots.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/robots.ts#L15)
 
 Optional `Host:` directive (canonical host).
 
@@ -40,6 +40,6 @@ Optional `Host:` directive (canonical host).
 
 > `optional` **sitemaps?**: `string`[]
 
-Defined in: [robots.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/seo/src/robots.ts#L13)
+Defined in: [robots.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/robots.ts#L13)
 
 Absolute sitemap URLs to advertise.

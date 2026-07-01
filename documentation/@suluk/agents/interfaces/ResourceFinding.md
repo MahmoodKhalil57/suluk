@@ -6,7 +6,7 @@
 
 # Interface: ResourceFinding
 
-Defined in: [agents/src/resources.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/resources.ts#L55)
+Defined in: [agents/src/resources.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/resources.ts#L55)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/resources.ts:55](https://github.com/MahmoodKhalil57/sulu
 
 > **code**: `string`
 
-Defined in: [agents/src/resources.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/resources.ts#L57)
+Defined in: [agents/src/resources.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/resources.ts#L57)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [agents/src/resources.ts:57](https://github.com/MahmoodKhalil57/sulu
 
 > **detail**: `string`
 
-Defined in: [agents/src/resources.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/resources.ts#L58)
+Defined in: [agents/src/resources.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/resources.ts#L58)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [agents/src/resources.ts:58](https://github.com/MahmoodKhalil57/sulu
 
 > **severity**: `"error"` \| `"warning"` \| `"info"`
 
-Defined in: [agents/src/resources.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/resources.ts#L56)
+Defined in: [agents/src/resources.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/resources.ts#L56)

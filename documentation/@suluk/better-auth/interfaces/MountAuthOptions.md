@@ -6,7 +6,7 @@
 
 # Interface: MountAuthOptions
 
-Defined in: [mount.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/better-auth/src/mount.ts#L15)
+Defined in: [mount.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/better-auth/src/mount.ts#L15)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [mount.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c
 
 > `optional` **basePath?**: `string`
 
-Defined in: [mount.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/better-auth/src/mount.ts#L17)
+Defined in: [mount.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/better-auth/src/mount.ts#L17)
 
 Base path Better Auth is mounted at (default "/api/auth").
 
@@ -24,6 +24,6 @@ Base path Better Auth is mounted at (default "/api/auth").
 
 > `optional` **methods?**: `string`[]
 
-Defined in: [mount.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/better-auth/src/mount.ts#L19)
+Defined in: [mount.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/better-auth/src/mount.ts#L19)
 
 HTTP methods to route (default ["POST","GET"]).

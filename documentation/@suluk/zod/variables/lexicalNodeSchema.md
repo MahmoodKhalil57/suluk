@@ -8,6 +8,6 @@
 
 > `const` **lexicalNodeSchema**: `z.ZodType`
 
-Defined in: [lexical.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/zod/src/lexical.ts#L11)
+Defined in: [lexical.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/zod/src/lexical.ts#L11)
 
 A single Lexical node — recursive + open (each node type carries its own extra fields; we keep the common ones).

@@ -15,7 +15,7 @@ provision.config. The higher-level surface over C047's provision.config + the C0
 
 > **definePlatform**(`input`): [`PlatformManifest`](../interfaces/PlatformManifest.md)
 
-Defined in: [manifest.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/platform/src/manifest.ts#L108)
+Defined in: [manifest.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/platform/src/manifest.ts#L108)
 
 Validate + return a platform. Accepts BOTH the legacy [PlatformManifest](../interfaces/PlatformManifest.md) and the C053 `{ system, brand }` shape
 (discriminated on the `system` key). Overloaded so the return type matches the input surface.
@@ -34,7 +34,7 @@ Validate + return a platform. Accepts BOTH the legacy [PlatformManifest](../inte
 
 > **definePlatform**(`input`): [`Platform`](../interfaces/Platform.md)
 
-Defined in: [manifest.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/platform/src/manifest.ts#L109)
+Defined in: [manifest.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/platform/src/manifest.ts#L109)
 
 Validate + return a platform. Accepts BOTH the legacy [PlatformManifest](../interfaces/PlatformManifest.md) and the C053 `{ system, brand }` shape
 (discriminated on the `system` key). Overloaded so the return type matches the input surface.

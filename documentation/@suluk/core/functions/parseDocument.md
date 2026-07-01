@@ -8,7 +8,7 @@
 
 > **parseDocument**(`source`): [`OpenAPIv4Document`](../interfaces/OpenAPIv4Document.md)
 
-Defined in: [parse.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/core/src/parse.ts#L5)
+Defined in: [parse.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/parse.ts#L5)
 
 Parse a Suluk v4 document from YAML or JSON source text. (YAML is a superset; JSON parses as YAML too.)
 

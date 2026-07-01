@@ -8,7 +8,7 @@
 
 > **tableSpec**(`schema`, `opts?`): [`TableSpec`](../interfaces/TableSpec.md)
 
-Defined in: [spec.ts:236](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/shadcn/src/spec.ts#L236)
+Defined in: [spec.ts:236](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/spec.ts#L236)
 
 Build a [TableSpec](../interfaces/TableSpec.md). An array root uses its `items` object; an object root uses its own properties.
 Each property becomes one [ColumnSpec](../interfaces/ColumnSpec.md). Non-derivable roots yield zero columns plus a warning.

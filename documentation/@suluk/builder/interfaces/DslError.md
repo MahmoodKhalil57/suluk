@@ -6,7 +6,7 @@
 
 # Interface: DslError
 
-Defined in: [validate.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/validate.ts#L10)
+Defined in: [validate.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/validate.ts#L10)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [validate.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > **doc**: `string`
 
-Defined in: [validate.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/validate.ts#L11)
+Defined in: [validate.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/validate.ts#L11)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [validate.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > **message**: `string`
 
-Defined in: [validate.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/validate.ts#L13)
+Defined in: [validate.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/validate.ts#L13)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [validate.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > **path**: `string`
 
-Defined in: [validate.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/validate.ts#L12)
+Defined in: [validate.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/validate.ts#L12)

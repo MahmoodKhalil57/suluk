@@ -8,7 +8,7 @@
 
 > **detachPaymentMethod**(`cfg`, `pmId`): `Promise`\<`void`\>
 
-Defined in: [packages/billing/src/billing.ts:140](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/billing/src/billing.ts#L140)
+Defined in: [packages/billing/src/billing.ts:140](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/billing/src/billing.ts#L140)
 
 Detach (remove) a saved card from the customer.
 

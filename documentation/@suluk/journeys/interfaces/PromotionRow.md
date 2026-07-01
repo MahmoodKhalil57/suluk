@@ -6,7 +6,7 @@
 
 # Interface: PromotionRow
 
-Defined in: [journeys/src/cli.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/cli.ts#L78)
+Defined in: [journeys/src/cli.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/cli.ts#L78)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/cli.ts:78](https://github.com/MahmoodKhalil57/suluk/bl
 
 > `optional` **file?**: `string`
 
-Defined in: [journeys/src/cli.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/cli.ts#L80)
+Defined in: [journeys/src/cli.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/cli.ts#L80)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [journeys/src/cli.ts:80](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **reason**: `string`
 
-Defined in: [journeys/src/cli.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/cli.ts#L83)
+Defined in: [journeys/src/cli.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/cli.ts#L83)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [journeys/src/cli.ts:83](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **scenario**: `string`
 
-Defined in: [journeys/src/cli.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/cli.ts#L79)
+Defined in: [journeys/src/cli.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/cli.ts#L79)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [journeys/src/cli.ts:79](https://github.com/MahmoodKhalil57/suluk/bl
 
 > `optional` **schemaVar?**: `string`
 
-Defined in: [journeys/src/cli.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/cli.ts#L81)
+Defined in: [journeys/src/cli.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/cli.ts#L81)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [journeys/src/cli.ts:81](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **status**: `"applied"` \| `"skipped"`
 
-Defined in: [journeys/src/cli.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/cli.ts#L82)
+Defined in: [journeys/src/cli.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/cli.ts#L82)

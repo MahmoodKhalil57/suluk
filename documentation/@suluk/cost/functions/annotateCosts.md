@@ -8,7 +8,7 @@
 
 > **annotateCosts**(`doc`, `costs`): [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md)
 
-Defined in: [contract.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cost/src/contract.ts#L41)
+Defined in: [contract.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/contract.ts#L41)
 
 Annotate a v4 document in place-safe (returns a new doc): set x-suluk-cost on each named operation (incl. webhooks).
 

@@ -8,7 +8,7 @@
 
 > **eachOperation**(`doc`): `object`[]
 
-Defined in: [contract.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cost/src/contract.ts#L29)
+Defined in: [contract.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/contract.ts#L29)
 
 Every named operation in the document — path requests AND C018 webhooks (which are Requests carrying facets) —
 as {path, name, req}. Background-event cost lives on a webhook op, so every cost reader walks this, not just paths.

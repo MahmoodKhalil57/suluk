@@ -6,7 +6,7 @@
 
 # Interface: ServicePlan
 
-Defined in: [provision/src/types.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L15)
+Defined in: [provision/src/types.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L15)
 
 A plan tier within an offering (OSB Service Plan). Most infra has a single "standard" plan; `free` marks $0 tiers.
 
@@ -16,7 +16,7 @@ A plan tier within an offering (OSB Service Plan). Most infra has a single "stan
 
 > `optional` **description?**: `string`
 
-Defined in: [provision/src/types.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L18)
+Defined in: [provision/src/types.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L18)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [provision/src/types.ts:18](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **free?**: `boolean`
 
-Defined in: [provision/src/types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L19)
+Defined in: [provision/src/types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L19)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [provision/src/types.ts:19](https://github.com/MahmoodKhalil57/suluk
 
 > **id**: `string`
 
-Defined in: [provision/src/types.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L16)
+Defined in: [provision/src/types.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L16)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [provision/src/types.ts:16](https://github.com/MahmoodKhalil57/suluk
 
 > **name**: `string`
 
-Defined in: [provision/src/types.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/types.ts#L17)
+Defined in: [provision/src/types.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L17)

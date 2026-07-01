@@ -6,7 +6,7 @@
 
 # Interface: Field
 
-Defined in: [fields.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L12)
+Defined in: [fields.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L12)
 
 `@suluk/panel` — contract-first admin panels, in the spirit of Payload but projected from ONE OpenAPI v4 document.
 Payload makes you configure collections in a framework-coupled DSL; @suluk/panel INFERS the same field types
@@ -21,7 +21,7 @@ REST), no config drift (the contract is the single source). CANDIDATE tooling.
 
 > `optional` **description?**: `string`
 
-Defined in: [fields.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L19)
+Defined in: [fields.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L19)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [fields.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **label**: `string`
 
-Defined in: [fields.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L14)
+Defined in: [fields.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L14)
 
 ***
 
@@ -37,7 +37,7 @@ Defined in: [fields.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **name**: `string`
 
-Defined in: [fields.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L13)
+Defined in: [fields.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L13)
 
 ***
 
@@ -45,7 +45,7 @@ Defined in: [fields.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **nullable**: `boolean`
 
-Defined in: [fields.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L17)
+Defined in: [fields.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L17)
 
 ***
 
@@ -53,7 +53,7 @@ Defined in: [fields.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **options?**: `string`[]
 
-Defined in: [fields.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L20)
+Defined in: [fields.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L20)
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: [fields.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **optionType?**: `"string"` \| `"number"` \| `"boolean"`
 
-Defined in: [fields.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L21)
+Defined in: [fields.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L21)
 
 ***
 
@@ -69,7 +69,7 @@ Defined in: [fields.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **readOnly**: `boolean`
 
-Defined in: [fields.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L18)
+Defined in: [fields.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L18)
 
 ***
 
@@ -77,7 +77,7 @@ Defined in: [fields.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **relationLabelField?**: `string`
 
-Defined in: [fields.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L23)
+Defined in: [fields.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L23)
 
 ***
 
@@ -85,7 +85,7 @@ Defined in: [fields.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **relationTo?**: `string`
 
-Defined in: [fields.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L22)
+Defined in: [fields.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L22)
 
 ***
 
@@ -93,7 +93,7 @@ Defined in: [fields.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **required**: `boolean`
 
-Defined in: [fields.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L16)
+Defined in: [fields.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L16)
 
 ***
 
@@ -101,4 +101,4 @@ Defined in: [fields.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **type**: [`FieldType`](../type-aliases/FieldType.md)
 
-Defined in: [fields.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/panel/src/fields.ts#L15)
+Defined in: [fields.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/fields.ts#L15)

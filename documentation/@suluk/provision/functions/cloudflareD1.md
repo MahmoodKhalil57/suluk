@@ -8,7 +8,7 @@
 
 > **cloudflareD1**(`cf`): [`Broker`](../interfaces/Broker.md)
 
-Defined in: [provision/src/brokers/cloudflare.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/brokers/cloudflare.ts#L25)
+Defined in: [provision/src/brokers/cloudflare.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/brokers/cloudflare.ts#L25)
 
 D1 database. Provision is create-or-get; when `params.migrations` (a `Migration[]`) is present they're applied through
  the @suluk/cloudflare ledger (each runs at most once). Output: `database_id`.

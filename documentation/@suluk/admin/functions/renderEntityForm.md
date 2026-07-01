@@ -8,7 +8,7 @@
 
 > **renderEntityForm**(`entity`, `mode`, `action`): `string`
 
-Defined in: [render-data.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/admin/src/render-data.ts#L85)
+Defined in: [render-data.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/admin/src/render-data.ts#L85)
 
 A create/edit form for an entity, derived from its schema. `id` is omitted on create (DB-assigned).
 

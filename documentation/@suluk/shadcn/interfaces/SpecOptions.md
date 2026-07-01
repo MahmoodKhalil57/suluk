@@ -6,7 +6,7 @@
 
 # Interface: SpecOptions
 
-Defined in: [spec.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/shadcn/src/spec.ts#L69)
+Defined in: [spec.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/spec.ts#L69)
 
 `@suluk/shadcn` — the UI corner. v4 "Suluk" Schema Objects → shadcn/ui form + table specs and TSX scaffolds.
 
@@ -24,6 +24,6 @@ renderers surface those warnings as a leading comment block. Nothing is dropped 
 
 > `optional` **defs?**: `Record`\<`string`, [`SchemaOrRef`](../../core/type-aliases/SchemaOrRef.md)\>
 
-Defined in: [spec.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/shadcn/src/spec.ts#L71)
+Defined in: [spec.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/spec.ts#L71)
 
 A `$defs`/components map so a top-level or property-level Reference can be resolved by name.

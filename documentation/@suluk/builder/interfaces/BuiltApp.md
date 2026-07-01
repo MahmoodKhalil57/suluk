@@ -6,7 +6,7 @@
 
 # Interface: BuiltApp
 
-Defined in: [fullstack.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/fullstack.ts#L112)
+Defined in: [fullstack.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/fullstack.ts#L112)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [fullstack.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/c1a
 
 > **backend**: `object`
 
-Defined in: [fullstack.ts:115](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/fullstack.ts#L115)
+Defined in: [fullstack.ts:115](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/fullstack.ts#L115)
 
 #### document
 
@@ -30,7 +30,7 @@ Defined in: [fullstack.ts:115](https://github.com/MahmoodKhalil57/suluk/blob/c1a
 
 > **entities**: [`Entity`](Entity.md)[]
 
-Defined in: [fullstack.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/fullstack.ts#L113)
+Defined in: [fullstack.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/fullstack.ts#L113)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [fullstack.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/c1a
 
 > **errors**: [`DslError`](DslError.md)[]
 
-Defined in: [fullstack.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/fullstack.ts#L118)
+Defined in: [fullstack.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/fullstack.ts#L118)
 
 DSL contract violations (empty ⇒ the composition is sound).
 
@@ -48,7 +48,7 @@ DSL contract violations (empty ⇒ the composition is sound).
 
 > **frontend**: `object`
 
-Defined in: [fullstack.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/fullstack.ts#L116)
+Defined in: [fullstack.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/fullstack.ts#L116)
 
 #### components
 
@@ -64,4 +64,4 @@ Defined in: [fullstack.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/c1a
 
 > **registry**: [`Registry`](Registry.md)
 
-Defined in: [fullstack.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/fullstack.ts#L114)
+Defined in: [fullstack.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/fullstack.ts#L114)

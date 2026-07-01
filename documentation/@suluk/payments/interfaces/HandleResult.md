@@ -6,7 +6,7 @@
 
 # Interface: HandleResult
 
-Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/stripe-webhook.ts#L54)
+Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/stripe-webhook.ts#L54)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:54](https://gith
 
 > **handled**: `boolean`
 
-Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/stripe-webhook.ts#L57)
+Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/stripe-webhook.ts#L57)
 
 a registered handler ran (false ⇒ the unhandled fallback ran, or nothing matched).
 
@@ -24,4 +24,4 @@ a registered handler ran (false ⇒ the unhandled fallback ran, or nothing match
 
 > **type**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/stripe-webhook.ts#L55)
+Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/stripe-webhook.ts#L55)

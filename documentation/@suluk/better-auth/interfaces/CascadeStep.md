@@ -6,7 +6,7 @@
 
 # Interface: CascadeStep\<U\>
 
-Defined in: [erasure.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/better-auth/src/erasure.ts#L14)
+Defined in: [erasure.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/better-auth/src/erasure.ts#L14)
 
 One step of the erasure cascade — the erasure of one subsystem for one user.
 
@@ -22,7 +22,7 @@ One step of the erasure cascade — the erasure of one subsystem for one user.
 
 > **name**: `string`
 
-Defined in: [erasure.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/better-auth/src/erasure.ts#L16)
+Defined in: [erasure.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/better-auth/src/erasure.ts#L16)
 
 a label for logs/diagnostics.
 
@@ -32,7 +32,7 @@ a label for logs/diagnostics.
 
 > **run**: (`user`) => `void` \| `Promise`\<`void`\>
 
-Defined in: [erasure.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/better-auth/src/erasure.ts#L18)
+Defined in: [erasure.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/better-auth/src/erasure.ts#L18)
 
 perform the erasure. Put any in-step recovery (already-deleted → fallback) HERE, not in the orchestrator.
 

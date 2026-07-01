@@ -8,7 +8,7 @@
 
 > **swaggerHtml**(`doc`, `opts?`): [`RenderResult`](../interfaces/RenderResult.md)
 
-Defined in: [index.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/swagger/src/index.ts#L38)
+Defined in: [index.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/swagger/src/index.ts#L38)
 
 Render a v4 document to a self-contained Swagger UI HTML page (+ downgrade diagnostics).
 

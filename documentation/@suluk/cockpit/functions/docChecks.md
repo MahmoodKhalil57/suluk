@@ -8,7 +8,7 @@
 
 > **docChecks**(`doc`): [`DocCheck`](../interfaces/DocCheck.md)[]
 
-Defined in: [cockpit/src/cycle.ts:200](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cockpit/src/cycle.ts#L200)
+Defined in: [cockpit/src/cycle.ts:200](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/cycle.ts#L200)
 
 Doc-level "contract checks" — the mistakes a finished v4 document can still encode.
 

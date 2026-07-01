@@ -8,7 +8,7 @@
 
 > **krokiD2Url**(`d2`): `string`
 
-Defined in: [diagram.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/docs/src/diagram.ts#L33)
+Defined in: [diagram.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/docs/src/diagram.ts#L33)
 
 A kroki.io render URL for D2 source (deflate + base64url) — the package graph is public, so embedding is fine.
 

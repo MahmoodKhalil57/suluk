@@ -8,7 +8,7 @@
 
 > **settlementRollup**(`doc`): [`SettlementRollup`](../interfaces/SettlementRollup.md)
 
-Defined in: [settlement.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cost/src/settlement.ts#L84)
+Defined in: [settlement.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/settlement.ts#L84)
 
 A quick "how is this API monetized" tally — ops grouped by settlement method (+ priced-but-unsettled).
 

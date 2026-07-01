@@ -6,7 +6,7 @@
 
 # Interface: WebhookRouter
 
-Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/stripe-webhook.ts#L60)
+Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/stripe-webhook.ts#L60)
 
 ## Methods
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:60](https://gith
 
 > **handle**(`event`): `Promise`\<[`HandleResult`](HandleResult.md)\>
 
-Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/stripe-webhook.ts#L66)
+Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/stripe-webhook.ts#L66)
 
 dispatch one verified event to its handler.
 
@@ -34,7 +34,7 @@ dispatch one verified event to its handler.
 
 > **on**(`type`, `handler`): `WebhookRouter`
 
-Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/stripe-webhook.ts#L62)
+Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/stripe-webhook.ts#L62)
 
 register (or replace) the handler for an event type; chainable.
 
@@ -58,7 +58,7 @@ register (or replace) the handler for an event type; chainable.
 
 > **onUnhandled**(`handler`): `WebhookRouter`
 
-Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/stripe-webhook.ts#L64)
+Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/stripe-webhook.ts#L64)
 
 register a fallback for types with no specific handler; chainable.
 

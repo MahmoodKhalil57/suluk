@@ -8,7 +8,7 @@
 
 > **fileStore**(`path?`): [`StateStore`](../interfaces/StateStore.md)
 
-Defined in: [provision/src/file-store.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/file-store.ts#L10)
+Defined in: [provision/src/file-store.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/file-store.ts#L10)
 
 ## Parameters
 

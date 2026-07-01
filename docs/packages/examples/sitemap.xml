@@ -2,86 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/index.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/modules.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/hierarchy.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/types/JsonSchema.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/types/ExampleTier.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/interfaces/ExampleSources.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/interfaces/ResolvedExample.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/variables/ORIGIN_KEYWORD.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/variables/FROM_KEYWORD.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/types/FieldOrigin.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/interfaces/SourceRef.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/types/FieldSource.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/interfaces/FieldDescriptor.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/functions/fieldOrigin.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/functions/asSourceRef.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/functions/describeInputs.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/functions/resolveSourced.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/functions/resolveExample.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/types/SynthDirection.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/interfaces/SynthOptions.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/examples/functions/synthesize.html</loc>
-		<lastmod>2026-07-01T23:16:30.785Z</lastmod>
+		<lastmod>2026-07-01T23:48:09.307Z</lastmod>
 	</url>
 </urlset>

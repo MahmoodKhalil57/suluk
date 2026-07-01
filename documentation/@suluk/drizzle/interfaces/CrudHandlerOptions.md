@@ -6,7 +6,7 @@
 
 # Interface: CrudHandlerOptions
 
-Defined in: [handlers.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/drizzle/src/handlers.ts#L30)
+Defined in: [handlers.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L30)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [handlers.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **access?**: [`AccessMode`](../../hono/type-aliases/AccessMode.md)
 
-Defined in: [handlers.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/drizzle/src/handlers.ts#L32)
+Defined in: [handlers.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L32)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [handlers.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **afterUpdate?**: (`tableName`, `c`, `db`, `before`, `after`) => `Promise`\<`void`\>
 
-Defined in: [handlers.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/drizzle/src/handlers.ts#L44)
+Defined in: [handlers.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L44)
 
 post-update hook (e.g. back-in-stock on a restock); fires only for tables in `afterUpdateTables`.
 
@@ -58,7 +58,7 @@ post-update hook (e.g. back-in-stock on a restock); fires only for tables in `af
 
 > `optional` **afterUpdateTables?**: `ReadonlySet`\<`string`\>
 
-Defined in: [handlers.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/drizzle/src/handlers.ts#L45)
+Defined in: [handlers.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L45)
 
 ***
 
@@ -66,7 +66,7 @@ Defined in: [handlers.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > **db**: (`c`) => [`CrudDb`](CrudDb.md)
 
-Defined in: [handlers.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/drizzle/src/handlers.ts#L36)
+Defined in: [handlers.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L36)
 
 resolve the drizzle instance for a request (dev: `() => db`; worker: `(c) => drizzle(c.env.DB)`).
 
@@ -86,7 +86,7 @@ resolve the drizzle instance for a request (dev: `() => db`; worker: `(c) => dri
 
 > **isAdmin**: (`c`) => `boolean`
 
-Defined in: [handlers.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/drizzle/src/handlers.ts#L40)
+Defined in: [handlers.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L40)
 
 whether the caller is an admin (e.g. `c.get("isAdmin") === true`).
 
@@ -106,7 +106,7 @@ whether the caller is an admin (e.g. `c.get("isAdmin") === true`).
 
 > `optional` **ownerCol?**: `string`
 
-Defined in: [handlers.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/drizzle/src/handlers.ts#L31)
+Defined in: [handlers.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L31)
 
 ***
 
@@ -114,7 +114,7 @@ Defined in: [handlers.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/c1aea
 
 > `optional` **policies?**: `Record`\<[`AccessMode`](../../hono/type-aliases/AccessMode.md), [`Policy`](../../hono/interfaces/Policy.md)\>
 
-Defined in: [handlers.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/drizzle/src/handlers.ts#L34)
+Defined in: [handlers.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L34)
 
 override the default mode→policy preset (passed through to @suluk/hono's policyFor).
 
@@ -124,7 +124,7 @@ override the default mode→policy preset (passed through to @suluk/hono's polic
 
 > **principal**: (`c`) => `string` \| `null`
 
-Defined in: [handlers.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/drizzle/src/handlers.ts#L38)
+Defined in: [handlers.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L38)
 
 the verified caller id (token/session/x-user) — used for owner-scoping + the create owner-stamp.
 
@@ -144,7 +144,7 @@ the verified caller id (token/session/x-user) — used for owner-scoping + the c
 
 > `optional` **redact?**: (`tableName`, `row`, `admin`) => `AnyRow`
 
-Defined in: [handlers.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/drizzle/src/handlers.ts#L42)
+Defined in: [handlers.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L42)
 
 strip private columns from a row for a non-admin reader (no-op by default).
 

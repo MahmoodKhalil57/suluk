@@ -2,326 +2,326 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/index.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/modules.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/hierarchy.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/Operation.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/Collision.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/Ada.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/buildAda.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/MatchResult.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/matchRequest.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/parseQuery.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/ErrorTag.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/ProblemStatus.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/variables/PROBLEM_CONTENT_TYPE.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/variables/PROBLEM_STATUS_TABLE.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/variables/TITLE_BY_TAG.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/ProblemDetails.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/variables/PROBLEM_DETAILS_SCHEMA.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/isProblemDetails.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/toProblemDetails.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/parseDocument.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/variables/RATELIMIT_EXT.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/rateLimitOf.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/retryAfterSeconds.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/RateLimitGroup.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/rateLimitIndex.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/rateLimitCoverage.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/isReference.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/resolveRef.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/deref.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SignatureTuple.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/computeSignature.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/CollisionVerdict.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/collide.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/sourceKey.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SourceRef.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SourceGroup.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/sourceIndex.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/sourceCoverage.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/scrubSource.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/PathSegment.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/CompiledTemplate.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/compileTemplate.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/variableCount.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/matchPath.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/OpenAPIv4Document.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukResource.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukResourceRef.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukStore.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/SulukNotifySeverity.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/SulukNotifyPolicy.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukJob.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukAgent.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukAgentRef.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukSkillRef.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukRouteRef.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukPolicy.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/Info.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/Server.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/Tag.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/PathItem.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/Shared.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/HttpMethod.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/Request.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukApproval.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukRateLimit.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SulukSource.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/ParameterSchema.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/Response.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/Callback.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/Components.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/SecurityRequirement.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SecurityScheme.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/Reference.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/Schema.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/SchemaProperty.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/PropertyFacets.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/types/SchemaOrRef.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/ValidationIssue.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/interfaces/ValidationResult.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/validateDocument.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/core/functions/isValidDocument.html</loc>
-		<lastmod>2026-07-01T23:16:25.987Z</lastmod>
+		<lastmod>2026-07-01T23:48:03.452Z</lastmod>
 	</url>
 </urlset>

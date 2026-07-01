@@ -6,7 +6,7 @@
 
 # Interface: ScalarV4Options
 
-Defined in: [index.ts:227](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L227)
+Defined in: [index.ts:227](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L227)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: [index.ts:227](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **brand?**: `string`
 
-Defined in: [index.ts:229](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L229)
+Defined in: [index.ts:229](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L229)
 
 Brand shown in the suluk toolbar.
 
@@ -28,7 +28,7 @@ Brand shown in the suluk toolbar.
 
 > `optional` **cdn?**: `string`
 
-Defined in: [index.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L36)
+Defined in: [index.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L36)
 
 CDN URL for the Scalar standalone bundle (override for pinning/self-hosting).
 
@@ -42,7 +42,7 @@ CDN URL for the Scalar standalone bundle (override for pinning/self-hosting).
 
 > `optional` **configuration?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [index.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L42)
+Defined in: [index.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L42)
 
 Extra Scalar configuration merged into createApiReference (theme, layout, hideModels, …).
 
@@ -56,7 +56,7 @@ Extra Scalar configuration merged into createApiReference (theme, layout, hideMo
 
 > `optional` **customCss?**: `string`
 
-Defined in: [index.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L40)
+Defined in: [index.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L40)
 
 Override the injected suluk theme CSS.
 
@@ -70,7 +70,7 @@ Override the injected suluk theme CSS.
 
 > `optional` **facetBadges?**: `boolean`
 
-Defined in: [index.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L38)
+Defined in: [index.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L38)
 
 Surface v4 facets (cost + access) as Scalar badges on each operation (default true).
 
@@ -84,7 +84,7 @@ Surface v4 facets (cost + access) as Scalar badges on each operation (default tr
 
 > `optional` **insightsLabel?**: `string`
 
-Defined in: [index.ts:239](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L239)
+Defined in: [index.ts:239](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L239)
 
 ***
 
@@ -92,7 +92,7 @@ Defined in: [index.ts:239](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **insightsUrl?**: `string`
 
-Defined in: [index.ts:238](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L238)
+Defined in: [index.ts:238](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L238)
 
 URL of the embeddable v4 SUPERPOWERS panels (e.g. @suluk/reference's `referenceInsightsHtml`) — opened as an
  in-page slide-in DRAWER (no second dashboard). The current "View as" role is passed via the same `specParam`.
@@ -103,7 +103,7 @@ URL of the embeddable v4 SUPERPOWERS panels (e.g. @suluk/reference's `referenceI
 
 > `optional` **nativeLabel?**: `string`
 
-Defined in: [index.ts:242](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L242)
+Defined in: [index.ts:242](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L242)
 
 ***
 
@@ -111,7 +111,7 @@ Defined in: [index.ts:242](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **nativeUrl?**: `string`
 
-Defined in: [index.ts:241](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L241)
+Defined in: [index.ts:241](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L241)
 
 (legacy) link out to a separate renderer instead of the in-page drawer. Prefer `insightsUrl`.
 
@@ -121,7 +121,7 @@ Defined in: [index.ts:241](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **pageTitle?**: `string`
 
-Defined in: [index.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L34)
+Defined in: [index.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L34)
 
 Browser tab title.
 
@@ -135,7 +135,7 @@ Browser tab title.
 
 > `optional` **specParam?**: `string`
 
-Defined in: [index.ts:233](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L233)
+Defined in: [index.ts:233](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L233)
 
 ***
 
@@ -143,7 +143,7 @@ Defined in: [index.ts:233](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > `optional` **specUrl?**: `string`
 
-Defined in: [index.ts:232](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L232)
+Defined in: [index.ts:232](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L232)
 
 Endpoint returning the ENRICHED 3.1 spec (see `enrichedSpec`); the view selector appends `?<param>=<value>` and
  re-mounts Scalar with the result — a real per-role v4 projection driving Scalar's UI.
@@ -154,7 +154,7 @@ Endpoint returning the ENRICHED 3.1 spec (see `enrichedSpec`); the view selector
 
 > `optional` **views?**: `object`[]
 
-Defined in: [index.ts:235](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L235)
+Defined in: [index.ts:235](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L235)
 
 Role/view projections offered in the toolbar (e.g. Anonymous / Signed-in / Admin).
 

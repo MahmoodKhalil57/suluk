@@ -6,7 +6,7 @@
 
 # Interface: EnforceRateLimitConfig
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/ratelimit.ts#L74)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/ratelimit.ts#L74)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:74](https://github.com/Ma
 
 > `optional` **defaultFacet?**: [`SulukRateLimit`](../../core/interfaces/SulukRateLimit.md)
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/ratelimit.ts#L86)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/ratelimit.ts#L86)
 
 A blanket budget applied to operations that declare none (escape hatch; default: unmetered).
 
@@ -24,7 +24,7 @@ A blanket budget applied to operations that declare none (escape hatch; default:
 
 > `optional` **keyOf?**: (`c`, `facet`) => `string`
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/ratelimit.ts#L82)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/ratelimit.ts#L82)
 
 Derive the caller key from a request + facet (default: client IP from x-forwarded-for / x-real-ip).
 
@@ -48,7 +48,7 @@ Derive the caller key from a request + facet (default: client IP from x-forwarde
 
 > `optional` **now?**: () => `number`
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/ratelimit.ts#L84)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/ratelimit.ts#L84)
 
 The clock (default: `Date.now`) — the single source of `now`.
 
@@ -62,7 +62,7 @@ The clock (default: `Date.now`) — the single source of `now`.
 
 > **operationOf**: (`c`) => `string` \| `undefined`
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/ratelimit.ts#L76)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/ratelimit.ts#L76)
 
 Resolve the contract operation for a request (undefined ⇒ a non-contract path, passed through).
 
@@ -82,7 +82,7 @@ Resolve the contract operation for a request (undefined ⇒ a non-contract path,
 
 > **rateLimitOf**: (`operation`) => [`SulukRateLimit`](../../core/interfaces/SulukRateLimit.md) \| `undefined`
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/ratelimit.ts#L78)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/ratelimit.ts#L78)
 
 The declared rate budget for an operation (e.g. read off the document's `x-suluk-ratelimit`).
 
@@ -102,6 +102,6 @@ The declared rate budget for an operation (e.g. read off the document's `x-suluk
 
 > `optional` **store?**: [`RateLimitStore`](RateLimitStore.md)
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/ratelimit.ts#L80)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/ratelimit.ts#L80)
 
 The durable counter (default: a per-instance [MemoryRateLimitStore](../classes/MemoryRateLimitStore.md) — DEV ONLY).

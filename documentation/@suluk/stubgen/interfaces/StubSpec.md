@@ -6,7 +6,7 @@
 
 # Interface: StubSpec
 
-Defined in: [index.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/stubgen/src/index.ts#L38)
+Defined in: [index.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/stubgen/src/index.ts#L38)
 
 The resolved, renderable stub.
 
@@ -16,7 +16,7 @@ The resolved, renderable stub.
 
 > **fields**: [`StubField`](StubField.md)[]
 
-Defined in: [index.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/stubgen/src/index.ts#L43)
+Defined in: [index.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/stubgen/src/index.ts#L43)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [index.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c
 
 > **intent**: `string`
 
-Defined in: [index.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/stubgen/src/index.ts#L42)
+Defined in: [index.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/stubgen/src/index.ts#L42)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [index.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c
 
 > **method**: `string`
 
-Defined in: [index.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/stubgen/src/index.ts#L40)
+Defined in: [index.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/stubgen/src/index.ts#L40)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [index.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c
 
 > **name**: `string`
 
-Defined in: [index.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/stubgen/src/index.ts#L39)
+Defined in: [index.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/stubgen/src/index.ts#L39)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [index.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c
 
 > **path**: `string`
 
-Defined in: [index.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/stubgen/src/index.ts#L41)
+Defined in: [index.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/stubgen/src/index.ts#L41)

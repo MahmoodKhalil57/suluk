@@ -8,7 +8,7 @@
 
 > **promoteFeatureExamples**(`source`, `features`, `resolveTarget`, `provenancePrefix?`): [`PromoteFeatureResult`](../interfaces/PromoteFeatureResult.md)
 
-Defined in: [journeys/src/promote.ts:201](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/journeys/src/promote.ts#L201)
+Defined in: [journeys/src/promote.ts:201](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/promote.ts#L201)
 
 Orchestrate promotion for a whole feature set: for each `@public` Examples row, resolve its target (the consumer maps
 scenario → schemaVar + body schema — the app knows that wiring), build the example, and apply it. Adapter-seam shaped.

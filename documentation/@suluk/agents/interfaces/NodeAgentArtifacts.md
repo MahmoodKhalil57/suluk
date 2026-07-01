@@ -6,7 +6,7 @@
 
 # Interface: NodeAgentArtifacts
 
-Defined in: [agents/src/node.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/node.ts#L29)
+Defined in: [agents/src/node.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/node.ts#L29)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/node.ts:29](https://github.com/MahmoodKhalil57/suluk/blo
 
 > **files**: `Record`\<`string`, `string`\>
 
-Defined in: [agents/src/node.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/node.ts#L31)
+Defined in: [agents/src/node.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/node.ts#L31)
 
 path → owned source the user writes into their Node/Bun project.
 
@@ -24,6 +24,6 @@ path → owned source the user writes into their Node/Bun project.
 
 > **reachableSubAgents**: `string`[]
 
-Defined in: [agents/src/node.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/node.ts#L33)
+Defined in: [agents/src/node.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/node.ts#L33)
 
 reachable sub-agents (NOT scaffolded by this v1 adapter — see Cloudflare's recursive version).

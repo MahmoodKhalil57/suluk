@@ -6,7 +6,7 @@
 
 # Interface: UnflattenSuggestion
 
-Defined in: [agents/src/context.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/context.ts#L75)
+Defined in: [agents/src/context.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/context.ts#L75)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/context.ts:75](https://github.com/MahmoodKhalil57/suluk/
 
 > **agent**: `string`
 
-Defined in: [agents/src/context.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/context.ts#L76)
+Defined in: [agents/src/context.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/context.ts#L76)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [agents/src/context.ts:76](https://github.com/MahmoodKhalil57/suluk/
 
 > **alsoConsider**: `string`
 
-Defined in: [agents/src/context.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/context.ts#L80)
+Defined in: [agents/src/context.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/context.ts#L80)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [agents/src/context.ts:80](https://github.com/MahmoodKhalil57/suluk/
 
 > **moveToColdTail**: `string`[]
 
-Defined in: [agents/src/context.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/context.ts#L78)
+Defined in: [agents/src/context.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/context.ts#L78)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [agents/src/context.ts:78](https://github.com/MahmoodKhalil57/suluk/
 
 > **reason**: `string`
 
-Defined in: [agents/src/context.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/context.ts#L77)
+Defined in: [agents/src/context.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/context.ts#L77)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [agents/src/context.ts:77](https://github.com/MahmoodKhalil57/suluk/
 
 > **wouldSaveTokens**: `number`
 
-Defined in: [agents/src/context.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/context.ts#L79)
+Defined in: [agents/src/context.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/context.ts#L79)

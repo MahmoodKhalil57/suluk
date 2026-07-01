@@ -6,7 +6,7 @@
 
 # Interface: PlanStep
 
-Defined in: [provision/src/plan.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/plan.ts#L13)
+Defined in: [provision/src/plan.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/plan.ts#L13)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/plan.ts:13](https://github.com/MahmoodKhalil57/suluk/
 
 > **action**: [`StepAction`](../type-aliases/StepAction.md)
 
-Defined in: [provision/src/plan.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/plan.ts#L17)
+Defined in: [provision/src/plan.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/plan.ts#L17)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [provision/src/plan.ts:17](https://github.com/MahmoodKhalil57/suluk/
 
 > **name**: `string`
 
-Defined in: [provision/src/plan.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/plan.ts#L16)
+Defined in: [provision/src/plan.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/plan.ts#L16)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [provision/src/plan.ts:16](https://github.com/MahmoodKhalil57/suluk/
 
 > **reason**: `string`
 
-Defined in: [provision/src/plan.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/plan.ts#L19)
+Defined in: [provision/src/plan.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/plan.ts#L19)
 
 human-readable cause: "new" | "params changed" | "up to date" | "orphan (in state, not in config)".
 
@@ -40,7 +40,7 @@ human-readable cause: "new" | "params changed" | "up to date" | "orphan (in stat
 
 > **ref**: `string`
 
-Defined in: [provision/src/plan.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/plan.ts#L14)
+Defined in: [provision/src/plan.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/plan.ts#L14)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [provision/src/plan.ts:14](https://github.com/MahmoodKhalil57/suluk/
 
 > **service**: `string`
 
-Defined in: [provision/src/plan.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/plan.ts#L15)
+Defined in: [provision/src/plan.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/plan.ts#L15)

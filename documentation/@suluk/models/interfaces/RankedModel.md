@@ -6,7 +6,7 @@
 
 # Interface: RankedModel
 
-Defined in: [types.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/models/src/types.ts#L103)
+Defined in: [types.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L103)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [types.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **id**: `string`
 
-Defined in: [types.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/models/src/types.ts#L104)
+Defined in: [types.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L104)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [types.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **provider**: `string`
 
-Defined in: [types.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/models/src/types.ts#L105)
+Defined in: [types.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L105)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [types.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **score**: `number`
 
-Defined in: [types.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/models/src/types.ts#L106)
+Defined in: [types.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L106)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [types.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **why**: `object`
 
-Defined in: [types.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/models/src/types.ts#L107)
+Defined in: [types.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L107)
 
 #### decidingPreference
 

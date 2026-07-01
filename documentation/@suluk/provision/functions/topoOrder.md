@@ -8,7 +8,7 @@
 
 > **topoOrder**(`instances`): [`InstanceSpec`](../interfaces/InstanceSpec.md)[]
 
-Defined in: [provision/src/dag.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/provision/src/dag.ts#L11)
+Defined in: [provision/src/dag.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/dag.ts#L11)
 
 Order `instances` so each comes after its binding producers. Stable (config order breaks ties). Throws on a cycle or
  a reference to an undeclared instance.

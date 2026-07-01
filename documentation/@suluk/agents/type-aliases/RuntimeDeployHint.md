@@ -8,7 +8,7 @@
 
 > **RuntimeDeployHint** = \{ `durableObjects`: `object`[]; `kind`: `"cloudflare"`; \} \| \{ `kind`: `"node"`; \}
 
-Defined in: [agents/src/runtime.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/runtime.ts#L24)
+Defined in: [agents/src/runtime.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/runtime.ts#L24)
 
 The provider-specific deploy hint — a discriminated union (tightened from `Record<string,unknown>` once a 2nd adapter
 landed, per the C034 follow-up). Cloudflare ships the Durable Object descriptor for `@suluk/deploy`; the Node runtime

@@ -6,7 +6,7 @@
 
 # Interface: InstallPreview
 
-Defined in: [builder/src/module.ts:279](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/module.ts#L279)
+Defined in: [builder/src/module.ts:279](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L279)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [builder/src/module.ts:279](https://github.com/MahmoodKhalil57/suluk
 
 > **addsOperations**: `string`[]
 
-Defined in: [builder/src/module.ts:285](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/module.ts#L285)
+Defined in: [builder/src/module.ts:285](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L285)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [builder/src/module.ts:285](https://github.com/MahmoodKhalil57/suluk
 
 > **addsSchemas**: `string`[]
 
-Defined in: [builder/src/module.ts:284](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/module.ts#L284)
+Defined in: [builder/src/module.ts:284](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L284)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [builder/src/module.ts:284](https://github.com/MahmoodKhalil57/suluk
 
 > **conflicts**: `string`[]
 
-Defined in: [builder/src/module.ts:281](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/module.ts#L281)
+Defined in: [builder/src/module.ts:281](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L281)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [builder/src/module.ts:281](https://github.com/MahmoodKhalil57/suluk
 
 > **cost**: `object`[]
 
-Defined in: [builder/src/module.ts:286](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/module.ts#L286)
+Defined in: [builder/src/module.ts:286](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L286)
 
 #### estimateMicroUsd
 
@@ -54,7 +54,7 @@ Defined in: [builder/src/module.ts:286](https://github.com/MahmoodKhalil57/suluk
 
 > **grade**: [`ModuleGrade`](ModuleGrade.md)
 
-Defined in: [builder/src/module.ts:287](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/module.ts#L287)
+Defined in: [builder/src/module.ts:287](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L287)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [builder/src/module.ts:287](https://github.com/MahmoodKhalil57/suluk
 
 > **missingRequires**: `string`[]
 
-Defined in: [builder/src/module.ts:283](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/module.ts#L283)
+Defined in: [builder/src/module.ts:283](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L283)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [builder/src/module.ts:283](https://github.com/MahmoodKhalil57/suluk
 
 > **requires**: `string`[]
 
-Defined in: [builder/src/module.ts:282](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/module.ts#L282)
+Defined in: [builder/src/module.ts:282](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L282)
 
 ***
 
@@ -78,4 +78,4 @@ Defined in: [builder/src/module.ts:282](https://github.com/MahmoodKhalil57/suluk
 
 > **willInstall**: `boolean`
 
-Defined in: [builder/src/module.ts:280](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/builder/src/module.ts#L280)
+Defined in: [builder/src/module.ts:280](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L280)

@@ -8,7 +8,7 @@
 
 > **upgrade**(`doc31`): [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md)
 
-Defined in: [upgrade.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/compat/src/upgrade.ts#L77)
+Defined in: [upgrade.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/compat/src/upgrade.ts#L77)
 
 Project an OpenAPI 3.1 document up to the v4 "Suluk" model.
 

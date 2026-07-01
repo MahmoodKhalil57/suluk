@@ -6,7 +6,7 @@
 
 # Interface: Diagnostic
 
-Defined in: [cockpit/src/logic.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cockpit/src/logic.ts#L12)
+Defined in: [cockpit/src/logic.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/logic.ts#L12)
 
 `@suluk/cockpit` — the PURE cockpit core: the cycle model, the builder model, codegen, deploy planning, and
 the validate/audit/preview helpers. No host API. Two shells consume this exact core: the vscode extension
@@ -19,7 +19,7 @@ CANDIDATE tooling — NOT official OAS.
 
 > **message**: `string`
 
-Defined in: [cockpit/src/logic.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cockpit/src/logic.ts#L15)
+Defined in: [cockpit/src/logic.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/logic.ts#L15)
 
 ***
 
@@ -27,7 +27,7 @@ Defined in: [cockpit/src/logic.ts:15](https://github.com/MahmoodKhalil57/suluk/b
 
 > **path**: `string`
 
-Defined in: [cockpit/src/logic.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cockpit/src/logic.ts#L14)
+Defined in: [cockpit/src/logic.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/logic.ts#L14)
 
 ***
 
@@ -35,4 +35,4 @@ Defined in: [cockpit/src/logic.ts:14](https://github.com/MahmoodKhalil57/suluk/b
 
 > **severity**: `"error"` \| `"warning"` \| `"info"`
 
-Defined in: [cockpit/src/logic.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cockpit/src/logic.ts#L13)
+Defined in: [cockpit/src/logic.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/logic.ts#L13)

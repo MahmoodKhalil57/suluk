@@ -8,7 +8,7 @@
 
 > **enrichedSpec**(`doc`, `opts?`): `object`
 
-Defined in: [index.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/scalar/src/index.ts#L153)
+Defined in: [index.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L153)
 
 Project a v4 document to the 3.1 spec Scalar consumes, ENRICHED with the v4 facets (cost/access → badges + detail
  + intro). The standalone (+ the /reference composite's view-as endpoint) both serve this. Never mutates `doc`.

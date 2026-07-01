@@ -8,7 +8,7 @@
 
 > **crudHandlers**(`table`, `opts`): [`CrudHandlers`](../interfaces/CrudHandlers.md)
 
-Defined in: [handlers.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/drizzle/src/handlers.ts#L51)
+Defined in: [handlers.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L51)
 
 Build the five gated CRUD handlers for a drizzle table. The dev + worker callers differ ONLY in `opts.db`.
 

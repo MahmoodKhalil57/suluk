@@ -8,7 +8,7 @@
 
 > **attributePrincipal**(`model`, `event`, `suppliedPrincipal?`): `string`
 
-Defined in: [event.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/cost/src/event.ts#L40)
+Defined in: [event.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/event.ts#L40)
 
 Resolve the principal charged for a fired event per the model's attribution strategy. Returns the `@unattributed`
 sentinel (never silent) when nothing resolves: `session`/`job-stamped` use the supplied principal; `event-expression`

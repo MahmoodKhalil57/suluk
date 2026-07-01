@@ -6,7 +6,7 @@
 
 # Interface: RateLimitResult
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/ratelimit.ts#L31)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/ratelimit.ts#L31)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:31](https://github.com/Ma
 
 > **limited**: `boolean`
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/ratelimit.ts#L33)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/ratelimit.ts#L33)
 
 true ⇒ this request is OVER the budget and must be rejected.
 
@@ -24,7 +24,7 @@ true ⇒ this request is OVER the budget and must be rejected.
 
 > **remaining**: `number`
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/ratelimit.ts#L35)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/ratelimit.ts#L35)
 
 requests remaining in the window after this one (≥ 0).
 
@@ -34,6 +34,6 @@ requests remaining in the window after this one (≥ 0).
 
 > **retryAfterMs**: `number`
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/hono/src/ratelimit.ts#L37)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/ratelimit.ts#L37)
 
 ms until the window resets — drives Retry-After. 0 when not limited.

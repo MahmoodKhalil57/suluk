@@ -6,7 +6,7 @@
 
 # Interface: DefinedEnv\<S\>
 
-Defined in: [schema.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/env/src/schema.ts#L63)
+Defined in: [schema.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/env/src/schema.ts#L63)
 
 ## Type Parameters
 
@@ -20,7 +20,7 @@ Defined in: [schema.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **keys**: keyof `S` & `string`[]
 
-Defined in: [schema.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/env/src/schema.ts#L65)
+Defined in: [schema.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/env/src/schema.ts#L65)
 
 ***
 
@@ -28,7 +28,7 @@ Defined in: [schema.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **spec**: `S`
 
-Defined in: [schema.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/env/src/schema.ts#L64)
+Defined in: [schema.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/env/src/schema.ts#L64)
 
 ## Methods
 
@@ -36,7 +36,7 @@ Defined in: [schema.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3
 
 > **assertEnv**(`source?`, `opts?`): [`Parsed`](../type-aliases/Parsed.md)\<`S`\>
 
-Defined in: [schema.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/env/src/schema.ts#L74)
+Defined in: [schema.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/env/src/schema.ts#L74)
 
 FAIL-CLOSED gate: throw on any error-severity issue (warnings go to onWarn); else return the parsed config.
  Call at startup so a misconfigured/short/test secret in prod stops the process instead of shipping.
@@ -61,7 +61,7 @@ FAIL-CLOSED gate: throw on any error-severity issue (warnings go to onWarn); els
 
 > **forSurface**(`surface`): keyof `S` & `string`[]
 
-Defined in: [schema.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/env/src/schema.ts#L69)
+Defined in: [schema.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/env/src/schema.ts#L69)
 
 the var names a given surface needs (for the deploy planner / vscode).
 
@@ -81,7 +81,7 @@ keyof `S` & `string`[]
 
 > **manifest**(`raw?`, `runtime?`): [`ManifestEntry`](ManifestEntry.md)[]
 
-Defined in: [schema.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/env/src/schema.ts#L79)
+Defined in: [schema.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/env/src/schema.ts#L79)
 
 config health, computed from the RAW .env record (raw = parseEnv(fileContent), so secret values are still
 encrypted tokens). Pass the runtime env too if you want presence to also count vars set outside the file.
@@ -106,7 +106,7 @@ encrypted tokens). Pass the runtime env too if you want presence to also count v
 
 > **parse**(`source?`): [`Parsed`](../type-aliases/Parsed.md)\<`S`\>
 
-Defined in: [schema.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/env/src/schema.ts#L67)
+Defined in: [schema.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/env/src/schema.ts#L67)
 
 validate a source (process.env or a parsed .env), apply defaults, throw on a missing required var.
 
@@ -126,7 +126,7 @@ validate a source (process.env or a parsed .env), apply defaults, throw on a mis
 
 > **validate**(`source?`, `opts?`): [`EnvIssue`](EnvIssue.md)[]
 
-Defined in: [schema.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/env/src/schema.ts#L71)
+Defined in: [schema.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/env/src/schema.ts#L71)
 
 validate VALUES (presence incl. requiredInSurface, minLength, pattern, forbidInSurface) → a graded issue list.
 

@@ -6,7 +6,7 @@
 
 # Interface: ContextOptions
 
-Defined in: [agents/src/context.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/context.ts#L104)
+Defined in: [agents/src/context.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/context.ts#L104)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/context.ts:104](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **catalog?**: [`ModelCatalog`](ModelCatalog.md)
 
-Defined in: [agents/src/context.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/context.ts#L107)
+Defined in: [agents/src/context.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/context.ts#L107)
 
 the model catalog (@suluk/models) — context windows are read from it; replaces the old hard-coded table.
 
@@ -24,7 +24,7 @@ the model catalog (@suluk/models) — context windows are read from it; replaces
 
 > `optional` **instructions?**: `Record`\<`string`, `string`\>
 
-Defined in: [agents/src/context.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/context.ts#L105)
+Defined in: [agents/src/context.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/context.ts#L105)
 
 ***
 
@@ -32,6 +32,6 @@ Defined in: [agents/src/context.ts:105](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **modelWindows?**: `Record`\<`string`, `number`\>
 
-Defined in: [agents/src/context.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/context.ts#L109)
+Defined in: [agents/src/context.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/context.ts#L109)
 
 per-id window overrides (takes precedence over the catalog); handy for tests/pins.

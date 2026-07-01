@@ -6,7 +6,7 @@
 
 # Interface: OrderTotalFull
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/pricing.ts#L116)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/pricing.ts#L116)
 
 The full order total once shipping + tax (from the ./shipping + ./tax adapters) are known.
 
@@ -16,7 +16,7 @@ The full order total once shipping + tax (from the ./shipping + ./tax adapters) 
 
 > **discountCents**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/pricing.ts#L116)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/pricing.ts#L116)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com
 
 > **shippingCents**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/pricing.ts#L116)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/pricing.ts#L116)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com
 
 > **subtotalCents**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/pricing.ts#L116)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/pricing.ts#L116)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com
 
 > **taxCents**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/pricing.ts#L116)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/pricing.ts#L116)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com
 
 > **totalCents**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/payments/src/pricing.ts#L116)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/pricing.ts#L116)

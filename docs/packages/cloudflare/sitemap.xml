@@ -2,182 +2,182 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/index.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/modules.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/hierarchy.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/AssetFile.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/assetHash.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/UploadSession.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/AssetRuleFiles.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/extractAssetRuleFiles.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/uploadAssets.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/classes/CloudflareError.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/CloudflareClientOptions.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/RequestOptions.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/classes/CloudflareClient.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/DurableObjectBinding.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/DeployPlan.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/DeployResult.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/types/DeployLog.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/deploy.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/deployWith.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/ConsumeOptions.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/ConsumeResult.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/RateLimitStore.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/KvLike.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/memoryRateLimitStore.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/kvRateLimitStore.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/D1Database.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/provisionD1.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/queryD1.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/d1Rows.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/kvGet.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/kvPut.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/kvDelete.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/kvList.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/Migration.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/applyMigrations.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/KvNamespace.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/provisionKvNamespace.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/provisionR2Bucket.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/putSecret.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/putSecrets.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/WorkerBinding.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/WorkerMigration.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/interfaces/DeployWorkerOptions.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/deployWorker.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cloudflare/functions/putCronTriggers.html</loc>
-		<lastmod>2026-07-01T23:16:23.980Z</lastmod>
+		<lastmod>2026-07-01T23:48:01.932Z</lastmod>
 	</url>
 </urlset>

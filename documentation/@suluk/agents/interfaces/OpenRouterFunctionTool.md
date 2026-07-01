@@ -6,7 +6,7 @@
 
 # Interface: OpenRouterFunctionTool
 
-Defined in: [agents/src/project.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/project.ts#L82)
+Defined in: [agents/src/project.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/project.ts#L82)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/project.ts:82](https://github.com/MahmoodKhalil57/suluk/
 
 > **function**: `object`
 
-Defined in: [agents/src/project.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/project.ts#L84)
+Defined in: [agents/src/project.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/project.ts#L84)
 
 #### description
 
@@ -34,4 +34,4 @@ Defined in: [agents/src/project.ts:84](https://github.com/MahmoodKhalil57/suluk/
 
 > **type**: `"function"`
 
-Defined in: [agents/src/project.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/project.ts#L83)
+Defined in: [agents/src/project.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/project.ts#L83)

@@ -8,7 +8,7 @@
 
 > **residentSurface**(`doc`, `agentName`): `string`[]
 
-Defined in: [agents/src/conformance.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/c1aead3c4d317f73b0e055f0bc85bdb50e0c8a74/tooling/ts/packages/agents/src/conformance.ts#L59)
+Defined in: [agents/src/conformance.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/conformance.ts#L59)
 
 The RESIDENT surface of an agent (C027) — its own routes whose `tier` is not `cold-tail` (the default-visible
 tool set). Cold-tail routes are revealed via `discover_tools`, never in the default list. This is the set a
