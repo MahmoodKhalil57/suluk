@@ -109,6 +109,42 @@
       ]
     },
     {
+      "name": "webhooks",
+      "type": "registry:item",
+      "title": "Webhooks — verified inbound Stripe + idempotent dispatch",
+      "description": "An Effect-TS Webhooks service over @suluk/payments' inbound Stripe surface (SDK-free HMAC-SHA256 signature verification + a typed event router stay upstream). Verifies the RAW request body against the stripe-signature header + the signing secret, dedups on the Stripe event id against an owned webhook_event table (Stripe is at-least-once, so redelivery is a no-op), then routes the verified event through webhookRouter. Ships a documented STUB handler set the app fills with fulfillment (e.g. credits.grant) — kept decoupled from @suluk/credits. Owns the webhook_event table; verification + routing is npm.",
+      "registryDependencies": ["MahmoodKhalil57/suluk/app"],
+      "dependencies": ["@suluk/payments", "@suluk/provision", "effect", "drizzle-orm", "hono"],
+      "files": [
+        { "path": "registry/webhooks/webhooks.service.ts", "type": "registry:file", "target": "src/services/webhooks.ts" },
+        { "path": "registry/webhooks/webhooks.routes.ts", "type": "registry:file", "target": "src/routes/webhooks.ts" },
+        { "path": "registry/webhooks/webhooks.schema.ts", "type": "registry:file", "target": "src/db/webhooks.ts" },
+        { "path": "registry/webhooks/webhooks.provision.ts", "type": "registry:file", "target": "provision/webhooks.ts" }
+      ]
+    },
+    {
+      "name": "rate-limit",
+      "type": "registry:item",
+      "title": "Rate limit — principal-aware middleware over @suluk/hono",
+      "description": "A principal-aware rate-limit MIDDLEWARE over @suluk/hono's enforceRateLimit (the fixed-window bucket math, the swappable RateLimitStore, MemoryRateLimitStore, and the 429 + Retry-After RFC-9457 envelope stay upstream). Owns only the wiring: a keyer that keys by the authenticated user id off the Hono context (else client IP) + the store choice (MemoryRateLimitStore in dev; swap a KV/DO-backed store for prod). mountRateLimit(app) applies it globally via app.use. A stateless binding — no schema, no provision (C052).",
+      "registryDependencies": ["MahmoodKhalil57/suluk/app"],
+      "dependencies": ["@suluk/hono", "@suluk/core", "hono"],
+      "files": [
+        { "path": "registry/rate-limit/rate-limit.service.ts", "type": "registry:file", "target": "src/services/rate-limit.ts" }
+      ]
+    },
+    {
+      "name": "i18n",
+      "type": "registry:item",
+      "title": "i18n — locale/direction negotiation middleware",
+      "description": "A locale/direction negotiation MIDDLEWARE over @suluk/i18n (the q-weighted Accept-Language matcher, the cookie parser, and the config/direction model stay upstream). Owns only the wiring: the app's default locale set + a Hono middleware that resolves each request's locale (?lang > cookie > Accept-Language) and stashes locale + dir on the context. mountI18n(app) applies it globally via app.use. A stateless binding — no schema, no provision (C052).",
+      "registryDependencies": ["MahmoodKhalil57/suluk/app"],
+      "dependencies": ["@suluk/i18n", "hono"],
+      "files": [
+        { "path": "registry/i18n/i18n.service.ts", "type": "registry:file", "target": "src/services/i18n.ts" }
+      ]
+    },
+    {
       "name": "logs",
       "type": "registry:item",
       "title": "Activity log — Effect service (fully owned)",

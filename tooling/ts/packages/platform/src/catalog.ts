@@ -27,6 +27,10 @@ export const CATALOG: Record<string, CatalogEntry> = {
   cost: { mount: { kind: "route", path: "/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" } },
   erasure: { mount: { kind: "route", path: "/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" } },
   email: { mount: { kind: "route", path: "/email", symbol: "emailRoutes", from: "./routes/email" } }, // stateless binding — no provision fragment (C052)
+  webhooks: { mount: { kind: "route", path: "/webhooks", symbol: "webhooksRoutes", from: "./routes/webhooks" }, provision: { symbol: "webhooksProvision", from: "./src/provision/webhooks" } },
+  // cross-cutting MIDDLEWARE (apply globally via app.use, emitted before any route) — not routed resources.
+  "rate-limit": { mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" } },
+  i18n: { mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" } },
   logs: { mount: { kind: "route", path: "/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } },
   // dev/CI tooling — pulled in as files, no runtime mount, no provision fragment.
   journeys: { mount: { kind: "dev" } },

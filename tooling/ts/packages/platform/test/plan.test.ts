@@ -64,6 +64,25 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
     expect(p.provisionConfig).toContain("mergeProvision([authProvision, creditsProvision])");
   });
 
+  test("webhooks mounts a /webhooks route and contributes a provision fragment", () => {
+    const p = planPlatform(definePlatform({ name: "w", registry: "acme/reg", services: ["auth", "webhooks"] }));
+    expect(p.entry).toContain('import { webhooksRoutes } from "./routes/webhooks";');
+    expect(p.entry).toContain('app.route("/webhooks", webhooksRoutes());');
+    expect(p.provisionConfig).toContain("mergeProvision([authProvision, webhooksProvision])");
+  });
+
+  test("rate-limit + i18n are MIDDLEWARE mounts (app.use, no route, no provision) emitted BEFORE routes", () => {
+    const p = planPlatform(definePlatform({ name: "mw", registry: "acme/reg", services: ["auth", "credits", "rate-limit", "i18n"] }));
+    expect(p.entry).toContain("mountRateLimit(app);");
+    expect(p.entry).toContain("mountI18n(app);");
+    // no route, no provision for either.
+    expect(p.entry).not.toContain('app.route("/rate-limit"');
+    expect(p.provisionConfig).toContain("mergeProvision([authProvision, creditsProvision])");
+    // two-pass ordering: every middleware mount precedes every route mount, so global middleware applies to all routes.
+    const lastMw = Math.max(p.entry.indexOf("mountRateLimit(app);"), p.entry.indexOf("mountI18n(app);"), p.entry.indexOf("mountAuthRoutes(app);"));
+    expect(lastMw).toBeLessThan(p.entry.indexOf('app.route("/credits"'));
+  });
+
   test("dev modules add shadcn refs but NO entry mount and NO provision fragment", () => {
     expect(plan.adds).toContain("acme/reg/journeys");
     expect(plan.adds).toContain("acme/reg/audit");
