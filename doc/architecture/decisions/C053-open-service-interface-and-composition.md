@@ -6,7 +6,7 @@
 > give control to the platform.config.ts author"* → *"brandOpts vs serviceOpts"* (per-service axis) → *"a globalBrandOpts and
 > globalServiceOpts"* (the global axis) → *"opts should also configure how the services work with each other, not just within
 > itself"* (composition). Grounded in a 13-agent judge-panel design workflow (4 independent stances → parallel judge +
-> adversarial-break per stance → synthesis; ~969k tokens). **Extends [C051](C051-platform-generator.md)** (the manifest
+> adversarial-break per stance → synthesis; ~969k tokens). **Extends [C051](C051-platform-generator-autotoolfactory.md)** (the manifest
 > generator) and is governed by [C052](C052-npm-vs-registry-boundary.md) ("own the wiring, npm the logic").
 
 Date: 2026-07-01
