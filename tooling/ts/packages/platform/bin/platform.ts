@@ -7,7 +7,7 @@
  *   --config <path>           a different manifest
  */
 import { resolve, dirname } from "node:path";
-import { writeFile, mkdir } from "node:fs/promises";
+import { writeFile, mkdir, readFile } from "node:fs/promises";
 import { generatePlatform } from "../src/generate";
 import type { PlatformManifest } from "../src/manifest";
 
@@ -33,4 +33,13 @@ const write = async (path: string, content: string): Promise<void> => {
   await writeFile(abs, content);
 };
 
-await generatePlatform(mod.default, { run, write, log: (m) => console.log(m) });
+// read a file for the merge (null when absent), so a regenerate keeps package.json deps current without dropping app extras.
+const read = async (path: string): Promise<string | null> => {
+  try {
+    return await readFile(resolve(process.cwd(), path), "utf8");
+  } catch {
+    return null;
+  }
+};
+
+await generatePlatform(mod.default, { run, write, read, log: (m) => console.log(m) });

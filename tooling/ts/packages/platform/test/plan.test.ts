@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test";
-import { definePlatform, planPlatform, mergeProvision, generatePlatform } from "../src/index";
+import { definePlatform, planPlatform, mergeProvision, generatePlatform, buildPackageJson, mergePackageJson } from "../src/index";
 import type { InstanceSpec } from "@suluk/provision";
 
 /** C051 — the platform generator: manifest → plan (adds + wired entry + merged provision), the provision merge, and the
@@ -151,17 +151,61 @@ describe("mergeProvision — combine same-ref instances, union migrations in ord
 });
 
 describe("generatePlatform — the orchestration (with recorders)", () => {
-  test("runs a shadcn add per service, then writes the entry + provision.config", async () => {
+  test("writes the scaffold config FIRST, then a shadcn add per service, then the glue", async () => {
     const ran: string[] = [];
     const wrote: string[] = [];
     const res = await generatePlatform(manifest, {
       run: async (cmd, args) => void ran.push(`${cmd} ${args.join(" ")}`),
       write: async (path) => void wrote.push(path),
+      read: async () => null, // a fresh app — no existing config
     });
     expect(ran).toEqual(plannedAdds()); // exactly the planned adds, in order
     expect(ran.length).toBe(6); // app+auth+credits+keys+billing+logs
-    expect(wrote).toEqual(["src/index.ts", "provision.config.ts"]);
+    // config (package.json/tsconfig/components.json) is written BEFORE the shadcn adds; the glue after.
+    expect(wrote).toEqual(["package.json", "tsconfig.json", "components.json", "src/index.ts", "provision.config.ts"]);
     expect(res.added.length).toBe(6);
+  });
+
+  test("leaves an existing tsconfig/components.json untouched but always (re)writes package.json", async () => {
+    const wrote: string[] = [];
+    await generatePlatform(manifest, {
+      run: async () => {},
+      write: async (path) => void wrote.push(path),
+      read: async (p) => (p === "package.json" ? '{"name":"x","dependencies":{"my-lib":"^1.0.0"}}' : "existing"),
+    });
+    expect(wrote).toContain("package.json"); // merged + rewritten
+    expect(wrote).not.toContain("tsconfig.json"); // present → left as-is
+    expect(wrote).not.toContain("components.json");
+  });
+});
+
+describe("package.json generation — the manifest is the only surface", () => {
+  test("buildPackageJson unions base + service deps; @suluk/* → latest, ecosystem pinned", () => {
+    const plan = planPlatform(definePlatform({ name: "myapp", registry: "acme/reg", services: ["auth", "credits", "billing"] }));
+    const pkg = JSON.parse(plan.packageJson);
+    expect(pkg.name).toBe("myapp");
+    expect(pkg.dependencies["@suluk/credits"]).toBe("latest"); // fixes flow via bun update
+    expect(pkg.dependencies["@suluk/billing"]).toBe("latest");
+    expect(pkg.dependencies["hono"]).toBe("^4.0.0"); // ecosystem pinned
+    expect(pkg.dependencies["better-auth"]).toBe("^1.0.0"); // auth's dep
+    expect(pkg.devDependencies["typescript"]).toBeDefined();
+    expect(pkg.scripts.generate).toBe("suluk-platform");
+  });
+
+  test("mergePackageJson keeps app-added deps + scripts, baseline wins for framework deps", () => {
+    const baseline = buildPackageJson("myapp", ["auth", "credits"]);
+    const existing = JSON.stringify({ name: "myapp", dependencies: { "@suluk/credits": "^0.1.0", "my-product-lib": "^2.0.0" }, scripts: { deploy: "wrangler deploy" } });
+    const merged = JSON.parse(mergePackageJson(baseline, existing));
+    expect(merged.dependencies["my-product-lib"]).toBe("^2.0.0"); // app extra preserved
+    expect(merged.dependencies["@suluk/credits"]).toBe("latest"); // baseline wins → stays up to date
+    expect(merged.scripts.deploy).toBe("wrangler deploy"); // app script preserved
+    expect(merged.scripts.typecheck).toBe("tsc --noEmit -p ."); // framework script filled in
+  });
+
+  test("planPlatform emits tsconfig + components.json", () => {
+    const plan = planPlatform(manifest);
+    expect(JSON.parse(plan.tsconfig).exclude).toContain("src/**/*.test.ts");
+    expect(JSON.parse(plan.componentsJson).aliases.utils).toBe("src/lib/utils");
   });
 });
 

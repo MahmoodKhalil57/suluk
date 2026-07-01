@@ -1,7 +1,10 @@
 /**
- * The platform manifest (C051) — the one author-facing document. Name the registry + the services you want; the generator
- * compiles it to a shadcn-add list + a wired Hono entry + a merged provision.config. The higher-level surface over C047's
- * provision.config: you say "auth, credits, billing" and the catalog knows each one's component + provision fragment.
+ * The platform manifest (C051) — the ONLY author-facing document. Name the registry + the services you want; the generator
+ * compiles it to EVERYTHING: the shadcn-add list, the wired Hono entry, the merged provision.config, AND the scaffold config
+ * (package.json with each module's deps — @suluk/* on "latest" so fixes flow via `bun update`, ecosystem pinned; plus
+ * tsconfig.json + components.json). `platform.config.ts` is the single surface; regenerating keeps deps current + preserves
+ * any deps/scripts you added. The higher-level surface over C047's provision.config: you say "auth, credits, billing" and
+ * the catalog knows each one's component + provision fragment + npm deps.
  */
 export interface PlatformManifest {
   /** the app/repo name (used in the generated scaffold). */

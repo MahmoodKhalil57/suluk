@@ -5,7 +5,7 @@
  * "credits", "billing"]` → a whole backend. The generated `provision.config.ts` imports `mergeProvision` from here.
  */
 export { definePlatform, type PlatformManifest } from "./manifest";
-export { CATALOG, orderServices, type CatalogEntry, type Mount } from "./catalog";
+export { CATALOG, orderServices, resolveVersion, BASE_DEPS, ECOSYSTEM_VERSIONS, DEV_DEPS, type CatalogEntry, type Mount } from "./catalog";
 export { mergeProvision } from "./merge";
-export { planPlatform, type PlatformPlan } from "./plan";
+export { planPlatform, buildPackageJson, mergePackageJson, type PlatformPlan } from "./plan";
 export { generatePlatform, type GenerateOptions, type GenerateResult } from "./generate";
