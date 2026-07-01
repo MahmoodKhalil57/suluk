@@ -79,6 +79,12 @@ falsified_when parity_drive_wave2_scope_gate_reference_admin_logquery_proven == 
 # same /api/billing mount); re-shadcn-add billing -> 23 routes, tsc 0 own-code errors (autotoolfactory d255fd5). KNOWN
 # follow-ups (not money bugs): refund uses debitCredits (pre-guarded by getBalance; a race -> 500 no-money-moved; debitIfCovers
 # would be atomic); the maybeAutoTopup BACKGROUND trigger isn't ported (the config surface is — the trigger is a cron the app
-# wires). REMAINING: Waves 4-5 the MCP suite (oauth) + Wave 6 the parity proof.
+# wires). SCOPE-GATE HARDENING (found during Wave 3 integration): the gate matched only DECLARED contract ops, so a keyed
+# caller hitting an UNDECLARED billing sub-path (POST /api/billing/refund /subscribe /auto-topup, GET /subscription /quotes
+# /methods) matched nothing -> was NOT gated (a real hole). Fixed scopeForRequest to TWO tiers: (1) exact longest-prefix op
+# (declared public ops packs/plans stay public), then (2) a MODULE fallback — an undeclared /api/<module> sub-path is gated
+# by that module's namespace scope (write scope for a write method, else read). Verified: refund/subscribe/auto-topup ->
+# billing:write, subscription -> billing:read, packs/plans -> public, non-contract -> no gate. REMAINING: Waves 4-5 the MCP
+# suite (oauth) + Wave 6 the parity proof.
 claim parity_drive_wave3_billing_completeness_14_routes_proven: Bool @>=0.6 = True
 falsified_when parity_drive_wave3_billing_completeness_14_routes_proven == False
