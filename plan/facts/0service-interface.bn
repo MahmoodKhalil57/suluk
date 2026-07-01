@@ -39,5 +39,16 @@
 # (queue/DO/cron); (e) GSO-into-mount codegen. Extends C051; governed by C052 ("own the wiring, npm the logic"). The design
 # is operator-RATIFIED on the composition crux but ZERO code is written -> byte-identity + env-threading are asserted-by-
 # design, provable only by Phase 0 / Phase 3. Modest ceiling.
-claim c053_open_service_interface_typed_2x2_opts_system_brand_split_port_capability_composition_design: Bool @>=0.5 = True
-falsified_when c053_open_service_interface_typed_2x2_opts_system_brand_split_port_capability_composition_design == False
+# NOW BUILT (2026-07-01, operator "go"): Phases 0-5 shipped in @suluk/platform. Phase 0 GOLDEN LOCK pins the real 18-service
+# autotoolfactory output byte-for-byte; 1 dogfooded the 19 core services to defineService (CATALOG a derived view); 2 typed
+# 2x2 + defineSystem/defineBrand (a system/brand split of autotoolfactory regenerates BYTE-IDENTICAL; wrong opt = compile
+# error); 3 the port/capability composition engine (edge renders INTO auth.onUserCreated mount-opt; env seam PINNED by
+# widening registry/auth onUserCreated to (userId, env)); 4 community composition + multi-registry + the env seam EMPIRICALLY
+# typecheck-verified (generated wired entry over autotoolfactory's real modules -> tsc clean bar the pre-existing
+# openapi-compat nit); 5 liftLegacy migrate (round-trips byte-identical) + README + published @suluk/platform 0.2.0. An
+# 11-agent ADVERSARIAL review found 6 defects (registry fail-open, wire-param type hole, string-ref typing, import collision,
+# inline-service half-land) -> ALL FIXED + regression-tested. platform 81 tests pass, tsc clean. Ceiling 0.5 (design) -> 0.72:
+# BUILT + 81 tests + golden byte-identity + adversarial-review-with-fixes + empirical env-seam typecheck, but NOT yet adopted
+# by a live published consumer (that witness + the published-generator one-shot re-proof would lift it further).
+claim c053_open_service_interface_typed_2x2_opts_system_brand_split_port_capability_composition_built: Bool @>=0.72 = True
+falsified_when c053_open_service_interface_typed_2x2_opts_system_brand_split_port_capability_composition_built == False

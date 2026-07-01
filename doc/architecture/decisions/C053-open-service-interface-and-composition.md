@@ -13,12 +13,26 @@ Date: 2026-07-01
 
 ## Status
 
-Accepted as the **DESIGN** — architecture-only, **nothing built yet** (operator chose "record C053 first"). Ceiling **0.5**:
-the design is grounded in a rigorous adversarial panel and operator-ratified on the composition crux, but **zero code is
-written**, and its two load-bearing promises — **byte-identical regeneration of autotoolfactory** and the **env-threading of
-the auth→credits closure** — are *asserted-by-design*, provable only by the Phase-0 golden test and the Phase-3 seam-pinning
-respectively. Ledger: [`0service-interface.bn`](../../../plan/facts/0service-interface.bn) (burhan True). Not a contract-facet
-change (it is a generator/authoring-surface change; the emitted contract is unaffected).
+**BUILT + PUBLISHED** (`@suluk/platform@0.2.0`, 2026-07-01, operator "go"). Ceiling **0.72** (lifted from the design-only
+0.5). Phases 0–5 shipped and gated on byte-identity at every step:
+
+- **Phase 0 — golden lock**: a snapshot test pins the real 18-service autotoolfactory output byte-for-byte (the C051 one-shot
+  invariant, frozen).
+- **Phase 1 — dogfood**: the 19 core services became `defineService` values; `CATALOG` is a derived view; golden held.
+- **Phase 2 — typed 2×2 + defineSystem/defineBrand**: a system/brand split of autotoolfactory regenerates **byte-identical**
+  to the golden; a wrong serviceOpts is a compile error; the new shape lowers to the legacy manifest (`liftSystemBrand`).
+- **Phase 3 — composition engine**: `resolveWiring` (presence/cycle/fan-out/safe-render) renders an edge **into** the
+  producer's mount-opt field; the **env seam was pinned** by widening `registry/auth` `onUserCreated` to `(userId, env)`.
+- **Phase 4 — community + empirical proof**: a community service fills a core port (fan-out) + multi-registry; the generated
+  wired closure **typechecks against the real modules** (`tsc` clean over autotoolfactory bar the pre-existing
+  `@suluk/openapi-compat` nit) — the env-threading promise (open question #1) is now *empirically* verified, not asserted.
+- **Phase 5 — migrate + publish**: `liftLegacy` round-trips byte-identically; README; published `0.2.0`.
+
+An **11-agent adversarial review** found 6 defects (registry fail-open, wire-param type hole, string-id typing,
+import-collision, inline-service half-land) — **all fixed + regression-tested**. `@suluk/platform` **81 tests pass, tsc
+clean**. Ledger: [`0service-interface.bn`](../../../plan/facts/0service-interface.bn) (burhan True @≥0.72). Remaining witness
+before a higher ceiling: adoption by a **live published consumer** + a re-proof of the one-shot from the *published* 0.2.0.
+Not a contract-facet change (a generator/authoring-surface change; the emitted contract is unaffected).
 
 ## Context — the closed catalog is the constraint
 
