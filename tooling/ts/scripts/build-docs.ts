@@ -96,14 +96,40 @@ function writeDoc(tmp: string, name: string, title: string, srcFile: string, rel
 // projectDocuments. All-in-one-dir is deliberate: TypeDoc resolves a document's `children` relative to the
 // COMMON directory of all projectDocuments — if they span docs-pages/ (deep in the repo) and /tmp, that common
 // dir is `/` and the children glob ENOENTs. Staging the hand-authored/generated guides here too keeps it clean.
-function generateUmbrellaDocs(tmp: string): { readme: string; projectDocuments: string[] } {
+function generateUmbrellaDocs(tmp: string, pkgs: DocPackage[]): { readme: string; projectDocuments: string[] } {
   const copy = (n: string): string => {
     const out = join(tmp, `${n}.md`);
     writeFileSync(out, readFileSync(join(TS, "docs-pages", `${n}.md`), "utf8"));
     return out;
   };
   const readme = copy("index");
-  const guides = { gettingStarted: copy("getting-started"), architecture: copy("architecture"), packages: copy("packages"), contributing: copy("contributing"), community: copy("community") };
+
+  // ── GUIDES folder: the framework guides, nested under one parent (a docs-folder → folder icon). ──
+  for (const n of ["getting-started", "architecture", "contributing", "community"]) copy(n);
+  const guides = join(tmp, "guides.md");
+  writeFileSync(
+    guides,
+    `---\ntitle: Guides\nchildren:\n  - ./getting-started.md\n  - ./architecture.md\n  - ./contributing.md\n  - ./community.md\n---\n\n# Guides\n\nHow to build on the Suluk framework: the 30-second tour, how one contract projects into a whole stack, and how to contribute.\n`,
+  );
+
+  // ── PACKAGES folder: one entry PER package (title = "@suluk/x · vN" → the npm glyph via getReflectionIcon),
+  //    each linking to that package's own root docs site. Lists every package + version directly in the sidebar. ──
+  const pkgChildren: string[] = [];
+  const rows: string[] = [];
+  for (const p of pkgs) {
+    const url = `${UMBRELLA_URL}packages/${p.slug}/`;
+    writeFileSync(
+      join(tmp, `pkg-${p.slug}.md`),
+      `---\ntitle: ${JSON.stringify(`${p.name}  v${p.version}`)}\n---\n\n# ${p.name}\n\n\`v${p.version}\`${p.description ? ` — ${p.description}` : ""}\n\n**[Open the full ${p.name} documentation →](${url})**\n`,
+    );
+    pkgChildren.push(`./pkg-${p.slug}.md`);
+    rows.push(`- <a href="${url}"><code>${p.name}</code></a> <code>v${p.version}</code> — ${p.description || "&mdash;"}`);
+  }
+  const packages = join(tmp, "packages.md");
+  writeFileSync(
+    packages,
+    `---\ntitle: Packages\nchildren:\n${pkgChildren.map((c) => `  - ${c}`).join("\n")}\n---\n\n# Packages\n\nEvery \`@suluk/*\` package is its **own complete documentation site**. Pick one from the **sidebar** (each shows its version) or the list below. ${pkgs.length} packages:\n\n${rows.join("\n")}\n`,
+  );
 
   const children: string[] = [];
   for (const p of SPEC_PAGES) {
@@ -149,10 +175,7 @@ security.
   const registry = join(tmp, "registry.md");
   writeFileSync(registry, `---\ntitle: Registry\n---\n\n# Registry\n\n${registryMd.trim()}\n`);
 
-  return {
-    readme,
-    projectDocuments: [guides.gettingStarted, guides.architecture, guides.packages, registry, specification, guides.contributing, guides.community],
-  };
+  return { readme, projectDocuments: [guides, packages, registry, specification] };
 }
 
 async function render(label: string, options: Record<string, unknown>): Promise<void> {
@@ -176,7 +199,7 @@ export async function buildDocs(): Promise<DocPackage[]> {
 
   // Temp dir for generated/preprocessed docs (the whole umbrella doc set, and each package README below).
   const tmp = mkdtempSync(join(tmpdir(), "suluk-docs-"));
-  const { readme, projectDocuments } = generateUmbrellaDocs(tmp);
+  const { readme, projectDocuments } = generateUmbrellaDocs(tmp, allPkgs);
 
   // 1. UMBRELLA first — its cleanOutputDir wipes docs/ (incl. a stale docs/packages/ from a prior build).
   console.log("• umbrella → docs/ …");

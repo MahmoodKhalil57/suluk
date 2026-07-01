@@ -23,6 +23,7 @@ export interface DocPackage {
   slug: string;   // <x> (url + output-dir segment, from the npm name)
   dir: string;    // absolute package dir
   description: string;
+  version: string;
   hasReadme: boolean;
 }
 
@@ -36,7 +37,7 @@ export function documentedPackages(): DocPackage[] {
     .filter((x): x is { dir: string; p: NonNullable<typeof x.p> } => !!x.p && !x.p.private)
     // slug = the npm name minus the "@suluk/" prefix (harvest's slug prepends "suluk-"); strip it so a
     // root lives at docs/packages/<name>/ (e.g. admin, keys, openapi-compat) — matching the package name.
-    .map(({ dir, p }) => ({ name: p.name, slug: p.slug.replace(/^suluk-/, ""), dir, description: p.description, hasReadme: p.readme.trim().length > 0 }))
+    .map(({ dir, p }) => ({ name: p.name, slug: p.slug.replace(/^suluk-/, ""), dir, description: p.description, version: p.version, hasReadme: p.readme.trim().length > 0 }))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 

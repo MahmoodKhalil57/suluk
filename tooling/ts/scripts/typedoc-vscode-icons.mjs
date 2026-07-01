@@ -68,9 +68,30 @@ export function load(app) {
       [ReflectionKind.Module]: vsc("default-folder", { class: "tsd-kind-icon" }),
       folder: vsc("default-folder", { class: "tsd-kind-icon" }),
 
+      // ── document nav (the umbrella's guides/spec/packages tree) → a VS Code file-explorer look ──
+      [ReflectionKind.Document]: vsc("file-type-markdown", { class: "tsd-kind-icon" }), // a leaf .md page
+      package: vsc("file-type-npm", { class: "tsd-kind-icon" }), // a package entry (see getReflectionIcon patch)
+
       // ── toolbar chrome → codicon, tinted to the toolbar icon colour (via `color`, see sym() note) ──
       search: iconify(codicons, "search", { style: "color:var(--color-icon-text)", width: "16", height: "16" }),
       menu: iconify(codicons, "menu", { style: "color:var(--color-icon-text)", width: "16", height: "16" }),
     });
+
+    // A node's nav icon is `icon || kind`; `icon` is set only when getReflectionIcon(el) !== el.kind. So patch
+    // getReflectionIcon to give DOCUMENT nodes a file-explorer treatment: a documents-FOLDER (a doc with child
+    // docs) → the folder glyph; a package entry (a doc whose title is a `@suluk/*` name) → the npm glyph; every
+    // other leaf document falls through to the Document kind → the markdown glyph set above.
+    const theme = app.renderer.theme;
+    if (theme && !theme.__sulukIconPatch) {
+      theme.__sulukIconPatch = true;
+      const original = theme.getReflectionIcon.bind(theme);
+      theme.getReflectionIcon = (reflection) => {
+        if (reflection && typeof reflection.isDocument === "function" && reflection.isDocument()) {
+          if (reflection.children && reflection.children.length) return "folder";
+          if (typeof reflection.name === "string" && reflection.name.startsWith("@suluk/")) return "package";
+        }
+        return original(reflection);
+      };
+    }
   });
 }
