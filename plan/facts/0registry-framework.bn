@@ -83,3 +83,28 @@ falsified_when registry_c050_build2_keys_billing_logs_effect_modules_validated =
 # then the C051 manifest generator, then generate autotoolfactory + diff-parity vs toolfactory.
 claim registry_c050_build3_auth_foundation_module_scaffold_schema_validated: Bool @>=0.5 = True
 falsified_when registry_c050_build3_auth_foundation_module_scaffold_schema_validated == False
+
+# C050 BUILD #4 — the REMAINING modules + AUTH RECONCILE + a measured parity-diff (2026-07-01; operator: "do diff-parity,
+# remaining modules and auth"). PARITY-DIFF (5 Explore agents over autotoolfactory-vs-toolfactory): registry COVERS 6
+# concerns (auth/credits/keys/billing/logs + now cost), PARTIAL on 3 (mcp-oauth caps, gdpr-cascade, middleware-debit — all
+# app-specific glue), MISSING product-specific 2 (whisper transcription + subtitle-convert = the deliberately-excluded
+# product routes), and the non-product gaps are dev/CI tooling now filled by journeys+audit + app-glue the generated app
+# owns. THREE NEW MODULES built to the established pattern: (1) `cost` — a RUNTIME Effect service over @suluk/cost (the
+# storage-agnostic µ$ algebra: summarize/principalCost projections + eventCostEvent attribution/dedupe stay upstream);
+# OWNS the cost_event + cost_dedup D1 tables; record (live-request sink) + recordEvent (fired background event, deduped via
+# a single-statement onConflictDoNothing().returning() claim = at-least-once safe) + summary/principalSummary; routes GET
+# /cost/summary[/:userId] + POST /event + POST /dedup; provision fragment 0003_cost. (2) `journeys` — DEV-FILES (no runtime
+# mount): journeys.config + example.feature + a bun:test coverage harness (parseFeature+generateVocabulary+bindFeatures+
+# coverageGrade over @suluk/journeys; test.skipIf(no-contract) so a fresh platform is green). (3) `audit` — DEV-FILES: one
+# scripts/conformance.ts CI gate consolidating cockpit conformanceGates/shipSummary + harden auditDocument/auditReadiness/
+# combineGrades into a single pass/fail with a grade floor. AUTH RECONCILED to Better Auth v1.6.23 (canonical, extracted
+# from installed node_modules — NOT a guess): apikey gains configId + referenceId (v1.6 api-key plugin REQUIRES them),
+# rateLimitEnabled default flipped FALSE->TRUE(1) + rateLimitTimeWindow=60 + rateLimitMax=10, verification createdAt/
+# updatedAt now NOT NULL, + the 5 plugin indexes (apikey configId/referenceId/key, passkey userId/credentialID) in BOTH
+# the drizzle schema AND the provision SQL. So auth is no longer a "scaffold" guess — it's version-pinned canonical.
+# CATALOG got a new "dev" Mount kind (files-only: no entry mount, no provision fragment) so journeys/audit generate as
+# tooling. Registry now 9 items (app/auth/credits/keys/billing/cost/logs/journeys/audit). VALIDATED: platform 9 pass
+# (added cost-route + dev-mount assertions); `bunx shadcn build` SUCCEEDED for all 9; all 9 new/changed files transpile;
+# all new npm deps live (cost 0.2.0/journeys 0.4.0/cockpit 0.2.0/harden 0.2.0/core 0.1.13) so autotoolfactory can install.
+claim registry_c050_build4_cost_journeys_audit_modules_auth_reconciled_parity_measured: Bool @>=0.6 = True
+falsified_when registry_c050_build4_cost_journeys_audit_modules_auth_reconciled_parity_measured == False

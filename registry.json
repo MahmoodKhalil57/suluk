@@ -17,7 +17,7 @@
       "name": "auth",
       "type": "registry:item",
       "title": "Auth — Better Auth mount + CurrentUser Effect service",
-      "description": "The auth foundation: buildAuth (drizzle adapter + openAPI/apiKey/passkey plugins, parametrized), mountAuthRoutes (the Hono handler), and a CurrentUser Effect service. Owns the user + apikey tables. The schema is a Better-Auth-v1 SCAFFOLD — regenerate with `npx @better-auth/cli generate`. The signup hook (onUserCreated) wires to the `credits` module.",
+      "description": "The auth foundation: buildAuth (drizzle adapter + openAPI/apiKey/passkey plugins, parametrized), mountAuthRoutes (the Hono handler), and a CurrentUser Effect service. Owns the user + apikey tables. The schema is reconciled against Better Auth v1.6.23 (canonical) — regenerate with `npx @better-auth/cli generate` if you change plugins/version. The signup hook (onUserCreated) wires to the `credits` module.",
       "registryDependencies": ["MahmoodKhalil57/suluk/app"],
       "dependencies": ["better-auth", "@better-auth/api-key", "@better-auth/passkey", "@suluk/provision", "effect", "hono", "drizzle-orm"],
       "files": [
@@ -69,6 +69,20 @@
       ]
     },
     {
+      "name": "cost",
+      "type": "registry:item",
+      "title": "Cost ledger — runtime metering + µ$ projections",
+      "description": "An Effect-TS Cost service over @suluk/cost (the storage-agnostic cost algebra: integer micro-USD, per-source breakdowns, background-event attribution + at-least-once dedup stay upstream). Persists live-request + fired-event costs into D1 and reads the raw ledger picture back (total, by principal/operation/action/source). This module owns the cost_event + cost_dedup tables; the projection logic is npm.",
+      "registryDependencies": ["MahmoodKhalil57/suluk/app"],
+      "dependencies": ["@suluk/cost", "@suluk/provision", "effect", "drizzle-orm", "hono"],
+      "files": [
+        { "path": "registry/cost/cost.service.ts", "type": "registry:file", "target": "src/services/cost.ts" },
+        { "path": "registry/cost/cost.routes.ts", "type": "registry:file", "target": "src/routes/cost.ts" },
+        { "path": "registry/cost/cost.schema.ts", "type": "registry:file", "target": "src/db/cost.ts" },
+        { "path": "registry/cost/cost.provision.ts", "type": "registry:file", "target": "provision/cost.ts" }
+      ]
+    },
+    {
       "name": "logs",
       "type": "registry:item",
       "title": "Activity log — Effect service (fully owned)",
@@ -80,6 +94,28 @@
         { "path": "registry/logs/logs.routes.ts", "type": "registry:file", "target": "src/routes/logs.ts" },
         { "path": "registry/logs/logs.schema.ts", "type": "registry:file", "target": "src/db/logs.ts" },
         { "path": "registry/logs/logs.provision.ts", "type": "registry:file", "target": "provision/logs.ts" }
+      ]
+    },
+    {
+      "name": "journeys",
+      "type": "registry:item",
+      "title": "Journeys — runnable BDD over your v4 contract (dev)",
+      "description": "Dev/CI tooling (no runtime mount): author plain-Gherkin user journeys against the step vocabulary @suluk/journeys projects from your v4 contract, then bind + grade coverage as a bun:test gate. The binder resolves each step exact-or-unbound and grades contract→authored coverage; unbound steps are your worklist. Ships a config, an example feature, and the coverage harness.",
+      "dependencies": ["@suluk/journeys", "@suluk/core"],
+      "files": [
+        { "path": "registry/journeys/journeys.config.ts", "type": "registry:file", "target": "journeys.config.ts" },
+        { "path": "registry/journeys/example.feature", "type": "registry:file", "target": "journeys/example.feature" },
+        { "path": "registry/journeys/journeys.test.ts", "type": "registry:file", "target": "src/journeys.test.ts" }
+      ]
+    },
+    {
+      "name": "audit",
+      "type": "registry:item",
+      "title": "Audit — one CI conformance gate (dev)",
+      "description": "Dev/CI tooling (no runtime mount): a single conformance script that consolidates @suluk/cockpit's lifecycle gates + @suluk/harden's input-hardening security grade + schema-fact readiness grade into one unified ship-readiness pass/fail. Loads your v4 contract and exits non-zero when a gate blocks or the combined grade falls below the floor — the one command your pipeline gates on.",
+      "dependencies": ["@suluk/cockpit", "@suluk/harden", "@suluk/core"],
+      "files": [
+        { "path": "registry/audit/conformance.ts", "type": "registry:file", "target": "scripts/conformance.ts" }
       ]
     }
   ]

@@ -37,6 +37,26 @@ describe("planPlatform — manifest → shadcn adds + entry + provision.config",
   });
 });
 
+describe("cost (route + provision) + dev modules (journeys/audit — files only)", () => {
+  const plan = planPlatform(definePlatform({ name: "full", registry: "acme/reg", services: ["auth", "credits", "cost", "logs", "journeys", "audit"] }));
+
+  test("cost mounts a /cost route and contributes a provision fragment", () => {
+    expect(plan.entry).toContain('import { costRoutes } from "./routes/cost";');
+    expect(plan.entry).toContain('app.route("/cost", costRoutes());');
+    expect(plan.provisionConfig).toContain('import { costProvision } from "./src/provision/cost";');
+    expect(plan.provisionConfig).toContain("mergeProvision([authProvision, creditsProvision, costProvision, logsProvision])");
+  });
+
+  test("dev modules add shadcn refs but NO entry mount and NO provision fragment", () => {
+    expect(plan.adds).toContain("acme/reg/journeys");
+    expect(plan.adds).toContain("acme/reg/audit");
+    expect(plan.entry).not.toContain("journeys");
+    expect(plan.entry).not.toContain("audit");
+    expect(plan.provisionConfig).not.toContain("journeys");
+    expect(plan.provisionConfig).not.toContain("audit");
+  });
+});
+
 describe("mergeProvision — combine same-ref instances, union migrations in order", () => {
   test("two `db` fragments merge into one with both migrations (fragment order preserved)", () => {
     const auth: InstanceSpec[] = [{ ref: "db", service: "cloudflare-d1", name: "app-db", params: { migrations: [{ name: "0000_auth", sql: "A" }] }, bind: { database_id: "ID" }, protected: true }];

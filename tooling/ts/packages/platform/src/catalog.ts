@@ -8,7 +8,8 @@
 export type Mount =
   | { kind: "base" } // the app skeleton — `createApp()`
   | { kind: "middleware"; symbol: string; from: string } // e.g. `mountAuthRoutes(app)`
-  | { kind: "route"; path: string; symbol: string; from: string }; // e.g. `app.route("/credits", creditsRoutes())`
+  | { kind: "route"; path: string; symbol: string; from: string } // e.g. `app.route("/credits", creditsRoutes())`
+  | { kind: "dev" }; // dev/CI tooling (journeys, audit) — files only, no runtime mount, no provision fragment
 
 export interface CatalogEntry {
   /** how it mounts into the entry. */
@@ -23,7 +24,11 @@ export const CATALOG: Record<string, CatalogEntry> = {
   credits: { mount: { kind: "route", path: "/credits", symbol: "creditsRoutes", from: "./routes/credits" }, provision: { symbol: "creditsProvision", from: "./src/provision/credits" } },
   keys: { mount: { kind: "route", path: "/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" } },
   billing: { mount: { kind: "route", path: "/billing", symbol: "billingRoutes", from: "./routes/billing" }, provision: { symbol: "billingProvision", from: "./src/provision/billing" } },
+  cost: { mount: { kind: "route", path: "/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" } },
   logs: { mount: { kind: "route", path: "/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } },
+  // dev/CI tooling — pulled in as files, no runtime mount, no provision fragment.
+  journeys: { mount: { kind: "dev" } },
+  audit: { mount: { kind: "dev" } },
 };
 
 /** app + auth always come first (the base + the user/apikey tables others reference); the rest keep manifest order. */

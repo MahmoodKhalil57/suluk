@@ -1,17 +1,24 @@
 /**
  * The `auth` provision FRAGMENT — the Better Auth tables on the shared app D1, created FIRST (the `user` table other
- * modules reference). ⚠ SCAFFOLD SQL — regenerate against `npx @better-auth/cli generate` for byte-exactness with your
- * Better Auth version + plugin set. Merged into your `provision.config.ts`.
+ * modules reference). Reconciled against **Better Auth v1.6.23** (canonical, extracted from the installed package): the
+ * `apikey` table carries `configId` + `referenceId` (the v1.6 api-key plugin requires them), `rateLimitEnabled` defaults
+ * to 1, and the five plugin indexes are created. Regenerate against `npx @better-auth/cli generate` if you change your
+ * Better Auth version or plugin set. Merged into your `provision.config.ts`.
  */
 import type { InstanceSpec } from "@suluk/provision";
 
 const AUTH_MIGRATION = `
-CREATE TABLE IF NOT EXISTS user (id TEXT PRIMARY KEY, name TEXT NOT NULL, email TEXT NOT NULL UNIQUE, emailVerified INTEGER NOT NULL DEFAULT 0, image TEXT, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL);
-CREATE TABLE IF NOT EXISTS session (id TEXT PRIMARY KEY, userId TEXT NOT NULL REFERENCES user(id) ON DELETE CASCADE, token TEXT NOT NULL UNIQUE, expiresAt INTEGER NOT NULL, ipAddress TEXT, userAgent TEXT, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL);
-CREATE TABLE IF NOT EXISTS account (id TEXT PRIMARY KEY, userId TEXT NOT NULL REFERENCES user(id) ON DELETE CASCADE, accountId TEXT NOT NULL, providerId TEXT NOT NULL, accessToken TEXT, refreshToken TEXT, idToken TEXT, accessTokenExpiresAt INTEGER, refreshTokenExpiresAt INTEGER, scope TEXT, password TEXT, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL);
-CREATE TABLE IF NOT EXISTS verification (id TEXT PRIMARY KEY, identifier TEXT NOT NULL, value TEXT NOT NULL, expiresAt INTEGER NOT NULL, createdAt INTEGER, updatedAt INTEGER);
-CREATE TABLE IF NOT EXISTS apikey (id TEXT PRIMARY KEY, name TEXT, start TEXT, prefix TEXT, key TEXT NOT NULL, userId TEXT NOT NULL REFERENCES user(id) ON DELETE CASCADE, refillInterval INTEGER, refillAmount INTEGER, lastRefillAt INTEGER, enabled INTEGER DEFAULT 1, rateLimitEnabled INTEGER DEFAULT 0, rateLimitTimeWindow INTEGER, rateLimitMax INTEGER, requestCount INTEGER DEFAULT 0, remaining INTEGER, lastRequest INTEGER, expiresAt INTEGER, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL, permissions TEXT, metadata TEXT);
+CREATE TABLE IF NOT EXISTS user (id TEXT PRIMARY KEY, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL, email TEXT NOT NULL UNIQUE, emailVerified INTEGER NOT NULL DEFAULT 0, name TEXT NOT NULL, image TEXT);
+CREATE TABLE IF NOT EXISTS session (id TEXT PRIMARY KEY, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL, userId TEXT NOT NULL REFERENCES user(id) ON DELETE CASCADE, expiresAt INTEGER NOT NULL, token TEXT NOT NULL UNIQUE, ipAddress TEXT, userAgent TEXT);
+CREATE TABLE IF NOT EXISTS account (id TEXT PRIMARY KEY, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL, providerId TEXT NOT NULL, accountId TEXT NOT NULL, userId TEXT NOT NULL REFERENCES user(id) ON DELETE CASCADE, accessToken TEXT, refreshToken TEXT, idToken TEXT, accessTokenExpiresAt INTEGER, refreshTokenExpiresAt INTEGER, scope TEXT, password TEXT);
+CREATE TABLE IF NOT EXISTS verification (id TEXT PRIMARY KEY, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL, value TEXT NOT NULL, expiresAt INTEGER NOT NULL, identifier TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS apikey (id TEXT PRIMARY KEY, configId TEXT NOT NULL DEFAULT 'default', name TEXT, start TEXT, referenceId TEXT NOT NULL, prefix TEXT, key TEXT NOT NULL, refillInterval INTEGER, refillAmount INTEGER, lastRefillAt INTEGER, enabled INTEGER DEFAULT 1, rateLimitEnabled INTEGER DEFAULT 1, rateLimitTimeWindow INTEGER DEFAULT 60, rateLimitMax INTEGER DEFAULT 10, requestCount INTEGER DEFAULT 0, remaining INTEGER, lastRequest INTEGER, expiresAt INTEGER, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL, permissions TEXT, metadata TEXT, userId TEXT NOT NULL REFERENCES user(id) ON DELETE CASCADE);
 CREATE TABLE IF NOT EXISTS passkey (id TEXT PRIMARY KEY, name TEXT, publicKey TEXT NOT NULL, userId TEXT NOT NULL REFERENCES user(id) ON DELETE CASCADE, credentialID TEXT NOT NULL, counter INTEGER NOT NULL, deviceType TEXT NOT NULL, backedUp INTEGER NOT NULL, transports TEXT, createdAt INTEGER, aaguid TEXT);
+CREATE INDEX IF NOT EXISTS apikey_configId_idx ON apikey(configId);
+CREATE INDEX IF NOT EXISTS apikey_referenceId_idx ON apikey(referenceId);
+CREATE INDEX IF NOT EXISTS apikey_key_idx ON apikey(key);
+CREATE INDEX IF NOT EXISTS passkey_userId_idx ON passkey(userId);
+CREATE INDEX IF NOT EXISTS passkey_credentialID_idx ON passkey(credentialID);
 `.trim();
 
 export const authProvision: InstanceSpec[] = [
