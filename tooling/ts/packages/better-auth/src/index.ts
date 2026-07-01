@@ -27,3 +27,6 @@ export { isSafeRelativePath, resolveRedirectTo, withRedirectTo, emailVerificatio
 // live role-preview (charter-bounded by C020): the fail-closed, deploy-gated role-login handler. The extension
 // holds NO token — it deep-links this route in the browser; the credentialed mint happens here, server-side.
 export { previewLoginHandler, isPreviewRuntime, type PreviewRequestLike, type PreviewEnvLike, type MintedSession, type PreviewLoginOptions } from "./preview";
+// C057 local-dev any-email login (the Google mock when no GOOGLE_CLIENT_ID) — fail-closed behind an `armed` flag, mints
+// a REAL session via the public signUp/signIn API. The registry arms it only in dev-mock mode; a prod deploy 404s it.
+export { devLoginHandler, DEV_LOGIN_PASSWORD, type DevLoginAuthLike, type DevLoginOptions } from "./dev-login";

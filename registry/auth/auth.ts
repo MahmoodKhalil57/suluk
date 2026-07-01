@@ -13,7 +13,7 @@ import { passkey } from "@better-auth/passkey";
 import { drizzle } from "drizzle-orm/d1";
 import { Context, Effect, Layer } from "effect";
 import type { Hono, MiddlewareHandler } from "hono";
-import { principalFromSession, verifyApiKey, type ApiKeyVerifierLike, type SessionLike } from "@suluk/better-auth";
+import { principalFromSession, verifyApiKey, devLoginHandler, type ApiKeyVerifierLike, type SessionLike } from "@suluk/better-auth";
 import * as schema from "./db/auth";
 
 export interface AuthEnv {
@@ -22,6 +22,8 @@ export interface AuthEnv {
   BETTER_AUTH_URL?: string;
   GOOGLE_CLIENT_ID?: string;
   GOOGLE_CLIENT_SECRET?: string;
+  /** "production" ⇒ real providers only; anything else (local dev) + no Google key ⇒ arm the any-email dev-login. */
+  ENVIRONMENT?: string;
 }
 
 export interface AuthOptions {
@@ -41,6 +43,16 @@ export interface AuthOptions {
   mcp?: { loginPage: string; consentPage: string; resource: string; scopes: string[] };
 }
 
+/**
+ * LOCAL-DEV any-email login is armed only in dev-mock: NOT production AND no real Google key. A deployed Worker sets
+ * `ENVIRONMENT="production"` (a committed wrangler `[var]`), so this is FALSE in prod — the dev-login 404s there even if
+ * Google is unconfigured. Locally (bun dev, no ENVIRONMENT) with no Google key ⇒ TRUE (the Google mock). Set GOOGLE_CLIENT_ID
+ * locally to get real Google instead. This is the same `ENVIRONMENT !== "production"` dev signal @suluk/email uses.
+ */
+export function authDevMock(env: AuthEnv & { ENVIRONMENT?: string }): boolean {
+  return env.ENVIRONMENT !== "production" && !env.GOOGLE_CLIENT_ID;
+}
+
 function buildAuth(env: AuthEnv, opts: AuthOptions = {}) {
   const db = drizzle(env.DB);
   return betterAuth({
@@ -48,6 +60,8 @@ function buildAuth(env: AuthEnv, opts: AuthOptions = {}) {
     secret: env.BETTER_AUTH_SECRET,
     baseURL: opts.baseURL ?? env.BETTER_AUTH_URL,
     trustedOrigins: opts.trustedOrigins,
+    // dev-mock only: enable email/password so the any-email dev-login can mint a real session (Google mock). Off in prod.
+    ...(authDevMock(env) ? { emailAndPassword: { enabled: true } } : {}),
     ...(env.GOOGLE_CLIENT_ID ? { socialProviders: { google: { clientId: env.GOOGLE_CLIENT_ID, clientSecret: env.GOOGLE_CLIENT_SECRET ?? "" } } } : {}),
     ...(opts.onUserCreated ? { databaseHooks: { user: { create: { after: async (u: { id: string }) => { await opts.onUserCreated!(u.id, env); } } } } } : {}),
     plugins: [
@@ -179,6 +193,9 @@ export function mountAuthRoutes<T extends Hono<{ Bindings: AuthEnv }>>(app: T, o
   app.use("/api/*", identity(opts?.roleScopes) as MiddlewareHandler);
   app.use("/api/*", apiKeyAuth as MiddlewareHandler);
   app.use("/api/*", mcpBearerAuth as MiddlewareHandler);
+  // LOCAL-DEV any-email login (Google mock) — registered BEFORE the Better Auth catch-all so it wins for this exact path.
+  // Fail-closed via `armed`: in prod (ENVIRONMENT=production) or with a real Google key it returns 404, as if absent.
+  app.post("/api/auth/dev-login", (c) => devLoginHandler({ armed: authDevMock(c.env), auth: createAuth(c.env, opts), request: c.req.raw }));
   app.on(["GET", "POST"], "/api/auth/*", (c) => createAuth(c.env, opts).handler(c.req.raw));
   return app;
 }
