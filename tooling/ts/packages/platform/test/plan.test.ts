@@ -266,10 +266,14 @@ describe("env — secrets in .env (temp lifecycle), non-secrets in the manifest 
     expect(p.envTs).toContain('CLOUDFLARE_D1_TOKEN: { secret: true, surfaces: ["local"]');
     expect(p.envTs).toContain("SUPERADMIN_EMAILS");
     expect(p.envTs).toContain('BETTER_AUTH_SECRET: { secret: true, required: true, surfaces: ["cloudflare"]');
-    // .env.temp = the PLAINTEXT bootstrap (provisioning creds + runtime secrets).
+    // .env.temp = the PLAINTEXT bootstrap (provisioning creds + operator-supplied runtime secrets).
     expect(p.envTemp).toContain("CLOUDFLARE_API_TOKEN=");
-    expect(p.envTemp).toContain("BETTER_AUTH_SECRET=");
-    // provision.ts: consume .env.temp → provision → mint → encrypt → DELETE the ephemeral master → revoke instruction.
+    expect(p.envTemp).toContain("STRIPE_SECRET_KEY="); // operator-supplied runtime secret
+    // BETTER_AUTH_SECRET is AUTO-GENERATED — NOT a key the operator supplies in .env.temp.
+    expect(p.envTemp.split("\n").some((l) => /^#?\s*BETTER_AUTH_SECRET\s*=/.test(l))).toBe(false);
+    // provision.ts: consume .env.temp → auto-generate BETTER_AUTH_SECRET → provision → mint → encrypt → DELETE master → revoke.
+    expect(p.provisionScript).toContain('GENERATED = ["BETTER_AUTH_SECRET"]');
+    expect(p.provisionScript).toContain("randomBytes(32).toString");
     expect(p.provisionScript).toContain('EPHEMERAL = ["CLOUDFLARE_API_TOKEN"]');
     expect(p.provisionScript).toContain('rmSync(".env.temp"');
     expect(p.provisionScript).toContain("suluk-provision");
