@@ -27,11 +27,89 @@
     </div>
     <p class="text-lg text-base-content/70 mt-2">Stripe PLUMBING over an injected config (secret key + a mockable fetch): the HTTP transport (with the refund idempotency-key), customer/SetupIntent/PaymentIntent creation, the saved-card surface, the money-moving paths (hosted Checkout + portal + on-default-card top-up + off-session charge), Stripe Tax, the subscription mechanics over a generic SubPlan catalog, and the package-owned billing-account store. Pure Stripe wrappers — the webhook dispatch, credit grants, branded email, the pricing matrix, and refund/pooling stay in the app. Extracted from a real app (C046). CANDIDATE tooling.</p>
     <div class="prose-suluk mt-6">
-      <h2>Install</h2><pre><code>bun add @suluk/billing</code></pre>
-      <h2>Overview</h2><p>@suluk/billing — Stripe plumbing over an injected config (C046). The transport + customer/intent creation + the saved-card surface (v1), plus the money-MOVING paths (hosted Checkout, portal, on-default-card top-up, off-session charge), the pricing-woven subscription logic made generic over a SubPlan catalog, the Stripe Tax mechanics, and the package-owned billing-account store (v2). Ported with the source's <code>res.ok</code>/field semantics verbatim; the Effect-Schema defensive decode is dropped (plain typed JSON access → no <code>effect</code> dep). STAYS APP (policy, not library): the Stripe WEBHOOK dispatch (composes @suluk/stripe webhookRouter + these primitives + @suluk/credits.grantOnce), the branded email templates, payment-alert kinds, and refund/subscription-pooling (operator-excluded from the start).</p>
+      
+      <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/billing</code></pre>
+<h2>What it does</h2>
+<p>Stripe wrappers, extracted verbatim from a real app (C046), over an <strong>injected <code>StripeConfig</code></strong> (a secret key plus a mockable <code>fetch</code>) so every call site is testable without hitting Stripe. It is deliberately just the plumbing:</p>
+<ul>
+<li><strong>Transport</strong> — <code>stripePost</code> / <code>stripeGet</code> / <code>toForm</code>, including the refund idempotency-key.</li>
+<li><strong>Customer + intents</strong> — <code>createCustomer</code>, <code>createSetupIntent</code>, <code>createPaymentIntent</code>, and the</li>
+</ul>
+<p>  <strong>saved-card surface</strong> (<code>listPaymentMethods</code>, <code>defaultCard</code>, <code>setDefaultPaymentMethod</code>, <code>ownsPaymentMethod</code>, …).</p>
+<ul>
+<li><strong>Money-moving paths</strong> — hosted Checkout (<code>createCheckout</code> / <code>createSubscriptionCheckout</code>), the</li>
+</ul>
+<p>  billing <strong>portal</strong>, on-default-card top-up (<code>createPaymentIntentOnDefaultCard</code>), and the   off-session charge (<code>chargeOffSession</code>).</p>
+<ul>
+<li><strong>Stripe Tax</strong> — <code>calculateTax</code> / <code>recordTaxTransaction</code>, graceful by design (any failure →</li>
+</ul>
+<p>  <code>taxCents 0</code>, the top-up still proceeds).</p>
+<ul>
+<li><strong>Subscriptions</strong> — the recurring-billing mechanics made <strong>generic over a <code>SubPlan</code> catalog</strong> the</li>
+</ul>
+<p>  app supplies (find-or-create pricing, create-on-default-card, live status, in-place plan change).</p>
+<ul>
+<li><strong>The billing-account store</strong> — the package-owned <code>user ↔ Stripe</code> link (<code>billingAccount</code>), applied</li>
+</ul>
+<p>  by the app's migrations over an injected Drizzle handle.</p>
+<p>What <strong>stays in the app</strong> (policy, not library): the Stripe <strong>webhook dispatch</strong> (which composes <code>@suluk/payments</code>' <code>webhookRouter</code> + these primitives + <code>@suluk/credits.grantOnce</code>), the branded email templates, payment-alert kinds, and refund/subscription pooling.</p>
+<h2>Usage</h2>
+<pre><code class="lang-ts">import {
+  createCustomer, createCheckout, createPaymentIntentOnDefaultCard,
+  createSubscriptionOnDefaultCard, type StripeConfig, type SubPlan,
+} from &quot;@suluk/billing&quot;;
+
+// The injected config — a Worker passes global fetch; a test passes a mock.
+const cfg: StripeConfig = { secretKey: env.STRIPE_SECRET_KEY };
+
+// A hosted Checkout for a one-time top-up (app supplies product name + URLs).
+const { url } = await createCheckout(cfg, {
+  customerId: await ensureCustomer(cfg, userId),
+  amountCents: 2000,
+  productName: &quot;1,000 credits&quot;,
+  successUrl: &quot;https://app.example/thanks&quot;,
+  cancelUrl: &quot;https://app.example/billing&quot;,
+});
+
+// One-click top-up on the saved default card.
+await createPaymentIntentOnDefaultCard(cfg, { customerId, amountCents: 2000, meta: { userId, credits: &quot;1000&quot; } });</code></pre>
+<p>Subscriptions are generic over your plan catalog — the pricing matrix stays in the app:</p>
+<pre><code class="lang-ts">import { planById, createSubscriptionOnDefaultCard, changeSubscriptionPlan } from &quot;@suluk/billing&quot;;
+
+const plans: SubPlan[] = [
+  { id: &quot;pro&quot;, name: &quot;Pro&quot;, credits: 5000, priceCents: 2900, label: &quot;Pro — $29/mo&quot; },
+];
+
+const sub = await createSubscriptionOnDefaultCard(cfg, { customerId, plan: planById(plans, &quot;pro&quot;)! });</code></pre>
+<p>The billing-account store owns the <code>user ↔ Stripe</code> link (inject a Drizzle handle):</p>
+<pre><code class="lang-ts">import { billingAccount, linkBillingCustomer, billingCustomerId } from &quot;@suluk/billing&quot;;
+// include `billingAccount` in your migration; `userId` is the PK as a plain column.
+await linkBillingCustomer(db, userId, &quot;cus_123&quot;);
+const existing = await billingCustomerId(db, userId); // &quot;cus_123&quot; | null</code></pre>
+<h2>What's inside</h2>
+<table>
+<thead>
+<tr><th>Module</th><th>Exports</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>transport</strong></td><td><code>stripePost</code>, <code>stripeGet</code>, <code>toForm</code>, <code>StripeConfig</code>.</td></tr>
+<tr><td><strong>billing</strong> (v1)</td><td><code>createCustomer</code>, <code>createSetupIntent</code>, <code>createPaymentIntent</code>, the saved-card surface (<code>listPaymentMethods</code>, <code>defaultCard</code>, <code>defaultPaymentMethodId</code>, <code>ownsPaymentMethod</code>, <code>setDefaultPaymentMethod</code>, <code>detachPaymentMethod</code>, …), <code>payOpenInvoice</code>.</td></tr>
+<tr><td><strong>payments</strong> (v2)</td><td><code>createCheckout</code>, <code>createSubscriptionCheckout</code>, <code>createPortalSessionForCustomer</code>, <code>createPaymentIntentOnDefaultCard</code>, <code>chargeOffSession</code>.</td></tr>
+<tr><td><strong>tax</strong> (v2)</td><td><code>calculateTax</code>, <code>recordTaxTransaction</code> (graceful → 0 on failure).</td></tr>
+<tr><td><strong>subscriptions</strong> (v2)</td><td><code>SubPlan</code>, <code>planById</code>, <code>planByPrice</code>, <code>ceilingFor</code>, <code>ensurePlanPrice</code>, <code>createSubscriptionOnDefaultCard</code>, <code>getSubscriptionStatus</code>, <code>changeSubscriptionPlan</code>.</td></tr>
+<tr><td><strong>account</strong> (v2)</td><td><code>billingAccount</code> (schema), <code>billingCustomerId</code>, <code>billingSubscriptionId</code>, <code>linkBillingCustomer</code>, <code>upsertBillingAccount</code>, <code>clearSubscription</code>.</td></tr>
+</tbody>
+</table>
+<h2>Boundary</h2>
+<p>The whole surface is <strong>pure Stripe wrappers over an injected config</strong> — inject the config (secret + <code>fetch</code>) and the Drizzle handle, and everything is deterministically testable. Charging <strong>policy</strong> (webhook routing, crediting, branded email, refund/pooling) is the app's, not the library's.</p>
+<p>Depends on <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/payments"><code>@suluk/payments</code></a>, <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/drizzle"><code>@suluk/drizzle</code></a>, and <code>drizzle-orm</code>. It composes with <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/credits"><code>@suluk/credits</code></a> in the app's webhook handler (grant credits on a paid invoice).</p>
+<h2>License</h2>
+<p>Apache-2.0</p>
       <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">billingAccount</span><span class="badge badge-sm badge-outline font-mono">billingCustomerId</span><span class="badge badge-sm badge-outline font-mono">BillingDB</span><span class="badge badge-sm badge-outline font-mono">billingSubscriptionId</span><span class="badge badge-sm badge-outline font-mono">calculateTax</span><span class="badge badge-sm badge-outline font-mono">ceilingFor</span><span class="badge badge-sm badge-outline font-mono">ChangePlanResult</span><span class="badge badge-sm badge-outline font-mono">changeSubscriptionPlan</span><span class="badge badge-sm badge-outline font-mono">chargeOffSession</span><span class="badge badge-sm badge-outline font-mono">CheckoutOpts</span><span class="badge badge-sm badge-outline font-mono">clearSubscription</span><span class="badge badge-sm badge-outline font-mono">createCheckout</span><span class="badge badge-sm badge-outline font-mono">createCustomer</span><span class="badge badge-sm badge-outline font-mono">createPaymentIntent</span><span class="badge badge-sm badge-outline font-mono">createPaymentIntentOnDefaultCard</span><span class="badge badge-sm badge-outline font-mono">createPortalSessionForCustomer</span><span class="badge badge-sm badge-outline font-mono">createSetupIntent</span><span class="badge badge-sm badge-outline font-mono">createSubscriptionCheckout</span><span class="badge badge-sm badge-outline font-mono">createSubscriptionOnDefaultCard</span><span class="badge badge-sm badge-outline font-mono">defaultCard</span><span class="badge badge-sm badge-outline font-mono">defaultPaymentMethodId</span><span class="badge badge-sm badge-outline font-mono">detachPaymentMethod</span><span class="badge badge-sm badge-outline font-mono">ensurePlanPrice</span><span class="badge badge-sm badge-outline font-mono">getSubscriptionStatus</span><span class="badge badge-sm badge-outline font-mono">linkBillingCustomer</span><span class="badge badge-sm badge-outline font-mono">listPaymentMethods</span><span class="badge badge-sm badge-outline font-mono">ownsPaymentMethod</span><span class="badge badge-sm badge-outline font-mono">PaymentMethodWire</span><span class="badge badge-sm badge-outline font-mono">payOpenInvoice</span><span class="badge badge-sm badge-outline font-mono">planById</span><span class="badge badge-sm badge-outline font-mono">planByPrice</span><span class="badge badge-sm badge-outline font-mono">recordTaxTransaction</span><span class="badge badge-sm badge-outline font-mono">setDefaultPaymentMethod</span><span class="badge badge-sm badge-outline font-mono">setSubscriptionCancel</span><span class="badge badge-sm badge-outline font-mono">setSubscriptionDefaultCard</span><span class="badge badge-sm badge-outline font-mono">StripeConfig</span><span class="badge badge-sm badge-outline font-mono">stripeGet</span><span class="badge badge-sm badge-outline font-mono">stripePost</span><span class="badge badge-sm badge-outline font-mono">SubPlan</span><span class="badge badge-sm badge-outline font-mono">SubscriptionBranding</span><span class="badge badge-sm badge-outline font-mono">SubscriptionCheckoutOpts</span><span class="badge badge-sm badge-outline font-mono">SubscriptionStatus</span><span class="badge badge-sm badge-outline font-mono">TaxAddress</span><span class="badge badge-sm badge-outline font-mono">TaxLocation</span><span class="badge badge-sm badge-outline font-mono">TaxResult</span><span class="badge badge-sm badge-outline font-mono">toForm</span><span class="badge badge-sm badge-outline font-mono">TopupMeta</span><span class="badge badge-sm badge-outline font-mono">upsertBillingAccount</span></div>
       <h2>Depends on</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-ghost font-mono">@suluk/payments</span><span class="badge badge-sm badge-ghost font-mono">@suluk/drizzle</span><span class="badge badge-sm badge-ghost font-mono">drizzle-orm</span></div>
-      <h2>Modules</h2><dl class="modules"><dt><code>account.ts</code></dt><dd>The billing-account store (C046, v2) — the app's user ↔ Stripe link: the customer id + the active subscription id,</dd><dt><code>agnostic.ts</code></dt><dd>The agnostic payment bridge (C048) — billing's server-side charge + customer paths now run through @suluk/payments</dd><dt><code>billing.ts</code></dt><dd>Stripe wrappers (C046, v1) — customer + intent creation and the saved-card surface, over the injected {@link</dd><dt><code>payments.ts</code></dt><dd>The money-MOVING Stripe primitives (C046, v2) — hosted Checkout (one-time + subscription), the billing portal, the</dd><dt><code>subscriptions.ts</code></dt><dd>Subscription mechanics (C046, v2) — the recurring-billing logic, made generic over a {@link SubPlan} shape so the</dd><dt><code>tax.ts</code></dt><dd>Stripe Tax mechanics (C046, v2) — sales-tax / VAT for an on-site or auto top-up via the Tax Calculation API (raw</dd><dt><code>transport.ts</code></dt><dd>The Stripe HTTP transport (C046 → C048) — the seam every billing wrapper rides. Now re-exported from @suluk/payments so</dd></dl>
+      
     </div>
   </article></main>
 <footer class="footer footer-center border-t border-base-300 p-6 text-base-content/60 text-xs">

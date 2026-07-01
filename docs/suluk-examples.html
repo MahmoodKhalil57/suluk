@@ -27,11 +27,71 @@
     </div>
     <p class="text-lg text-base-content/70 mt-2">Example precedence + deterministic, origin-aware schema synthesis from a v4 'Suluk' contract. The shared, zero-dependency leaf both @suluk/journeys and @suluk/sdk read: resolveExample (public &gt; maintainer &gt; synthetic), a deterministic synthesizer, and the C041 field-origin discipline (x-suluk-origin input|sourced|computed + the wireable SourceRef). Pure, self-contained, faker-dep-free. CANDIDATE tooling.</p>
     <div class="prose-suluk mt-6">
-      <h2>Install</h2><pre><code>bun add @suluk/examples</code></pre>
-      <h2>Overview</h2><p>@suluk/examples — example precedence + deterministic, origin-aware schema synthesis.</p>
-<p>The shared, ZERO-DEPENDENCY leaf both @suluk/journeys (BDD outlines + runnable suite) and @suluk/sdk (typed client metadata + sampling) read. Extracted from @suluk/journeys (C040-P2) when @suluk/sdk needed the same reader — journeys already depends on sdk, so the reader had to sit BELOW both (it was built self-contained for exactly this move).</p>
-<p><code>resolveExample</code> picks a request/response example by precedence — a tester-curated PUBLIC example wins over a MAINTAINER example (an explicit one, or the schema's own <code>examples</code>/<code>example</code>/<code>const</code>), which wins over a SYNTHETIC value derived from the schema shape. The synthetic tier is a DETERMINISTIC synthesizer (no external faker dep): same (schema, hint) -&gt; same value, so BDD tests don't flap, and a synthesized value is ALWAYS lowest-precedence, always overridable, and carries <code>synthetic: true</code>. That precedence IS the reconciliation with the journeys arc's never-launder discipline — nothing synthetic is ever presented as authoritative.</p>
-<p>This module imports NOTHING (no @suluk, no external) so it stays on the VALUE side of the C040 wall (a pure projector core must never import it) and is consumable by any package without a dependency cycle. Witnessed by test/wall.test.ts.</p>
+      
+      <blockquote><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify anything on the SIG's behalf.</blockquote>
+<h2>Install</h2>
+<pre><code class="lang-sh">bun add @suluk/examples</code></pre>
+<h2>What it does</h2>
+<p>The shared, <strong>zero-dependency</strong> leaf both <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/journeys"><code>@suluk/journeys</code></a> (BDD outlines + a runnable suite) and <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/sdk"><code>@suluk/sdk</code></a> (typed-client metadata + sampling) read (C040-P2). It imports <strong>nothing</strong> — no <code>@suluk</code>, no external faker — so it sits below both without a dependency cycle and stays on the value side of the C040 projector wall. It does three things:</p>
+<ul>
+<li><strong><code>resolveExample</code></strong> picks a request/response example by <strong>precedence</strong>: a tester-curated <code>public</code></li>
+</ul>
+<p>  example wins over a <code>maintainer</code> example (explicit, or the schema's own   <code>examples</code> / <code>example</code> / <code>const</code>), which wins over a <strong>synthetic</strong> value derived from the schema   shape. A synthetic value is always lowest-precedence, always overridable, and carries   <code>synthetic: true</code> — nothing synthetic is ever presented as authoritative.</p>
+<ul>
+<li><strong><code>synthesize</code></strong> is a <strong>deterministic</strong> synthesizer (no randomness, no <code>Date.now</code>): same</li>
+</ul>
+<p>  <code>(schema, hint)</code> → same value, so BDD tests don't flap. <code>const</code> / <code>enum</code> / <code>default</code> / explicit   <code>examples</code> win per node; formats (<code>email</code>, <code>uuid</code>, <code>date-time</code>, …) get sensible representatives.</p>
+<ul>
+<li><strong>Field origin (C041)</strong> — <code>describeInputs</code> reads <code>x-suluk-origin</code> (<code>input</code> a client may faker /</li>
+</ul>
+<p>  <code>sourced</code> wired from elsewhere / <code>computed</code> server-derived) so a request example drops   server-<code>computed</code> fields and a <code>sourced</code> field becomes a machine-wireable edge (<code>SourceRef</code>) the   journeys emitter and the SDK generator can chain via <code>resolveSourced</code>.</p>
+<h2>Usage</h2>
+<pre><code class="lang-ts">import { resolveExample, synthesize, describeInputs } from &quot;@suluk/examples&quot;;
+
+const schema = {
+  type: &quot;object&quot;,
+  required: [&quot;email&quot;],
+  properties: {
+    id:    { type: &quot;string&quot;, &quot;x-suluk-origin&quot;: &quot;computed&quot; }, // server-derived
+    email: { type: &quot;string&quot;, format: &quot;email&quot; },              // client input
+  },
+};
+
+// Precedence: public &gt; maintainer &gt; schema example &gt; synthetic.
+resolveExample(schema, { maintainer: { email: &quot;given@example.com&quot; } });
+// → { value: { email: &quot;given@example.com&quot; }, tier: &quot;maintainer&quot;, synthetic: false, provenance: &quot;maintainer-explicit&quot; }
+
+resolveExample(schema);
+// → { value: { email: &quot;user@example.com&quot; }, tier: &quot;synthetic&quot;, synthetic: true, provenance: &quot;synthetic&quot; }
+//   (a REQUEST example drops the `computed` id — a client never sends it)
+
+// A deterministic value for a RESPONSE (drops writeOnly, keeps computed fields):
+synthesize(schema, &quot;user&quot;, { direction: &quot;response&quot; });
+
+// Which fields a client may freely fill, which are wired, which are server-computed:
+describeInputs(schema);
+// → [{ name: &quot;id&quot;, origin: &quot;computed&quot;, fakerable: false, required: false },
+//    { name: &quot;email&quot;, origin: &quot;input&quot;, fakerable: true, required: true }]</code></pre>
+<h2>What's inside</h2>
+<table>
+<thead>
+<tr><th>Export</th><th>What it does</th></tr>
+</thead>
+<tbody>
+<tr><td><code>resolveExample(schema, sources?, hint?, opts?)</code></td><td>Pick an example by precedence → <code>ResolvedExample</code> (<code>{ value, tier, synthetic, provenance }</code>).</td></tr>
+<tr><td><code>synthesize(schema, hint?, opts?)</code></td><td>A deterministic, schema-shaped example value (filtered by <code>SynthDirection</code>).</td></tr>
+<tr><td><code>describeInputs(schema)</code></td><td>The top-level fields by origin → <code>FieldDescriptor[]</code> (<code>fakerable</code>, <code>source</code>, <code>required</code>).</td></tr>
+<tr><td><code>fieldOrigin(schema)</code></td><td>A property's origin: explicit <code>x-suluk-origin</code> &gt; <code>readOnly ⇒ computed</code> &gt; default <code>input</code>.</td></tr>
+<tr><td><code>asSourceRef(from)</code></td><td>The structured <code>{ op, select? }</code> edge when <code>x-suluk-from</code> is wireable (else undefined).</td></tr>
+<tr><td><code>resolveSourced(captured, ref)</code></td><td>Pull a <code>sourced</code> field's value from captured operation results (chaining).</td></tr>
+<tr><td><code>ORIGIN_KEYWORD</code> / <code>FROM_KEYWORD</code></td><td>The <code>x-suluk-origin</code> / <code>x-suluk-from</code> vendor-extension keys.</td></tr>
+</tbody>
+</table>
+<p>Types <code>JsonSchema</code>, <code>ExampleTier</code>, <code>ExampleSources</code>, <code>ResolvedExample</code>, <code>FieldOrigin</code>, <code>FieldSource</code>, <code>SourceRef</code>, <code>FieldDescriptor</code>, <code>SynthDirection</code>, and <code>SynthOptions</code> are exported alongside.</p>
+<h2>Boundary</h2>
+<p>This package is a <strong>pure, self-contained leaf</strong> — it reads a known subset of JSON Schema and imports nothing, so any package can consume it without a cycle. It decides <em>which</em> example wins and can <em>synthesize</em> a lowest-precedence one, but it never presents synthetic data as authoritative (the <code>synthetic: true</code> marker is the honest never-launder discipline). It is consumed by <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/journeys"><code>@suluk/journeys</code></a> and <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/tooling/ts/packages/sdk"><code>@suluk/sdk</code></a>.</p>
+<h2>License</h2>
+<p>Apache-2.0</p>
       <h2>Public API</h2><div class="flex flex-wrap gap-2 mb-2"><span class="badge badge-sm badge-outline font-mono">asSourceRef</span><span class="badge badge-sm badge-outline font-mono">describeInputs</span><span class="badge badge-sm badge-outline font-mono">ExampleSources</span><span class="badge badge-sm badge-outline font-mono">ExampleTier</span><span class="badge badge-sm badge-outline font-mono">FieldDescriptor</span><span class="badge badge-sm badge-outline font-mono">fieldOrigin</span><span class="badge badge-sm badge-outline font-mono">FieldOrigin</span><span class="badge badge-sm badge-outline font-mono">FieldSource</span><span class="badge badge-sm badge-outline font-mono">FROM_KEYWORD</span><span class="badge badge-sm badge-outline font-mono">JsonSchema</span><span class="badge badge-sm badge-outline font-mono">ORIGIN_KEYWORD</span><span class="badge badge-sm badge-outline font-mono">ResolvedExample</span><span class="badge badge-sm badge-outline font-mono">resolveExample</span><span class="badge badge-sm badge-outline font-mono">resolveSourced</span><span class="badge badge-sm badge-outline font-mono">SourceRef</span><span class="badge badge-sm badge-outline font-mono">SynthDirection</span><span class="badge badge-sm badge-outline font-mono">synthesize</span><span class="badge badge-sm badge-outline font-mono">SynthOptions</span></div>
       
       
