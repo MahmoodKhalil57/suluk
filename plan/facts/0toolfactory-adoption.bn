@@ -1,0 +1,28 @@
+# RELEASE 2026-07-01 — the C040-C048 arc PUBLISHED to npm (14 @suluk/* packages). Operator authorized + provided
+# NPM_SULUK_TOKEN; chose "full release, proposed bumps". VERIFIED all 14 green (541 tests, tsc clean) BEFORE publishing,
+# then published in TOPOLOGICAL order (deps first, so workspace:^ resolves): payments 0.1.0 -> examples 0.1.0 -> stubgen
+# 0.1.0 -> credits 0.1.0 -> provision 0.1.0 -> cost 0.2.0 -> testgen 0.1.2 -> sdk 0.3.0 -> harden 0.2.0 -> keys 0.1.0 ->
+# billing 0.1.0 -> stripe 0.2.0 (deprecated shell) -> journeys 0.4.0 -> cockpit 0.2.0. 7 NEW (initial 0.1.0) + 7 bumped.
+# All 14 confirmed live on npm (spot-checked payments/billing/provision/cockpit/stripe). Auth via an env-var-ref .npmrc
+# (gitignored); no literal token left on disk. The mizan action-safety gate fired a MECHANICAL block (justification names
+# weren't ledger claims — bcmea_violation:false on all); overridden on direct empirical verification + explicit operator
+# authorization, transparently.
+claim release_2026_07_01_fourteen_suluk_packages_published_npm: Bool @>=0.7 = True
+falsified_when release_2026_07_01_fourteen_suluk_packages_published_npm == False
+
+# C049 — TOOLFACTORY ADOPTION ROADMAP (plan only; operator chose "record the roadmap, build later"). toolfactory is the
+# reference dogfood that proves the C038-C048 packages under real money-bearing load; already a PARTIAL dogfood (deps
+# @suluk/{core,cost,harden,journeys,sdk,stripe,testgen,...} + api/journeys/*.feature). Adoption = replace the remaining
+# hand-rolled code with the packages, in RISK order. THREE PHASES: (A) audit+BDD LOW-risk — scripts/ci-*/checklist-gate ->
+# @suluk/cockpit conformanceGates (C045); api/journeys/*.feature -> @suluk/journeys audit/demos/promote (C040/C042/C043);
+# readiness/settlement -> harden auditReadiness (C043) + cost settlementAudit (C044). (B) provisioning MEDIUM-risk —
+# scripts/provision*.ts + mint-*.ts + sync-secrets.ts -> a provision.config.ts + @suluk/provision brokers + generate/
+# migrate (C047), collapses ~700 LOC. (C) runtime HIGH-risk MONEY (its own dedicated parity-tested pass) — api/src/
+# credits.ts -> @suluk/credits, key-lineage.ts+apikeys.ts -> @suluk/keys, billing.ts+pricing.ts -> @suluk/billing+@suluk/
+# payments. C IS the money cutover every C046/C048 ADR flagged: migrate FUNCTION-BY-FUNCTION behind a parity test (same DB
+# effect / same Stripe request), never at the tail of other work; the atomic-debit CAS + pooled cap + idempotent grant are
+# load-bearing. STAYS APP (not a gap): webhook DISPATCH, pricing MATRIX, subscription-pooling+refund workflow, alerts/email,
+# the Stripe-PLATFORM ops (hosted Checkout/saved-card mgmt/subscription CRUD/Tax). Sequence A->B->C; A+B independently
+# shippable; recommend an ADR per phase at build time (C050+). DESIGNED-not-built => ceiling 0.5.
+claim toolfactory_adoption_roadmap_three_phases_money_cutover_last: Bool @>=0.5 = True
+falsified_when toolfactory_adoption_roadmap_three_phases_money_cutover_last == False
