@@ -214,3 +214,25 @@ falsified_when platform_c051_build8_env_lifecycle_secrets_dotenv_temp_nonsecrets
 # runtime + more consumers pending).
 claim platform_c055_encrypted_committed_env_suluk_env_mlkem_both_runtime_paths_built_live_adopted: Bool @>=0.8 = True
 falsified_when platform_c055_encrypted_committed_env_suluk_env_mlkem_both_runtime_paths_built_live_adopted == False
+
+# C056 — PROVISIONING ENV COMPLETENESS + the EPHEMERAL-MASTER credential lifecycle (2026-07-01, operator across 5 turns:
+# "autotoolfactory has less env vars than toolfactory — we didn't provision properly" -> ".env.temp plaintext -> encrypt to
+# .env, delete provisioning-only creds before push" -> "provisioning consumes .env.temp if exists (deletes it) or uses
+# existing .env" -> "master token not in git, only scoped tokens; decryption key -> CF worker + ~/.suluk/settings.json" ->
+# "instruct user to revoke the master CF token after minting"). Grounded in a full map of toolfactory's env.ts/.env/provision/
+# mint scripts (24 vars; toolfactory KEEPS all creds encrypted — we diverge to ephemeral-master). BUILT: EnvVar gains
+# surface("local"|"cloudflare") + provisioning(ephemeral master, deleted before commit) + minted(scoped token). The catalog's
+# `app` declares CLOUDFLARE_API_TOKEN (master, provisioning), CLOUDFLARE_ACCOUNT_ID (keeper), scoped D1/WORKERS/KV tokens
+# (minted); `admin` declares SUPERADMIN_EMAILS. src/env.ts (defineEnv) emits each with its surface. THE LIFECYCLE (generated
+# scripts): .env.temp = plaintext bootstrap (gitignored); scripts/provision.ts = keygen+link-key -> source creds (CONSUME
+# .env.temp if present else decrypt .env) -> suluk-provision apply -> mint-tokens (scoped from master via CF API) -> encrypt
+# keepers -> DELETE the ephemeral master from .env -> rm .env.temp -> git add -f .env -> INSTRUCT operator to REVOKE the master
+# in the CF dashboard. scripts/mint-tokens.ts mints the scoped tokens. The decryption key (SULUK_PRIVATE_KEY) lives in
+# ~/.suluk/settings.json (local) AND is pushed to the Worker by sync-secrets (loadEnv decrypts at runtime). env-check +
+# .env.example reflect the .env.temp->provision->sealed-.env flow. VERIFIED: platform 92 tests pass, tsc clean; src/env.ts
+# typechecks + all 4 generated scripts (provision/mint-tokens/sync-secrets/link-key) transpile + resolve against
+# @suluk/env/node in autotoolfactory. @suluk/platform 0.4.0 published. ADR C056. Ceiling 0.62: env-declaration + lifecycle
+# scripts BUILT + tested, but the CF-calling steps (suluk-provision apply / token minting / wrangler secret put) are
+# OPERATOR-RUN and NOT yet executed end-to-end against a real Cloudflare account (that live run is the missing witness).
+claim platform_c056_provisioning_env_completeness_ephemeral_master_lifecycle_built: Bool @>=0.62 = True
+falsified_when platform_c056_provisioning_env_completeness_ephemeral_master_lifecycle_built == False
