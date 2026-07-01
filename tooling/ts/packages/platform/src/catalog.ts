@@ -19,11 +19,11 @@ export interface CatalogEntry {
 
 export const CATALOG: Record<string, CatalogEntry> = {
   app: { mount: { kind: "base" } },
-  auth: { mount: { kind: "middleware", symbol: "mountAuthRoutes", from: "./auth" }, provision: { symbol: "authProvision", from: "./provision/auth" } },
-  credits: { mount: { kind: "route", path: "/credits", symbol: "creditsRoutes", from: "./routes/credits" }, provision: { symbol: "creditsProvision", from: "./provision/credits" } },
-  keys: { mount: { kind: "route", path: "/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./provision/keys" } },
-  billing: { mount: { kind: "route", path: "/billing", symbol: "billingRoutes", from: "./routes/billing" }, provision: { symbol: "billingProvision", from: "./provision/billing" } },
-  logs: { mount: { kind: "route", path: "/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./provision/logs" } },
+  auth: { mount: { kind: "middleware", symbol: "mountAuthRoutes", from: "./auth" }, provision: { symbol: "authProvision", from: "./src/provision/auth" } },
+  credits: { mount: { kind: "route", path: "/credits", symbol: "creditsRoutes", from: "./routes/credits" }, provision: { symbol: "creditsProvision", from: "./src/provision/credits" } },
+  keys: { mount: { kind: "route", path: "/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" } },
+  billing: { mount: { kind: "route", path: "/billing", symbol: "billingRoutes", from: "./routes/billing" }, provision: { symbol: "billingProvision", from: "./src/provision/billing" } },
+  logs: { mount: { kind: "route", path: "/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } },
 };
 
 /** app + auth always come first (the base + the user/apikey tables others reference); the rest keep manifest order. */

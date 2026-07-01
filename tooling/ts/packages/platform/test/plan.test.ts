@@ -28,7 +28,7 @@ describe("planPlatform — manifest → shadcn adds + entry + provision.config",
   test("the generated provision.config imports each fragment + merges them", () => {
     expect(plan.provisionConfig).toContain('import { defineProvision } from "@suluk/provision";');
     expect(plan.provisionConfig).toContain('import { mergeProvision } from "@suluk/platform";');
-    expect(plan.provisionConfig).toContain('import { authProvision } from "./provision/auth";');
+    expect(plan.provisionConfig).toContain('import { authProvision } from "./src/provision/auth";');
     expect(plan.provisionConfig).toContain("mergeProvision([authProvision, creditsProvision, keysProvision, billingProvision, logsProvision])");
   });
 

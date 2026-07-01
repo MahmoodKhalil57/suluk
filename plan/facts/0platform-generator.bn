@@ -48,3 +48,19 @@ falsified_when platform_generator_supersedes_c049_fresh_parity_app_safer_money =
 # generation produces the wiring deterministically) + diff-parity vs toolfactory; provision apply is the operator's live step.
 claim platform_generator_c051_build1_manifest_catalog_plan_merge_generate_built: Bool @>=0.55 = True
 falsified_when platform_generator_c051_build1_manifest_catalog_plan_merge_generate_built == False
+
+# C051 BUILD #2 — the ONE-SHOT PROVEN END-TO-END + a real bug caught live (2026-07-01). Scaffolded ~/apps/autotoolfactory
+# + platform.config.ts (definePlatform services auth/credits/keys/billing/logs), ran the generator (dry) -> the wired
+# src/index.ts (createApp + mountAuthRoutes(app) + app.route per feature + export default) + the merged provision.config.ts.
+# Then LIVE `bunx shadcn add MahmoodKhalil57/suluk/{auth,credits,keys,billing,logs}` PULLED ALL 20 MODULE FILES from the
+# pushed public registry (app auto-resolved via registryDependencies). BUG CAUGHT LIVE (the value of a real run): shadcn
+# resolves BARE registryDependencies ("app") against the DEFAULT registry ui.shadcn.com, NOT the GitHub repo -> the first
+# add failed fetching app.json from ui.shadcn.com; FIX = fully-qualify registryDependencies to MahmoodKhalil57/suluk/<item>
+# (all 5 items); re-pushed. SECOND fix: shadcn lands `target: provision/x.ts` under the components base (src/provision/),
+# so the generated provision.config's import path was corrected to ./src/provision/<x> (catalog.from). platform 7 pass
+# still green. So: ONE manifest -> the generator wired the entry + merged provision, and a single shadcn-add command pulled
+# the whole backend's owned code. The one-shot autotoolfactory pipeline WORKS. REMAINING: publish @suluk/platform (the
+# generated provision.config imports mergeProvision from it) so autotoolfactory installs; bun install + tsc = the parity
+# signal; provision apply is the operator's live infra step.
+claim platform_c051_build2_oneshot_autotoolfactory_proven_live_shadcn_add: Bool @>=0.6 = True
+falsified_when platform_c051_build2_oneshot_autotoolfactory_proven_live_shadcn_add == False
