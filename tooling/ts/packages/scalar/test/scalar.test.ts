@@ -119,6 +119,122 @@ describe("v4 facets become Scalar badges (the first phase of Scalar-for-v4)", ()
   });
 });
 
+describe("route economics — cost · settlement · dynamic components · triggered events", () => {
+  // an AI-transcription route: a fixed floor + DYNAMIC per-token (model) + per-mb (file) cost, settled by CREDIT, that
+  // TRIGGERS a background webhook-received cost on `billingSync`. billingSync is the triggered event (non-sync cost).
+  const doc = {
+    openapi: "4.0.0-candidate", info: { title: "Econ", version: "1" },
+    paths: {
+      transcribe: { requests: { transcribe: {
+        method: "POST", responses: { ok: { status: "200", description: "OK" } },
+        "x-suluk-access": { requires: "authenticated" },
+        "x-suluk-cost": {
+          estimateMicroUsd: 500,
+          components: [
+            { source: "compute", basis: "per-call", microUsd: 500, description: "request overhead" },
+            { source: "openai:whisper", basis: "per-1k-tokens", microUsd: 6000, description: "the AI model" },
+            { source: "r2-egress", basis: "per-mb", microUsd: 90, description: "audio file size" },
+          ],
+          settlement: { method: "credit", credits: 3 },
+        },
+      } } },
+      "webhooks/billing": { requests: { billingSync: {
+        method: "POST", responses: { ok: { status: "200", description: "OK" } },
+        "x-suluk-cost": { estimateMicroUsd: 200, trigger: "webhook-received", triggerRef: "transcribe", attribution: { strategy: "event-expression", trust: "verified" } },
+      } } },
+    },
+  } as never;
+
+  const detail = () => (enrichedV4(doc).spec as any).paths.transcribe.requests.transcribe.description as string;
+
+  test("badges: cost (with the ＋ metered marker) + settlement render alongside access", () => {
+    const badges = ((enrichedV4(doc).spec as any).paths.transcribe.requests.transcribe["x-badges"] as { name: string }[]).map((b) => b.name);
+    expect(badges.some((n) => n.startsWith("💰") && n.includes("＋"))).toBe(true); // fixed floor + a metered ＋
+    expect(badges.some((n) => n.includes("💳 credits"))).toBe(true);              // the settlement badge
+  });
+
+  test("the DYNAMIC / metered components render with their rate + unit + description", () => {
+    const d = detail();
+    expect(d).toContain("+ 6000µ$ / 1k tokens");  // the AI-model per-1k-tokens rate
+    expect(d).toContain("the AI model");
+    expect(d).toContain("+ 90µ$ / MB");            // the file-size per-mb rate
+    expect(d).toContain("audio file size");
+  });
+
+  test("SETTLEMENT (how it's paid) renders — credits debited", () => {
+    expect(detail()).toContain("**Settlement** — 💳 credits · 3 credits debited per call");
+  });
+
+  test("the TRIGGERED cost-bearing events render on the route that fires them (reverse of triggerRef)", () => {
+    expect(detail()).toContain("**Triggers** —");
+    expect(detail()).toContain("`billingSync`");
+    expect(detail()).toContain("webhook-received");
+  });
+
+  test("the triggered event ITSELF shows when its cost accrues + who pays", () => {
+    const bs = (enrichedV4(doc).spec as any).paths["webhooks/billing"].requests.billingSync.description as string;
+    expect(bs).toContain("**Accrues** — on `webhook-received`");
+    expect(bs).toContain("via `transcribe`");
+    expect(bs).toContain("billed to _event-expression_");
+  });
+
+  test("the 3.1 downgrade path renders the same economics (settlement + dynamic + triggers)", () => {
+    const d = (enrichedSpec(doc).spec as any).paths["/transcribe"].post.description as string;
+    expect(d).toContain("💳 credits");
+    expect(d).toContain("+ 6000µ$ / 1k tokens");
+    expect(d).toContain("`billingSync`");
+  });
+});
+
+describe("per-route hardening report (@suluk/harden → a native collapsible <details> per op)", () => {
+  // createThing takes an UNBOUNDED body (`contentSchema: true` = permits ANY) → a high-severity finding, low grade.
+  // listThing takes no input → clean (grade A, no findings).
+  const doc = {
+    openapi: "4.0.0-candidate", info: { title: "H", version: "1" },
+    paths: { thing: { requests: {
+      createThing: { method: "POST", contentSchema: true, responses: { ok: { status: "200", description: "OK" } } },
+      listThing: { method: "GET", responses: { ok: { status: "200", description: "OK" } } },
+    } } },
+  } as never;
+
+  test("each op gets a collapsible <details> hardening report with its grade + score (v4-native path)", () => {
+    const create = (enrichedV4(doc).spec as any).paths.thing.requests.createThing;
+    expect(create.description).toContain("<details>");
+    expect(create.description).toContain("<summary>");
+    expect(create.description).toContain("🛡 Hardening");
+    expect(create.description).toMatch(/grade [A-F] · \d+\/100/);
+  });
+
+  test("the findings are listed (severity · schema path · message · fix) for an unbounded input", () => {
+    const create = (enrichedV4(doc).spec as any).paths.thing.requests.createThing;
+    expect(create.description).toContain("<li>");
+    expect(create.description).toContain("permits ANY"); // the `no-any` finding message for `contentSchema: true`
+    expect(create.description).toContain("fix:");
+  });
+
+  test("a clean op reports no findings", () => {
+    const list = (enrichedV4(doc).spec as any).paths.thing.requests.listThing;
+    expect(list.description).toContain("🛡 Hardening");
+    expect(list.description).toContain("no findings");
+  });
+
+  test("the 3.1 downgrade path (enrichedSpec) also appends the per-op hardening report", () => {
+    const create = (enrichedSpec(doc).spec as any).paths["/thing"].post;
+    expect(create.description).toContain("🛡 Hardening");
+    expect(create.description).toContain("<details>");
+  });
+
+  test("hardening:false skips the audit + the report", () => {
+    const create = (enrichedV4(doc, { hardening: false }).spec as any).paths.thing.requests.createThing;
+    expect(create.description ?? "").not.toContain("🛡 Hardening");
+  });
+
+  test("the intro carries the doc-level hardening grade", () => {
+    const info = (enrichedV4(doc).spec as any).info;
+    expect(info.description).toContain("input-hardening grade");
+  });
+});
+
 describe("scalarV4Html — the v4 REFERENCE (fork) with all suluk superpowers", () => {
   const v4doc = {
     openapi: "4.0.0-candidate", info: { title: "saasuluk", version: "1" },

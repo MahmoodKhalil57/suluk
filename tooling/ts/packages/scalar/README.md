@@ -30,7 +30,16 @@ Takes a parsed v4 document and returns a self-contained Scalar API Reference HTM
 
 - **Native v4 (`scalarV4*`).** Feeds the v4 doc *as v4* to the suluk-forked Scalar standalone, which projects `requests`→operations internally, shows the `4.0.0-candidate` version badge, and renders the v4-only shapes (multi-request-per-method, request-name identity via `showOperationId`). The fork bundle is served from `@suluk/scalar-standalone` on jsDelivr by default, so it works out of the box.
 - **3.1 downgrade (`scalar*`).** Projects the v4 doc down to OpenAPI 3.1 (via `@suluk/openapi-compat`) and feeds it to vanilla Scalar — the baseline view that runs against any pinned upstream Scalar bundle.
-- **v4 facets, surfaced either way.** `x-suluk-cost` and `x-suluk-access` become Scalar `x-badges` rendered on each operation; expanding an operation reveals the cost breakdown by source + the access rule; a "Suluk v4 contract" intro with a cost-coverage tally is prepended to the doc description.
+- **v4 facets, surfaced either way.** `x-suluk-cost` and `x-suluk-access` become Scalar `x-badges` on each operation (+ a `💳/⏳/🎁` settlement badge); a "Suluk v4 contract" intro with a cost-coverage + hardening-grade tally is prepended to the doc description.
+
+- **Route economics, per operation.** Expanding an operation reveals the full economics — not just a number:
+  - **Cost** — the per-call floor **plus every DYNAMIC/metered component** with its rate + unit + description (`+ 6000µ$ / 1k tokens — openai:whisper (the AI model)`, `+ 90µ$ / MB — r2-egress (file size)`), so file-size / token / model / compute costs read at a glance.
+  - **Settlement** — how the user pays: `💳 credits` (N debited) · `⏳ rate-limited` (free within the cap) · `🎁 free` (operator-absorbed) — the C044 axis.
+  - **Accrues / Triggers** — when a non-synchronous cost fires (webhook-received / scheduled / queue-consumed / callback-completed) + who pays, and the reverse: the downstream cost-bearing **events this route triggers** (`Triggers — \`billingSync\` (webhook-received, ~$0.0002)`).
+
+- **Native collapsible hardening report, per route.** Every operation carries an inline `<details>` with its `@suluk/harden` input-hardening grade (A–F) + score + each finding (severity · schema path · message · fix) — collapsed by default, expand to audit the route.
+
+Declare it all **inline on the route** — `RouteContract.cost` (`@suluk/hono`) carries the full `CostModel` next to `scopes`/`errors`/`rateLimit`, so a backend dev considers the economics *while writing the code*, and it renders here + audits in `@suluk/cost` + reports elsewhere.
 - **Pinned, never `@latest`.** `SCALAR_VERSION` and `SULUK_FORK_CDN` are exported so the UI never drifts under you; override `cdn` to self-host the bytes.
 
 ## When to reach for it

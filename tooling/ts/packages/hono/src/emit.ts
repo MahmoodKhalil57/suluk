@@ -138,6 +138,9 @@ function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContex
 
   // stamp the declared rate-limit facet so rateLimitIndex/coverage + the middleware can read it off the document.
   if (route.rateLimit) req["x-suluk-ratelimit"] = route.rateLimit;
+  // stamp the declared route ECONOMICS (cost/settlement/triggers/dynamic) so @suluk/cost audits + @suluk/scalar renders it.
+  // x-suluk-cost is a passthrough facet (@suluk/cost owns the type + reads it via the same cast) — not a declared Request key.
+  if (route.cost) (req as Request & Record<string, unknown>)["x-suluk-cost"] = route.cost;
 
   // security: explicit wins; else synthesize from scopes if a scheme name is configured.
   const security: SecurityRequirement[] | undefined =

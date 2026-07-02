@@ -14,6 +14,7 @@
  */
 import { downgrade, type Diagnostic } from "@suluk/openapi-compat";
 import type { OpenAPIv4Document } from "@suluk/core";
+import { auditDocument, type OpAudit } from "@suluk/harden";
 
 /** We OWN this version (the fork's first act): pin instead of riding `@latest`, so the UI never drifts under us. */
 export const SCALAR_VERSION = "1.59.0";
@@ -36,6 +37,9 @@ export interface ScalarOptions {
   cdn?: string;
   /** Surface v4 facets (cost + access) as Scalar badges on each operation (default true). */
   facetBadges?: boolean;
+  /** Append a native collapsible `<details>` input-hardening report (grade + findings, from @suluk/harden) to each
+   *  operation's description (default true). Set false to skip the audit + keep descriptions clean. */
+  hardening?: boolean;
   /** Override the injected suluk theme CSS. */
   customCss?: string;
   /** Extra Scalar configuration merged into createApiReference (theme, layout, hideModels, …). */
@@ -51,13 +55,36 @@ export interface RenderResult {
 
 const HTTP_METHODS = ["get", "put", "post", "patch", "delete", "head", "options", "trace"] as const;
 
-/** A small accent of suluk's identity over Scalar's own design tokens (kept light — Scalar's UI is already good). */
-interface CostFacet { estimateMicroUsd?: number; components?: { source?: string; basis?: string; microUsd?: number }[] }
+/** A small accent of suluk's identity over Scalar's own design tokens (kept light — Scalar's UI is already good). The
+ *  cost facet mirrors @suluk/cost's CostModel — the FULL route economics, not just a flat number. */
+interface CostComponent { source?: string; basis?: string; microUsd?: number; description?: string }
+interface CostSettlement { method?: "credit" | "rate-limited" | "free"; credits?: number; overflow?: "deny" | "credit" }
+interface CostFacet {
+  estimateMicroUsd?: number;
+  components?: CostComponent[];
+  /** HOW the operator RECOVERS the cost (C044): credit · rate-limited · free. */
+  settlement?: CostSettlement;
+  /** WHEN the cost fires (C024): synchronous (default) · webhook-received · scheduled · queue-consumed · callback-completed. */
+  trigger?: string;
+  /** the by-name op whose firing accrues this cost (a non-sync trigger). */
+  triggerRef?: string;
+  /** WHO pays a background cost (session · event-expression · job-stamped). */
+  attribution?: { strategy?: string; expression?: string; trust?: string };
+}
 interface AccessFacet { requires?: "anyone" | "authenticated" | "admin"; scope?: "owner" }
 
+// `per-call` = a FIXED cost each request; every other basis is VARIABLE/metered — DYNAMIC cost whose amount is only known
+// at runtime (from tokens, file MB, compute seconds, upstream calls, …). The static declaration names the RATE + the unit.
+const isFixed = (c: CostComponent): boolean => (c.basis ?? "per-call") === "per-call";
+const BASIS_LABEL: Record<string, string> = { "per-call": "call", "per-unit": "unit", "per-token": "token", "per-1k-tokens": "1k tokens", "per-second": "second", "per-request": "upstream call", "per-mb": "MB" };
+const SETTLE_LABEL: Record<string, string> = { credit: "💳 credits", "rate-limited": "⏳ rate-limited", free: "🎁 free" };
+
+/** The FIXED per-call total (µ$): the declared estimate if given, else the sum of the per-call components. VARIABLE
+ *  (metered) components are excluded — their amount is reported at runtime, so the badge/estimate shows the floor. */
 function costTotal(cost: CostFacet): number {
-  return cost.estimateMicroUsd ?? (cost.components ?? []).filter((c) => c.basis === "per-call").reduce((s, c) => s + (c.microUsd ?? 0), 0);
+  return cost.estimateMicroUsd ?? (cost.components ?? []).filter(isFixed).reduce((s, c) => s + (c.microUsd ?? 0), 0);
 }
+const hasVariable = (cost: CostFacet): boolean => (cost.components ?? []).some((c) => !isFixed(c) && (c.microUsd ?? 0) > 0);
 const fmtCost = (micro: number): string => (micro >= 10000 ? "$" + (micro / 1_000_000).toFixed(4) : micro + "µ$");
 const accessText = (acc: AccessFacet): string =>
   ({ admin: "Admin only", authenticated: "Signed-in users", anyone: "Public (no auth)" }[acc.requires ?? "anyone"] ?? "Public") + (acc.scope === "owner" ? " · owner-scoped (you only see your own rows)" : "");
@@ -65,10 +92,21 @@ const accessText = (acc: AccessFacet): string =>
 function costBadge(cost: CostFacet | undefined): { name: string; color: string } | null {
   if (!cost) return null;
   const total = costTotal(cost);
-  if (!total) return null;
+  const variable = hasVariable(cost);
+  if (!total && !variable) return null;
+  // `＋` marks a DYNAMIC cost on top of the fixed floor (metered by tokens/MB/…); a purely-metered op reads "💰 metered".
+  const name = total ? `💰 ${fmtCost(total)}${variable ? "＋" : ""}` : "💰 metered";
   // Colours are Scalar theme tokens (not hardcoded hex), so the badge adapts to whatever Scalar theme is active
   // and renders in the fork's subtle semantic style (faint tint + coloured text), matching Scalar's own badges.
-  return { name: "💰 " + fmtCost(total), color: "var(--scalar-color-purple)" };
+  return { name, color: "var(--scalar-color-purple)" };
+}
+
+/** How the cost is SETTLED (C044) as its own badge, so the payment model reads at a glance alongside cost + access. */
+function settlementBadge(cost: CostFacet | undefined): { name: string; color: string } | null {
+  const m = cost?.settlement?.method;
+  if (!m) return null;
+  const color = m === "credit" ? "var(--scalar-color-purple)" : m === "rate-limited" ? "var(--scalar-color-orange)" : "var(--scalar-color-green)";
+  return { name: SETTLE_LABEL[m] ?? m, color };
 }
 
 function accessBadge(acc: AccessFacet | undefined): { name: string; color: string } | null {
@@ -89,34 +127,100 @@ export function enrichFacetBadges(spec: { paths?: Record<string, Record<string, 
       const badges: { name: string; position: "after"; color: string }[] = [];
       const ab = accessBadge(op["x-suluk-access"] as AccessFacet | undefined); if (ab) badges.push({ position: "after", ...ab });
       const cb = costBadge(op["x-suluk-cost"] as CostFacet | undefined); if (cb) badges.push({ position: "after", ...cb });
+      const sb = settlementBadge(op["x-suluk-cost"] as CostFacet | undefined); if (sb) badges.push({ position: "after", ...sb });
       if (badges.length) op["x-badges"] = badges;
     }
   }
 }
 
-/** The full v4-facet detail for an operation, as a markdown block appended to its description — so EXPANDING an
- *  operation in Scalar reveals the cost breakdown (by source) + the access rule, not just the collapsed badge. */
-function facetDetail(op: Record<string, unknown>): string {
+/** One cost-bearing event another op fires when THIS route runs (the reverse of `x-suluk-cost.triggerRef`). */
+interface TriggeredCost { name: string; trigger: string; total: number }
+
+/** Reverse index of `x-suluk-cost.triggerRef`: op NAME → the cost-bearing EVENTS (other ops) whose cost accrues when
+ *  this op fires. So each route can show the downstream events it triggers + their per-event cost. Built off the v4
+ *  `requests` (by name) — the one place the whole doc is in view. */
+function triggerIndex(paths: Record<string, { requests?: Record<string, Record<string, unknown>> }> | undefined): Map<string, TriggeredCost[]> {
+  const idx = new Map<string, TriggeredCost[]>();
+  for (const pi of Object.values(paths ?? {})) {
+    for (const [name, req] of Object.entries(pi?.requests ?? {})) {
+      const cost = (req as Record<string, unknown>)?.["x-suluk-cost"] as CostFacet | undefined;
+      if (cost?.trigger && cost.trigger !== "synchronous" && cost.triggerRef) {
+        (idx.get(cost.triggerRef) ?? idx.set(cost.triggerRef, []).get(cost.triggerRef)!).push({ name, trigger: cost.trigger, total: costTotal(cost) });
+      }
+    }
+  }
+  return idx;
+}
+
+/** The full v4-facet detail for an operation, as a markdown block appended to its description — so EXPANDING an operation
+ *  in Scalar reveals the ROUTE ECONOMICS: access · cost (the fixed floor + each DYNAMIC/metered component with its rate +
+ *  unit) · how it's SETTLED (credit/rate-limited/free) · when its cost ACCRUES (a non-sync trigger + who pays) · and the
+ *  downstream cost-bearing EVENTS it triggers — not just the collapsed badge. `triggered` = this op's reverse-index entry. */
+function facetDetail(op: Record<string, unknown>, triggered?: TriggeredCost[]): string {
   const lines: string[] = [];
   const acc = op["x-suluk-access"] as AccessFacet | undefined;
   if (acc?.requires) lines.push(`**Access** — ${accessText(acc)}`);
   const cost = op["x-suluk-cost"] as CostFacet | undefined;
   if (cost) {
+    // the FIXED floor + its per-call breakdown.
     const total = costTotal(cost);
-    const parts = (cost.components ?? []).filter((c) => c.microUsd).map((c) => `${c.source ?? "?"} ${c.microUsd}µ$`).join(" · ");
-    lines.push(`**Cost** — ~${fmtCost(total)} per call${parts ? ` _(${parts})_` : ""}`);
+    const fixed = (cost.components ?? []).filter((c) => isFixed(c) && c.microUsd).map((c) => `${c.source ?? "?"} ${c.microUsd}µ$`).join(" · ");
+    lines.push(`**Cost** — ~${fmtCost(total)} per call${fixed ? ` _(${fixed})_` : ""}`);
+    // the DYNAMIC / metered components — cost that scales with tokens / file MB / compute seconds / upstream calls, etc.
+    for (const c of (cost.components ?? []).filter((c) => !isFixed(c) && c.microUsd)) {
+      lines.push(`&nbsp;&nbsp;↳ **+ ${c.microUsd}µ$ / ${BASIS_LABEL[c.basis ?? ""] ?? c.basis}** — ${c.source ?? "?"}${c.description ? ` _(${c.description})_` : ""}`);
+    }
+    // SETTLEMENT — how the user pays for it.
+    const s = cost.settlement;
+    if (s?.method) {
+      const how = s.method === "credit"
+        ? (s.credits != null ? `${s.credits} credit${s.credits === 1 ? "" : "s"} debited per call` : "credits debited (amount derived from the estimate)")
+        : s.method === "rate-limited"
+          ? `free within the rate-limit cap${s.overflow === "credit" ? ", then credits" : ""}`
+          : "the operator absorbs the cost";
+      lines.push(`**Settlement** — ${SETTLE_LABEL[s.method] ?? s.method} · ${how}`);
+    }
+    // this op's OWN cost fires on an EVENT (non-synchronous) — when it accrues + who pays.
+    if (cost.trigger && cost.trigger !== "synchronous") {
+      lines.push(`**Accrues** — on \`${cost.trigger}\`${cost.triggerRef ? ` (via \`${cost.triggerRef}\`)` : ""}${cost.attribution?.strategy ? ` · billed to _${cost.attribution.strategy}_` : ""}`);
+    }
+  }
+  // the downstream cost-bearing EVENTS this route triggers (the reverse of triggerRef).
+  if (triggered?.length) {
+    lines.push(`**Triggers** — ${triggered.map((t) => `\`${t.name}\` _(${t.trigger}${t.total ? `, ~${fmtCost(t.total)}` : ""})_`).join(" · ")}`);
   }
   return lines.length ? `\n\n---\n\n${lines.join("  \n")}` : "";
 }
 
-/** Append the v4 facet detail to each operation's description (progressive disclosure, complementing the badges). */
-export function enrichFacetDetail(spec: { paths?: Record<string, Record<string, unknown>> }): void {
+const SEV_ICON: Record<string, string> = { high: "🔴", medium: "🟠", low: "🟡" };
+
+/** A NATIVE COLLAPSIBLE input-hardening report for ONE operation — its @suluk/harden grade + score + each finding
+ *  (severity · schema path · what's wrong · the fix) — as an HTML `<details>` appended to the op's description, so every
+ *  route carries its own hardening audit inline in the Scalar UI (collapsed by default; expand to see the findings).
+ *  Rendered as HTML (not markdown) so the disclosure + list render regardless of the description's markdown processor. */
+function hardeningDetail(audit: OpAudit | undefined): string {
+  if (!audit) return "";
+  const n = audit.findings.length;
+  const summary = `🛡 Hardening — grade ${audit.grade} · ${audit.score}/100 · ${n === 0 ? "no findings" : `${n} finding${n === 1 ? "" : "s"}`}`;
+  const body =
+    n === 0
+      ? `<p>Every input schema on this operation is typed and bounded — nothing malformed or oversized gets through.</p>`
+      : `<ul>${audit.findings
+          .map((f) => `<li>${SEV_ICON[f.severity] ?? "•"} <strong>${escapeHtml(f.severity)}</strong> <code>${escapeHtml(f.path)}</code> — ${escapeHtml(f.message)} <em>(fix: ${escapeHtml(f.fix)})</em></li>`)
+          .join("")}</ul>`;
+  return `\n\n<details><summary>${escapeHtml(summary)}</summary>${body}</details>`;
+}
+
+/** Append the v4 facet detail to each operation's description (progressive disclosure, complementing the badges). `tIdx`
+ *  (the reverse trigger index, keyed by op NAME = the 3.1 `operationId`) drives the "Triggers" line — pass it from the
+ *  original v4 doc (the downgraded spec has no `requests` to build it from). */
+export function enrichFacetDetail(spec: { paths?: Record<string, Record<string, unknown>> }, tIdx?: Map<string, TriggeredCost[]>): void {
   for (const pi of Object.values(spec.paths ?? {})) {
     if (!pi || typeof pi !== "object") continue;
     for (const m of HTTP_METHODS) {
       const op = pi[m] as Record<string, unknown> | undefined;
       if (!op || typeof op !== "object") continue;
-      const detail = facetDetail(op);
+      const detail = facetDetail(op, tIdx?.get(op.operationId as string));
       if (detail) op.description = (typeof op.description === "string" ? op.description : "") + detail;
     }
   }
@@ -150,13 +254,38 @@ function escapeHtml(s: string): string {
 
 /** Project a v4 document to the 3.1 spec Scalar consumes, ENRICHED with the v4 facets (cost/access → badges + detail
  *  + intro). The standalone (+ the /reference composite's view-as endpoint) both serve this. Never mutates `doc`. */
-export function enrichedSpec(doc: OpenAPIv4Document, opts: { facetBadges?: boolean } = {}): { spec: Record<string, unknown>; diagnostics: Diagnostic[] } {
+export function enrichedSpec(doc: OpenAPIv4Document, opts: { facetBadges?: boolean; hardening?: boolean } = {}): { spec: Record<string, unknown>; diagnostics: Diagnostic[] } {
   const { document: raw, diagnostics } = downgrade(doc);
   // Clone before enriching: `downgrade` shares sub-objects (info/operations) with the input by reference, so mutating
   // them in place would corrupt the caller's document (and accumulate across calls). The spec is JSON-safe.
   const spec = JSON.parse(JSON.stringify(raw));
-  if (opts.facetBadges !== false) { enrichFacetBadges(spec); enrichFacetDetail(spec); v4Intro(spec); }
+  if (opts.facetBadges !== false) {
+    enrichFacetBadges(spec);
+    // the reverse trigger index is built off the ORIGINAL v4 doc (`requests` by name) — the downgraded spec has none.
+    enrichFacetDetail(spec, triggerIndex(doc.paths as unknown as Parameters<typeof triggerIndex>[0]));
+    v4Intro(spec);
+    // the per-op hardening report — audit the ORIGINAL v4 doc (it reads `requests`), map by method+path onto the
+    // downgraded ops, and append the collapsible `<details>` to each op's description.
+    if (opts.hardening !== false) enrichHardening3x(spec, doc);
+  }
   return { spec, diagnostics };
+}
+
+/** Append the per-op hardening `<details>` to a DOWNGRADED 3.1 spec — mapping @suluk/harden's audit of the original v4
+ *  `doc` onto the 3.1 ops by `${method} ${path}` (the v4→3.1 downgrade preserves path+method for the 1-request case). */
+function enrichHardening3x(spec: { paths?: Record<string, Record<string, unknown>> }, doc: OpenAPIv4Document): void {
+  // key by method + path, normalizing the leading slash (the v4→3.1 downgrade prefixes `/` on bare path keys).
+  const norm = (p: string) => p.replace(/^\//, "");
+  const byPM = new Map(auditDocument(doc).byOperation.map((o) => [`${o.method} ${norm(o.path)}`, o]));
+  for (const [uri, pi] of Object.entries(spec.paths ?? {})) {
+    if (!pi || typeof pi !== "object") continue;
+    for (const m of HTTP_METHODS) {
+      const op = pi[m] as Record<string, unknown> | undefined;
+      if (!op || typeof op !== "object") continue;
+      const detail = hardeningDetail(byPM.get(`${m} ${norm(uri)}`));
+      if (detail) op.description = (typeof op.description === "string" ? op.description : "") + detail;
+    }
+  }
 }
 
 /** Mutate a v4 document: stamp the facet badges + detail on each REQUEST (the v4 by-name operation) and prepend the
@@ -164,32 +293,39 @@ export function enrichedSpec(doc: OpenAPIv4Document, opts: { facetBadges?: boole
  *  natively (projects requests→ops internally) and carries `x-badges` / `x-suluk-*` through, so cost + access render
  *  on each operation AND the version badge reads 4.0.0-candidate (no downgrade). Reuses the 3.1 badge helpers since a
  *  v4 request carries `x-suluk-cost` / `x-suluk-access` directly. */
-export function enrichV4Facets(doc: { paths?: Record<string, { requests?: Record<string, Record<string, unknown>> }>; info?: Record<string, unknown> }): void {
+export function enrichV4Facets(doc: { paths?: Record<string, { requests?: Record<string, Record<string, unknown>> }>; info?: Record<string, unknown> }, opts: { hardening?: boolean } = {}): void {
+  // the per-op input-hardening audit (@suluk/harden), keyed by the v4 request NAME — appended as a collapsible per route.
+  const audit = opts.hardening === false ? null : auditDocument(doc as unknown as OpenAPIv4Document);
+  const hardenByName = audit ? new Map(audit.byOperation.map((o) => [o.operation, o])) : null;
+  // the reverse trigger index: op NAME → the cost-bearing events it triggers (drives the "Triggers" detail line).
+  const tIdx = triggerIndex(doc.paths);
   let total = 0, priced = 0;
   for (const pi of Object.values(doc.paths ?? {})) {
-    for (const req of Object.values(pi?.requests ?? {})) {
+    for (const [name, req] of Object.entries(pi?.requests ?? {})) {
       if (!req || typeof req !== "object") continue;
       total++;
       if (req["x-suluk-cost"]) priced++;
       const badges: { name: string; position: "after"; color: string }[] = [];
       const ab = accessBadge(req["x-suluk-access"] as AccessFacet | undefined); if (ab) badges.push({ position: "after", ...ab });
       const cb = costBadge(req["x-suluk-cost"] as CostFacet | undefined); if (cb) badges.push({ position: "after", ...cb });
+      const sb = settlementBadge(req["x-suluk-cost"] as CostFacet | undefined); if (sb) badges.push({ position: "after", ...sb });
       if (badges.length) req["x-badges"] = badges;
-      const detail = facetDetail(req);
+      const detail = facetDetail(req, tIdx.get(name)) + (hardenByName ? hardeningDetail(hardenByName.get(name)) : "");
       if (detail) req.description = (typeof req.description === "string" ? req.description : "") + detail;
     }
   }
   if (!total) return;
-  const note = `> **Suluk v4 contract.** Every operation is **cost-metered** (micro-USD) and **access-scoped** — the badges show each op's access + per-call cost, and expanding an operation reveals the cost breakdown by source. ${priced} of ${total} operations carry a declared cost.`;
+  const hardenNote = audit ? ` The input-hardening grade is **${audit.grade}** (${audit.score}/100) — expand any operation for its per-route hardening report.` : "";
+  const note = `> **Suluk v4 contract.** Every operation is **cost-metered** (micro-USD) and **access-scoped** — the badges show each op's access + per-call cost, and expanding an operation reveals the cost breakdown by source.${hardenNote} ${priced} of ${total} operations carry a declared cost.`;
   const info = (doc.info ??= {});
   info.description = note + (typeof info.description === "string" && info.description ? `\n\n${info.description}` : "");
 }
 
 /** Enrich a v4 document with the suluk facets (badges + detail + intro) WITHOUT downgrading — for the forked Scalar
  *  that ingests v4 NATIVELY. Never mutates `doc` (JSON-clone first). The output is fed to Scalar's `content` as-is. */
-export function enrichedV4(doc: OpenAPIv4Document, opts: { facetBadges?: boolean } = {}): { spec: Record<string, unknown> } {
+export function enrichedV4(doc: OpenAPIv4Document, opts: { facetBadges?: boolean; hardening?: boolean } = {}): { spec: Record<string, unknown> } {
   const spec = JSON.parse(JSON.stringify(doc)) as Record<string, unknown>;
-  if (opts.facetBadges !== false) enrichV4Facets(spec as Parameters<typeof enrichV4Facets>[0]);
+  if (opts.facetBadges !== false) enrichV4Facets(spec as Parameters<typeof enrichV4Facets>[0], opts);
   return { spec };
 }
 

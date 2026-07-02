@@ -5,6 +5,7 @@
  */
 import type * as z from "zod";
 import type { SecurityRequirement, SulukRateLimit } from "@suluk/core";
+import type { CostModel } from "@suluk/cost";
 
 export type Method = "get" | "post" | "put" | "patch" | "delete" | "head" | "options";
 
@@ -61,6 +62,14 @@ export interface RouteContract {
    * 429 response; @suluk/hono's enforceRateLimit middleware ENFORCES it on the wire. Advisory vendor extension.
    */
   rateLimit?: SulukRateLimit;
+  /**
+   * The route's ECONOMICS (the `x-suluk-cost` facet, C024/C044) — declared INLINE with the route so a backend dev
+   * pragmatically considers it while writing the code: the per-call floor + the DYNAMIC/metered `components` (per-token,
+   * per-mb, per-second, per-request — file size, AI tokens/model, compute), how it's SETTLED (credit/rate-limited/free),
+   * when its cost ACCRUES (a non-sync `trigger`/`triggerRef` + `attribution`). emitV4 stamps it onto the operation;
+   * @suluk/scalar renders it (badges + the cost/settlement/triggers detail), @suluk/cost audits + records it. Advisory.
+   */
+  cost?: CostModel;
   request?: RouteRequest;
   /** Responses, as a list (each carries its own status) or a status-keyed map. */
   responses?: RouteResponse[] | Record<string, RouteResponse>;
