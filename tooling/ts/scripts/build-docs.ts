@@ -12,7 +12,7 @@
 // deploy-docs.ts. cwd is pinned to tooling/ts so the bare `typedoc-github-theme` plugin resolves.
 import { Application, TSConfigReader } from "typedoc";
 import { join, dirname, relative, posix, sep } from "node:path";
-import { existsSync, readdirSync, readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync, mkdtempSync, rmSync, cpSync, mkdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { generatePages, documentedRegistry, type DocPackage, type RegistryItem } from "./gen-doc-pages";
 import { stripReadmeHeader } from "../packages/docs/src/index";
@@ -35,8 +35,13 @@ const PLUGINS = [
   join(TS, "scripts", "typedoc-vscode-icons.mjs"),
   join(TS, "scripts", "typedoc-branding-head.mjs"),
   join(TS, "packages", "typedoc-umlclass", "src", "index.js"), // d3 per-package UML class diagram on each module index
-  "typedoc-plugin-skillit", // autogenerates SKILL.md + llms.txt (AI-agent skill) per root — configured per render below
 ];
+// skillit is added ONLY on the API renders (packages/registry/markdown), never the documents-only umbrella (whose
+// "skill" would be the whole spec prose). It always writes skills to <cwd>/skills (its skillsOutDir is unreliable
+// via the Node API); we collect them there and relocate into docs/skills/ after the build.
+const SKILL_PLUGINS = [...PLUGINS, "typedoc-plugin-skillit"];
+const SKILLS_TMP = join(TS, "skills"); // skillit's cwd-default output; cleaned up after relocation
+const SKILL_OPTS = { skillsAudit: false, skillsMaxTokens: 6000, skillsInstallTargets: [] as string[], llmsTxt: true };
 
 // Shared render options. No entryPointStrategy:"packages" here — each root is a single-entry "resolve" render.
 const BASE = {
@@ -55,10 +60,6 @@ const BASE = {
     "ini", "toml", "diff", "sql", "text",
   ],
   plugin: PLUGINS,
-  // skillit defaults: the per-render skillsOutDir / llmsTxt / llmsTxtOutDir are set below; keep the audit quiet
-  // (its per-symbol JSDoc-gap log would flood a 60-root build; skillsAuditFailOnError is false by default anyway).
-  skillsAudit: false,
-  skillsMaxTokens: 6000,
 };
 
 // Rewrite a doc's repo-relative markdown links to absolute GitHub URLs so umbrella / per-package renders carry no
@@ -99,6 +100,41 @@ function retitleLlms(outDir: string, title: string, description: string): void {
     const md = readFileSync(p, "utf8").replace(/^#[^\n]*\n(>[^\n]*\n)?/, `# ${title}\n\n> ${description}\n`);
     writeFileSync(p, md);
   }
+}
+
+/** Snapshot the skill dirs present before a registry render (so the render's fresh output can be identified). */
+function skillSnapshot(): Set<string> {
+  return new Set(existsSync(SKILLS_TMP) ? readdirSync(SKILLS_TMP) : []);
+}
+
+/** A registry item has no package.json, so skillit names its skill unpredictably (from cwd/repo-root package.json).
+ *  Identify the dir that appeared since `before` and rename it to a unique suluk-registry-<name> slot + retitle. */
+function claimRegistrySkill(name: string, before: Set<string>): void {
+  if (!existsSync(SKILLS_TMP)) return;
+  const dest = `suluk-registry-${name}`;
+  const fresh = readdirSync(SKILLS_TMP).filter((d) => !before.has(d) && d !== dest);
+  const src = fresh[0]; // a registry render emits exactly one project skill
+  if (!src) return;
+  const destPath = join(SKILLS_TMP, dest);
+  rmSync(destPath, { recursive: true, force: true });
+  cpSync(join(SKILLS_TMP, src), destPath, { recursive: true });
+  rmSync(join(SKILLS_TMP, src), { recursive: true, force: true });
+  const skillMd = join(destPath, "SKILL.md");
+  if (existsSync(skillMd)) writeFileSync(skillMd, readFileSync(skillMd, "utf8").replace(/^name:.*$/m, `name: ${dest}`));
+}
+
+/** Relocate every skillit-generated skill from SKILLS_TMP into docs/skills/, then remove the temp dir. */
+function collectSkills(): number {
+  if (!existsSync(SKILLS_TMP)) return 0;
+  const dest = join(DOCS, "skills");
+  mkdirSync(dest, { recursive: true });
+  let n = 0;
+  for (const d of readdirSync(SKILLS_TMP)) {
+    cpSync(join(SKILLS_TMP, d), join(dest, d), { recursive: true });
+    n++;
+  }
+  rmSync(SKILLS_TMP, { recursive: true, force: true });
+  return n;
 }
 
 // ── The Specification section (Suluk-the-OpenAPI-v4-candidate). Sourced from specification/ + the Rust core;
@@ -264,6 +300,7 @@ async function render(label: string, options: Record<string, unknown>): Promise<
 
 export async function buildDocs(): Promise<DocPackage[]> {
   process.chdir(TS); // so the bare "typedoc-github-theme" plugin + package resolution work regardless of caller cwd
+  rmSync(SKILLS_TMP, { recursive: true, force: true }); // clean slate for skillit's cwd-default output
 
   // 0. Regenerate the derived narrative (architecture D2 + the Packages index) and get the package list.
   //    DOCS_ONLY=<slug,slug> limits the per-package roots (dev speed); the umbrella always builds.
@@ -329,9 +366,10 @@ export async function buildDocs(): Promise<DocPackage[]> {
       writeFileSync(readme, rewritten);
     }
     const out = join(DOCS, "packages", p.slug);
-    const skillDir = `suluk-${p.slug}`; // skillit slugifies @suluk/<x> → suluk-<x>
     await render(p.name, {
       ...BASE,
+      plugin: SKILL_PLUGINS,
+      ...SKILL_OPTS,
       name: p.name,
       entryPoints: [join(p.dir, "src", "index.ts")],
       readme,
@@ -339,14 +377,11 @@ export async function buildDocs(): Promise<DocPackage[]> {
       out,
       hostedBaseUrl: `${UMBRELLA_URL}packages/${p.slug}/`,
       sort: ["source-order"],
-      // skillit → docs/packages/<slug>/skills/suluk-<slug>/SKILL.md + docs/packages/<slug>/llms.txt
-      skillsOutDir: join(out, "skills"),
-      llmsTxt: true,
-      llmsTxtOutDir: out,
-      // Absolute back-link + the AI-agent artifacts + the package's source on GitHub.
+      llmsTxtOutDir: out, // co-locate llms.txt with the package docs; the SKILL.md lands in docs/skills/ (collected below)
+      // Absolute back-link + the AI-agent artifacts (skill collected to docs/skills/suluk-<slug>) + the source.
       navigationLinks: {
         "↑ Suluk": UMBRELLA_URL,
-        SKILL: `${UMBRELLA_URL}packages/${p.slug}/skills/${skillDir}/SKILL.md`,
+        SKILL: `${UMBRELLA_URL}skills/suluk-${p.slug}/SKILL.md`,
         "llms.txt": `${UMBRELLA_URL}packages/${p.slug}/llms.txt`,
         GitHub: `${REPO_URL}/tree/main/tooling/ts/packages/${p.dir.split("/").pop()}`,
       },
@@ -379,27 +414,28 @@ export async function buildDocs(): Promise<DocPackage[]> {
         writeFileSync(readme, rewritten);
       }
       const out = join(DOCS, "registry", it.name);
-      const skillDir = `suluk-registry-${it.name}`; // skillit slugifies the render name → suluk-registry-<name>
+      const skillsBefore = skillSnapshot();
       await render(`registry/${it.name}`, {
         ...BASE,
-        name: `@suluk/registry-${it.name}`, // skillit reads the render name for the skill slug/frontmatter
+        plugin: SKILL_PLUGINS,
+        ...SKILL_OPTS,
+        name: `${it.name} (registry)`,
         tsconfig: regTsconfig,
         entryPoints: it.files,
         readme,
         out,
         hostedBaseUrl: `${UMBRELLA_URL}registry/${it.name}/`,
         sort: ["source-order"],
-        skillsOutDir: join(out, "skills"),
-        llmsTxt: true,
         llmsTxtOutDir: out,
         navigationLinks: {
           "↑ Suluk": UMBRELLA_URL,
-          SKILL: `${UMBRELLA_URL}registry/${it.name}/skills/${skillDir}/SKILL.md`,
+          SKILL: `${UMBRELLA_URL}skills/suluk-registry-${it.name}/SKILL.md`,
           "llms.txt": `${UMBRELLA_URL}registry/${it.name}/llms.txt`,
           GitHub: `${REPO_URL}/tree/main/registry/${it.name}`,
         },
       });
       retitleLlms(out, `${it.name} (registry module)`, it.description || it.title);
+      claimRegistrySkill(it.name, skillsBefore); // registry skill names are unpredictable — claim the fresh dir
       console.log(`  ✓ registry/${it.name} → docs/registry/${it.name}/ (+ SKILL.md + llms.txt)`);
     }
   }
@@ -439,11 +475,9 @@ export async function buildMarkdown(): Promise<void> {
     // packages-mode reports internal-type refs (notExported) and the READMEs' ../sibling links (invalidPath) that
     // the HTML multi-root doesn't; they're build-noise, not user-facing (the links resolve within the md tree).
     validation: { notExported: false, invalidPath: false, invalidLink: true },
-    // skillit over ALL packages at once → docs/skills/<pkg>/SKILL.md for each + docs/llms.txt for Suluk-as-a-whole.
-    skillsAudit: false,
-    skillsMaxTokens: 6000,
-    skillsOutDir: join(DOCS, "skills"),
-    llmsTxt: true,
+    // skillit over ALL packages at once → SKILLS_TMP/<pkg>/ for each (collected to docs/skills below) +
+    // docs/llms.txt for Suluk-as-a-whole (llmsTxtOutDir is honoured; skillsOutDir isn't, via the Node API).
+    ...SKILL_OPTS,
     llmsTxtOutDir: DOCS,
   });
   rmSync(tmp, { recursive: true, force: true });
@@ -460,6 +494,9 @@ export async function buildMarkdown(): Promise<void> {
  */
 function composeWholeSuluk(pkgs: DocPackage[]): void {
   const reg = documentedRegistry();
+  // Relocate every skillit-generated skill (per-package + per-registry) from SKILLS_TMP into docs/skills/.
+  const nSkills = collectSkills();
+  console.log(`  ✓ collected ${nSkills} skills → docs/skills/`);
   const SUMMARY = "Suluk = an OpenAPI v4.0 candidate spec + a contracts-in/everything-derived TypeScript framework: the @suluk/* packages (the npm logic) and a shadcn registry of own-the-code backend modules (the app-owned wiring).";
   const regOwn = reg.map((it) => `- [${it.name}](registry/${it.name}/): ${it.description || it.title}`).join("\n");
   const regUnderPlatform = reg.map((it) => `  - ${it.name} — ${it.description || it.title}`).join("\n");
@@ -474,10 +511,10 @@ function composeWholeSuluk(pkgs: DocPackage[]): void {
 
   // ── the whole-Suluk SKILL.md (agent skill) — an index over the autogenerated per-root skills. ──
   const pkgRows = pkgs
-    .map((p) => `- **${p.name}** \`v${p.version}\` — ${p.description || "—"} · [docs](packages/${p.slug}/) · [SKILL](packages/${p.slug}/skills/suluk-${p.slug}/SKILL.md)`)
+    .map((p) => `- **${p.name}** \`v${p.version}\` — ${p.description || "—"} · [docs](packages/${p.slug}/) · [SKILL](skills/suluk-${p.slug}/SKILL.md) · [llms.txt](packages/${p.slug}/llms.txt)`)
     .join("\n");
   const regRows = reg
-    .map((it) => `- **${it.name}** — ${it.description || it.title} · [docs](registry/${it.name}/)${it.files.length ? ` · [SKILL](registry/${it.name}/skills/suluk-registry-${it.name}/SKILL.md)` : ""}`)
+    .map((it) => `- **${it.name}** — ${it.description || it.title} · [docs](registry/${it.name}/)${it.files.length ? ` · [SKILL](skills/suluk-registry-${it.name}/SKILL.md)` : ""}`)
     .join("\n");
   const skill = `---
 name: suluk
@@ -513,8 +550,8 @@ ${regRows}
 ## Machine-readable index
 
 - Whole-Suluk: [llms.txt](llms.txt) · [llms-full.txt](llms-full.txt)
-- Per package: \`packages/<name>/llms.txt\` + \`packages/<name>/skills/suluk-<name>/SKILL.md\`
-- Per registry module: \`registry/<name>/llms.txt\` + \`registry/<name>/skills/suluk-registry-<name>/SKILL.md\`
+- Per package: \`packages/<name>/llms.txt\` + \`skills/suluk-<name>/SKILL.md\`
+- Per registry module: \`registry/<name>/llms.txt\` + \`skills/suluk-registry-<name>/SKILL.md\`
 `;
   writeFileSync(join(DOCS, "SKILL.md"), skill);
 }

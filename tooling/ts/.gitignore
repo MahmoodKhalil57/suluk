@@ -1,1 +1,4 @@
 .npmrc
+
+# skillit cwd-default output (collected into docs/skills during the build)
+skills/
