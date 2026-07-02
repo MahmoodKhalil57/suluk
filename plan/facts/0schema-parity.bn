@@ -1,0 +1,24 @@
+# C066 — every contract fragment enriched to toolfactory SCHEMA PARITY (operator: "compare our schema with toolfactory
+# schema — a lot of missing detail from ours"). Confirmed: our registry fragments used the SAME @suluk/hono contractDoc/
+# RouteContract machinery as toolfactory's api/src/contract.ts (786 lines) but declared only method/path/scope/summary + a
+# few request bodies — no response schemas, no request.query, no rateLimit, thin errors. A GENERATION/DECLARATION gap (the
+# C065 finding at scale), never a Scalar-rendering issue. Extends C065.
+
+# A 10-agent enrichment workflow compared each module vs toolfactory's contract.ts + validation.ts and rewrote its fragment,
+# modeling response schemas on OUR routes' actual c.json(...) shapes (NOT blindly toolfactory's — each agent recorded the
+# deviations: pack/plan-id bodies vs amountCents, pmId/topupCredits field names, alerts array, {url} checkout, nullable
+# clientSecret, {revoked:number}, {netCents} refund quote). Added per route: responses[].schema (typed success bodies),
+# rateLimit {windowMs,maxRequests,key} (mirrors toolfactory), errors [400/402/404/...] the route can return, request.query/
+# params where read. Shared shapes extracted (KeyRowSchema, PaymentMethodSchema, PackSchema, PlanSchema, LogEntrySchema,
+# EmailMessageSchema/SendResultSchema). PRESERVED every existing field (scopes/tags/request.json/email internal+cost/credits
+# schemas). 10 fragments (credits/keys/billing[23]/logs/cost/email/erasure/webhooks + mcp/admin).
+claim all_contract_fragments_enriched_to_toolfactory_parity_response_schemas_ratelimit_errors: Bool @>=0.85 = True
+falsified_when all_contract_fragments_enriched_to_toolfactory_parity_response_schemas_ratelimit_errors == False
+
+# VERIFIED in a fresh generated app AND the live ATF: tsc clean; the doc went from ~0 response bodies to 43/49 ops with a 200
+# body, 45 rate-limited (429), 45 with 4xx error sets, query params rendering where declared (purchase-quote amountCents;
+# logs/query userId/action/since/limit). REGISTRY-ONLY — no generator/npm change (RouteContract already supported these
+# fields since the C065 path-param work). Suluk 0160180c, atf 2b2e133. The response schemas were matched to OUR route
+# responses so the doc is ACCURATE, not just complete.
+claim schema_enrichment_verified_43of49_response_bodies_registry_only_no_generator_change: Bool @>=0.85 = True
+falsified_when schema_enrichment_verified_43of49_response_bodies_registry_only_no_generator_change == False
