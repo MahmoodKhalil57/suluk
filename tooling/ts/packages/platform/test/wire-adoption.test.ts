@@ -47,8 +47,21 @@ describe("wired adoption — the decoupling edges render into mount-opts (not si
   test("contract's doc-merge + mcp's OAuth instance wire from auth (no ../auth import in either module)", () => {
     const e = planPlatform(definePlatform({ system: wiredSystem(), brand })).entry;
     expect(e).toContain('mountContract(app, { "authApi": (env) => createAuth(env).api })');
-    expect(e).toContain('mountMcp(app, { "mcpAuthInstance": (env) => createAuth(env) })');
+    // mcp's mount carries BOTH the auth OAuth instance (optional wire) AND contract's apiDocument (auto-injected structural wire).
+    expect(e).toContain('mountMcp(app, { "mcpAuthInstance": (env) => createAuth(env), "apiDocument": apiDocument })');
     expect(e).toContain('import { createAuth } from "./auth"'); // the ONE createAuth import the composed capabilities share
+  });
+
+  test("mcp + reference receive contract's apiDocument via an AUTO-INJECTED mount-opt (neither imports ../contract)", () => {
+    const e = planPlatform(definePlatform({ system: wiredSystem(), brand })).entry;
+    // structural wire: contract.provideApiDocument → {mcp,reference}.apiDocument — no user `wire[]` entry needed.
+    expect(e).toContain('"apiDocument": apiDocument');
+    expect(e).toContain('referenceRoutes({ "apiDocument": apiDocument })');
+    expect(e).toContain('import { apiDocument } from "./contract"'); // the entry (composition root) holds the ONE import
+    // a minimal auth+contract+mcp subset with NO user wires still auto-injects apiDocument (mcp requires contract → co-present).
+    const minSystem = defineSystem({ registry: "MahmoodKhalil57/suluk", services: [authService, contractService, mcpService], globalServiceOpts: { ENVIRONMENT: "production" } });
+    const min = planPlatform(definePlatform({ system: minSystem, brand })).entry;
+    expect(min).toContain('mountMcp(app, { "apiDocument": apiDocument })'); // ONLY apiDocument (no auth.mcp → no mcpAuthInstance)
   });
 
   test("erasure cascade is composed leaf-first from each data module's eraseStep (no central table list)", () => {

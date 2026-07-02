@@ -103,7 +103,8 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
 
   test("reference + admin mount /api routes with NO provision (derived / reads existing tables)", () => {
     const p = planPlatform(definePlatform({ name: "ra", registry: "acme/reg", services: ["auth", "contract", "reference", "admin", "credits"] }));
-    expect(p.entry).toContain('app.route("/api/reference", referenceRoutes());');
+    // reference is the contract rendered as a page → apiDocument auto-injected (reference requires contract, never imports it).
+    expect(p.entry).toContain('app.route("/api/reference", referenceRoutes({ "apiDocument": apiDocument }));');
     expect(p.entry).toContain('app.route("/api/admin", adminRoutes());');
     expect(p.provisionConfig).not.toContain("referenceProvision");
     expect(p.provisionConfig).not.toContain("adminProvision");
@@ -112,7 +113,9 @@ describe("cost (route + provision) + dev modules (journeys/audit — files only)
   test("mcp is a middleware mount (server + discovery + connections) with a provision fragment", () => {
     const p = planPlatform(definePlatform({ name: "m", registry: "acme/reg", services: ["auth", "contract", "mcp", "credits"] }));
     expect(p.entry).toContain('import { mountMcp } from "./routes/mcp";');
-    expect(p.entry).toContain("mountMcp(app);");
+    // mcp is the contract projected → the generator AUTO-INJECTS contract's apiDocument as a mount-opt (mcp never imports ../contract).
+    expect(p.entry).toContain('mountMcp(app, { "apiDocument": apiDocument });');
+    expect(p.entry).toContain('import { apiDocument } from "./contract";');
     expect(p.entry).not.toContain('app.route("/api/mcp"'); // it's a mount, not a route
     expect(p.provisionConfig).toContain("mcpProvision");
   });

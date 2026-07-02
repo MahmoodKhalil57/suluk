@@ -16,7 +16,14 @@ import { Hono } from "hono";
 import type { OpenAPIv4Document } from "@suluk/core";
 import { referenceResponse } from "@suluk/reference";
 import type { Bindings } from "../app";
-import { apiDocument } from "../contract";
+// NO `../contract` import — DECOUPLED. Reference is the contract rendered as a page; the v4 doc projector arrives via the
+// `apiDocument` mount-opt (auto-wired from contract — a HARD peer reference `requires`). So reference imports only `../app`
+// + `@suluk/*`; the one cross-module edge (contract → reference) is a generate-time wire.
+
+export interface MountReferenceOptions {
+  /** wired from contract (auto-injected — reference `requires: ["contract"]`): the v4 doc projector the page renders. */
+  apiDocument: (principal?: { scopes: string[] }) => OpenAPIv4Document;
+}
 
 /**
  * Project the v4 document down to the single operation whose C009 by-name handle is `tool` (the key in a pathItem's
@@ -34,16 +41,16 @@ function focusOn(doc: OpenAPIv4Document, tool: string): OpenAPIv4Document | unde
   return Object.keys(paths).length > 0 ? { ...doc, paths } : undefined;
 }
 
-export function referenceRoutes() {
+export function referenceRoutes(opts: MountReferenceOptions) {
   const r = new Hono<{ Bindings: Bindings }>();
 
   // GET /reference → the full v4 reference over the derived contract document.
-  r.get("/", () => referenceResponse(apiDocument()));
+  r.get("/", () => referenceResponse(opts.apiDocument()));
 
   // GET /reference/:tool → the reference focused on one operation (by name); unknown name → the full page.
   r.get("/:tool", (c) => {
     const tool = c.req.param("tool");
-    const doc = apiDocument();
+    const doc = opts.apiDocument();
     const focused = focusOn(doc, tool);
     return referenceResponse(focused ?? doc);
   });

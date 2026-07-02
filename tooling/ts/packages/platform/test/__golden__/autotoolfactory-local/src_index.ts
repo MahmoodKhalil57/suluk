@@ -19,11 +19,12 @@ import { webhooksRoutes } from "./routes/webhooks";
 import { logsRoutes } from "./routes/logs";
 import { referenceRoutes } from "./routes/reference";
 import { adminRoutes } from "./routes/admin";
+import { apiDocument } from "./contract";
 
 export const app = createApp();
 mountAuthRoutes(app, {"mcp":{"loginPage":"https://autotoolfactory.example/oauth/sign-in","consentPage":"https://autotoolfactory.example/oauth/consent","resource":"https://autotoolfactory.example/api/mcp","scopes":["credits:read","credits:write","keys:read","keys:write","billing:read","billing:write","cost:read","logs:read"]}});
 mountContract(app);
-mountMcp(app);
+mountMcp(app, { "apiDocument": apiDocument });
 mountRateLimit(app);
 mountRateCredit(app);
 mountI18n(app);
@@ -35,7 +36,7 @@ app.route("/api/erasure", erasureRoutes());
 app.route("/api/email", emailRoutes());
 app.route("/api/webhooks", webhooksRoutes());
 app.route("/api/logs", logsRoutes());
-app.route("/api/reference", referenceRoutes());
+app.route("/api/reference", referenceRoutes({ "apiDocument": apiDocument }));
 app.route("/api/admin", adminRoutes());
 
 let secrets: Record<string, string> | null = null;

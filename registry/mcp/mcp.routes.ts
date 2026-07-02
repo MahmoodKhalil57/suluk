@@ -21,21 +21,24 @@
 import type { Context, Hono } from "hono";
 import { mcpApp, appExec, type FetchApp } from "@suluk/mcp";
 import { oAuthDiscoveryMetadata, oAuthProtectedResourceMetadata } from "better-auth/plugins";
+import type { OpenAPIv4Document } from "@suluk/core";
 import type { Bindings } from "../app";
-import { apiDocument } from "../contract";
 import { mcpConnectionsRoutes } from "./mcp-connections";
-// NO `../auth` import — DECOUPLED. The Better-Auth INSTANCE for the OAuth discovery docs arrives via the optional
-// `mcpAuthInstance` mount-opt, which platform.config.ts wires from auth (gated on `auth.mcpScopes` being set — the mcp()
-// plugin must be enabled). Absent → no /.well-known/* (a subset with no mcp OAuth). So `mcp` needs no `../auth` import.
+// NO `../contract` or `../auth` import — DECOUPLED. The v4 doc PROJECTOR (`apiDocument`) arrives via the `apiDocument`
+// mount-opt (auto-wired from contract — mcp is the contract projected, a HARD peer it `requires`); the Better-Auth INSTANCE
+// for the OAuth discovery docs arrives via the optional `mcpAuthInstance` mount-opt (wired from auth, gated on the mcp()
+// plugin). So `mcp` imports only `../app` + its own files + `@suluk/*` — every cross-module edge is a wire.
 
 const BASE_PATH = "/api/mcp";
 
 export interface MountMcpOptions {
+  /** wired from contract (auto-injected — mcp `requires: ["contract"]`): the per-caller v4 doc projector. */
+  apiDocument: (principal?: { scopes: string[] }) => OpenAPIv4Document;
   /** wired from auth: a factory returning the Better-Auth INSTANCE (with the mcp() plugin) for the OAuth discovery docs. */
   mcpAuthInstance?: (env: Bindings) => unknown;
 }
 
-export function mountMcp<T extends Hono<{ Bindings: Bindings }>>(app: T, opts?: MountMcpOptions): T {
+export function mountMcp<T extends Hono<{ Bindings: Bindings }>>(app: T, opts: MountMcpOptions): T {
   // (3) connections management — registered BEFORE mcpApp so `/api/mcp/connections*` isn't swallowed by the JSON-RPC route.
   app.route(BASE_PATH, mcpConnectionsRoutes());
 
@@ -63,7 +66,7 @@ export function mountMcp<T extends Hono<{ Bindings: Bindings }>>(app: T, opts?: 
   app.route(
     "/",
     mcpApp({
-      document: (c: Context) => apiDocument({ scopes: (c.var as { scopes?: string[] }).scopes ?? [] }),
+      document: (c: Context) => opts.apiDocument({ scopes: (c.var as { scopes?: string[] }).scopes ?? [] }),
       exec: appExec(app as unknown as FetchApp),
       include: "all",
       name: "suluk",

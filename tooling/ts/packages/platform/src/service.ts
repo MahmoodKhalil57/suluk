@@ -244,11 +244,22 @@ export const authService = defineService({
 });
 
 export const contractService = defineService({ id: "contract", mount: { kind: "middleware", symbol: "mountContract", from: "./routes/contract" }, deps: ["@suluk/hono", "zod"],
-  // EXPOSES the optional auth-doc-merge seam: auth wires its api in (single-value port); absent → the base doc (graceful).
-  compose: { exposes: { authApi: { kind: "port", hookOptKey: "authApi", render: (e) => e[0] ?? "undefined" } } } });
+  compose: {
+    // EXPOSES the optional auth-doc-merge seam: auth wires its api in (single-value port); absent → the base doc (graceful).
+    exposes: { authApi: { kind: "port", hookOptKey: "authApi", render: (e) => e[0] ?? "undefined" } },
+    // OFFERS the v4 doc PROJECTOR: the `apiDocument` fn its projection modules (mcp/reference) consume — so THEY receive it
+    // via a mount-opt instead of a `../contract` import. The generator auto-injects this structural edge (plan.ts); the
+    // consumer calls it with its own arg (`apiDocument({scopes})` in mcp, `apiDocument()` in reference).
+    offers: { provideApiDocument: { kind: "capability", symbol: "apiDocument", from: "./contract", imports: [{ symbol: "apiDocument", from: "./contract" }], build: () => "apiDocument" } },
+  } });
 export const mcpService = defineService({ id: "mcp", mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" }, contract: { symbol: "mcpOps", from: "./contract/mcp" }, deps: ["@suluk/mcp", "@suluk/better-auth", "better-auth"],
   requires: ["contract", "auth"], // mcp IS the contract doc projected + reads the auth-set principal — hard runtime peers
-  compose: { exposes: { mcpAuthInstance: { kind: "port", hookOptKey: "mcpAuthInstance", render: (e) => e[0] ?? "undefined" } } } });
+  // EXPOSES `mcpAuthInstance` (auth's OAuth instance, optional) + `apiDocument` (contract's projector, auto-injected — mcp is
+  // the contract doc projected, so it never imports `../contract`; the wire feeds `apiDocument` in as a mount-opt).
+  compose: { exposes: {
+    mcpAuthInstance: { kind: "port", hookOptKey: "mcpAuthInstance", render: (e) => e[0] ?? "undefined" },
+    apiDocument: { kind: "port", hookOptKey: "apiDocument", render: (e) => e[0] ?? "undefined" },
+  } } });
 
 export const creditsService = defineService({
   id: "credits",
@@ -331,7 +342,10 @@ export const webhooksService = defineService({
 export const rateLimitService = defineService({ id: "rate-limit", mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" }, deps: ["@suluk/hono"] });
 export const rateCreditService = defineService({ id: "rate-credit", mount: { kind: "middleware", symbol: "mountRateCredit", from: "./services/rate-credit" } }); // credit-backed free-tier bucket (KV binding)
 export const i18nService = defineService({ id: "i18n", mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" }, deps: ["@suluk/i18n"] });
-export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, contract: { symbol: "referenceOps", from: "./contract/reference" }, deps: ["@suluk/reference"], requires: ["contract"] }); // derived — no provision
+export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, contract: { symbol: "referenceOps", from: "./contract/reference" }, deps: ["@suluk/reference"], requires: ["contract"], // derived — no provision
+  // EXPOSES `apiDocument` (contract's projector, auto-injected) — reference is the contract rendered as a page; it receives
+  // `apiDocument` as a mount-opt rather than importing `../contract`.
+  compose: { exposes: { apiDocument: { kind: "port", hookOptKey: "apiDocument", render: (e) => e[0] ?? "undefined" } } } });
 export const adminService = defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, contract: { symbol: "adminOps", from: "./contract/admin" }, deps: ["@suluk/credits"], env: [{ name: "SUPERADMIN_EMAILS", secret: true, hint: "comma/space-separated admin emails → the admin scope (secret-surfaced so they stay out of git plaintext)" }] }); // reads existing tables — no provision
 export const logsService = defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" }, contract: { symbol: "logsOps", from: "./contract/logs" }, compose: { offers: { eraseStep: eraseStepCapability("activity_log") } } });
 export const journeysService = defineService({ id: "journeys", mount: { kind: "dev" }, deps: ["@suluk/journeys"] });

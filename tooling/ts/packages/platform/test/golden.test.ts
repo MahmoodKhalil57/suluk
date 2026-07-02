@@ -14,10 +14,12 @@ import { definePlatform, planPlatform } from "../src/index";
  * change, run `UPDATE_GOLDEN=1 bun test golden` and review the fixture diff before committing.
  */
 
-// The FROZEN legacy C051 baseline (18-service parity, NO cross-module wires) — the byte-lock proves the un-wired path stays
-// byte-identical to the C051 one-shot as the composition engine grows. The LIVE ~/apps/autotoolfactory/platform.config.ts
-// has since ADOPTED the decoupling wires (contract↔auth doc-merge, mcp OAuth, erasure fan-in); that wired output is locked
-// separately in wire-adoption.test.ts. Do NOT add wires here — this fixture's job is to pin the wire-free bytes.
+// The legacy 18-service parity manifest (NO user wires) — the byte-lock catches unintended generator drift. It carries no
+// `wire[]`, but the generator AUTO-INJECTS the STRUCTURAL apiDocument edge (contract→{mcp,reference}, since those modules
+// `requires: ["contract"]` and no longer import `../contract`), so this fixture's mcp/reference mounts legitimately receive
+// `apiDocument`. The OPTIONAL/policy links (contract↔auth doc-merge, mcp OAuth, erasure fan-in) are NOT here — they live in
+// the LIVE ~/apps/autotoolfactory/platform.config.ts and are locked separately in wire-adoption.test.ts. Do NOT add user
+// wires here. (Baseline re-cut at platform 0.8.1 when apiDocument was decoupled — an intended, reviewed change.)
 export const AUTOTOOLFACTORY = definePlatform({
   name: "autotoolfactory",
   registry: "MahmoodKhalil57/suluk",

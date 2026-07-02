@@ -3,7 +3,7 @@
  * generated `provision.config.ts` (importing + merging the fragments). No I/O; `generate` executes this. Testable to the
  * character.
  */
-import { type PlatformManifest, type Platform, isPlatform } from "./manifest";
+import { type PlatformManifest, type Platform, type WireDecl, isPlatform } from "./manifest";
 import { liftSystemBrand, deriveHosts } from "./resolve";
 import { resolveWiring, groupImports, type Wiring } from "./wire";
 import { CATALOG, CORE_SERVICES, orderServices, collectEnv, BASE_DEPS, DEV_DEPS, resolveVersion, type EnvVar, type Service } from "./catalog";
@@ -91,7 +91,15 @@ export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
   // mcp-discovery gate: the OAuth /.well-known/* routes need auth's mcp() plugin, enabled only when `auth.mcp` (derived from
   // `mcpScopes`) is set — so drop the `mcp.mcpAuthInstance` edge otherwise (a mcp+auth subset without mcp OAuth mustn't wire it).
   const rawWires = isPlatform(input) ? input.system.wire ?? [] : [];
-  const wires = manifest.opts?.auth?.mcp ? rawWires : rawWires.filter((w) => w.from !== "mcp.mcpAuthInstance");
+  const userWires = manifest.opts?.auth?.mcp ? rawWires : rawWires.filter((w) => w.from !== "mcp.mcpAuthInstance");
+  // STRUCTURAL wires (not user policy → never in platform.config.ts): mcp/reference are contract PROJECTIONS (each
+  // `requires: ["contract"]`) that consume contract's `apiDocument`. Auto-inject `<consumer>.apiDocument → contract.provideApiDocument`
+  // so NEITHER module imports `../contract` — with ZERO config burden. Injected only when both endpoints are selected (the
+  // requires-guard above guarantees contract is co-present whenever mcp/reference are). This is to a HARD peer, so no `optional`.
+  const structuralWires: WireDecl[] = services.includes("contract")
+    ? ["mcp", "reference"].filter((c) => services.includes(c)).map((c) => ({ from: `${c}.apiDocument`, to: "contract.provideApiDocument" }))
+    : [];
+  const wires = [...userWires, ...structuralWires];
   const wiring = resolveWiring(services, wires, catalog);
   // diagnostics (never affect the emitted bytes): report pruned optional edges + the scope-gate-absent subset choice.
   if (wiring.pruned.length) console.warn(`[platform] pruned ${wiring.pruned.length} optional wire(s):\n  ${wiring.pruned.join("\n  ")}`);
