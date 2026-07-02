@@ -1,0 +1,38 @@
+# C060 — the manifest emits a LOCAL on-push CI/CD (operator: "platform config should also configure on-push ci/cd that runs
+# async in a separate worktree, runs idempotent stages for lint/type/format/tests and more suluk gates, and deploys at the
+# end if in master branch" + "check toolfactory for basic implementation"). Modeled on ~/apps/toolfactory's git-worktree
+# local CI — NOT GitHub Actions. Same "own the wiring, zero external-CI cost, no ambient system" ethos as C059. Extends C051
+# (the generator) + governed by C052 (the module code is FETCHED/owned; the CI wiring is generated).
+
+# THE WIRING (@suluk/platform src/ci.ts, pure string emitters, written by generate.ts): .githooks/pre-push returns instantly
+# + setsid-detaches a background pipeline (never gates the push/working tree), DEPLOY=1 ONLY when the pushed ref is
+# refs/heads/main|master, SULUK_CI recursion guard, installed by the package.json `prepare` (git config core.hooksPath, no
+# husky). scripts/ci-run.ts = the detached runner: git worktree add --detach at the pushed sha (isolated) -> symlink
+# node_modules -> STAGES fail-fast -> deploy ONLY when ok && default-branch -> local git tags (started/ok-/failed-/deployed/
+# passed) -> worktree remove on exit. scripts/ci-stages.ts = the ONE shared ordered idempotent stage list (cheap->expensive):
+# format:check -> lint -> typecheck -> [suluk-gate iff audit+contract] -> bundle:check -> test. ci-local.ts + ci-worktree.ts
+# = the in-place + manual variants. emit-contract.ts derives openapi.v4.json from apiDocument() for the gate. eslint.config.js
+# + .prettierrc.json: Prettier owns formatting, ESLint catches real bugs, own-the-code style on FETCHED modules is WARN so a
+# fresh app is lint-green; generate.ts formats the scaffold after install so format/lint pass out of the box.
+claim onpush_ci_async_worktree_idempotent_stages_deploy_on_default_branch: Bool @>=0.8 = True
+falsified_when onpush_ci_async_worktree_idempotent_stages_deploy_on_default_branch == False
+
+# PROVEN E2E against the real ATF manifest (real registry fetch -> ci:local + a detached ci:worktree run in a git repo):
+# format/lint/typecheck/bundle GREEN out of the box; the worktree run created the worktree, tagged every stage
+# (ok-format ok-lint ok-typecheck failed-suluk-gate failed) and cleaned up (git worktree list -> only main). The suluk-gate
+# + journeys correctly FAIL on a fresh un-hardened app (contract grades D < the audit module's B floor; journeys
+# skip-until-contract then honest-fail) — HONEST ship-gates, not scaffold defects: they fail-fast-block BEFORE deploy so an
+# un-ready API never auto-ships. Scaffold-correctness stages = the "green out of the box" contract; ship-readiness gates =
+# the honest report of remaining hardening. Published @suluk/platform@0.10.0; ATF regenerated + adopted (hook -rwxr-xr-x,
+# core.hooksPath=.githooks). Ceiling 0.8 not higher: the deploy-on-master leg is unit-tested + correctly gated but not run
+# against real Cloudflare creds (operator-gated, like C056/C058).
+claim onpush_ci_proven_e2e_scaffold_green_shipgates_honestly_fail_before_deploy: Bool @>=0.8 = True
+falsified_when onpush_ci_proven_e2e_scaffold_green_shipgates_honestly_fail_before_deploy == False
+
+# @suluk/openapi-compat 0.1.4 — a REAL latent bug the typecheck STAGE surfaced (the CI doing its job). ajv + ajv-formats were
+# devDependencies but validate31.ts (exported public runtime API) imports them; npm never installs a dependency's devDeps, so
+# consumers resolved a hoisted ajv@6 (no dist/2020) and the generated app's tsc failed. Moved ajv + ajv-formats to runtime
+# dependencies; the app now pulls ajv@8 and typechecks clean. Published 0.1.4; the downgrade.ts type-hole fix already in-repo
+# rode along (published was stale).
+claim openapi_compat_ajv_moved_to_runtime_dependencies_fixes_consumer_typecheck: Bool @>=0.85 = True
+falsified_when openapi_compat_ajv_moved_to_runtime_dependencies_fixes_consumer_typecheck == False
