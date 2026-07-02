@@ -13,7 +13,7 @@ import { passkey } from "@better-auth/passkey";
 import { drizzle } from "drizzle-orm/d1";
 import { Context, Effect, Layer } from "effect";
 import type { Hono, MiddlewareHandler } from "hono";
-import { principalFromSession, verifyApiKey, devLoginHandler, mcpConnectionKeyId, type ApiKeyVerifierLike, type SessionLike } from "@suluk/better-auth";
+import { principalFromSession, verifyApiKey, devLoginHandler, mcpConnectionKeyId, type ApiKeyVerifierLike, type SessionLike, type AppVars } from "@suluk/better-auth";
 import * as schema from "./db/auth";
 
 export interface AuthEnv {
@@ -97,7 +97,9 @@ export function createAuth(env: AuthEnv, opts?: AuthOptions) {
  * principal (rate-limit + routes read `c.get("user")`); `scopes` are its granted scopes; `keyId`/`keyName` are set ONLY for
  * a KEYED caller — their presence is how the scope gate tells a key call from a session call. Extend with `keyChain` etc.
  */
-export type AppVars = { user?: { id: string; email?: string }; scopes?: string[]; keyId?: string; keyName?: string };
+// AppVars (the auth-populated Hono context vars) lives in @suluk/better-auth so a reader like `mcp` types its context off
+// the package, not a `../auth` sibling import. Re-exported here for the app's own convenience + back-compat.
+export type { AppVars };
 export type AppCtx = { Bindings: AuthEnv; Variables: AppVars };
 
 /**

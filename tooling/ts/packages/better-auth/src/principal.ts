@@ -8,6 +8,16 @@ export interface Principal {
   scopes: string[];
 }
 
+/** The Hono context Variables the auth middleware POPULATES per `/api/*` request — the resolved caller (`c.get("user")`,
+ *  `c.var.scopes`, and the api-key id/name for a keyed caller). A module that READS the auth-set principal (e.g. `mcp`)
+ *  types its context off THIS shared shape instead of importing the app's `../auth` — so it needs no sibling import. */
+export interface AppVars {
+  user?: { id: string; email?: string };
+  scopes?: string[];
+  keyId?: string;
+  keyName?: string;
+}
+
 /** A minimal view of a Better Auth session (duck-typed; works with the real Session shape). */
 export interface SessionLike {
   user?: { role?: string | string[]; scopes?: string[] } | null;

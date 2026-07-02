@@ -11,7 +11,7 @@
 import { Hono, type Context } from "hono";
 import { Effect } from "effect";
 import { DbLive, type Bindings } from "../app";
-import type { AppVars } from "../auth";
+import type { AppVars } from "@suluk/better-auth"; // the auth-set context vars — from the package, NOT a `../auth` sibling import
 import { McpConnections, McpConnectionsLive, type McpConnectionPatch } from "../services/mcp";
 
 type Env = { Bindings: Bindings; Variables: AppVars };

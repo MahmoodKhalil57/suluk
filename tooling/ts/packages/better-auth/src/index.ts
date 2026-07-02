@@ -11,7 +11,7 @@ export { authSecuritySchemes, type AuthMethods, type AuthSecurity } from "./secu
 export { normalizeOas30, ingestAuthOpenAPI, mergeAuth, type IngestOptions } from "./ingest";
 export {
   principalFromSession, MFA_SCOPE, mcpConnectionKeyId, orgScope, parseOrgScope,
-  type Principal, type SessionLike, type PrincipalOptions,
+  type Principal, type SessionLike, type PrincipalOptions, type AppVars,
 } from "./principal";
 export { mountAuth, type AuthHandlerLike, type HonoLike, type MountAuthOptions } from "./mount";
 // scope-aware API-key verification (Phase 0): wraps Better Auth's verifyApiKey to return a { scopes } Principal,
