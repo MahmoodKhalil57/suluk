@@ -24,7 +24,7 @@ export const webhooksOps = [
     name: "stripeWebhook",
     summary:
       "Stripe webhook sink — verifies the signature over the RAW body, dedups on the event id, dispatches. Public (no session scope; authenticated by the Stripe signature, not a caller principal).",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "free" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Webhooks"],
     // Public + signature-verified: no caller principal to key on → IP-cap it against redelivery/replay abuse.
     rateLimit: { windowMs: 60_000, maxRequests: 120, key: "ip" },

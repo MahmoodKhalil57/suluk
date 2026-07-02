@@ -35,3 +35,5 @@ export { summarize, principalCost, type CostSummary } from "./ledger";
 export { weighCost, resolveCost, mergeWeights, type WeightTable, type WeighedCost } from "./weigh";
 // THE COST CALCULATOR — net per-user economics (cost − paid, + rate-limit budget) + the "spin up a test user" simulator.
 export { userEconomics, simulateUser, type UserEconomics, type SimStep } from "./economics";
+// RATE-LIMIT EXPOSURE — rate-limit caps × per-route cost = the per-user $ budget; × N users = the platform's money-on-the-line.
+export { rateLimitExposure, exposureAtUsers, DEFAULT_EXPOSURE_PERIOD_MS, type PlatformExposure, type RouteExposure, type RateLimitFacet } from "./exposure";

@@ -32,7 +32,7 @@ export const keysOps = [
     method: "get", path: "/api/keys", name: "listKeys",
     summary: "The caller's API keys with their place in the delegation tree (scopes, caps, usage, lineage).",
     tags: ["API keys"], scopes: ["keys:read"],
-    cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "rate-limited" } },
     rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" },
     errors: [401],
     responses: [{ status: 200, description: "The API-key list.", schema: z.object({ keys: z.array(KeyRowSchema) }) }],
@@ -41,7 +41,7 @@ export const keysOps = [
     method: "get", path: "/api/keys/:keyId/subtree", name: "getKeySubtree",
     summary: "The delegation subtree rooted at a key (its descendants + their caps/usage).",
     tags: ["API keys"], scopes: ["keys:read"],
-    cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" },
     errors: [401, 404],
     // the route returns the descendant key ids: `c.json({ subtree: await s.subtree(keyId) })`.
@@ -51,7 +51,7 @@ export const keysOps = [
     method: "post", path: "/api/keys/provision", name: "provisionKey",
     summary: "Mint a CHILD API key, its caps CLAMPED to the caller's own grant (a child can never out-scope an ancestor). Returns the plaintext key ONCE.",
     tags: ["API keys"], scopes: ["keys:write"],
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
     errors: [400, 401, 403],
     request: {
@@ -69,7 +69,7 @@ export const keysOps = [
     method: "post", path: "/api/keys/:keyId/revoke", name: "revokeKey",
     summary: "Cascade-revoke an API key and every descendant it provisioned, transitively.",
     tags: ["API keys"], scopes: ["keys:write"],
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
     errors: [401, 403, 404],
     // the route returns `s.revokeTree(userId, keyId, callerKeyId)`: { revoked: <count disabled> }.

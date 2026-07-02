@@ -18,7 +18,7 @@ export const adminOps = [
     path: "/api/admin/stats",
     name: "getAdminStats",
     summary: "Platform-wide credit + usage stats. ADMIN-only.",
-    cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Admin"],
     scopes: ["admin"],
     rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" },

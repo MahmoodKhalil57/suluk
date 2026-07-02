@@ -34,7 +34,7 @@ export const emailOps = [
     cost: {
       estimateMicroUsd: 400,
       components: [{ source: "resend", basis: "per-request", microUsd: 400, description: "one transactional email via the Resend API" }],
-      settlement: { method: "free" },
+      settlement: { method: "rate-limited" },
     },
     // BODY: the route reads `c.req.json<EmailMessage>()` — the fully-formed message handed to the provider.
     request: { json: EmailMessageSchema },

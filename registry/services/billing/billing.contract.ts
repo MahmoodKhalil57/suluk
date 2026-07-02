@@ -29,7 +29,7 @@ export const billingOps = [
   {
     method: "get", path: "/api/billing/packs", name: "getPacks",
     summary: "Available credit packs (server-authoritative pricing). Public — the frontend reads it pre-sign-in.",
-    cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "free" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"],
     rateLimit: { windowMs: 60_000, maxRequests: 60, key: "ip" }, // PUBLIC pricing catalog (read pre-sign-in) → IP-keyed abuse cap
     responses: [{ status: 200, schema: z.object({ packs: z.array(PackSchema) }) }],
@@ -37,7 +37,7 @@ export const billingOps = [
   {
     method: "get", path: "/api/billing/plans", name: "getPlans",
     summary: "Available subscription plans (server-authoritative pricing). Public — the frontend reads it pre-sign-in.",
-    cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "free" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"],
     rateLimit: { windowMs: 60_000, maxRequests: 60, key: "ip" }, // PUBLIC pricing catalog (read pre-sign-in) → IP-keyed abuse cap
     responses: [{ status: 200, schema: z.object({ plans: z.array(PlanSchema) }) }],
@@ -45,7 +45,7 @@ export const billingOps = [
   {
     method: "get", path: "/api/billing/payment-config", name: "getPaymentConfig",
     summary: "The publishable payment config (publishable key + enabled methods) for the client SDK.",
-    cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:read"],
     rateLimit: { windowMs: 60_000, maxRequests: 60, key: "ip" }, // non-secret publishable key → IP-keyed abuse cap
     responses: [{ status: 200, schema: z.object({ publishableKey: z.string() }) }],
@@ -53,7 +53,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/checkout", name: "checkout",
     summary: "Start a Stripe checkout / payment session for a credit top-up; returns the client secret or hosted URL.",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"], errors: [401],
     rateLimit: { windowMs: 60_000, maxRequests: 20, key: "principal" },
     request: { json: z.object({ packId: z.string().min(1), successUrl: z.string().url().max(2048), cancelUrl: z.string().url().max(2048) }) },
@@ -62,7 +62,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/payment-intent", name: "createPaymentIntent",
     summary: "Create a payment intent for a client-confirmed top-up; returns the client secret.",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"], errors: [401],
     rateLimit: { windowMs: 60_000, maxRequests: 20, key: "principal" },
     request: { json: z.object({ packId: z.string().min(1), onDefaultCard: z.boolean().optional() }) },
@@ -71,7 +71,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/subscribe", name: "subscribe",
     summary: "Start a subscription for a plan — one-click (client secret + subscription id) or hosted (checkout URL).",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "subscription" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"], errors: [400, 401],
     rateLimit: { windowMs: 60_000, maxRequests: 20, key: "principal" },
     request: { json: z.object({ planId: z.string().min(1), hosted: z.boolean().optional(), successUrl: z.string().url().max(2048).optional(), cancelUrl: z.string().url().max(2048).optional() }) },
@@ -88,7 +88,7 @@ export const billingOps = [
   {
     method: "get", path: "/api/billing/subscription", name: "getSubscription",
     summary: "The caller's current subscription (plan, status, period end, cancel-at-period-end).",
-    cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:read"], errors: [401],
     rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" },
     responses: [
@@ -110,7 +110,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/subscription", name: "cancelSubscription",
     summary: "Cancel (or schedule cancellation of) the caller's subscription.",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"], errors: [401, 404],
     rateLimit: { windowMs: 60_000, maxRequests: 20, key: "principal" },
     request: { json: z.object({ cancel: z.boolean().optional() }) }, // defaults true when body absent/unparseable
@@ -119,7 +119,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/subscription-plan", name: "changeSubscriptionPlan",
     summary: "Switch the caller's subscription to a different plan (prorated).",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "subscription" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"], errors: [400, 401],
     rateLimit: { windowMs: 60_000, maxRequests: 20, key: "principal" },
     request: { json: z.object({ planId: z.string().min(1) }) },
@@ -137,7 +137,7 @@ export const billingOps = [
   {
     method: "get", path: "/api/billing/purchase-quote", name: "getPurchaseQuote",
     summary: "A server-authoritative quote (tax + total) for a credit-pack purchase before checkout.",
-    cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:read"], errors: [400, 401],
     rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
     request: { query: z.object({ amountCents: z.coerce.number().int().positive() }) },
@@ -151,7 +151,7 @@ export const billingOps = [
   {
     method: "get", path: "/api/billing/refund-quote", name: "getRefundQuote",
     summary: "How much of a purchase is refundable (credits already spent are deducted).",
-    cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:read"], errors: [400],
     rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
     request: { query: z.object({ credits: z.coerce.number().int().positive() }) },
@@ -160,7 +160,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/refund", name: "refund",
     summary: "Refund a purchase — DEBITS the granted credits before moving cash (partial-capped; re-credits any shortfall).",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"], errors: [400, 401],
     rateLimit: { windowMs: 60_000, maxRequests: 10, key: "principal" },
     request: { json: z.object({ credits: z.number().int().positive() }) },
@@ -169,7 +169,7 @@ export const billingOps = [
   {
     method: "get", path: "/api/billing/cards/:userId", name: "listCards",
     summary: "A user's saved cards (each with its billing address); empty until they have a Stripe customer.",
-    cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:read"],
     rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" },
     responses: [{ status: 200, schema: z.object({ cards: z.array(PaymentMethodSchema) }) }],
@@ -177,7 +177,7 @@ export const billingOps = [
   {
     method: "get", path: "/api/billing/methods", name: "listMethods",
     summary: "The caller's saved payment methods (cards), the default flagged.",
-    cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:read"], errors: [401],
     rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" },
     responses: [{ status: 200, schema: z.object({ methods: z.array(PaymentMethodSchema) }) }],
@@ -185,7 +185,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/methods/default", name: "setDefaultMethod",
     summary: "Set a saved card as the default for off-session charges.",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"], errors: [400, 401],
     rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
     request: { json: z.object({ pmId: z.string().min(1) }) },
@@ -194,7 +194,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/methods/delete", name: "deleteMethod",
     summary: "Detach a saved card from the caller's Stripe customer.",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"], errors: [400, 401],
     rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
     request: { json: z.object({ pmId: z.string().min(1) }) },
@@ -203,7 +203,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/portal", name: "billingPortal",
     summary: "Open the Stripe billing portal to manage/cancel a subscription. Returns the portal URL.",
-    cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"], errors: [404],
     rateLimit: { windowMs: 60_000, maxRequests: 20, key: "principal" },
     request: { json: z.object({ userId: z.string().min(1), returnUrl: z.string().url().max(2048) }) },
@@ -212,7 +212,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/customer", name: "ensureCustomer",
     summary: "Ensure the caller has a Stripe customer (idempotent) — used before saving a card.",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"],
     rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
     request: { json: z.object({ userId: z.string().min(1), email: z.string().email().optional() }) },
@@ -221,7 +221,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/payment-session", name: "createPaymentSession",
     summary: "Create a client payment session (Element auto-PM or one-click on the default card).",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1, "stripe.charge": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"],
     rateLimit: { windowMs: 60_000, maxRequests: 20, key: "principal" },
     request: { json: z.object({ userId: z.string().min(1), amountCents: z.number().int().positive(), credits: z.number().int().positive() }) },
@@ -230,7 +230,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/setup-session", name: "createSetupSession",
     summary: "Create a setup session to save a card off-session (no charge).",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"],
     rateLimit: { windowMs: 60_000, maxRequests: 20, key: "principal" },
     request: { json: z.object({ userId: z.string().min(1) }) },
@@ -239,7 +239,7 @@ export const billingOps = [
   {
     method: "get", path: "/api/billing/auto-topup", name: "getAutoTopup",
     summary: "The caller's auto-recharge config (threshold + pack, or disabled).",
-    cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:read"], errors: [401],
     rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
     responses: [
@@ -249,7 +249,7 @@ export const billingOps = [
   {
     method: "post", path: "/api/billing/auto-topup", name: "setAutoTopup",
     summary: "Enable/update/disable auto-recharge (top up when the balance falls below a threshold).",
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:write"], errors: [400, 401],
     rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
     request: { json: z.object({ enabled: z.boolean(), thresholdCredits: z.number().int(), topupCredits: z.number().int() }) },
@@ -258,7 +258,7 @@ export const billingOps = [
   {
     method: "get", path: "/api/billing/payment-health", name: "getPaymentHealth",
     summary: "Standing payment-health flags for the caller (failed charges, expiring cards, dunning).",
-    cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
     tags: ["Billing"], scopes: ["billing:read"], errors: [401],
     rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" },
     responses: [
