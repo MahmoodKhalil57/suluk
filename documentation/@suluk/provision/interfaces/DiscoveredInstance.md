@@ -6,7 +6,7 @@
 
 # Interface: DiscoveredInstance
 
-Defined in: [provision/src/pull.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/pull.ts#L73)
+Defined in: [provision/src/pull.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/provision/src/pull.ts#L73)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/pull.ts:73](https://github.com/MahmoodKhalil57/suluk/
 
 > **instanceId**: `string`
 
-Defined in: [provision/src/pull.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/pull.ts#L76)
+Defined in: [provision/src/pull.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/provision/src/pull.ts#L76)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [provision/src/pull.ts:76](https://github.com/MahmoodKhalil57/suluk/
 
 > **name**: `string`
 
-Defined in: [provision/src/pull.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/pull.ts#L75)
+Defined in: [provision/src/pull.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/provision/src/pull.ts#L75)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [provision/src/pull.ts:75](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **outputs?**: `Record`\<`string`, `string`\>
 
-Defined in: [provision/src/pull.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/pull.ts#L77)
+Defined in: [provision/src/pull.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/provision/src/pull.ts#L77)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [provision/src/pull.ts:77](https://github.com/MahmoodKhalil57/suluk/
 
 > **service**: `string`
 
-Defined in: [provision/src/pull.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/pull.ts#L74)
+Defined in: [provision/src/pull.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/provision/src/pull.ts#L74)

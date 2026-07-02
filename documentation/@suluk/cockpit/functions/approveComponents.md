@@ -8,7 +8,7 @@
 
 > **approveComponents**(`report`, `baseline`, `at`): [`Baseline`](../type-aliases/Baseline.md)
 
-Defined in: [cockpit/src/visual.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/visual.ts#L73)
+Defined in: [cockpit/src/visual.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/visual.ts#L73)
 
 The "verify once": approve every used primitive at its current content hash, returning the new baseline.
 

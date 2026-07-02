@@ -8,7 +8,7 @@
 
 > **crossCut**(`doc`, `viewers`): [`CrossCut`](../interfaces/CrossCut.md)
 
-Defined in: [cockpit/src/crosscut.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/crosscut.ts#L80)
+Defined in: [cockpit/src/crosscut.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/crosscut.ts#L80)
 
 Project the contract through every viewer and surface the gated operations.
 

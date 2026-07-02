@@ -8,7 +8,7 @@
 
 > **impliedErrorStatuses**(`req`): `number`[]
 
-Defined in: [settlement.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/settlement.ts#L63)
+Defined in: [settlement.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cost/src/settlement.ts#L63)
 
 The HTTP error statuses a request's FACETS imply (the generic form of toolfactory's errors-gate): a contract should
 declare these responses. credit→402 · authenticated/admin→401 · owner-scope→403 · rate-limit→429 · an upstream

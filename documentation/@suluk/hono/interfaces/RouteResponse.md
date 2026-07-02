@@ -6,7 +6,7 @@
 
 # Interface: RouteResponse
 
-Defined in: [tooling/ts/packages/hono/src/contract.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/contract.ts#L26)
+Defined in: [tooling/ts/packages/hono/src/contract.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/contract.ts#L26)
 
 `@suluk/hono` — the derivation engine. The user authors minimal RouteContracts (Hono + Zod); everything
 else is derived: the v4 document (dynamic per principal + time), request validation, contract tests, and
@@ -18,7 +18,7 @@ a documentation-coverage audit. See tooling/ARCHITECTURE.md. CANDIDATE tooling.
 
 > `optional` **contentType?**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/contract.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/contract.ts#L31)
+Defined in: [tooling/ts/packages/hono/src/contract.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/contract.ts#L31)
 
 Defaults to application/json when a schema is present.
 
@@ -28,7 +28,7 @@ Defaults to application/json when a schema is present.
 
 > `optional` **description?**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/contract.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/contract.ts#L28)
+Defined in: [tooling/ts/packages/hono/src/contract.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/contract.ts#L28)
 
 ***
 
@@ -36,7 +36,7 @@ Defined in: [tooling/ts/packages/hono/src/contract.ts:28](https://github.com/Mah
 
 > `optional` **examples?**: `unknown`[]
 
-Defined in: [tooling/ts/packages/hono/src/contract.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/contract.ts#L33)
+Defined in: [tooling/ts/packages/hono/src/contract.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/contract.ts#L33)
 
 Optional concrete example responses — used by contractChecks.
 
@@ -46,7 +46,7 @@ Optional concrete example responses — used by contractChecks.
 
 > `optional` **schema?**: `ZodType`\<`unknown`, `unknown`, `$ZodTypeInternals`\<`unknown`, `unknown`\>\>
 
-Defined in: [tooling/ts/packages/hono/src/contract.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/contract.ts#L29)
+Defined in: [tooling/ts/packages/hono/src/contract.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/contract.ts#L29)
 
 ***
 
@@ -54,4 +54,4 @@ Defined in: [tooling/ts/packages/hono/src/contract.ts:29](https://github.com/Mah
 
 > **status**: `number`
 
-Defined in: [tooling/ts/packages/hono/src/contract.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/contract.ts#L27)
+Defined in: [tooling/ts/packages/hono/src/contract.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/contract.ts#L27)

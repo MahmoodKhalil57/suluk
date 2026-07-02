@@ -8,7 +8,7 @@
 
 > **lintResources**(`doc`): [`ResourceFinding`](../interfaces/ResourceFinding.md)[]
 
-Defined in: [agents/src/resources.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/resources.ts#L68)
+Defined in: [agents/src/resources.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/resources.ts#L68)
 
 Lint the resources catalog + every agent's refs into it: catalog entries must be well-formed (description, valid
 kind, pinned provenance), agent refs must resolve, retrieved content is flagged (advisory), and `kind: "script"` is

@@ -6,7 +6,7 @@
 
 # Interface: BaselineEntry
 
-Defined in: [baseline.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/visual/src/baseline.ts#L24)
+Defined in: [baseline.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/visual/src/baseline.ts#L24)
 
 `@suluk/visual` — pixel-confidence by construction.
 
@@ -23,7 +23,7 @@ deterministic projection. CANDIDATE tooling — NOT official OAS.
 
 > **approvedAt**: `number`
 
-Defined in: [baseline.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/visual/src/baseline.ts#L31)
+Defined in: [baseline.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/visual/src/baseline.ts#L31)
 
 Wall-clock ms of approval (an input — pass it in, so the baseline is reproducible).
 
@@ -33,7 +33,7 @@ Wall-clock ms of approval (an input — pass it in, so the baseline is reproduci
 
 > **contentHash**: `string`
 
-Defined in: [baseline.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/visual/src/baseline.ts#L27)
+Defined in: [baseline.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/visual/src/baseline.ts#L27)
 
 Content hash of the source that produced the approved pixels.
 
@@ -43,7 +43,7 @@ Content hash of the source that produced the approved pixels.
 
 > **key**: `string`
 
-Defined in: [baseline.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/visual/src/baseline.ts#L25)
+Defined in: [baseline.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/visual/src/baseline.ts#L25)
 
 ***
 
@@ -51,7 +51,7 @@ Defined in: [baseline.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20
 
 > `optional` **label?**: `string`
 
-Defined in: [baseline.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/visual/src/baseline.ts#L32)
+Defined in: [baseline.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/visual/src/baseline.ts#L32)
 
 ***
 
@@ -59,6 +59,6 @@ Defined in: [baseline.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/6ca20
 
 > **snapshotHash**: `string`
 
-Defined in: [baseline.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/visual/src/baseline.ts#L29)
+Defined in: [baseline.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/visual/src/baseline.ts#L29)
 
 Hash of the approved screenshot (set by the verify-once gate).

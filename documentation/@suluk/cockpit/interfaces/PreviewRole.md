@@ -6,7 +6,7 @@
 
 # Interface: PreviewRole
 
-Defined in: [cockpit/src/crosscut.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/crosscut.ts#L99)
+Defined in: [cockpit/src/crosscut.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/crosscut.ts#L99)
 
 A principal you can preview the running app AS — derived from the contract, never hardcoded.
 
@@ -16,7 +16,7 @@ A principal you can preview the running app AS — derived from the contract, ne
 
 > **authenticated**: `boolean`
 
-Defined in: [cockpit/src/crosscut.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/crosscut.ts#L105)
+Defined in: [cockpit/src/crosscut.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/crosscut.ts#L105)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [cockpit/src/crosscut.ts:105](https://github.com/MahmoodKhalil57/sul
 
 > **label**: `string`
 
-Defined in: [cockpit/src/crosscut.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/crosscut.ts#L100)
+Defined in: [cockpit/src/crosscut.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/crosscut.ts#L100)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [cockpit/src/crosscut.ts:100](https://github.com/MahmoodKhalil57/sul
 
 > **role**: `string`
 
-Defined in: [cockpit/src/crosscut.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/crosscut.ts#L102)
+Defined in: [cockpit/src/crosscut.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/crosscut.ts#L102)
 
 the role token passed to the preview deploy's /preview/login?role=… (or "anonymous").
 
@@ -42,6 +42,6 @@ the role token passed to the preview deploy's /preview/login?role=… (or "anony
 
 > **scopes**: `string`[]
 
-Defined in: [cockpit/src/crosscut.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/crosscut.ts#L104)
+Defined in: [cockpit/src/crosscut.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/crosscut.ts#L104)
 
 the scopes this role implies in the cross-cut (here, just the role itself; the runtime maps role→scopes).

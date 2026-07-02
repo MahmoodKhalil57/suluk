@@ -8,43 +8,13 @@
 
 > `const` **keysService**: `object`
 
-Defined in: [service.ts:286](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L286)
+Defined in: [service.ts:286](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L286)
 
 ## Type Declaration
 
 ### compose
 
 > `readonly` **compose**: `object`
-
-#### compose.exposes
-
-> `readonly` **exposes**: `object`
-
-#### compose.exposes.createKey
-
-> `readonly` **createKey**: `object`
-
-#### compose.exposes.createKey.hookOptKey
-
-> `readonly` **hookOptKey**: `"createKey"` = `"createKey"`
-
-#### compose.exposes.createKey.kind
-
-> `readonly` **kind**: `"port"` = `"port"`
-
-#### compose.exposes.createKey.render
-
-> `readonly` **render**: (`e`) => `string`
-
-##### Parameters
-
-###### e
-
-`string`[]
-
-##### Returns
-
-`string`
 
 #### compose.offers
 

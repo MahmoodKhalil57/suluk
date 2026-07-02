@@ -6,7 +6,7 @@
 
 # Interface: WebhookEvent
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/connector.ts#L57)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/connector.ts#L57)
 
 A normalized webhook event (the unified shape a connector's handleWebhook produces).
 
@@ -16,7 +16,7 @@ A normalized webhook event (the unified shape a connector's handleWebhook produc
 
 > `optional` **connectorTransactionId?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/connector.ts#L59)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/connector.ts#L59)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [tooling/ts/packages/payments/src/connector.ts:59](https://github.co
 
 > **raw**: `unknown`
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/connector.ts#L61)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/connector.ts#L61)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [tooling/ts/packages/payments/src/connector.ts:61](https://github.co
 
 > `optional` **status?**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/connector.ts#L60)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/connector.ts#L60)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [tooling/ts/packages/payments/src/connector.ts:60](https://github.co
 
 > **type**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/connector.ts#L58)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/connector.ts#L58)

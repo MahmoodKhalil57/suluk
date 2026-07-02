@@ -6,7 +6,7 @@
 
 # Interface: BuildDemoFilesOptions
 
-Defined in: [journeys/src/cli.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/cli.ts#L17)
+Defined in: [journeys/src/cli.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/cli.ts#L17)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/cli.ts:17](https://github.com/MahmoodKhalil57/suluk/bl
 
 > `optional` **baseUrl?**: `string`
 
-Defined in: [journeys/src/cli.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/cli.ts#L23)
+Defined in: [journeys/src/cli.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/cli.ts#L23)
 
 the PROD base URL (the live-call target).
 
@@ -24,7 +24,7 @@ the PROD base URL (the live-call target).
 
 > `optional` **format?**: [`DemoFormat`](../type-aliases/DemoFormat.md)
 
-Defined in: [journeys/src/cli.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/cli.ts#L19)
+Defined in: [journeys/src/cli.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/cli.ts#L19)
 
 which collection(s) to emit (default "both").
 
@@ -34,7 +34,7 @@ which collection(s) to emit (default "both").
 
 > `optional` **localBaseUrl?**: `string`
 
-Defined in: [journeys/src/cli.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/cli.ts#L25)
+Defined in: [journeys/src/cli.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/cli.ts#L25)
 
 the LOCAL base URL a developer rehearses against first.
 
@@ -44,6 +44,6 @@ the LOCAL base URL a developer rehearses against first.
 
 > `optional` **name?**: `string`
 
-Defined in: [journeys/src/cli.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/cli.ts#L21)
+Defined in: [journeys/src/cli.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/cli.ts#L21)
 
 collection name (default the contract's info.title).

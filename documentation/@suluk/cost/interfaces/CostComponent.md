@@ -6,7 +6,7 @@
 
 # Interface: CostComponent
 
-Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/types.ts#L19)
+Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cost/src/types.ts#L19)
 
 `@suluk/cost` — cost as a contract facet + runtime metering. You can't price a user without knowing what
 they cost you. So: declare per-operation cost (incl. third-party usage) on the contract — it bubbles into
@@ -20,7 +20,7 @@ it is and let you build pricing on top (Stripe via @suluk/stripe). CANDIDATE too
 
 > **basis**: [`CostBasis`](../type-aliases/CostBasis.md)
 
-Defined in: [types.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/types.ts#L22)
+Defined in: [types.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cost/src/types.ts#L22)
 
 ***
 
@@ -28,7 +28,7 @@ Defined in: [types.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc5
 
 > `optional` **description?**: `string`
 
-Defined in: [types.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/types.ts#L25)
+Defined in: [types.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cost/src/types.ts#L25)
 
 ***
 
@@ -36,7 +36,7 @@ Defined in: [types.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc5
 
 > **microUsd**: `number`
 
-Defined in: [types.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/types.ts#L24)
+Defined in: [types.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cost/src/types.ts#L24)
 
 Cost per one unit of `basis`, in micro-USD.
 
@@ -46,6 +46,6 @@ Cost per one unit of `basis`, in micro-USD.
 
 > **source**: `string`
 
-Defined in: [types.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/types.ts#L21)
+Defined in: [types.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cost/src/types.ts#L21)
 
 Where the money goes: "openai", "compute", "egress", "twilio", … (free-form, your taxonomy).

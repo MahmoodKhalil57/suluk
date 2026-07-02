@@ -12019,7 +12019,7 @@ const creditsService: { id: "credits"; mount: { kind: "route"; path: "/api/credi
 ### keysService
 
 ```ts
-const keysService: { id: "keys"; mount: { kind: "route"; path: "/api/keys"; symbol: "keysRoutes"; from: "./routes/keys" }; provision: { symbol: "keysProvision"; from: "./src/provision/keys" }; contract: { symbol: "keysOps"; from: "./contract/keys" }; deps: ["@suluk/keys"]; requires: ["auth"]; compose: { exposes: { createKey: { kind: "port"; hookOptKey: "createKey"; render: (e: string[]) => string } }; offers: { eraseStep: Capability<unknown> } } }
+const keysService: { id: "keys"; mount: { kind: "route"; path: "/api/keys"; symbol: "keysRoutes"; from: "./routes/keys" }; provision: { symbol: "keysProvision"; from: "./src/provision/keys" }; contract: { symbol: "keysOps"; from: "./contract/keys" }; deps: ["@suluk/keys"]; requires: ["auth"]; compose: { offers: { eraseStep: Capability<unknown> } } }
 ```
 
 ### billingService

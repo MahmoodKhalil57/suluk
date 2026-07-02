@@ -6,7 +6,7 @@
 
 # Interface: AmountVerdict
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L46)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/
 
 > **claimedCents**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L46)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/
 
 > **deltaCents**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L46)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/
 
 > **expectedCents**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L46)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/
 
 > **ok**: `boolean`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L46)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/
 
 > `optional` **reason?**: `"amount-mismatch"`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L46)

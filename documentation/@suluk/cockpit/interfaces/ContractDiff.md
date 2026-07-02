@@ -6,7 +6,7 @@
 
 # Interface: ContractDiff
 
-Defined in: [cockpit/src/drift.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/drift.ts#L31)
+Defined in: [cockpit/src/drift.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/drift.ts#L31)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/drift.ts:31](https://github.com/MahmoodKhalil57/suluk/b
 
 > **identical**: `boolean`
 
-Defined in: [cockpit/src/drift.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/drift.ts#L37)
+Defined in: [cockpit/src/drift.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/drift.ts#L37)
 
 true ⇒ local matches deployed exactly (no drift)
 
@@ -24,7 +24,7 @@ true ⇒ local matches deployed exactly (no drift)
 
 > **operations**: `object`
 
-Defined in: [cockpit/src/drift.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/drift.ts#L32)
+Defined in: [cockpit/src/drift.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/drift.ts#L32)
 
 #### added
 
@@ -44,7 +44,7 @@ Defined in: [cockpit/src/drift.ts:32](https://github.com/MahmoodKhalil57/suluk/b
 
 > **providers**: `object`
 
-Defined in: [cockpit/src/drift.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/drift.ts#L35)
+Defined in: [cockpit/src/drift.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/drift.ts#L35)
 
 provider-slot drift (x-suluk-providers) — e.g. local binds payments→paddle, deployed still →stripe
 
@@ -66,7 +66,7 @@ provider-slot drift (x-suluk-providers) — e.g. local binds payments→paddle, 
 
 > **schemas**: `object`
 
-Defined in: [cockpit/src/drift.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/drift.ts#L33)
+Defined in: [cockpit/src/drift.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/drift.ts#L33)
 
 #### added
 
@@ -86,6 +86,6 @@ Defined in: [cockpit/src/drift.ts:33](https://github.com/MahmoodKhalil57/suluk/b
 
 > **summary**: `string`
 
-Defined in: [cockpit/src/drift.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/drift.ts#L39)
+Defined in: [cockpit/src/drift.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/drift.ts#L39)
 
 one-line digest, e.g. "1+ 0- 2~ ops · 1+ 0- 0~ schemas" or "in sync"

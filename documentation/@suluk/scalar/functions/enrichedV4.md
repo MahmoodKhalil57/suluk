@@ -8,7 +8,7 @@
 
 > **enrichedV4**(`doc`, `opts?`): `object`
 
-Defined in: [index.ts:190](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/scalar/src/index.ts#L190)
+Defined in: [index.ts:190](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/scalar/src/index.ts#L190)
 
 Enrich a v4 document with the suluk facets (badges + detail + intro) WITHOUT downgrading — for the forked Scalar
  that ingests v4 NATIVELY. Never mutates `doc` (JSON-clone first). The output is fed to Scalar's `content` as-is.

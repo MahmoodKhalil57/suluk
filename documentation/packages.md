@@ -18,7 +18,7 @@
 
 - [@suluk/admin - v0.1.3](@suluk/admin/README.md)
 - [@suluk/agents - v0.1.6](@suluk/agents/README.md)
-- [@suluk/better-auth - v0.2.0](@suluk/better-auth/README.md)
+- [@suluk/better-auth - v0.2.1](@suluk/better-auth/README.md)
 - [@suluk/billing - v0.2.0](@suluk/billing/README.md)
 - [@suluk/builder - v0.1.11](@suluk/builder/README.md)
 - [@suluk/chat - v0.2.1](@suluk/chat/README.md)
@@ -46,7 +46,7 @@
 - [@suluk/openapi-compat - v0.1.3](@suluk/openapi-compat/README.md)
 - [@suluk/panel - v0.3.1](@suluk/panel/README.md)
 - [@suluk/payments - v0.1.0](@suluk/payments/README.md)
-- [@suluk/platform - v0.7.0](@suluk/platform/README.md)
+- [@suluk/platform - v0.8.0](@suluk/platform/README.md)
 - [@suluk/provision - v0.2.0](@suluk/provision/README.md)
 - [@suluk/reference - v0.2.1](@suluk/reference/README.md)
 - [@suluk/scalar - v0.8.0](@suluk/scalar/README.md)

@@ -8,7 +8,7 @@
 
 > **validateAll**(`reg`): [`DslError`](../interfaces/DslError.md)[]
 
-Defined in: [validate.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/validate.ts#L116)
+Defined in: [validate.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/validate.ts#L116)
 
 Validate every page / section / block in the registry.
 

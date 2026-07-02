@@ -8,7 +8,7 @@
 
 > **buildExampleObject**(`headers`, `row`, `bodySchema?`): `Record`\<`string`, `unknown`\>
 
-Defined in: [journeys/src/promote.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/promote.ts#L56)
+Defined in: [journeys/src/promote.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/promote.ts#L56)
 
 Build a concrete public example object from a row, coercing by the body schema's field types. A WIRING TOKEN cell
 (`<op.select>`) is skipped — a public docs example holds concrete values, not a chaining instruction.

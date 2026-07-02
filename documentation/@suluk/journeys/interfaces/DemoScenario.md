@@ -6,7 +6,7 @@
 
 # Interface: DemoScenario
 
-Defined in: [journeys/src/demos.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/demos.ts#L39)
+Defined in: [journeys/src/demos.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/demos.ts#L39)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/demos.ts:39](https://github.com/MahmoodKhalil57/suluk/
 
 > **name**: `string`
 
-Defined in: [journeys/src/demos.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/demos.ts#L40)
+Defined in: [journeys/src/demos.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/demos.ts#L40)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [journeys/src/demos.ts:40](https://github.com/MahmoodKhalil57/suluk/
 
 > **requests**: [`DemoRequest`](DemoRequest.md)[]
 
-Defined in: [journeys/src/demos.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/demos.ts#L41)
+Defined in: [journeys/src/demos.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/demos.ts#L41)

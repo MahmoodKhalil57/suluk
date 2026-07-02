@@ -8,7 +8,7 @@
 
 > **inSubtree**(`path`, `candidate`): `boolean`
 
-Defined in: [packages/keys/src/path.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/keys/src/path.ts#L20)
+Defined in: [packages/keys/src/path.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/keys/src/path.ts#L20)
 
 TRUE when `candidate` is within `path`'s subtree: the node itself (exact) OR a descendant (a "/"-prefix). The JS twin
  of the SQL subtree predicate — the single rule for spend pooling, log visibility, and cascade.

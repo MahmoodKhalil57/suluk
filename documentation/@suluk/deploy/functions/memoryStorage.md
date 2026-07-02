@@ -8,7 +8,7 @@
 
 > **memoryStorage**(`opts?`): [`StorageProvider`](../interfaces/StorageProvider.md) & `object`
 
-Defined in: [storage.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/deploy/src/storage.ts#L53)
+Defined in: [storage.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/deploy/src/storage.ts#L53)
 
 A DEV in-memory storage (per-process; not durable) — the swap default for local/tests, never production.
 

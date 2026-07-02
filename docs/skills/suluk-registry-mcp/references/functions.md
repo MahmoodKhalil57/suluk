@@ -4,10 +4,11 @@
 
 ### `mountMcp`
 ```ts
-mountMcp<T>(app: T): T
+mountMcp<T>(app: T, opts?: MountMcpOptions): T
 ```
 **Parameters:**
 - `app: T`
+- `opts: MountMcpOptions` (optional)
 **Returns:** `T`
 
 ## mcp.connections.routes

@@ -6,7 +6,7 @@
 
 # Interface: SeoMeta
 
-Defined in: [marketing.ts:151](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L151)
+Defined in: [marketing.ts:151](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L151)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [marketing.ts:151](https://github.com/MahmoodKhalil57/suluk/blob/6ca
 
 > **alternates**: `Record`\<`string`, `string`\>
 
-Defined in: [marketing.ts:162](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L162)
+Defined in: [marketing.ts:162](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L162)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [marketing.ts:162](https://github.com/MahmoodKhalil57/suluk/blob/6ca
 
 > `optional` **canonical?**: `string`
 
-Defined in: [marketing.ts:155](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L155)
+Defined in: [marketing.ts:155](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L155)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [marketing.ts:155](https://github.com/MahmoodKhalil57/suluk/blob/6ca
 
 > **description**: `string`
 
-Defined in: [marketing.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L153)
+Defined in: [marketing.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L153)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [marketing.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/6ca
 
 > **keywords**: `string`[]
 
-Defined in: [marketing.ts:154](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L154)
+Defined in: [marketing.ts:154](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L154)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [marketing.ts:154](https://github.com/MahmoodKhalil57/suluk/blob/6ca
 
 > **locale**: `string`
 
-Defined in: [marketing.ts:161](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L161)
+Defined in: [marketing.ts:161](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L161)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [marketing.ts:161](https://github.com/MahmoodKhalil57/suluk/blob/6ca
 
 > **ogDescription**: `string`
 
-Defined in: [marketing.ts:157](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L157)
+Defined in: [marketing.ts:157](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L157)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [marketing.ts:157](https://github.com/MahmoodKhalil57/suluk/blob/6ca
 
 > `optional` **ogImage?**: `string`
 
-Defined in: [marketing.ts:158](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L158)
+Defined in: [marketing.ts:158](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L158)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [marketing.ts:158](https://github.com/MahmoodKhalil57/suluk/blob/6ca
 
 > **ogTitle**: `string`
 
-Defined in: [marketing.ts:156](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L156)
+Defined in: [marketing.ts:156](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L156)
 
 ***
 
@@ -78,7 +78,7 @@ Defined in: [marketing.ts:156](https://github.com/MahmoodKhalil57/suluk/blob/6ca
 
 > **ogType**: `string`
 
-Defined in: [marketing.ts:159](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L159)
+Defined in: [marketing.ts:159](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L159)
 
 ***
 
@@ -86,7 +86,7 @@ Defined in: [marketing.ts:159](https://github.com/MahmoodKhalil57/suluk/blob/6ca
 
 > **title**: `string`
 
-Defined in: [marketing.ts:152](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L152)
+Defined in: [marketing.ts:152](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L152)
 
 ***
 
@@ -94,4 +94,4 @@ Defined in: [marketing.ts:152](https://github.com/MahmoodKhalil57/suluk/blob/6ca
 
 > **twitterCard**: `string`
 
-Defined in: [marketing.ts:160](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/marketing.ts#L160)
+Defined in: [marketing.ts:160](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L160)

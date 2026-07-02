@@ -7,6 +7,10 @@ name: suluk-registry-mcp
 
 Reference tooling for the OpenAPI v4.0 Suluk candidate.
 
+## Configuration
+
+**MountMcpOptions** (1 options — see references/config.md)
+
 ## Quick Reference
 
 **mcp.routes:** `mountMcp`
@@ -24,3 +28,4 @@ Load these on demand — do NOT read all at once:
 - When using a class → read `references/classes.md` for properties, methods, and inheritance
 - When defining typed variables or function parameters → read `references/types.md`
 - When using exported constants → read `references/variables.md`
+- When configuring options → read `references/config.md` for all settings and defaults

@@ -8,7 +8,7 @@
 
 > **renderShadcnTheme**(`theme`, `opts?`): `Record`\<`string`, `string`\>
 
-Defined in: [theme.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/shadcn/src/theme.ts#L79)
+Defined in: [theme.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/shadcn/src/theme.ts#L79)
 
 The full shadcn theme file set from a TokenSpec/ThemeSpec: the css path → globals.css + components.json.
 

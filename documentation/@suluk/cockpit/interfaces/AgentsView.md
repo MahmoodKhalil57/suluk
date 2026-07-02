@@ -6,7 +6,7 @@
 
 # Interface: AgentsView
 
-Defined in: [cockpit/src/agents.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L66)
+Defined in: [cockpit/src/agents.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L66)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/agents.ts:66](https://github.com/MahmoodKhalil57/suluk/
 
 > **agents**: [`AgentNodeView`](AgentNodeView.md)[]
 
-Defined in: [cockpit/src/agents.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L68)
+Defined in: [cockpit/src/agents.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L68)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/agents.ts:68](https://github.com/MahmoodKhalil57/suluk/
 
 > **contextFindings**: [`LintFinding`](../../agents/interfaces/LintFinding.md)[]
 
-Defined in: [cockpit/src/agents.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L75)
+Defined in: [cockpit/src/agents.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L75)
 
 context-budget findings (model-fit / over-budget / overloaded / empty-layer / passthrough / flattenable) — the right-sizing check.
 
@@ -32,7 +32,7 @@ context-budget findings (model-fit / over-budget / overloaded / empty-layer / pa
 
 > **findings**: [`LintFinding`](../../agents/interfaces/LintFinding.md)[]
 
-Defined in: [cockpit/src/agents.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L71)
+Defined in: [cockpit/src/agents.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L71)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [cockpit/src/agents.ts:71](https://github.com/MahmoodKhalil57/suluk/
 
 > **flatten**: [`FlattenSuggestion`](../../agents/interfaces/FlattenSuggestion.md)[]
 
-Defined in: [cockpit/src/agents.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L79)
+Defined in: [cockpit/src/agents.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L79)
 
 for every thin/redundant layer: what to collapse up (the dual — merge UP).
 
@@ -50,7 +50,7 @@ for every thin/redundant layer: what to collapse up (the dual — merge UP).
 
 > **installable**: `boolean`
 
-Defined in: [cockpit/src/agents.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L73)
+Defined in: [cockpit/src/agents.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L73)
 
 true ⇒ no error-severity findings across the whole map (the gate).
 
@@ -60,7 +60,7 @@ true ⇒ no error-severity findings across the whole map (the gate).
 
 > **present**: `boolean`
 
-Defined in: [cockpit/src/agents.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L67)
+Defined in: [cockpit/src/agents.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L67)
 
 ***
 
@@ -68,7 +68,7 @@ Defined in: [cockpit/src/agents.ts:67](https://github.com/MahmoodKhalil57/suluk/
 
 > **roots**: `string`[]
 
-Defined in: [cockpit/src/agents.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L70)
+Defined in: [cockpit/src/agents.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L70)
 
 entry-point agents — not referenced as a sub-agent by any other agent.
 
@@ -78,6 +78,6 @@ entry-point agents — not referenced as a sub-agent by any other agent.
 
 > **unflatten**: [`UnflattenSuggestion`](../../agents/interfaces/UnflattenSuggestion.md)[]
 
-Defined in: [cockpit/src/agents.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L77)
+Defined in: [cockpit/src/agents.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L77)
 
 for every over-target agent: what to move to cold-tail or extract into a sub-agent (split DOWN).

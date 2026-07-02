@@ -6,7 +6,7 @@
 
 # Interface: LlmsLink
 
-Defined in: [llms.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/llms.ts#L4)
+Defined in: [llms.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/llms.ts#L4)
 
 llms.txt generation (llmstxt.org) — a curated, LLM-friendly map of the site: H1 title, blockquote summary,
  optional details, then `## Section` lists of `- [title](url): description` links.
@@ -17,7 +17,7 @@ llms.txt generation (llmstxt.org) — a curated, LLM-friendly map of the site: H
 
 > `optional` **description?**: `string`
 
-Defined in: [llms.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/llms.ts#L4)
+Defined in: [llms.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/llms.ts#L4)
 
 ***
 
@@ -25,7 +25,7 @@ Defined in: [llms.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a
 
 > **title**: `string`
 
-Defined in: [llms.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/llms.ts#L4)
+Defined in: [llms.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/llms.ts#L4)
 
 ***
 
@@ -33,4 +33,4 @@ Defined in: [llms.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a
 
 > **url**: `string`
 
-Defined in: [llms.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/llms.ts#L4)
+Defined in: [llms.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/llms.ts#L4)

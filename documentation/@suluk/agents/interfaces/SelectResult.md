@@ -6,7 +6,7 @@
 
 # Interface: SelectResult
 
-Defined in: [models/src/types.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/models/src/types.ts#L114)
+Defined in: [models/src/types.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/models/src/types.ts#L114)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [models/src/types.ts:114](https://github.com/MahmoodKhalil57/suluk/b
 
 > **candidateCount**: `number`
 
-Defined in: [models/src/types.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/models/src/types.ts#L118)
+Defined in: [models/src/types.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/models/src/types.ts#L118)
 
 the count after hard filtering.
 
@@ -24,7 +24,7 @@ the count after hard filtering.
 
 > **coverageGaps**: `string`[]
 
-Defined in: [models/src/types.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/models/src/types.ts#L122)
+Defined in: [models/src/types.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/models/src/types.ts#L122)
 
 UNKNOWN-coverage warning: soft axes with no data on the winner (honesty surface).
 
@@ -34,7 +34,7 @@ UNKNOWN-coverage warning: soft axes with no data on the winner (honesty surface)
 
 > **ranked**: [`RankedModel`](../../models/interfaces/RankedModel.md)[]
 
-Defined in: [models/src/types.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/models/src/types.ts#L116)
+Defined in: [models/src/types.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/models/src/types.ts#L116)
 
 ranked best-first; empty when no model satisfies the hard filters.
 
@@ -44,6 +44,6 @@ ranked best-first; empty when no model satisfies the hard filters.
 
 > `optional` **unsatisfiable?**: `string`[]
 
-Defined in: [models/src/types.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/models/src/types.ts#L120)
+Defined in: [models/src/types.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/models/src/types.ts#L120)
 
 present when the requirements emptied the set — names the unsatisfiable filter(s).

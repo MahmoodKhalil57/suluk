@@ -6,7 +6,7 @@
 
 # Interface: SulukRateLimit
 
-Defined in: [types.ts:430](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L430)
+Defined in: [types.ts:430](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L430)
 
 RATE-LIMIT facet shape (saastarter-parity Phase 0): the per-operation rate budget an operation DECLARES.
 Orthogonal to the NORMATIVE spec, which holds rate-limiting out-of-scope (C012 / frontier #43, ceiling 0.74):
@@ -25,7 +25,7 @@ decision, roadmap Open-Decision #5, so the Phase-0 middleware implements only `"
 
 > `optional` **description?**: `string`
 
-Defined in: [types.ts:439](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L439)
+Defined in: [types.ts:439](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L439)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [types.ts:439](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc
 
 > **key**: `"ip"` \| `"principal"` \| `"api-key"` \| `"global"`
 
-Defined in: [types.ts:436](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L436)
+Defined in: [types.ts:436](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L436)
 
 the key STRATEGY (the runtime derives the concrete key). `"ip"` is the faithful default.
 
@@ -43,7 +43,7 @@ the key STRATEGY (the runtime derives the concrete key). `"ip"` is the faithful 
 
 > **maxRequests**: `number`
 
-Defined in: [types.ts:434](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L434)
+Defined in: [types.ts:434](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L434)
 
 max requests permitted per resolved key within the window.
 
@@ -53,7 +53,7 @@ max requests permitted per resolved key within the window.
 
 > `optional` **scope?**: `string`
 
-Defined in: [types.ts:438](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L438)
+Defined in: [types.ts:438](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L438)
 
 optional sub-bucket name — lets two operations share or separate a budget (advisory).
 
@@ -63,6 +63,6 @@ optional sub-bucket name — lets two operations share or separate a budget (adv
 
 > **windowMs**: `number`
 
-Defined in: [types.ts:432](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L432)
+Defined in: [types.ts:432](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L432)
 
 fixed window length, milliseconds.

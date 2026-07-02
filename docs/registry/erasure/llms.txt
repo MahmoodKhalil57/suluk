@@ -6,11 +6,13 @@
 
 ### API
 
-- `sulukCascade`: The default hard-DELETE cascade over the core Suluk tables — EDIT to match the modules you installed + your posture.
+- `sulukCascade`: The default cascade is now EMPTY — the steps are DISTRIBUTED: each installed data module OWNS its own `eraseStep` (over
+ITS table) and the generato...
 - `erasureHook`: The Better Auth `user.
+- `ErasureLive`: ErasureLive is a FACTORY — pass the COMPOSED `extraSteps` (the generator wires them from each installed data module's
+ `eraseStep`).
 - `erasureRoutes`
 - `Erasure`
-- `ErasureLive`
 - `step`
 - `erasureReceipt`
 - `erasureProvision`
@@ -21,3 +23,5 @@
 ### Types
 
 - `ErasureUser`: The minimal user shape the cascade needs (Better Auth passes the full user; we only read the id).
+- `ExtraSteps`: A factory that, given the request `db`, builds the per-module erase-steps — COMPOSED by the generator from each installed
+ data module's `eraseStep...

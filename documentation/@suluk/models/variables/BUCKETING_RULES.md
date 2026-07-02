@@ -8,4 +8,4 @@
 
 > `const` **BUCKETING\_RULES**: `Record`\<`string`, [`AxisRule`](../interfaces/AxisRule.md)\>
 
-Defined in: [bucketing.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/models/src/bucketing.ts#L21)
+Defined in: [bucketing.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/models/src/bucketing.ts#L21)

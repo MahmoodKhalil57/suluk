@@ -6,7 +6,7 @@
 
 # Interface: EntityField
 
-Defined in: [render-data.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/admin/src/render-data.ts#L10)
+Defined in: [render-data.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L10)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [render-data.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/6c
 
 > `optional` **enum?**: `string`[]
 
-Defined in: [render-data.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/admin/src/render-data.ts#L16)
+Defined in: [render-data.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L16)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [render-data.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/6c
 
 > `optional` **format?**: `string`
 
-Defined in: [render-data.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/admin/src/render-data.ts#L15)
+Defined in: [render-data.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L15)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [render-data.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6c
 
 > **name**: `string`
 
-Defined in: [render-data.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/admin/src/render-data.ts#L11)
+Defined in: [render-data.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L11)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [render-data.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/6c
 
 > **required**: `boolean`
 
-Defined in: [render-data.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/admin/src/render-data.ts#L14)
+Defined in: [render-data.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L14)
 
 ***
 
@@ -46,6 +46,6 @@ Defined in: [render-data.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/6c
 
 > **type**: `string`
 
-Defined in: [render-data.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/admin/src/render-data.ts#L13)
+Defined in: [render-data.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L13)
 
 JSON-Schema type: string | integer | number | boolean | array | object.

@@ -6,7 +6,7 @@
 
 # ~~Interface: OrderTotal~~
 
-Defined in: [pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L45)
+Defined in: [pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L45)
 
 ## Deprecated
 
@@ -25,7 +25,7 @@ no consumer): the Stripe usage-billing (Billing Meters), the checkout-param buil
 
 > **discountCents**: `number`
 
-Defined in: [pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L45)
+Defined in: [pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L45)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20c
 
 > **subtotalCents**: `number`
 
-Defined in: [pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L45)
+Defined in: [pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L45)
 
 ***
 
@@ -41,4 +41,4 @@ Defined in: [pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20c
 
 > **totalCents**: `number`
 
-Defined in: [pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L45)
+Defined in: [pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L45)

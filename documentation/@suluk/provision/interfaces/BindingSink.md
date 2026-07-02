@@ -6,7 +6,7 @@
 
 # Interface: BindingSink
 
-Defined in: [provision/src/types.ts:137](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/types.ts#L137)
+Defined in: [provision/src/types.ts:137](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/provision/src/types.ts#L137)
 
 Where bound credentials LAND. The default sink writes the @suluk/env manifest (typed + post-quantum-encrypted +
  commit-safe); a test passes an in-memory sink. `mapping` is the instance's `bind` (output key → env var name).
@@ -17,7 +17,7 @@ Where bound credentials LAND. The default sink writes the @suluk/env manifest (t
 
 > **write**(`outputs`, `mapping`): `void` \| `Promise`\<`void`\>
 
-Defined in: [provision/src/types.ts:138](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/types.ts#L138)
+Defined in: [provision/src/types.ts:138](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/provision/src/types.ts#L138)
 
 #### Parameters
 

@@ -8,7 +8,7 @@
 
 > **crudRoutesFromSchema**(`name`, `schema`, `defs?`): [`RouteContract`](../../hono/interfaces/RouteContract.md)[]
 
-Defined in: [fullstack.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/fullstack.ts#L29)
+Defined in: [fullstack.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/fullstack.ts#L29)
 
 Generate backend CRUD RouteContracts from an entity's v4 schema (schemas → Zod for the bodies).
 

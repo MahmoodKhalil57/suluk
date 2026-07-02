@@ -8,7 +8,7 @@
 
 > **resolveEnv**(`content`, `privateKey?`): `Promise`\<`Record`\<`string`, `string`\>\>
 
-Defined in: [envfile.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/env/src/envfile.ts#L99)
+Defined in: [envfile.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/env/src/envfile.ts#L99)
 
 Resolve .env content to a plain { KEY: value } record with every encrypted value DECRYPTED. The runtime
 primitive: a Worker calls this with the committed .env text + the private key from a secret binding; a CLI

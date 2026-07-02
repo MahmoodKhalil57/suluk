@@ -6,7 +6,7 @@
 
 # Interface: RateLimitStore
 
-Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/ratelimit.ts#L14)
+Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/ratelimit.ts#L14)
 
 Matches @suluk/hono's RateLimitStore (structural — satisfies enforceRateLimit's `store` without a package dep).
 
@@ -16,7 +16,7 @@ Matches @suluk/hono's RateLimitStore (structural — satisfies enforceRateLimit'
 
 > **consume**(`key`, `opts`): `Promise`\<[`ConsumeResult`](ConsumeResult.md)\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/ratelimit.ts#L14)
+Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/ratelimit.ts#L14)
 
 #### Parameters
 

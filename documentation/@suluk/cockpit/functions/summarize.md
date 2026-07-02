@@ -8,7 +8,7 @@
 
 > **summarize**(`events`): [`CostSummary`](../interfaces/CostSummary.md)
 
-Defined in: [cost/src/ledger.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/ledger.ts#L22)
+Defined in: [cost/src/ledger.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cost/src/ledger.ts#L22)
 
 ## Parameters
 

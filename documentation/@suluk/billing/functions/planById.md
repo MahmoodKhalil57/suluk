@@ -8,7 +8,7 @@
 
 > **planById**(`plans`, `id`): [`SubPlan`](../interfaces/SubPlan.md) \| `undefined`
 
-Defined in: [packages/billing/src/subscriptions.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/billing/src/subscriptions.ts#L22)
+Defined in: [packages/billing/src/subscriptions.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/subscriptions.ts#L22)
 
 The app's plan whose id is `id`, or undefined — the generic lookup the orchestrators use against the injected catalog.
 

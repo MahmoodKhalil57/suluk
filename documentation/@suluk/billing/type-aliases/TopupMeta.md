@@ -8,7 +8,7 @@
 
 > **TopupMeta** = `object`
 
-Defined in: [packages/billing/src/payments.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/billing/src/payments.ts#L18)
+Defined in: [packages/billing/src/payments.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/payments.ts#L18)
 
 The metadata tag the webhook reads to decide whether (and how) to credit a PaymentIntent.
 
@@ -18,7 +18,7 @@ The metadata tag the webhook reads to decide whether (and how) to credit a Payme
 
 > **credits**: `number`
 
-Defined in: [packages/billing/src/payments.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/billing/src/payments.ts#L18)
+Defined in: [packages/billing/src/payments.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/payments.ts#L18)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [packages/billing/src/payments.ts:18](https://github.com/MahmoodKhal
 
 > `optional` **taxCalculation?**: `string` \| `null`
 
-Defined in: [packages/billing/src/payments.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/billing/src/payments.ts#L18)
+Defined in: [packages/billing/src/payments.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/payments.ts#L18)
 
 ***
 
@@ -34,4 +34,4 @@ Defined in: [packages/billing/src/payments.ts:18](https://github.com/MahmoodKhal
 
 > **userId**: `string`
 
-Defined in: [packages/billing/src/payments.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/billing/src/payments.ts#L18)
+Defined in: [packages/billing/src/payments.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/payments.ts#L18)

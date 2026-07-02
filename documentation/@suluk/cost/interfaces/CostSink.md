@@ -6,7 +6,7 @@
 
 # Interface: CostSink
 
-Defined in: [meter.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/meter.ts#L10)
+Defined in: [meter.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cost/src/meter.ts#L10)
 
 ## Methods
 
@@ -14,7 +14,7 @@ Defined in: [meter.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc5
 
 > **record**(`event`): `void` \| `Promise`\<`void`\>
 
-Defined in: [meter.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/meter.ts#L11)
+Defined in: [meter.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cost/src/meter.ts#L11)
 
 #### Parameters
 

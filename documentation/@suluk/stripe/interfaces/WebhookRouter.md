@@ -6,7 +6,7 @@
 
 # Interface: WebhookRouter
 
-Defined in: [stripe-webhook.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/stripe-webhook.ts#L60)
+Defined in: [stripe-webhook.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/stripe-webhook.ts#L60)
 
 ## Methods
 
@@ -14,7 +14,7 @@ Defined in: [stripe-webhook.ts:60](https://github.com/MahmoodKhalil57/suluk/blob
 
 > **handle**(`event`): `Promise`\<[`HandleResult`](HandleResult.md)\>
 
-Defined in: [stripe-webhook.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/stripe-webhook.ts#L66)
+Defined in: [stripe-webhook.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/stripe-webhook.ts#L66)
 
 dispatch one verified event to its handler.
 
@@ -34,7 +34,7 @@ dispatch one verified event to its handler.
 
 > **on**(`type`, `handler`): `WebhookRouter`
 
-Defined in: [stripe-webhook.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/stripe-webhook.ts#L62)
+Defined in: [stripe-webhook.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/stripe-webhook.ts#L62)
 
 register (or replace) the handler for an event type; chainable.
 
@@ -58,7 +58,7 @@ register (or replace) the handler for an event type; chainable.
 
 > **onUnhandled**(`handler`): `WebhookRouter`
 
-Defined in: [stripe-webhook.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/stripe-webhook.ts#L64)
+Defined in: [stripe-webhook.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/stripe-webhook.ts#L64)
 
 register a fallback for types with no specific handler; chainable.
 

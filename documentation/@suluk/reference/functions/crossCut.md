@@ -8,7 +8,7 @@
 
 > **crossCut**(`doc`, `viewers?`): `object`
 
-Defined in: [reference/src/facets.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/facets.ts#L93)
+Defined in: [reference/src/facets.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/facets.ts#L93)
 
 The reachability matrix: every operation × every viewer. The projection made explicit (the contract refracted).
 

@@ -6,7 +6,7 @@
 
 # Interface: EmitDiagnostic
 
-Defined in: [tooling/ts/packages/hono/src/emit.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/emit.ts#L55)
+Defined in: [tooling/ts/packages/hono/src/emit.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/emit.ts#L55)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/hono/src/emit.ts:55](https://github.com/Mahmood
 
 > **kind**: `"collision"` \| `"filtered"` \| `"note"`
 
-Defined in: [tooling/ts/packages/hono/src/emit.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/emit.ts#L56)
+Defined in: [tooling/ts/packages/hono/src/emit.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/emit.ts#L56)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [tooling/ts/packages/hono/src/emit.ts:56](https://github.com/Mahmood
 
 > **message**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/emit.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/emit.ts#L58)
+Defined in: [tooling/ts/packages/hono/src/emit.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/emit.ts#L58)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [tooling/ts/packages/hono/src/emit.ts:58](https://github.com/Mahmood
 
 > `optional` **operation?**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/emit.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/emit.ts#L57)
+Defined in: [tooling/ts/packages/hono/src/emit.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/emit.ts#L57)

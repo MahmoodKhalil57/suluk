@@ -8,7 +8,7 @@
 
 > **SettlementMethod** = `"credit"` \| `"rate-limited"` \| `"free"`
 
-Defined in: [types.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/types.ts#L96)
+Defined in: [types.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cost/src/types.ts#L96)
 
 HOW a declared cost is RECOVERED from the user (C044). `rate-limited` ⇒ free to the user — the cost is "paid" by
 CAPPING usage, so the op's `x-suluk-ratelimit` IS the settlement (no money moves). `credit` ⇒ the user pays credits

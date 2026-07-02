@@ -8,7 +8,7 @@
 
 > **themeFromLight**(`light`, `dark?`): `object`
 
-Defined in: [derive.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/theme/src/derive.ts#L43)
+Defined in: [derive.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/theme/src/derive.ts#L43)
 
 Build a complete {light, dark} ThemeSpec, deriving dark when not supplied.
 

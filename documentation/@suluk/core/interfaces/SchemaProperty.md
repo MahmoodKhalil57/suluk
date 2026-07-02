@@ -6,7 +6,7 @@
 
 # Interface: SchemaProperty
 
-Defined in: [types.ts:522](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L522)
+Defined in: [types.ts:522](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L522)
 
 The PROPERTY-LEVEL facet locus (saastarter-parity Phase 0). core's `x-suluk-*` facets are operation-level
 today (on [Request](Request.md)); a Schema Object's `properties[name]` is the locus for a FUTURE property-level

@@ -8,7 +8,7 @@
 
 > **planComposition**(`base`, `modules`): [`CompositionPlan`](../interfaces/CompositionPlan.md)
 
-Defined in: [compose.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/compose.ts#L30)
+Defined in: [compose.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/compose.ts#L30)
 
 Topologically order modules by `requires`/`provides`, modelling the collision invariants installModule enforces.
 

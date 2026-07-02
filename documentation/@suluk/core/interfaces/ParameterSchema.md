@@ -6,7 +6,7 @@
 
 # Interface: ParameterSchema
 
-Defined in: [types.ts:453](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L453)
+Defined in: [types.ts:453](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L453)
 
 Per-location typed parameter slots (C004 #20). Each slot is a JSON Schema 2020-12 over its instance.
 
@@ -16,7 +16,7 @@ Per-location typed parameter slots (C004 #20). Each slot is a JSON Schema 2020-1
 
 > `optional` **body?**: [`SchemaOrRef`](../type-aliases/SchemaOrRef.md)
 
-Defined in: [types.ts:458](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L458)
+Defined in: [types.ts:458](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L458)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [types.ts:458](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc
 
 > `optional` **cookie?**: [`SchemaOrRef`](../type-aliases/SchemaOrRef.md)
 
-Defined in: [types.ts:457](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L457)
+Defined in: [types.ts:457](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L457)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [types.ts:457](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc
 
 > `optional` **header?**: [`SchemaOrRef`](../type-aliases/SchemaOrRef.md)
 
-Defined in: [types.ts:456](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L456)
+Defined in: [types.ts:456](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L456)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [types.ts:456](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc
 
 > `optional` **path?**: [`SchemaOrRef`](../type-aliases/SchemaOrRef.md)
 
-Defined in: [types.ts:455](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L455)
+Defined in: [types.ts:455](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L455)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [types.ts:455](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc
 
 > `optional` **query?**: [`SchemaOrRef`](../type-aliases/SchemaOrRef.md)
 
-Defined in: [types.ts:454](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L454)
+Defined in: [types.ts:454](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L454)

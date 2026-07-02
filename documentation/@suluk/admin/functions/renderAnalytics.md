@@ -8,7 +8,7 @@
 
 > **renderAnalytics**(`doc`): `string`
 
-Defined in: [analytics.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/admin/src/analytics.ts#L58)
+Defined in: [analytics.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/analytics.ts#L58)
 
 Render the analytics dashboard for a document.
 

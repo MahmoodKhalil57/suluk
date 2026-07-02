@@ -8,7 +8,7 @@
 
 > **cartFingerprint**(`lines`, `discount?`): `string`
 
-Defined in: [pricing.ts:148](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L148)
+Defined in: [pricing.ts:148](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L148)
 
 A stable fingerprint of the priced cart (+ discount) — order-independent over lines. Two carts that should be
 charged identically produce the same fingerprint; any price/qty/discount change produces a different one.

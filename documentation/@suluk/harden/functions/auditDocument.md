@@ -8,7 +8,7 @@
 
 > **auditDocument**(`doc`, `opts?`): [`DocAudit`](../interfaces/DocAudit.md)
 
-Defined in: [audit.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/harden/src/audit.ts#L98)
+Defined in: [audit.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/harden/src/audit.ts#L98)
 
 Audit the document's input surface → per-op grades + a deduped rollup + a severity breakdown.
 

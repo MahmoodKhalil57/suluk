@@ -6,7 +6,7 @@
 
 # Interface: EnvVar
 
-Defined in: [service.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L21)
+Defined in: [service.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L21)
 
 An env var a module (or the app's provisioning) needs — drives the generated `env.ts`, `.env.example`, `.env.temp`, the
  env-check preflight, and the provision/sync-secrets scripts.
@@ -17,7 +17,7 @@ An env var a module (or the app's provisioning) needs — drives the generated `
 
 > `optional` **generated?**: `boolean`
 
-Defined in: [service.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L45)
+Defined in: [service.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L45)
 
 a random secret the provisioning flow AUTO-GENERATES (e.g. `BETTER_AUTH_SECRET` ← 32 random bytes) if not already set —
  so the operator never supplies it in `.env.temp`; it still lands ENCRYPTED in the committed `.env`.
@@ -28,7 +28,7 @@ a random secret the provisioning flow AUTO-GENERATES (e.g. `BETTER_AUTH_SECRET` 
 
 > `optional` **hint?**: `string`
 
-Defined in: [service.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L28)
+Defined in: [service.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L28)
 
 a one-line hint shown as a comment.
 
@@ -38,7 +38,7 @@ a one-line hint shown as a comment.
 
 > `optional` **minted?**: `boolean`
 
-Defined in: [service.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L42)
+Defined in: [service.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L42)
 
 a scoped least-privilege token MINTED during provisioning (from the master), then kept ENCRYPTED in `.env`. `surface: "local"`.
 
@@ -48,7 +48,7 @@ a scoped least-privilege token MINTED during provisioning (from the master), the
 
 > **name**: `string`
 
-Defined in: [service.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L22)
+Defined in: [service.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L22)
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: [service.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20c
 
 > `optional` **provisioning?**: `boolean`
 
-Defined in: [service.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L40)
+Defined in: [service.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L40)
 
 An EPHEMERAL provisioning credential (e.g. the Cloudflare API master token): supplied PLAINTEXT in `.env.temp`, used to
 provision infra + mint scoped tokens, then DELETED after provisioning — never committed (not even encrypted). Implies
@@ -68,7 +68,7 @@ provision infra + mint scoped tokens, then DELETED after provisioning — never 
 
 > `optional` **required?**: `boolean`
 
-Defined in: [service.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L24)
+Defined in: [service.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L24)
 
 the app WON'T work without it (the "minimum keys") — the env-check requires a non-empty value before it's happy.
 
@@ -78,7 +78,7 @@ the app WON'T work without it (the "minimum keys") — the env-check requires a 
 
 > `optional` **secret?**: `boolean`
 
-Defined in: [service.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L26)
+Defined in: [service.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L26)
 
 a credential (encrypted at rest in the committed `.env`, or — if `provisioning` — staged plaintext in `.env.temp`).
 
@@ -88,7 +88,7 @@ a credential (encrypted at rest in the committed `.env`, or — if `provisioning
 
 > `optional` **surface?**: `"local"` \| `"cloudflare"`
 
-Defined in: [service.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L34)
+Defined in: [service.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L34)
 
 Where the value is USED. `"cloudflare"` = a Worker RUNTIME secret (pushed by `sync-secrets` / decrypted by `loadEnv`);
 `"local"` = used only by provisioning/deploy on this machine, NEVER shipped to the Worker. Defaults: a `secret` → the

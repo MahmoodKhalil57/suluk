@@ -2,11 +2,6 @@
 
 ## erasure.service
 
-### `ErasureLive`
-```ts
-const ErasureLive: any
-```
-
 ### `step`
 ```ts
 let step: any

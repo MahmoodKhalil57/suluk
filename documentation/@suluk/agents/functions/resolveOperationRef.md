@@ -8,7 +8,7 @@
 
 > **resolveOperationRef**(`doc`, `ref`): [`ResolvedOperation`](../interfaces/ResolvedOperation.md) \| `null`
 
-Defined in: [agents/src/resolve.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/resolve.ts#L34)
+Defined in: [agents/src/resolve.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/resolve.ts#L34)
 
 Resolve a route's `operationRef` to an EXISTING operation. Supports the three operation loci:
  - `#/paths/<pathTemplate>/requests/<name>`  (a pathItem request — the common case)

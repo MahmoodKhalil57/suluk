@@ -6,7 +6,7 @@
 
 # Interface: ReferencePlugin
 
-Defined in: [reference/src/index.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/index.ts#L22)
+Defined in: [reference/src/index.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/index.ts#L22)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [reference/src/index.ts:22](https://github.com/MahmoodKhalil57/suluk
 
 > **name**: `string`
 
-Defined in: [reference/src/index.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/index.ts#L23)
+Defined in: [reference/src/index.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/index.ts#L23)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [reference/src/index.ts:23](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **onNormalize?**: (`ir`) => `void` \| [`RefDoc`](RefDoc.md)
 
-Defined in: [reference/src/index.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/index.ts#L24)
+Defined in: [reference/src/index.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/index.ts#L24)
 
 #### Parameters
 
@@ -40,7 +40,7 @@ Defined in: [reference/src/index.ts:24](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **slots?**: `object`
 
-Defined in: [reference/src/index.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/index.ts#L25)
+Defined in: [reference/src/index.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/index.ts#L25)
 
 #### heroAfter?
 

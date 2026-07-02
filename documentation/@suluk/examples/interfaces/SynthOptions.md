@@ -6,7 +6,7 @@
 
 # Interface: SynthOptions
 
-Defined in: [index.ts:234](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/examples/src/index.ts#L234)
+Defined in: [index.ts:234](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/examples/src/index.ts#L234)
 
 ## Properties
 
@@ -14,4 +14,4 @@ Defined in: [index.ts:234](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc
 
 > `optional` **direction?**: [`SynthDirection`](../type-aliases/SynthDirection.md)
 
-Defined in: [index.ts:235](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/examples/src/index.ts#L235)
+Defined in: [index.ts:235](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/examples/src/index.ts#L235)

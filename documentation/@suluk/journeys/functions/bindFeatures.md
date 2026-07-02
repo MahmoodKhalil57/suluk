@@ -8,7 +8,7 @@
 
 > **bindFeatures**(`vocab`, `features`, `opts?`): [`GapReport`](../interfaces/GapReport.md)
 
-Defined in: [journeys/src/bind.ts:221](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/bind.ts#L221)
+Defined in: [journeys/src/bind.ts:221](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/bind.ts#L221)
 
 Bind a parsed feature set against the vocabulary (applying the scaffolder's definitions) and produce the gap report.
 

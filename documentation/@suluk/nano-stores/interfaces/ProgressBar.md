@@ -6,7 +6,7 @@
 
 # Interface: ProgressBar
 
-Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/progress.ts#L20)
+Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/progress.ts#L20)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:20](https://github.
 
 > **$value**: `ReadableAtom`\<`number`\>
 
-Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/progress.ts#L22)
+Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/progress.ts#L22)
 
 0 (idle) … 1 (complete). Subscribe to drive any renderer.
 
@@ -24,7 +24,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:22](https://github.
 
 > **done**(): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/progress.ts#L28)
+Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/progress.ts#L28)
 
 complete — snap to 100% (consumer then resets after a fade).
 
@@ -38,7 +38,7 @@ complete — snap to 100% (consumer then resets after a fade).
 
 > **reset**(): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/progress.ts#L30)
+Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/progress.ts#L30)
 
 back to idle (0%).
 
@@ -52,7 +52,7 @@ back to idle (0%).
 
 > **set**(`value`): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/progress.ts#L32)
+Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/progress.ts#L32)
 
 set an explicit value (clamped 0..1).
 
@@ -72,7 +72,7 @@ set an explicit value (clamped 0..1).
 
 > **start**(): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/progress.ts#L24)
+Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/progress.ts#L24)
 
 begin — jump to a visible head (8%).
 
@@ -86,7 +86,7 @@ begin — jump to a visible head (8%).
 
 > **tick**(): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/progress.ts#L26)
+Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/progress.ts#L26)
 
 advance one asymptotic step toward the 95% ceiling (call on an interval while loading).
 

@@ -6,7 +6,7 @@
 
 # Interface: ProviderBinding
 
-Defined in: [providers.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/providers.ts#L47)
+Defined in: [providers.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/providers.ts#L47)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [providers.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/6ca2
 
 > **alternatives**: [`ProviderImpl`](ProviderImpl.md)[]
 
-Defined in: [providers.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/providers.ts#L55)
+Defined in: [providers.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/providers.ts#L55)
 
 the other implementations this slot could swap to
 
@@ -24,7 +24,7 @@ the other implementations this slot could swap to
 
 > **facet**: `string`
 
-Defined in: [providers.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/providers.ts#L48)
+Defined in: [providers.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/providers.ts#L48)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [providers.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/6ca2
 
 > **impl**: `string`
 
-Defined in: [providers.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/providers.ts#L50)
+Defined in: [providers.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/providers.ts#L50)
 
 the currently-bound implementation id
 
@@ -42,7 +42,7 @@ the currently-bound implementation id
 
 > **known**: `boolean`
 
-Defined in: [providers.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/providers.ts#L53)
+Defined in: [providers.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/providers.ts#L53)
 
 is `impl` a known implementation for this facet? (false ⇒ a custom binding)
 
@@ -52,4 +52,4 @@ is `impl` a known implementation for this facet? (false ⇒ a custom binding)
 
 > **title**: `string`
 
-Defined in: [providers.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/providers.ts#L51)
+Defined in: [providers.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/providers.ts#L51)

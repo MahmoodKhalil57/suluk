@@ -6,7 +6,7 @@
 
 # Interface: ClaudePluginOptions
 
-Defined in: [agents/src/project.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/project.ts#L25)
+Defined in: [agents/src/project.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/project.ts#L25)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/project.ts:25](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **author?**: `object`
 
-Defined in: [agents/src/project.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/project.ts#L32)
+Defined in: [agents/src/project.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/project.ts#L32)
 
 #### email?
 
@@ -30,7 +30,7 @@ Defined in: [agents/src/project.ts:32](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **displayName?**: `string`
 
-Defined in: [agents/src/project.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/project.ts#L29)
+Defined in: [agents/src/project.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/project.ts#L29)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [agents/src/project.ts:29](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **homepage?**: `string`
 
-Defined in: [agents/src/project.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/project.ts#L30)
+Defined in: [agents/src/project.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/project.ts#L30)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [agents/src/project.ts:30](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **instructions?**: `Record`\<`string`, `string`\>
 
-Defined in: [agents/src/project.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/project.ts#L34)
+Defined in: [agents/src/project.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/project.ts#L34)
 
 pinned instruction snapshots, keyed `"<agent>/<skill>"` (preferred, unambiguous) or bare `"<skill>"` (back-compat); a skill without one emits no SKILL.md.
 
@@ -56,7 +56,7 @@ pinned instruction snapshots, keyed `"<agent>/<skill>"` (preferred, unambiguous)
 
 > `optional` **keywords?**: `string`[]
 
-Defined in: [agents/src/project.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/project.ts#L31)
+Defined in: [agents/src/project.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/project.ts#L31)
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: [agents/src/project.ts:31](https://github.com/MahmoodKhalil57/suluk/
 
 > **mcpUrl**: `string`
 
-Defined in: [agents/src/project.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/project.ts#L27)
+Defined in: [agents/src/project.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/project.ts#L27)
 
 the HTTP MCP endpoint the plugin connects to (e.g. https://host/mcp).
 
@@ -74,4 +74,4 @@ the HTTP MCP endpoint the plugin connects to (e.g. https://host/mcp).
 
 > `optional` **version?**: `string`
 
-Defined in: [agents/src/project.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/project.ts#L28)
+Defined in: [agents/src/project.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/project.ts#L28)

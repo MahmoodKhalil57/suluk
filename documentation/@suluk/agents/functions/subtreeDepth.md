@@ -8,7 +8,7 @@
 
 > **subtreeDepth**(`map`, `root`, `seen?`): `number`
 
-Defined in: [agents/src/resolve.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/resolve.ts#L93)
+Defined in: [agents/src/resolve.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/resolve.ts#L93)
 
 Longest sub-agent path depth below `root` (a leaf — no sub-agents — is depth 0). Returns Infinity if a cycle is
 reachable. `maxDepth` on an agent must be >= this for its subtree.

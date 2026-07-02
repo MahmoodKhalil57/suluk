@@ -8,7 +8,7 @@
 
 > **generateTests**(`doc`, `opts?`): `string`
 
-Defined in: [generate.ts:149](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/testgen/src/generate.ts#L149)
+Defined in: [generate.ts:149](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/testgen/src/generate.ts#L149)
 
 `@suluk/testgen` — generate a DETERMINISTIC conformance test suite from a v4 "Suluk" contract. The contract's
 claims made executable: the server ENFORCES x-suluk-access on the wire, declared statuses hold, 2xx bodies

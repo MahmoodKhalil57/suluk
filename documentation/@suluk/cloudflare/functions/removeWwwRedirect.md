@@ -8,7 +8,7 @@
 
 > **removeWwwRedirect**(`cf`, `zoneId`, `apexHost`): `Promise`\<`void`\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/resources.ts#L103)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/resources.ts#L103)
 
 Remove the suluk www→apex redirect rule from the zone (leaves any other redirect rules intact).
 

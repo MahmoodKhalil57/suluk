@@ -8,7 +8,7 @@
 
 > **tableToV4Warnings**(`table`): `object`
 
-Defined in: [schemas.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/drizzle/src/schemas.ts#L61)
+Defined in: [schemas.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/drizzle/src/schemas.ts#L61)
 
 Same conversion as [tableToV4](tableToV4.md) but also returns the enumerated lossy boundary (per-projection
 zodToV4 warnings). Empty arrays ⇒ fully lossless. Callers wanting the honest-loss accounting use this.

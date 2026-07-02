@@ -6,7 +6,7 @@
 
 # Interface: OrderTotal
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L45)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L45)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:45](https://github.com/
 
 > **discountCents**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L45)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L45)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:45](https://github.com/
 
 > **subtotalCents**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L45)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L45)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:45](https://github.com/
 
 > **totalCents**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L45)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/pricing.ts#L45)

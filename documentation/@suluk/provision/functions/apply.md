@@ -8,7 +8,7 @@
 
 > **apply**(`config`, `opts`): `Promise`\<[`ApplyResult`](../interfaces/ApplyResult.md)\>
 
-Defined in: [provision/src/apply.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L61)
+Defined in: [provision/src/apply.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/provision/src/apply.ts#L61)
 
 Execute the plan for `config`. Idempotent end-to-end: re-running a settled config is all-noops, touches no provider.
 

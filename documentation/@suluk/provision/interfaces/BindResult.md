@@ -6,7 +6,7 @@
 
 # Interface: BindResult
 
-Defined in: [provision/src/types.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/types.ts#L99)
+Defined in: [provision/src/types.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/provision/src/types.ts#L99)
 
 A broker's bind outcome — the credentials/config the platform + downstream instances consume.
 
@@ -16,4 +16,4 @@ A broker's bind outcome — the credentials/config the platform + downstream ins
 
 > **outputs**: `Record`\<`string`, `string`\>
 
-Defined in: [provision/src/types.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/types.ts#L100)
+Defined in: [provision/src/types.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/provision/src/types.ts#L100)

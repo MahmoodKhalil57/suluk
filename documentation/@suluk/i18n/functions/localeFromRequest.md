@@ -8,7 +8,7 @@
 
 > **localeFromRequest**(`config`, `request`, `cookieName?`): `string`
 
-Defined in: [locale.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/i18n/src/locale.ts#L109)
+Defined in: [locale.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/i18n/src/locale.ts#L109)
 
 Resolve the locale for a standard Request: the `locale` cookie wins; else negotiate from `Accept-Language`.
 Workers-safe (only reads `request.headers`). This is the server cookie→locale resolution the app calls per request.

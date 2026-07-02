@@ -6,7 +6,7 @@
 
 # Interface: DowngradeResult
 
-Defined in: [downgrade.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/compat/src/downgrade.ts#L31)
+Defined in: [downgrade.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/compat/src/downgrade.ts#L31)
 
 `@suluk/openapi-compat` — convert between the OpenAPI v4 "Suluk" candidate and OpenAPI 3.1.
 
@@ -21,7 +21,7 @@ losing it silently. Schema Objects are shared verbatim (both are JSON Schema 202
 
 > **diagnostics**: [`Diagnostic`](Diagnostic.md)[]
 
-Defined in: [downgrade.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/compat/src/downgrade.ts#L35)
+Defined in: [downgrade.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/compat/src/downgrade.ts#L35)
 
 Everything that could not be represented losslessly — the honest audit trail.
 
@@ -31,6 +31,6 @@ Everything that could not be represented losslessly — the honest audit trail.
 
 > **document**: `Record`\<`string`, `unknown`\>
 
-Defined in: [downgrade.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/compat/src/downgrade.ts#L33)
+Defined in: [downgrade.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/compat/src/downgrade.ts#L33)
 
 A valid OpenAPI 3.1 document (validate with validate31).

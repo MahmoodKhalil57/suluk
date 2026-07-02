@@ -8,7 +8,7 @@
 
 > **settlementAudit**(`doc`): [`SettlementFinding`](../interfaces/SettlementFinding.md)[]
 
-Defined in: [settlement.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/settlement.ts#L35)
+Defined in: [settlement.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cost/src/settlement.ts#L35)
 
 Audit that every PRICED operation names HOW it is settled, and that the named lever is coherent — the generic form of
 toolfactory's "cost names a lever" governance check.

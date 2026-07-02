@@ -8,7 +8,7 @@
 
 > **tableComponents**(`tables`): `Record`\<`string`, [`Schema`](../../core/type-aliases/Schema.md)\>
 
-Defined in: [schemas.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/drizzle/src/schemas.ts#L78)
+Defined in: [schemas.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/drizzle/src/schemas.ts#L78)
 
 Build a v4 components.schemas record from a set of tables: { [PascalName]: select-v4-schema }.
 Keyed by the table's PascalCase name (C009 by-name). Collisions (two tables mapping to the same Pascal

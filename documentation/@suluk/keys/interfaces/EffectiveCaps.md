@@ -6,7 +6,7 @@
 
 # Interface: EffectiveCaps
 
-Defined in: [packages/keys/src/chain.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/keys/src/chain.ts#L28)
+Defined in: [packages/keys/src/chain.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/keys/src/chain.ts#L28)
 
 `@suluk/keys` — the delegation-chain ALGEBRA for hierarchical API keys (C046, extracted from a real app).
 
@@ -25,7 +25,7 @@ plus the materialized-path utilities and the scope/metadata model.
 
 > **creditLimit**: `number` \| `null`
 
-Defined in: [packages/keys/src/chain.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/keys/src/chain.ts#L30)
+Defined in: [packages/keys/src/chain.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/keys/src/chain.ts#L30)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [packages/keys/src/chain.ts:30](https://github.com/MahmoodKhalil57/s
 
 > **expiresAt**: `number` \| `null`
 
-Defined in: [packages/keys/src/chain.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/keys/src/chain.ts#L32)
+Defined in: [packages/keys/src/chain.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/keys/src/chain.ts#L32)
 
 ***
 
@@ -41,7 +41,7 @@ Defined in: [packages/keys/src/chain.ts:32](https://github.com/MahmoodKhalil57/s
 
 > **rateLimitSharePct**: `number` \| `null`
 
-Defined in: [packages/keys/src/chain.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/keys/src/chain.ts#L31)
+Defined in: [packages/keys/src/chain.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/keys/src/chain.ts#L31)
 
 ***
 
@@ -49,4 +49,4 @@ Defined in: [packages/keys/src/chain.ts:31](https://github.com/MahmoodKhalil57/s
 
 > **scopes**: `string`[]
 
-Defined in: [packages/keys/src/chain.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/keys/src/chain.ts#L29)
+Defined in: [packages/keys/src/chain.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/keys/src/chain.ts#L29)
