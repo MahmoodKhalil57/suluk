@@ -705,8 +705,9 @@ export function mergePackageJson(baselineJson: string, existingJson: string | nu
     // app extras preserved; the baseline (framework + modules) WINS for overlaps → @suluk/* stay "latest".
     dependencies: sortedMerge(obj(existing.dependencies), obj(baseline.dependencies)),
     devDependencies: sortedMerge(obj(existing.devDependencies), obj(baseline.devDependencies)),
-    // app scripts win (custom commands survive); the framework's generate/typecheck/test fill any gaps.
-    scripts: { ...obj(baseline.scripts), ...obj(existing.scripts) },
+    // the GENERATOR-owned scripts (dev/dev:cf/deploy/provision/…) WIN so a regenerate updates them (e.g. dev→bun, deploy→API);
+    // an app's OWN scripts (keys not in the baseline, e.g. a custom `lint`) survive. Consistent with deps (baseline wins overlaps).
+    scripts: sortedMerge(obj(existing.scripts), obj(baseline.scripts)),
   };
   return JSON.stringify(merged, null, 2) + "\n";
 }

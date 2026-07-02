@@ -336,14 +336,15 @@ describe("package.json generation — the manifest is the only surface", () => {
     expect(pkg.scripts.generate).toBe("suluk-platform");
   });
 
-  test("mergePackageJson keeps app-added deps + scripts, baseline wins for framework deps", () => {
+  test("mergePackageJson keeps app-added deps + app-only scripts; baseline wins for framework deps + generator scripts", () => {
     const baseline = buildPackageJson("myapp", ["auth", "credits"]);
-    const existing = JSON.stringify({ name: "myapp", dependencies: { "@suluk/credits": "^0.1.0", "my-product-lib": "^2.0.0" }, scripts: { deploy: "wrangler deploy" } });
+    const existing = JSON.stringify({ name: "myapp", dependencies: { "@suluk/credits": "^0.1.0", "my-product-lib": "^2.0.0" }, scripts: { deploy: "wrangler deploy", "my-lint": "eslint ." } });
     const merged = JSON.parse(mergePackageJson(baseline, existing));
     expect(merged.dependencies["my-product-lib"]).toBe("^2.0.0"); // app extra preserved
     expect(merged.dependencies["@suluk/credits"]).toBe("latest"); // baseline wins → stays up to date
-    expect(merged.scripts.deploy).toBe("wrangler deploy"); // app script preserved
-    expect(merged.scripts.typecheck).toBe("tsc --noEmit -p ."); // framework script filled in
+    expect(merged.scripts["my-lint"]).toBe("eslint ."); // an APP-ONLY script survives
+    expect(merged.scripts.deploy).toBe("bun run scripts/deploy.ts"); // a GENERATOR-owned script is (re)updated (a stale `wrangler deploy` is replaced)
+    expect(merged.scripts.typecheck).toBe("tsc --noEmit -p ."); // framework script present
   });
 
   test("planPlatform emits tsconfig + components.json", () => {

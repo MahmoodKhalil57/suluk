@@ -68,12 +68,15 @@ export async function fetchRegistry(refs: string[], opts: FetchRegistryOptions):
   };
   for (const ref of refs) visit(itemName(ref));
 
-  // write every file (target-deduped: a file shared by two items — never re-fetched/overwritten).
+  // write every file (target-deduped: a file shared by two items — never re-fetched/overwritten). A `registry:file` target
+  // in a src-based app (the generated scaffold's components.json points at `src/`) is resolved UNDER `src/` — shadcn's rule,
+  // replicated here: prepend `src/` unless the target already names it (e.g. `contract/mcp.ts` → `src/contract/mcp.ts`).
+  const resolveTarget = (target: string): string => (target.startsWith("src/") ? target : `src/${target}`);
   const writtenTargets = new Set<string>();
   for (const name of order) {
     const it = byName.get(name)!;
     for (const f of it.files ?? []) {
-      const target = f.target ?? f.path;
+      const target = resolveTarget(f.target ?? f.path);
       if (writtenTargets.has(target)) continue;
       writtenTargets.add(target);
       const res = await doFetch(`${base}/${f.path}`);
