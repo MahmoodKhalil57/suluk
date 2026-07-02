@@ -1,6 +1,6 @@
-// Extract a compact UML class model from a TypeDoc class/interface reflection. Pure data — no rendering; the
-// client (assets/umlclass.js) draws it with d3. Kept small (single-line types, capped) so each page's inline
-// JSON stays reasonable.
+// Extract a PER-PACKAGE UML class model from a TypeDoc container reflection (the module/project of a package):
+// every class & interface as a box, plus the intra-package extends/implements edges between them. Pure data —
+// the client (assets/umlclass.js) draws it with d3. Types are single-line + capped so the inline JSON stays small.
 import { ReflectionKind } from "typedoc";
 
 const K = ReflectionKind;
@@ -22,7 +22,7 @@ function typeString(type) {
     return "";
   }
   s = s.replace(/\s+/g, " ").trim();
-  return s.length > 64 ? `${s.slice(0, 61)}…` : s;
+  return s.length > 40 ? `${s.slice(0, 37)}…` : s;
 }
 
 /** One member row → `{ kind:"attr"|"op", vis, name, static, type, params? }`. */
@@ -34,50 +34,52 @@ function member(child) {
     const params = (sig?.parameters ?? []).map((p) => `${p.flags?.isRest ? "..." : ""}${p.name}`).join(", ");
     return { ...base, kind: "op", params, type: typeString(sig?.type) };
   }
-  // property / accessor
   const t = child.type ?? child.getSignature?.type ?? child.setSignature?.parameters?.[0]?.type;
   return { ...base, kind: "attr", type: typeString(t) };
 }
 
-/** A related type → `{ name, relation, url? }`. `urlTo` maps a reflection to a page-relative URL (or undefined). */
-function related(type, relation, urlTo) {
-  const refl = type?.reflection;
-  let url;
-  try {
-    url = refl ? urlTo(refl) : undefined;
-  } catch {
-    url = undefined;
-  }
-  return { name: type?.name ?? typeString(type) ?? "?", relation, url };
-}
-
-/**
- * Build the UML model for a class/interface reflection, or `null` for anything else.
- * @returns {null | { name:string, kind:"class"|"interface", stereotype:(string|null),
- *   attributes:object[], operations:object[], supers:object[], subs:object[] }}
- */
-export function umlModel(reflection, urlTo) {
-  if (!reflection || typeof reflection.kindOf !== "function" || !reflection.kindOf(K.Class | K.Interface)) return null;
-  const isInterface = reflection.kindOf(K.Interface);
+/** One class/interface box → `{ id, name, kind, stereotype, attributes[], operations[], url }`. */
+function classBox(t, urlTo) {
+  const isInterface = t.kindOf(K.Interface);
   const attributes = [];
   const operations = [];
-  for (const c of reflection.children ?? []) {
+  for (const c of t.children ?? []) {
     if (c.kindOf(K.Method | K.Constructor)) operations.push(member(c));
     else if (c.kindOf(K.Property | K.Accessor)) attributes.push(member(c));
   }
+  let url;
+  try {
+    url = urlTo(t);
+  } catch {
+    url = undefined;
+  }
   return {
-    name: reflection.name,
+    id: t.name,
+    name: t.name,
     kind: isInterface ? "interface" : "class",
-    stereotype: isInterface ? "interface" : reflection.flags?.isAbstract ? "abstract" : null,
+    stereotype: isInterface ? "interface" : t.flags?.isAbstract ? "abstract" : null,
     attributes,
     operations,
-    supers: [
-      ...(reflection.extendedTypes ?? []).map((t) => related(t, "extends", urlTo)),
-      ...(reflection.implementedTypes ?? []).map((t) => related(t, "implements", urlTo)),
-    ],
-    subs: [
-      ...(reflection.extendedBy ?? []).map((t) => related(t, "extendedBy", urlTo)),
-      ...(reflection.implementedBy ?? []).map((t) => related(t, "implementedBy", urlTo)),
-    ],
+    url,
   };
+}
+
+/**
+ * Build the per-package UML model for a container (project/module): all its classes & interfaces as boxes, plus
+ * the extends/implements edges BETWEEN them (intra-package inheritance — "relationships within the package").
+ * Returns `null` if the container has no classes/interfaces.
+ * @returns {null | { boxes: object[], edges: {from:string,to:string,kind:"extends"|"implements"}[] }}
+ */
+export function packageUmlModel(container, urlTo) {
+  if (!container || typeof container.kindOf !== "function") return null;
+  const types = (container.children ?? []).filter((c) => c.kindOf(K.Class | K.Interface));
+  if (!types.length) return null;
+  const names = new Set(types.map((t) => t.name));
+  const boxes = types.map((t) => classBox(t, urlTo));
+  const edges = [];
+  for (const t of types) {
+    for (const st of t.extendedTypes ?? []) if (st?.name && names.has(st.name)) edges.push({ from: t.name, to: st.name, kind: "extends" });
+    for (const it of t.implementedTypes ?? []) if (it?.name && names.has(it.name)) edges.push({ from: t.name, to: it.name, kind: "implements" });
+  }
+  return { boxes, edges };
 }
