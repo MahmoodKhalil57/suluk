@@ -33,12 +33,14 @@ export const BILLING: SulukModule = {
     },
   },
   cost: {
-    // costs the writes + the list reads, leaving the per-id reads uncosted → ~half its ops → a deliberate B grade
-    listInvoice: { components: [{ source: "db-read", basis: "per-call", microUsd: 12 }], estimateMicroUsd: 12 },
-    createInvoice: { components: [{ source: "third-party", basis: "per-call", microUsd: 500 }], estimateMicroUsd: 500 },
-    listSubscription: { components: [{ source: "db-read", basis: "per-call", microUsd: 12 }], estimateMicroUsd: 12 },
-    createSubscription: { components: [{ source: "third-party", basis: "per-call", microUsd: 500 }], estimateMicroUsd: 500 },
-    updateSubscription: { components: [{ source: "db-write", basis: "per-call", microUsd: 40 }], estimateMicroUsd: 40 },
+    // Each op declares its infra multipliers + a PAYMENT METHOD. Subscription ops settle as `subscription` (their cost is
+    // covered by the recurring plan allowance, not per-call credit); the invoice reads settle as `credit`. The Stripe fee
+    // on a create is a THIRD-PARTY component (per-call here; the % is metered dynamically at charge time — see @suluk/payments).
+    listInvoice: { components: [{ source: "db-read", basis: "per-call", microUsd: 12 }], estimateMicroUsd: 12, infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "credit" } },
+    createInvoice: { components: [{ source: "third-party", basis: "per-call", microUsd: 500 }], estimateMicroUsd: 500, infra: { "worker.request": 1, "d1.write": 1 }, settlement: { method: "subscription" } },
+    listSubscription: { components: [{ source: "db-read", basis: "per-call", microUsd: 12 }], estimateMicroUsd: 12, infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "credit" } },
+    createSubscription: { components: [{ source: "third-party", basis: "per-call", microUsd: 500 }], estimateMicroUsd: 500, infra: { "worker.request": 1, "d1.write": 1 }, settlement: { method: "subscription" } },
+    updateSubscription: { components: [{ source: "db-write", basis: "per-call", microUsd: 40 }], estimateMicroUsd: 40, infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "subscription" } },
   },
   providerSlots: { payments: "stripe" },
 };

@@ -24,6 +24,9 @@ export {
   cartFingerprint, idempotencyKey, requiresStripe, STRIPE_MIN_CHARGE_CENTS,
   type CartLine, type Discount, type DiscountResult, type DiscountRejection, type OrderTotal, type OrderTotalFull, type AmountVerdict,
 } from "./pricing";
+// Stripe FEE weights — the cost of USING Stripe, for the token weight table (2.9% + $0.30; the $0.30 is a static weight,
+// the 2.9% is metered dynamically). Merge STRIPE_WEIGHTS into the app's table (see @suluk/cost mergeWeights).
+export { STRIPE_WEIGHTS, STRIPE_CHARGE_FEE_MICRO_USD, STRIPE_PERCENT, stripePercentFee, stripeFee, MICRO_PER_USD } from "./weights";
 // the Stripe webhook surface (SDK-free signature verification + a typed event router; moved from @suluk/stripe).
 export {
   verifyStripeSignature, timingSafeHexEqual, webhookRouter, STRIPE_EVENTS,

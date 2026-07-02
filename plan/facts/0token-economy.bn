@@ -1,0 +1,33 @@
+# C067 — TOKEN-COST ECONOMY: infra weights bubble up, providers weigh in, the calculator nets per-user (operator /goal:
+# "@suluk/cloudflare reads a pricing payload → bubbles up to @suluk/deploy → @suluk/platform where the shadcn registry defines
+# COST MULTIPLIERS using infra weights to price every route+event in TOKENS that map 1:1 to dollars — static (infra only) or
+# dynamic (input/output/third-party); mark routes' PAYMENT METHOD (credit/ratelimit/subscription/trust/lead); same treatment
+# for Stripe/Resend/Google; a built-in CALCULATOR — spin up a test user, see the tokens he accrues = $ he cost − $ he paid;
+# expand HARDEN to check cost + payment type"). 1 token = 1 µ$; $1 = 1,000,000 tokens.
+
+# GROUND + BUBBLE-UP. @suluk/cloudflare/pricing reads the pricing payload → a weight table (meter → µ$/unit = overage_usd /
+# (overage_per ?? 1) × 1e6) + aliases (d1.read→durable-objects.rows_read) + weighInfra(usage). @suluk/deploy re-exports those
+# (bubble-up: one import = ship + cost). @suluk/cost NEVER deps @suluk/cloudflare — weights are PASSED IN; mergeWeights(...tables)
+# joins CF infra + provider fees (later wins → operator override last). STATIC = CostModel.infra weighed (weighCost); DYNAMIC =
+# metered components (computeCost). Fixed a real DATA bug: 4 R2 op meters had overage_per 1 not 1000000 (1e6× overstatement).
+claim infra_weights_bubble_up_and_price_static_cost_from_real_pricing: Bool @>=0.7 = True
+falsified_when infra_weights_bubble_up_and_price_static_cost_from_real_pricing == False
+
+# PROVIDERS + PAYMENT METHODS. @suluk/payments STRIPE_WEIGHTS (stripe.charge=300000µ$ fixed $0.30; 2.9% dynamic via
+# stripePercentFee), @suluk/email RESEND_WEIGHTS (resend.email≈400µ$), @suluk/better-auth AUTH_WEIGHTS (google.oauth=0 — free;
+# real login cost is D1 infra; carried for observability + paid-Google extension). SettlementMethod extended credit|rate-limited|
+# free|subscription|trust|lead — orthogonal to metering (recovery only; all tracked in tokens; ratelimit budget a separate non-$
+# currency). Registry declares it: @suluk/builder ModuleCost +infra/+settlement, crudCost emits infra+credit, billing/ecommerce/
+# crm/preview inline (subscription/credit/free); @suluk/hono RouteContract.cost (full CostModel) already carries infra+settlement.
+claim providers_weigh_in_and_registry_declares_multipliers_and_payment_method: Bool @>=0.7 = True
+falsified_when providers_weigh_in_and_registry_declares_multipliers_and_payment_method == False
+
+# THE CALCULATOR + HARDEN. @suluk/cost simulateUser(principal, steps, weights) spins up a TEST USER — weighs static infra + meters
+# dynamic usage per event, userEconomics nets (net = cost − paid; ratelimit budget apart), attributes by PROVIDER (stripe/resend/
+# google vs cloudflare). @suluk/harden auditCost(doc) = a 3rd grade dimension (with security+readiness via combineGrades):
+# cost-undeclared (MEDIUM) + cost-without-payment (HIGH), grade = clean/ops. PROVEN E2E with the real merged table: a test user's
+# month (113 events) → cost $1.764 (stripe $1.760 + resend $0.004 + cloudflare $0.0001), paid $20, net −$18.24 margin; raw CF infra
+# is near-free, the real per-user cost is 3rd-party providers. Green: cost 52 · cloudflare 38 · harden 28 · builder 103 · payments
+# 28 · email 18 · better-auth 48 · deploy 17, all tsc-clean. Ceiling 0.70 — mechanism proven, pricing VALUES a harvested snapshot.
+claim calculator_nets_per_user_and_harden_incentivises_cost_coverage: Bool @>=0.7 = True
+falsified_when calculator_nets_per_user_and_harden_incentivises_cost_coverage == False

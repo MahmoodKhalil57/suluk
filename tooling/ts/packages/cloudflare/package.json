@@ -20,8 +20,14 @@
   "exports": {
     ".": "./src/index.ts",
     "./local": "./src/local.ts",
-    "./live": "./src/live.ts"
+    "./live": "./src/live.ts",
+    "./pricing": "./src/pricing.ts"
   },
+  "files": [
+    "src",
+    "cloudflare_pricing_pragmatic.json",
+    "cloudflare_pricing.json"
+  ],
   "dependencies": {},
   "peerDependencies": {
     "drizzle-orm": "*"

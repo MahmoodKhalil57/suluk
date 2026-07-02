@@ -11,3 +11,5 @@ export { deployWorker, putCronTriggers, type DeployWorkerOptions, type WorkerBin
 export { deploy, deployWith, type DeployPlan, type DeployResult, type DeployLog, type DurableObjectBinding } from "./deploy";
 // the production KV-backed RateLimitStore for @suluk/hono's enforceRateLimit (MemoryRateLimitStore is dev-only).
 export { kvRateLimitStore, memoryRateLimitStore, type RateLimitStore, type ConsumeOptions, type ConsumeResult, type KvLike } from "./ratelimit";
+// INFRA COST WEIGHTS — the base of the token economy: CF pricing → tokens (µ$) per infra unit, bubbled up to @suluk/cost.
+export { CLOUDFLARE_PRICING, infraWeights, weightTable, weighInfra, INFRA_ALIASES, MICRO_PER_USD, type InfraMeter, type WeighResult, type PricingDoc, type PricingProduct, type PricingMeter } from "./pricing";

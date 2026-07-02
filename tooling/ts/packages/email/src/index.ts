@@ -25,3 +25,6 @@ export {
   type AudienceProvider, type AudienceContact, type AudienceResult,
   type ConsoleAudienceOptions, type ResendAudienceOptions, type NewsletterRow, type SyncResult,
 } from "./audience";
+// Resend FEE weights — the cost of sending email, for the token weight table (~400 µ$/email). Merge RESEND_WEIGHTS into
+// the app's table (see @suluk/cost mergeWeights) so a route's `infra: { "resend.email": 1 }` prices the send.
+export { RESEND_WEIGHTS, RESEND_EMAIL_MICRO_USD } from "./weights";

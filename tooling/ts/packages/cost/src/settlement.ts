@@ -6,7 +6,7 @@
  */
 import type { OpenAPIv4Document, Request } from "@suluk/core";
 import { eachOperation, costOf } from "./contract";
-import type { CostModel, CostSettlement } from "./types";
+import type { CostModel, CostSettlement, SettlementMethod } from "./types";
 
 const ext = (req: Request) => req as Request & Record<string, unknown>;
 
@@ -72,17 +72,12 @@ export function impliedErrorStatuses(req: Request): number[] {
   return [...out].sort((a, b) => a - b);
 }
 
-export interface SettlementRollup {
-  credit: number;
-  ["rate-limited"]: number;
-  free: number;
-  /** priced ops with NO settlement declared (the gap). */
-  unsettled: number;
-}
+/** ops counted per settlement method (credit/rate-limited/free/subscription/trust/lead), plus `unsettled` = priced but no method. */
+export type SettlementRollup = Record<SettlementMethod, number> & { unsettled: number };
 
 /** A quick "how is this API monetized" tally — ops grouped by settlement method (+ priced-but-unsettled). */
 export function settlementRollup(doc: OpenAPIv4Document): SettlementRollup {
-  const r: SettlementRollup = { credit: 0, "rate-limited": 0, free: 0, unsettled: 0 };
+  const r: SettlementRollup = { credit: 0, "rate-limited": 0, free: 0, subscription: 0, trust: 0, lead: 0, unsettled: 0 };
   for (const { req } of eachOperation(doc)) {
     const cost = costOf(req);
     const m = cost?.settlement?.method;

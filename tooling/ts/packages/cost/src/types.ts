@@ -57,6 +57,14 @@ export interface CostAttribution {
 
 export interface CostModel {
   components: CostComponent[];
+  /**
+   * INFRASTRUCTURE USAGE per call — a `meter → units` map (e.g. `{ "d1.read": 2, "d1.write": 1, "worker.request": 1 }`),
+   * where the meter keys are @suluk/cloudflare's `INFRA_ALIASES` / `<product>.<meter>` (or a provider meter). This is the
+   * STATIC (infra-only) cost MULTIPLIER: `weighCost` turns it into tokens (µ$) via the live infra WEIGHTS
+   * (@suluk/cloudflare `infraWeights`), so the number is derived from real Cloudflare pricing, not hand-guessed — and
+   * auto-updates when the pricing does. DYNAMIC cost (per-token / per-mb / a third-party charge) still goes in `components`.
+   */
+  infra?: Record<string, number>;
   /** Optional typical total for one call (µ$), for display + tests when usage isn't yet known. */
   estimateMicroUsd?: number;
   /** WHEN/WHAT fires this cost (C024; default "synchronous"). STATIC — decouples accrual-time from the declaring op. */
@@ -88,12 +96,17 @@ export interface CostModel {
 export type ReconciliationBasis = "declared-estimate" | "payload-reconciled";
 
 /**
- * HOW a declared cost is RECOVERED from the user (C044). `rate-limited` ⇒ free to the user — the cost is "paid" by
- * CAPPING usage, so the op's `x-suluk-ratelimit` IS the settlement (no money moves). `credit` ⇒ the user pays credits
- * (a balance is debited). `free` ⇒ truly free (the operator absorbs any cost). A purely STATIC fact (an enum + an
- * integer + names) — never a request value, so it rides the x-suluk-cost wall (matcher-invisible since C024).
+ * HOW a declared cost is RECOVERED from the user (C044+). The PAYMENT METHOD. `credit` ⇒ the user pays credits (a balance
+ * debit; tokens map 1:1 to credits). `rate-limited` ⇒ free to the user, "paid" by CAPPING usage (the op's
+ * `x-suluk-ratelimit` IS the settlement; no money moves). `free` ⇒ truly free (the operator absorbs the cost).
+ * `subscription` ⇒ recovered by a recurring plan the user is on (the cost accrues against the plan's allowance, not a
+ * per-call debit). `trust` ⇒ extended on a trust/reputation basis (the user accrues cost now, reconciled/settled later —
+ * a post-pay / net-terms relationship). `lead` ⇒ the cost is an acquisition investment (a free-tier / lead-gen surface the
+ * operator eats to convert the user). A purely STATIC fact (an enum + names) — never a request value, so it rides the
+ * x-suluk-cost wall (matcher-invisible since C024). Every one is still COST-TRACKED per user in tokens (the calculator);
+ * the method only changes HOW those tokens are recovered, not WHETHER they're measured.
  */
-export type SettlementMethod = "credit" | "rate-limited" | "free";
+export type SettlementMethod = "credit" | "rate-limited" | "free" | "subscription" | "trust" | "lead";
 
 export interface CostSettlement {
   method: SettlementMethod;

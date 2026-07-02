@@ -73,7 +73,7 @@ describe("settlementRollup — how the API is monetized", () => {
       b: op({ components: [], settlement: { method: "rate-limited" } }, { "x-suluk-ratelimit": { windowMs: 1, maxRequests: 1, key: "ip" } }),
       c: op({ estimateMicroUsd: 50 }), // priced, no settlement
     });
-    expect(settlementRollup(d)).toEqual({ credit: 1, "rate-limited": 1, free: 0, unsettled: 1 });
+    expect(settlementRollup(d)).toEqual({ credit: 1, "rate-limited": 1, free: 0, subscription: 0, trust: 0, lead: 0, unsettled: 1 });
   });
 });
 

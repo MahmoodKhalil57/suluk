@@ -1,0 +1,2342 @@
+{
+  "_meta": {
+    "source": "https://developers.cloudflare.com",
+    "description": "Normalized Cloudflare developer-platform pricing, harvested from the public docs. Each product's /pricing/ page was read as raw markdown (<page-url>index.md), extracted, and adversarially re-verified number-by-number. Intended as a base for cost / pricing models — not a billing oracle.",
+    "fetched": "2026-07-02",
+    "currency": "USD",
+    "disclaimer": "Prices change and regional/enterprise terms vary. Always reconcile against each product's pricing_url before billing. Figures were transcribed verbatim from the pricing tables; where included allotments and overage are quoted in different unit bases (e.g. GiB-hours included vs per-GiB-second overage on Containers), the per-meter `unit` records the overage unit and `notes` flag the mismatch — convert before doing math.",
+    "schema": {
+      "product": "id, name, category, doc_url, pricing_url, limits_url, source_confidence, plans[], meters[], catalog[]?, notes[]",
+      "plan": "key (free|paid|standard|enterprise|...), base_usd_month (fixed monthly platform fee; 0=free, null=N/A or contract), description",
+      "meter": "key, label, unit (billed unit, verbatim), free_included/free_period, paid_included/paid_period, overage_usd (USD per `overage_per` units beyond included), overage_per, notes",
+      "catalog_item": "item, unit, price_usd, per, notes — per-model/variant rate table (used by Workers AI, Images, Stream)"
+    },
+    "cost_model_hint": "monthly_cost(product) ≈ plan.base_usd_month + Σ meters max(0, usage − paid_included) / overage_per × overage_usd. Free plan uses free_included/free_period instead. base_usd_month is charged once per account, not per product — most storage/AI products inherit the single $5 Workers Paid platform fee.",
+    "categories": [
+      "compute",
+      "storage",
+      "database",
+      "messaging",
+      "ai",
+      "media",
+      "observability"
+    ],
+    "product_count": 24
+  },
+  "products": [
+    {
+      "id": "workers",
+      "name": "Workers",
+      "category": "compute",
+      "doc_url": "https://developers.cloudflare.com/workers/",
+      "pricing_url": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/workers/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan (default). Includes limited usage of Workers, Pages Functions, Workers KV and Hyperdrive. Requests limited to 100,000/day (resets at 00:00 UTC, Error 1027 when exceeded); 10 ms CPU time per invocation."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan (Standard usage model). Minimum charge of $5 USD per month per account. Includes Workers, Pages Functions, Workers KV, Hyperdrive, and Durable Objects usage with increased initial allotments and clear per-unit overage. No additional charges for data transfer (egress) or throughput (bandwidth)."
+        },
+        {
+          "key": "enterprise",
+          "base_usd_month": null,
+          "description": "Workers Enterprise accounts are billed based on the usage model specified in their contract; no public price. Contact your Account Manager/account team."
+        }
+      ],
+      "meters": [
+        {
+          "key": "requests",
+          "label": "Requests",
+          "unit": "request",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.3,
+          "overage_per": 1000000,
+          "notes": "Standard usage model. Inbound requests to your Worker; Cloudflare does not bill for subrequests. A WebSocket connection is charged as one request (the initial Upgrade); WebSocket messages routed through a Worker do not count as requests. Requests to static assets are free and unlimited. Standard: 10 million included/month, +$0.30 per additional million. Confirmed verbatim in pricing table."
+        },
+        {
+          "key": "cpu_time",
+          "label": "CPU time",
+          "unit": "million CPU ms",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 30000000,
+          "paid_period": "month",
+          "overage_usd": 0.02,
+          "overage_per": 1000000,
+          "notes": "Standard usage model. Free plan: no monthly CPU-ms allotment, capped at 10 ms CPU time per invocation. Standard/Paid: 30 million CPU milliseconds included per month, +$0.02 per additional million CPU milliseconds. No charge or limit for duration (wall-clock time). Max 5 min CPU time per invocation (default 30 s); 15 min per Cron Trigger or Queue Consumer invocation. paid_included is in CPU milliseconds (30,000,000 = 30M CPU ms); overage_per is 1,000,000 CPU ms. Confirmed verbatim."
+        },
+        {
+          "key": "log_events",
+          "label": "Workers Logs — Log Events Written",
+          "unit": "million log events",
+          "free_included": 200000,
+          "free_period": "day",
+          "paid_included": 20000000,
+          "paid_period": "month",
+          "overage_usd": 0.6,
+          "overage_per": 1000000,
+          "notes": "Workers Logs is included in both Free and Paid plans. Free: 200,000 log events/day, 3-day retention. Paid: 20 million included/month, +$0.60 per additional million, 7-day retention. free_included is per day; paid_included and overage_per are event counts. Confirmed verbatim in Workers Logs table."
+        },
+        {
+          "key": "logpush_requests",
+          "label": "Workers Trace Events Logpush — Requests",
+          "unit": "million requests",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.05,
+          "overage_per": 1000000,
+          "notes": "Workers Trace Events Logpush is only available on the Workers Paid plan. 10 million requests/month included, +$0.05 per additional million. Charges apply to request logs that reach the end destination after applying filtering or sampling. Confirmed verbatim in Workers Trace Events Logpush table."
+        }
+      ],
+      "notes": [
+        "All fields independently re-derived and confirmed verbatim against https://developers.cloudflare.com/workers/platform/pricing/index.md (page dateModified 2026-04-23 per embedded schema.org metadata). No numbers were changed; the draft was accurate.",
+        "Core Workers compute is billed under the Standard usage model on two metrics: Requests and CPU time. Legacy usage models (Workers Bundled, Workers Unbound) are deprecated; users are advised to move to Standard. Changing usage model only affects billable usage, no technical implications. Standard pricing migration occurred March 1, 2024.",
+        "No additional charges for data transfer (egress) or throughput (bandwidth) on Workers. All included usage is monthly (except Free daily limits, which reset at 00:00 UTC).",
+        "Requests to static assets are free and unlimited (confirmed by Example 2: a project with 12M static-asset requests + 3M dynamic Worker requests using 7 ms CPU each stays at the $5.00 base subscription).",
+        "Requests made from one Worker to another via a Service Binding do not incur additional request fees — billed as one request (initial invocation) plus combined CPU time across both Workers. Only on Standard pricing; on deprecated Bundled/Unbound, Service-Binding requests are charged as separate requests.",
+        "All Pages Functions are billed as Workers; the same pricing and inclusions apply. See https://developers.cloudflare.com/pages/functions/pricing/ .",
+        "The Workers pricing page also documents adjacent products billed under the Workers Paid plan but priced separately, each with its own dedicated pricing page: Workers KV, Hyperdrive, Queues, D1, Durable Objects, Vectorize, R2, and Containers. These are captured as their own product entries and are intentionally NOT duplicated in these Workers meters (which cover core Workers compute + Workers-native observability: Workers Logs and Workers Trace Events Logpush).",
+        "Example pricing (from docs, confirmed): 15M requests/month at 7 ms CPU each on Paid = $5.00 subscription + $1.50 requests ((15M-10M)/1M*$0.30) + $1.50 CPU (((7ms*15M)-30M)/1M*$0.02) = $8.00 total. 100M requests/month at 7 ms = $5.00 + $27.00 + $13.40 = $45.40 total. A Cron Worker at 720 req/month with 3 min (180,000 ms) CPU each = $5.00 + $0.00 requests + $1.99 CPU = $6.99.",
+        "Custom CPU-time limits can be set per Worker (Wrangler `limits` config or dashboard Settings > CPU Limits) to prevent runaway bills / denial-of-wallet attacks. Workers migrated from the legacy Bundled model before the March 1, 2024 Standard migration got an automatic 50 ms CPU limit.",
+        "Limits page (https://developers.cloudflare.com/workers/platform/limits/) confirms: Free 100,000 requests/day vs Paid no limit; CPU time 10 ms (Free) vs 5 min max (Paid, default 30 s); average Worker uses ~2.2 ms CPU/request."
+      ]
+    },
+    {
+      "id": "durable-objects",
+      "name": "Durable Objects",
+      "category": "compute",
+      "doc_url": "https://developers.cloudflare.com/durable-objects/",
+      "pricing_url": "https://developers.cloudflare.com/durable-objects/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/durable-objects/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan. Only SQLite-backed Durable Objects are available (key-value backend is Paid-only). Daily free-tier limits reset at 00:00 UTC; exceeding any one free limit fails further operations of that type."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan. SQLite or key-value storage backend available. All pricing examples add a 'minimum $5/mo usage' Workers Paid base fee. Overage rates for compute and storage apply beyond the included allotments. base_usd_month=5 reflects that minimum monthly usage floor."
+        }
+      ],
+      "meters": [
+        {
+          "key": "requests",
+          "label": "Requests",
+          "unit": "request",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 0.15,
+          "overage_per": 1000000,
+          "notes": "Confirmed in compute-billing table: Free 100,000/day; Paid 1 million/month + $0.15/million. Includes HTTP requests, RPC sessions, WebSocket messages, and alarm invocations. Each RPC session is billed as one request (subsequent calls on a returned stub are part of the same session, not billed separately). A request is needed to create a WebSocket connection; no charge for outgoing WebSocket messages or incoming protocol pings. For compute-billing only, incoming WebSocket messages use a 20:1 ratio (100 incoming messages billed as 5 requests); the 20:1 ratio does not affect metrics/analytics."
+        },
+        {
+          "key": "duration",
+          "label": "Duration",
+          "unit": "GB-s",
+          "free_included": 13000,
+          "free_period": "day",
+          "paid_included": 400000,
+          "paid_period": "month",
+          "overage_usd": 12.5,
+          "overage_per": 1000000,
+          "notes": "CORRECTED: unit is GB-s (draft said 'million GB-s' but the included values 13,000 and 400,000 are raw GB-s, not millions). Confirmed in compute-billing table: Free 13,000 GB-s/day; Paid 400,000 GB-s/month + $12.50 per MILLION GB-s (hence overage_per=1,000,000). Wall-clock compute duration while the Object is active or idle-but-not-hibernatable. Duration billing charges for the 128 MB memory allocated regardless of actual usage. Objects idle and eligible for hibernation are not billed for duration."
+        },
+        {
+          "key": "rows_read",
+          "label": "Rows read (SQLite storage backend)",
+          "unit": "million rows read",
+          "free_included": 5000000,
+          "free_period": "day",
+          "paid_included": 25000000000,
+          "paid_period": "month",
+          "overage_usd": 0.001,
+          "overage_per": 1000000,
+          "notes": "Confirmed in SQLite-backend table: Free 5 million/day; Paid first 25 billion/month included + $0.001 per million rows. SQLite storage billing enabled January 2026 (target Jan 7, 2026); only usage on/after the target date incurs charges. Rates match D1 pricing. Key-value methods (get/put/delete/list) query a hidden SQLite table and are billed as rows read/written."
+        },
+        {
+          "key": "rows_written",
+          "label": "Rows written (SQLite storage backend)",
+          "unit": "million rows written",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 50000000,
+          "paid_period": "month",
+          "overage_usd": 1,
+          "overage_per": 1000000,
+          "notes": "Confirmed in SQLite-backend table: Free 100,000/day; Paid first 50 million/month included + $1.00 per million rows. Each setAlarm() is billed as a single row written; deletes are counted as rows written. Rates match D1 pricing. Billing enabled Jan 2026 (target Jan 7, 2026)."
+        },
+        {
+          "key": "sqlite_storage",
+          "label": "SQL Stored data (SQLite storage backend)",
+          "unit": "GB-month",
+          "free_included": 5,
+          "free_period": "month",
+          "paid_included": 5,
+          "paid_period": "month",
+          "overage_usd": 0.2,
+          "overage_per": 1,
+          "notes": "Confirmed in SQLite-backend table: Free 5 GB (total); Paid 5 GB-month included + $0.20 per GB-month. Storage billing enabled January 2026 (target Jan 7, 2026). Empty SQLite database ~12 KB; metadata in internal tables counts toward billable storage until deleteAll(). Note free_period is labeled 'total' on Free plan rather than a recurring month; kept as 'month' per schema, but the 5 GB is a total cap capped further by the 5 GB Free account limit."
+        },
+        {
+          "key": "kv_read_request_units",
+          "label": "Read request units (key-value storage backend)",
+          "unit": "million read request units",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 0.2,
+          "overage_per": 1000000,
+          "notes": "Confirmed in key-value-backend table (Workers Paid plan only; not available on Free): 1 million included + $0.20 per million. A request unit is 4 KB of data read; reads >4 KB consume multiple units. List operations billed by read request units based on data examined (e.g., 80 KB returned = 20 read request units; an empty list = 1 read request unit)."
+        },
+        {
+          "key": "kv_write_request_units",
+          "label": "Write request units (key-value storage backend)",
+          "unit": "million write request units",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 1,
+          "overage_per": 1000000,
+          "notes": "Confirmed in key-value-backend table (Workers Paid plan only): 1 million included + $1.00 per million. A request unit is 4 KB written; writes >4 KB consume multiple units (a 9 KB write = 3 write request units). Each setAlarm is billed as a single write request unit."
+        },
+        {
+          "key": "kv_delete_requests",
+          "label": "Delete requests (key-value storage backend)",
+          "unit": "million delete requests",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 1,
+          "overage_per": 1000000,
+          "notes": "Confirmed in key-value-backend table (Workers Paid plan only): 1 million included + $1.00 per million. Delete requests are unmetered by size (deleting a 100 KB value is charged one delete request)."
+        },
+        {
+          "key": "kv_storage",
+          "label": "Stored data (key-value storage backend)",
+          "unit": "GB-month",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 1,
+          "paid_period": "month",
+          "overage_usd": 0.2,
+          "overage_per": 1,
+          "notes": "Confirmed in key-value-backend table (Workers Paid plan only): 1 GB included + $0.20 per GB-month. Billed until data is removed."
+        }
+      ],
+      "notes": [
+        "Durable Objects incur two billing types: compute (requests + duration) and storage. Storage pricing depends on backend: SQLite-backed (recommended; available on Free and Paid) or key-value-backed (Workers Paid only).",
+        "All pricing examples add a 'minimum $5/mo usage' Workers Paid base fee; base_usd_month=5 on the paid plan reflects this usage floor.",
+        "Workers Free plan supports only SQLite-backed Durable Objects. To downgrade from Paid to Free, all key-value-backed namespaces must be deleted first.",
+        "CORRECTION vs draft: the Duration meter unit is GB-s, not 'million GB-s'. The table's included values are 13,000 GB-s/day (Free) and 400,000 GB-s/month (Paid); the $12.50 overage is per MILLION GB-s (overage_per=1,000,000).",
+        "Duration is billed for the 128 MB memory allocated per Object regardless of actual usage; hibernation-eligible idle Objects are not billed for duration. An active outbound connection keeps a DO in memory and incurs duration for up to 15 minutes per connection.",
+        "SQLite rows-read/rows-written included limits and rates match D1 pricing. Key-value methods (get/put/delete/list) hit a hidden SQLite table and bill as rows read/written on SQLite-backed DOs.",
+        "SQLite storage billing (rows read, rows written, SQL stored data) will be enabled January 2026 with a target date of Jan 7, 2026 (no earlier); only usage on/after the target date incurs charges.",
+        "Account limits (limits page): Max Durable Object classes per account = 500 (Workers Paid) / 100 (Free). SQLite storage per account = Unlimited (Paid) / 5 GB (Free). Storage per Durable Object = 10 GB (SQLite table, flat — NOT differentiated by plan; the draft's claim of '1 GB on Free per DO' is unconfirmed, Free is bounded by the 5 GB account cap instead). Key-value backend: storage per account 50 GB (raisable). CPU per request 30s default, configurable to 5 min active CPU. Durable Objects are Workers and inherit Workers per-invocation limits.",
+        "Free-tier daily limits reset at 00:00 UTC; exceeding any single free limit fails further operations of that type.",
+        "Page dateModified: 2026-06-19 (pricing). Limits page fetched same session. All compute and storage numbers read verbatim from the pricing markdown tables."
+      ]
+    },
+    {
+      "id": "containers",
+      "name": "Containers",
+      "category": "compute",
+      "doc_url": "https://developers.cloudflare.com/containers/",
+      "pricing_url": "https://developers.cloudflare.com/containers/pricing/",
+      "limits_url": "https://developers.cloudflare.com/containers/platform-details/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Free plan: Containers not available (Memory and CPU listed as N/A in the pricing table). Containers require the Workers Paid plan."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan ($5 USD/month). Includes 25 GiB-hours/month memory, 375 vCPU-minutes/month CPU, and 200 GB-hours/month disk of container usage before overage."
+        }
+      ],
+      "meters": [
+        {
+          "key": "memory",
+          "label": "Memory",
+          "unit": "GiB-second",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 25,
+          "paid_period": "month",
+          "overage_usd": 0.0000025,
+          "overage_per": 1,
+          "notes": "Table verbatim: '25 GiB-hours/month included +$0.0000025 per additional GiB-second'. Included allotment stated in GiB-hours (25); overage billed per GiB-second at $0.0000025. Memory usage based on provisioned resources for the selected instance type. Billed for every 10ms the container is actively running. Not available on Free plan (N/A)."
+        },
+        {
+          "key": "cpu_time",
+          "label": "CPU",
+          "unit": "vCPU-second",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 375,
+          "paid_period": "month",
+          "overage_usd": 0.00002,
+          "overage_per": 1,
+          "notes": "Table verbatim: '375 vCPU-minutes/month + $0.000020 per additional vCPU-second'. Included allotment stated in vCPU-minutes (375); overage billed per vCPU-second at $0.000020. CPU usage based on active usage only. Billed for every 10ms the container is actively running. Not available on Free plan (N/A)."
+        },
+        {
+          "key": "disk",
+          "label": "Disk",
+          "unit": "GB-second",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 200,
+          "paid_period": "month",
+          "overage_usd": 7e-8,
+          "overage_per": 1,
+          "notes": "Table verbatim: '200 GB-hours/month +$0.00000007 per additional GB-second'. Included allotment stated in GB-hours (200); overage billed per GB-second at $0.00000007. Disk usage based on provisioned resources for the selected instance type. Free plan cell is blank (no disk listed for Free)."
+        },
+        {
+          "key": "egress",
+          "label": "Network Egress — North America & Europe",
+          "unit": "GB egress",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 1000,
+          "paid_period": "month",
+          "overage_usd": 0.025,
+          "overage_per": 1,
+          "notes": "North America & Europe: $0.025 per GB, 1 TB included allotment per month (1 TB recorded as 1000 GB)."
+        },
+        {
+          "key": "egress_oceania_korea_taiwan",
+          "label": "Network Egress — Oceania, Korea, Taiwan",
+          "unit": "GB egress",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 500,
+          "paid_period": "month",
+          "overage_usd": 0.05,
+          "overage_per": 1,
+          "notes": "Oceania, Korea, Taiwan: $0.05 per GB, 500 GB included allotment per month."
+        },
+        {
+          "key": "egress_everywhere_else",
+          "label": "Network Egress — Everywhere Else",
+          "unit": "GB egress",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 500,
+          "paid_period": "month",
+          "overage_usd": 0.04,
+          "overage_per": 1,
+          "notes": "Everywhere Else: $0.04 per GB, 500 GB included allotment per month."
+        }
+      ],
+      "notes": [
+        "VERIFIED against https://developers.cloudflare.com/containers/pricing/index.md — every meter number, unit, overage rate, and inclusion confirmed verbatim in the pricing tables (no draft corrections needed).",
+        "Containers require the Workers Paid plan ($5 USD/month); the Free plan lists Memory and CPU as N/A and leaves Disk blank.",
+        "Containers are billed for every 10ms that they are actively running. Charges start when a request is sent to the container or when it is manually started, and stop after the container instance goes to sleep (scale-to-zero after a timeout).",
+        "Memory and disk usage are based on the provisioned resources of the selected instance type; CPU usage is based on active usage only.",
+        "IMPORTANT unit-basis note: included allotments in the docs are stated in GiB-hours (memory), vCPU-minutes (CPU), and GB-hours (disk), while overage prices are per GiB-second, vCPU-second, and GB-second respectively. Each meter's `unit` records the per-second overage unit verbatim; `paid_included` (25/375/200) retains the docs' hour/minute basis noted per-meter.",
+        "Predefined instance types (vCPU / Memory / Disk): lite = 1/16 vCPU / 256 MiB / 2 GB; basic = 1/4 vCPU / 1 GiB / 4 GB; standard-1 = 1/2 vCPU / 4 GiB / 8 GB; standard-2 = 1 vCPU / 6 GiB / 12 GB; standard-3 = 2 vCPU / 8 GiB / 16 GB; standard-4 = 4 vCPU / 12 GiB / 20 GB. Custom instance types also supported (min 1 / max 4 vCPU, max 12 GiB memory, max 20 GB disk; min 3 GiB memory per vCPU; max 2 GB disk per 1 GiB memory). Note: `dev` and `standard` are backward-compat aliases for `lite` and `standard-1`.",
+        "Additional billing beyond Containers' own rates: incoming requests are handled by your Worker (Workers pricing) and each container has its own Durable Object (Durable Objects pricing) — both billed separately. Container logs are billed at the Workers Logs rate.",
+        "Account-level limits (from limits page, dateModified 2026-06-08): Concurrent memory 6 TiB, Concurrent vCPU 1,500, Concurrent disk 30 TB, Total image storage per account 50 GB, Image size same as instance disk space.",
+        "Pricing page dateModified: 2026-04-21; limits page dateModified: 2026-06-08."
+      ]
+    },
+    {
+      "id": "workflows",
+      "name": "Workflows",
+      "category": "compute",
+      "doc_url": "https://developers.cloudflare.com/workflows/",
+      "pricing_url": "https://developers.cloudflare.com/workflows/reference/pricing/",
+      "limits_url": "https://developers.cloudflare.com/workflows/reference/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan — Workflows included; shares Workers daily request/CPU limits"
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan — Workflows included; billed identically to Workers Standard on requests, CPU time, and storage. NOTE: the Workflows pricing page does not state a base fee verbatim; the $5/mo is the Workers Paid platform fee inherited via the page's explicit statement that 'Workflows pricing is identical to Workers Standard pricing.'"
+        }
+      ],
+      "meters": [
+        {
+          "key": "requests",
+          "label": "Requests (millions)",
+          "unit": "request",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.3,
+          "overage_per": 1000000,
+          "notes": "Confirmed verbatim in pricing table. Requests = Workflow invocations (triggering a new instance). Steps within a Workflow are not invocations, and subrequests made from a Workflow do not incur additional request costs. Free tier's '100,000 per day' is shared with Workers requests. Paid: '10 million included per month + $0.30 per additional million'."
+        },
+        {
+          "key": "cpu_time",
+          "label": "CPU time (ms)",
+          "unit": "million CPU milliseconds",
+          "free_included": 10,
+          "free_period": null,
+          "paid_included": 30000000,
+          "paid_period": "month",
+          "overage_usd": 0.02,
+          "overage_per": 1000000,
+          "notes": "Confirmed verbatim. Free plan: '10 milliseconds of CPU time per invocation' — a per-invocation cap, NOT a monthly pool (hence free_period=null; free_included=10 is a per-invocation ms limit). Paid: '30 million CPU milliseconds included per month + $0.02 per additional million CPU milliseconds' — paid_included and overage_per are in raw CPU milliseconds; overage_usd is $0.02 per 1,000,000 CPU ms. CPU time is active compute only — idle/sleeping/waiting instances do not incur CPU time."
+        },
+        {
+          "key": "storage",
+          "label": "Storage (GB-mo)",
+          "unit": "GB-month",
+          "free_included": 1,
+          "free_period": "month",
+          "paid_included": 1,
+          "paid_period": "month",
+          "overage_usd": 0.2,
+          "overage_per": 1,
+          "notes": "Confirmed verbatim. Free plan: '1GB' (a hard cap, not a metered monthly pool). Paid plan: '1GB included per month + $0.20/ GB-month'. GB-month = average of peak storage per day over a 30-day billing period. Storage counts across all instances (running, errored, sleeping, completed). Billed identically to Durable Objects SQL storage backend. Storage billing went live September 15th, 2025. On the Free plan, attempting to store state past the limit throws an error."
+        }
+      ],
+      "notes": [
+        "Verified against https://developers.cloudflare.com/workflows/reference/pricing/index.md (dateModified 2026-05-04) and .../limits/index.md (dateModified 2026-06-15). All three meter rows confirmed verbatim from the 'Workflows Pricing' table.",
+        "Workflows pricing is identical to Workers Standard pricing and billed on three dimensions: CPU time, Requests (invocations), and Storage. Per the page's FAQ 'How do Workflows show up on my bill?': Workflows are billed AS Workers and share the same CPU time and request SKUs — they show up on the bill as Workers, not as a separate line item.",
+        "FAQ 'Are there additional costs for Workflows?': No. Priced on the same compute (CPU time) and requests (invocations) as Workers, plus storage (state from a Workflow).",
+        "A Workflow that is waiting on an API response, paused via step.sleep, or otherwise idle does NOT incur CPU time.",
+        "Subrequests made from within a Workflow do not incur additional request costs.",
+        "CPU limit per Workflow invocation defaults to 30 seconds on Paid and is configurable up to 5 minutes via the limits.cpu_ms Wrangler property; Free plan is capped at 10 ms of CPU time per invocation.",
+        "Instance state retention: 3 days on Free, 30 days on Paid (configurable to a shorter period per instance via the retention option in WorkflowInstanceCreateOptions).",
+        "Free plan limits (from limits page): 100,000 Workflow executions per day (shared with Workers daily limit), 100 concurrent instances per account, 100MB max state per instance. Paid plan: unlimited executions, 50,000 concurrent instances per account, 1GB max state per instance.",
+        "Note on the $5 paid base fee: it is NOT stated on the Workflows pricing page itself — it is inherited from Workers Standard/Paid via the page's assertion that Workflows pricing is identical to Workers Standard pricing. Treat with medium confidence relative to the metered rates (which are high-confidence verbatim).",
+        "Pricing page dateModified: 2026-05-04; Limits page dateModified: 2026-06-15."
+      ]
+    },
+    {
+      "id": "pages",
+      "name": "Cloudflare Pages",
+      "category": "compute",
+      "doc_url": "https://developers.cloudflare.com/pages/",
+      "pricing_url": "https://developers.cloudflare.com/pages/functions/pricing/",
+      "limits_url": "https://developers.cloudflare.com/pages/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan. Static asset requests are free and unlimited. Pages Functions requests count toward the Workers Free plan quota: 100,000 requests per day shared across Workers + Pages Functions, resetting at midnight UTC. Pages build/file limits also apply: 1 build at a time, 500 builds/month, up to 20,000 files/site."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan, minimum charge of $5 USD/month per account. Includes Workers, Pages Functions, Workers KV, Hyperdrive, and Durable Objects usage under the Standard usage model. Static asset requests remain free and unlimited; only Functions requests + CPU time are metered. No charge for data transfer (egress) or throughput."
+        }
+      ],
+      "meters": [
+        {
+          "key": "requests",
+          "label": "Functions requests (billed as Workers requests)",
+          "unit": "request",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.3,
+          "overage_per": 1000000,
+          "notes": "Requests to Pages Functions are billed as Cloudflare Workers requests under the Standard usage model. The Pages pricing page has no numbers of its own; these are read verbatim from the Workers pricing table (https://developers.cloudflare.com/workers/platform/pricing/, dateModified 2026-04-21): Free = 100,000/day (shared across Workers + Functions, resets midnight UTC); Standard = 10 million included/month, +$0.30 per additional million. Requests from a Function to KV or Durable Object bindings also count. Subrequests are not billed; a WebSocket Upgrade counts as one request."
+        },
+        {
+          "key": "cpu_time",
+          "label": "Functions CPU time (billed as Workers CPU time)",
+          "unit": "million CPU milliseconds",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 30,
+          "paid_period": "month",
+          "overage_usd": 0.02,
+          "overage_per": 1000000,
+          "notes": "Billed as Workers CPU time (Standard usage model), read from the Workers pricing table (dateModified 2026-04-21). Paid: 30 million CPU milliseconds included per month (= 30 in this million-CPU-ms unit), +$0.02 per additional million CPU milliseconds. Free plan is NOT a monthly CPU pool — it is a per-invocation cap of 10 milliseconds of CPU time per invocation, so free_included is null in this monthly unit (see notes). No charge or limit for wall-clock duration. Max 5 minutes CPU time per invocation (default 30 seconds); max 15 minutes per Cron Trigger / Queue Consumer invocation."
+        },
+        {
+          "key": "static_asset_requests",
+          "label": "Requests to static assets",
+          "unit": "request",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0,
+          "overage_per": null,
+          "notes": "Requests to static assets (requests that do not invoke a Function) are free and unlimited on BOTH the free and paid plans. Confirmed on both the Pages pricing page and the Workers pricing table. No per-unit charge and no billing multiple, so overage_per is null."
+        },
+        {
+          "key": "builds",
+          "label": "Builds per month",
+          "unit": "build",
+          "free_included": 500,
+          "free_period": "month",
+          "paid_included": 5000,
+          "paid_period": "month",
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "Pages-specific plan limit (not overage-billed) from the Pages limits page (dateModified 2026-04-21). Free: 500 builds/month, 1 build at a time. Pro: 5,000 builds/month, 5 concurrent. Business: 20,000 builds/month, 20 concurrent. paid_included shown = Pro tier (Business = 20,000). Builds time out after 20 minutes; concurrency is counted per account."
+        }
+      ],
+      "notes": [
+        "Pages has NO dedicated usage-based pricing of its own. The Pages pricing page (https://developers.cloudflare.com/pages/functions/pricing/, dateModified 2026-04-21) contains ZERO numbers — it states only that Functions requests are billed as Cloudflare Workers requests and that Pages supports the Standard usage model. Every request/CPU figure in meters[] was read verbatim from the Workers pricing table (https://developers.cloudflare.com/workers/platform/pricing/, dateModified 2026-04-21).",
+        "Static assets: requests to static assets are FREE and UNLIMITED on both free and paid plans. A request is 'static' when it does not invoke a Function.",
+        "Free-plan request quota is SHARED across Workers + Pages Functions: e.g. 50,000 Functions requests + 50,000 Workers requests = the full 100,000 daily quota; resets at midnight UTC.",
+        "CORRECTION vs draft: the draft encoded cpu_time paid_included as 30000000 while using the unit 'million CPU milliseconds' — that is a unit error. The Workers table says '30 million CPU milliseconds included per month', so paid_included = 30 in the million-CPU-ms unit. The draft's free CPU 'free_included:10' was also nulled: 10 ms is a PER-INVOCATION cap, not a monthly pool, and 10 raw-ms is not expressible in the million-CPU-ms billing unit.",
+        "CORRECTION vs draft: static_asset_requests overage_per changed from 1 to null. Static asset requests are unmetered (free + unlimited), so there is no per-unit billing multiple.",
+        "Workers Enterprise accounts are billed per their contract usage model (no public price); not represented in plans[]. Enterprise can switch to Standard via their CSM/Account Manager.",
+        "Pages platform limits (Pages limits page, dateModified 2026-04-21): Files per site — Free 20,000; Paid (Pro/Business/Enterprise) up to 100,000 (requires setting env var PAGES_WRANGLER_MAJOR_VERSION=4). Max single asset file size 25 MiB. Custom domains per project by plan — Free 100, Pro 250, Business 500, Enterprise 500 (contact account team for more). Preview deployments unlimited. Soft limit of 100 projects/account. _headers max 100 rules / 2,000 chars per header; _redirects max 2,000 static + 100 dynamic (2,100 total).",
+        "Build limits (Pages limits page): Free = 1 build at a time, 500 builds/month; Pro = 5 concurrent, 5,000/month; Business = 20 concurrent, 20,000/month. Builds time out after 20 min. These are plan limits, not metered overages.",
+        "Related metered surfaces on the Workers Paid plan that a Pages Function may consume (from the Workers pricing table, for cross-reference only, not billed as Pages): Workers KV (reads 10M/mo +$0.50/M, writes/deletes/list 1M/mo +$5.00/M, stored 1 GB +$0.50/GB-month), Hyperdrive (Free 100,000 queries/day, Paid unlimited), Workers Logs (200,000/day free; Paid 20M/mo +$0.60/M). These are billed under their own product meters, not under Pages."
+      ]
+    },
+    {
+      "id": "sandbox",
+      "name": "Sandbox SDK",
+      "category": "compute",
+      "doc_url": "https://developers.cloudflare.com/sandbox/",
+      "pricing_url": "https://developers.cloudflare.com/containers/pricing/",
+      "limits_url": "https://developers.cloudflare.com/sandbox/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Containers (and therefore Sandbox SDK) are NOT available on the Workers Free plan — the Containers pricing table shows N/A for Memory and CPU under Free (Disk Free cell empty). No free-tier included amounts for any metered resource. Workers Free allows 50 subrequests per request."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan ($5 USD/month) is required. Bundles 25 GiB-hours memory, 375 vCPU-minutes CPU, and 200 GB-hours disk per month for Containers, plus egress allotments (1 TB NA&EU; 500 GB Oceania/Korea/Taiwan; 500 GB Everywhere Else). Overage billed at the metered rates in meters[]. Workers Paid allows 1,000 subrequests per request."
+        }
+      ],
+      "meters": [
+        {
+          "key": "memory",
+          "label": "Memory",
+          "unit": "GiB-second",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 25,
+          "paid_period": "month",
+          "overage_usd": 0.0000025,
+          "overage_per": 1,
+          "notes": "Verified verbatim on Containers pricing table (Sandbox billing basis): 'Workers Paid' Memory = 25 GiB-hours/month included + $0.0000025 per additional GiB-second. NOTE unit mismatch inherited from source: inclusion is stated in GiB-HOURS (25/month) while overage is priced per GiB-SECOND — paid_included=25 is the RAW number from the table, NOT unit-converted. Billed on provisioned resources for the instance type, for every 10ms actively running. Free plan = N/A (not available)."
+        },
+        {
+          "key": "cpu_time",
+          "label": "CPU",
+          "unit": "vCPU-second",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 375,
+          "paid_period": "month",
+          "overage_usd": 0.00002,
+          "overage_per": 1,
+          "notes": "Verified verbatim on Containers pricing table (Sandbox billing basis): 'Workers Paid' CPU = 375 vCPU-minutes/month + $0.000020 per additional vCPU-second. NOTE unit mismatch inherited from source: inclusion is in vCPU-MINUTES (375/month) while overage is per vCPU-SECOND — paid_included=375 is the RAW number from the table, NOT unit-converted. CPU billed on active usage only, for every 10ms actively running. Free plan = N/A."
+        },
+        {
+          "key": "disk",
+          "label": "Disk",
+          "unit": "GB-second",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 200,
+          "paid_period": "month",
+          "overage_usd": 7e-8,
+          "overage_per": 1,
+          "notes": "Verified verbatim on Containers pricing table (Sandbox billing basis): 'Workers Paid' Disk = 200 GB-hours/month + $0.00000007 per additional GB-second. NOTE unit mismatch inherited from source: inclusion is in GB-HOURS (200/month) while overage is per GB-SECOND — paid_included=200 is the RAW number from the table, NOT unit-converted. Billed on provisioned resources for the instance type. Free plan cell is empty (no free tier)."
+        },
+        {
+          "key": "egress",
+          "label": "Network Egress — North America & Europe",
+          "unit": "GB egress",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 1000,
+          "paid_period": "month",
+          "overage_usd": 0.025,
+          "overage_per": 1,
+          "notes": "Verified verbatim on Containers Network Egress table (Sandbox billing basis): North America & Europe = $0.025 per GB, 1 TB (1000 GB) included allotment per month."
+        },
+        {
+          "key": "egress_oceania_korea_taiwan",
+          "label": "Network Egress — Oceania, Korea, Taiwan",
+          "unit": "GB egress",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 500,
+          "paid_period": "month",
+          "overage_usd": 0.05,
+          "overage_per": 1,
+          "notes": "Verified verbatim on Containers Network Egress table: Oceania, Korea, Taiwan = $0.05 per GB, 500 GB included allotment per month."
+        },
+        {
+          "key": "egress_everywhere_else",
+          "label": "Network Egress — Everywhere Else",
+          "unit": "GB egress",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 500,
+          "paid_period": "month",
+          "overage_usd": 0.04,
+          "overage_per": 1,
+          "notes": "Verified verbatim on Containers Network Egress table: Everywhere Else = $0.04 per GB, 500 GB included allotment per month."
+        }
+      ],
+      "catalog": [
+        {
+          "item": "lite instance",
+          "unit": "instance type",
+          "price_usd": null,
+          "per": null,
+          "notes": "1/16 vCPU, 256 MiB memory, 2 GB disk. Provisioned memory & disk are billed continuously; CPU billed on active usage."
+        },
+        {
+          "item": "basic instance",
+          "unit": "instance type",
+          "price_usd": null,
+          "per": null,
+          "notes": "1/4 vCPU, 1 GiB memory, 4 GB disk."
+        },
+        {
+          "item": "standard-1 instance",
+          "unit": "instance type",
+          "price_usd": null,
+          "per": null,
+          "notes": "1/2 vCPU, 4 GiB memory, 8 GB disk."
+        },
+        {
+          "item": "standard-2 instance",
+          "unit": "instance type",
+          "price_usd": null,
+          "per": null,
+          "notes": "1 vCPU, 6 GiB memory, 12 GB disk."
+        },
+        {
+          "item": "standard-3 instance",
+          "unit": "instance type",
+          "price_usd": null,
+          "per": null,
+          "notes": "2 vCPU, 8 GiB memory, 16 GB disk."
+        },
+        {
+          "item": "standard-4 instance",
+          "unit": "instance type",
+          "price_usd": null,
+          "per": null,
+          "notes": "4 vCPU, 12 GiB memory, 20 GB disk."
+        }
+      ],
+      "notes": [
+        "Sandbox SDK has NO dedicated usage pricing. Confirmed at https://developers.cloudflare.com/sandbox/platform/pricing/ — 'Sandbox SDK pricing is determined by the underlying Containers platform it's built on.' All meter numbers below were read verbatim from the Containers pricing table at https://developers.cloudflare.com/containers/pricing/ (page dateModified 2026-04-21).",
+        "Billing basis is a stack of products, each billed at its own rates: Containers (vCPU/memory/disk/egress — captured in meters[]) + Workers (handles incoming requests to the sandbox) + Durable Objects (each sandbox instance is powered by its own DO) + optional Workers Logs (observability if enabled). Only the Containers meters are quantified here; the Workers/DO/Logs components are cross-references to those products' own pricing pages.",
+        "base_usd_month=5 on the paid plan is the Workers Paid platform fee that Containers/Sandbox require. The 25 GiB-hours memory / 375 vCPU-minutes CPU / 200 GB-hours disk inclusions (and egress allotments) are the amounts bundled into that $5/mo plan.",
+        "Containers (and therefore Sandbox) are NOT available on the Workers Free plan. The pricing table shows N/A for Memory and CPU under Free, and the Disk Free cell is empty — there are no free-tier included amounts for any metered resource.",
+        "Billing granularity: containers are billed for every 10ms they are actively running. Memory & disk are billed on the PROVISIONED resources of the selected instance type; CPU is billed on ACTIVE usage only. Charges start when a request is sent (or the container is manually started) and stop when the instance sleeps — scales to zero.",
+        "UNIT MISMATCH (source-inherited, important for correct math): paid inclusions on the Containers table are stated per-hour/per-minute (25 GiB-hours, 375 vCPU-minutes, 200 GB-hours per month) while overage is priced per-second. The paid_included values in meters[] are the RAW table numbers, NOT converted to the per-second meter unit. To reconcile, convert inclusions to seconds before comparing against per-second overage (e.g. 25 GiB-hours = 90,000 GiB-seconds).",
+        "Instance types (lite / basic / standard-1..4) determine provisioned vCPU/memory/disk and thus the bill; captured verbatim in catalog[]. No per-instance dollar price is published — instance cost is derived from the metered rates above.",
+        "Sandbox-specific operational limits (NOT billing meters) from https://developers.cloudflare.com/sandbox/platform/limits/ : Workers Free = 50 subrequests/request, Workers Paid = 1,000 subrequests/request. By default the SDK uses HTTP transport where each op (exec/readFile/writeFile/etc.) is one subrequest; enabling WebSocket transport (SANDBOX_TRANSPORT=websocket) multiplexes all SDK calls over one connection so only the WS upgrade counts as a subrequest.",
+        "VERIFICATION RESULT: every number in the draft was confirmed against the Containers pricing markdown read this session — no corrections to numeric values were required. All 6 Containers meters (3 resource + 3 egress regions) present and correct; no meter missing or hallucinated; overage_per=1 for all (rates are quoted per single unit)."
+      ]
+    },
+    {
+      "id": "browser-rendering",
+      "name": "Browser Rendering",
+      "category": "compute",
+      "doc_url": "https://developers.cloudflare.com/browser-run/",
+      "pricing_url": "https://developers.cloudflare.com/browser-run/pricing/",
+      "limits_url": "https://developers.cloudflare.com/browser-run/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan. Browser hours limited to 10 minutes per day; 3 concurrent browsers per account (Browser Sessions only)."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": null,
+          "description": "Workers Paid plan. Includes 10 browser hours/month and 10 concurrent browsers (averaged monthly), then usage-based overage. The fixed Workers Paid platform fee ($5/month) is NOT stated on this pricing page, so base_usd_month is left null."
+        }
+      ],
+      "meters": [
+        {
+          "key": "browser_hours",
+          "label": "Browser hours",
+          "unit": "hour",
+          "free_included": null,
+          "free_period": "day",
+          "paid_included": 10,
+          "paid_period": "month",
+          "overage_usd": 0.09,
+          "overage_per": 1,
+          "notes": "Free plan allotment is 10 MINUTES per day (= 0.1667 hours/day); free_included is nulled because 10 under an 'hour' unit would misrepresent it as 10 hours — the verbatim table value is '10 minutes per day'. Paid plan includes 10 hours per month, then $0.09 per additional hour (confirmed verbatim). Browser hours are shared across all methods (Quick Actions and Browser Sessions). Billing time totaled daily in seconds; monthly total rounded to nearest whole hour (1,800s / 30 min or more rounds up, 1,799s or less rounds down)."
+        },
+        {
+          "key": "concurrent_browsers",
+          "label": "Concurrent browsers (Browser Sessions only)",
+          "unit": "browser",
+          "free_included": 3,
+          "free_period": null,
+          "paid_included": 10,
+          "paid_period": "month",
+          "overage_usd": 2,
+          "overage_per": 1,
+          "notes": "Applies to Browser Sessions only (Puppeteer, Playwright, CDP), not Quick Actions. Free plan: 3 concurrent browsers per account (a concurrency cap, not a monthly-consumed amount — free_period nulled). Paid plan: 10 concurrent browsers included, averaged monthly (monthly average of daily peak usage), then $2.00 per additional browser (all confirmed verbatim in the pricing table)."
+        }
+      ],
+      "notes": [
+        "Product is now named 'Browser Run' in the docs (formerly 'Browser Rendering'); canonical path is /browser-run/. Table header reads 'Available on Free and Paid plans'. Pricing page dateModified 2026-04-21; limits page dateModified 2026-05-20.",
+        "Billing depends on usage method: Quick Actions are charged for browser hours only; Browser Sessions (Puppeteer/Playwright/CDP) are charged for BOTH browser hours and concurrent browsers.",
+        "Browser hours are shared across all methods (verbatim).",
+        "Concurrent browsers billed as the monthly average of daily peak usage (peak concurrent browsers recorded each day, then averaged over the month). Confirmed in the 'How is the number of concurrent browsers calculated?' FAQ.",
+        "Failed Quick Actions requests that fail with a waitForTimeout error are NOT charged billable browser hours (confirmed in FAQ).",
+        "Billing time: usage totaled daily in seconds; at end of billing cycle daily totals summed to a monthly total of browser hours, rounded to the nearest whole hour (>= 1,800s rounds up, <= 1,799s rounds down). Confirmed verbatim.",
+        "Worked example (Quick Actions, verbatim): Workers Paid user at 50 browser hours/month = (50-10) x $0.09 = $3.60.",
+        "Worked example (Browser Sessions, verbatim): 50 browser hours = $3.60; plus concurrent browsers 10 for first 15 days + 20 for last 15 days = ((10x15)+(20x15))/30 = 15 averaged; (15-10) x $2.00 = $10.00; total $3.60 + $10.00 = $13.60.",
+        "Limits (Free, from /browser-run/limits/): browser hours 10 min/day; 3 concurrent browsers per account (Browser Sessions only); 1 new browser instance every 20s; browser timeout 60s (extendable to 10 min via keep_alive); Quick Actions total requests 1 every 10s. /crawl endpoint on Free: 5 crawl jobs/day, max 100 pages/crawl.",
+        "Limits (Paid defaults, from /browser-run/limits/): browser hours No limit (see pricing); 120 concurrent browsers per account default (see pricing); 1 new browser instance/second; browser timeout 60s (extendable to 10 min); Quick Actions 10 requests/second. Paid limits can be raised on request via Cloudflare form.",
+        "VERIFICATION DELTAS vs draft: (1) draft's browser_hours.free_included=10 under unit 'hour' misrepresented the free tier — the table says '10 MINUTES per day', so free_included nulled with an explicit note (cannot write 10 hours). (2) concurrent_browsers.free_period changed from 'month' to null — 3 browsers is a per-account concurrency cap, not a monthly-consumed quantity. All dollar figures ($0.09/hr, $2.00/browser) and paid inclusions (10 hours, 10 browsers) confirmed verbatim against the pricing table. base_usd_month for paid correctly left null (the $5 Workers Paid fee is not printed on this page)."
+      ]
+    },
+    {
+      "id": "kv",
+      "name": "Workers KV",
+      "category": "storage",
+      "doc_url": "https://developers.cloudflare.com/kv/",
+      "pricing_url": "https://developers.cloudflare.com/kv/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/kv/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers KV is included in the Workers Free plan with limited daily usage; all limits reset daily at 00:00 UTC and exceeding any one causes further operations of that type to fail with an error."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers KV is included in the Workers Paid plan. The $5/month base fee is the Workers Paid platform fee (from the Workers pricing page), NOT a KV-specific charge; KV usage beyond the included amounts is billed as overage."
+        }
+      ],
+      "meters": [
+        {
+          "key": "keys_read",
+          "label": "Keys read",
+          "unit": "million keys read",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.5,
+          "overage_per": 1000000,
+          "notes": "Free: 100,000/day. Paid: 10 million/month included, then $0.50/million. Per-key basis; bulk read operations are billed by the number of keys read. Fetches for non-existent keys (null / HTTP 404) still incur charges."
+        },
+        {
+          "key": "keys_written",
+          "label": "Keys written",
+          "unit": "million keys written",
+          "free_included": 1000,
+          "free_period": "day",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 5,
+          "overage_per": 1000000,
+          "notes": "Free: 1,000/day. Paid: 1 million/month included, then $5.00/million. Each key-value pair in a REST API bulk PUT counts as a single write, same as a Workers API PUT. Dashboard/wrangler writes are billable."
+        },
+        {
+          "key": "keys_deleted",
+          "label": "Keys deleted",
+          "unit": "million keys deleted",
+          "free_included": 1000,
+          "free_period": "day",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 5,
+          "overage_per": 1000000,
+          "notes": "Free: 1,000/day. Paid: 1 million/month included, then $5.00/million. Dashboard/wrangler deletes are billable."
+        },
+        {
+          "key": "list_requests",
+          "label": "List requests",
+          "unit": "million list requests",
+          "free_included": 1000,
+          "free_period": "day",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 5,
+          "overage_per": 1000000,
+          "notes": "Free: 1,000/day. Paid: 1 million/month included, then $5.00/million. Listing keys in a namespace via dashboard or wrangler is billable."
+        },
+        {
+          "key": "storage",
+          "label": "Stored data",
+          "unit": "GB-month",
+          "free_included": 1,
+          "free_period": "month",
+          "paid_included": 1,
+          "paid_period": "month",
+          "overage_usd": 0.5,
+          "overage_per": 1,
+          "notes": "1 GB stored included on both Free and Paid plans; overage $0.50 per GB-month on Paid. The 1 GB free allowance is a stored-data (stock) allowance; the limits page lists Free storage/account = 1 GB (Paid = Unlimited)."
+        }
+      ],
+      "notes": [
+        "All pricing numbers confirmed verbatim against the pricing table at https://developers.cloudflare.com/kv/platform/pricing/index.md (dateModified 2026-04-21).",
+        "Pricing table: Keys read 100,000/day free, 10M/month + $0.50/million paid; Keys written / Keys deleted / List requests each 1,000/day free, 1M/month + $5.00/million paid; Stored data 1 GB free, 1 GB + $0.50/GB-month paid.",
+        "Workers KV is included in both the Workers Free and Workers Paid plans; the $5/month base is the Workers Paid platform fee (https://developers.cloudflare.com/workers/platform/pricing/), NOT a KV-specific charge.",
+        "Read/write/delete pricing is on a per-key basis. Bulk read operations are billed by the number of keys read.",
+        "Workers KV does NOT charge for data transfer / egress (confirmed in pricing FAQ).",
+        "All operations incur charges, including fetches for non-existent keys that return null (Workers API) or HTTP 404 (REST API).",
+        "Free plan daily limits reset at 00:00 UTC; exceeding any one limit causes further operations of that type to fail with an error.",
+        "Limits page (dateModified 2026-04-21): Free = 100,000 reads/day and 1,000 writes/day; Paid = Unlimited reads/writes/storage. Writes to same key limited to 1 per second on both plans. Value size 25 MiB, key size 512 bytes, key metadata 1024 bytes, up to 1,000 operations per Worker invocation on both plans."
+      ]
+    },
+    {
+      "id": "r2",
+      "name": "R2",
+      "category": "storage",
+      "doc_url": "https://developers.cloudflare.com/r2/",
+      "pricing_url": "https://developers.cloudflare.com/r2/pricing/",
+      "limits_url": "https://developers.cloudflare.com/r2/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Free tier applies to Standard storage only; 10 GB-month storage, 1M Class A ops, 10M Class B ops per month free. Does not apply to Infrequent Access storage."
+        },
+        {
+          "key": "pay-as-you-go",
+          "base_usd_month": 0,
+          "description": "R2 has no fixed platform fee; billed purely by storage volume + Class A/B operations + (for Infrequent Access) data retrieval. Egress to the Internet is free."
+        }
+      ],
+      "meters": [
+        {
+          "key": "storage",
+          "label": "Storage (Standard)",
+          "unit": "GB-month",
+          "free_included": 10,
+          "free_period": "month",
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.015,
+          "overage_per": 1,
+          "notes": "Standard storage class. $0.015 per GB-month. GB-month = average of peak storage per day over a 30-day billing period. Usage rounded up to next GB-month. Confirmed verbatim from pricing table."
+        },
+        {
+          "key": "storage_infrequent_access",
+          "label": "Storage (Infrequent Access)",
+          "unit": "GB-month",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.01,
+          "overage_per": 1,
+          "notes": "Infrequent Access storage class. $0.01 per GB-month. Free tier does NOT apply. 30-day minimum storage duration applies (charged for full min duration even if deleted/moved/replaced earlier). Confirmed verbatim."
+        },
+        {
+          "key": "class_a_operations",
+          "label": "Class A Operations (Standard)",
+          "unit": "million requests",
+          "free_included": 1,
+          "free_period": "month",
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 4.5,
+          "overage_per": 1,
+          "notes": "Standard storage class. $4.50 per million requests. Class A ops tend to mutate state (PutObject, ListObjects, CopyObject, CompleteMultipartUpload, UploadPart, etc.). Free tier = 1 million requests/month (Standard only). Confirmed verbatim."
+        },
+        {
+          "key": "class_a_operations_infrequent_access",
+          "label": "Class A Operations (Infrequent Access)",
+          "unit": "million requests",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 9,
+          "overage_per": 1,
+          "notes": "Infrequent Access storage class. $9.00 per million requests. Free tier does NOT apply. Confirmed verbatim."
+        },
+        {
+          "key": "class_b_operations",
+          "label": "Class B Operations (Standard)",
+          "unit": "million requests",
+          "free_included": 10,
+          "free_period": "month",
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.36,
+          "overage_per": 1,
+          "notes": "Standard storage class. $0.36 per million requests. Class B ops tend to read existing state (GetObject, HeadObject, HeadBucket, etc.). Free tier = 10 million requests/month (Standard only). Confirmed verbatim."
+        },
+        {
+          "key": "class_b_operations_infrequent_access",
+          "label": "Class B Operations (Infrequent Access)",
+          "unit": "million requests",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.9,
+          "overage_per": 1,
+          "notes": "Infrequent Access storage class. $0.90 per million requests. Free tier does NOT apply. Confirmed verbatim."
+        },
+        {
+          "key": "data_retrieval",
+          "label": "Data Retrieval (processing, Infrequent Access only)",
+          "unit": "GB",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.01,
+          "overage_per": 1,
+          "notes": "Applies only to Infrequent Access storage class when objects are read or copied. $0.01 per GB. Standard storage has no data retrieval fee (table shows 'None'). Usage rounded up to next GB. Confirmed verbatim."
+        },
+        {
+          "key": "egress",
+          "label": "Egress (data transfer to Internet)",
+          "unit": "GB egress",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0,
+          "overage_per": 1,
+          "notes": "Free for all storage classes (both Standard and Infrequent Access). Egress directly from R2 (Workers API, S3 API, r2.dev domains) incurs no data transfer charges. Other metered services connected to an R2 bucket may charge separately. Confirmed verbatim."
+        }
+      ],
+      "notes": [
+        "Free operations (no charge): DeleteObject, DeleteBucket, AbortMultipartUpload.",
+        "Class A Operations (mutate state) per source: ListBuckets, PutBucket, ListObjects, PutObject, CopyObject, CompleteMultipartUpload, CreateMultipartUpload, LifecycleStorageTierTransition, ListMultipartUploads, UploadPart, UploadPartCopy, ListParts, PutBucketEncryption, PutBucketCors, PutBucketLifecycleConfiguration.",
+        "Class B Operations (read state) per source: HeadBucket, HeadObject, GetObject, UsageSummary, GetBucketEncryption, GetBucketLocation, GetBucketCors, GetBucketLifecycleConfiguration.",
+        "Billable-unit rounding: Cloudflare rounds usage up to the next billing unit (e.g. 1,000,001 ops billed as 2 million; 1.1 GB-month billed as 2 GB-month; 1.1 GB retrieval billed as 2 GB).",
+        "Free tier applies ONLY to Standard storage, not to Infrequent Access storage.",
+        "Minimum storage duration: Standard = None; Infrequent Access = 30 days (charged for full 30 days even if object deleted/moved/replaced earlier).",
+        "All included usage is monthly.",
+        "R2 has no fixed monthly platform fee — it is pure pay-as-you-go on top of the free tier.",
+        "R2 Data Catalog has separate additional charges (catalog operations + compaction data processed) — see https://developers.cloudflare.com/r2/data-catalog/platform/pricing/ — on top of standard R2 storage/operations; not captured in these meters.",
+        "Data migration tools Super Slurper and Sippy are free to use; you are only charged for the Class A operations they make to your R2 bucket (objects <100MiB Super Slurper / <200MiB Sippy = single Class A op; larger use multipart = multiple Class A ops). Source buckets may incur their own charges.",
+        "No charge for unauthorized (HTTP 401) requests to a bucket.",
+        "Verified: all storage/operation/retrieval/egress numbers and free-tier inclusions read verbatim from the R2 pricing table on 2026-07-02; every draft figure confirmed with no corrections needed.",
+        "Page dateModified: 2026-05-28."
+      ]
+    },
+    {
+      "id": "d1",
+      "name": "D1",
+      "category": "database",
+      "doc_url": "https://developers.cloudflare.com/d1/",
+      "pricing_url": "https://developers.cloudflare.com/d1/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/d1/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan — includes D1 with daily read/write caps (5M rows read/day, 100k rows written/day) and 5 GB total storage; always free to prototype and experiment."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan — D1 billed on rows read, rows written, and storage above included amounts (scale-to-zero, no compute/capacity/hours charge). $5/mo is the Workers Paid minimum monthly charge (per Workers pricing); the D1 pricing page references Workers Free/Workers Paid but does not itself restate a D1-specific dollar base fee."
+        }
+      ],
+      "meters": [
+        {
+          "key": "rows_read",
+          "label": "Rows read",
+          "unit": "million rows",
+          "free_included": 5000000,
+          "free_period": "day",
+          "paid_included": 25000000000,
+          "paid_period": "month",
+          "overage_usd": 0.001,
+          "overage_per": 1000000,
+          "notes": "Confirmed verbatim from pricing table. Free: 5 million / day. Paid: First 25 billion / month included + $0.001 / million rows. Rows read measure how many rows a query reads (scans), regardless of row size; a full table scan of a 5000-row table = 5,000 rows read."
+        },
+        {
+          "key": "rows_written",
+          "label": "Rows written",
+          "unit": "million rows",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 50000000,
+          "paid_period": "month",
+          "overage_usd": 1,
+          "overage_per": 1000000,
+          "notes": "Confirmed verbatim from pricing table. Free: 100,000 / day. Paid: First 50 million / month included + $1.00 / million rows. INSERT/UPDATE/DELETE each count as rows written; writes to indexed columns add an extra written row (table + index)."
+        },
+        {
+          "key": "storage",
+          "label": "Storage",
+          "unit": "GB-month",
+          "free_included": 5,
+          "free_period": "month",
+          "paid_included": 5,
+          "paid_period": "month",
+          "overage_usd": 0.75,
+          "overage_per": 1,
+          "notes": "Confirmed verbatim from pricing table. Free: 5 GB (total). Paid: First 5 GB included + $0.75 / GB-mo. Billed on GB stored per month, summed across all databases in the account; tables and indexes both count. Free 5 GB is a total cap (not per-day); free_period listed as month for schema consistency."
+        }
+      ],
+      "notes": [
+        "D1 uses scale-to-zero billing: no charge for hours, capacity units, or compute when you are not running queries.",
+        "No data transfer (egress) or throughput (bandwidth) charges for data accessed from D1 (confirmed in pricing definitions + FAQ).",
+        "Read replication does not charge extra for read replicas; you incur the same rows_read/rows_written usage billing by your queries.",
+        "D1 itself does not charge for compute. Workers querying D1 (serializing results into JSON, running queries) are billed separately per Workers pricing, in addition to D1-specific usage.",
+        "DDL operations (CREATE, ALTER, DROP) may contribute to a mix of read rows and write rows. Row size / number of columns does not affect how rows are counted (1 KB and 100 KB rows both count as one row).",
+        "Free daily limits reset at 00:00 UTC; monthly included limits reset on the monthly subscription renewal date (the day you first subscribed).",
+        "Free plan: exceeding daily read/write limits blocks queries (D1 API returns limit-exceeded errors); exceeding storage blocks new inserts/table-or-index creation/DDL until data is deleted. Upgrading to Workers Paid removes these limits, typically within minutes.",
+        "Free tier limits (from limits page): max database size 500 MB, max storage per account 5 GB, 10 databases per account, 50 queries per Worker invocation, 7-day Time Travel. Paid: 10 GB max database size (cannot be increased beyond 10 GB per database), 1 TB storage per account (increasable by request), 50,000 databases per account (increasable), 1000 queries per invocation, 30-day Time Travel.",
+        "The $5/mo base is the Workers Paid minimum monthly charge per https://developers.cloudflare.com/workers/platform/pricing/ (includes Workers, Pages Functions, Workers KV, Hyperdrive, and Durable Objects usage); the D1 pricing page itself does not state a dollar base fee.",
+        "Pricing page dateModified 2026-04-21; all meter numbers read verbatim from the 'Billing metrics' table."
+      ]
+    },
+    {
+      "id": "hyperdrive",
+      "name": "Hyperdrive",
+      "category": "database",
+      "doc_url": "https://developers.cloudflare.com/hyperdrive/",
+      "pricing_url": "https://developers.cloudflare.com/hyperdrive/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/hyperdrive/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Hyperdrive is included in the Workers Free plan with limited usage: 100,000 database queries/day. All limits reset daily at 00:00 UTC; exceeding a limit fails further operations of that type with an error."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": null,
+          "description": "Hyperdrive is included in the Workers Paid plan with unlimited database queries and no additional charges. No dedicated Hyperdrive platform fee; billed via the Workers Paid plan. The Workers Paid base fee is documented on the Workers pricing page, not the Hyperdrive page, so base_usd_month is left null."
+        }
+      ],
+      "meters": [
+        {
+          "key": "queries",
+          "label": "Database queries",
+          "unit": "query",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "Free plan: 100,000 queries/day (resets daily at 00:00 UTC); exceeding it fails further operations of that type with an error. Paid plan: Unlimited (no per-query charge — Hyperdrive has no usage-based overage). A database query is any statement made via Hyperdrive: SELECT, INSERT/UPDATE/DELETE, or CREATE/ALTER/DROP schema changes. Cached and uncached queries count the same. Connection pooling and query caching are included at no additional charge. Confirmed verbatim from the pricing table."
+        }
+      ],
+      "notes": [
+        "Hyperdrive has no dedicated usage-based pricing of its own. It is included in both the Free and Paid Workers plans; the only metered dimension shown in the pricing table is database queries (100,000/day free, unlimited on Paid). There is no per-query overage price on the page.",
+        "Connection pooling and query caching are included in the Workers Paid plan and incur no additional charges (Pricing FAQ confirms 'No').",
+        "Hyperdrive does NOT charge for data transfer / egress (Pricing FAQ: 'Does Hyperdrive charge for data transfer / egress? No.').",
+        "Cached queries are counted the same as uncached queries; both count against the limits (Pricing FAQ).",
+        "PlanetScale Postgres & MySQL databases created from Cloudflare are billed separately as pay-as-you-go at PlanetScale's standard pricing (https://planetscale.com/pricing) and appear on the Cloudflare invoice each billing period; this is separate from Hyperdrive usage.",
+        "The Workers Paid plan base fee ($5/month) is documented on the Workers pricing page (https://developers.cloudflare.com/workers/platform/pricing/), not on the Hyperdrive pricing page; paid base_usd_month is left null to avoid asserting a number not read on the Hyperdrive page.",
+        "Pricing page dateModified: 2026-06-18 (read from the page's TechArticle JSON-LD)."
+      ]
+    },
+    {
+      "id": "r2-sql",
+      "name": "R2 SQL",
+      "category": "database",
+      "doc_url": "https://developers.cloudflare.com/r2-sql/",
+      "pricing_url": "https://developers.cloudflare.com/r2-sql/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/r2-sql/reference/limitations-best-practices/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "pay-as-you-go",
+          "base_usd_month": 0,
+          "description": "R2 SQL is usage-based with no fixed platform fee. Charged only on data scanned, with 10 GB/month included. Additive to standard R2 storage/operations and R2 Data Catalog charges."
+        }
+      ],
+      "meters": [
+        {
+          "key": "data_scanned",
+          "label": "Data scanned",
+          "unit": "GB",
+          "free_included": 10,
+          "free_period": "month",
+          "paid_included": 10,
+          "paid_period": "month",
+          "overage_usd": 0.0025,
+          "overage_per": 1,
+          "notes": "$0.0025 / GB ($2.50 / TB), confirmed verbatim in the pricing table. Data scanned = compressed bytes read from R2 object storage to answer the query (matches on-disk Parquet file size). Included usage is 10 GB/month (all included usage is monthly). Minimum per query: 10 MB (queries scanning less than 10 MB are billed for 10 MB, covering query-engine initialization overhead). Failed queries are not charged (system/syntax errors caught before execution, or runtime errors mid-execution). Metadata-only operations (EXPLAIN, SHOW, DESCRIBE) do not scan data and are free, though standard R2 and R2 Data Catalog request charges still apply. When the query engine reads files, those requests count as R2 Class B (read) operations, billed separately under R2 pricing."
+        }
+      ],
+      "notes": [
+        "VERIFIED: every field confirmed verbatim against the pricing markdown (pricing page dateModified 2026-06-25). No corrections were needed to the draft.",
+        "R2 SQL charges on a single dimension: data scanned ($0.0025/GB = $2.50/TB), with 10 GB/month included. Confirmed table: 'Included | 10 GB / month' and 'Data scanned | $0.0025 / GB ($2.50 / TB)'.",
+        "Pricing is ADDITIVE to standard R2 storage/operations pricing (https://developers.cloudflare.com/r2/pricing/) and R2 Data Catalog pricing (https://developers.cloudflare.com/r2/data-catalog/platform/pricing/). When the query engine reads files, those requests count as R2 Class B (read) operations billed under R2. R2 does not charge egress, so there is no additional data transfer cost.",
+        "No separate free-plan vs paid-plan structure; pure usage-based billing with a single 10 GB/month inclusion. free_included and paid_included are both set to 10 GB/month (the same single inclusion), since there is only one plan.",
+        "Minimum billing increment per query is 10 MB of data scanned (covers query-engine initialization overhead) — confirmed in the FAQ.",
+        "Billing examples from the page: (Ex1) 50 GB scanned - 10 GB included = 40 GB billable = $0.10; (Ex2) 50,000 GB scanned - 10 GB included = 49,990 GB billable = $124.98. Both consistent with $0.0025/GB.",
+        "R2 SQL is in open beta (limitations page dateModified 2026-06-22). Read-only query engine (no INSERT/UPDATE/DELETE); Parquet/Iceberg only.",
+        "Runtime constraints (not billing): resource-intensive queries may time out during beta; budget-gated functions (MEDIAN, PERCENTILE_CONT, ARRAY_AGG, STRING_AGG, NTH_VALUE as aggregate, any aggregate with DISTINCT, and window functions including via QUALIFY) are estimated up front and rejected with a 400 error if too much data would be scanned."
+      ]
+    },
+    {
+      "id": "queues",
+      "name": "Queues",
+      "category": "messaging",
+      "doc_url": "https://developers.cloudflare.com/queues/",
+      "pricing_url": "https://developers.cloudflare.com/queues/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/queues/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan. 10,000 Queues standard operations/day included; message retention fixed at 24 hours (non-configurable)."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan. 1,000,000 Queues standard operations/month included, then $0.40 per million operations. Message retention 4 days default, configurable up to 14 days. NOTE: the $5/month base is the Workers Paid platform fee required to use paid Queues usage; it is NOT stated on the Queues pricing page itself."
+        }
+      ],
+      "meters": [
+        {
+          "key": "operations",
+          "label": "Standard operations",
+          "unit": "operation",
+          "free_included": 10000,
+          "free_period": "day",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 0.4,
+          "overage_per": 1000000,
+          "notes": "Confirmed verbatim from pricing table: Workers Free = 10,000 operations/day included; Workers Paid = 1,000,000 operations/month included + $0.40/million operations. An operation is counted for each 64 KB of data written, read, or deleted. Messages larger than 64 KB are charged as multiple operations (one per 64 KB chunk): a 65 KB and a 127 KB message each incur two operation charges when written/read/deleted. A KB = 1,000 bytes; each message includes ~100 bytes of internal metadata. Operations are per message, not per batch (a default batch of 10 messages = 10x write, 10x read, 10x delete). Typical delivery = 3 operations (1 write + 1 read + 1 delete). No data transfer (egress) or throughput (bandwidth) charges."
+        }
+      ],
+      "notes": [
+        "Queues billing is metered solely on standard operations; there are no data transfer (egress) or throughput (bandwidth) charges (confirmed on pricing page).",
+        "An operation = each 64 KB of data written, read, or deleted. Messages >64 KB count as multiple operations (one per 64 KB chunk). Operations are per message, not per batch: a batch of 10 messages (the default), if processed, incurs 10x write, 10x read, and 10x delete operations.",
+        "Typical message delivery = 3 operations (1 write, 1 read, 1 delete). Docs estimate formula: ((Number of Messages * 3) - 1,000,000) / 1,000,000 * $0.40.",
+        "Worked examples from the pricing page: 1M messages/day for a 30-day month (each <64 KB) = 3*30*1,000,000 total ops, 1M free, 89,000,000 billed = $35.60/month. 100M ~127 KB messages/month (2 ops each for >64 KB) = 2*3*100*1,000,000 ops, 1M free, 599,000,000 billed = $239.60/month.",
+        "Each retry incurs a read operation (a batch of 10 messages retried = 10 read ops per retry). A message that fails all retries and is written to a Dead Letter Queue incurs a write operation per 64 KB chunk; the docs' worked example (3 retries then DLQ write on the 4th attempt) totals five (5) read operations. Messages that expire (reach max retention) before being read incur only a write and a delete per 64 KB chunk.",
+        "Message retention: Free = 24 hours (non-configurable); Paid = 4 days default, configurable up to 14 days.",
+        "Limits (both plans unless noted): 10,000 queues per account; 128 KB max message size; 100 max message retries; 100 messages max consumer batch size; 100 messages (or 256 KB total) max per sendBatch call; 60s max batch wait time; 5,000 messages/sec per-queue throughput; message retention configurable up to 14 days; 25 GB per-queue backlog size; 250 concurrent consumer invocations (push-based only); 15 min consumer wall-clock duration; consumer CPU time defaults to 30s, configurable to 5 minutes (limits.cpu_ms); 12h visibilityTimeout (pull-based queues); 24h delaySeconds. A KB is 1,000 bytes.",
+        "The $5/month base_usd_month on the paid plan is the Workers Paid platform fee (from the Workers pricing page); it is required to incur paid Queues usage but is NOT printed on the Queues pricing page itself.",
+        "Both pricing and limits pages have dateModified 2026-04-21."
+      ]
+    },
+    {
+      "id": "pipelines",
+      "name": "Pipelines",
+      "category": "storage",
+      "doc_url": "https://developers.cloudflare.com/pipelines/",
+      "pricing_url": "https://developers.cloudflare.com/pipelines/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/pipelines/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "paid",
+          "base_usd_month": null,
+          "description": "Pipelines pricing is shown under a single 'Workers Paid' column. Requires a Workers Paid subscription; the pricing page lists no fixed Pipelines-specific platform fee and shows no Free-plan column."
+        }
+      ],
+      "meters": [
+        {
+          "key": "streams_ingress",
+          "label": "Streams (ingress)",
+          "unit": "GB",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0,
+          "overage_per": 1,
+          "notes": "Ingress into a Pipeline stream is free regardless of volume. Table lists 'Included: Unlimited' under the Workers Paid column."
+        },
+        {
+          "key": "sql_transforms",
+          "label": "SQL transforms",
+          "unit": "GB",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 50,
+          "paid_period": "month",
+          "overage_usd": 0.04,
+          "overage_per": 1,
+          "notes": "Optional. Volume of data processed by stateless SQL transformations (filter, reshape, unnest, cast, compute). 50 GB/month included on Workers Paid, then $0.04/GB. Confirmed verbatim in pricing table."
+        },
+        {
+          "key": "sink_egress_json",
+          "label": "Sinks (egress) — R2 JSON format",
+          "unit": "GB",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 50,
+          "paid_period": "month",
+          "overage_usd": 0.03,
+          "overage_per": 1,
+          "notes": "Sinks (egress) have a single combined 50 GB/month inclusion (carried on this meter). JSON output format billed at $0.03/GB on uncompressed data delivered to R2. Confirmed verbatim."
+        },
+        {
+          "key": "sink_egress_parquet_iceberg",
+          "label": "Sinks (egress) — R2 Parquet / Iceberg format",
+          "unit": "GB",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.06,
+          "overage_per": 1,
+          "notes": "Parquet/Iceberg output format billed at $0.06/GB on uncompressed data delivered to R2. paid_included is null here because the 50 GB/month sink inclusion is a SINGLE combined pool across all sink formats (already carried on the sink_egress_json meter) — do NOT sum 50+50. Confirmed verbatim."
+        }
+      ],
+      "notes": [
+        "Pricing read verbatim from the Pipelines pricing page markdown (https://developers.cloudflare.com/pipelines/platform/pricing/index.md, JSON-LD dateModified 2026-06-25). Pipelines charges on two dimensions: SQL transforms (volume of data processed) and Sinks (volume of data delivered). Ingress into streams is free.",
+        "The pricing table has a single column labeled 'Workers Paid' — no separate Free-plan column is shown. No fixed monthly platform fee is stated for Pipelines itself (billed via the Workers Paid subscription).",
+        "Sinks (egress) share a SINGLE combined 50 GB/month inclusion; the per-GB overage rate then depends on output format: R2 JSON $0.03/GB, R2 Parquet/Iceberg $0.06/GB. In the meters array the 50 GB inclusion is carried only on the JSON meter and set null on the Parquet/Iceberg meter to avoid double-counting the shared pool. All sink figures are on uncompressed data (footnote 2).",
+        "Additional charges apply downstream and are NOT part of Pipelines pricing: standard R2 storage and operations (https://developers.cloudflare.com/r2/pricing/) for data written to R2 buckets, and R2 Data Catalog charges (https://developers.cloudflare.com/r2/data-catalog/platform/pricing/) when writing to Iceberg tables.",
+        "Product is in open beta. Account-level limits (limits page markdown, dateModified 2026-04-21): max 20 streams per account, 20 sinks per account, 20 pipelines per account; max payload size 5 MB per ingestion request; max ingest rate 5 MB/s per stream.",
+        "All included usage amounts are on a monthly basis (stated explicitly on the pricing page).",
+        "Billing examples on the page corroborate the rates: 150 GB billable JSON sink × $0.03 = $4.50; 450 GB billable SQL transforms × $0.04 = $18.00; 250 GB billable Iceberg sink × $0.06 = $15.00."
+      ]
+    },
+    {
+      "id": "workers-ai",
+      "name": "Workers AI",
+      "category": "ai",
+      "doc_url": "https://developers.cloudflare.com/workers-ai/",
+      "pricing_url": "https://developers.cloudflare.com/workers-ai/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/workers-ai/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan: 10,000 Neurons per day free; no paid overage (must upgrade to Workers Paid to exceed the allocation)."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan ($5/mo base for the Workers plan, which includes Workers AI): 10,000 Neurons per day free, then $0.011 per 1,000 Neurons."
+        }
+      ],
+      "meters": [
+        {
+          "key": "neurons",
+          "label": "Neurons",
+          "unit": "1000 Neurons",
+          "free_included": 10000,
+          "free_period": "day",
+          "paid_included": 10000,
+          "paid_period": "day",
+          "overage_usd": 0.011,
+          "overage_per": 1000,
+          "notes": "Workers AI bills in Neurons on the back end at $0.011 per 1,000 Neurons. Free allocation is 10,000 Neurons/day on both Workers Free and Workers Paid; Workers Free cannot exceed the allocation (must upgrade to Workers Paid). All limits reset daily at 00:00 UTC. Per-model unit-based pricing (catalog) is an equivalent conversion of the Neuron rate."
+        }
+      ],
+      "catalog": [
+        {
+          "item": "@cf/meta/llama-3.2-1b-instruct",
+          "unit": "per M tokens",
+          "price_usd": 0.027,
+          "per": 1000000,
+          "notes": "LLM. $0.027/M input (2457 n/M), $0.201/M output (18252 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-3.2-3b-instruct",
+          "unit": "per M tokens",
+          "price_usd": 0.051,
+          "per": 1000000,
+          "notes": "LLM. $0.051/M input (4625 n/M), $0.335/M output (30475 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-3.1-8b-instruct-fp8-fast",
+          "unit": "per M tokens",
+          "price_usd": 0.045,
+          "per": 1000000,
+          "notes": "LLM. $0.045/M input (4119 n/M), $0.384/M output (34868 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-3.2-11b-vision-instruct",
+          "unit": "per M tokens",
+          "price_usd": 0.049,
+          "per": 1000000,
+          "notes": "LLM. $0.049/M input (4410 n/M), $0.676/M output (61493 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-3.1-70b-instruct-fp8-fast",
+          "unit": "per M tokens",
+          "price_usd": 0.293,
+          "per": 1000000,
+          "notes": "LLM. $0.293/M input (26668 n/M), $2.253/M output (204805 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "unit": "per M tokens",
+          "price_usd": 0.293,
+          "per": 1000000,
+          "notes": "LLM. $0.293/M input (26668 n/M), $2.253/M output (204805 n/M)"
+        },
+        {
+          "item": "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          "unit": "per M tokens",
+          "price_usd": 0.497,
+          "per": 1000000,
+          "notes": "LLM. $0.497/M input (45170 n/M), $4.881/M output (443756 n/M)"
+        },
+        {
+          "item": "@cf/mistral/mistral-7b-instruct-v0.1",
+          "unit": "per M tokens",
+          "price_usd": 0.11,
+          "per": 1000000,
+          "notes": "LLM. $0.110/M input (10000 n/M), $0.190/M output (17300 n/M)"
+        },
+        {
+          "item": "@cf/mistralai/mistral-small-3.1-24b-instruct",
+          "unit": "per M tokens",
+          "price_usd": 0.351,
+          "per": 1000000,
+          "notes": "LLM. $0.351/M input (31876 n/M), $0.555/M output (50488 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-3.1-8b-instruct",
+          "unit": "per M tokens",
+          "price_usd": 0.282,
+          "per": 1000000,
+          "notes": "LLM. $0.282/M input (25608 n/M), $0.827/M output (75147 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-3.1-8b-instruct-fp8",
+          "unit": "per M tokens",
+          "price_usd": 0.152,
+          "per": 1000000,
+          "notes": "LLM. $0.152/M input (13778 n/M), $0.287/M output (26128 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-3.1-8b-instruct-awq",
+          "unit": "per M tokens",
+          "price_usd": 0.123,
+          "per": 1000000,
+          "notes": "LLM. $0.123/M input (11161 n/M), $0.266/M output (24215 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-3-8b-instruct",
+          "unit": "per M tokens",
+          "price_usd": 0.282,
+          "per": 1000000,
+          "notes": "LLM. $0.282/M input (25608 n/M), $0.827/M output (75147 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-3-8b-instruct-awq",
+          "unit": "per M tokens",
+          "price_usd": 0.123,
+          "per": 1000000,
+          "notes": "LLM. $0.123/M input (11161 n/M), $0.266/M output (24215 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-2-7b-chat-fp16",
+          "unit": "per M tokens",
+          "price_usd": 0.556,
+          "per": 1000000,
+          "notes": "LLM. $0.556/M input (50505 n/M), $6.667/M output (606061 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-guard-3-8b",
+          "unit": "per M tokens",
+          "price_usd": 0.484,
+          "per": 1000000,
+          "notes": "LLM. $0.484/M input (44003 n/M), $0.030/M output (2730 n/M)"
+        },
+        {
+          "item": "@cf/meta/llama-4-scout-17b-16e-instruct",
+          "unit": "per M tokens",
+          "price_usd": 0.27,
+          "per": 1000000,
+          "notes": "LLM. $0.270/M input (24545 n/M), $0.850/M output (77273 n/M)"
+        },
+        {
+          "item": "@cf/google/gemma-3-12b-it",
+          "unit": "per M tokens",
+          "price_usd": 0.345,
+          "per": 1000000,
+          "notes": "LLM. $0.345/M input (31371 n/M), $0.556/M output (50560 n/M)"
+        },
+        {
+          "item": "@cf/qwen/qwq-32b",
+          "unit": "per M tokens",
+          "price_usd": 0.66,
+          "per": 1000000,
+          "notes": "LLM. $0.660/M input (60000 n/M), $1.000/M output (90909 n/M)"
+        },
+        {
+          "item": "@cf/qwen/qwen2.5-coder-32b-instruct",
+          "unit": "per M tokens",
+          "price_usd": 0.66,
+          "per": 1000000,
+          "notes": "LLM. $0.660/M input (60000 n/M), $1.000/M output (90909 n/M)"
+        },
+        {
+          "item": "@cf/qwen/qwen3-30b-a3b-fp8",
+          "unit": "per M tokens",
+          "price_usd": 0.051,
+          "per": 1000000,
+          "notes": "LLM. $0.051/M input (4625 n/M), $0.335/M output (30475 n/M)"
+        },
+        {
+          "item": "@cf/openai/gpt-oss-120b",
+          "unit": "per M tokens",
+          "price_usd": 0.35,
+          "per": 1000000,
+          "notes": "LLM. $0.350/M input (31818 n/M), $0.750/M output (68182 n/M)"
+        },
+        {
+          "item": "@cf/openai/gpt-oss-20b",
+          "unit": "per M tokens",
+          "price_usd": 0.2,
+          "per": 1000000,
+          "notes": "LLM. $0.200/M input (18182 n/M), $0.300/M output (27273 n/M)"
+        },
+        {
+          "item": "@cf/aisingapore/gemma-sea-lion-v4-27b-it",
+          "unit": "per M tokens",
+          "price_usd": 0.351,
+          "per": 1000000,
+          "notes": "LLM. $0.351/M input (31876 n/M), $0.555/M output (50488 n/M)"
+        },
+        {
+          "item": "@cf/ibm-granite/granite-4.0-h-micro",
+          "unit": "per M tokens",
+          "price_usd": 0.017,
+          "per": 1000000,
+          "notes": "LLM. $0.017/M input (1542 n/M), $0.112/M output (10158 n/M)"
+        },
+        {
+          "item": "@cf/zai-org/glm-4.7-flash",
+          "unit": "per M tokens",
+          "price_usd": 0.06,
+          "per": 1000000,
+          "notes": "LLM. $0.060/M input (5500 n/M), $0.400/M output (36400 n/M)"
+        },
+        {
+          "item": "@cf/zai-org/glm-5.2",
+          "unit": "per M tokens",
+          "price_usd": 1.4,
+          "per": 1000000,
+          "notes": "LLM. $1.400/M input (127273 n/M), $0.260/M cached input (23636 n/M), $4.400/M output (400000 n/M)"
+        },
+        {
+          "item": "@cf/nvidia/nemotron-3-120b-a12b",
+          "unit": "per M tokens",
+          "price_usd": 0.5,
+          "per": 1000000,
+          "notes": "LLM. $0.500/M input (45455 n/M), $1.500/M output (136364 n/M)"
+        },
+        {
+          "item": "@cf/moonshotai/kimi-k2.5",
+          "unit": "per M tokens",
+          "price_usd": 0.6,
+          "per": 1000000,
+          "notes": "LLM. $0.600/M input (54545 n/M), $0.100/M cached input (9091 n/M), $3.000/M output (272727 n/M)"
+        },
+        {
+          "item": "@cf/moonshotai/kimi-k2.6",
+          "unit": "per M tokens",
+          "price_usd": 0.95,
+          "per": 1000000,
+          "notes": "LLM. $0.950/M input (86364 n/M), $0.160/M cached input (14545 n/M), $4.000/M output (363636 n/M)"
+        },
+        {
+          "item": "@cf/moonshotai/kimi-k2.7-code",
+          "unit": "per M tokens",
+          "price_usd": 0.95,
+          "per": 1000000,
+          "notes": "LLM. $0.950/M input (86364 n/M), $0.190/M cached input (17273 n/M), $4.000/M output (363636 n/M)"
+        },
+        {
+          "item": "@cf/google/gemma-4-26b-a4b-it",
+          "unit": "per M tokens",
+          "price_usd": 0.1,
+          "per": 1000000,
+          "notes": "LLM. $0.100/M input (9091 n/M), $0.300/M output (27273 n/M)"
+        },
+        {
+          "item": "@cf/baai/bge-small-en-v1.5",
+          "unit": "per M input tokens",
+          "price_usd": 0.02,
+          "per": 1000000,
+          "notes": "Embeddings. $0.020/M input (1841 n/M)"
+        },
+        {
+          "item": "@cf/baai/bge-base-en-v1.5",
+          "unit": "per M input tokens",
+          "price_usd": 0.067,
+          "per": 1000000,
+          "notes": "Embeddings. $0.067/M input (6058 n/M)"
+        },
+        {
+          "item": "@cf/baai/bge-large-en-v1.5",
+          "unit": "per M input tokens",
+          "price_usd": 0.204,
+          "per": 1000000,
+          "notes": "Embeddings. $0.204/M input (18582 n/M)"
+        },
+        {
+          "item": "@cf/baai/bge-m3",
+          "unit": "per M input tokens",
+          "price_usd": 0.012,
+          "per": 1000000,
+          "notes": "Embeddings. $0.012/M input (1075 n/M)"
+        },
+        {
+          "item": "@cf/pfnet/plamo-embedding-1b",
+          "unit": "per M input tokens",
+          "price_usd": 0.019,
+          "per": 1000000,
+          "notes": "Embeddings. $0.019/M input (1689 n/M)"
+        },
+        {
+          "item": "@cf/qwen/qwen3-embedding-0.6b",
+          "unit": "per M input tokens",
+          "price_usd": 0.012,
+          "per": 1000000,
+          "notes": "Embeddings. $0.012/M input (1075 n/M)"
+        },
+        {
+          "item": "@cf/black-forest-labs/flux-1-schnell",
+          "unit": "per step",
+          "price_usd": 0.0001056,
+          "per": 1,
+          "notes": "Image. $0.0000528 per 512x512 tile (4.80 n), $0.0001056 per step (9.60 n)"
+        },
+        {
+          "item": "@cf/leonardo/lucid-origin",
+          "unit": "per step",
+          "price_usd": 0.000132,
+          "per": 1,
+          "notes": "Image. $0.006996 per 512x512 tile (636.00 n), $0.000132 per step (12.00 n)"
+        },
+        {
+          "item": "@cf/leonardo/phoenix-1.0",
+          "unit": "per step",
+          "price_usd": 0.00011,
+          "per": 1,
+          "notes": "Image. $0.005830 per 512x512 tile (530.00 n), $0.000110 per step (10.00 n)"
+        },
+        {
+          "item": "@cf/black-forest-labs/flux-2-dev",
+          "unit": "per 512x512 tile per step",
+          "price_usd": 0.00021,
+          "per": 1,
+          "notes": "Image. $0.00021 per input 512x512 tile/step (18.75 n), $0.00041 per output 512x512 tile/step (37.50 n)"
+        },
+        {
+          "item": "@cf/black-forest-labs/flux-2-klein-4b",
+          "unit": "per 512x512 tile",
+          "price_usd": 0.000059,
+          "per": 1,
+          "notes": "Image. $0.000059 per input 512x512 tile (5.37 n), $0.000287 per output 512x512 tile (26.05 n)"
+        },
+        {
+          "item": "@cf/black-forest-labs/flux-2-klein-9b",
+          "unit": "per MP",
+          "price_usd": 0.015,
+          "per": 1,
+          "notes": "Image. $0.015 per first MP 1024x1024 (1363.64 n), $0.002 per subsequent MP (181.82 n), $0.002 per input image MP (181.82 n)"
+        },
+        {
+          "item": "@cf/openai/whisper",
+          "unit": "per audio minute",
+          "price_usd": 0.0005,
+          "per": 1,
+          "notes": "Audio (ASR). $0.0005 per audio minute (41.14 n)"
+        },
+        {
+          "item": "@cf/openai/whisper-large-v3-turbo",
+          "unit": "per audio minute",
+          "price_usd": 0.0005,
+          "per": 1,
+          "notes": "Audio (ASR). $0.0005 per audio minute (46.63 n)"
+        },
+        {
+          "item": "@cf/myshell-ai/melotts",
+          "unit": "per audio minute",
+          "price_usd": 0.0002,
+          "per": 1,
+          "notes": "Audio (TTS). $0.0002 per audio minute (18.63 n)"
+        },
+        {
+          "item": "@cf/deepgram/aura-1",
+          "unit": "per 1k characters input",
+          "price_usd": 0.015,
+          "per": 1000,
+          "notes": "Audio (TTS). $0.015 per 1k characters input (1363.64 n)"
+        },
+        {
+          "item": "@cf/deepgram/nova-3",
+          "unit": "per audio minute input",
+          "price_usd": 0.0052,
+          "per": 1,
+          "notes": "Audio (ASR). $0.0052 per audio minute (472.73 n); WebSocket variant $0.0092/min (836.36 n)"
+        },
+        {
+          "item": "@cf/pipecat-ai/smart-turn-v2",
+          "unit": "per audio minute input",
+          "price_usd": 0.00033795,
+          "per": 1,
+          "notes": "Audio. $0.00033795 per audio minute (0.51 n)"
+        },
+        {
+          "item": "@cf/deepgram/aura-2-en",
+          "unit": "per 1k characters input",
+          "price_usd": 0.03,
+          "per": 1000,
+          "notes": "Audio (TTS). $0.030 per 1k characters input (2727.27 n)"
+        },
+        {
+          "item": "@cf/deepgram/aura-2-es",
+          "unit": "per 1k characters input",
+          "price_usd": 0.03,
+          "per": 1000,
+          "notes": "Audio (TTS). $0.030 per 1k characters input (2727.27 n)"
+        },
+        {
+          "item": "@cf/deepgram/flux",
+          "unit": "per audio minute",
+          "price_usd": 0.0077,
+          "per": 1,
+          "notes": "Audio (WebSocket ASR). $0.0077 per audio minute (700.00 n)"
+        },
+        {
+          "item": "@cf/huggingface/distilbert-sst-2-int8",
+          "unit": "per M input tokens",
+          "price_usd": 0.026,
+          "per": 1000000,
+          "notes": "Text classification. $0.026/M input (2394 n/M)"
+        },
+        {
+          "item": "@cf/baai/bge-reranker-base",
+          "unit": "per M input tokens",
+          "price_usd": 0.003,
+          "per": 1000000,
+          "notes": "Reranker. $0.003/M input (283 n/M)"
+        },
+        {
+          "item": "@cf/meta/m2m100-1.2b",
+          "unit": "per M tokens",
+          "price_usd": 0.342,
+          "per": 1000000,
+          "notes": "Translation. $0.342/M input (31050 n/M), $0.342/M output (31050 n/M)"
+        },
+        {
+          "item": "@cf/microsoft/resnet-50",
+          "unit": "per M images",
+          "price_usd": 2.51,
+          "per": 1000000,
+          "notes": "Image classification. $2.51 per M images (228055 n/M)"
+        },
+        {
+          "item": "@cf/ai4bharat/indictrans2-en-indic-1B",
+          "unit": "per M tokens",
+          "price_usd": 0.342,
+          "per": 1000000,
+          "notes": "Translation. $0.342/M input (31050 n/M), $0.342/M output (31050 n/M)"
+        }
+      ],
+      "notes": [
+        "Workers AI is billed in Neurons on the back end at a flat $0.011 per 1,000 Neurons; per-model unit-based prices (per-token, per-tile, per-step, per-audio-minute, per-image, per-1k-characters, per-MP) are equivalent conversions of the Neuron rate (the docs' 'Price in Tokens' column equals the 'Price in Neurons' column).",
+        "Free allocation: 10,000 Neurons per day on both Workers Free and Workers Paid. Workers Free cannot exceed the allocation without upgrading to Workers Paid; overage on Workers Paid is $0.011 / 1,000 Neurons. All limits reset daily at 00:00 UTC.",
+        "The $5/mo paid base fee is the Workers Paid (Workers) plan fee; Workers AI is included in the Workers plan and has no separate platform subscription fee.",
+        "Catalog contains ALL model rows listed on the pricing page as of dateModified 2026-06-16 (LLM, embeddings, image, audio, other). Some LLMs list a cached-input token rate in addition to input/output (glm-5.2, kimi-k2.5, kimi-k2.6, kimi-k2.7-code) — captured in the row notes.",
+        "The limits page (limits_url) defines rate limits (requests per minute) by task type / model, NOT usage pricing; the free daily Neuron allocation is defined on the pricing page.",
+        "Pricing page dateModified: 2026-06-16. Every price and Neuron figure in the catalog was verified verbatim against the pricing-page markdown."
+      ]
+    },
+    {
+      "id": "vectorize",
+      "name": "Vectorize",
+      "category": "ai",
+      "doc_url": "https://developers.cloudflare.com/vectorize/",
+      "pricing_url": "https://developers.cloudflare.com/vectorize/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/vectorize/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan — includes a Vectorize prototyping/experimentation allowance (30M queried + 5M stored vector dimensions). Access is gated by the Workers plan; the Free tier always includes the ability to prototype Vectorize for free."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan — includes 50M queried vector dimensions/month + 10M stored vector dimensions included, then metered overage. Note: the $5/mo base is the Workers Paid platform fee (gating plan); the Vectorize pricing page itself does not restate a base fee — it links to Workers pricing."
+        }
+      ],
+      "meters": [
+        {
+          "key": "queried_vector_dimensions",
+          "label": "Total queried vector dimensions",
+          "unit": "million queried vector dimensions",
+          "free_included": 30,
+          "free_period": "month",
+          "paid_included": 50,
+          "paid_period": "month",
+          "overage_usd": 0.01,
+          "overage_per": 1,
+          "notes": "Confirmed verbatim in the Billing metrics table. Free: 30 million queried vector dimensions/month. Paid: first 50 million/month included + $0.01 per million (overage_per=1 in units of 'million queried vector dimensions'). Queried dimensions = (queried vectors + stored vectors) * dimensions summed across all queries. Queries from Workers API, HTTP API, and Wrangler CLI all count as billable usage."
+        },
+        {
+          "key": "stored_vector_dimensions",
+          "label": "Total stored vector dimensions",
+          "unit": "million stored vector dimensions",
+          "free_included": 5,
+          "free_period": "month",
+          "paid_included": 10,
+          "paid_period": "month",
+          "overage_usd": 0.05,
+          "overage_per": 100,
+          "notes": "Confirmed verbatim: Free = 5 million stored vector dimensions; Paid = first 10 million included + $0.05 per 100 million. Unit normalized to 'million stored vector dimensions' for consistency with the queried meter: free_included=5, paid_included=10 (in millions), overage_usd=0.05 with overage_per=100 (i.e. $0.05 per 100 million stored dimensions). CORRECTED from the draft, which had a unit/scale mismatch (unit='100 million' but free_included/paid_included expressed as raw dimensions 5,000,000/10,000,000 with overage_per=1). Stored dimensions = stored vectors * dimensions. Empty indexes do not count. Not billed for CPU, memory, active index hours, or number of indexes."
+        },
+        {
+          "key": "egress",
+          "label": "Data transfer / egress",
+          "unit": "GB egress",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0,
+          "overage_per": null,
+          "notes": "Confirmed in the pricing FAQ: 'Does Vectorize charge for data transfer / egress? No.' No egress/data-transfer charge on any plan."
+        }
+      ],
+      "notes": [
+        "Vectorize is Generally Available. Billing is based on exactly two metrics: Queried Vector Dimensions and Stored Vector Dimensions.",
+        "Access is gated by the Workers plan: Workers Free = $0 base (30M queried + 5M stored dimensions allowance); Workers Paid = $5/mo Workers platform fee (50M queried + 10M stored dimensions/month included). The Vectorize pricing page links to Workers pricing for the base fee rather than restating it.",
+        "Overage formula (verbatim from pricing page): ((queried vectors + stored vectors) * dimensions * ($0.01 / 1,000,000)) + (stored vectors * dimensions * ($0.05 / 100,000,000)).",
+        "Queried overage: $0.01 per 1,000,000 queried vector dimensions. Stored overage: $0.05 per 100,000,000 stored vector dimensions.",
+        "You are NOT billed for CPU, memory, active index hours, or the number of indexes. No charge if not issuing queries. No egress/data-transfer charges (FAQ).",
+        "Queries from Workers API, HTTP API, and Wrangler CLI all count as billable usage. Empty indexes do not count as stored vector dimensions.",
+        "Worked example from docs: 10,000 vectors of 768 dims, queried 30,000 times/month = 30,720,000 queried dims + 7,680,000 stored dims (within included allocation); excluding the included allocation this computes to $0.31/mo.",
+        "Usage examples table (estimates EXCLUDE the Free/Paid included allocation), all confirmed verbatim: Experiment 384-dim/5,000 vectors/10,000 queries = $0.06/mo (falls within included); Scaling 768-dim/25,000 vectors/50,000 queries = $0.59/mo (mostly included on Paid); Production 768-dim/50,000 vectors/200,000 queries = $1.94/mo; Large 768-dim/250,000 vectors/500,000 queries = $5.86/mo; XL 1536-dim/500,000 vectors/1,000,000 queries = $23.42/mo.",
+        "Limits (limits page, confirmed): max 1536 dimensions/vector (float32, 32-bit precision), max 10,000,000 vectors/index, 50,000 indexes/account (Workers Paid) or 100 (Free), 50,000 namespaces/index (Paid) or 1,000 (Free), 10KiB metadata/vector, topK 50 (with values/metadata) or 100 (without), upsert batch 1000 (Workers) / 5000 (HTTP API), 100MB max vectors upload size, 64-byte vector ID / index name / namespace name.",
+        "CORRECTION applied to stored_vector_dimensions meter: draft mixed units (unit='100 million stored vector dimensions' while free_included/paid_included were raw dimensions 5,000,000/10,000,000 and overage_per=1). Normalized to unit='million stored vector dimensions', free_included=5, paid_included=10, overage_usd=0.05, overage_per=100. All prices/inclusions themselves matched the source; only the internal scaling was inconsistent.",
+        "Both pricing and limits pages have dateModified 2026-04-21 (JSON-LD)."
+      ]
+    },
+    {
+      "id": "ai-gateway",
+      "name": "AI Gateway",
+      "category": "ai",
+      "doc_url": "https://developers.cloudflare.com/ai-gateway/",
+      "pricing_url": "https://developers.cloudflare.com/ai-gateway/reference/pricing/",
+      "limits_url": "https://developers.cloudflare.com/ai-gateway/reference/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan. AI Gateway core features (dashboard analytics, caching, rate limiting) are free on all plans. Persistent log storage limited to 100,000 logs total across all gateways in the account. Logpush not available on the free plan."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": null,
+          "description": "Workers Paid plan. Core features free. Persistent log storage of 10,000,000 logs per gateway. Logpush available. AI Gateway itself has no fixed platform fee; the Workers Paid base fee is charged under the Workers product, not AI Gateway."
+        },
+        {
+          "key": "enterprise",
+          "base_usd_month": null,
+          "description": "Enterprise customers should reach out to their account team to confirm pricing details. No public price listed on the pricing page."
+        }
+      ],
+      "meters": [
+        {
+          "key": "persistent_logs_free",
+          "label": "Persistent log storage (Workers Free plan)",
+          "unit": "log",
+          "free_included": 100000,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "Free plan: 100,000 logs total across ALL gateways in the account (account-level cap, per limits footnote 2). This is a total STORED cap, not a monthly allowance and it does not reset per period — free_period is null. At the cap you configure the gateway to auto-delete oldest logs or stop saving new ones; no per-log overage billing. Verbatim from pricing table: 'Workers Free | 100,000 logs total across all gateways'."
+        },
+        {
+          "key": "persistent_logs_paid",
+          "label": "Persistent log storage (Workers Paid plan)",
+          "unit": "log",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 10000000,
+          "paid_period": null,
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "Workers Paid plan: 10,000,000 logs stored PER GATEWAY. This is a STORED cap, not a monthly allowance — paid_period is null. At the cap you auto-delete oldest logs or stop saving; no overage charge — capacity is capped, not billed per additional log. Verbatim from pricing table: 'Workers Paid | 10,000,000 logs per gateway'."
+        },
+        {
+          "key": "logpush_requests",
+          "label": "Logpush requests (Workers Paid plan only)",
+          "unit": "million requests",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.05,
+          "overage_per": 1000000,
+          "notes": "Logpush is only available on the Workers Paid plan. 10 million requests/month included, then +$0.05 per million requests. Verbatim from pricing table: 'Requests | 10 million / month, +$0.05/million'."
+        },
+        {
+          "key": "unified_billing_fee",
+          "label": "Unified Billing credit-purchase fee (5%)",
+          "unit": "USD of credits purchased",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.05,
+          "overage_per": 1,
+          "notes": "A 5% fee is applied to all credits purchased through Unified Billing (e.g. a $100 credit purchase results in a $105 charge). overage_usd=0.05 per 1 USD of credit = 5%. Provider inference pricing is passed through with NO markup — same per-token rates as going direct to the provider. Verbatim: 'A 5% fee is applied to all credits purchased through Unified Billing.' Unified Billing request rate limited to 200 requests per 60 seconds per gateway; BYOK requests are exempt (limits footnote 4)."
+        }
+      ],
+      "notes": [
+        "AI Gateway is available on all plans. Core features (dashboard analytics, caching, rate limiting) are FREE — one Cloudflare account and one line of code to get started. There is no per-request usage charge for the gateway proxy itself.",
+        "Only two concrete AI-Gateway-billed charges exist on the pricing page: (1) the 5% Unified Billing credit-purchase fee, and (2) Logpush request overage beyond 10M/month on the Workers Paid plan. Everything else (core features, persistent logs, DLP scanning) is free.",
+        "Persistent logs are STORED caps, not monthly allowances: Free = 100,000 logs total across all gateways (account-level cap, footnote 2); Workers Paid = 10,000,000 logs per gateway. At the cap you configure the gateway to auto-delete oldest logs or stop saving new ones — no per-log overage billing. CORRECTION vs draft: the free meter's free_period was 'month' in the draft but the source is explicit this is a total stored cap that does not reset, so free_period is nulled here.",
+        "Data Loss Prevention (DLP) scanning is free on all plans. Accounts without a Zero Trust subscription get two predefined DLP profiles (Financial Information; Social/Insurance/National Identifier Numbers). The full DLP set (all predefined + custom + integration profiles, datasets, OCR) requires a Zero Trust subscription that includes DLP.",
+        "Guardrails is billed as Workers AI token-based inference (uses @cf/meta/llama-guard-3-8b on Workers AI); cost scales with prompt/response length and is charged under Workers AI pricing (https://developers.cloudflare.com/workers-ai/platform/pricing/), NOT as a dedicated AI Gateway meter.",
+        "Unified Billing: provider inference pricing is passed through with no markup; you pay the same per-token rates as going direct to the provider. Only the 5% fee applies to purchased credits.",
+        "Gateway/log limits (from limits page, dateModified 2026-05-27): 10 gateways/account free, 20 gateways/account paid; gateway name length 64 chars; datasets 10 per gateway; cacheable request size 25 MB; cache TTL 1 month; 5 custom-metadata entries/request; log storage rate limit 500 logs/sec/gateway; log size 10 MB/log (larger not stored); 4 Logpush jobs/account; Logpush size 1 MB/log; Unified Billing request rate 200 req/60s per gateway, BYOK exempt (429 on exceed). DLP limits (account-level): 25 custom entries; 100,000 EDM cells/spreadsheet; 200 custom wordlist keywords/spreadsheet; 1,000 wordlist keywords/account; 1,000,000 dataset cells/account.",
+        "The Workers Paid plan base fee (charged under the Workers product, not AI Gateway) is why base_usd_month is null on the paid plan — no AI-Gateway-specific platform fee exists. Free plan base_usd_month=0.",
+        "Enterprise pricing is not public — reach out to your account team. Pricing page dateModified 2026-05-19; limits page dateModified 2026-05-27. Prices subject to change.",
+        "Verified verbatim against pricing index.md and limits index.md fetched 2026-07-02. Every retained number is confirmed present in the markdown; no numbers were carried without confirmation."
+      ]
+    },
+    {
+      "id": "ai-search",
+      "name": "AI Search (AutoRAG)",
+      "category": "ai",
+      "doc_url": "https://developers.cloudflare.com/ai-search/",
+      "pricing_url": "https://developers.cloudflare.com/ai-search/platform/limits-pricing/",
+      "limits_url": "https://developers.cloudflare.com/ai-search/platform/limits-pricing/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan. AI Search is free within Free-plan limits during the open beta."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan ($5/mo Workers base). AI Search itself is free within limits during the open beta; higher limits apply. Workers AI and AI Gateway usage billed separately."
+        }
+      ],
+      "meters": [
+        {
+          "key": "instances",
+          "label": "AI Search instances per account",
+          "unit": "instance",
+          "free_included": 100,
+          "free_period": null,
+          "paid_included": 5000,
+          "paid_period": null,
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "Limit, not billed. Free within open beta. Workers Free: 100; Workers Paid: 5,000."
+        },
+        {
+          "key": "files_per_instance",
+          "label": "Files per instance",
+          "unit": "file",
+          "free_included": 100000,
+          "free_period": null,
+          "paid_included": 1000000,
+          "paid_period": null,
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "Workers Free: 100,000. Workers Paid: 1M files, or 500K for hybrid search. Limit, not billed."
+        },
+        {
+          "key": "max_file_size",
+          "label": "Max file size",
+          "unit": "MB",
+          "free_included": 4,
+          "free_period": null,
+          "paid_included": 4,
+          "paid_period": null,
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "4 MB on both plans. Limit, not billed."
+        },
+        {
+          "key": "queries",
+          "label": "Queries per month",
+          "unit": "query",
+          "free_included": 20000,
+          "free_period": "month",
+          "paid_included": null,
+          "paid_period": "month",
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "Workers Free: 20,000/mo. Workers Paid: Unlimited. Free within open beta; not billed. paid_included=null denotes Unlimited."
+        },
+        {
+          "key": "pages_crawled",
+          "label": "Maximum pages crawled per day",
+          "unit": "page",
+          "free_included": 500,
+          "free_period": "day",
+          "paid_included": null,
+          "paid_period": "day",
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "Workers Free: 500/day. Workers Paid: Unlimited. Limit, not billed. paid_included=null denotes Unlimited."
+        },
+        {
+          "key": "custom_metadata_fields",
+          "label": "Max custom metadata fields",
+          "unit": "field per instance",
+          "free_included": 5,
+          "free_period": null,
+          "paid_included": 5,
+          "paid_period": null,
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "5 per AI Search instance on both plans. Limit, not billed."
+        },
+        {
+          "key": "text_metadata_value_length",
+          "label": "Max text metadata value length",
+          "unit": "character",
+          "free_included": 500,
+          "free_period": null,
+          "paid_included": 500,
+          "paid_period": null,
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "500 characters on both plans. Limit, not billed."
+        }
+      ],
+      "notes": [
+        "Verified verbatim against https://developers.cloudflare.com/ai-search/platform/limits-pricing/index.md (dateModified 2026-06-19). During the open beta, AI Search (AutoRAG) is FREE within the plan limits. No dedicated usage-based pricing table exists yet. Cloudflare states pricing details will be communicated at least 30 days before any billing begins.",
+        "Workers AI (https://developers.cloudflare.com/workers-ai/platform/pricing/) and AI Gateway (https://developers.cloudflare.com/ai-gateway/reference/pricing/) usage are billed SEPARATELY — the models AI Search uses for embedding/generation/reranking are metered under Workers AI.",
+        "After AI Search moved to managed infrastructure, storage, vector indexing, and Browser Run usage for crawling are INCLUDED (no separate R2/Vectorize/Browser Run charges). Workers AI and AI Gateway are still billed separately.",
+        "Historical billing note: instances created before the managed-infrastructure move ran on Cloudflare services in the user's own account, so older invoices may include separate R2, Vectorize, Workers AI, AI Gateway, and Browser Run charges. A dedicated R2 bucket originally created may still count toward R2 storage usage until deleted.",
+        "Limits differ by underlying Workers plan (Free vs Paid). base_usd_month=5 on the paid plan is the Workers Paid platform fee, not an AI Search fee — AI Search adds no dedicated fee during beta; base_usd_month=0 free is the Workers Free plan.",
+        "meters[] capture the plan LIMITS (the only quantitative figures on the page); none are billed as overage — all overage_usd/overage_per are null by design. Where paid_included is null on queries and pages_crawled, the source states 'Unlimited'.",
+        "Source page has NO per-unit usage pricing; source_confidence=high reflects that the limits table and the beta-free-pricing statement were read clearly and captured in full, not that a usage-price table exists."
+      ]
+    },
+    {
+      "id": "agents",
+      "name": "Agents",
+      "category": "ai",
+      "doc_url": "https://developers.cloudflare.com/agents/",
+      "pricing_url": "https://developers.cloudflare.com/workers/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/agents/platform/limits/",
+      "source_confidence": "medium",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan (default; 'By default, users have access to the Workers Free plan.'). Agents run on it. Only Durable Objects with the SQLite storage backend are available on Free. Inherited from the Workers/Durable Objects free tier; no Agents-specific fee."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5,
+          "description": "Workers Paid plan — 'minimum charge of $5 USD per month for an account' (verbatim, Workers pricing page). Includes Workers, Pages Functions, Workers KV, Hyperdrive, and Durable Objects usage with increased initial allotments and overage charges. Agents billing is inherited from this plan (Workers + Durable Objects meters); no separate Agents subscription."
+        }
+      ],
+      "meters": [],
+      "notes": [
+        "VERIFIED 2026-07-02: Cloudflare Agents (Agents SDK) has NO dedicated usage-based pricing page. Re-confirmed by curl: /agents/pricing/index.md -> 404 and /agents/platform/pricing/index.md -> 404; /agents/platform/limits/index.md -> 200. The Agents llms.txt (fetched this session) lists a Limits page and NO Pricing page (grep for 'pricing' in llms.txt returns nothing).",
+        "BILLING BASIS (inherited, not standalone): Agents are billed via the underlying platform. The Agents limits page states verbatim: 'Many limits are inherited from those applied to Workers scripts and/or Durable Objects, and are detailed in the Workers limits documentation.' Limits-page footnote 1 confirms 'each Agent is mapped to a unique Durable Object (actor)', so usage is billed as Workers + Durable Objects, plus any AI models/tools the agent calls (e.g. Workers AI, Browser Rendering, Sandbox).",
+        "METERS INTENTIONALLY EMPTY: Agents publishes no billable meters of its own; per-unit prices are NOT re-published on any Agents doc. For actual per-unit usage prices, see the separate Workers product (Requests: 100,000/day free, 10M/month included on Standard, +$0.30 per additional million; CPU time: 30M CPU-ms/month included, +$0.02 per additional million CPU-ms) and the Durable Objects product (requests, duration/GB-s, SQLite rows read/written, storage). Those are captured under those product entries to avoid duplication and were NOT invented here.",
+        "PLAN INHERITANCE — verified verbatim from the Workers pricing page (https://developers.cloudflare.com/workers/platform/pricing/, read this session): 'By default, users have access to the Workers Free plan.' and 'The Workers Paid plan includes Workers, Pages Functions, Workers KV, Hyperdrive, and Durable Objects usage for a minimum charge of $5 USD per month for an account.' Agents therefore run on the Workers Free plan (free) or the Workers Paid plan ($5/mo account minimum). No additional charges for data transfer/egress.",
+        "Agents-specific HARD LIMITS (quotas, NOT billable meters) — verbatim from https://developers.cloudflare.com/agents/platform/limits/ (schema.org dateModified 2026-06-03): Max concurrent (running) Agents per account = 'Tens of millions+'; Max definitions per account = '~250,000+'; Max state stored per unique Agent = 1 GB; Max compute (CPU) time per Agent = 30 seconds (refreshed per HTTP request / scheduled task / incoming WebSocket message); Duration (wall clock) per step = Unlimited (e.g. waiting on a DB call or LLM response).",
+        "Deploy limit context (limits page footnote 2): up to 500 scripts per account (Workers), but each script can define multiple Agents; each deployed script up to 10 MB on the Workers Paid plan.",
+        "pricing_url is set to the Workers pricing page because that is the only page carrying a real pricing table with the numbers stamped here ($5/mo minimum, Free-plan default). The Agents docs themselves have no pricing table; limits_url points to the authoritative Agents limits page. source_confidence='medium': the inherited plan/base numbers are read verbatim from a clear table (high confidence), but there are ZERO Agents-native metered prices to extract."
+      ]
+    },
+    {
+      "id": "images",
+      "name": "Cloudflare Images",
+      "category": "media",
+      "doc_url": "https://developers.cloudflare.com/images/",
+      "pricing_url": "https://developers.cloudflare.com/images/pricing/",
+      "limits_url": "https://developers.cloudflare.com/images/get-started/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Images Free plan (default for all users). Includes the transformations feature to optimize images stored outside of Images (e.g. in R2). Up to 5,000 unique transformations per month for free; beyond that, cached transformations keep serving but NEW transformations return a 9422 error and you are not charged. No access to storage in Images."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": null,
+          "description": "Images Paid plan. Usage-based; no fixed monthly platform fee is stated in the pricing table. Allows transformations plus access to storage in Images (choose your own storage or add storage in Images). Billed per Images Transformed / Images Stored / Images Delivered."
+        }
+      ],
+      "meters": [
+        {
+          "key": "images_transformed",
+          "label": "Images Transformed",
+          "unit": "1,000 unique transformations",
+          "free_included": 5000,
+          "free_period": "month",
+          "paid_included": 5000,
+          "paid_period": "month",
+          "overage_usd": 0.5,
+          "overage_per": 1000,
+          "notes": "Verbatim from Images Paid table: 'First 5,000 unique transformations included + $0.50 / 1,000 unique transformations / month'. A unique transformation is a request to transform an original image based on supported parameters. Used with the Images binding or when optimizing images stored outside of Images (Free and Paid plans). With the Images binding in Workers, EVERY call counts as a transformation regardless of whether the image or params are unique. Billed on unique transformations per calendar month; repeat requests for the same transformation within the same month count once. format=auto counts as one billable transformation even if served as multiple formats (AVIF/WebP). Free plan: up to 5,000 unique transformations/month free; beyond that new transformations return error 9422 with no charge."
+        },
+        {
+          "key": "images_stored",
+          "label": "Images Stored",
+          "unit": "100,000 images stored",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 5,
+          "overage_per": 100000,
+          "notes": "Verbatim from Images Paid table: '$5 / 100,000 images stored / month'. Storage in Images available only on the Paid plan; purchased in increments of $5 for every 100,000 images stored per month. Only uploaded images count; defining variants does not impact the storage limit. No free inclusion stated."
+        },
+        {
+          "key": "images_delivered",
+          "label": "Images Delivered",
+          "unit": "100,000 images delivered",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 1,
+          "overage_per": 100000,
+          "notes": "Verbatim from Images Paid table: '$1 / 100,000 images delivered / month'. Applies only to images stored in Images (Paid plan). Every image requested by the browser counts as one billable request. Does not include transformed images stored in remote sources. Optimizing a hosted image via the image delivery URL counts toward Images Delivered (not Images Transformed); via the Images binding it counts toward Images Transformed. No free inclusion stated."
+        }
+      ],
+      "notes": [
+        "By default all users are on the Images Free plan (transformations only, up to 5,000 unique transformations/month free).",
+        "The Paid plan is usage-based with no fixed monthly platform fee stated in the pricing table; you pay per Images Transformed / Images Stored / Images Delivered.",
+        "Images Transformed pricing (verbatim from the Images Paid table): first 5,000 unique transformations included, then $0.50 per 1,000 unique transformations per month.",
+        "Images Stored: $5 per 100,000 images stored per month (Paid only, purchased in $5 increments). Images Delivered: $1 per 100,000 images delivered per month (Paid only, for images stored in Images).",
+        "If you optimize an image stored outside of Images, you are billed only for Images Transformed.",
+        "When using your own storage (e.g. R2), total cost = Images costs + R2 costs; R2 storage/operations are billed separately under R2 pricing. The docs example uses R2 rates $0.015/GB-month storage, $4.50/million Class A, $0.36/million Class B, with 10 GB storage / 1M Class A / 10M Class B free — those rates belong to the R2 product, NOT Images.",
+        "Limits (from limits page, dateModified 2026-06-16): remote image file size 100 MB; hosted (uploaded) image file size 10 MB; image area 100 MP (both remote and hosted); max dimension 12,000 px (1,200 px for AVIF); hosted image metadata 1024 bytes; Images binding .input() max 20 MB. AVIF/HEIC input — AVIF available only on Enterprise. Enterprise limits negotiable with account team.",
+        "Pricing page dateModified 2026-06-10; limits page dateModified 2026-06-16. All meter numbers confirmed verbatim against https://developers.cloudflare.com/images/pricing/index.md — no changes needed to the draft's pricing figures."
+      ]
+    },
+    {
+      "id": "stream",
+      "name": "Stream",
+      "category": "media",
+      "doc_url": "https://developers.cloudflare.com/stream/",
+      "pricing_url": "https://developers.cloudflare.com/stream/pricing/",
+      "limits_url": null,
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "pay-as-you-go",
+          "base_usd_month": null,
+          "description": "Stream bills purely on usage: prepaid storage ($5 per 1,000 minutes stored) plus postpaid delivery ($1 per 1,000 minutes delivered). No fixed monthly platform fee and no monthly free allocation on the core storage/delivery dimensions."
+        },
+        {
+          "key": "enterprise",
+          "base_usd_month": null,
+          "description": "Volume pricing for storing and delivering millions of minutes per month; contact Sales. Enterprise customers may continue to upload beyond their contracted storage quota without interruption."
+        }
+      ],
+      "meters": [
+        {
+          "key": "storage",
+          "label": "Minutes of video stored",
+          "unit": "1,000 minutes stored",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 5,
+          "overage_per": 1000,
+          "notes": "Confirmed verbatim: prepaid, purchased in increments of $5 per 1,000 minutes stored, regardless of file size. Rounded up to the second of video duration. Consumed by original uploads, live recordings, and the reserved maxDurationSeconds for incomplete Direct Creator/TUS uploads; NOT consumed by errored/unplayable videos, expired links, deleted videos, MP4 download files, or the multiple quality levels Stream generates. No R2/other storage fees."
+        },
+        {
+          "key": "delivery",
+          "label": "Minutes of video delivered",
+          "unit": "1,000 minutes delivered",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 1,
+          "overage_per": 1000,
+          "notes": "Confirmed verbatim: post-paid, usage-based, $1 per 1,000 minutes delivered. Counts web/app playback (Stream player, HLS, DASH), MP4 downloads (billed by percentage of file delivered), and SRT/RTMP simulcast live outputs. Counted by HTTP requests for video segments; client-side preloading/buffering is billable, client-cache replays are not. Bandwidth/egress included with no additional fees. Ingress and encoding are always free. Rounded to segment length (4s for uploaded content; keyframe/GOP interval for live/recordings)."
+        },
+        {
+          "key": "media_transformations",
+          "label": "Media Transformations (unique transformation operations)",
+          "unit": "1,000 monthly unique transformation operations",
+          "free_included": 5000,
+          "free_period": "month",
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.5,
+          "overage_per": 1000,
+          "notes": "Confirmed verbatim: $0.50 per 1,000 monthly unique transformation operations with a free monthly allocation of 5,000. Media Transformations is GA; billing begins November 1st, 2025. Shares subscriptions/usage metrics with Image Transformations. A still frame = 1 transformation; optimized video or audio extraction = 1 transformation per second of output. Each unique transformation (input + unique flag combination) billed once per calendar month. Via Workers binding: not billed during beta; after beta, priced the same as URL but every operation billed individually (no uniqueness dedup)."
+        }
+      ],
+      "notes": [
+        "Stream bills on only two core dimensions: minutes of video stored (prepaid, $5 per 1,000 min) and minutes of video delivered (postpaid, $1 per 1,000 min). On-demand and live video are billed the same way. All values confirmed verbatim against the pricing markdown.",
+        "No fixed monthly platform fee and no Free/Paid plan split; there is no monthly free allocation on the core storage or delivery dimensions. The ONLY free monthly allocation is 5,000 unique Media Transformations operations.",
+        "Ingress (uploading content) and encoding are always free; bandwidth/egress is bundled into 'video delivered' with no separate egress fee.",
+        "Storage rounds up to the second; web-playback delivery rounds to segment length (4s for uploaded content; keyframe/GOP interval for live/recordings). Example given: two people each watching 30 min = 60 minutes delivered = $0.06.",
+        "30GB max file size per upload (references FAQ). Volume/enterprise pricing available via Sales for millions of minutes per month.",
+        "No dedicated Stream /limits/ page exists in the llms.txt index (only /pricing/ was listed), so limits_url is null. free-tier fields on storage/delivery are null because Stream has no plan-based free allocation on those dimensions. Page dateModified 2026-04-21."
+      ]
+    },
+    {
+      "id": "realtime",
+      "name": "Realtime",
+      "category": "media",
+      "doc_url": "https://developers.cloudflare.com/realtime/",
+      "pricing_url": "https://developers.cloudflare.com/realtime/sfu/pricing/",
+      "limits_url": "https://developers.cloudflare.com/realtime/sfu/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "1,000 GB/month of SFU+TURN egress (Cloudflare to client) free; shared across SFU and TURN as a single free tier (not two independent tiers). RealtimeKit is in Beta and free during the beta period."
+        },
+        {
+          "key": "pay-as-you-go",
+          "base_usd_month": 0,
+          "description": "No fixed monthly platform fee. SFU + TURN billed at $0.05 per GB egress beyond the 1,000 GB free tier, as a single line item covering both services."
+        }
+      ],
+      "meters": [
+        {
+          "key": "egress",
+          "label": "Realtime SFU and TURN data egress (Cloudflare edge to your application/clients)",
+          "unit": "GB egress",
+          "free_included": 1000,
+          "free_period": "month",
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.05,
+          "overage_per": 1,
+          "notes": "$0.05 per GB of data egress (confirmed verbatim on SFU pricing page). Billing is based on data sent from Cloudflare edge to your application. The 1,000 GB free tier is shared across BOTH SFU and TURN (not two independent tiers) and appears as a single line item. Data transfer from client to Cloudflare is always free. SFU: only traffic originating from Cloudflare toward clients incurs charges; traffic pushed to Cloudflare incurs no charge. Traffic between TURN and SFU or Cloudflare Stream (WHIP/WHEP) is not double-charged."
+        },
+        {
+          "key": "realtimekit_audio_video_participant",
+          "label": "RealtimeKit Audio/Video Participant",
+          "unit": "participant-minute",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.002,
+          "overage_per": 1,
+          "notes": "$0.002 / minute (confirmed in RealtimeKit pricing table). RealtimeKit is currently in Beta and free during the beta period; this rate applies at general availability (GA). Participant type (audio-only vs audio/video) is determined by the Meeting Type of the preset."
+        },
+        {
+          "key": "realtimekit_audio_only_participant",
+          "label": "RealtimeKit Audio-Only Participant",
+          "unit": "participant-minute",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.0005,
+          "overage_per": 1,
+          "notes": "$0.0005 / minute (confirmed in RealtimeKit pricing table). GA pricing; free during Beta."
+        },
+        {
+          "key": "realtimekit_export_recording_streaming",
+          "label": "RealtimeKit Export (recording, RTMP or HLS streaming)",
+          "unit": "minute",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.01,
+          "overage_per": 1,
+          "notes": "$0.010 / minute (confirmed in RealtimeKit pricing table). GA pricing; free during Beta."
+        },
+        {
+          "key": "realtimekit_export_recording_streaming_audio_only",
+          "label": "RealtimeKit Export (recording, RTMP or HLS streaming, audio only)",
+          "unit": "minute",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.003,
+          "overage_per": 1,
+          "notes": "$0.003 / minute (confirmed in RealtimeKit pricing table). GA pricing; free during Beta."
+        },
+        {
+          "key": "realtimekit_export_raw_rtp_r2",
+          "label": "RealtimeKit Export (Raw RTP) into R2",
+          "unit": "minute",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0.0005,
+          "overage_per": 1,
+          "notes": "$0.0005 / minute (confirmed in RealtimeKit pricing table). GA pricing; free during Beta."
+        },
+        {
+          "key": "realtimekit_transcription_realtime",
+          "label": "RealtimeKit Transcription (Real-time)",
+          "unit": "per Workers AI model pricing",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "Charged at 'Standard model pricing via Workers AI' — no dedicated per-minute Realtime rate; billed through Workers AI (neurons). See Workers AI pricing. (No standalone number on the RealtimeKit pricing table, so overage_usd is intentionally null.)"
+        }
+      ],
+      "notes": [
+        "Cloudflare Realtime has two priced surfaces: (1) Realtime SFU + TURN, billed on data egress; (2) RealtimeKit, a higher-level video/voice product billed per participant-minute and per export-minute.",
+        "SFU + TURN: $0.05 per GB of data egress (Cloudflare edge -> your app/clients). Free tier is 1,000 GB/month shared across BOTH SFU and TURN, billed as a single line item. Client-to-Cloudflare transfer is always free.",
+        "No double-charging: traffic between Realtime TURN and Realtime SFU or Cloudflare Stream (WHIP/WHEP) is counted once; using SFU and TURN together bills only one.",
+        "RealtimeKit is currently in Beta and available at NO COST during the beta period. The per-minute table applies only when RealtimeKit reaches general availability (GA).",
+        "RealtimeKit Transcription (Real-time) has no standalone rate; it is billed at standard model pricing via Workers AI (neuron-based).",
+        "SFU limits (non-price): 50 API calls/sec per session, up to 64 tracks per API call, no upper limit on tracks per session; tracks time out after 30s of inactivity; DataChannel ack timeout 15s; PeerConnection must be 'connected' with a 5s block timeout.",
+        "Pricing pages last modified (from JSON-LD dateModified): SFU/TURN pricing 2026-04-21; RealtimeKit pricing 2026-06-18; SFU limits 2026-06-15.",
+        "Verification 2026-07-02: every field re-derived from the index.md of all three pages; all numbers/units/inclusions matched the source verbatim with no corrections needed."
+      ]
+    },
+    {
+      "id": "email-service",
+      "name": "Email Service",
+      "category": "messaging",
+      "doc_url": "https://developers.cloudflare.com/email-service/",
+      "pricing_url": "https://developers.cloudflare.com/email-service/platform/pricing/",
+      "limits_url": "https://developers.cloudflare.com/email-service/platform/limits/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0,
+          "description": "Workers Free plan. Email Routing (inbound) is available and Unlimited. Outbound email sending to arbitrary recipients is Not available on this plan. Sending to verified destination addresses in your account is free on all plans, including when only Email Routing is configured."
+        },
+        {
+          "key": "paid",
+          "base_usd_month": null,
+          "description": "Workers Paid plan. Required for sending to arbitrary recipients. Outbound (Email Sending): 3,000 included per account per month, then $0.35 per 1,000 emails. Inbound (Email Routing): Unlimited. The Workers Paid base monthly platform fee is set by the Workers Paid plan and referenced via the Workers pricing link; it is not stated verbatim on this Email Service pricing page, so base_usd_month is null here."
+        }
+      ],
+      "meters": [
+        {
+          "key": "outbound_emails",
+          "label": "Outbound emails (Email Sending)",
+          "unit": "1,000 emails",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 3000,
+          "paid_period": "month",
+          "overage_usd": 0.35,
+          "overage_per": 1000,
+          "notes": "Not available on Workers Free plan; requires Workers Paid. 3,000 emails included per account, per month, aligned with your Cloudflare subscription billing cycle, then $0.35 per 1,000 emails. Emails that hard-bounce or are otherwise accepted by Email Service count toward the quota; emails rejected at the API boundary (including sends blocked by the suppression list) do not count. Sends to verified destination addresses are free and do not count toward the included quota. Confirmed verbatim in the pricing table."
+        },
+        {
+          "key": "inbound_emails",
+          "label": "Inbound emails (Email Routing)",
+          "unit": "email",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": null,
+          "paid_period": null,
+          "overage_usd": 0,
+          "overage_per": 1,
+          "notes": "Unlimited on both Workers Free and Workers Paid plans (confirmed verbatim). Email Routing Workers (handlers that process incoming email) are billed separately according to Workers pricing (https://developers.cloudflare.com/workers/platform/pricing/), not by Email Service directly."
+        }
+      ],
+      "notes": [
+        "Pricing is based on your Cloudflare plan (Workers Free or Workers Paid) and email usage. Pricing page dateModified: 2026-06-09.",
+        "Outbound sending (Email Sending) to arbitrary recipients requires the Workers Paid plan; it is Not available on Workers Free.",
+        "Sending to verified destination addresses in your account is free on ALL plans (including when only Email Routing is configured) and does not count toward the 3,000 monthly included quota or the daily sending limits.",
+        "Inbound emails (Email Routing) are Unlimited on both Workers Free and Workers Paid.",
+        "Email Routing Workers (Workers that handle incoming emails) are billed according to Workers pricing (https://developers.cloudflare.com/workers/platform/pricing/), not by Email Service directly. On the Workers Free plan, complex email handlers may hit the EXCEEDED_CPU limit.",
+        "The Workers Paid base platform fee (commonly $5/month per Workers pricing) is referenced via a link but NOT stated verbatim on the Email Service pricing page, so paid base_usd_month is left null here rather than asserting an unconfirmed number.",
+        "New accounts start with a conservative daily sending quota that scales up automatically based on sending behavior, deliverability rates, and account standing (Limits page). Higher limits can be requested via the Limit Increase Request Form (https://forms.gle/eX6pXvit1wBv77Yw5).",
+        "Email content limits (Limits page): 50 recipients per email (to+cc+bcc combined), 998-char subject (RFC 5322), 5 MiB total message size including attachments (25 MiB for verified destination addresses only), 16 KB combined custom-header size.",
+        "Zone/routing limits (Limits page): 30 domains per zone (Email Routing + Email Sending combined, including apex); 200 routing rules per domain; 200 destination addresses per account (shared across all domains); 25 MiB inbound message size; 100 Reply References entries (message.reply() throws above this).",
+        "Verified against pricing/index.md and limits/index.md; every number in this object was confirmed verbatim in the source markdown at time of extraction."
+      ]
+    },
+    {
+      "id": "logs",
+      "name": "Logs (Logpush)",
+      "category": "observability",
+      "doc_url": "https://developers.cloudflare.com/logs/",
+      "pricing_url": "https://developers.cloudflare.com/logs/logpush/",
+      "limits_url": "https://developers.cloudflare.com/logs/logpush/",
+      "source_confidence": "high",
+      "plans": [
+        {
+          "key": "enterprise",
+          "base_usd_month": null,
+          "description": "Logpush is available only on the Enterprise plan (Availability table on the Logpush overview: Free=No, Pro=No, Business=No, Enterprise=Yes). No public standalone dollar price is published in the Logs docs; pricing is bundled into the Enterprise plan. The Logs index links out to general Cloudflare pages for pricing (Plans -> https://www.cloudflare.com/products/cloudflare-logs/, Pricing -> https://www.cloudflare.com/plans/#overview). Documented exception: Workers Trace Events Logpush is available to non-Enterprise customers on the Workers Paid plan."
+        }
+      ],
+      "meters": [
+        {
+          "key": "logpush_jobs_per_zone",
+          "label": "Max Logpush jobs per zone",
+          "unit": "job",
+          "free_included": null,
+          "free_period": null,
+          "paid_included": 4,
+          "paid_period": null,
+          "overage_usd": null,
+          "overage_per": null,
+          "notes": "Verbatim from the Logpush overview (## Limits): 'There is currently a max limit of 4 Logpush jobs per zone. Trying to create a job once the limit has been reached will result in an error message: creating a new job is not allowed: exceeded max jobs allowed.' This is a hard cap on the Enterprise plan, NOT a billable/overage meter. Logpush itself has NO published per-unit (per-GB / per-log / per-request) usage price anywhere in the Cloudflare Logs docs."
+        }
+      ],
+      "notes": [
+        "Cloudflare Logs / Logpush has NO dedicated usage-based pricing page in the Logs documentation. Confirmed against https://developers.cloudflare.com/logs/llms.txt (fetched 2026-07-02): no /pricing/ or /limits/ page path exists in the entire Logs docs tree. Logpush is billed as an Enterprise plan feature, not as a separately metered per-unit product.",
+        "Verbatim Availability table (Logpush overview, https://developers.cloudflare.com/logs/logpush/): Availability -> Free=No, Pro=No, Business=No, Enterprise=Yes.",
+        "Documented exception to Enterprise-only availability (verbatim note on the Logpush overview): 'Users without an Enterprise plan can still access Workers Trace Events Logpush by subscribing to the Workers Paid plan.' So a narrow non-Enterprise path exists, but no free tier for general Logpush.",
+        "General FAQ (https://developers.cloudflare.com/logs/faq/general-faq/) confirms: 'Are logs available for customers who are not on an Enterprise plan? Not yet, but we are planning to make them available to other customer plans in the future.' No pricing figures in the FAQ.",
+        "The Logs index page (https://developers.cloudflare.com/logs/) 'More resources' section links out for pricing: Plans -> https://www.cloudflare.com/products/cloudflare-logs/ and Pricing -> https://www.cloudflare.com/plans/#overview. No per-unit rate card is published in the developer docs.",
+        "Only concrete numeric limit found in docs (verbatim): 'There is currently a max limit of 4 Logpush jobs per zone.'",
+        "When Logpush delivers to Cloudflare R2 (destination docs: https://developers.cloudflare.com/logs/logpush/logpush-job/enable-destinations/r2/), any storage/egress costs are billed under R2's own pricing, not under a Logpush meter. No Logpush-specific charge is stated.",
+        "Logs Engine (R2 Log Retrieval, https://developers.cloudflare.com/logs/r2-log-retrieval/) is being superseded by Log Explorer; its docs contain no pricing figures.",
+        "No Enterprise dollar figure is published in the docs, so plans[].base_usd_month is null (HARD RULE: never write a number not read verbatim)."
+      ]
+    }
+  ]
+}

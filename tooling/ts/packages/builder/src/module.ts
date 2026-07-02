@@ -18,6 +18,14 @@ import { audit } from "@suluk/hono";
 export interface ModuleCost {
   components: { source: string; basis: string; microUsd: number }[];
   estimateMicroUsd: number;
+  /**
+   * COST MULTIPLIERS — infrastructure meter → units consumed per call (e.g. `{ "d1.read": 20, "worker.request": 1 }`).
+   * Weighed downstream against @suluk/cloudflare's live pricing (the bubbled-up infra weights) to a STATIC token floor,
+   * so the registry declares WHAT infra a route uses and the price comes from the real pricing payload — never guessed here.
+   */
+  infra?: Record<string, number>;
+  /** the PAYMENT METHOD — how this op's token cost is recovered: credit | rate-limited | free | subscription | trust | lead. */
+  settlement?: { method: string; credits?: number };
 }
 
 export interface SulukModule {

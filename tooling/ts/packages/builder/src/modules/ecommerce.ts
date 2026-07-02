@@ -143,12 +143,13 @@ export const ECOMMERCE: SulukModule = {
   cost: {
     ...crudCost("Product"),
     ...crudCost("Variant"),
-    listOrder: { components: [{ source: "db-read", basis: "per-call", microUsd: 12 }], estimateMicroUsd: 12 },
-    getOrder: { components: [{ source: "db-read", basis: "per-call", microUsd: 8 }], estimateMicroUsd: 8 },
-    createOrder: { components: [{ source: "compute", basis: "per-call", microUsd: 100 }, { source: "db-write", basis: "per-call", microUsd: 40 }], estimateMicroUsd: 140 },
-    updateOrder: { components: [{ source: "db-write", basis: "per-call", microUsd: 40 }], estimateMicroUsd: 40 },
-    deleteOrder: { components: [{ source: "db-write", basis: "per-call", microUsd: 20 }], estimateMicroUsd: 20 },
-    checkoutOrder: { components: [{ source: "third-party", basis: "per-call", microUsd: 2900 }], estimateMicroUsd: 2900 }, // the payments provider
+    listOrder: { components: [{ source: "db-read", basis: "per-call", microUsd: 12 }], estimateMicroUsd: 12, infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "credit" } },
+    getOrder: { components: [{ source: "db-read", basis: "per-call", microUsd: 8 }], estimateMicroUsd: 8, infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    createOrder: { components: [{ source: "compute", basis: "per-call", microUsd: 100 }, { source: "db-write", basis: "per-call", microUsd: 40 }], estimateMicroUsd: 140, infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    updateOrder: { components: [{ source: "db-write", basis: "per-call", microUsd: 40 }], estimateMicroUsd: 40, infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
+    deleteOrder: { components: [{ source: "db-write", basis: "per-call", microUsd: 20 }], estimateMicroUsd: 20, infra: { "worker.request": 1, "d1.write": 1 }, settlement: { method: "credit" } },
+    // the DYNAMIC route: the fixed Stripe fee is a per-call third-party component; the 2.9% is metered at charge time (@suluk/payments). Settled by credit.
+    checkoutOrder: { components: [{ source: "third-party", basis: "per-call", microUsd: 2900 }], estimateMicroUsd: 2900, infra: { "worker.request": 1, "d1.write": 1 }, settlement: { method: "credit" } },
     ...crudCost("Cart", 10, 25),
     ...crudCost("Discount", 8, 25),
     ...crudCost("Review", 10, 25),

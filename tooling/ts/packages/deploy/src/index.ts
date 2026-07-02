@@ -17,6 +17,13 @@ export {
   r2Storage, memoryStorage,
   type StorageProvider, type StoredObject, type R2BucketLike,
 } from "./storage";
+// INFRA COST WEIGHTS bubble up from @suluk/cloudflare through deploy — the pricing payload becomes the weight table an app
+// hands to @suluk/cost. Deploy is the natural conduit (it already owns the Cloudflare target), so a consumer that imports
+// @suluk/deploy for shipping ALSO gets the weights for costing, from one place. Merge with provider weights via mergeWeights.
+export {
+  weightTable, infraWeights, weighInfra, INFRA_ALIASES, MICRO_PER_USD,
+  type InfraMeter, type WeighResult, type PricingDoc, type PricingProduct, type PricingMeter,
+} from "@suluk/cloudflare/pricing";
 
 import { cloudflare } from "./cloudflare";
 import type { DeployProvider } from "./types";

@@ -19,3 +19,6 @@ export { hardenSchema, hardenDocument, type HardenOptions } from "./harden";
 // C043: a SECOND dimension — schema-fact READINESS (computed-required, request-without-example), separate from the
 // security grade. Fold its letter into `combineGrades` alongside the security grade + journeys coverage.
 export { auditReadiness, type ReadinessAudit, type ReadinessOptions } from "./readiness";
+// A THIRD dimension — COST coverage: does every op declare its cost + a payment method, so the system can track what
+// each USER costs (the strong per-user metric)? Separate grade; fold its letter into `combineGrades` with the others.
+export { auditCost, type CostCoverageAudit, type CostCoverageOptions } from "./cost";

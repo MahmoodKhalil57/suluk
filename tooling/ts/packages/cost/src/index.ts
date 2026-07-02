@@ -31,3 +31,7 @@ export {
   resolveEventExpression, attributePrincipal, eventCostEvent, recordEventCost, reconciledAmount, type EventCostInput,
 } from "./event";
 export { summarize, principalCost, type CostSummary } from "./ledger";
+// weigh a declared cost model to TOKENS (µ$) via the live infra/provider weight table (from @suluk/cloudflare weightTable()).
+export { weighCost, resolveCost, mergeWeights, type WeightTable, type WeighedCost } from "./weigh";
+// THE COST CALCULATOR — net per-user economics (cost − paid, + rate-limit budget) + the "spin up a test user" simulator.
+export { userEconomics, simulateUser, type UserEconomics, type SimStep } from "./economics";

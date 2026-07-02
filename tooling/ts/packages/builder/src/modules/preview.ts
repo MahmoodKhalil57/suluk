@@ -61,7 +61,7 @@ export const PREVIEW: SulukModule = {
   schemas: {},
   paths: previewLoginPaths,
   cost: {
-    // a redirect + a single seeded-user lookup + session write
-    previewLogin: { components: [{ source: "db-read", basis: "per-call", microUsd: 8 }], estimateMicroUsd: 8 },
+    // a redirect + a single seeded-user lookup + session write. A dev/preview affordance → settled as `free` (never charged).
+    previewLogin: { components: [{ source: "db-read", basis: "per-call", microUsd: 8 }], estimateMicroUsd: 8, infra: { "worker.request": 1, "d1.read": 1, "d1.write": 1 }, settlement: { method: "free" } },
   },
 };

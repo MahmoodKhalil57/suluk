@@ -1,0 +1,1597 @@
+{
+  "meta": {
+    "source": "https://developers.cloudflare.com",
+    "fetched": "2026-07-02",
+    "currency": "USD"
+  },
+  "products": [
+    {
+      "id": "workers",
+      "category": "compute",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/workers/",
+        "pricing": "https://developers.cloudflare.com/workers/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/workers/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        },
+        {
+          "key": "enterprise",
+          "contract": true
+        }
+      ],
+      "meters": [
+        {
+          "key": "requests",
+          "unit": "request",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.3,
+          "overage_per": 1000000
+        },
+        {
+          "key": "cpu_time",
+          "unit": "cpu_ms",
+          "paid_included": 30000000,
+          "paid_period": "month",
+          "overage_usd": 0.02,
+          "overage_per": 1000000
+        },
+        {
+          "key": "log_events",
+          "unit": "log_events",
+          "free_included": 200000,
+          "free_period": "day",
+          "paid_included": 20000000,
+          "paid_period": "month",
+          "overage_usd": 0.6,
+          "overage_per": 1000000
+        },
+        {
+          "key": "logpush_requests",
+          "unit": "requests",
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.05,
+          "overage_per": 1000000
+        }
+      ]
+    },
+    {
+      "id": "durable-objects",
+      "category": "compute",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/durable-objects/",
+        "pricing": "https://developers.cloudflare.com/durable-objects/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/durable-objects/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": [
+        {
+          "key": "requests",
+          "unit": "request",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 0.15,
+          "overage_per": 1000000
+        },
+        {
+          "key": "duration",
+          "unit": "gb_s",
+          "free_included": 13000,
+          "free_period": "day",
+          "paid_included": 400000,
+          "paid_period": "month",
+          "overage_usd": 12.5,
+          "overage_per": 1000000
+        },
+        {
+          "key": "rows_read",
+          "unit": "rows_read",
+          "free_included": 5000000,
+          "free_period": "day",
+          "paid_included": 25000000000,
+          "paid_period": "month",
+          "overage_usd": 0.001,
+          "overage_per": 1000000
+        },
+        {
+          "key": "rows_written",
+          "unit": "rows_written",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 50000000,
+          "paid_period": "month",
+          "overage_usd": 1,
+          "overage_per": 1000000
+        },
+        {
+          "key": "sqlite_storage",
+          "unit": "gb_month",
+          "free_included": 5,
+          "free_period": "month",
+          "paid_included": 5,
+          "paid_period": "month",
+          "overage_usd": 0.2,
+          "overage_per": 1
+        },
+        {
+          "key": "kv_read_request_units",
+          "unit": "read_request_units",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 0.2,
+          "overage_per": 1000000
+        },
+        {
+          "key": "kv_write_request_units",
+          "unit": "write_request_units",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 1,
+          "overage_per": 1000000
+        },
+        {
+          "key": "kv_delete_requests",
+          "unit": "delete_requests",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 1,
+          "overage_per": 1000000
+        },
+        {
+          "key": "kv_storage",
+          "unit": "gb_month",
+          "paid_included": 1,
+          "paid_period": "month",
+          "overage_usd": 0.2,
+          "overage_per": 1
+        }
+      ]
+    },
+    {
+      "id": "containers",
+      "category": "compute",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/containers/",
+        "pricing": "https://developers.cloudflare.com/containers/pricing/",
+        "limits": "https://developers.cloudflare.com/containers/platform-details/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": [
+        {
+          "key": "memory",
+          "unit": "gib_second",
+          "paid_included": 25,
+          "paid_period": "month",
+          "overage_usd": 0.0000025,
+          "overage_per": 1
+        },
+        {
+          "key": "cpu_time",
+          "unit": "vcpu_second",
+          "paid_included": 375,
+          "paid_period": "month",
+          "overage_usd": 0.00002,
+          "overage_per": 1
+        },
+        {
+          "key": "disk",
+          "unit": "gb_second",
+          "paid_included": 200,
+          "paid_period": "month",
+          "overage_usd": 7e-8,
+          "overage_per": 1
+        },
+        {
+          "key": "egress",
+          "unit": "gb_egress",
+          "paid_included": 1000,
+          "paid_period": "month",
+          "overage_usd": 0.025,
+          "overage_per": 1
+        },
+        {
+          "key": "egress_oceania_korea_taiwan",
+          "unit": "gb_egress",
+          "paid_included": 500,
+          "paid_period": "month",
+          "overage_usd": 0.05,
+          "overage_per": 1
+        },
+        {
+          "key": "egress_everywhere_else",
+          "unit": "gb_egress",
+          "paid_included": 500,
+          "paid_period": "month",
+          "overage_usd": 0.04,
+          "overage_per": 1
+        }
+      ]
+    },
+    {
+      "id": "workflows",
+      "category": "compute",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/workflows/",
+        "pricing": "https://developers.cloudflare.com/workflows/reference/pricing/",
+        "limits": "https://developers.cloudflare.com/workflows/reference/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": [
+        {
+          "key": "requests",
+          "unit": "request",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.3,
+          "overage_per": 1000000
+        },
+        {
+          "key": "cpu_time",
+          "unit": "cpu_milliseconds",
+          "free_included": 10,
+          "paid_included": 30000000,
+          "paid_period": "month",
+          "overage_usd": 0.02,
+          "overage_per": 1000000
+        },
+        {
+          "key": "storage",
+          "unit": "gb_month",
+          "free_included": 1,
+          "free_period": "month",
+          "paid_included": 1,
+          "paid_period": "month",
+          "overage_usd": 0.2,
+          "overage_per": 1
+        }
+      ]
+    },
+    {
+      "id": "pages",
+      "category": "compute",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/pages/",
+        "pricing": "https://developers.cloudflare.com/pages/functions/pricing/",
+        "limits": "https://developers.cloudflare.com/pages/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": [
+        {
+          "key": "requests",
+          "unit": "request",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.3,
+          "overage_per": 1000000
+        },
+        {
+          "key": "cpu_time",
+          "unit": "cpu_milliseconds",
+          "paid_included": 30,
+          "paid_period": "month",
+          "overage_usd": 0.02,
+          "overage_per": 1000000
+        },
+        {
+          "key": "static_asset_requests",
+          "unit": "request",
+          "overage_usd": 0
+        },
+        {
+          "key": "builds",
+          "unit": "build",
+          "free_included": 500,
+          "free_period": "month",
+          "paid_included": 5000,
+          "paid_period": "month"
+        }
+      ]
+    },
+    {
+      "id": "sandbox",
+      "category": "compute",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/sandbox/",
+        "pricing": "https://developers.cloudflare.com/containers/pricing/",
+        "limits": "https://developers.cloudflare.com/sandbox/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": [
+        {
+          "key": "memory",
+          "unit": "gib_second",
+          "paid_included": 25,
+          "paid_period": "month",
+          "overage_usd": 0.0000025,
+          "overage_per": 1
+        },
+        {
+          "key": "cpu_time",
+          "unit": "vcpu_second",
+          "paid_included": 375,
+          "paid_period": "month",
+          "overage_usd": 0.00002,
+          "overage_per": 1
+        },
+        {
+          "key": "disk",
+          "unit": "gb_second",
+          "paid_included": 200,
+          "paid_period": "month",
+          "overage_usd": 7e-8,
+          "overage_per": 1
+        },
+        {
+          "key": "egress",
+          "unit": "gb_egress",
+          "paid_included": 1000,
+          "paid_period": "month",
+          "overage_usd": 0.025,
+          "overage_per": 1
+        },
+        {
+          "key": "egress_oceania_korea_taiwan",
+          "unit": "gb_egress",
+          "paid_included": 500,
+          "paid_period": "month",
+          "overage_usd": 0.05,
+          "overage_per": 1
+        },
+        {
+          "key": "egress_everywhere_else",
+          "unit": "gb_egress",
+          "paid_included": 500,
+          "paid_period": "month",
+          "overage_usd": 0.04,
+          "overage_per": 1
+        }
+      ],
+      "catalog": [
+        {
+          "item": "lite_instance",
+          "unit": "instance_type"
+        },
+        {
+          "item": "basic_instance",
+          "unit": "instance_type"
+        },
+        {
+          "item": "standard-1_instance",
+          "unit": "instance_type"
+        },
+        {
+          "item": "standard-2_instance",
+          "unit": "instance_type"
+        },
+        {
+          "item": "standard-3_instance",
+          "unit": "instance_type"
+        },
+        {
+          "item": "standard-4_instance",
+          "unit": "instance_type"
+        }
+      ]
+    },
+    {
+      "id": "browser-rendering",
+      "category": "compute",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/browser-run/",
+        "pricing": "https://developers.cloudflare.com/browser-run/pricing/",
+        "limits": "https://developers.cloudflare.com/browser-run/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "contract": true
+        }
+      ],
+      "meters": [
+        {
+          "key": "browser_hours",
+          "unit": "hour",
+          "free_period": "day",
+          "paid_included": 10,
+          "paid_period": "month",
+          "overage_usd": 0.09,
+          "overage_per": 1
+        },
+        {
+          "key": "concurrent_browsers",
+          "unit": "browser",
+          "free_included": 3,
+          "paid_included": 10,
+          "paid_period": "month",
+          "overage_usd": 2,
+          "overage_per": 1
+        }
+      ]
+    },
+    {
+      "id": "kv",
+      "category": "storage",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/kv/",
+        "pricing": "https://developers.cloudflare.com/kv/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/kv/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": [
+        {
+          "key": "keys_read",
+          "unit": "keys_read",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.5,
+          "overage_per": 1000000
+        },
+        {
+          "key": "keys_written",
+          "unit": "keys_written",
+          "free_included": 1000,
+          "free_period": "day",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 5,
+          "overage_per": 1000000
+        },
+        {
+          "key": "keys_deleted",
+          "unit": "keys_deleted",
+          "free_included": 1000,
+          "free_period": "day",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 5,
+          "overage_per": 1000000
+        },
+        {
+          "key": "list_requests",
+          "unit": "list_requests",
+          "free_included": 1000,
+          "free_period": "day",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 5,
+          "overage_per": 1000000
+        },
+        {
+          "key": "storage",
+          "unit": "gb_month",
+          "free_included": 1,
+          "free_period": "month",
+          "paid_included": 1,
+          "paid_period": "month",
+          "overage_usd": 0.5,
+          "overage_per": 1
+        }
+      ]
+    },
+    {
+      "id": "r2",
+      "category": "storage",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/r2/",
+        "pricing": "https://developers.cloudflare.com/r2/pricing/",
+        "limits": "https://developers.cloudflare.com/r2/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "pay-as-you-go",
+          "base_usd_month": 0
+        }
+      ],
+      "meters": [
+        {
+          "key": "storage",
+          "unit": "gb_month",
+          "free_included": 10,
+          "free_period": "month",
+          "overage_usd": 0.015,
+          "overage_per": 1
+        },
+        {
+          "key": "storage_infrequent_access",
+          "unit": "gb_month",
+          "overage_usd": 0.01,
+          "overage_per": 1
+        },
+        {
+          "key": "class_a_operations",
+          "unit": "requests",
+          "free_included": 1,
+          "free_period": "month",
+          "overage_usd": 4.5,
+          "overage_per": 1000000,
+          "_note": "corrected: R2 operations are priced per MILLION (harvest had overage_per:1)"
+        },
+        {
+          "key": "class_a_operations_infrequent_access",
+          "unit": "requests",
+          "overage_usd": 9,
+          "overage_per": 1000000,
+          "_note": "corrected: R2 operations are priced per MILLION (harvest had overage_per:1)"
+        },
+        {
+          "key": "class_b_operations",
+          "unit": "requests",
+          "free_included": 10,
+          "free_period": "month",
+          "overage_usd": 0.36,
+          "overage_per": 1000000,
+          "_note": "corrected: R2 operations are priced per MILLION (harvest had overage_per:1)"
+        },
+        {
+          "key": "class_b_operations_infrequent_access",
+          "unit": "requests",
+          "overage_usd": 0.9,
+          "overage_per": 1000000,
+          "_note": "corrected: R2 operations are priced per MILLION (harvest had overage_per:1)"
+        },
+        {
+          "key": "data_retrieval",
+          "unit": "gb",
+          "overage_usd": 0.01,
+          "overage_per": 1
+        },
+        {
+          "key": "egress",
+          "unit": "gb_egress",
+          "overage_usd": 0,
+          "overage_per": 1
+        }
+      ]
+    },
+    {
+      "id": "d1",
+      "category": "database",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/d1/",
+        "pricing": "https://developers.cloudflare.com/d1/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/d1/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": [
+        {
+          "key": "rows_read",
+          "unit": "rows",
+          "free_included": 5000000,
+          "free_period": "day",
+          "paid_included": 25000000000,
+          "paid_period": "month",
+          "overage_usd": 0.001,
+          "overage_per": 1000000
+        },
+        {
+          "key": "rows_written",
+          "unit": "rows",
+          "free_included": 100000,
+          "free_period": "day",
+          "paid_included": 50000000,
+          "paid_period": "month",
+          "overage_usd": 1,
+          "overage_per": 1000000
+        },
+        {
+          "key": "storage",
+          "unit": "gb_month",
+          "free_included": 5,
+          "free_period": "month",
+          "paid_included": 5,
+          "paid_period": "month",
+          "overage_usd": 0.75,
+          "overage_per": 1
+        }
+      ]
+    },
+    {
+      "id": "hyperdrive",
+      "category": "database",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/hyperdrive/",
+        "pricing": "https://developers.cloudflare.com/hyperdrive/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/hyperdrive/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "contract": true
+        }
+      ],
+      "meters": [
+        {
+          "key": "queries",
+          "unit": "query",
+          "free_included": 100000,
+          "free_period": "day"
+        }
+      ]
+    },
+    {
+      "id": "r2-sql",
+      "category": "database",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/r2-sql/",
+        "pricing": "https://developers.cloudflare.com/r2-sql/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/r2-sql/reference/limitations-best-practices/"
+      },
+      "plans": [
+        {
+          "key": "pay-as-you-go",
+          "base_usd_month": 0
+        }
+      ],
+      "meters": [
+        {
+          "key": "data_scanned",
+          "unit": "gb",
+          "free_included": 10,
+          "free_period": "month",
+          "paid_included": 10,
+          "paid_period": "month",
+          "overage_usd": 0.0025,
+          "overage_per": 1
+        }
+      ]
+    },
+    {
+      "id": "queues",
+      "category": "messaging",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/queues/",
+        "pricing": "https://developers.cloudflare.com/queues/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/queues/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": [
+        {
+          "key": "operations",
+          "unit": "operation",
+          "free_included": 10000,
+          "free_period": "day",
+          "paid_included": 1000000,
+          "paid_period": "month",
+          "overage_usd": 0.4,
+          "overage_per": 1000000
+        }
+      ]
+    },
+    {
+      "id": "pipelines",
+      "category": "storage",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/pipelines/",
+        "pricing": "https://developers.cloudflare.com/pipelines/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/pipelines/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "paid",
+          "contract": true
+        }
+      ],
+      "meters": [
+        {
+          "key": "streams_ingress",
+          "unit": "gb",
+          "overage_usd": 0,
+          "overage_per": 1
+        },
+        {
+          "key": "sql_transforms",
+          "unit": "gb",
+          "paid_included": 50,
+          "paid_period": "month",
+          "overage_usd": 0.04,
+          "overage_per": 1
+        },
+        {
+          "key": "sink_egress_json",
+          "unit": "gb",
+          "paid_included": 50,
+          "paid_period": "month",
+          "overage_usd": 0.03,
+          "overage_per": 1
+        },
+        {
+          "key": "sink_egress_parquet_iceberg",
+          "unit": "gb",
+          "overage_usd": 0.06,
+          "overage_per": 1
+        }
+      ]
+    },
+    {
+      "id": "workers-ai",
+      "category": "ai",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/workers-ai/",
+        "pricing": "https://developers.cloudflare.com/workers-ai/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/workers-ai/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": [
+        {
+          "key": "neurons",
+          "unit": "neurons",
+          "free_included": 10000,
+          "free_period": "day",
+          "paid_included": 10000,
+          "paid_period": "day",
+          "overage_usd": 0.011,
+          "overage_per": 1000
+        }
+      ],
+      "catalog": [
+        {
+          "item": "@cf/meta/llama-3.2-1b-instruct",
+          "unit": "per_m_tokens",
+          "price_usd": 0.027,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-3.2-3b-instruct",
+          "unit": "per_m_tokens",
+          "price_usd": 0.051,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-3.1-8b-instruct-fp8-fast",
+          "unit": "per_m_tokens",
+          "price_usd": 0.045,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-3.2-11b-vision-instruct",
+          "unit": "per_m_tokens",
+          "price_usd": 0.049,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-3.1-70b-instruct-fp8-fast",
+          "unit": "per_m_tokens",
+          "price_usd": 0.293,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+          "unit": "per_m_tokens",
+          "price_usd": 0.293,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          "unit": "per_m_tokens",
+          "price_usd": 0.497,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/mistral/mistral-7b-instruct-v0.1",
+          "unit": "per_m_tokens",
+          "price_usd": 0.11,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/mistralai/mistral-small-3.1-24b-instruct",
+          "unit": "per_m_tokens",
+          "price_usd": 0.351,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-3.1-8b-instruct",
+          "unit": "per_m_tokens",
+          "price_usd": 0.282,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-3.1-8b-instruct-fp8",
+          "unit": "per_m_tokens",
+          "price_usd": 0.152,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-3.1-8b-instruct-awq",
+          "unit": "per_m_tokens",
+          "price_usd": 0.123,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-3-8b-instruct",
+          "unit": "per_m_tokens",
+          "price_usd": 0.282,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-3-8b-instruct-awq",
+          "unit": "per_m_tokens",
+          "price_usd": 0.123,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-2-7b-chat-fp16",
+          "unit": "per_m_tokens",
+          "price_usd": 0.556,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-guard-3-8b",
+          "unit": "per_m_tokens",
+          "price_usd": 0.484,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/llama-4-scout-17b-16e-instruct",
+          "unit": "per_m_tokens",
+          "price_usd": 0.27,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/google/gemma-3-12b-it",
+          "unit": "per_m_tokens",
+          "price_usd": 0.345,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/qwen/qwq-32b",
+          "unit": "per_m_tokens",
+          "price_usd": 0.66,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/qwen/qwen2.5-coder-32b-instruct",
+          "unit": "per_m_tokens",
+          "price_usd": 0.66,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/qwen/qwen3-30b-a3b-fp8",
+          "unit": "per_m_tokens",
+          "price_usd": 0.051,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/openai/gpt-oss-120b",
+          "unit": "per_m_tokens",
+          "price_usd": 0.35,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/openai/gpt-oss-20b",
+          "unit": "per_m_tokens",
+          "price_usd": 0.2,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/aisingapore/gemma-sea-lion-v4-27b-it",
+          "unit": "per_m_tokens",
+          "price_usd": 0.351,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/ibm-granite/granite-4.0-h-micro",
+          "unit": "per_m_tokens",
+          "price_usd": 0.017,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/zai-org/glm-4.7-flash",
+          "unit": "per_m_tokens",
+          "price_usd": 0.06,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/zai-org/glm-5.2",
+          "unit": "per_m_tokens",
+          "price_usd": 1.4,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/nvidia/nemotron-3-120b-a12b",
+          "unit": "per_m_tokens",
+          "price_usd": 0.5,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/moonshotai/kimi-k2.5",
+          "unit": "per_m_tokens",
+          "price_usd": 0.6,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/moonshotai/kimi-k2.6",
+          "unit": "per_m_tokens",
+          "price_usd": 0.95,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/moonshotai/kimi-k2.7-code",
+          "unit": "per_m_tokens",
+          "price_usd": 0.95,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/google/gemma-4-26b-a4b-it",
+          "unit": "per_m_tokens",
+          "price_usd": 0.1,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/baai/bge-small-en-v1.5",
+          "unit": "per_m_input_tokens",
+          "price_usd": 0.02,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/baai/bge-base-en-v1.5",
+          "unit": "per_m_input_tokens",
+          "price_usd": 0.067,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/baai/bge-large-en-v1.5",
+          "unit": "per_m_input_tokens",
+          "price_usd": 0.204,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/baai/bge-m3",
+          "unit": "per_m_input_tokens",
+          "price_usd": 0.012,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/pfnet/plamo-embedding-1b",
+          "unit": "per_m_input_tokens",
+          "price_usd": 0.019,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/qwen/qwen3-embedding-0.6b",
+          "unit": "per_m_input_tokens",
+          "price_usd": 0.012,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/black-forest-labs/flux-1-schnell",
+          "unit": "per_step",
+          "price_usd": 0.0001056,
+          "per": 1
+        },
+        {
+          "item": "@cf/leonardo/lucid-origin",
+          "unit": "per_step",
+          "price_usd": 0.000132,
+          "per": 1
+        },
+        {
+          "item": "@cf/leonardo/phoenix-1.0",
+          "unit": "per_step",
+          "price_usd": 0.00011,
+          "per": 1
+        },
+        {
+          "item": "@cf/black-forest-labs/flux-2-dev",
+          "unit": "per_512x512_tile_per_step",
+          "price_usd": 0.00021,
+          "per": 1
+        },
+        {
+          "item": "@cf/black-forest-labs/flux-2-klein-4b",
+          "unit": "per_512x512_tile",
+          "price_usd": 0.000059,
+          "per": 1
+        },
+        {
+          "item": "@cf/black-forest-labs/flux-2-klein-9b",
+          "unit": "per_mp",
+          "price_usd": 0.015,
+          "per": 1
+        },
+        {
+          "item": "@cf/openai/whisper",
+          "unit": "per_audio_minute",
+          "price_usd": 0.0005,
+          "per": 1
+        },
+        {
+          "item": "@cf/openai/whisper-large-v3-turbo",
+          "unit": "per_audio_minute",
+          "price_usd": 0.0005,
+          "per": 1
+        },
+        {
+          "item": "@cf/myshell-ai/melotts",
+          "unit": "per_audio_minute",
+          "price_usd": 0.0002,
+          "per": 1
+        },
+        {
+          "item": "@cf/deepgram/aura-1",
+          "unit": "per_1k_characters_input",
+          "price_usd": 0.015,
+          "per": 1000
+        },
+        {
+          "item": "@cf/deepgram/nova-3",
+          "unit": "per_audio_minute_input",
+          "price_usd": 0.0052,
+          "per": 1
+        },
+        {
+          "item": "@cf/pipecat-ai/smart-turn-v2",
+          "unit": "per_audio_minute_input",
+          "price_usd": 0.00033795,
+          "per": 1
+        },
+        {
+          "item": "@cf/deepgram/aura-2-en",
+          "unit": "per_1k_characters_input",
+          "price_usd": 0.03,
+          "per": 1000
+        },
+        {
+          "item": "@cf/deepgram/aura-2-es",
+          "unit": "per_1k_characters_input",
+          "price_usd": 0.03,
+          "per": 1000
+        },
+        {
+          "item": "@cf/deepgram/flux",
+          "unit": "per_audio_minute",
+          "price_usd": 0.0077,
+          "per": 1
+        },
+        {
+          "item": "@cf/huggingface/distilbert-sst-2-int8",
+          "unit": "per_m_input_tokens",
+          "price_usd": 0.026,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/baai/bge-reranker-base",
+          "unit": "per_m_input_tokens",
+          "price_usd": 0.003,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/meta/m2m100-1.2b",
+          "unit": "per_m_tokens",
+          "price_usd": 0.342,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/microsoft/resnet-50",
+          "unit": "per_m_images",
+          "price_usd": 2.51,
+          "per": 1000000
+        },
+        {
+          "item": "@cf/ai4bharat/indictrans2-en-indic-1B",
+          "unit": "per_m_tokens",
+          "price_usd": 0.342,
+          "per": 1000000
+        }
+      ]
+    },
+    {
+      "id": "vectorize",
+      "category": "ai",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/vectorize/",
+        "pricing": "https://developers.cloudflare.com/vectorize/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/vectorize/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": [
+        {
+          "key": "queried_vector_dimensions",
+          "unit": "queried_vector_dimensions",
+          "free_included": 30,
+          "free_period": "month",
+          "paid_included": 50,
+          "paid_period": "month",
+          "overage_usd": 0.01,
+          "overage_per": 1
+        },
+        {
+          "key": "stored_vector_dimensions",
+          "unit": "stored_vector_dimensions",
+          "free_included": 5,
+          "free_period": "month",
+          "paid_included": 10,
+          "paid_period": "month",
+          "overage_usd": 0.05,
+          "overage_per": 100
+        },
+        {
+          "key": "egress",
+          "unit": "gb_egress",
+          "overage_usd": 0
+        }
+      ]
+    },
+    {
+      "id": "ai-gateway",
+      "category": "ai",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/ai-gateway/",
+        "pricing": "https://developers.cloudflare.com/ai-gateway/reference/pricing/",
+        "limits": "https://developers.cloudflare.com/ai-gateway/reference/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "contract": true
+        },
+        {
+          "key": "enterprise",
+          "contract": true
+        }
+      ],
+      "meters": [
+        {
+          "key": "persistent_logs_free",
+          "unit": "log",
+          "free_included": 100000
+        },
+        {
+          "key": "persistent_logs_paid",
+          "unit": "log",
+          "paid_included": 10000000
+        },
+        {
+          "key": "logpush_requests",
+          "unit": "requests",
+          "paid_included": 10000000,
+          "paid_period": "month",
+          "overage_usd": 0.05,
+          "overage_per": 1000000
+        },
+        {
+          "key": "unified_billing_fee",
+          "unit": "usd_of_credits_purchased",
+          "overage_usd": 0.05,
+          "overage_per": 1
+        }
+      ]
+    },
+    {
+      "id": "ai-search",
+      "category": "ai",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/ai-search/",
+        "pricing": "https://developers.cloudflare.com/ai-search/platform/limits-pricing/",
+        "limits": "https://developers.cloudflare.com/ai-search/platform/limits-pricing/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": [
+        {
+          "key": "instances",
+          "unit": "instance",
+          "free_included": 100,
+          "paid_included": 5000
+        },
+        {
+          "key": "files_per_instance",
+          "unit": "file",
+          "free_included": 100000,
+          "paid_included": 1000000
+        },
+        {
+          "key": "max_file_size",
+          "unit": "mb",
+          "free_included": 4,
+          "paid_included": 4
+        },
+        {
+          "key": "queries",
+          "unit": "query",
+          "free_included": 20000,
+          "free_period": "month",
+          "paid_period": "month"
+        },
+        {
+          "key": "pages_crawled",
+          "unit": "page",
+          "free_included": 500,
+          "free_period": "day",
+          "paid_period": "day"
+        },
+        {
+          "key": "custom_metadata_fields",
+          "unit": "field_per_instance",
+          "free_included": 5,
+          "paid_included": 5
+        },
+        {
+          "key": "text_metadata_value_length",
+          "unit": "character",
+          "free_included": 500,
+          "paid_included": 500
+        }
+      ]
+    },
+    {
+      "id": "agents",
+      "category": "ai",
+      "confidence": "medium",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/agents/",
+        "pricing": "https://developers.cloudflare.com/workers/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/agents/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "base_usd_month": 5
+        }
+      ],
+      "meters": []
+    },
+    {
+      "id": "images",
+      "category": "media",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/images/",
+        "pricing": "https://developers.cloudflare.com/images/pricing/",
+        "limits": "https://developers.cloudflare.com/images/get-started/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "contract": true
+        }
+      ],
+      "meters": [
+        {
+          "key": "images_transformed",
+          "unit": "unique_transformations",
+          "free_included": 5000,
+          "free_period": "month",
+          "paid_included": 5000,
+          "paid_period": "month",
+          "overage_usd": 0.5,
+          "overage_per": 1000
+        },
+        {
+          "key": "images_stored",
+          "unit": "images_stored",
+          "overage_usd": 5,
+          "overage_per": 100000
+        },
+        {
+          "key": "images_delivered",
+          "unit": "images_delivered",
+          "overage_usd": 1,
+          "overage_per": 100000
+        }
+      ]
+    },
+    {
+      "id": "stream",
+      "category": "media",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/stream/",
+        "pricing": "https://developers.cloudflare.com/stream/pricing/"
+      },
+      "plans": [
+        {
+          "key": "pay-as-you-go",
+          "contract": true
+        },
+        {
+          "key": "enterprise",
+          "contract": true
+        }
+      ],
+      "meters": [
+        {
+          "key": "storage",
+          "unit": "minutes_stored",
+          "overage_usd": 5,
+          "overage_per": 1000
+        },
+        {
+          "key": "delivery",
+          "unit": "minutes_delivered",
+          "overage_usd": 1,
+          "overage_per": 1000
+        },
+        {
+          "key": "media_transformations",
+          "unit": "monthly_unique_transformation_operations",
+          "free_included": 5000,
+          "free_period": "month",
+          "overage_usd": 0.5,
+          "overage_per": 1000
+        }
+      ]
+    },
+    {
+      "id": "realtime",
+      "category": "media",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/realtime/",
+        "pricing": "https://developers.cloudflare.com/realtime/sfu/pricing/",
+        "limits": "https://developers.cloudflare.com/realtime/sfu/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "pay-as-you-go",
+          "base_usd_month": 0
+        }
+      ],
+      "meters": [
+        {
+          "key": "egress",
+          "unit": "gb_egress",
+          "free_included": 1000,
+          "free_period": "month",
+          "overage_usd": 0.05,
+          "overage_per": 1
+        },
+        {
+          "key": "realtimekit_audio_video_participant",
+          "unit": "participant_minute",
+          "overage_usd": 0.002,
+          "overage_per": 1
+        },
+        {
+          "key": "realtimekit_audio_only_participant",
+          "unit": "participant_minute",
+          "overage_usd": 0.0005,
+          "overage_per": 1
+        },
+        {
+          "key": "realtimekit_export_recording_streaming",
+          "unit": "minute",
+          "overage_usd": 0.01,
+          "overage_per": 1
+        },
+        {
+          "key": "realtimekit_export_recording_streaming_audio_only",
+          "unit": "minute",
+          "overage_usd": 0.003,
+          "overage_per": 1
+        },
+        {
+          "key": "realtimekit_export_raw_rtp_r2",
+          "unit": "minute",
+          "overage_usd": 0.0005,
+          "overage_per": 1
+        },
+        {
+          "key": "realtimekit_transcription_realtime",
+          "unit": "per_workers_ai_model_pricing"
+        }
+      ]
+    },
+    {
+      "id": "email-service",
+      "category": "messaging",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/email-service/",
+        "pricing": "https://developers.cloudflare.com/email-service/platform/pricing/",
+        "limits": "https://developers.cloudflare.com/email-service/platform/limits/"
+      },
+      "plans": [
+        {
+          "key": "free",
+          "base_usd_month": 0
+        },
+        {
+          "key": "paid",
+          "contract": true
+        }
+      ],
+      "meters": [
+        {
+          "key": "outbound_emails",
+          "unit": "emails",
+          "paid_included": 3000,
+          "paid_period": "month",
+          "overage_usd": 0.35,
+          "overage_per": 1000
+        },
+        {
+          "key": "inbound_emails",
+          "unit": "email",
+          "overage_usd": 0,
+          "overage_per": 1
+        }
+      ]
+    },
+    {
+      "id": "logs",
+      "category": "observability",
+      "confidence": "high",
+      "urls": {
+        "doc": "https://developers.cloudflare.com/logs/",
+        "pricing": "https://developers.cloudflare.com/logs/logpush/",
+        "limits": "https://developers.cloudflare.com/logs/logpush/"
+      },
+      "plans": [
+        {
+          "key": "enterprise",
+          "contract": true
+        }
+      ],
+      "meters": [
+        {
+          "key": "logpush_jobs_per_zone",
+          "unit": "job",
+          "paid_included": 4
+        }
+      ]
+    }
+  ]
+}

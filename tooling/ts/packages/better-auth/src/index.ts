@@ -30,3 +30,6 @@ export { previewLoginHandler, isPreviewRuntime, type PreviewRequestLike, type Pr
 // C057 local-dev any-email login (the Google mock when no GOOGLE_CLIENT_ID) — fail-closed behind an `armed` flag, mints
 // a REAL session via the public signUp/signIn API. The registry arms it only in dev-mock mode; a prod deploy 404s it.
 export { devLoginHandler, DEV_LOGIN_PASSWORD, type DevLoginAuthLike, type DevLoginOptions } from "./dev-login";
+// Provider FEE weights — Google OAuth is free ($0); the real per-login cost is D1 infra. AUTH_WEIGHTS carries `google.oauth`
+// at 0 for observability + as the paid-Google-API extension point. Merge into the app's table (see @suluk/cost mergeWeights).
+export { AUTH_WEIGHTS, GOOGLE_OAUTH_MICRO_USD } from "./weights";
