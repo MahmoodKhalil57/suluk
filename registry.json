@@ -446,14 +446,14 @@
     {
       "name": "reference",
       "type": "registry:item",
-      "title": "API reference \u2014 v4-native page over the derived contract",
-      "description": "An API reference PAGE rendered by @suluk/reference (the complete v4-native renderer: cost badges, access View-as projection, hardening, try-it) over apiDocument() \u2014 the SAME per-principal v4 document the contract keystone derives. GET /api/reference renders the full doc; GET /api/reference/:tool projects it to one operation (by its by-name handle). Own the wiring, npm the renderer. Derived + stateless \u2014 no schema, no provision.",
+      "title": "API reference \u2014 v4-enhanced Scalar page over the derived contract",
+      "description": "An API reference PAGE rendered by @suluk/scalar (Scalar taught to show v4: the pinned suluk-forked standalone renders v4 requests\u2192operations natively + surfaces x-suluk-cost/x-suluk-access as badges) over apiDocument() \u2014 the SAME per-principal v4 document the contract keystone derives. GET /api/reference renders the full page with a View-as role projector; GET /api/reference/spec serves the enriched per-role spec the toolbar re-fetches; GET /api/reference/:tool focuses on one operation (by its by-name handle). Own the wiring, npm the renderer. Derived + stateless \u2014 no schema, no provision.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app",
         "MahmoodKhalil57/suluk/contract"
       ],
       "dependencies": [
-        "@suluk/reference",
+        "@suluk/scalar",
         "@suluk/core",
         "hono"
       ],
