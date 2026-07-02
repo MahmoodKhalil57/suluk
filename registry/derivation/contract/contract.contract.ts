@@ -24,7 +24,7 @@ import { ALL_OPS } from "./contract.ops";
  * `./contract.ops` (`ALL_OPS`) — the generator spreads one `<module>.contract.ts` fragment per installed module, so a
  * module's routes and its declared ops live together and the central contract can never drift. */
 const SYSTEM_OPS: readonly DocumentedRoute[] = [
-  { method: "get", path: "/api/health", name: "health", summary: "Liveness check — returns ok + the service name. Public.", tags: ["System"], responses: [{ status: 200, description: "The service is up." }] },
+  { method: "get", path: "/api/health", name: "health", summary: "Liveness check — returns ok + the service name. Public.", cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "free" } }, tags: ["System"], responses: [{ status: 200, description: "The service is up." }] },
 ];
 
 /** THE base operation surface = the system ops + every installed module's composed fragment. */

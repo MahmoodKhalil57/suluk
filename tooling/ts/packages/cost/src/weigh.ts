@@ -47,9 +47,10 @@ export function weighCost(model: CostModel | undefined, weights: WeightTable): W
   const unknownMeters: string[] = [];
   for (const [meter, units] of Object.entries(model?.infra ?? {})) {
     const w = weights[meter];
-    // a missing weight OR a non-finite weight/units is SURFACED (never silently zeroed AND never allowed to poison the
+    // a missing weight OR a non-finite/absent unit is SURFACED (never silently zeroed AND never allowed to poison the
     // total with NaN/Infinity — a bad pricing snapshot or override must fail visibly, not corrupt every downstream sum).
-    if (w == null || !Number.isFinite(w) || !Number.isFinite(units)) { unknownMeters.push(meter); continue; }
+    // `typeof units !== "number"` also narrows away the `undefined` the infra type tolerates (see CostModel.infra).
+    if (w == null || !Number.isFinite(w) || typeof units !== "number" || !Number.isFinite(units)) { unknownMeters.push(meter); continue; }
     const micro = units * w;
     infraMicroUsd += micro;
     infraBreakdown.push({ meter, units, microUsd: micro });

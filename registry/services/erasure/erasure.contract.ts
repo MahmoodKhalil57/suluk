@@ -15,6 +15,7 @@ export const erasureOps = [
     summary: "Run the GDPR erasure cascade for a user across every subsystem. ADMIN-only; fail-closed (a failed step aborts with no receipt).",
     tags: ["Admin"],
     scopes: ["admin"],
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
     request: { params: z.object({ userId: z.string() }) },
     responses: [{ status: 200, description: "The erasure cascade completed.", schema: ErasureReceiptSchema }],
     rateLimit: { windowMs: 60_000, maxRequests: 20, key: "principal" }, // destructive admin op → tight per-principal cap

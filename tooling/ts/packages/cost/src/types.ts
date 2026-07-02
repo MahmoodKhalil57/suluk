@@ -63,8 +63,13 @@ export interface CostModel {
    * STATIC (infra-only) cost MULTIPLIER: `weighCost` turns it into tokens (µ$) via the live infra WEIGHTS
    * (@suluk/cloudflare `infraWeights`), so the number is derived from real Cloudflare pricing, not hand-guessed — and
    * auto-updates when the pricing does. DYNAMIC cost (per-token / per-mb / a third-party charge) still goes in `components`.
+   *
+   * The value is `number | undefined` (not just `number`) purely for ERGONOMICS: when heterogeneous infra maps are declared
+   * as object literals across a `RouteContract[]` array, TypeScript widens each literal with the sibling routes' keys as
+   * `key?: undefined` — a strict `Record<string, number>` then rejects them. Tolerating `undefined` keeps route declarations
+   * clean (`infra: { "d1.read": 20 }`, no casts). At runtime the values are always numbers; `weighCost` guards non-numbers.
    */
-  infra?: Record<string, number>;
+  infra?: Record<string, number | undefined>;
   /** Optional typical total for one call (µ$), for display + tests when usage isn't yet known. */
   estimateMicroUsd?: number;
   /** WHEN/WHAT fires this cost (C024; default "synchronous"). STATIC — decouples accrual-time from the declaring op. */

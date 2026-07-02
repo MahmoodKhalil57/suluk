@@ -15,13 +15,14 @@ const Balance = z.object({ balance: z.number().int() });
 const Transaction = z.object({ id: z.string(), userId: z.string(), amount: z.number().int(), reason: z.string(), createdAt: z.number() });
 
 export const creditsOps = [
-  { method: "get", path: "/api/credits", name: "getCredits", summary: "The caller's credit balance.", tags: ["Credits"], scopes: ["credits:read"], rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" }, responses: [{ status: 200, description: "The current credit balance.", schema: Balance }] },
-  { method: "get", path: "/api/credits/balance/:userId", name: "getUserCredits", summary: "A specific user's credit balance (self/admin).", tags: ["Credits"], scopes: ["credits:read"], rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" }, responses: [{ status: 200, description: "The user's credit balance.", schema: Balance }] },
-  { method: "get", path: "/api/credits/transactions", name: "listTransactions", summary: "The caller's recent credit ledger (grants + usage debits), newest first.", tags: ["Credits"], scopes: ["credits:read"], rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" }, responses: [{ status: 200, description: "The credit transaction ledger.", schema: z.object({ transactions: z.array(Transaction) }) }] },
+  { method: "get", path: "/api/credits", name: "getCredits", summary: "The caller's credit balance.", tags: ["Credits"], scopes: ["credits:read"], cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "credit" } }, rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" }, responses: [{ status: 200, description: "The current credit balance.", schema: Balance }] },
+  { method: "get", path: "/api/credits/balance/:userId", name: "getUserCredits", summary: "A specific user's credit balance (self/admin).", tags: ["Credits"], scopes: ["credits:read"], cost: { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "credit" } }, rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" }, responses: [{ status: 200, description: "The user's credit balance.", schema: Balance }] },
+  { method: "get", path: "/api/credits/transactions", name: "listTransactions", summary: "The caller's recent credit ledger (grants + usage debits), newest first.", tags: ["Credits"], scopes: ["credits:read"], cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "credit" } }, rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" }, responses: [{ status: 200, description: "The credit transaction ledger.", schema: z.object({ transactions: z.array(Transaction) }) }] },
   {
     method: "post", path: "/api/credits/debit", name: "debitCredits",
     summary: "Atomically debit metered credits; 402 when the balance can't cover the charge.",
     tags: ["Credits"], scopes: ["credits:write"],
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
     rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
     errors: [400, 402],
     request: { json: z.object({ userId: z.string().min(1), amount: z.number().int().positive(), reason: z.string().max(200).optional() }) },
@@ -31,6 +32,7 @@ export const creditsOps = [
     method: "post", path: "/api/credits/grant", name: "grantCredits",
     summary: "Idempotent credit grant (money-IN, safe to retry — keyed on an idempotency key).",
     tags: ["Credits"], scopes: ["credits:write"],
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit" } },
     rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
     errors: [400],
     request: { json: z.object({ userId: z.string().min(1), amount: z.number().int().positive(), idemKey: z.string().min(1), reason: z.string().max(200).optional() }) },
