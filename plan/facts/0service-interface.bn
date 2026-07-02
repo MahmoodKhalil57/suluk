@@ -22,7 +22,7 @@
 #      typed against BOTH endpoints (variadic-tuple PortRefs/CapRefs); fan-out = flat array in execution order; resolveWiring
 #      validates presence + compatibility + ordering + acyclicity (Kahn topo). THE DECISIVE MECHANISM: a bound edge renders
 #      INTO the producer port's EXISTING mount-opt field (e.g. auth.onUserCreated), NEVER a separate post-route wire()
-#      statement -> reuses a seam that ALREADY EXISTS in registry/auth/auth.ts, no invented singletons, the hook closure gets
+#      statement -> reuses a seam that ALREADY EXISTS in registry/services/auth/auth.ts, no invented singletons, the hook closure gets
 #      a real env binding. Zero wires on a port -> no hook field -> byte-identical. Edge params SYSTEM by default; a
 #      .meta({brand:true,env:"KEY"}) param is brand-tunable via [vars] with an assertNumber startup guard (no silent NaN).
 #  (5) SAFE RENDER = two rails: values only via lit(v)=JSON.stringify(parse(schema,v)) (+ assertJsonSafe); identifiers/code

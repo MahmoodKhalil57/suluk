@@ -18,7 +18,7 @@ when you want the bare foundation.
 
 ## What you get
 
-One file, `registry/app/app.ts` → `src/app.ts`, delivered into your repo and yours to edit. It
+One file, `registry/foundation/app/app.ts` → `src/app.ts`, delivered into your repo and yours to edit. It
 targets Cloudflare Workers (a D1 binding) and provides:
 
 - **`createApp()`** — the base `Hono<{ Bindings }>` app. Applies credentialed CORS on `/api/*`

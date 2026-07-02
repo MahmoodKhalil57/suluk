@@ -130,7 +130,7 @@ mountAuthRoutes(app, { mcp: {…}, onUserCreated: async (userId) => {
 } });
 ```
 
-This reuses a seam that **already exists** in `registry/auth/auth.ts` (`onUserCreated?: (userId) => Promise<void>`) — so no
+This reuses a seam that **already exists** in `registry/services/auth/auth.ts` (`onUserCreated?: (userId) => Promise<void>`) — so no
 invented module singletons, and the closure gets a real `env` binding from the Better-Auth `databaseHook` context. **Zero
 wires on a port → no hook field → byte-identical.** Communities offer capabilities or expose ports symmetrically — no
 `@suluk` fork. Edge params are **SYSTEM by default**; a param marked `.meta({ brand: true, env: "KEY" })` is brand-tunable
@@ -181,7 +181,7 @@ contract is the exported Service object; the JSON block is a fallback (types deg
 
 ## Open questions (honest boundaries)
 
-1. **Env threading precision.** `registry/auth/auth.ts` currently invokes `onUserCreated` as `(u) => opts.onUserCreated(u.id)`
+1. **Env threading precision.** `registry/services/auth/auth.ts` currently invokes `onUserCreated` as `(u) => opts.onUserCreated(u.id)`
    — signature `(userId) => Promise<void>`, **no `env` passed**. Phase 3 must decide: (a) widen the auth seam to `(userId,
    env)` (a reviewed byte-diff to the owned module) or (b) resolve `env` from a request-context in the capability. This is the
    one place the render contract must be pinned to the real signature before the Port/Capability interface freezes.
