@@ -8,7 +8,7 @@
 
 > **entityColumns**(`entity`): [`ColumnDef`](../interfaces/ColumnDef.md)[]
 
-Defined in: [sql.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/deploy/src/sql.ts#L36)
+Defined in: [sql.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/deploy/src/sql.ts#L36)
 
 The columns of an entity, in DDL order (id is a synthesized autoincrement PK when absent). [] for a $ref/boolean.
 

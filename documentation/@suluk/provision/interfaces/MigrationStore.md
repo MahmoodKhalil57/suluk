@@ -6,7 +6,7 @@
 
 # Interface: MigrationStore
 
-Defined in: [provision/src/migration-store.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/migration-store.ts#L17)
+Defined in: [provision/src/migration-store.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/migration-store.ts#L17)
 
 ## Methods
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/migration-store.ts:17](https://github.com/MahmoodKhal
 
 > **applied**(): `Promise`\<`number`[]\>
 
-Defined in: [provision/src/migration-store.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/migration-store.ts#L26)
+Defined in: [provision/src/migration-store.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/migration-store.ts#L26)
 
 which migration indices THIS environment has applied.
 
@@ -28,7 +28,7 @@ which migration indices THIS environment has applied.
 
 > **lastSnapshot**(): `Promise`\<[`Snapshot`](Snapshot.md)\>
 
-Defined in: [provision/src/migration-store.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/migration-store.ts#L19)
+Defined in: [provision/src/migration-store.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/migration-store.ts#L19)
 
 the latest committed snapshot, or EMPTY when there are no migrations yet.
 
@@ -42,7 +42,7 @@ the latest committed snapshot, or EMPTY when there are no migrations yet.
 
 > **listMigrations**(): `Promise`\<[`Migration`](Migration.md)[]\>
 
-Defined in: [provision/src/migration-store.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/migration-store.ts#L22)
+Defined in: [provision/src/migration-store.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/migration-store.ts#L22)
 
 all migrations, in index order.
 
@@ -56,7 +56,7 @@ all migrations, in index order.
 
 > **loadSnapshot**(`idx`): `Promise`\<[`Snapshot`](Snapshot.md) \| `null`\>
 
-Defined in: [provision/src/migration-store.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/migration-store.ts#L20)
+Defined in: [provision/src/migration-store.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/migration-store.ts#L20)
 
 #### Parameters
 
@@ -74,7 +74,7 @@ Defined in: [provision/src/migration-store.ts:20](https://github.com/MahmoodKhal
 
 > **markApplied**(`idx`): `Promise`\<`void`\>
 
-Defined in: [provision/src/migration-store.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/migration-store.ts#L27)
+Defined in: [provision/src/migration-store.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/migration-store.ts#L27)
 
 #### Parameters
 
@@ -92,7 +92,7 @@ Defined in: [provision/src/migration-store.ts:27](https://github.com/MahmoodKhal
 
 > **write**(`migration`, `snapshot`): `Promise`\<`void`\>
 
-Defined in: [provision/src/migration-store.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/migration-store.ts#L24)
+Defined in: [provision/src/migration-store.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/migration-store.ts#L24)
 
 write a new migration + its snapshot, appending the journal.
 

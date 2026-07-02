@@ -6,7 +6,7 @@
 
 # Interface: SubscriptionBranding
 
-Defined in: [packages/billing/src/subscriptions.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L29)
+Defined in: [packages/billing/src/subscriptions.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/subscriptions.ts#L29)
 
 Branding seam for the Stripe Product/Price a plan creates — app-controlled so find-or-create stays stable + on-brand.
 
@@ -16,7 +16,7 @@ Branding seam for the Stripe Product/Price a plan creates — app-controlled so 
 
 > `optional` **lookupKeyPrefix?**: `string`
 
-Defined in: [packages/billing/src/subscriptions.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L33)
+Defined in: [packages/billing/src/subscriptions.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/subscriptions.ts#L33)
 
 the lookup_key PREFIX that makes find-or-create idempotent across repricing; default "sub". KEEP STABLE per app.
 
@@ -26,7 +26,7 @@ the lookup_key PREFIX that makes find-or-create idempotent across repricing; def
 
 > `optional` **productName?**: (`plan`) => `string`
 
-Defined in: [packages/billing/src/subscriptions.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L31)
+Defined in: [packages/billing/src/subscriptions.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/subscriptions.ts#L31)
 
 the recurring Price's product name; default `${plan.name} (monthly)`.
 

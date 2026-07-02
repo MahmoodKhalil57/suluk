@@ -8,7 +8,7 @@
 
 > **resolveWiring**(`services`, `wires`, `catalog`): [`Wiring`](../interfaces/Wiring.md)
 
-Defined in: [wire.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/wire.ts#L65)
+Defined in: [wire.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/wire.ts#L65)
 
 Validate + compile the wires into per-producer hook fields + the imports they need.
 

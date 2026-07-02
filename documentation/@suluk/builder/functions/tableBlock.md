@@ -8,7 +8,7 @@
 
 > **tableBlock**(`entity`, `defs?`): [`DslDocument`](../interfaces/DslDocument.md)
 
-Defined in: [fullstack.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/fullstack.ts#L59)
+Defined in: [fullstack.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/fullstack.ts#L59)
 
 A Table block for an entity. Exposes tone + which columns.
 

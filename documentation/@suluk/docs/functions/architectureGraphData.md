@@ -8,7 +8,7 @@
 
 > **architectureGraphData**(`packages`): [`ArchitectureGraph`](../interfaces/ArchitectureGraph.md)
 
-Defined in: [diagram.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/diagram.ts#L58)
+Defined in: [diagram.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/diagram.ts#L61)
 
 The `@suluk` graph enriched for the UML "Strata-of-Derivation" architecture diagram: each package carries its
 export count + a sample of export names so the renderer can draw a UML class-box (name + members compartment)

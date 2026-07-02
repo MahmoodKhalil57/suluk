@@ -6,7 +6,7 @@
 
 # Interface: AgentManifestRoute
 
-Defined in: [agents/src/manifest.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L30)
+Defined in: [agents/src/manifest.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/manifest.ts#L30)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/manifest.ts:30](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **guarantee?**: `"same-in-same-out"` \| `"idempotent"` \| `"safe"`
 
-Defined in: [agents/src/manifest.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L33)
+Defined in: [agents/src/manifest.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/manifest.ts#L33)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [agents/src/manifest.ts:33](https://github.com/MahmoodKhalil57/suluk
 
 > **name**: `string`
 
-Defined in: [agents/src/manifest.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L31)
+Defined in: [agents/src/manifest.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/manifest.ts#L31)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [agents/src/manifest.ts:31](https://github.com/MahmoodKhalil57/suluk
 
 > **operationRef**: `string`
 
-Defined in: [agents/src/manifest.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L32)
+Defined in: [agents/src/manifest.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/manifest.ts#L32)

@@ -8,7 +8,7 @@
 
 > **disabledAncestor**(`chain`, `callerKeyId`): `boolean`
 
-Defined in: [packages/keys/src/chain.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/keys/src/chain.ts#L61)
+Defined in: [packages/keys/src/chain.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/keys/src/chain.ts#L61)
 
 TRUE when any ANCESTOR has been soft-disabled — so a child auto-dies the moment a parent is revoked, EVEN when the
  revocation didn't cascade through the write path. The read-time half of the cascade. The caller's OWN disable is

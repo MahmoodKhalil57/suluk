@@ -8,7 +8,7 @@
 
 > **parseListQuery**(`raw`, `table`, `opts?`): [`ListQuery`](../interfaces/ListQuery.md)
 
-Defined in: [query.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/query.ts#L65)
+Defined in: [query.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/query.ts#L65)
 
 Normalize a raw query object into a [ListQuery](../interfaces/ListQuery.md) — pure, validating against the table's real columns:
 page/perPage are clamped (≥1, ≤maxPerPage); `sort` is honored only for a real column; any other key matching a

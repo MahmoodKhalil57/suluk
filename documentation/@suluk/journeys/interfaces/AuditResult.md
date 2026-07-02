@@ -6,7 +6,7 @@
 
 # Interface: AuditResult
 
-Defined in: [journeys/src/cli.ts:135](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L135)
+Defined in: [journeys/src/cli.ts:135](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/cli.ts#L135)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/cli.ts:135](https://github.com/MahmoodKhalil57/suluk/b
 
 > **combined**: `object`
 
-Defined in: [journeys/src/cli.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L143)
+Defined in: [journeys/src/cli.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/cli.ts#L143)
 
 the combined grade (worst is the safe value to gate on).
 
@@ -36,7 +36,7 @@ the combined grade (worst is the safe value to gate on).
 
 > `optional` **coverage?**: [`CoverageGrade`](CoverageGrade.md)
 
-Defined in: [journeys/src/cli.ts:141](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L141)
+Defined in: [journeys/src/cli.ts:141](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/cli.ts#L141)
 
 BDD contract coverage — present only when `.feature` files were given.
 
@@ -46,7 +46,7 @@ BDD contract coverage — present only when `.feature` files were given.
 
 > **readiness**: [`DimensionAudit`](DimensionAudit.md)
 
-Defined in: [journeys/src/cli.ts:139](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L139)
+Defined in: [journeys/src/cli.ts:139](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/cli.ts#L139)
 
 schema-fact readiness (computed-required / missing-example) — `@suluk/harden` auditReadiness.
 
@@ -56,6 +56,6 @@ schema-fact readiness (computed-required / missing-example) — `@suluk/harden` 
 
 > **security**: [`DimensionAudit`](DimensionAudit.md)
 
-Defined in: [journeys/src/cli.ts:137](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L137)
+Defined in: [journeys/src/cli.ts:137](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/cli.ts#L137)
 
 schema input-hardening (security) — `@suluk/harden` auditDocument.

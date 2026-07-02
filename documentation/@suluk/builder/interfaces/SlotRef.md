@@ -6,7 +6,7 @@
 
 # Interface: SlotRef
 
-Defined in: [dsl.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/dsl.ts#L53)
+Defined in: [dsl.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/dsl.ts#L53)
 
 Placeholder where a consumer's passed-in children render.
 
@@ -16,4 +16,4 @@ Placeholder where a consumer's passed-in children render.
 
 > **$slot**: `true`
 
-Defined in: [dsl.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/dsl.ts#L53)
+Defined in: [dsl.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/dsl.ts#L53)

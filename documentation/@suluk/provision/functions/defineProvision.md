@@ -8,7 +8,7 @@
 
 > **defineProvision**(`config`): [`ProvisionConfig`](../interfaces/ProvisionConfig.md)
 
-Defined in: [provision/src/config.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/config.ts#L20)
+Defined in: [provision/src/config.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/config.ts#L20)
 
 Validate + return a provision config. Throws on a duplicate ref, an undeclared-ref reference, or a binding cycle
  (via [topoOrder](topoOrder.md)) — all the static errors, surfaced before `apply` touches a provider.

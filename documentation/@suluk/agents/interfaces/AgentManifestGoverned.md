@@ -6,7 +6,7 @@
 
 # Interface: AgentManifestGoverned
 
-Defined in: [agents/src/manifest.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L36)
+Defined in: [agents/src/manifest.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/manifest.ts#L36)
 
 The operator-effective surface after x-suluk-policy narrowing (present only when a policy governs the agent).
 
@@ -16,7 +16,7 @@ The operator-effective surface after x-suluk-policy narrowing (present only when
 
 > **allowedSubAgents**: `string`[]
 
-Defined in: [agents/src/manifest.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L42)
+Defined in: [agents/src/manifest.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/manifest.ts#L42)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [agents/src/manifest.ts:42](https://github.com/MahmoodKhalil57/suluk
 
 > **allowedTools**: `string`[]
 
-Defined in: [agents/src/manifest.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L40)
+Defined in: [agents/src/manifest.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/manifest.ts#L40)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [agents/src/manifest.ts:40](https://github.com/MahmoodKhalil57/suluk
 
 > **deniedTools**: `string`[]
 
-Defined in: [agents/src/manifest.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L41)
+Defined in: [agents/src/manifest.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/manifest.ts#L41)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [agents/src/manifest.ts:41](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **maxDepth?**: `number`
 
-Defined in: [agents/src/manifest.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L38)
+Defined in: [agents/src/manifest.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/manifest.ts#L38)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [agents/src/manifest.ts:38](https://github.com/MahmoodKhalil57/suluk
 
 > **nestingForbidden**: `boolean`
 
-Defined in: [agents/src/manifest.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L39)
+Defined in: [agents/src/manifest.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/manifest.ts#L39)
 
 ***
 
@@ -56,4 +56,4 @@ Defined in: [agents/src/manifest.ts:39](https://github.com/MahmoodKhalil57/suluk
 
 > **scope**: [`Scope`](../type-aliases/Scope.md)
 
-Defined in: [agents/src/manifest.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L37)
+Defined in: [agents/src/manifest.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/manifest.ts#L37)

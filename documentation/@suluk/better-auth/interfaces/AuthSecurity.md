@@ -6,7 +6,7 @@
 
 # Interface: AuthSecurity
 
-Defined in: [security.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/security.ts#L26)
+Defined in: [security.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/security.ts#L26)
 
 `@suluk/better-auth` — official Better-Auth-on-Hono support for the Suluk derivation engine.
 
@@ -22,7 +22,7 @@ documented without re-typing; (3) maps a Better Auth session to a { scopes } pri
 
 > **names**: `string`[]
 
-Defined in: [security.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/security.ts#L30)
+Defined in: [security.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/security.ts#L30)
 
 Convenience: the scheme names, to build by-name security requirements.
 
@@ -32,7 +32,7 @@ Convenience: the scheme names, to build by-name security requirements.
 
 > **plugins**: `object`
 
-Defined in: [security.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/security.ts#L32)
+Defined in: [security.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/security.ts#L32)
 
 Enabled session-based plugins (NOT wire schemes — they gate into the session via scope-encoding).
 
@@ -54,6 +54,6 @@ Enabled session-based plugins (NOT wire schemes — they gate into the session v
 
 > **securitySchemes**: `Record`\<`string`, [`SecurityScheme`](../../core/interfaces/SecurityScheme.md)\>
 
-Defined in: [security.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/security.ts#L28)
+Defined in: [security.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/security.ts#L28)
 
 v4 components.securitySchemes entries, keyed by scheme name.

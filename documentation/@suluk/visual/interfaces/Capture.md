@@ -6,7 +6,7 @@
 
 # Interface: Capture
 
-Defined in: [baseline.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/visual/src/baseline.ts#L77)
+Defined in: [baseline.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/visual/src/baseline.ts#L77)
 
 A capture from the verify-once gate: the primitive, its content hash, and its approved screenshot's hash.
 
@@ -16,7 +16,7 @@ A capture from the verify-once gate: the primitive, its content hash, and its ap
 
 > **contentHash**: `string`
 
-Defined in: [baseline.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/visual/src/baseline.ts#L79)
+Defined in: [baseline.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/visual/src/baseline.ts#L79)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [baseline.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > **key**: `string`
 
-Defined in: [baseline.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/visual/src/baseline.ts#L78)
+Defined in: [baseline.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/visual/src/baseline.ts#L78)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [baseline.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > `optional` **label?**: `string`
 
-Defined in: [baseline.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/visual/src/baseline.ts#L81)
+Defined in: [baseline.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/visual/src/baseline.ts#L81)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [baseline.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > **snapshotHash**: `string`
 
-Defined in: [baseline.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/visual/src/baseline.ts#L80)
+Defined in: [baseline.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/visual/src/baseline.ts#L80)

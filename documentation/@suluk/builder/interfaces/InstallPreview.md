@@ -6,7 +6,7 @@
 
 # Interface: InstallPreview
 
-Defined in: [module.ts:279](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L279)
+Defined in: [module.ts:279](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L279)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [module.ts:279](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **addsOperations**: `string`[]
 
-Defined in: [module.ts:285](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L285)
+Defined in: [module.ts:285](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L285)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [module.ts:285](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **addsSchemas**: `string`[]
 
-Defined in: [module.ts:284](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L284)
+Defined in: [module.ts:284](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L284)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [module.ts:284](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **conflicts**: `string`[]
 
-Defined in: [module.ts:281](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L281)
+Defined in: [module.ts:281](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L281)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [module.ts:281](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **cost**: `object`[]
 
-Defined in: [module.ts:286](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L286)
+Defined in: [module.ts:286](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L286)
 
 #### estimateMicroUsd
 
@@ -54,7 +54,7 @@ Defined in: [module.ts:286](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **grade**: [`ModuleGrade`](ModuleGrade.md)
 
-Defined in: [module.ts:287](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L287)
+Defined in: [module.ts:287](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L287)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [module.ts:287](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **missingRequires**: `string`[]
 
-Defined in: [module.ts:283](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L283)
+Defined in: [module.ts:283](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L283)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [module.ts:283](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **requires**: `string`[]
 
-Defined in: [module.ts:282](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L282)
+Defined in: [module.ts:282](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L282)
 
 ***
 
@@ -78,4 +78,4 @@ Defined in: [module.ts:282](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **willInstall**: `boolean`
 
-Defined in: [module.ts:280](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L280)
+Defined in: [module.ts:280](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L280)

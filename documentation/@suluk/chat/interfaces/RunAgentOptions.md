@@ -6,7 +6,7 @@
 
 # Interface: RunAgentOptions
 
-Defined in: [chat/src/loop.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/chat/src/loop.ts#L24)
+Defined in: [chat/src/loop.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/chat/src/loop.ts#L24)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [chat/src/loop.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/
 
 > `optional` **clientTools?**: [`ClientToolDef`](ClientToolDef.md)[]
 
-Defined in: [chat/src/loop.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/chat/src/loop.ts#L29)
+Defined in: [chat/src/loop.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/chat/src/loop.ts#L29)
 
 Browser-executed tool definitions (no handler) — surfaced to the model, dispatched to the widget by name.
 
@@ -24,7 +24,7 @@ Browser-executed tool definitions (no handler) — surfaced to the model, dispat
 
 > **complete**: (`messages`, `tools`, `onText`) => `Promise`\<[`ChatMessage`](ChatMessage.md)\>
 
-Defined in: [chat/src/loop.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/chat/src/loop.ts#L33)
+Defined in: [chat/src/loop.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/chat/src/loop.ts#L33)
 
 One streamed model completion: stream text via onText, resolve to the final assistant message.
 
@@ -52,7 +52,7 @@ One streamed model completion: stream text via onText, resolve to the final assi
 
 > **exec**: (`op`, `args`) => `Promise`\<`unknown`\>
 
-Defined in: [chat/src/loop.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/chat/src/loop.ts#L31)
+Defined in: [chat/src/loop.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/chat/src/loop.ts#L31)
 
 Execute a SERVER tool call against the store (e.g. appExec bound to the request).
 
@@ -76,7 +76,7 @@ Execute a SERVER tool call against the store (e.g. appExec bound to the request)
 
 > `optional` **maxResultChars?**: `number`
 
-Defined in: [chat/src/loop.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/chat/src/loop.ts#L38)
+Defined in: [chat/src/loop.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/chat/src/loop.ts#L38)
 
 cap each tool result's serialized length fed back to the model (default 8000 chars).
 
@@ -86,7 +86,7 @@ cap each tool result's serialized length fed back to the model (default 8000 cha
 
 > `optional` **maxSteps?**: `number`
 
-Defined in: [chat/src/loop.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/chat/src/loop.ts#L36)
+Defined in: [chat/src/loop.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/chat/src/loop.ts#L36)
 
 max model round-trips before forcing a stop (default 6).
 
@@ -96,7 +96,7 @@ max model round-trips before forcing a stop (default 6).
 
 > **messages**: [`ChatMessage`](ChatMessage.md)[]
 
-Defined in: [chat/src/loop.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/chat/src/loop.ts#L26)
+Defined in: [chat/src/loop.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/chat/src/loop.ts#L26)
 
 Conversation so far (user/assistant turns); the system prompt is prepended from `system`.
 
@@ -106,7 +106,7 @@ Conversation so far (user/assistant turns); the system prompt is prepended from 
 
 > `optional` **system?**: `string`
 
-Defined in: [chat/src/loop.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/chat/src/loop.ts#L34)
+Defined in: [chat/src/loop.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/chat/src/loop.ts#L34)
 
 ***
 
@@ -114,4 +114,4 @@ Defined in: [chat/src/loop.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/
 
 > **tools**: [`McpTool`](../../mcp/interfaces/McpTool.md)[]
 
-Defined in: [chat/src/loop.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/chat/src/loop.ts#L27)
+Defined in: [chat/src/loop.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/chat/src/loop.ts#L27)

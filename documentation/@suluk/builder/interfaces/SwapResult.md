@@ -6,7 +6,7 @@
 
 # Interface: SwapResult\<T\>
 
-Defined in: [providers.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/providers.ts#L74)
+Defined in: [providers.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/providers.ts#L74)
 
 ## Type Parameters
 
@@ -20,7 +20,7 @@ Defined in: [providers.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > **doc**: `T`
 
-Defined in: [providers.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/providers.ts#L75)
+Defined in: [providers.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/providers.ts#L75)
 
 ***
 
@@ -28,4 +28,4 @@ Defined in: [providers.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **error?**: `string`
 
-Defined in: [providers.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/providers.ts#L76)
+Defined in: [providers.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/providers.ts#L76)

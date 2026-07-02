@@ -6,7 +6,7 @@
 
 # Interface: ArchitectureGraph
 
-Defined in: [diagram.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/diagram.ts#L47)
+Defined in: [diagram.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/diagram.ts#L50)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [diagram.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **links**: `object`[]
 
-Defined in: [diagram.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/diagram.ts#L49)
+Defined in: [diagram.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/diagram.ts#L52)
 
 #### source
 
@@ -30,4 +30,4 @@ Defined in: [diagram.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **nodes**: [`ArchNode`](ArchNode.md)[]
 
-Defined in: [diagram.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/diagram.ts#L48)
+Defined in: [diagram.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/diagram.ts#L51)

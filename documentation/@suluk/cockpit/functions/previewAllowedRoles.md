@@ -8,7 +8,7 @@
 
 > **previewAllowedRoles**(`doc`): `string`[]
 
-Defined in: [cockpit/src/crosscut.ts:139](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/crosscut.ts#L139)
+Defined in: [cockpit/src/crosscut.ts:139](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/crosscut.ts#L139)
 
 The roles a preview may be minted AS — the authenticated principals, EXCLUDING the login-less `anonymous`. This
 is the ONE source for the deployed gate's allow-list AND for which demo users seed.sql seeds; keeping them equal

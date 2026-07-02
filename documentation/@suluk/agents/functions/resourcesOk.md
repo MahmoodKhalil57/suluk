@@ -8,7 +8,7 @@
 
 > **resourcesOk**(`doc`): `boolean`
 
-Defined in: [agents/src/resources.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/resources.ts#L97)
+Defined in: [agents/src/resources.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/resources.ts#L97)
 
 True ⇒ no error-severity resource finding (the install-gate predicate for the resources facet).
 

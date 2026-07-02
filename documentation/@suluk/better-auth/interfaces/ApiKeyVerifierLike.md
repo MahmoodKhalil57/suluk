@@ -6,7 +6,7 @@
 
 # Interface: ApiKeyVerifierLike
 
-Defined in: [apikey.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/apikey.ts#L72)
+Defined in: [apikey.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/apikey.ts#L72)
 
 A duck-typed view of Better Auth's server `verifyApiKey` (the app injects `betterAuth.api`).
 
@@ -16,7 +16,7 @@ A duck-typed view of Better Auth's server `verifyApiKey` (the app injects `bette
 
 > **verifyApiKey**(`args`): `Promise`\<\{ `error?`: \{ `code?`: `string`; `message?`: `string`; \} \| `null`; `key?`: \{ `id?`: `string`; `metadata?`: `unknown`; `name?`: `string`; `permissions?`: `Record`\<`string`, `string`[]\> \| `null`; `userId?`: `string`; \} \| `null`; `valid`: `boolean`; \}\>
 
-Defined in: [apikey.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/apikey.ts#L73)
+Defined in: [apikey.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/apikey.ts#L73)
 
 #### Parameters
 

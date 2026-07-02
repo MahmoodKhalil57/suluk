@@ -6,7 +6,7 @@
 
 # Interface: Catalog
 
-Defined in: [provision/src/types.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/types.ts#L33)
+Defined in: [provision/src/types.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/types.ts#L33)
 
 The set of offerings a broker advertises (OSB Catalog).
 
@@ -16,4 +16,4 @@ The set of offerings a broker advertises (OSB Catalog).
 
 > **services**: [`ServiceOffering`](ServiceOffering.md)[]
 
-Defined in: [provision/src/types.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/types.ts#L34)
+Defined in: [provision/src/types.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/types.ts#L34)

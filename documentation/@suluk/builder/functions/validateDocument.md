@@ -8,7 +8,7 @@
 
 > **validateDocument**(`doc`, `reg`): [`DslError`](../interfaces/DslError.md)[]
 
-Defined in: [validate.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/validate.ts#L106)
+Defined in: [validate.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/validate.ts#L106)
 
 Validate one document against the registry.
 

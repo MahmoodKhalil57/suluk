@@ -8,7 +8,7 @@
 
 > **createGuard**(`cfg`): [`Guard`](../interfaces/Guard.md)
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/enforce.ts#L104)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/enforce.ts#L104)
 
 Build explicit, hand-applied guards bound to one identity model (for fine-grained per-route gating).
 

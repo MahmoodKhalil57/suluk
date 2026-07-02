@@ -8,7 +8,7 @@
 
 > **resolveRef**(`doc`, `ref`): `unknown`
 
-Defined in: [reference.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/reference.ts#L20)
+Defined in: [reference.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/reference.ts#L20)
 
 Resolve a same-document OpenAPI reference "#/components/<type>/<name>" BY NAME (C019 §A.1, C009).
 Each pointer token is a map KEY (O(1) by-name); MUST throw if a key is absent; NEVER falls back to

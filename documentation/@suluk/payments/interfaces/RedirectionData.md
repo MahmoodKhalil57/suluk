@@ -6,7 +6,7 @@
 
 # Interface: RedirectionData
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L111)
+Defined in: [tooling/ts/packages/payments/src/types.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/types.ts#L111)
 
 Where to send the customer for 3DS / redirect flows (present when status is AUTHENTICATION_PENDING).
 
@@ -16,7 +16,7 @@ Where to send the customer for 3DS / redirect flows (present when status is AUTH
 
 > `optional` **fields?**: `Record`\<`string`, `string`\>
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L114)
+Defined in: [tooling/ts/packages/payments/src/types.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/types.ts#L114)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:114](https://github.com/M
 
 > `optional` **method?**: `"GET"` \| `"POST"`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L113)
+Defined in: [tooling/ts/packages/payments/src/types.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/types.ts#L113)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:113](https://github.com/M
 
 > `optional` **url?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L112)
+Defined in: [tooling/ts/packages/payments/src/types.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/types.ts#L112)

@@ -6,7 +6,7 @@
 
 # Interface: SchemaCheck
 
-Defined in: [tooling/ts/packages/hono/src/schema-check.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/schema-check.ts#L8)
+Defined in: [tooling/ts/packages/hono/src/schema-check.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/schema-check.ts#L8)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/hono/src/schema-check.ts:8](https://github.com/
 
 > **errors**: `object`[]
 
-Defined in: [tooling/ts/packages/hono/src/schema-check.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/schema-check.ts#L10)
+Defined in: [tooling/ts/packages/hono/src/schema-check.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/schema-check.ts#L10)
 
 #### message
 
@@ -30,4 +30,4 @@ Defined in: [tooling/ts/packages/hono/src/schema-check.ts:10](https://github.com
 
 > **valid**: `boolean`
 
-Defined in: [tooling/ts/packages/hono/src/schema-check.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/schema-check.ts#L9)
+Defined in: [tooling/ts/packages/hono/src/schema-check.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/schema-check.ts#L9)

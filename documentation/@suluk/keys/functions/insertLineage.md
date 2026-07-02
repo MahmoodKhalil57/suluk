@@ -8,7 +8,7 @@
 
 > **insertLineage**(`db`, `opts`): `Promise`\<`void`\>
 
-Defined in: [packages/keys/src/lineage.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/keys/src/lineage.ts#L50)
+Defined in: [packages/keys/src/lineage.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/keys/src/lineage.ts#L50)
 
 Record a freshly-minted child (or root, when parentKeyId is null) in the lineage tree. Idempotent on the keyId PK.
 

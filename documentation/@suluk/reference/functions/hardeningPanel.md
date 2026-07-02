@@ -8,7 +8,7 @@
 
 > **hardeningPanel**(`audit`): `string`
 
-Defined in: [reference/src/panels.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/panels.ts#L22)
+Defined in: [reference/src/panels.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/reference/src/panels.ts#L22)
 
 The Hardening incentive panel — the weakest operations + their concrete fixes, gamified toward the next grade.
 

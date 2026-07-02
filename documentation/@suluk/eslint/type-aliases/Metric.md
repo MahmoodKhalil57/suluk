@@ -8,7 +8,7 @@
 
 > **Metric** = `"native"` \| `"script"` \| `"style"` \| `"handler"` \| `"frontmatter"`
 
-Defined in: [analyze.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/eslint/src/analyze.ts#L13)
+Defined in: [analyze.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/eslint/src/analyze.ts#L13)
 
 Pure detection core for the tier-composition rule — separated from the ESLint wrapper so it is unit-testable WITHOUT
 an ESLint / astro-parser harness (Workers-safe, zero deps). Given an `.astro` source + per-metric budgets, it returns

@@ -8,7 +8,7 @@
 
 > `const` **snapshotHash**: (`input`) => `string` = `hash`
 
-Defined in: [baseline.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/visual/src/baseline.ts#L22)
+Defined in: [baseline.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/visual/src/baseline.ts#L22)
 
 Hash of an approved screenshot's bytes — the recorded identity of "what was verified".
 

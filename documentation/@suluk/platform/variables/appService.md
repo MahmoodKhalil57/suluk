@@ -8,7 +8,7 @@
 
 > `const` **appService**: `object`
 
-Defined in: [service.ts:202](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L202)
+Defined in: [service.ts:202](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/service.ts#L202)
 
 The 19 CORE services, expressed through the common interface (the dogfood). Ported field-for-field from the C051 CATALOG;
 `auth` and `credits` additionally declare their composition surface (the `auth.onUserCreated` port + the

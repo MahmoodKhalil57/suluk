@@ -6,7 +6,7 @@
 
 # Interface: SessionLike
 
-Defined in: [principal.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L22)
+Defined in: [principal.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/principal.ts#L22)
 
 A minimal view of a Better Auth session (duck-typed; works with the real Session shape).
 
@@ -16,7 +16,7 @@ A minimal view of a Better Auth session (duck-typed; works with the real Session
 
 > `optional` **apiKey?**: \{ `permissions?`: `Record`\<`string`, `string`[]\>; `scopes?`: `string`[]; \} \| `null`
 
-Defined in: [principal.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L25)
+Defined in: [principal.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/principal.ts#L25)
 
 apiKey plugin: a key carries its own permissions/scopes.
 
@@ -26,7 +26,7 @@ apiKey plugin: a key carries its own permissions/scopes.
 
 > `optional` **organizations?**: `object`[]
 
-Defined in: [principal.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L30)
+Defined in: [principal.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/principal.ts#L30)
 
 organization plugin: memberships → `org:<id>:<scope>` scopes (Phase 1, tenancy via scope-encoding).
 
@@ -48,7 +48,7 @@ organization plugin: memberships → `org:<id>:<scope>` scopes (Phase 1, tenancy
 
 > `optional` **scopes?**: `string`[]
 
-Defined in: [principal.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L26)
+Defined in: [principal.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/principal.ts#L26)
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: [principal.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **twoFactorVerified?**: `boolean`
 
-Defined in: [principal.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L28)
+Defined in: [principal.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/principal.ts#L28)
 
 twoFactor plugin: the session has cleared its second factor ⇒ the `mfa:verified` scope (Phase 1).
 
@@ -66,4 +66,4 @@ twoFactor plugin: the session has cleared its second factor ⇒ the `mfa:verifie
 
 > `optional` **user?**: \{ `role?`: `string` \| `string`[]; `scopes?`: `string`[]; \} \| `null`
 
-Defined in: [principal.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L23)
+Defined in: [principal.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/principal.ts#L23)

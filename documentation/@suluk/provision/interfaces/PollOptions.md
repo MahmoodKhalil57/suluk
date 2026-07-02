@@ -6,7 +6,7 @@
 
 # Interface: PollOptions
 
-Defined in: [provision/src/poll.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/poll.ts#L7)
+Defined in: [provision/src/poll.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/poll.ts#L7)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/poll.ts:7](https://github.com/MahmoodKhalil57/suluk/b
 
 > `optional` **intervalMs?**: `number`
 
-Defined in: [provision/src/poll.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/poll.ts#L8)
+Defined in: [provision/src/poll.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/poll.ts#L8)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [provision/src/poll.ts:8](https://github.com/MahmoodKhalil57/suluk/b
 
 > `optional` **now?**: () => `number`
 
-Defined in: [provision/src/poll.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/poll.ts#L11)
+Defined in: [provision/src/poll.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/poll.ts#L11)
 
 #### Returns
 
@@ -34,7 +34,7 @@ Defined in: [provision/src/poll.ts:11](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **sleep?**: (`ms`) => `Promise`\<`void`\>
 
-Defined in: [provision/src/poll.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/poll.ts#L10)
+Defined in: [provision/src/poll.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/poll.ts#L10)
 
 #### Parameters
 
@@ -52,4 +52,4 @@ Defined in: [provision/src/poll.ts:10](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **timeoutMs?**: `number`
 
-Defined in: [provision/src/poll.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/poll.ts#L9)
+Defined in: [provision/src/poll.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/poll.ts#L9)

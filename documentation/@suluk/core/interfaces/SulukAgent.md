@@ -6,7 +6,7 @@
 
 # Interface: SulukAgent
 
-Defined in: [types.ts:168](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L168)
+Defined in: [types.ts:168](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L168)
 
 A composition agent (C027) — an LLM-orchestrated unit. The map KEY is its stable wire-level identity (the emitted
 MCP-tool / OpenRouter-function id; C009 by-name, never by index). It carries NO Request/Response and is NEVER
@@ -29,7 +29,7 @@ any other vendor facet — notably `x-suluk-cost` (an agent/skill boundary's dec
 
 > `optional` **agents?**: `Record`\<`string`, [`SulukAgentRef`](SulukAgentRef.md)\>
 
-Defined in: [types.ts:178](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L178)
+Defined in: [types.ts:178](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L178)
 
 by-name sub-agent refs (never inline — inlining would fork C009 identity).
 
@@ -39,7 +39,7 @@ by-name sub-agent refs (never inline — inlining would fork C009 identity).
 
 > `optional` **contextBudget?**: `object`
 
-Defined in: [types.ts:186](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L186)
+Defined in: [types.ts:186](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L186)
 
 advisory per-tier context budget (basis: estimate); fail-loud, never silent-zero.
 
@@ -57,7 +57,7 @@ advisory per-tier context budget (basis: estimate); fail-loud, never silent-zero
 
 > **description**: `string`
 
-Defined in: [types.ts:170](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L170)
+Defined in: [types.ts:170](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L170)
 
 required, routing-oriented — the field the serving LLM selects on (a lint rejects empty/one-word).
 
@@ -67,7 +67,7 @@ required, routing-oriented — the field the serving LLM selects on (a lint reje
 
 > `optional` **maxDepth?**: `number`
 
-Defined in: [types.ts:182](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L182)
+Defined in: [types.ts:182](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L182)
 
 REQUIRED when `agents` is non-empty (a lint, not the schema): the recursion depth ceiling; a leaf is 0.
 
@@ -77,7 +77,7 @@ REQUIRED when `agents` is non-empty (a lint, not the schema): the recursion dept
 
 > `optional` **resources?**: `Record`\<`string`, [`SulukResourceRef`](SulukResourceRef.md)\>
 
-Defined in: [types.ts:180](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L180)
+Defined in: [types.ts:180](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L180)
 
 by-name refs into the top-level `x-suluk-resources` catalog (C036) — the loadable, on-demand instructions/references/scripts this agent can ACTIVATE (CF "Agent Skills" alignment; lazy + advisory; resolved at projection, never by the matcher).
 
@@ -87,7 +87,7 @@ by-name refs into the top-level `x-suluk-resources` catalog (C036) — the loada
 
 > `optional` **routes?**: `Record`\<`string`, [`SulukRouteRef`](SulukRouteRef.md)\>
 
-Defined in: [types.ts:176](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L176)
+Defined in: [types.ts:176](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L176)
 
 deterministic routes: by-name `$ref`s into EXISTING operations; NO `model` field, ever.
 
@@ -97,7 +97,7 @@ deterministic routes: by-name `$ref`s into EXISTING operations; NO `model` field
 
 > `optional` **scope?**: `string`[]
 
-Defined in: [types.ts:172](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L172)
+Defined in: [types.ts:172](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L172)
 
 static resource:action authz; the agent's complete reachable surface is statically enumerable from the document.
 
@@ -107,7 +107,7 @@ static resource:action authz; the agent's complete reachable surface is statical
 
 > `optional` **skills?**: `Record`\<`string`, [`SulukSkillRef`](SulukSkillRef.md)\>
 
-Defined in: [types.ts:174](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L174)
+Defined in: [types.ts:174](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L174)
 
 instruction bundles; PRESENCE of `model` is the hard static skill(LLM)-vs-route(deterministic) discriminator.
 
@@ -117,7 +117,7 @@ instruction bundles; PRESENCE of `model` is the hard static skill(LLM)-vs-route(
 
 > `optional` **thinking?**: `object`
 
-Defined in: [types.ts:196](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L196)
+Defined in: [types.ts:196](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L196)
 
 THINKING ENVELOPE (C029) — a static cap on WITHIN-agent iteration (reason→tool→reason in the SAME completion,
 context accreting), orthogonal to `maxDepth` (which bounds cross-agent nesting depth, a fresh context per hop).
@@ -149,6 +149,6 @@ flow a generator could only echo. Absent ⇒ opaque single pass (zero-migration 
 
 > `optional` **trustBoundary?**: `"untrusted"`
 
-Defined in: [types.ts:184](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L184)
+Defined in: [types.ts:184](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L184)
 
 marks a tier whose retrieved / lower-tier content may NOT escalate scope or upgrade a figure's provenance.

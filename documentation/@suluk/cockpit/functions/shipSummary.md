@@ -8,7 +8,7 @@
 
 > **shipSummary**(`gates`): `object`
 
-Defined in: [cockpit/src/lifecycle.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/lifecycle.ts#L82)
+Defined in: [cockpit/src/lifecycle.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/lifecycle.ts#L82)
 
 A one-line readiness summary over a set of gates (contract + host). "info" gates never count against ready.
 

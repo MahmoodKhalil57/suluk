@@ -8,7 +8,7 @@
 
 > **buildBuilderModel**(`doc`): [`BuilderModel`](../interfaces/BuilderModel.md)
 
-Defined in: [cockpit/src/builder.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/builder.ts#L74)
+Defined in: [cockpit/src/builder.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/builder.ts#L74)
 
 Build the full builder model from a v4 document (its schemas → entities → buildApp).
 

@@ -8,7 +8,7 @@
 
 > **crudV4Paths**(`entity`): `Record`\<`string`, [`PathItem`](../../core/interfaces/PathItem.md)\>
 
-Defined in: [module.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L57)
+Defined in: [module.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L57)
 
 The v4 CRUD operations for one entity, with $ref-based schemas (so the entity lives in components.schemas).
 

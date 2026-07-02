@@ -8,6 +8,6 @@
 
 > `const` **SCALAR\_VERSION**: `"1.59.0"` = `"1.59.0"`
 
-Defined in: [index.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/scalar/src/index.ts#L19)
+Defined in: [index.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/scalar/src/index.ts#L19)
 
 We OWN this version (the fork's first act): pin instead of riding `@latest`, so the UI never drifts under us.

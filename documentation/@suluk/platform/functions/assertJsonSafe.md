@@ -8,7 +8,7 @@
 
 > **assertJsonSafe**(`v`, `path?`): `void`
 
-Defined in: [wire.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/wire.ts#L27)
+Defined in: [wire.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/wire.ts#L27)
 
 Reject non-JSON data (functions/symbols/bigint/undefined) + prototype-pollution keys anywhere in a wire's params.
 

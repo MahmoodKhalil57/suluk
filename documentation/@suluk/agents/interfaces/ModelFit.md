@@ -6,7 +6,7 @@
 
 # Interface: ModelFit
 
-Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/context.ts#L48)
+Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/context.ts#L48)
 
 Per declared candidate model: does its context window hold this agent's load? (window null ⇒ unknown model.)
 
@@ -16,7 +16,7 @@ Per declared candidate model: does its context window hold this agent's load? (w
 
 > **fits**: `boolean` \| `null`
 
-Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/context.ts#L48)
+Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/context.ts#L48)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/
 
 > **headroom**: `number` \| `null`
 
-Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/context.ts#L48)
+Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/context.ts#L48)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/
 
 > **model**: `string`
 
-Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/context.ts#L48)
+Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/context.ts#L48)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/
 
 > **window**: `number` \| `null`
 
-Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/context.ts#L48)
+Defined in: [agents/src/context.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/context.ts#L48)

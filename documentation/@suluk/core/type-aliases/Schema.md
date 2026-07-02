@@ -8,7 +8,7 @@
 
 > **Schema** = `Record`\<`string`, `unknown`\> \| `boolean`
 
-Defined in: [types.ts:513](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L513)
+Defined in: [types.ts:513](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L513)
 
 A JSON Schema 2020-12 object (or boolean). Opaque here — validated by the 2020-12 dialect (C013).
 May itself contain a JSON-Schema `$ref` keyword (distinct from an OpenAPI Reference Object).

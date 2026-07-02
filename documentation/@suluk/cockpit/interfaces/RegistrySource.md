@@ -6,7 +6,7 @@
 
 # Interface: RegistrySource
 
-Defined in: [builder/src/registry-remote.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry-remote.ts#L12)
+Defined in: [builder/src/registry-remote.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry-remote.ts#L12)
 
 A configured remote registry (persisted by the host).
 
@@ -16,7 +16,7 @@ A configured remote registry (persisted by the host).
 
 > **name**: `string`
 
-Defined in: [builder/src/registry-remote.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry-remote.ts#L13)
+Defined in: [builder/src/registry-remote.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry-remote.ts#L13)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [builder/src/registry-remote.ts:13](https://github.com/MahmoodKhalil
 
 > `optional` **publicKey?**: `JsonWebKey`
 
-Defined in: [builder/src/registry-remote.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry-remote.ts#L16)
+Defined in: [builder/src/registry-remote.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry-remote.ts#L16)
 
 optional pinned publisher public key (JWK) — when set, the registry's signature is verified on every fetch
 
@@ -34,4 +34,4 @@ optional pinned publisher public key (JWK) — when set, the registry's signatur
 
 > **url**: `string`
 
-Defined in: [builder/src/registry-remote.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry-remote.ts#L14)
+Defined in: [builder/src/registry-remote.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry-remote.ts#L14)

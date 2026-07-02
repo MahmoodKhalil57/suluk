@@ -6,7 +6,7 @@
 
 # Interface: ConvergeFinding
 
-Defined in: [cockpit/src/converge.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/converge.ts#L15)
+Defined in: [cockpit/src/converge.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/converge.ts#L15)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/converge.ts:15](https://github.com/MahmoodKhalil57/sulu
 
 > **code**: [`ConvergeCode`](../type-aliases/ConvergeCode.md)
 
-Defined in: [cockpit/src/converge.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/converge.ts#L16)
+Defined in: [cockpit/src/converge.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/converge.ts#L16)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/converge.ts:16](https://github.com/MahmoodKhalil57/sulu
 
 > **message**: `string`
 
-Defined in: [cockpit/src/converge.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/converge.ts#L18)
+Defined in: [cockpit/src/converge.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/converge.ts#L18)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [cockpit/src/converge.ts:18](https://github.com/MahmoodKhalil57/sulu
 
 > **severity**: `"error"` \| `"info"` \| `"warn"`
 
-Defined in: [cockpit/src/converge.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/converge.ts#L17)
+Defined in: [cockpit/src/converge.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/converge.ts#L17)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [cockpit/src/converge.ts:17](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **where?**: `string`
 
-Defined in: [cockpit/src/converge.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/converge.ts#L19)
+Defined in: [cockpit/src/converge.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/converge.ts#L19)

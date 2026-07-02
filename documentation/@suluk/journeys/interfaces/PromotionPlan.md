@@ -6,7 +6,7 @@
 
 # Interface: PromotionPlan
 
-Defined in: [journeys/src/cli.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L91)
+Defined in: [journeys/src/cli.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/cli.ts#L91)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/cli.ts:91](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **files**: [`PromotionFileResult`](PromotionFileResult.md)[]
 
-Defined in: [journeys/src/cli.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L92)
+Defined in: [journeys/src/cli.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/cli.ts#L92)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [journeys/src/cli.ts:92](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **rows**: [`PromotionRow`](PromotionRow.md)[]
 
-Defined in: [journeys/src/cli.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L93)
+Defined in: [journeys/src/cli.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/cli.ts#L93)

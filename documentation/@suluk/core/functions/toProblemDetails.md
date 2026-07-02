@@ -8,7 +8,7 @@
 
 > **toProblemDetails**(`args`): [`ProblemDetails`](../interfaces/ProblemDetails.md)
 
-Defined in: [errors.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/errors.ts#L122)
+Defined in: [errors.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/errors.ts#L122)
 
 Pure constructor: a tag (+ optional detail/instance/errors/type) → the canonical Problem Details body.
 Fills `status` + `title` from the frozen tables and a stable legacy `error` code. No I/O, no throwing.

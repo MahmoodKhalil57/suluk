@@ -8,7 +8,7 @@
 
 > **lintOk**(`findings`): `boolean`
 
-Defined in: [agents/src/lint.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/lint.ts#L108)
+Defined in: [agents/src/lint.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/lint.ts#L108)
 
 True ⇒ no error-severity findings (warnings/info are advisory).
 

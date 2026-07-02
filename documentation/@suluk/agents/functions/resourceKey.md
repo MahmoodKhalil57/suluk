@@ -8,7 +8,7 @@
 
 > **resourceKey**(`ref`): `string` \| `null`
 
-Defined in: [agents/src/resources.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/resources.ts#L18)
+Defined in: [agents/src/resources.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/resources.ts#L18)
 
 Decode a resource ref `#/x-suluk-resources/<key>` to its key (or null if malformed / not a resource ref).
 

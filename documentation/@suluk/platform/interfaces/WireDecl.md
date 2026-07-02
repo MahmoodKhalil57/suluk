@@ -6,7 +6,7 @@
 
 # Interface: WireDecl
 
-Defined in: [manifest.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L53)
+Defined in: [manifest.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/manifest.ts#L53)
 
 An inter-service composition EDGE (Phase 3). Declared here so a Phase-2 manifest's shape is forward-compatible; the
 resolver ignores `wire` until the Phase-3 engine lands. `from`/`to` are `"<service>.<port|capability>"`.
@@ -17,7 +17,7 @@ resolver ignores `wire` until the Phase-3 engine lands. `from`/`to` are `"<servi
 
 > **from**: `string`
 
-Defined in: [manifest.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L55)
+Defined in: [manifest.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/manifest.ts#L55)
 
 ***
 
@@ -25,7 +25,7 @@ Defined in: [manifest.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > `optional` **id?**: `string`
 
-Defined in: [manifest.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L54)
+Defined in: [manifest.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/manifest.ts#L54)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [manifest.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > `optional` **optional?**: `boolean`
 
-Defined in: [manifest.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L60)
+Defined in: [manifest.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/manifest.ts#L60)
 
 PRUNE this edge (skip + warn) instead of throwing when an endpoint service isn't selected — so ONE full config is
  valid across every subset. A cross-cutting/optional link (erasure fan-in, contract↔auth) should set this.
@@ -44,7 +44,7 @@ PRUNE this edge (skip + warn) instead of throwing when an endpoint service isn't
 
 > **to**: `string`
 
-Defined in: [manifest.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L56)
+Defined in: [manifest.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/manifest.ts#L56)
 
 ***
 
@@ -52,4 +52,4 @@ Defined in: [manifest.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > `optional` **with?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [manifest.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L57)
+Defined in: [manifest.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/manifest.ts#L57)

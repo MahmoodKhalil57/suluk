@@ -8,7 +8,7 @@
 
 > **costOf**(`req`): [`CostModel`](../interfaces/CostModel.md) \| `undefined`
 
-Defined in: [contract.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cost/src/contract.ts#L51)
+Defined in: [contract.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cost/src/contract.ts#L51)
 
 Read the cost model declared on an operation (if any).
 

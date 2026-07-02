@@ -6,7 +6,7 @@
 
 # Interface: Server
 
-Defined in: [types.ts:319](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L319)
+Defined in: [types.ts:319](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L319)
 
 Server IDENTITY — a by-name shape primitive (C015 #55); environment URL config is a deployment concern.
 
@@ -16,7 +16,7 @@ Server IDENTITY — a by-name shape primitive (C015 #55); environment URL config
 
 > `optional` **description?**: `string`
 
-Defined in: [types.ts:321](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L321)
+Defined in: [types.ts:321](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L321)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [types.ts:321](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > **url**: `string`
 
-Defined in: [types.ts:320](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L320)
+Defined in: [types.ts:320](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L320)

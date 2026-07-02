@@ -8,7 +8,7 @@
 
 > **ensurePlanPrice**(`cfg`, `plan`, `branding?`): `Promise`\<`string`\>
 
-Defined in: [packages/billing/src/subscriptions.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L55)
+Defined in: [packages/billing/src/subscriptions.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/subscriptions.ts#L55)
 
 Find (by lookup_key) or create the recurring Stripe Price for a plan. The lookup_key embeds the price + credits, so a
  repricing mints a FRESH price rather than reusing a stale one. Returns the price id.

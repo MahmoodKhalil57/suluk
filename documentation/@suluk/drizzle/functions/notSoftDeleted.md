@@ -8,7 +8,7 @@
 
 > **notSoftDeleted**(`column?`): `object`
 
-Defined in: [mutations.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/mutations.ts#L39)
+Defined in: [mutations.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/mutations.ts#L39)
 
 The implicit list filter for a soft-deleting table — exclude rows whose deletedAt is set (unless asked to include).
 

@@ -6,7 +6,7 @@
 
 # Interface: ToolContextCost
 
-Defined in: [agents/src/context.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/context.ts#L46)
+Defined in: [agents/src/context.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/context.ts#L46)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/context.ts:46](https://github.com/MahmoodKhalil57/suluk/
 
 > **name**: `string`
 
-Defined in: [agents/src/context.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/context.ts#L46)
+Defined in: [agents/src/context.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/context.ts#L46)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [agents/src/context.ts:46](https://github.com/MahmoodKhalil57/suluk/
 
 > **tier**: `"resident"` \| `"cold-tail"`
 
-Defined in: [agents/src/context.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/context.ts#L46)
+Defined in: [agents/src/context.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/context.ts#L46)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [agents/src/context.ts:46](https://github.com/MahmoodKhalil57/suluk/
 
 > **tokens**: `number`
 
-Defined in: [agents/src/context.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/context.ts#L46)
+Defined in: [agents/src/context.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/context.ts#L46)

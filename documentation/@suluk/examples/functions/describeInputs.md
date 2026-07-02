@@ -8,7 +8,7 @@
 
 > **describeInputs**(`schema`): [`FieldDescriptor`](../interfaces/FieldDescriptor.md)[]
 
-Defined in: [index.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L101)
+Defined in: [index.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/examples/src/index.ts#L101)
 
 Describe the TOP-LEVEL fields of an object schema by origin — the surface a client / the @suluk/sdk generator uses to
 know what it may freely fill (`fakerable`), what is wired from elsewhere (`source`), and what is server-computed.

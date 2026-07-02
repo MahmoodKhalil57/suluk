@@ -8,7 +8,7 @@
 
 > **normalize**(`doc`): [`RefDoc`](../interfaces/RefDoc.md)
 
-Defined in: [reference/src/ir.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/ir.ts#L71)
+Defined in: [reference/src/ir.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/reference/src/ir.ts#L71)
 
 Project a v4 document into the normalized IR. Never throws; problems become diagnostics.
 

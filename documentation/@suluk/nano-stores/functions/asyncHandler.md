@@ -8,7 +8,7 @@
 
 > **asyncHandler**\<`E`\>(`el`, `handler`, `opts?`): (`e`) => `Promise`\<`void`\>
 
-Defined in: [tooling/ts/packages/nano-stores/src/async-button.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/async-button.ts#L24)
+Defined in: [tooling/ts/packages/nano-stores/src/async-button.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/nano-stores/src/async-button.ts#L24)
 
 Wrap an async (or sync) handler with auto-disable + aria-busy + optional pending label + re-entry guard. Returns
  the wrapped handler — attach it yourself (composes with addEventListener / onClick).

@@ -8,7 +8,7 @@
 
 > **localeFromCookie**(`config`, `cookieHeader`, `cookieName?`): `string`
 
-Defined in: [locale.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/i18n/src/locale.ts#L72)
+Defined in: [locale.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/i18n/src/locale.ts#L72)
 
 Resolve the locale from a `locale` cookie in a Cookie header (Workers-safe).
 

@@ -6,7 +6,7 @@
 
 # Interface: ProvisionConfig
 
-Defined in: [provision/src/config.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/config.ts#L10)
+Defined in: [provision/src/config.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/config.ts#L10)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/config.ts:10](https://github.com/MahmoodKhalil57/sulu
 
 > **instances**: [`InstanceSpec`](InstanceSpec.md)[]
 
-Defined in: [provision/src/config.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/config.ts#L12)
+Defined in: [provision/src/config.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/config.ts#L12)
 
 the instances to provision (desired state). Order is free — the binding DAG decides apply order.
 
@@ -24,7 +24,7 @@ the instances to provision (desired state). Order is free — the binding DAG de
 
 > `optional` **pruneOrphans?**: `boolean`
 
-Defined in: [provision/src/config.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/config.ts#L15)
+Defined in: [provision/src/config.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/config.ts#L15)
 
 orphan mitigation default: deprovision instances in state but not in config. DEFAULT false (destructive — opt in
  here or per-apply). `apply --prune` / `check` honour it.

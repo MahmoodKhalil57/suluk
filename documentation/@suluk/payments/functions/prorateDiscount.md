@@ -8,7 +8,7 @@
 
 > **prorateDiscount**(`lines`, `discountCents`): `number`[]
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/pricing.ts#L89)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/pricing.ts#L89)
 
 Split `discountCents` across `lines` proportionally to each line's total, as whole cents that sum EXACTLY to
 `discountCents` (largest-remainder apportionment). This is what keeps the cart drawer and the order summary

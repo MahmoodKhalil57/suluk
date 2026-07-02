@@ -8,7 +8,7 @@
 
 > **renderFieldRow**(`f`, `value?`): `string`
 
-Defined in: [widgets.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/widgets.ts#L42)
+Defined in: [widgets.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/panel/src/widgets.ts#L42)
 
 One labelled field row (label · required mark · description · the input).
 

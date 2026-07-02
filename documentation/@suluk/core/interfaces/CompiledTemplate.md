@@ -6,7 +6,7 @@
 
 # Interface: CompiledTemplate
 
-Defined in: [template.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/template.ts#L11)
+Defined in: [template.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/template.ts#L11)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [template.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > **pathSegments**: [`PathSegment`](../type-aliases/PathSegment.md)[]
 
-Defined in: [template.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/template.ts#L13)
+Defined in: [template.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/template.ts#L13)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [template.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > **queryKeys**: `string`[]
 
-Defined in: [template.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/template.ts#L15)
+Defined in: [template.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/template.ts#L15)
 
 Query parameter names that appear in the template (identity-bearing; key-set, order-insensitive).
 
@@ -32,4 +32,4 @@ Query parameter names that appear in the template (identity-bearing; key-set, or
 
 > **raw**: `string`
 
-Defined in: [template.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/template.ts#L12)
+Defined in: [template.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/template.ts#L12)

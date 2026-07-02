@@ -6,7 +6,7 @@
 
 # Interface: LocaleDef
 
-Defined in: [locale.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/i18n/src/locale.ts#L12)
+Defined in: [locale.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/i18n/src/locale.ts#L12)
 
 One locale in an app's set.
 
@@ -16,7 +16,7 @@ One locale in an app's set.
 
 > **code**: `string`
 
-Defined in: [locale.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/i18n/src/locale.ts#L14)
+Defined in: [locale.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/i18n/src/locale.ts#L14)
 
 BCP-47 tag, e.g. "en", "ar", "es" (or a region: "ar-EG").
 
@@ -26,7 +26,7 @@ BCP-47 tag, e.g. "en", "ar", "es" (or a region: "ar-EG").
 
 > `optional` **dir?**: [`Direction`](../type-aliases/Direction.md)
 
-Defined in: [locale.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/i18n/src/locale.ts#L18)
+Defined in: [locale.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/i18n/src/locale.ts#L18)
 
 writing direction (default "ltr"; set "rtl" for ar/he/fa/ur).
 
@@ -36,7 +36,7 @@ writing direction (default "ltr"; set "rtl" for ar/he/fa/ur).
 
 > `optional` **label?**: `string`
 
-Defined in: [locale.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/i18n/src/locale.ts#L16)
+Defined in: [locale.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/i18n/src/locale.ts#L16)
 
 human label in its OWN language (for a picker), e.g. "العربية".
 
@@ -46,6 +46,6 @@ human label in its OWN language (for a picker), e.g. "العربية".
 
 > `optional` **numberingSystem?**: `string`
 
-Defined in: [locale.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/i18n/src/locale.ts#L20)
+Defined in: [locale.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/i18n/src/locale.ts#L20)
 
 Intl numbering system, e.g. "arab" for Eastern-Arabic numerals (٠١٢٣). Default "latn".

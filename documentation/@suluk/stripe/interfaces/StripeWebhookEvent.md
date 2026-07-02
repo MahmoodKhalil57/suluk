@@ -6,7 +6,7 @@
 
 # Interface: StripeWebhookEvent
 
-Defined in: [stripe-webhook.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/stripe-webhook.ts#L47)
+Defined in: [stripe-webhook.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/stripe-webhook.ts#L47)
 
 A verified webhook event — only `type` is required (the router dispatches on it); `data` carries the payload.
 
@@ -16,7 +16,7 @@ A verified webhook event — only `type` is required (the router dispatches on i
 
 > `optional` **data?**: `unknown`
 
-Defined in: [stripe-webhook.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/stripe-webhook.ts#L49)
+Defined in: [stripe-webhook.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/stripe-webhook.ts#L49)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [stripe-webhook.ts:49](https://github.com/MahmoodKhalil57/suluk/blob
 
 > **type**: `string`
 
-Defined in: [stripe-webhook.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/stripe-webhook.ts#L48)
+Defined in: [stripe-webhook.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/stripe-webhook.ts#L48)

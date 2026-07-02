@@ -8,7 +8,7 @@
 
 > **rateLimitCoverage**(`doc`): `object`
 
-Defined in: [ratelimit.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ratelimit.ts#L62)
+Defined in: [ratelimit.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ratelimit.ts#L62)
 
 Coverage gauge: operations declaring a budget vs total — the rate-limit-coverage counterpart to `sourceCoverage`.
 

@@ -6,7 +6,7 @@
 
 # Interface: SulukModule
 
-Defined in: [module.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L23)
+Defined in: [module.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L23)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [module.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > `optional` **cost?**: `Record`\<`string`, [`ModuleCost`](ModuleCost.md)\>
 
-Defined in: [module.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L37)
+Defined in: [module.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L37)
 
 x-suluk-cost per operation name (e.g. createOrder).
 
@@ -24,7 +24,7 @@ x-suluk-cost per operation name (e.g. createOrder).
 
 > `optional` **crud?**: `boolean`
 
-Defined in: [module.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L35)
+Defined in: [module.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L35)
 
 Auto-generate CRUD operations for each provided entity (default true).
 
@@ -34,7 +34,7 @@ Auto-generate CRUD operations for each provided entity (default true).
 
 > **name**: `string`
 
-Defined in: [module.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L24)
+Defined in: [module.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L24)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [module.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > `optional` **paths?**: `Record`\<`string`, [`PathItem`](../../core/interfaces/PathItem.md)\>
 
-Defined in: [module.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L33)
+Defined in: [module.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L33)
 
 Explicit operations beyond the auto-CRUD (e.g. checkout); keyed by v4 path.
 
@@ -52,7 +52,7 @@ Explicit operations beyond the auto-CRUD (e.g. checkout); keyed by v4 path.
 
 > `optional` **providerSlots?**: `Record`\<`string`, `string`\>
 
-Defined in: [module.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L41)
+Defined in: [module.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L41)
 
 Declared provider slots a developer can swap (e.g. { payments: "stripe" }).
 
@@ -62,7 +62,7 @@ Declared provider slots a developer can swap (e.g. { payments: "stripe" }).
 
 > **provides**: `string`[]
 
-Defined in: [module.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L27)
+Defined in: [module.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L27)
 
 Entity names this module OWNS (each must have a schema in `schemas`).
 
@@ -72,7 +72,7 @@ Entity names this module OWNS (each must have a schema in `schemas`).
 
 > `optional` **requires?**: `string`[]
 
-Defined in: [module.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L29)
+Defined in: [module.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L29)
 
 Entity names this module REFERENCES but does not own — must already be present at install time.
 
@@ -82,7 +82,7 @@ Entity names this module REFERENCES but does not own — must already be present
 
 > **schemas**: `Record`\<`string`, [`SchemaOrRef`](../../core/type-aliases/SchemaOrRef.md)\>
 
-Defined in: [module.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L31)
+Defined in: [module.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L31)
 
 components.schemas fragment (the provided entities; may $ref a required entity like User).
 
@@ -92,7 +92,7 @@ components.schemas fragment (the provided entities; may $ref a required entity l
 
 > `optional` **securitySchemes?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [module.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L39)
+Defined in: [module.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L39)
 
 securitySchemes to merge.
 
@@ -102,4 +102,4 @@ securitySchemes to merge.
 
 > **version**: `string`
 
-Defined in: [module.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L25)
+Defined in: [module.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L25)

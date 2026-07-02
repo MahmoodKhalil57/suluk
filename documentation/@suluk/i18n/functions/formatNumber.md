@@ -8,7 +8,7 @@
 
 > **formatNumber**(`config`, `code`, `value`, `opts?`): `string`
 
-Defined in: [format.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/i18n/src/format.ts#L19)
+Defined in: [format.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/i18n/src/format.ts#L19)
 
 Format a number for a locale — honors its numberingSystem (e.g. "arab" → ٠١٢٣).
 

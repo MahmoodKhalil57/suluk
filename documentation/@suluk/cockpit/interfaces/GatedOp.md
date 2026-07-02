@@ -6,7 +6,7 @@
 
 # Interface: GatedOp
 
-Defined in: [cockpit/src/crosscut.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/crosscut.ts#L27)
+Defined in: [cockpit/src/crosscut.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/crosscut.ts#L27)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/crosscut.ts:27](https://github.com/MahmoodKhalil57/sulu
 
 > **detail**: `string`
 
-Defined in: [cockpit/src/crosscut.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/crosscut.ts#L29)
+Defined in: [cockpit/src/crosscut.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/crosscut.ts#L29)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/crosscut.ts:29](https://github.com/MahmoodKhalil57/sulu
 
 > **operation**: `string`
 
-Defined in: [cockpit/src/crosscut.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/crosscut.ts#L28)
+Defined in: [cockpit/src/crosscut.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/crosscut.ts#L28)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [cockpit/src/crosscut.ts:28](https://github.com/MahmoodKhalil57/sulu
 
 > **requiredScopes**: `string`[][]
 
-Defined in: [cockpit/src/crosscut.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/crosscut.ts#L31)
+Defined in: [cockpit/src/crosscut.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/crosscut.ts#L31)
 
 the scope requirements (OR of AND-groups); empty ⇒ public
 
@@ -40,6 +40,6 @@ the scope requirements (OR of AND-groups); empty ⇒ public
 
 > **visibleTo**: `string`[]
 
-Defined in: [cockpit/src/crosscut.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/crosscut.ts#L33)
+Defined in: [cockpit/src/crosscut.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/crosscut.ts#L33)
 
 the labels of the viewers who CAN see it

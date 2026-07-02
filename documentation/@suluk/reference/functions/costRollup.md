@@ -8,7 +8,7 @@
 
 > **costRollup**(`doc`): `CostRollup`
 
-Defined in: [reference/src/facets.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/facets.ts#L45)
+Defined in: [reference/src/facets.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/reference/src/facets.ts#L45)
 
 ## Parameters
 

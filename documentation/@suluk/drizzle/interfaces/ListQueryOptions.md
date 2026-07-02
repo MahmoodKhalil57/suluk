@@ -6,7 +6,7 @@
 
 # Interface: ListQueryOptions
 
-Defined in: [query.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/query.ts#L10)
+Defined in: [query.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/query.ts#L10)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [query.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883e
 
 > `optional` **columns?**: `string`[]
 
-Defined in: [query.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/query.ts#L12)
+Defined in: [query.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/query.ts#L12)
 
 sortable + filterable columns (default: all of the table's columns).
 
@@ -24,7 +24,7 @@ sortable + filterable columns (default: all of the table's columns).
 
 > `optional` **defaultPerPage?**: `number`
 
-Defined in: [query.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/query.ts#L14)
+Defined in: [query.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/query.ts#L14)
 
 default page size (default 20).
 
@@ -34,6 +34,6 @@ default page size (default 20).
 
 > `optional` **maxPerPage?**: `number`
 
-Defined in: [query.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/query.ts#L16)
+Defined in: [query.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/query.ts#L16)
 
 max page size — `perPage` is clamped to it (default 100).

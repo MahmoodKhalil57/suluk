@@ -6,7 +6,7 @@
 
 # Interface: ProviderChange
 
-Defined in: [cockpit/src/drift.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/drift.ts#L30)
+Defined in: [cockpit/src/drift.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/drift.ts#L30)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/drift.ts:30](https://github.com/MahmoodKhalil57/suluk/b
 
 > **facet**: `string`
 
-Defined in: [cockpit/src/drift.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/drift.ts#L30)
+Defined in: [cockpit/src/drift.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/drift.ts#L30)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/drift.ts:30](https://github.com/MahmoodKhalil57/suluk/b
 
 > **from**: `string`
 
-Defined in: [cockpit/src/drift.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/drift.ts#L30)
+Defined in: [cockpit/src/drift.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/drift.ts#L30)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [cockpit/src/drift.ts:30](https://github.com/MahmoodKhalil57/suluk/b
 
 > **to**: `string`
 
-Defined in: [cockpit/src/drift.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/drift.ts#L30)
+Defined in: [cockpit/src/drift.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/drift.ts#L30)

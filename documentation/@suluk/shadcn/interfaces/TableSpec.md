@@ -6,7 +6,7 @@
 
 # Interface: TableSpec
 
-Defined in: [spec.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/shadcn/src/spec.ts#L64)
+Defined in: [spec.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/shadcn/src/spec.ts#L64)
 
 `@suluk/shadcn` — the UI corner. v4 "Suluk" Schema Objects → shadcn/ui form + table specs and TSX scaffolds.
 
@@ -24,7 +24,7 @@ renderers surface those warnings as a leading comment block. Nothing is dropped 
 
 > **columns**: [`ColumnSpec`](ColumnSpec.md)[]
 
-Defined in: [spec.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/shadcn/src/spec.ts#L65)
+Defined in: [spec.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/shadcn/src/spec.ts#L65)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [spec.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee
 
 > **warnings**: `string`[]
 
-Defined in: [spec.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/shadcn/src/spec.ts#L66)
+Defined in: [spec.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/shadcn/src/spec.ts#L66)

@@ -8,7 +8,7 @@
 
 > **confidenceCoverage**(`used`, `baseline`): `number`
 
-Defined in: [baseline.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/visual/src/baseline.ts#L92)
+Defined in: [baseline.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/visual/src/baseline.ts#L92)
 
 Coverage = fraction of used primitives that are approved + unchanged. 1 ⇒ fully pixel-confident.
 

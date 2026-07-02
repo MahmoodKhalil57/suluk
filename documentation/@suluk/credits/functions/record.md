@@ -8,7 +8,7 @@
 
 > **record**(`db`, `userId`, `delta`, `reason`): `Promise`\<`string`\>
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/credits/src/credits.ts#L36)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/credits/src/credits.ts#L36)
 
 Append one ledger row (the single writer); returns the new row id. `delta` is + on grant/top-up, − on debit.
 

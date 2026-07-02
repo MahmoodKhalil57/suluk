@@ -6,7 +6,7 @@
 
 # Interface: AccessFacet
 
-Defined in: [reference/src/facets.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/facets.ts#L65)
+Defined in: [reference/src/facets.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/reference/src/facets.ts#L65)
 
 Access as a contract facet: who can REACH an operation. Annotated on each request as x-suluk-access.
 
@@ -16,7 +16,7 @@ Access as a contract facet: who can REACH an operation. Annotated on each reques
 
 > `optional` **requires?**: `"anyone"` \| `"authenticated"` \| `"admin"`
 
-Defined in: [reference/src/facets.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/facets.ts#L65)
+Defined in: [reference/src/facets.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/reference/src/facets.ts#L65)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [reference/src/facets.ts:65](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **scope?**: `"owner"`
 
-Defined in: [reference/src/facets.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/facets.ts#L65)
+Defined in: [reference/src/facets.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/reference/src/facets.ts#L65)

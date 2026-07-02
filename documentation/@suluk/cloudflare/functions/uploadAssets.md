@@ -8,7 +8,7 @@
 
 > **uploadAssets**(`cf`, `scriptName`, `files`): `Promise`\<`string` \| `null`\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/assets.ts#L68)
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cloudflare/src/assets.ts#L68)
 
 Upload a set of static assets; returns the completion JWT for the worker metadata, or `null` when there are none.
 When every file is already cached server-side the session returns no buckets and its own jwt IS the completion token.

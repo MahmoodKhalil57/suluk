@@ -2,82 +2,82 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/index.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/modules.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/hierarchy.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/modules/webhooks.contract.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/variables/webhooks.contract.webhooksOps.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/modules/webhooks.provision.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/variables/webhooks.provision.webhooksProvision.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/modules/webhooks.routes.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/functions/webhooks.routes.webhooksRoutes.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/modules/webhooks.schema.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/variables/webhooks.schema.webhookEvent.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/modules/webhooks.service.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/interfaces/webhooks.service.WebhookConfig.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/interfaces/webhooks.service.WebhookEnv.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/functions/webhooks.service.webhookCfgFromEnv.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/classes/webhooks.service.WebhookCfg.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/functions/webhooks.service.WebhookCfgLive.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/variables/webhooks.service.defaultHandlers.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/classes/webhooks.service.Webhooks.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/webhooks/variables/webhooks.service.WebhooksLive.html</loc>
-		<lastmod>2026-07-02T14:13:51.565Z</lastmod>
+		<lastmod>2026-07-02T14:32:30.979Z</lastmod>
 	</url>
 </urlset>

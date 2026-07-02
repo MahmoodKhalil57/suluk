@@ -6,7 +6,7 @@
 
 # Interface: Wiring
 
-Defined in: [wire.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/wire.ts#L49)
+Defined in: [wire.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/wire.ts#L49)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [wire.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee
 
 > **hooksByService**: `Record`\<`string`, `Record`\<`string`, `string`\>\>
 
-Defined in: [wire.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/wire.ts#L51)
+Defined in: [wire.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/wire.ts#L51)
 
 producer service id → { hookOptKey → rendered closure } — injected into that service's mount opts by `buildEntry`.
 
@@ -24,7 +24,7 @@ producer service id → { hookOptKey → rendered closure } — injected into th
 
 > **imports**: [`WireImport`](WireImport.md)[]
 
-Defined in: [wire.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/wire.ts#L53)
+Defined in: [wire.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/wire.ts#L53)
 
 the imports every consumed capability needs, de-duped (in first-seen order).
 
@@ -34,6 +34,6 @@ the imports every consumed capability needs, de-duped (in first-seen order).
 
 > **pruned**: `string`[]
 
-Defined in: [wire.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/wire.ts#L55)
+Defined in: [wire.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/wire.ts#L55)
 
 OPTIONAL edges skipped because an endpoint service wasn't selected — so ONE full config is valid across subsets.

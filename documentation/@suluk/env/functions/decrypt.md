@@ -8,7 +8,7 @@
 
 > **decrypt**(`privateKey`, `token`): `Promise`\<`string`\>
 
-Defined in: [crypto.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/env/src/crypto.ts#L81)
+Defined in: [crypto.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/env/src/crypto.ts#L81)
 
 Open an `encrypted:mlkem768:…` token with the private key. Throws if the key is wrong or the token is tampered.
 

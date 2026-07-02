@@ -6,7 +6,7 @@
 
 # Interface: ResolvedExample
 
-Defined in: [index.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L33)
+Defined in: [index.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/examples/src/index.ts#L33)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [index.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883e
 
 > **provenance**: `string`
 
-Defined in: [index.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L40)
+Defined in: [index.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/examples/src/index.ts#L40)
 
 a short, human-readable note on where the value came from (for reports / docs provenance).
 
@@ -24,7 +24,7 @@ a short, human-readable note on where the value came from (for reports / docs pr
 
 > **synthetic**: `boolean`
 
-Defined in: [index.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L38)
+Defined in: [index.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/examples/src/index.ts#L38)
 
 true IFF the value was synthesized from the schema shape (the honest never-launder marker).
 
@@ -34,7 +34,7 @@ true IFF the value was synthesized from the schema shape (the honest never-laund
 
 > **tier**: [`ExampleTier`](../type-aliases/ExampleTier.md)
 
-Defined in: [index.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L36)
+Defined in: [index.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/examples/src/index.ts#L36)
 
 which tier won.
 
@@ -44,4 +44,4 @@ which tier won.
 
 > **value**: `unknown`
 
-Defined in: [index.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L34)
+Defined in: [index.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/examples/src/index.ts#L34)

@@ -8,7 +8,7 @@
 
 > **parseRef**(`value`): \{ `key`: `string`; `ref`: `string`; \} \| `null`
 
-Defined in: [provision/src/refs.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/refs.ts#L12)
+Defined in: [provision/src/refs.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/refs.ts#L12)
 
 Parse a single value: a `@ref.key` string → its parts, else null (not a reference).
 

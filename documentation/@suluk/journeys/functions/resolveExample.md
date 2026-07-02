@@ -8,7 +8,7 @@
 
 > **resolveExample**(`schema`, `sources?`, `hint?`, `opts?`): [`ResolvedExample`](../interfaces/ResolvedExample.md)
 
-Defined in: [examples/src/index.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L143)
+Defined in: [examples/src/index.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/examples/src/index.ts#L143)
 
 Resolve a single example by precedence. `hint` (typically the field/op name) only steers SYNTHETIC string values; it
 never changes which tier wins.

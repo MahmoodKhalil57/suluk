@@ -8,7 +8,7 @@
 
 > **swapProvider**\<`T`\>(`doc`, `facet`, `impl`): [`SwapResult`](../../builder/interfaces/SwapResult.md)\<`T`\>
 
-Defined in: [builder/src/providers.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/providers.ts#L80)
+Defined in: [builder/src/providers.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/providers.ts#L80)
 
 Rebind a facet's slot to another implementation of the same interface. Returns the unchanged doc on error.
 

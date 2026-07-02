@@ -8,7 +8,7 @@
 
 > **packageGraphD2**(`packages`): `string`
 
-Defined in: [diagram.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/diagram.ts#L80)
+Defined in: [diagram.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/diagram.ts#L83)
 
 ## Parameters
 

@@ -8,7 +8,7 @@
 
 > **putSecrets**(`cf`, `scriptName`, `secrets`): `Promise`\<`string`[]\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:175](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/resources.ts#L175)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:175](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cloudflare/src/resources.ts#L175)
 
 Set many secrets, skipping empty/undefined values; returns the names actually set.
 

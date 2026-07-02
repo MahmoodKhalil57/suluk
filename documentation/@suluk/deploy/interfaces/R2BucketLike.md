@@ -6,7 +6,7 @@
 
 # Interface: R2BucketLike
 
-Defined in: [storage.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/deploy/src/storage.ts#L32)
+Defined in: [storage.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/deploy/src/storage.ts#L32)
 
 The minimal Workers R2 surface this binding calls — satisfied by the real `R2Bucket` and by a mock.
 
@@ -16,7 +16,7 @@ The minimal Workers R2 surface this binding calls — satisfied by the real `R2B
 
 > **delete**(`key`): `Promise`\<`void`\>
 
-Defined in: [storage.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/deploy/src/storage.ts#L34)
+Defined in: [storage.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/deploy/src/storage.ts#L34)
 
 #### Parameters
 
@@ -34,7 +34,7 @@ Defined in: [storage.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **put**(`key`, `value`, `opts?`): `Promise`\<`unknown`\>
 
-Defined in: [storage.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/deploy/src/storage.ts#L33)
+Defined in: [storage.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/deploy/src/storage.ts#L33)
 
 #### Parameters
 

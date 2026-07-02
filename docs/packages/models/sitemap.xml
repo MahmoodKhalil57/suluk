@@ -2,126 +2,126 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/index.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/modules.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/hierarchy.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/interfaces/AxisRule.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/variables/BUCKETING_RULES.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/functions/applyBucketing.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/variables/SEED_CATALOG.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/functions/fetchOpenRouterCatalog.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/variables/OPENROUTER_CATALOG.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/interfaces/ORModel.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/functions/normalizeOpenRouterModel.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/functions/normalizeOpenRouter.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/functions/snapshotHash.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/functions/catalogFrom.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/types/IntelAxis.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/functions/applyTierOverlay.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/variables/KNOWN_TIERS.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/interfaces/ResolvedProfile.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/variables/PROFILES.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/functions/selectModel.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/functions/deriveRequirements.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/types/Tier.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/interfaces/Cell.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/types/DataRetention.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/interfaces/ModelRecord.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/interfaces/ModelCatalog.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/interfaces/HardFilters.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/types/Profile.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/interfaces/Preferences.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/interfaces/RankedModel.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/models/interfaces/SelectResult.html</loc>
-		<lastmod>2026-07-02T14:13:36.341Z</lastmod>
+		<lastmod>2026-07-02T14:32:15.258Z</lastmod>
 	</url>
 </urlset>

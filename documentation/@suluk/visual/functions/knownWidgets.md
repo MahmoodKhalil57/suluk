@@ -8,7 +8,7 @@
 
 > **knownWidgets**(): `string`[]
 
-Defined in: [capture.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/visual/src/capture.ts#L34)
+Defined in: [capture.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/visual/src/capture.ts#L34)
 
 The widget primitives this package knows how to render in isolation (for the verify-once gate).
 

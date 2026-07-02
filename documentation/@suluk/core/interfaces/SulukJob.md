@@ -6,7 +6,7 @@
 
 # Interface: SulukJob
 
-Defined in: [types.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L143)
+Defined in: [types.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L143)
 
 A background job (C025) — non-HTTP work fired by a `scheduled` (cron) or `queue-consumed` trigger. It carries no
 Request/Response (there is no HTTP exchange); its STATIC fields (trigger + schedule/queue) are locally decidable,
@@ -25,7 +25,7 @@ any other vendor facet — notably `x-suluk-cost` (the job's declared cost, read
 
 > `optional` **description?**: `string`
 
-Defined in: [types.ts:151](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L151)
+Defined in: [types.ts:151](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L151)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [types.ts:151](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > `optional` **queue?**: `string`
 
-Defined in: [types.ts:149](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L149)
+Defined in: [types.ts:149](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L149)
 
 for "queue-consumed": the queue name the consumer drains.
 
@@ -43,7 +43,7 @@ for "queue-consumed": the queue name the consumer drains.
 
 > `optional` **schedule?**: `string`
 
-Defined in: [types.ts:147](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L147)
+Defined in: [types.ts:147](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L147)
 
 for "scheduled": a cron expression (statically declared — e.g. "0 0 * * *").
 
@@ -53,7 +53,7 @@ for "scheduled": a cron expression (statically declared — e.g. "0 0 * * *").
 
 > `optional` **summary?**: `string`
 
-Defined in: [types.ts:150](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L150)
+Defined in: [types.ts:150](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L150)
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: [types.ts:150](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > **trigger**: `"scheduled"` \| `"queue-consumed"`
 
-Defined in: [types.ts:145](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L145)
+Defined in: [types.ts:145](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L145)
 
 the non-HTTP trigger that fires this job.
 
@@ -71,6 +71,6 @@ the non-HTTP trigger that fires this job.
 
 > `optional` **x-suluk-source?**: [`SulukSource`](SulukSource.md)
 
-Defined in: [types.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L153)
+Defined in: [types.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L153)
 
 where in the authored source this job was projected from (advisory provenance; mirrors Request).

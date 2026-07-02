@@ -6,7 +6,7 @@
 
 # Interface: ModuleCost
 
-Defined in: [module.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L18)
+Defined in: [module.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L18)
 
 A per-operation cost facet (mirrors @suluk/cost's CostModel; kept local so builder needn't depend on cost).
 
@@ -16,7 +16,7 @@ A per-operation cost facet (mirrors @suluk/cost's CostModel; kept local so build
 
 > **components**: `object`[]
 
-Defined in: [module.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L19)
+Defined in: [module.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L19)
 
 #### basis
 
@@ -36,4 +36,4 @@ Defined in: [module.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > **estimateMicroUsd**: `number`
 
-Defined in: [module.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L20)
+Defined in: [module.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L20)

@@ -6,7 +6,7 @@
 
 # Interface: NodeAgentOptions
 
-Defined in: [agents/src/node.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/node.ts#L18)
+Defined in: [agents/src/node.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/node.ts#L18)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/node.ts:18](https://github.com/MahmoodKhalil57/suluk/blo
 
 > `optional` **instructions?**: `Record`\<`string`, `string`\>
 
-Defined in: [agents/src/node.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/node.ts#L22)
+Defined in: [agents/src/node.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/node.ts#L22)
 
 pinned snapshots keyed `"<agent>/<skill>"` (preferred) or bare `"<skill>"`; the primary skill's text is the system prompt.
 
@@ -24,7 +24,7 @@ pinned snapshots keyed `"<agent>/<skill>"` (preferred) or bare `"<skill>"`; the 
 
 > `optional` **mcpUrl?**: `string`
 
-Defined in: [agents/src/node.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/node.ts#L24)
+Defined in: [agents/src/node.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/node.ts#L24)
 
 an MCP endpoint the tool `execute` stubs can dispatch to — referenced in a comment, never embedded as a credential.
 
@@ -34,7 +34,7 @@ an MCP endpoint the tool `execute` stubs can dispatch to — referenced in a com
 
 > `optional` **name?**: `string`
 
-Defined in: [agents/src/node.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/node.ts#L20)
+Defined in: [agents/src/node.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/node.ts#L20)
 
 the exported server/agent name (default: PascalCase of the agent name). Used only in a comment + the file name.
 
@@ -44,6 +44,6 @@ the exported server/agent name (default: PascalCase of the agent name). Used onl
 
 > `optional` **port?**: `number`
 
-Defined in: [agents/src/node.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/node.ts#L26)
+Defined in: [agents/src/node.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/node.ts#L26)
 
 the port the generated `Bun.serve` listens on (default 8787).

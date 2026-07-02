@@ -8,7 +8,7 @@
 
 > **planPromotions**(`featureTexts`, `targets`, `sources`, `opts?`): [`PromotionPlan`](../interfaces/PromotionPlan.md)
 
-Defined in: [journeys/src/cli.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L101)
+Defined in: [journeys/src/cli.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/cli.ts#L101)
 
 Plan the promotions for every `@public` Examples row: build the public example (content-typed) and apply
 `promoteExampleIntoZod` to the target's (pre-read) source — accumulating multiple rows per file. Pure: returns the

@@ -6,7 +6,7 @@
 
 # Interface: RegistryFile
 
-Defined in: [registry-shadcn.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry-shadcn.ts#L13)
+Defined in: [registry-shadcn.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry-shadcn.ts#L13)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [registry-shadcn.ts:13](https://github.com/MahmoodKhalil57/suluk/blo
 
 > **content**: `string`
 
-Defined in: [registry-shadcn.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry-shadcn.ts#L15)
+Defined in: [registry-shadcn.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry-shadcn.ts#L15)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [registry-shadcn.ts:15](https://github.com/MahmoodKhalil57/suluk/blo
 
 > **path**: `string`
 
-Defined in: [registry-shadcn.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry-shadcn.ts#L14)
+Defined in: [registry-shadcn.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry-shadcn.ts#L14)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [registry-shadcn.ts:14](https://github.com/MahmoodKhalil57/suluk/blo
 
 > `optional` **target?**: `string`
 
-Defined in: [registry-shadcn.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry-shadcn.ts#L19)
+Defined in: [registry-shadcn.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry-shadcn.ts#L19)
 
 For registry:file — the install target path in the consumer project.
 
@@ -40,6 +40,6 @@ For registry:file — the install target path in the consumer project.
 
 > **type**: `string`
 
-Defined in: [registry-shadcn.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry-shadcn.ts#L17)
+Defined in: [registry-shadcn.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry-shadcn.ts#L17)
 
 registry:component | registry:lib | registry:file | registry:page | …

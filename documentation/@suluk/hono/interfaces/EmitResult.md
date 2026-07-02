@@ -6,7 +6,7 @@
 
 # Interface: EmitResult
 
-Defined in: [tooling/ts/packages/hono/src/emit.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/emit.ts#L61)
+Defined in: [tooling/ts/packages/hono/src/emit.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/emit.ts#L61)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/hono/src/emit.ts:61](https://github.com/Mahmood
 
 > **diagnostics**: [`EmitDiagnostic`](EmitDiagnostic.md)[]
 
-Defined in: [tooling/ts/packages/hono/src/emit.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/emit.ts#L63)
+Defined in: [tooling/ts/packages/hono/src/emit.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/emit.ts#L63)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [tooling/ts/packages/hono/src/emit.ts:63](https://github.com/Mahmood
 
 > **document**: [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md)
 
-Defined in: [tooling/ts/packages/hono/src/emit.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/emit.ts#L62)
+Defined in: [tooling/ts/packages/hono/src/emit.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/emit.ts#L62)

@@ -8,7 +8,7 @@
 
 > **agentDiagram**(`doc`, `agentName`): [`DiagramNode`](../interfaces/DiagramNode.md)
 
-Defined in: [agents/src/diagram.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/diagram.ts#L31)
+Defined in: [agents/src/diagram.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/diagram.ts#L31)
 
 Build the agent's composition hierarchy. Cycle-safe: a back-edge on the current path becomes a marked leaf.
 

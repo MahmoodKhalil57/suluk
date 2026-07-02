@@ -8,7 +8,7 @@
 
 > **Callback** = `Record`\<`string`, [`PathItem`](../interfaces/PathItem.md)\>
 
-Defined in: [types.ts:474](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L474)
+Defined in: [types.ts:474](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L474)
 
 A runtime-expression-keyed map of pathItem-shaped definitions (§14, C018).
 The enclosing `Request.callbacks` is name-keyed, so `callbacks[name][expression]` is a [PathItem](../interfaces/PathItem.md).

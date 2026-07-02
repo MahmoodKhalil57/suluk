@@ -6,7 +6,7 @@
 
 # Interface: VerifiedKey
 
-Defined in: [apikey.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/apikey.ts#L83)
+Defined in: [apikey.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/apikey.ts#L83)
 
 The verified key's identity surface (metadata parsed via the double-stringification guard).
 
@@ -16,7 +16,7 @@ The verified key's identity surface (metadata parsed via the double-stringificat
 
 > `optional` **id?**: `string`
 
-Defined in: [apikey.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/apikey.ts#L84)
+Defined in: [apikey.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/apikey.ts#L84)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [apikey.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > **metadata**: [`ApiKeyMetadata`](ApiKeyMetadata.md) \| `null`
 
-Defined in: [apikey.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/apikey.ts#L87)
+Defined in: [apikey.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/apikey.ts#L87)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [apikey.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > `optional` **name?**: `string`
 
-Defined in: [apikey.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/apikey.ts#L86)
+Defined in: [apikey.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/apikey.ts#L86)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [apikey.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > `optional` **userId?**: `string`
 
-Defined in: [apikey.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/apikey.ts#L85)
+Defined in: [apikey.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/apikey.ts#L85)

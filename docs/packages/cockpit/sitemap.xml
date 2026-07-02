@@ -2,486 +2,486 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/index.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/modules.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/hierarchy.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/documents/Used_by_(registry).html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/modules/index.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.CompositionPlan.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.planComposition.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ComposeResult.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.composeModules.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.SulukModule.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.InstallResult.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.installModule.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.namespaceModule.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ModuleEntry.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ModuleRegistry.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ModuleGrade.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.InstallPreview.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.gradeModule.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.previewInstall.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/variables/index.BILLING.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/variables/index.CRM.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/variables/index.ECOMMERCE.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/variables/index.FIRST_PARTY_REGISTRY.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.StackTemplate.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/variables/index.STACK_TEMPLATES.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.resolveTemplate.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ProviderImpl.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/variables/index.PROVIDER_CATALOG.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.providerFacets.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ProviderBinding.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.readProviders.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.swapProvider.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.RegistrySource.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ParsedRegistry.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.validateModule.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.parseRegistry.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.SignedEnvelope.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.isSignedEnvelope.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.generateSigningKeypair.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.signRegistry.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.verifyRegistrySignature.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.AgentSkillView.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.AgentRouteView.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.AgentNodeView.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.AgentGovernedView.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.AgentsView.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.agentsView.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.agentsSummary.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.BuilderNode.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.entitiesFromDoc.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.builderTree.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.BuilderModel.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.buildBuilderModel.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.GeneratedFile.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.generateAppFiles.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.generateRegistryJson.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.entityNames.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.generateForm.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.generateTable.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.generateStoresModule.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.exportV4Json.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.conformanceGates.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.assertConformance.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/types/index.ConvergeCode.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ConvergeFinding.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ConvergeReport.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.convergeContract.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.Viewer.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ViewerView.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.GatedOp.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.CrossCut.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.documentScopes.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.defaultViewers.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.crossCut.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.PreviewRole.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.previewRoles.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.previewAllowedRoles.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.previewLaunchUrl.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/types/index.LayerStatus.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.CycleItem.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.CycleLayer.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.Principal.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.CycleModel.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.buildCycle.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.DocCheck.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.docChecks.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.cycleSummary.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.deployPlan.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.previewDeployPlan.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.deployMarkdown.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.previewDeployMarkdown.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/types/index.DiagramView.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.diagramViews.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.contractToD2.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.OpRef.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ChangedOp.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ProviderDelta.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ProviderChange.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ContractDiff.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.canonical.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.diffContracts.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/types/index.GateStatus.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.Gate.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.contractGates.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.shipSummary.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.Diagnostic.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.looksLikeV4.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.validateSource.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.auditSource.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.previewHtml.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.ComponentReport.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.componentReport.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.approveComponents.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.CostSummary.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.summarize.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.formatMicroUsd.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.DeployStep.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.DeployPlan.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/interfaces/index.DeployProvider.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/types/index.Baseline.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/cockpit/functions/index.primitiveCss.html</loc>
-		<lastmod>2026-07-02T14:13:27.555Z</lastmod>
+		<lastmod>2026-07-02T14:32:05.593Z</lastmod>
 	</url>
 </urlset>

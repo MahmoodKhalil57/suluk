@@ -6,7 +6,7 @@
 
 # Interface: ORModel
 
-Defined in: [normalize.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/normalize.ts#L11)
+Defined in: [normalize.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/normalize.ts#L11)
 
 The subset of an OpenRouter `/models` row we rely on (all public facts).
 
@@ -16,7 +16,7 @@ The subset of an OpenRouter `/models` row we rely on (all public facts).
 
 > `optional` **architecture?**: `object`
 
-Defined in: [normalize.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/normalize.ts#L18)
+Defined in: [normalize.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/normalize.ts#L18)
 
 #### input\_modalities?
 
@@ -32,7 +32,7 @@ Defined in: [normalize.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **context\_length?**: `number`
 
-Defined in: [normalize.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/normalize.ts#L15)
+Defined in: [normalize.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/normalize.ts#L15)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [normalize.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **created?**: `number`
 
-Defined in: [normalize.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/normalize.ts#L14)
+Defined in: [normalize.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/normalize.ts#L14)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [normalize.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > **id**: `string`
 
-Defined in: [normalize.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/normalize.ts#L12)
+Defined in: [normalize.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/normalize.ts#L12)
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: [normalize.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **name?**: `string`
 
-Defined in: [normalize.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/normalize.ts#L13)
+Defined in: [normalize.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/normalize.ts#L13)
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: [normalize.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **pricing?**: `object`
 
-Defined in: [normalize.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/normalize.ts#L16)
+Defined in: [normalize.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/normalize.ts#L16)
 
 #### completion?
 
@@ -88,7 +88,7 @@ Defined in: [normalize.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **supported\_parameters?**: `string`[]
 
-Defined in: [normalize.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/normalize.ts#L19)
+Defined in: [normalize.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/normalize.ts#L19)
 
 ***
 
@@ -96,7 +96,7 @@ Defined in: [normalize.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **top\_provider?**: `object`
 
-Defined in: [normalize.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/normalize.ts#L17)
+Defined in: [normalize.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/normalize.ts#L17)
 
 #### max\_completion\_tokens?
 

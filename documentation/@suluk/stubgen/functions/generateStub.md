@@ -8,7 +8,7 @@
 
 > **generateStub**(`gap`, `target?`): [`GeneratedStub`](../interfaces/GeneratedStub.md)
 
-Defined in: [index.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L153)
+Defined in: [index.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/stubgen/src/index.ts#L153)
 
 Generate the contract + handler stub for one gap, lowered through a handler target.
 

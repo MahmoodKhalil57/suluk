@@ -6,7 +6,7 @@
 
 # Interface: VocabOperation
 
-Defined in: [journeys/src/vocabulary.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/vocabulary.ts#L32)
+Defined in: [journeys/src/vocabulary.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/vocabulary.ts#L32)
 
 `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
 
@@ -24,7 +24,7 @@ VALUES — so it stays on the safe side of the D1 wall; the @suluk/core matcher 
 
 > **access**: `string`
 
-Defined in: [journeys/src/vocabulary.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/vocabulary.ts#L37)
+Defined in: [journeys/src/vocabulary.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/vocabulary.ts#L37)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [journeys/src/vocabulary.ts:37](https://github.com/MahmoodKhalil57/s
 
 > **handle**: `string`
 
-Defined in: [journeys/src/vocabulary.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/vocabulary.ts#L33)
+Defined in: [journeys/src/vocabulary.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/vocabulary.ts#L33)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [journeys/src/vocabulary.ts:33](https://github.com/MahmoodKhalil57/s
 
 > **method**: `string`
 
-Defined in: [journeys/src/vocabulary.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/vocabulary.ts#L36)
+Defined in: [journeys/src/vocabulary.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/vocabulary.ts#L36)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [journeys/src/vocabulary.ts:36](https://github.com/MahmoodKhalil57/s
 
 > **name**: `string`
 
-Defined in: [journeys/src/vocabulary.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/vocabulary.ts#L34)
+Defined in: [journeys/src/vocabulary.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/vocabulary.ts#L34)
 
 ***
 
@@ -56,4 +56,4 @@ Defined in: [journeys/src/vocabulary.ts:34](https://github.com/MahmoodKhalil57/s
 
 > **path**: `string`
 
-Defined in: [journeys/src/vocabulary.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/vocabulary.ts#L35)
+Defined in: [journeys/src/vocabulary.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/vocabulary.ts#L35)

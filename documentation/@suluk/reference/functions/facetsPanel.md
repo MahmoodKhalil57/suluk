@@ -8,7 +8,7 @@
 
 > **facetsPanel**(`doc`): `string`
 
-Defined in: [reference/src/panels.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/panels.ts#L50)
+Defined in: [reference/src/panels.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/reference/src/panels.ts#L50)
 
 Facet panels — the v4 OPERATIONAL facets a 3.x tool can't host: who's rate-metered (x-suluk-ratelimit), and
 which costs accrue on a BACKGROUND event rather than the route (x-suluk-cost trigger, C024/C025). Doc-derived.

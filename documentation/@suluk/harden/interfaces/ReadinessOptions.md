@@ -6,7 +6,7 @@
 
 # Interface: ReadinessOptions
 
-Defined in: [readiness.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/harden/src/readiness.ts#L25)
+Defined in: [readiness.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/harden/src/readiness.ts#L25)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [readiness.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **ignore?**: (`uri`, `name`) => `boolean`
 
-Defined in: [readiness.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/harden/src/readiness.ts#L27)
+Defined in: [readiness.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/harden/src/readiness.ts#L27)
 
 skip operations (e.g. third-party/ingested surfaces) — they don't count toward the readiness grade.
 

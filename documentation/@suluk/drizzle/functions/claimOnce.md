@@ -8,7 +8,7 @@
 
 > **claimOnce**(`db`, `table`, `where`, `set`): `Promise`\<`boolean`\>
 
-Defined in: [cas.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/cas.ts#L29)
+Defined in: [cas.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/cas.ts#L29)
 
 Atomically CLAIM a transition: `UPDATE table SET set WHERE where`, returning true iff this call changed a row.
 The `where` MUST include the FROM-state guard (e.g. `and(eq(id, n), eq(status, "pending"))`) so a re-delivery /

@@ -8,7 +8,7 @@
 
 > **deepStrings**(`v`, `path?`): `Generator`\<\{ `path`: `string`; `value`: `string`; \}\>
 
-Defined in: [agents/src/resolve.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/resolve.ts#L106)
+Defined in: [agents/src/resolve.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/resolve.ts#L106)
 
 Every string value reachable in an object (for the request-value-selector D1 scan).
 

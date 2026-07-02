@@ -6,7 +6,7 @@
 
 # Interface: Registry
 
-Defined in: [registry.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry.ts#L8)
+Defined in: [registry.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry.ts#L8)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [registry.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **blocks**: `Record`\<`string`, [`DslDocument`](DslDocument.md)\>
 
-Defined in: [registry.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry.ts#L11)
+Defined in: [registry.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry.ts#L11)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [registry.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > **components**: `Set`\<`string`\>
 
-Defined in: [registry.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry.ts#L10)
+Defined in: [registry.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry.ts#L10)
 
 Leaf component (UI primitive) names a block may reference.
 
@@ -32,7 +32,7 @@ Leaf component (UI primitive) names a block may reference.
 
 > **pages**: `Record`\<`string`, [`DslDocument`](DslDocument.md)\>
 
-Defined in: [registry.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry.ts#L13)
+Defined in: [registry.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry.ts#L13)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [registry.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > **sections**: `Record`\<`string`, [`DslDocument`](DslDocument.md)\>
 
-Defined in: [registry.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/registry.ts#L12)
+Defined in: [registry.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/registry.ts#L12)

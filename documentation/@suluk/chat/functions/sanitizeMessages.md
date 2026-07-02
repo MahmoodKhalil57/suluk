@@ -8,7 +8,7 @@
 
 > **sanitizeMessages**(`input`): [`ChatMessage`](../interfaces/ChatMessage.md)[]
 
-Defined in: [chat/src/app.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/chat/src/app.ts#L63)
+Defined in: [chat/src/app.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/chat/src/app.ts#L63)
 
 Sanitize client-supplied history: ONLY user/assistant text turns survive — no client-forged system/tool turns or
  tool_calls (which would be a prompt-injection / fake-result vector). Trim to the last MAX_TURNS.

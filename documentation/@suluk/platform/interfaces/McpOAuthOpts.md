@@ -6,7 +6,7 @@
 
 # Interface: McpOAuthOpts
 
-Defined in: [service.ts:163](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L163)
+Defined in: [service.ts:163](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/service.ts#L163)
 
 The MCP OAuth authorization-server config (auth's `serviceOpts.mcp`) — the frontend OAuth pages + resource + scope set.
 
@@ -16,7 +16,7 @@ The MCP OAuth authorization-server config (auth's `serviceOpts.mcp`) — the fro
 
 > **consentPage**: `string`
 
-Defined in: [service.ts:165](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L165)
+Defined in: [service.ts:165](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/service.ts#L165)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [service.ts:165](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > **loginPage**: `string`
 
-Defined in: [service.ts:164](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L164)
+Defined in: [service.ts:164](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/service.ts#L164)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [service.ts:164](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > **resource**: `string`
 
-Defined in: [service.ts:166](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L166)
+Defined in: [service.ts:166](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/service.ts#L166)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [service.ts:166](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > **scopes**: `string`[]
 
-Defined in: [service.ts:167](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L167)
+Defined in: [service.ts:167](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/service.ts#L167)

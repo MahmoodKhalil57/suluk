@@ -8,7 +8,7 @@
 
 > **schemaRefName**(`ref`): `string` \| `null`
 
-Defined in: [module.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L87)
+Defined in: [module.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L87)
 
 The ROOT schema NAME a $ref targets, or null if it isn't a components/schemas reference. Parses the
 JSON-Pointer by tokens (RFC 6901, matching @suluk/core's resolveRef) so a DEEP ref (.../Order/properties/id)

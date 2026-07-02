@@ -6,7 +6,7 @@
 
 # Interface: AppVars
 
-Defined in: [principal.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L14)
+Defined in: [principal.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/principal.ts#L14)
 
 The Hono context Variables the auth middleware POPULATES per `/api/*` request â€” the resolved caller (`c.get("user")`,
  `c.var.scopes`, and the api-key id/name for a keyed caller). A module that READS the auth-set principal (e.g. `mcp`)
@@ -18,7 +18,7 @@ The Hono context Variables the auth middleware POPULATES per `/api/*` request â€
 
 > `optional` **keyId?**: `string`
 
-Defined in: [principal.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L17)
+Defined in: [principal.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/principal.ts#L17)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [principal.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **keyName?**: `string`
 
-Defined in: [principal.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L18)
+Defined in: [principal.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/principal.ts#L18)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [principal.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **scopes?**: `string`[]
 
-Defined in: [principal.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L16)
+Defined in: [principal.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/principal.ts#L16)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [principal.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **user?**: `object`
 
-Defined in: [principal.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L15)
+Defined in: [principal.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/principal.ts#L15)
 
 #### email?
 

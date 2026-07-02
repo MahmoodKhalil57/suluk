@@ -8,7 +8,7 @@
 
 > **FetcherFactory** = (`params?`) => `FetcherStore`\<`unknown`\>
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/stores.ts#L88)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/nano-stores/src/stores.ts#L88)
 
 A bound fetcher store factory: call with the route's path params to get a cache-keyed store.
 

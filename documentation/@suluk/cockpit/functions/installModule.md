@@ -8,7 +8,7 @@
 
 > **installModule**(`base`, `mod`): [`InstallResult`](../interfaces/InstallResult.md)
 
-Defined in: [builder/src/module.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L120)
+Defined in: [builder/src/module.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L120)
 
 Merge a module's contract fragment into the app document — REFUSING on any collision or unmet requirement.
 On refusal `doc` is the unchanged `base` and `conflicts` explains why; nothing is partially applied.

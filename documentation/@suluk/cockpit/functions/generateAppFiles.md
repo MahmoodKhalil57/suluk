@@ -8,7 +8,7 @@
 
 > **generateAppFiles**(`doc`): [`GeneratedFile`](../interfaces/GeneratedFile.md)[]
 
-Defined in: [cockpit/src/builder.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/builder.ts#L83)
+Defined in: [cockpit/src/builder.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/builder.ts#L83)
 
 All files for the generated app: the v4 doc, the frontend components + pages, and the shadcn registry.
 

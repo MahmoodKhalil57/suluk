@@ -8,7 +8,7 @@
 
 > **miniDiff**(`oldText`, `newText`, `ctx?`): `string`
 
-Defined in: [journeys/src/cli.ts:169](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L169)
+Defined in: [journeys/src/cli.ts:169](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/cli.ts#L169)
 
 A minimal context diff (the edit is localized to one schema statement). Lines: `  ` ctx, `- ` removed, `+ ` added.
 

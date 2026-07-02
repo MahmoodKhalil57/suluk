@@ -8,7 +8,7 @@
 
 > **settlementOf**(`req`): [`CostSettlement`](../interfaces/CostSettlement.md) \| `undefined`
 
-Defined in: [settlement.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cost/src/settlement.ts#L14)
+Defined in: [settlement.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cost/src/settlement.ts#L14)
 
 The settlement declared on an operation's cost.
 

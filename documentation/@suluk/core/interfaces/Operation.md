@@ -6,7 +6,7 @@
 
 # Interface: Operation
 
-Defined in: [ada.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L6)
+Defined in: [ada.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ada.ts#L6)
 
 One operation in the ADA: a request resolved with its pathItem context, signature, and compiled template.
 
@@ -16,7 +16,7 @@ One operation in the ADA: a request resolved with its pathItem context, signatur
 
 > **compiled**: [`CompiledTemplate`](CompiledTemplate.md)
 
-Defined in: [ada.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L13)
+Defined in: [ada.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ada.ts#L13)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [ada.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3
 
 > **name**: `string`
 
-Defined in: [ada.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L9)
+Defined in: [ada.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ada.ts#L9)
 
 The DOM handle (key in pathItem.requests) — the by-name identity (C009).
 
@@ -34,7 +34,7 @@ The DOM handle (key in pathItem.requests) — the by-name identity (C009).
 
 > **pathTemplate**: `string`
 
-Defined in: [ada.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L7)
+Defined in: [ada.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ada.ts#L7)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [ada.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3f
 
 > **request**: [`Request`](Request.md)
 
-Defined in: [ada.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L10)
+Defined in: [ada.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ada.ts#L10)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [ada.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3
 
 > **signatureKey**: `string`
 
-Defined in: [ada.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L12)
+Defined in: [ada.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ada.ts#L12)
 
 ***
 
@@ -58,4 +58,4 @@ Defined in: [ada.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3
 
 > **tuple**: [`SignatureTuple`](SignatureTuple.md)
 
-Defined in: [ada.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L11)
+Defined in: [ada.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ada.ts#L11)

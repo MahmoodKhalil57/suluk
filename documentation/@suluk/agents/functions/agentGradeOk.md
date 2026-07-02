@@ -8,7 +8,7 @@
 
 > **agentGradeOk**(`report`, `min`): `boolean`
 
-Defined in: [agents/src/grade.ts:201](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/grade.ts#L201)
+Defined in: [agents/src/grade.ts:201](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/grade.ts#L201)
 
 True ⇒ the agent's grade is at least `min`.
 

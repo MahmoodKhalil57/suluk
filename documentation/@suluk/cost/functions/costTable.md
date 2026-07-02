@@ -8,7 +8,7 @@
 
 > **costTable**(`doc`): [`CostRow`](../interfaces/CostRow.md)[]
 
-Defined in: [contract.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cost/src/contract.ts#L108)
+Defined in: [contract.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cost/src/contract.ts#L108)
 
 The declared costs across the document (paths + webhooks + jobs), for display (the cockpit/admin show this raw).
 

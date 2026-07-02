@@ -8,7 +8,7 @@
 
 > **auditSource**(`text`): `object`
 
-Defined in: [cockpit/src/logic.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/logic.ts#L42)
+Defined in: [cockpit/src/logic.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/logic.ts#L42)
 
 Documentation-coverage audit (under-documented routes) via the @suluk/hono engine.
 

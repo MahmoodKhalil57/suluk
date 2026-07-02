@@ -6,7 +6,7 @@
 
 # Interface: PathItem
 
-Defined in: [types.ts:331](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L331)
+Defined in: [types.ts:331](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L331)
 
 A pathItem, keyed in `paths` by its uriTemplate. Each request *is* an operation (SPEC §1.3/1.4).
 
@@ -16,7 +16,7 @@ A pathItem, keyed in `paths` by its uriTemplate. Each request *is* an operation 
 
 > `optional` **description?**: `string`
 
-Defined in: [types.ts:333](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L333)
+Defined in: [types.ts:333](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L333)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [types.ts:333](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > `optional` **pathResponses?**: `Record`\<`string`, [`Response`](Response.md)\>
 
-Defined in: [types.ts:340](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L340)
+Defined in: [types.ts:340](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L340)
 
 Responses reusable across this pathItem's requests (§5).
 
@@ -34,7 +34,7 @@ Responses reusable across this pathItem's requests (§5).
 
 > **requests**: `Record`\<`string`, [`Request`](Request.md)\>
 
-Defined in: [types.ts:338](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L338)
+Defined in: [types.ts:338](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L338)
 
 The operations at this path, keyed by stable name (C009). At least one required.
 
@@ -44,7 +44,7 @@ The operations at this path, keyed by stable name (C009). At least one required.
 
 > `optional` **servers?**: [`Server`](Server.md)[]
 
-Defined in: [types.ts:334](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L334)
+Defined in: [types.ts:334](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L334)
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: [types.ts:334](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > `optional` **shared?**: [`Shared`](Shared.md)
 
-Defined in: [types.ts:336](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L336)
+Defined in: [types.ts:336](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L336)
 
 Optional per-level inheritance wrapper (C012 #116).
 
@@ -62,4 +62,4 @@ Optional per-level inheritance wrapper (C012 #116).
 
 > `optional` **summary?**: `string`
 
-Defined in: [types.ts:332](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L332)
+Defined in: [types.ts:332](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L332)

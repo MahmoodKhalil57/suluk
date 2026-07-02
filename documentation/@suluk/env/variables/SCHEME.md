@@ -8,6 +8,6 @@
 
 > `const` **SCHEME**: `"mlkem768"` = `"mlkem768"`
 
-Defined in: [crypto.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/env/src/crypto.ts#L22)
+Defined in: [crypto.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/env/src/crypto.ts#L22)
 
 The cipher/key scheme tag embedded in keys + tokens. Bump if the construction ever changes.

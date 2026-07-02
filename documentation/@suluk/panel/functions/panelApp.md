@@ -8,7 +8,7 @@
 
 > **panelApp**(`opts`): `Hono`
 
-Defined in: [app.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/app.ts#L92)
+Defined in: [app.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/panel/src/app.ts#L92)
 
 ## Parameters
 

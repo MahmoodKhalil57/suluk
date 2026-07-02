@@ -8,7 +8,7 @@
 
 > **assertServedSubset**(`doc`, `agentName`, `servedToolNames`): [`ConformanceFinding`](../interfaces/ConformanceFinding.md)[]
 
-Defined in: [agents/src/conformance.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/conformance.ts#L47)
+Defined in: [agents/src/conformance.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/conformance.ts#L47)
 
 OVER-SERVE auditor: assert the tools a server actually exposes are a SUBSET of the declared reachable surface.
 Any served tool NOT in the surface is a WIDENING — the contract is no longer the source of truth for authz reach.

@@ -6,7 +6,7 @@
 
 # Interface: OutlineRenderOptions
 
-Defined in: [journeys/src/outline.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/outline.ts#L80)
+Defined in: [journeys/src/outline.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/outline.ts#L80)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/outline.ts:80](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **feature?**: `string`
 
-Defined in: [journeys/src/outline.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/outline.ts#L83)
+Defined in: [journeys/src/outline.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/outline.ts#L83)
 
 ***
 
@@ -22,6 +22,6 @@ Defined in: [journeys/src/outline.ts:83](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **only?**: `string`[]
 
-Defined in: [journeys/src/outline.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/outline.ts#L82)
+Defined in: [journeys/src/outline.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/outline.ts#L82)
 
 only render these operations (by name); default all.

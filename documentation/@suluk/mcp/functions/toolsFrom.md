@@ -8,7 +8,7 @@
 
 > **toolsFrom**(`doc`, `opts?`): [`McpTool`](../interfaces/McpTool.md)[]
 
-Defined in: [tools.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/tools.ts#L78)
+Defined in: [tools.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/mcp/src/tools.ts#L78)
 
 `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server. The same contract that drives
 the API, SDK, docs, admin, and panel now drives an agent-callable surface: every operation becomes an MCP tool

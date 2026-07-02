@@ -8,7 +8,7 @@
 
 > **deleteStep**\<`U`\>(`name`, `run`): [`CascadeStep`](../interfaces/CascadeStep.md)\<`U`\>
 
-Defined in: [erasure.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/erasure.ts#L40)
+Defined in: [erasure.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/erasure.ts#L40)
 
 A hard-DELETE step — cascade-remove a subsystem's rows for the user.
 

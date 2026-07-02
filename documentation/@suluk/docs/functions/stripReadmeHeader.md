@@ -8,7 +8,7 @@
 
 > **stripReadmeHeader**(`md`): `string`
 
-Defined in: [harvest.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/harvest.ts#L74)
+Defined in: [harvest.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/harvest.ts#L74)
 
 Strip a README's leading branding/header chrome so it integrates under the site's own page title without a
 duplicate logo + H1. Handles both house styles: the centered-logo HTML header (`<p align="center">…</p>` +

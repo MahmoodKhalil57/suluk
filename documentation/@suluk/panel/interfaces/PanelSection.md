@@ -6,7 +6,7 @@
 
 # Interface: PanelSection
 
-Defined in: [app.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/app.ts#L17)
+Defined in: [app.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/panel/src/app.ts#L17)
 
 A custom, non-CRUD page mounted at `${basePath}/s/<id>`, rendered inside the panel shell.
 
@@ -16,7 +16,7 @@ A custom, non-CRUD page mounted at `${basePath}/s/<id>`, rendered inside the pan
 
 > **id**: `string`
 
-Defined in: [app.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/app.ts#L18)
+Defined in: [app.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/panel/src/app.ts#L18)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [app.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3
 
 > **label**: `string`
 
-Defined in: [app.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/app.ts#L19)
+Defined in: [app.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/panel/src/app.ts#L19)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [app.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3
 
 > **render**: (`c`) => `string` \| `Promise`\<`string`\>
 
-Defined in: [app.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/app.ts#L23)
+Defined in: [app.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/panel/src/app.ts#L23)
 
 Inner HTML for the section body (may include <script>); receives the request context.
 
@@ -52,6 +52,6 @@ Inner HTML for the section body (may include <script>); receives the request con
 
 > `optional` **summary?**: `string`
 
-Defined in: [app.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/app.ts#L21)
+Defined in: [app.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/panel/src/app.ts#L21)
 
 short line shown on the home card (else "Open").

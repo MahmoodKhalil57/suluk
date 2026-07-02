@@ -8,7 +8,7 @@
 
 > **stripePost**(`cfg`, `path`, `form`, `idempotencyKey?`): `Promise`\<`Response`\>
 
-Defined in: [packages/payments/src/stripe-transport.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/stripe-transport.ts#L16)
+Defined in: [packages/payments/src/stripe-transport.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/stripe-transport.ts#L16)
 
 `@suluk/billing` — Stripe plumbing over an injected config (C046). The transport + customer/intent creation + the
 saved-card surface (v1), plus the money-MOVING paths (hosted Checkout, portal, on-default-card top-up, off-session

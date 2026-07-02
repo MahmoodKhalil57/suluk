@@ -8,7 +8,7 @@
 
 > **appExec**(`app`): (`c`, `op`, `args`) => `Promise`\<`unknown`\>
 
-Defined in: [exec.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/exec.ts#L62)
+Defined in: [exec.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/mcp/src/exec.ts#L62)
 
 In-process executor for when the MCP server is mounted on the SAME app as the store routes. Dispatches the tool's
  request straight through `app.fetch` — same routing, same auth + access middleware, NO network hop (so no edge

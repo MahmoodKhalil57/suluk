@@ -6,7 +6,7 @@
 
 # Interface: StackTemplate
 
-Defined in: [builder/src/modules/index.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/modules/index.ts#L33)
+Defined in: [builder/src/modules/index.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/modules/index.ts#L33)
 
 A named set of modules that compose into a working platform (L2 — the non-developer flow).
 
@@ -16,7 +16,7 @@ A named set of modules that compose into a working platform (L2 — the non-deve
 
 > **description**: `string`
 
-Defined in: [builder/src/modules/index.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/modules/index.ts#L35)
+Defined in: [builder/src/modules/index.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/modules/index.ts#L35)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [builder/src/modules/index.ts:35](https://github.com/MahmoodKhalil57
 
 > **modules**: `string`[]
 
-Defined in: [builder/src/modules/index.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/modules/index.ts#L37)
+Defined in: [builder/src/modules/index.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/modules/index.ts#L37)
 
 module names, resolved against a registry
 
@@ -34,4 +34,4 @@ module names, resolved against a registry
 
 > **name**: `string`
 
-Defined in: [builder/src/modules/index.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/modules/index.ts#L34)
+Defined in: [builder/src/modules/index.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/modules/index.ts#L34)

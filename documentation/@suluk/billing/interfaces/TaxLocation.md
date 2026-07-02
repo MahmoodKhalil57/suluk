@@ -6,7 +6,7 @@
 
 # Interface: TaxLocation
 
-Defined in: [packages/billing/src/tax.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/tax.ts#L18)
+Defined in: [packages/billing/src/tax.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/tax.ts#L18)
 
 A buyer's tax location. The saved card's BILLING ADDRESS is preferred (precise + works off-session); the request IP is
  the fallback for a first on-session purchase where no card is saved yet.
@@ -17,7 +17,7 @@ A buyer's tax location. The saved card's BILLING ADDRESS is preferred (precise +
 
 > `optional` **address?**: [`TaxAddress`](TaxAddress.md) \| `null`
 
-Defined in: [packages/billing/src/tax.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/tax.ts#L19)
+Defined in: [packages/billing/src/tax.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/tax.ts#L19)
 
 ***
 
@@ -25,4 +25,4 @@ Defined in: [packages/billing/src/tax.ts:19](https://github.com/MahmoodKhalil57/
 
 > `optional` **ip?**: `string` \| `null`
 
-Defined in: [packages/billing/src/tax.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/tax.ts#L20)
+Defined in: [packages/billing/src/tax.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/tax.ts#L20)

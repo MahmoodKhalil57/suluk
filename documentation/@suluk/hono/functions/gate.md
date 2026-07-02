@@ -8,7 +8,7 @@
 
 > **gate**(`rule`, `id`): [`GateDecision`](../interfaces/GateDecision.md)
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/access.ts#L51)
+Defined in: [tooling/ts/packages/hono/src/access.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/access.ts#L51)
 
 Decide whether a caller may run an op (per the rule), whether to scope the query to their own rows, and the honest
 deny status. FAIL-CLOSED: an `owner` op with no principal is 401 (the wire must enforce what `x-suluk-access`

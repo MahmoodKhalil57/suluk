@@ -8,6 +8,6 @@
 
 > `const` **COLOR\_ROLES**: `ReadonlyArray`\<keyof [`ColorTokens`](../interfaces/ColorTokens.md)\>
 
-Defined in: [tokens.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/theme/src/tokens.ts#L33)
+Defined in: [tokens.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/theme/src/tokens.ts#L33)
 
 the color roles, in CSS-var order — the single list emit + derive iterate.

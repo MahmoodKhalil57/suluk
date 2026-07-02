@@ -8,7 +8,7 @@
 
 > **resolveLocale**(`config`, `candidate`): `string`
 
-Defined in: [locale.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/i18n/src/locale.ts#L56)
+Defined in: [locale.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/i18n/src/locale.ts#L56)
 
 Resolve a candidate (cookie value, query param, negotiated pick) to a supported locale, else the default.
 

@@ -6,7 +6,7 @@
 
 # Interface: Tag
 
-Defined in: [types.ts:324](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L324)
+Defined in: [types.ts:324](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L324)
 
 `@suluk/core` — the foundation library for the OpenAPI v4.0 "Suluk" candidate.
 
@@ -21,7 +21,7 @@ CANDIDATE tooling — provisional; the soft points (CONFIDENCE.md) are isolated 
 
 > `optional` **description?**: `string`
 
-Defined in: [types.ts:326](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L326)
+Defined in: [types.ts:326](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L326)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [types.ts:326](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > `optional` **summary?**: `string`
 
-Defined in: [types.ts:325](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L325)
+Defined in: [types.ts:325](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L325)
 
 ***
 
@@ -37,4 +37,4 @@ Defined in: [types.ts:325](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > `optional` **type?**: `string`
 
-Defined in: [types.ts:327](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L327)
+Defined in: [types.ts:327](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L327)

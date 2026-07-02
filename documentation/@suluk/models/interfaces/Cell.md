@@ -6,7 +6,7 @@
 
 # Interface: Cell\<T\>
 
-Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/types.ts#L19)
+Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/types.ts#L19)
 
 One catalog value with provenance. `value: null` ⇒ UNKNOWN (and `source` is ""); never imputed.
 
@@ -22,7 +22,7 @@ One catalog value with provenance. `value: null` ⇒ UNKNOWN (and `source` is ""
 
 > **asOf**: `string`
 
-Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/types.ts#L19)
+Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/types.ts#L19)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883e
 
 > **source**: `string`
 
-Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/types.ts#L19)
+Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/types.ts#L19)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883e
 
 > **value**: `T` \| `null`
 
-Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/types.ts#L19)
+Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/models/src/types.ts#L19)

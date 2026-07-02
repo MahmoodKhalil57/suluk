@@ -6,7 +6,7 @@
 
 # Interface: IngestOptions
 
-Defined in: [ingest.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/ingest.ts#L38)
+Defined in: [ingest.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/ingest.ts#L38)
 
 ## Properties
 
@@ -14,6 +14,6 @@ Defined in: [ingest.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/0d44883
 
 > `optional` **basePath?**: `string`
 
-Defined in: [ingest.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/ingest.ts#L40)
+Defined in: [ingest.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/ingest.ts#L40)
 
 Prefix every ingested path with this base (Better Auth mounts under "/api/auth").

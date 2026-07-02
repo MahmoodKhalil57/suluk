@@ -8,7 +8,7 @@
 
 > **tsType**(`doc`, `schema`, `depth?`): `string`
 
-Defined in: [generate.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/sdk/src/generate.ts#L27)
+Defined in: [generate.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/sdk/src/generate.ts#L27)
 
 A JSON schema → a TS type string (used for typed method inputs + response types).
 

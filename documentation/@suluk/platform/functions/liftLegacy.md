@@ -8,7 +8,7 @@
 
 > **liftLegacy**(`m`): [`Platform`](../interfaces/Platform.md)
 
-Defined in: [resolve.ts:121](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/resolve.ts#L121)
+Defined in: [resolve.ts:121](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/resolve.ts#L121)
 
 The MIGRATE direction — a legacy [PlatformManifest](../interfaces/PlatformManifest.md) → the C053 `{ system, brand }` split (the inverse of
 [liftSystemBrand](liftSystemBrand.md)). `opts` → per-service serviceOpts; `vars` split into globalServiceOpts (system-shaped) vs

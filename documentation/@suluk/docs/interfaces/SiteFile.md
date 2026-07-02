@@ -6,7 +6,7 @@
 
 # Interface: SiteFile
 
-Defined in: [render.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/render.ts#L188)
+Defined in: [render.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/render.ts#L188)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [render.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **content**: `string`
 
-Defined in: [render.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/render.ts#L188)
+Defined in: [render.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/render.ts#L188)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [render.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **path**: `string`
 
-Defined in: [render.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/render.ts#L188)
+Defined in: [render.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/render.ts#L188)

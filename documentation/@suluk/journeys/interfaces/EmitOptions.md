@@ -6,7 +6,7 @@
 
 # Interface: EmitOptions
 
-Defined in: [journeys/src/emit.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/emit.ts#L28)
+Defined in: [journeys/src/emit.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/emit.ts#L28)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: [journeys/src/emit.ts:28](https://github.com/MahmoodKhalil57/suluk/b
 
 > `optional` **aliases?**: `Record`\<`string`, `string`\>
 
-Defined in: [journeys/src/bind.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/bind.ts#L82)
+Defined in: [journeys/src/bind.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/bind.ts#L82)
 
 shorthand for `definitions.steps` with 1:1 string values — an author-owned synonym map. Merged into definitions.
 
@@ -32,7 +32,7 @@ shorthand for `definitions.steps` with 1:1 string values — an author-owned syn
 
 > `optional` **baseUrlEnv?**: `string`
 
-Defined in: [journeys/src/emit.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/emit.ts#L34)
+Defined in: [journeys/src/emit.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/emit.ts#L34)
 
 env var holding the live base URL (default: "SULUK_BASE_URL").
 
@@ -42,7 +42,7 @@ env var holding the live base URL (default: "SULUK_BASE_URL").
 
 > `optional` **clientFactory?**: `string`
 
-Defined in: [journeys/src/emit.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/emit.ts#L32)
+Defined in: [journeys/src/emit.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/emit.ts#L32)
 
 named export that creates a client (default: "createClient").
 
@@ -52,7 +52,7 @@ named export that creates a client (default: "createClient").
 
 > `optional` **clientModule?**: `string`
 
-Defined in: [journeys/src/emit.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/emit.ts#L30)
+Defined in: [journeys/src/emit.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/emit.ts#L30)
 
 import specifier for the consumer's generated SDK (default: the consumer's local "./sdk").
 
@@ -62,7 +62,7 @@ import specifier for the consumer's generated SDK (default: the consumer's local
 
 > `optional` **definitions?**: [`Definitions`](Definitions.md)
 
-Defined in: [journeys/src/bind.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/bind.ts#L84)
+Defined in: [journeys/src/bind.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/bind.ts#L84)
 
 the scaffolder's full mapping layer (aliases + decompositions + named journeys).
 
@@ -76,7 +76,7 @@ the scaffolder's full mapping layer (aliases + decompositions + named journeys).
 
 > `optional` **maxHoles?**: `number`
 
-Defined in: [journeys/src/bind.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/bind.ts#L86)
+Defined in: [journeys/src/bind.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/bind.ts#L86)
 
 how many coverage-hole stubs to emit (default: all).
 
@@ -90,6 +90,6 @@ how many coverage-hole stubs to emit (default: all).
 
 > `optional` **tokenEnv?**: `string`
 
-Defined in: [journeys/src/emit.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/emit.ts#L36)
+Defined in: [journeys/src/emit.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/emit.ts#L36)
 
 env var holding a bearer token for authenticated scenarios (default: "SULUK_USER_TOKEN").

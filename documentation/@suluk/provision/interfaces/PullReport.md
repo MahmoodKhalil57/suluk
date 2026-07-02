@@ -6,7 +6,7 @@
 
 # Interface: PullReport
 
-Defined in: [provision/src/pull.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/pull.ts#L23)
+Defined in: [provision/src/pull.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/pull.ts#L23)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/pull.ts:23](https://github.com/MahmoodKhalil57/suluk/
 
 > **clean**: `boolean`
 
-Defined in: [provision/src/pull.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/pull.ts#L30)
+Defined in: [provision/src/pull.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/pull.ts#L30)
 
 nothing missing or drifted (unknowns don't count — we couldn't verify them).
 
@@ -24,7 +24,7 @@ nothing missing or drifted (unknowns don't count — we couldn't verify them).
 
 > **drifted**: `string`[]
 
-Defined in: [provision/src/pull.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/pull.ts#L28)
+Defined in: [provision/src/pull.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/pull.ts#L28)
 
 journaled refs whose live outputs differ from the journal.
 
@@ -34,7 +34,7 @@ journaled refs whose live outputs differ from the journal.
 
 > **entries**: [`PullEntry`](PullEntry.md)[]
 
-Defined in: [provision/src/pull.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/pull.ts#L24)
+Defined in: [provision/src/pull.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/pull.ts#L24)
 
 ***
 
@@ -42,6 +42,6 @@ Defined in: [provision/src/pull.ts:24](https://github.com/MahmoodKhalil57/suluk/
 
 > **missing**: `string`[]
 
-Defined in: [provision/src/pull.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/pull.ts#L26)
+Defined in: [provision/src/pull.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/pull.ts#L26)
 
 journaled refs whose live resource is GONE (deleted outside the config) — the next `apply` re-creates them.

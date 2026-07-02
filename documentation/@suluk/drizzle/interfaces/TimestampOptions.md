@@ -6,7 +6,7 @@
 
 # Interface: TimestampOptions
 
-Defined in: [mutations.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/mutations.ts#L14)
+Defined in: [mutations.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/mutations.ts#L14)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [mutations.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **createdAt?**: `string`
 
-Defined in: [mutations.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/mutations.ts#L15)
+Defined in: [mutations.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/mutations.ts#L15)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [mutations.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44
 
 > `optional` **updatedAt?**: `string`
 
-Defined in: [mutations.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/mutations.ts#L16)
+Defined in: [mutations.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/mutations.ts#L16)

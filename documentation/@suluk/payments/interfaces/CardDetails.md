@@ -6,7 +6,7 @@
 
 # Interface: CardDetails
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L72)
+Defined in: [tooling/ts/packages/payments/src/types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/types.ts#L72)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:72](https://github.com/Ma
 
 > **cardCvc**: [`Secret`](../type-aliases/Secret.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L76)
+Defined in: [tooling/ts/packages/payments/src/types.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/types.ts#L76)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:76](https://github.com/Ma
 
 > **cardExpMonth**: [`Secret`](../type-aliases/Secret.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L74)
+Defined in: [tooling/ts/packages/payments/src/types.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/types.ts#L74)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:74](https://github.com/Ma
 
 > **cardExpYear**: [`Secret`](../type-aliases/Secret.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L75)
+Defined in: [tooling/ts/packages/payments/src/types.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/types.ts#L75)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:75](https://github.com/Ma
 
 > `optional` **cardHolderName?**: [`Secret`](../type-aliases/Secret.md)\<`string`\>
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L77)
+Defined in: [tooling/ts/packages/payments/src/types.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/types.ts#L77)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:77](https://github.com/Ma
 
 > **cardNumber**: [`Secret`](../type-aliases/Secret.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L73)
+Defined in: [tooling/ts/packages/payments/src/types.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/payments/src/types.ts#L73)

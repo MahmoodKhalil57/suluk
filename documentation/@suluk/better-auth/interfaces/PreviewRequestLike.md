@@ -6,7 +6,7 @@
 
 # Interface: PreviewRequestLike
 
-Defined in: [preview.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/preview.ts#L23)
+Defined in: [preview.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/preview.ts#L23)
 
 A minimal view of the Worker request — only `.url` (to read the `role` query param) is needed. Web `Request` satisfies it.
 
@@ -16,4 +16,4 @@ A minimal view of the Worker request — only `.url` (to read the `role` query p
 
 > **url**: `string`
 
-Defined in: [preview.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/preview.ts#L24)
+Defined in: [preview.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/better-auth/src/preview.ts#L24)

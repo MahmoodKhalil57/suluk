@@ -8,7 +8,7 @@
 
 > **loadEnv**(`opts`): `Promise`\<`Record`\<`string`, `string`\>\>
 
-Defined in: [load.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/env/src/load.ts#L22)
+Defined in: [load.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/env/src/load.ts#L22)
 
 Resolve + inject. Returns the decrypted { KEY: value } record that was loaded.
 

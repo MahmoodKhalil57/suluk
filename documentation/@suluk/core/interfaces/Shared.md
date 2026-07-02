@@ -6,7 +6,7 @@
 
 # Interface: Shared
 
-Defined in: [types.ts:344](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L344)
+Defined in: [types.ts:344](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L344)
 
 Optional inheritance wrapper; its `parameterSchema` is allOf-composed into each request (C012 #116, @0.55).
 
@@ -16,4 +16,4 @@ Optional inheritance wrapper; its `parameterSchema` is allOf-composed into each 
 
 > `optional` **parameterSchema?**: [`ParameterSchema`](ParameterSchema.md)
 
-Defined in: [types.ts:345](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L345)
+Defined in: [types.ts:345](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/types.ts#L345)

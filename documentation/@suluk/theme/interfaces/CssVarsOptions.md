@@ -6,7 +6,7 @@
 
 # Interface: CssVarsOptions
 
-Defined in: [emit.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/theme/src/emit.ts#L9)
+Defined in: [emit.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/theme/src/emit.ts#L9)
 
 ## Properties
 
@@ -14,6 +14,6 @@ Defined in: [emit.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3
 
 > `optional` **selector?**: `string`
 
-Defined in: [emit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/theme/src/emit.ts#L11)
+Defined in: [emit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/theme/src/emit.ts#L11)
 
 the selector to scope the vars under (default ":root").

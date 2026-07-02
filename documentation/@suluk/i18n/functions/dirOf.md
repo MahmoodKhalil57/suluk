@@ -8,7 +8,7 @@
 
 > **dirOf**(`config`, `code`): [`Direction`](../type-aliases/Direction.md)
 
-Defined in: [locale.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/i18n/src/locale.ts#L51)
+Defined in: [locale.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/i18n/src/locale.ts#L51)
 
 The writing direction for a locale (default "ltr" — an unknown code is treated as ltr).
 

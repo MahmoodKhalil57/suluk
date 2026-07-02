@@ -6,7 +6,7 @@
 
 # Interface: CycleItem
 
-Defined in: [cockpit/src/cycle.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/cycle.ts#L21)
+Defined in: [cockpit/src/cycle.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/cycle.ts#L21)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/cycle.ts:21](https://github.com/MahmoodKhalil57/suluk/b
 
 > `optional` **detail?**: `string`
 
-Defined in: [cockpit/src/cycle.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/cycle.ts#L23)
+Defined in: [cockpit/src/cycle.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/cycle.ts#L23)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/cycle.ts:23](https://github.com/MahmoodKhalil57/suluk/b
 
 > **label**: `string`
 
-Defined in: [cockpit/src/cycle.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/cycle.ts#L22)
+Defined in: [cockpit/src/cycle.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/cycle.ts#L22)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [cockpit/src/cycle.ts:22](https://github.com/MahmoodKhalil57/suluk/b
 
 > `optional` **ref?**: `string`
 
-Defined in: [cockpit/src/cycle.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/cycle.ts#L26)
+Defined in: [cockpit/src/cycle.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/cycle.ts#L26)
 
 A stable handle (e.g. an entity or operation name) for command targeting.
 
@@ -40,4 +40,4 @@ A stable handle (e.g. an entity or operation name) for command targeting.
 
 > `optional` **status?**: [`LayerStatus`](../type-aliases/LayerStatus.md)
 
-Defined in: [cockpit/src/cycle.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/cycle.ts#L24)
+Defined in: [cockpit/src/cycle.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cockpit/src/cycle.ts#L24)

@@ -8,7 +8,7 @@
 
 > **childPath**(`parentPath`, `childId`): `string`
 
-Defined in: [packages/keys/src/path.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/keys/src/path.ts#L23)
+Defined in: [packages/keys/src/path.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/keys/src/path.ts#L23)
 
 A child's path = `parentPath/childId`, or the bare `childId` when the parent is a root (no path / a session caller).
 

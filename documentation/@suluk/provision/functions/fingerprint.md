@@ -8,7 +8,7 @@
 
 > **fingerprint**(`spec`): `string`
 
-Defined in: [provision/src/refs.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/refs.ts#L58)
+Defined in: [provision/src/refs.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/refs.ts#L58)
 
 The drift fingerprint of a desired instance = a stable hash of (name + plan + params). A change flips it → an `update`
  step; an unchanged spec matches its stored fingerprint → a `noop`. (Refs are fingerprinted as their literal `@ref.key`

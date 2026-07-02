@@ -6,7 +6,7 @@
 
 # Interface: OgImageInput
 
-Defined in: [og.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/og.ts#L5)
+Defined in: [og.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/seo/src/og.ts#L5)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [og.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb
 
 > `optional` **accent?**: `string`
 
-Defined in: [og.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/og.ts#L14)
+Defined in: [og.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/seo/src/og.ts#L14)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [og.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3f
 
 > `optional` **accent2?**: `string`
 
-Defined in: [og.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/og.ts#L15)
+Defined in: [og.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/seo/src/og.ts#L15)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [og.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3f
 
 > `optional` **bg?**: `string`
 
-Defined in: [og.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/og.ts#L12)
+Defined in: [og.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/seo/src/og.ts#L12)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [og.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3f
 
 > `optional` **brand?**: `string`
 
-Defined in: [og.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/og.ts#L8)
+Defined in: [og.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/seo/src/og.ts#L8)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [og.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb
 
 > `optional` **eyebrow?**: `string`
 
-Defined in: [og.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/og.ts#L9)
+Defined in: [og.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/seo/src/og.ts#L9)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [og.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb
 
 > `optional` **fg?**: `string`
 
-Defined in: [og.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/og.ts#L13)
+Defined in: [og.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/seo/src/og.ts#L13)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [og.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3f
 
 > `optional` **height?**: `number`
 
-Defined in: [og.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/og.ts#L11)
+Defined in: [og.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/seo/src/og.ts#L11)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [og.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3f
 
 > `optional` **subtitle?**: `string`
 
-Defined in: [og.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/og.ts#L7)
+Defined in: [og.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/seo/src/og.ts#L7)
 
 ***
 
@@ -78,7 +78,7 @@ Defined in: [og.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb
 
 > **title**: `string`
 
-Defined in: [og.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/og.ts#L6)
+Defined in: [og.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/seo/src/og.ts#L6)
 
 ***
 
@@ -86,4 +86,4 @@ Defined in: [og.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb
 
 > `optional` **width?**: `number`
 
-Defined in: [og.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/og.ts#L10)
+Defined in: [og.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/seo/src/og.ts#L10)

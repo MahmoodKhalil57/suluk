@@ -6,7 +6,7 @@
 
 # Interface: RenderTableOptions
 
-Defined in: [render-table.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/shadcn/src/render-table.ts#L10)
+Defined in: [render-table.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/shadcn/src/render-table.ts#L10)
 
 ## Properties
 
@@ -14,6 +14,6 @@ Defined in: [render-table.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0
 
 > `optional` **componentName?**: `string`
 
-Defined in: [render-table.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/shadcn/src/render-table.ts#L12)
+Defined in: [render-table.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/shadcn/src/render-table.ts#L12)
 
 React component name. Default "GeneratedTable".

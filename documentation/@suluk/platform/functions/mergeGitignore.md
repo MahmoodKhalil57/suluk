@@ -8,7 +8,7 @@
 
 > **mergeGitignore**(`generated`, `existing`): `string`
 
-Defined in: [plan.ts:512](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/plan.ts#L512)
+Defined in: [plan.ts:512](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/platform/src/plan.ts#L512)
 
 Merge the generated .gitignore into an existing one — APPEND any missing entries (never skip-if-present, so an app's
  minimal .gitignore can't leave `.env.keys`/`.env.temp` UNIGNORED and risk committing the private key). Dedup, preserve app

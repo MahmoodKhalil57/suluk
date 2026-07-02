@@ -8,7 +8,7 @@
 
 > **promoteExampleIntoZod**(`source`, `schemaVar`, `example`, `provenance`): [`PromoteResult`](../interfaces/PromoteResult.md)
 
-Defined in: [journeys/src/promote.ts:151](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/promote.ts#L151)
+Defined in: [journeys/src/promote.ts:151](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/promote.ts#L151)
 
 Promote `example` into the source of the Zod schema bound to `const <schemaVar> = …`. Idempotent (re-promote replaces
 the marked block), marked, and refuses to clobber a hand-authored top-level `.meta({ examples })`.

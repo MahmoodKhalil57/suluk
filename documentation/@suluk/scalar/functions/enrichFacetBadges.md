@@ -8,7 +8,7 @@
 
 > **enrichFacetBadges**(`spec`): `void`
 
-Defined in: [index.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/scalar/src/index.ts#L83)
+Defined in: [index.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/scalar/src/index.ts#L83)
 
 Mutate a downgraded 3.1 spec: attach Scalar `x-badges` derived from the carried-through v4 facets, so cost +
  access show up right on each operation in Scalar's UI (which has no native concept of them).

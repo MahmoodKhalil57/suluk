@@ -8,7 +8,7 @@
 
 > **cloudflareKv**(`cf`): [`Broker`](../interfaces/Broker.md)
 
-Defined in: [provision/src/brokers/cloudflare.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/brokers/cloudflare.ts#L54)
+Defined in: [provision/src/brokers/cloudflare.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/provision/src/brokers/cloudflare.ts#L54)
 
 Workers KV namespace. Provision is create-or-get. Output: `namespace_id`.
 

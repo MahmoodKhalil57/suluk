@@ -6,7 +6,7 @@
 
 # Interface: CrudOptions
 
-Defined in: [crud.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/crud.ts#L14)
+Defined in: [crud.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/crud.ts#L14)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [crud.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee
 
 > `optional` **anonymizeDelete?**: `object`
 
-Defined in: [crud.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/crud.ts#L30)
+Defined in: [crud.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/crud.ts#L30)
 
 ANONYMIZE on delete (GDPR keep-record): DELETE redacts these columns instead of removing the row. Like
 softDelete, the projected DELETE returns the affected row (200). The patch comes from `anonymizeValues`.
@@ -29,7 +29,7 @@ softDelete, the projected DELETE returns the affected row (200). The patch comes
 
 > `optional` **basePath?**: `string`
 
-Defined in: [crud.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/crud.ts#L16)
+Defined in: [crud.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/crud.ts#L16)
 
 Base path for the collection. Default "/" + tableName, e.g. "/users".
 
@@ -39,7 +39,7 @@ Base path for the collection. Default "/" + tableName, e.g. "/users".
 
 > `optional` **idParam?**: `string`
 
-Defined in: [crud.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/crud.ts#L18)
+Defined in: [crud.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/crud.ts#L18)
 
 Path-param name for the item id. Default "id" ⇒ ".../:id".
 
@@ -49,7 +49,7 @@ Path-param name for the item id. Default "id" ⇒ ".../:id".
 
 > `optional` **listQuery?**: `boolean` \| [`ListQueryOptions`](ListQueryOptions.md)
 
-Defined in: [crud.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/crud.ts#L20)
+Defined in: [crud.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/crud.ts#L20)
 
 Declare list query params (page/perPage/sort/order/q) on the list route. Default true; pass options to scope.
 
@@ -59,7 +59,7 @@ Declare list query params (page/perPage/sort/order/q) on the list route. Default
 
 > `optional` **softDelete?**: `boolean` \| \{ `column?`: `string`; \}
 
-Defined in: [crud.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/crud.ts#L25)
+Defined in: [crud.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/drizzle/src/crud.ts#L25)
 
 SOFT delete: DELETE marks the row (sets a deletedAt column) instead of removing it, so the projected DELETE
 returns the affected row (200), not 204. The patch is built at runtime by `softDeleteValues`.

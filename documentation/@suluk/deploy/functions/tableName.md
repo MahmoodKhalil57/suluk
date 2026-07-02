@@ -8,7 +8,7 @@
 
 > **tableName**(`entity`): `string`
 
-Defined in: [sql.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/deploy/src/sql.ts#L31)
+Defined in: [sql.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/deploy/src/sql.ts#L31)
 
 The SQLite table name for an entity.
 

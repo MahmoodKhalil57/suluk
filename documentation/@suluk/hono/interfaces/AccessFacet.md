@@ -6,7 +6,7 @@
 
 # Interface: AccessFacet
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/enforce.ts#L25)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/enforce.ts#L25)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/hono/src/enforce.ts:25](https://github.com/Mahm
 
 > `optional` **requires?**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/enforce.ts#L25)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/enforce.ts#L25)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [tooling/ts/packages/hono/src/enforce.ts:25](https://github.com/Mahm
 
 > `optional` **scope?**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/enforce.ts#L25)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/enforce.ts#L25)

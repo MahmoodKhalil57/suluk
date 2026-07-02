@@ -6,7 +6,7 @@
 
 # Interface: CheckoutOpts
 
-Defined in: [packages/billing/src/payments.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/payments.ts#L20)
+Defined in: [packages/billing/src/payments.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/payments.ts#L20)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [packages/billing/src/payments.ts:20](https://github.com/MahmoodKhal
 
 > **amountCents**: `number`
 
-Defined in: [packages/billing/src/payments.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/payments.ts#L24)
+Defined in: [packages/billing/src/payments.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/payments.ts#L24)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [packages/billing/src/payments.ts:24](https://github.com/MahmoodKhal
 
 > **cancelUrl**: `string`
 
-Defined in: [packages/billing/src/payments.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/payments.ts#L28)
+Defined in: [packages/billing/src/payments.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/payments.ts#L28)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [packages/billing/src/payments.ts:28](https://github.com/MahmoodKhal
 
 > **credits**: `number`
 
-Defined in: [packages/billing/src/payments.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/payments.ts#L25)
+Defined in: [packages/billing/src/payments.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/payments.ts#L25)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [packages/billing/src/payments.ts:25](https://github.com/MahmoodKhal
 
 > **customerId**: `string` \| `null`
 
-Defined in: [packages/billing/src/payments.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/payments.ts#L23)
+Defined in: [packages/billing/src/payments.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/payments.ts#L23)
 
 the user's existing customer (reused so a saved card isn't orphaned), or null to let Checkout create one.
 
@@ -48,7 +48,7 @@ the user's existing customer (reused so a saved card isn't orphaned), or null to
 
 > **productName**: `string`
 
-Defined in: [packages/billing/src/payments.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/payments.ts#L30)
+Defined in: [packages/billing/src/payments.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/payments.ts#L30)
 
 the line-item product name shown on the hosted page, e.g. "acme — 600 credits".
 
@@ -58,7 +58,7 @@ the line-item product name shown on the hosted page, e.g. "acme — 600 credits"
 
 > **successUrl**: `string`
 
-Defined in: [packages/billing/src/payments.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/payments.ts#L27)
+Defined in: [packages/billing/src/payments.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/payments.ts#L27)
 
 the URL Stripe returns to on success (the app composes it from its origin + route).
 
@@ -68,4 +68,4 @@ the URL Stripe returns to on success (the app composes it from its origin + rout
 
 > **userId**: `string`
 
-Defined in: [packages/billing/src/payments.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/payments.ts#L21)
+Defined in: [packages/billing/src/payments.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/payments.ts#L21)

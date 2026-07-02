@@ -8,7 +8,7 @@
 
 > **eventCostEvent**(`input`): [`CostEvent`](../interfaces/CostEvent.md)
 
-Defined in: [event.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cost/src/event.ts#L78)
+Defined in: [event.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/cost/src/event.ts#L78)
 
 Build the CostEvent for a FIRED background event — pure. Stamps the trigger, resolves principal + dedupeKey,
  and (C026) uses the payload-reconciled amount as the authoritative total when the model declares one.

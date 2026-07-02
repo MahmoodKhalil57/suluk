@@ -8,7 +8,7 @@
 
 > **resolveInstruction**(`instructions`, `agentName`, `skillName`): `string` \| `undefined`
 
-Defined in: [agents/src/resolve.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/resolve.ts#L118)
+Defined in: [agents/src/resolve.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/resolve.ts#L118)
 
 Resolve a pinned instruction snapshot from an `instructions` map, accepting BOTH key conventions used across the
 package: the QUALIFIED `"<agent>/<skill>"` key (unambiguous — two agents can share a skill name; the convention

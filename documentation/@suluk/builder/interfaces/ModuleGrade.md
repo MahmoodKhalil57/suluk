@@ -6,7 +6,7 @@
 
 # Interface: ModuleGrade
 
-Defined in: [module.ts:269](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L269)
+Defined in: [module.ts:269](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L269)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [module.ts:269](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **costCoverage**: `number`
 
-Defined in: [module.ts:274](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L274)
+Defined in: [module.ts:274](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L274)
 
 fraction of the module's operations that declare a cost (the real, author-attributable signal).
 
@@ -24,7 +24,7 @@ fraction of the module's operations that declare a cost (the real, author-attrib
 
 > **grade**: `"A"` \| `"B"` \| `"C"`
 
-Defined in: [module.ts:270](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L270)
+Defined in: [module.ts:270](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L270)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [module.ts:270](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **notes**: `string`[]
 
-Defined in: [module.ts:277](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L277)
+Defined in: [module.ts:277](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L277)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [module.ts:277](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **score**: `number`
 
-Defined in: [module.ts:272](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L272)
+Defined in: [module.ts:272](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L272)
 
 0..1 — cost-declaration coverage minus a documentation-warning penalty.
 
@@ -50,6 +50,6 @@ Defined in: [module.ts:272](https://github.com/MahmoodKhalil57/suluk/blob/0d4488
 
 > **warnings**: `number`
 
-Defined in: [module.ts:276](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/module.ts#L276)
+Defined in: [module.ts:276](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/module.ts#L276)
 
 real documentation problems (audit `warn`s) on the module's authored ops.

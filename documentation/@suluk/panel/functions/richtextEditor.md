@@ -8,7 +8,7 @@
 
 > **richtextEditor**(`name`, `value?`, `attrs?`): `string`
 
-Defined in: [richtext.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/richtext.ts#L20)
+Defined in: [richtext.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/panel/src/richtext.ts#L20)
 
 The editor markup for one rich-text field. `name` is the form field; `value` is the initial markdown.
 

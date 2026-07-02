@@ -6,7 +6,7 @@
 
 # Interface: SiteOptions
 
-Defined in: [site.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/site.ts#L10)
+Defined in: [site.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/site.ts#L10)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [site.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee
 
 > `optional` **community?**: `string`
 
-Defined in: [site.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/site.ts#L14)
+Defined in: [site.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/site.ts#L14)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [site.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee
 
 > `optional` **contributing?**: `string`
 
-Defined in: [site.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/site.ts#L13)
+Defined in: [site.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/site.ts#L13)
 
 ***
 
@@ -30,6 +30,6 @@ Defined in: [site.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee
 
 > `optional` **gettingStarted?**: `string`
 
-Defined in: [site.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/docs/src/site.ts#L12)
+Defined in: [site.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/docs/src/site.ts#L12)
 
 Markdown overrides for the curated pages.

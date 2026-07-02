@@ -66,3 +66,5 @@ A package node enriched for the UML architecture diagram (name, public-export co
 - `name: string`
 - `exports: number` — Number of public symbols the barrel re-exports (the node's surface-area badge).
 - `topExports: string[]` — A small deterministic sample of exported symbol names (for the node's members compartment).
+- `category: string` (optional) — OPTIONAL band key — when a DiagramConfig supplies `layerOf`, the node's stratum comes from this instead of
+ the topological longest-path (e.g. the registry graph bands by its `foundation|services|derivation|surfaces` folder).

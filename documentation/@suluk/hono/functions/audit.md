@@ -8,7 +8,7 @@
 
 > **audit**(`doc`): [`Finding`](../interfaces/Finding.md)[]
 
-Defined in: [tooling/ts/packages/hono/src/audit.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/audit.ts#L23)
+Defined in: [tooling/ts/packages/hono/src/audit.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/hono/src/audit.ts#L23)
 
 Walk every operation and report documentation gaps.
 

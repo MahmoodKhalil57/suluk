@@ -6,7 +6,7 @@
 
 # Interface: SubscriptionStatus
 
-Defined in: [packages/billing/src/subscriptions.ts:125](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L125)
+Defined in: [packages/billing/src/subscriptions.ts:125](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/subscriptions.ts#L125)
 
 The user's CURRENT subscription as the UI needs it (plan + status + period end + pending-cancel + the cycle's paid
  ceiling), or null when there's no live subscription. Live state from Stripe; `plans` is the app catalog for the
@@ -18,7 +18,7 @@ The user's CURRENT subscription as the UI needs it (plan + status + period end +
 
 > **cancelAtPeriodEnd**: `boolean`
 
-Defined in: [packages/billing/src/subscriptions.ts:129](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L129)
+Defined in: [packages/billing/src/subscriptions.ts:129](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/subscriptions.ts#L129)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [packages/billing/src/subscriptions.ts:129](https://github.com/Mahmo
 
 > **currentPeriodEnd**: `number`
 
-Defined in: [packages/billing/src/subscriptions.ts:128](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L128)
+Defined in: [packages/billing/src/subscriptions.ts:128](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/subscriptions.ts#L128)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [packages/billing/src/subscriptions.ts:128](https://github.com/Mahmo
 
 > **paidCeilingCents**: `number`
 
-Defined in: [packages/billing/src/subscriptions.ts:130](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L130)
+Defined in: [packages/billing/src/subscriptions.ts:130](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/subscriptions.ts#L130)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [packages/billing/src/subscriptions.ts:130](https://github.com/Mahmo
 
 > **planId**: `string` \| `null`
 
-Defined in: [packages/billing/src/subscriptions.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L126)
+Defined in: [packages/billing/src/subscriptions.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/subscriptions.ts#L126)
 
 ***
 
@@ -50,4 +50,4 @@ Defined in: [packages/billing/src/subscriptions.ts:126](https://github.com/Mahmo
 
 > **status**: `string`
 
-Defined in: [packages/billing/src/subscriptions.ts:127](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L127)
+Defined in: [packages/billing/src/subscriptions.ts:127](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/billing/src/subscriptions.ts#L127)

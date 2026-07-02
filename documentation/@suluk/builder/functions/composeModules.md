@@ -8,7 +8,7 @@
 
 > **composeModules**(`base`, `modules`): [`ComposeResult`](../interfaces/ComposeResult.md)
 
-Defined in: [compose.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/compose.ts#L98)
+Defined in: [compose.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/builder/src/compose.ts#L98)
 
 Install a set of modules in dependency order, returning the merged platform contract + a per-step trace.
 

@@ -6,7 +6,7 @@
 
 # Interface: AudienceContact
 
-Defined in: [audience.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/email/src/audience.ts#L10)
+Defined in: [audience.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/email/src/audience.ts#L10)
 
 Audience-sync (saastarter-parity Phase 3). The newsletter signup stores a subscriber (the MARKETING module's
 `Newsletter` entity) AND mirrors it to the email provider's AUDIENCE/list (saastarter POSTs to Resend
@@ -21,7 +21,7 @@ unsubscribed → remove). Content the app SENDS to a provider — never a hosted
 
 > **email**: `string`
 
-Defined in: [audience.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/email/src/audience.ts#L11)
+Defined in: [audience.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/email/src/audience.ts#L11)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [audience.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > `optional` **firstName?**: `string`
 
-Defined in: [audience.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/email/src/audience.ts#L12)
+Defined in: [audience.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/email/src/audience.ts#L12)
 
 ***
 
@@ -37,7 +37,7 @@ Defined in: [audience.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > `optional` **lastName?**: `string`
 
-Defined in: [audience.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/email/src/audience.ts#L13)
+Defined in: [audience.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/email/src/audience.ts#L13)
 
 ***
 
@@ -45,4 +45,4 @@ Defined in: [audience.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d448
 
 > `optional` **unsubscribed?**: `boolean`
 
-Defined in: [audience.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/email/src/audience.ts#L14)
+Defined in: [audience.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/email/src/audience.ts#L14)

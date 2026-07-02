@@ -8,6 +8,6 @@
 
 > `const` **TEMPLATE\_STRINGS**: [`Catalog`](../../i18n/type-aliases/Catalog.md)
 
-Defined in: [templates.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/email/src/templates.ts#L23)
+Defined in: [templates.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/email/src/templates.ts#L23)
 
 English defaults for every template string, so the set is usable before any catalog is authored.

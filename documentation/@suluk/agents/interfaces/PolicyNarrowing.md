@@ -6,7 +6,7 @@
 
 # Interface: PolicyNarrowing
 
-Defined in: [agents/src/policy.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/policy.ts#L48)
+Defined in: [agents/src/policy.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/policy.ts#L48)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/policy.ts:48](https://github.com/MahmoodKhalil57/suluk/b
 
 > **axis**: `"scope"` \| `"tier"` \| `"model"` \| `"maxDepth"` \| `"tools"` \| `"retrievalTools"` \| `"subAgents"` \| `"nesting"`
 
-Defined in: [agents/src/policy.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/policy.ts#L49)
+Defined in: [agents/src/policy.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/policy.ts#L49)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [agents/src/policy.ts:49](https://github.com/MahmoodKhalil57/suluk/b
 
 > **detail**: `string`
 
-Defined in: [agents/src/policy.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/policy.ts#L50)
+Defined in: [agents/src/policy.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/agents/src/policy.ts#L50)

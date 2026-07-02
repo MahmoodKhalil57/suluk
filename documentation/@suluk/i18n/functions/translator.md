@@ -8,7 +8,7 @@
 
 > **translator**(`messages`): (`key`, `params?`) => `string`
 
-Defined in: [messages.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/i18n/src/messages.ts#L26)
+Defined in: [messages.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/i18n/src/messages.ts#L26)
 
 Bind a catalog so callers write `tt("key", { name })` instead of threading the catalog every call.
 

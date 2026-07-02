@@ -6,7 +6,7 @@
 
 # Interface: Collision
 
-Defined in: [ada.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L16)
+Defined in: [ada.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ada.ts#L16)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [ada.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3
 
 > **a**: [`Operation`](Operation.md)
 
-Defined in: [ada.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L17)
+Defined in: [ada.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ada.ts#L17)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [ada.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3
 
 > **b**: [`Operation`](Operation.md)
 
-Defined in: [ada.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L18)
+Defined in: [ada.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ada.ts#L18)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [ada.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3
 
 > **verdict**: [`CollisionVerdict`](../type-aliases/CollisionVerdict.md)
 
-Defined in: [ada.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L19)
+Defined in: [ada.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/core/src/ada.ts#L19)

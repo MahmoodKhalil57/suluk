@@ -6,7 +6,7 @@
 
 # Interface: GapReport
 
-Defined in: [journeys/src/bind.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/bind.ts#L70)
+Defined in: [journeys/src/bind.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/bind.ts#L70)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/bind.ts:70](https://github.com/MahmoodKhalil57/suluk/b
 
 > **counts**: `Record`\<[`BindState`](../type-aliases/BindState.md), `number`\>
 
-Defined in: [journeys/src/bind.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/bind.ts#L72)
+Defined in: [journeys/src/bind.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/bind.ts#L72)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [journeys/src/bind.ts:72](https://github.com/MahmoodKhalil57/suluk/b
 
 > **coverage**: `object`
 
-Defined in: [journeys/src/bind.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/bind.ts#L73)
+Defined in: [journeys/src/bind.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/bind.ts#L73)
 
 #### covered
 
@@ -42,4 +42,4 @@ Defined in: [journeys/src/bind.ts:73](https://github.com/MahmoodKhalil57/suluk/b
 
 > **scenarios**: [`ScenarioResult`](ScenarioResult.md)[]
 
-Defined in: [journeys/src/bind.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/bind.ts#L71)
+Defined in: [journeys/src/bind.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/bind.ts#L71)

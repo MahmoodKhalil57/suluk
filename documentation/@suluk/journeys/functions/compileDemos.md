@@ -8,7 +8,7 @@
 
 > **compileDemos**(`doc`, `vocab`, `features`, `opts?`): [`DemoScenario`](../interfaces/DemoScenario.md)[]
 
-Defined in: [journeys/src/demos.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/demos.ts#L102)
+Defined in: [journeys/src/demos.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/70b4fe70ea462a3da93bfa6f2cfb548af076bf09/tooling/ts/packages/journeys/src/demos.ts#L102)
 
 Compile a bound feature set into the demo IR: ordered requests per scenario, with sourced fields wired to captures.
 
