@@ -1,0 +1,25 @@
+# C065 — doc completeness (path params + response bodies) + INTERNAL routes (operator two turns: "response bodies/path
+# params/queries not showing in Scalar — generation or rendering?" + "mark internal routes, group under Internal, don't host
+# in dev/live, trigger via a clean test method"). DIAGNOSIS: it's Suluk GENERATION, not Scalar rendering — Scalar renders
+# faithfully what's in the doc; request bodies (declared via request.json) already flow through. Extends C051/C053/C064.
+
+# PATH PARAMS were a real emitV4 BUG: it never derived path parameters from the :name template, so /api/credits/balance/
+# {userId} carried a path variable with NO parameter definition (a malformed op Scalar can't render). FIXED: every :name /
+# {+name} segment auto-derives a required path parameter (declared request.params wins its schema; undeclared -> string).
+# Universal, zero per-module work. RESPONSE BODIES + QUERIES were never a bug — a DECLARATION gap: the fragments declared
+# responses:[{status,description}] with no schema + no request.query, so the doc honestly carried nothing. Fixed the credits
+# fragment as the exemplar (Balance/Transaction response schemas). Devs declare responses[].schema / request.query|params.
+claim path_params_auto_derive_response_bodies_are_declaration_gap_generation_not_rendering: Bool @>=0.85 = True
+falsified_when path_params_auto_derive_response_bodies_are_declaration_gap_generation_not_rendering == False
+
+# INTERNAL ROUTES: RouteContract.internal?: boolean; emitV4 stamps x-suluk-internal + tags "Internal" (Scalar sidebar sections
+# them natively; @suluk/scalar adds a 🔒 Internal badge). enforceInternal(isInternal) middleware 404s an internal op OVER THE
+# WIRE in dev AND live (no accidental hosting); internalFetch(app,req,env,ctx) is the CLEAN in-process test path keyed on a
+# per-process nonce that never enters the doc or the wire — only in-process code (a test sharing the module instance) can
+# reach it, a forged/external caller cannot (verified: a hand-set header fails). Contract module mounts
+# enforceInternal((m,p)=>matchRoute(m,p)?.internal) FIRST on /api/*. Adopted on registry email sendEmail. Published
+# @suluk/hono@0.3.0 + @suluk/scalar@0.10.0. VERIFIED live ATF: getUserCredits path param + getCredits/listTransactions
+# response bodies render; email/send x-suluk-internal:true + tags Email,Internal + 🔒 badge + 404 over the wire + 200 via
+# internalFetch (dev mailbox received it). 61 hono + 37 scalar + 43 cost tests pass. Suluk 8d88aa56, atf ca39d3f.
+claim internal_routes_documented_grouped_not_hosted_but_testable_via_internalfetch: Bool @>=0.85 = True
+falsified_when internal_routes_documented_grouped_not_hosted_but_testable_via_internalfetch == False
