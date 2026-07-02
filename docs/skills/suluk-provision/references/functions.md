@@ -1,0 +1,392 @@
+# Functions
+
+## config
+
+### `defineProvision`
+Validate + return a provision config. Throws on a duplicate ref, an undeclared-ref reference, or a binding cycle
+ (via topoOrder) — all the static errors, surfaced before `apply` touches a provider.
+```ts
+defineProvision(config: ProvisionConfig): ProvisionConfig
+```
+**Parameters:**
+- `config: ProvisionConfig`
+**Returns:** `ProvisionConfig`
+
+## dag
+
+### `topoOrder`
+Order `instances` so each comes after its binding producers. Stable (config order breaks ties). Throws on a cycle or
+ a reference to an undeclared instance.
+```ts
+topoOrder(instances: InstanceSpec[]): InstanceSpec[]
+```
+**Parameters:**
+- `instances: InstanceSpec[]`
+**Returns:** `InstanceSpec[]`
+
+## refs
+
+### `parseRef`
+Parse a single value: a `@ref.key` string → its parts, else null (not a reference).
+```ts
+parseRef(value: unknown): { ref: string; key: string } | null
+```
+**Parameters:**
+- `value: unknown`
+**Returns:** `{ ref: string; key: string } | null`
+
+### `depsOf`
+Every instance ref a spec's params depend on (deduped) — the spec's in-edges in the DAG.
+```ts
+depsOf(spec: InstanceSpec): string[]
+```
+**Parameters:**
+- `spec: InstanceSpec`
+**Returns:** `string[]`
+
+### `resolveParams`
+Resolve a spec's params against the accumulated outputs (ref → its output map). Throws if a referenced output is
+ missing (a producer that didn't emit the key) — fail-closed, never silently substitute undefined into a provider call.
+```ts
+resolveParams(spec: InstanceSpec, outputsByRef: Record<string, Record<string, string>>): Record<string, unknown>
+```
+**Parameters:**
+- `spec: InstanceSpec`
+- `outputsByRef: Record<string, Record<string, string>>`
+**Returns:** `Record<string, unknown>`
+
+### `stableStringify`
+A stable JSON string (recursively sorted keys) — order-independent so a fingerprint is reproducible.
+```ts
+stableStringify(value: unknown): string
+```
+**Parameters:**
+- `value: unknown`
+**Returns:** `string`
+
+### `fingerprint`
+The drift fingerprint of a desired instance = a stable hash of (name + plan + params). A change flips it → an `update`
+ step; an unchanged spec matches its stored fingerprint → a `noop`. (Refs are fingerprinted as their literal `@ref.key`
+ text — a producer's VALUE changing is the producer's own drift, surfaced on its own step.)
+```ts
+fingerprint(spec: InstanceSpec): string
+```
+**Parameters:**
+- `spec: InstanceSpec`
+**Returns:** `string`
+
+## plan
+
+### `plan`
+Diff `config` against `state`. Desired instances are emitted in binding-DAG order (create/update/noop); orphans
+ (state − config) become `deprovision` steps only when `prune` (the config default, or an override) is on.
+```ts
+plan(config: ProvisionConfig, state: InstanceState[], prune: boolean): ProvisionPlan
+```
+**Parameters:**
+- `config: ProvisionConfig`
+- `state: InstanceState[]`
+- `prune: boolean` — default: `...`
+**Returns:** `ProvisionPlan`
+
+## apply
+
+### `apply`
+Execute the plan for `config`. Idempotent end-to-end: re-running a settled config is all-noops, touches no provider.
+```ts
+apply(config: ProvisionConfig, opts: ApplyOptions): Promise<ApplyResult>
+```
+**Parameters:**
+- `config: ProvisionConfig`
+- `opts: ApplyOptions`
+**Returns:** `Promise<ApplyResult>`
+
+## poll
+
+### `pollToDone`
+Poll an async operation to a terminal state. Throws on "failed" or after `timeoutMs`.
+```ts
+pollToDone(broker: Broker, req: { ref: string; name: string; instanceId?: string; operation: string }, poll: PollOptions, log: (m: string) => void): Promise<void>
+```
+**Parameters:**
+- `broker: Broker`
+- `req: { ref: string; name: string; instanceId?: string; operation: string }`
+- `poll: PollOptions`
+- `log: (m: string) => void`
+**Returns:** `Promise<void>`
+
+## check
+
+### `checkDrift`
+Report whether live state matches the config (orphans counted only when pruning is the config default).
+```ts
+checkDrift(config: ProvisionConfig, state: InstanceState[]): DriftReport
+```
+**Parameters:**
+- `config: ProvisionConfig`
+- `state: InstanceState[]`
+**Returns:** `DriftReport`
+
+### `assertNoDrift`
+Fail-closed: throw when there's any drift (the CI gate).
+```ts
+assertNoDrift(config: ProvisionConfig, state: InstanceState[]): void
+```
+**Parameters:**
+- `config: ProvisionConfig`
+- `state: InstanceState[]`
+
+## pull
+
+### `pull`
+Fetch each journaled instance's live state via its broker (OSB fetch) → an external-drift report. Read-only.
+```ts
+pull(state: InstanceState[], brokers: Record<string, Broker>): Promise<PullReport>
+```
+**Parameters:**
+- `state: InstanceState[]`
+- `brokers: Record<string, Broker>`
+**Returns:** `Promise<PullReport>`
+
+### `reconcile`
+Fold a pull report into the journal: DROP externally-deleted instances (so the next `apply` re-creates them) + MERGE
+ live outputs over drifted ones (never dropping a bound value the provider doesn't know, e.g. a minted token). Pure —
+ returns the reconciled state; the caller saves it.
+```ts
+reconcile(state: InstanceState[], report: PullReport): InstanceState[]
+```
+**Parameters:**
+- `state: InstanceState[]`
+- `report: PullReport`
+**Returns:** `InstanceState[]`
+
+### `discover`
+Discover live instances (via `broker.list`) that AREN'T in the journal — untracked resources to adopt (`pull
+ --discover`). Skips services whose broker has no `list`.
+```ts
+discover(state: InstanceState[], brokers: Record<string, Broker>): Promise<DiscoveredInstance[]>
+```
+**Parameters:**
+- `state: InstanceState[]`
+- `brokers: Record<string, Broker>`
+**Returns:** `Promise<DiscoveredInstance[]>`
+
+## teardown
+
+### `teardown`
+Deprovision the whole journal, consumers-first, honouring `protected`. Destructive — gate it behind confirmation.
+```ts
+teardown(opts: TeardownOptions): Promise<TeardownResult>
+```
+**Parameters:**
+- `opts: TeardownOptions`
+**Returns:** `Promise<TeardownResult>`
+
+## snapshot
+
+### `snapshot`
+A snapshot of `config` at migration `idx`.
+```ts
+snapshot(idx: number, config: ProvisionConfig): Snapshot
+```
+**Parameters:**
+- `idx: number`
+- `config: ProvisionConfig`
+**Returns:** `Snapshot`
+
+## migration
+
+### `diffSnapshots`
+Diff the previous snapshot against the next (current) config → the ordered migration steps. Creates + updates come in
+ binding-DAG order (producers first); deprovisions of dropped instances come last, in reverse (consumers first).
+```ts
+diffSnapshots(prev: Snapshot, next: ProvisionConfig): MigrationStep[]
+```
+**Parameters:**
+- `prev: Snapshot`
+- `next: ProvisionConfig`
+**Returns:** `MigrationStep[]`
+
+### `migrationTag`
+`NNNN_name` — the zero-padded migration tag.
+```ts
+migrationTag(idx: number, name: string): string
+```
+**Parameters:**
+- `idx: number`
+- `name: string` — default: `"migration"`
+**Returns:** `string`
+
+## migration-store
+
+### `memoryMigrationStore`
+An in-memory migration store (tests / dry-runs).
+```ts
+memoryMigrationStore(): MigrationStore
+```
+**Returns:** `MigrationStore`
+
+### `fileMigrationStore`
+A file-backed migration store rooted at `dir` (default `provision/`). Commits `NNNN_tag.json` + `meta/_journal.json` +
+ `meta/NNNN_snapshot.json`; keeps the env-local `meta/_applied.json` (gitignore it).
+```ts
+fileMigrationStore(dir: string): MigrationStore
+```
+**Parameters:**
+- `dir: string` — default: `"provision"`
+**Returns:** `MigrationStore`
+
+## generate
+
+### `generate`
+```ts
+generate(config: ProvisionConfig, store: MigrationStore, name?: string): Promise<Migration | null>
+```
+**Parameters:**
+- `config: ProvisionConfig`
+- `store: MigrationStore`
+- `name: string` (optional)
+**Returns:** `Promise<Migration | null>`
+
+## migrate
+
+### `migrate`
+```ts
+migrate(opts: MigrateOptions): Promise<MigrateResult>
+```
+**Parameters:**
+- `opts: MigrateOptions`
+**Returns:** `Promise<MigrateResult>`
+
+## memory
+
+### `memoryStore`
+A StateStore over an in-memory array (cloned on load/save so callers can't mutate the journal by reference).
+```ts
+memoryStore(initial: InstanceState[]): StateStore & { snapshot: any }
+```
+**Parameters:**
+- `initial: InstanceState[]` — default: `[]`
+**Returns:** `StateStore & { snapshot: any }`
+
+### `memorySink`
+A BindingSink that records every (envVar → value) it lands — for assertions + a dry-run "what would be set" preview.
+```ts
+memorySink(): BindingSink & { values: Record<string, string> }
+```
+**Returns:** `BindingSink & { values: Record<string, string> }`
+
+## file-store
+
+### `fileStore`
+```ts
+fileStore(path: string): StateStore
+```
+**Parameters:**
+- `path: string` — default: `".suluk/provision.json"`
+**Returns:** `StateStore`
+
+## env-sink
+
+### `envSink`
+A BindingSink that persists bindings into a `.env` via @suluk/env (encrypted by default; commit-safe).
+```ts
+envSink(opts: EnvSinkOptions): BindingSink
+```
+**Parameters:**
+- `opts: EnvSinkOptions` — default: `{}`
+**Returns:** `BindingSink`
+
+## brokers
+
+### `cloudflareD1`
+D1 database. Provision is create-or-get; when `params.migrations` (a `Migration[]`) is present they're applied through
+ the @suluk/cloudflare ledger (each runs at most once). Output: `database_id`.
+```ts
+cloudflareD1(cf: CloudflareClient): Broker
+```
+**Parameters:**
+- `cf: CloudflareClient`
+**Returns:** `Broker`
+
+### `cloudflareKv`
+Workers KV namespace. Provision is create-or-get. Output: `namespace_id`.
+```ts
+cloudflareKv(cf: CloudflareClient): Broker
+```
+**Parameters:**
+- `cf: CloudflareClient`
+**Returns:** `Broker`
+
+### `cloudflareR2`
+R2 bucket. Provision is create-or-get. Output: `bucket_name` (R2's id IS its name).
+```ts
+cloudflareR2(cf: CloudflareClient): Broker
+```
+**Parameters:**
+- `cf: CloudflareClient`
+**Returns:** `Broker`
+
+### `cloudflareSecrets`
+Worker secrets — the runtime-secret SINK as a broker (this is `sync-secrets.ts`). `params.script` is the Worker name;
+ `params.secrets` is a `Record<string,string>` of secret name → value (resolved from upstream `@ref.key` bindings).
+ Provision is an idempotent `wrangler secret put` for the whole set. Output: `secrets_set` (the names pushed).
+```ts
+cloudflareSecrets(cf: CloudflareClient): Broker
+```
+**Parameters:**
+- `cf: CloudflareClient`
+**Returns:** `Broker`
+
+### `cloudflareToken`
+A scoped, least-privilege Cloudflare API token (this is `mint-service-tokens.ts`). `params.permissionGroups` is the
+ permission-group id list; `params.resources` defaults to the whole account. The token VALUE is returned only at
+ creation, so it rides out as the `token` binding on provision (the framework's noop on re-apply never re-mints).
+ deprovision revokes it. The minting parent credential is the broker's own `CloudflareClient`.
+```ts
+cloudflareToken(cf: CloudflareClient): Broker
+```
+**Parameters:**
+- `cf: CloudflareClient`
+**Returns:** `Broker`
+
+### `cloudflareWwwRedirect`
+A www → apex 301 redirect (C058) on the zone of `params.apexHost` — provisions the `www` canonicalization the URL
+ single-source assumes. Idempotent (dedup by rule description). `deprovision` removes just the suluk rule. Zone-scoped:
+ the broker's token needs Zone:Read + Dynamic-Redirect:Edit (NOT the account-scoped D1/KV tokens). Output: `zone_id`.
+```ts
+cloudflareWwwRedirect(cf: CloudflareClient): Broker
+```
+**Parameters:**
+- `cf: CloudflareClient`
+**Returns:** `Broker`
+
+### `cloudflarePagesDomain`
+```ts
+cloudflarePagesDomain(cf: CloudflareClient): Broker
+```
+**Parameters:**
+- `cf: CloudflareClient`
+**Returns:** `Broker`
+
+## app
+
+### `defineProvisionApp`
+Validate + return a provision app config (the CLI imports this as the config file's default export).
+```ts
+defineProvisionApp(app: ProvisionApp): ProvisionApp
+```
+**Parameters:**
+- `app: ProvisionApp`
+**Returns:** `ProvisionApp`
+
+## cli
+
+### `runCli`
+```ts
+runCli(app: ProvisionApp, argv: string[]): Promise<CliResult>
+```
+**Parameters:**
+- `app: ProvisionApp`
+- `argv: string[]`
+**Returns:** `Promise<CliResult>`

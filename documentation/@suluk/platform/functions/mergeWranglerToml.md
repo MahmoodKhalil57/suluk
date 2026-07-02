@@ -8,7 +8,7 @@
 
 > **mergeWranglerToml**(`generated`, `existing`): `string`
 
-Defined in: [plan.ts:439](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/plan.ts#L439)
+Defined in: [plan.ts:453](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/plan.ts#L453)
 
 Preserve the operator's provisioned binding ids (keyed by `binding = "NAME"`) across a wrangler.toml regenerate.
 

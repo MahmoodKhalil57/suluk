@@ -6,7 +6,7 @@
 
 # Interface: Oklch
 
-Defined in: [oklch.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/oklch.ts#L8)
+Defined in: [oklch.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/theme/src/oklch.ts#L8)
 
 The OKLCH value type (saastarter-parity Phase 1). saastarter's themes are OKLCH (globals.css), the modern
 perceptually-uniform color space — lightness, chroma, hue are independent, which is exactly what makes a
@@ -19,7 +19,7 @@ no CSS engine, no deps.
 
 > `optional` **alpha?**: `number`
 
-Defined in: [oklch.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/oklch.ts#L16)
+Defined in: [oklch.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/theme/src/oklch.ts#L16)
 
 optional alpha, 0 … 1.
 
@@ -29,7 +29,7 @@ optional alpha, 0 … 1.
 
 > **c**: `number`
 
-Defined in: [oklch.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/oklch.ts#L12)
+Defined in: [oklch.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/theme/src/oklch.ts#L12)
 
 chroma (colorfulness), ≥ 0 (~0.37 max for sRGB).
 
@@ -39,7 +39,7 @@ chroma (colorfulness), ≥ 0 (~0.37 max for sRGB).
 
 > **h**: `number`
 
-Defined in: [oklch.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/oklch.ts#L14)
+Defined in: [oklch.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/theme/src/oklch.ts#L14)
 
 hue angle in degrees, 0 … 360.
 
@@ -49,6 +49,6 @@ hue angle in degrees, 0 … 360.
 
 > **l**: `number`
 
-Defined in: [oklch.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/oklch.ts#L10)
+Defined in: [oklch.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/theme/src/oklch.ts#L10)
 
 perceptual lightness, 0 (black) … 1 (white).

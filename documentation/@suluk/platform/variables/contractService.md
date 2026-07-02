@@ -8,9 +8,43 @@
 
 > `const` **contractService**: `object`
 
-Defined in: [service.ts:220](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L220)
+Defined in: [service.ts:246](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L246)
 
 ## Type Declaration
+
+### compose
+
+> `readonly` **compose**: `object`
+
+#### compose.exposes
+
+> `readonly` **exposes**: `object`
+
+#### compose.exposes.authApi
+
+> `readonly` **authApi**: `object`
+
+#### compose.exposes.authApi.hookOptKey
+
+> `readonly` **hookOptKey**: `"authApi"` = `"authApi"`
+
+#### compose.exposes.authApi.kind
+
+> `readonly` **kind**: `"port"` = `"port"`
+
+#### compose.exposes.authApi.render
+
+> `readonly` **render**: (`e`) => `string`
+
+##### Parameters
+
+###### e
+
+`string`[]
+
+##### Returns
+
+`string`
 
 ### deps
 

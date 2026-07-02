@@ -8,7 +8,7 @@
 
 > **gradeAgent**(`doc`, `agentName`, `opts?`): [`AgentGradeReport`](../interfaces/AgentGradeReport.md)
 
-Defined in: [agents/src/grade.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/grade.ts#L188)
+Defined in: [agents/src/grade.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/grade.ts#L188)
 
 Grade ONE agent A–F by aggregating the package's existing checks (+ two structure checks). Pure & static by default.
 

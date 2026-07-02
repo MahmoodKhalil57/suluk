@@ -6,7 +6,7 @@
 
 # Interface: DslDocument
 
-Defined in: [dsl.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L67)
+Defined in: [dsl.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/dsl.ts#L67)
 
 `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
 Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
@@ -25,7 +25,7 @@ frontend + backend files into one installable unit. CANDIDATE tooling — NOT of
 
 > `optional` **catalog?**: `Record`\<`string`, [`DslNode`](DslNode.md)\>
 
-Defined in: [dsl.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L75)
+Defined in: [dsl.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/dsl.ts#L75)
 
 Named, fully-configured child instances a `list` param picks from.
 
@@ -35,7 +35,7 @@ Named, fully-configured child instances a `list` param picks from.
 
 > **name**: `string`
 
-Defined in: [dsl.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L68)
+Defined in: [dsl.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/dsl.ts#L68)
 
 ***
 
@@ -43,7 +43,7 @@ Defined in: [dsl.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba
 
 > `optional` **params?**: `Record`\<`string`, [`ParamSpec`](../type-aliases/ParamSpec.md)\>
 
-Defined in: [dsl.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L71)
+Defined in: [dsl.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/dsl.ts#L71)
 
 The upward contract: ALL (and only) what the tier above may set.
 
@@ -53,7 +53,7 @@ The upward contract: ALL (and only) what the tier above may set.
 
 > **root**: [`DslNode`](DslNode.md)
 
-Defined in: [dsl.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L76)
+Defined in: [dsl.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/dsl.ts#L76)
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: [dsl.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba
 
 > **tier**: [`Tier`](../type-aliases/Tier.md)
 
-Defined in: [dsl.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L69)
+Defined in: [dsl.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/dsl.ts#L69)
 
 ***
 
@@ -69,6 +69,6 @@ Defined in: [dsl.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba
 
 > `optional` **variants?**: `Record`\<`string`, `Record`\<`string`, `unknown`\>\>
 
-Defined in: [dsl.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L73)
+Defined in: [dsl.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/dsl.ts#L73)
 
 Named presets binding this document's own params.

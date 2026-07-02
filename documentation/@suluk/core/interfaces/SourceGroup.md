@@ -6,7 +6,7 @@
 
 # Interface: SourceGroup
 
-Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/source.ts#L15)
+Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/source.ts#L15)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537f
 
 > **file**: `string`
 
-Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/source.ts#L15)
+Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/source.ts#L15)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537f
 
 > `optional` **kind?**: `string`
 
-Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/source.ts#L15)
+Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/source.ts#L15)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537f
 
 > **operations**: [`SourceRef`](SourceRef.md)[]
 
-Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/source.ts#L15)
+Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/source.ts#L15)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537f
 
 > **symbol**: `string`
 
-Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/source.ts#L15)
+Defined in: [source.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/source.ts#L15)

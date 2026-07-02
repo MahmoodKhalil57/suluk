@@ -6,7 +6,7 @@
 
 # Interface: ApiStores
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/stores.ts#L99)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/stores.ts#L99)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:99](https://github.co
 
 > **ctx**: `object`
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/stores.ts#L105)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/stores.ts#L105)
 
 The shared @nanostores/query context (invalidateKeys / revalidateKeys / mutateCache).
 
@@ -84,7 +84,7 @@ The shared @nanostores/query context (invalidateKeys / revalidateKeys / mutateCa
 
 > **fetchers**: `Record`\<`string`, [`FetcherFactory`](../type-aliases/FetcherFactory.md)\>
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/stores.ts#L101)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/stores.ts#L101)
 
 name → factory that, given path params, yields a lazy fetcher store.
 
@@ -94,7 +94,7 @@ name → factory that, given path params, yields a lazy fetcher store.
 
 > **invalidate**: (`routeNameOrUrl`) => `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/stores.ts#L107)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/stores.ts#L107)
 
 Convenience over ctx.invalidateKeys: invalidate by route NAME (its built URLs) or by a raw URL/prefix.
 
@@ -114,7 +114,7 @@ Convenience over ctx.invalidateKeys: invalidate by route NAME (its built URLs) o
 
 > **mutators**: `Record`\<`string`, [`MutatorInvoker`](../type-aliases/MutatorInvoker.md)\>
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/stores.ts#L103)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/stores.ts#L103)
 
 name → mutator store (POST/PUT/PATCH/DELETE/…).
 
@@ -124,6 +124,6 @@ name → mutator store (POST/PUT/PATCH/DELETE/…).
 
 > **warnings**: `string`[]
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/stores.ts#L109)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/stores.ts#L109)
 
 Non-fatal projection losses (e.g. a GET with no response schema → unvalidated). Never thrown.

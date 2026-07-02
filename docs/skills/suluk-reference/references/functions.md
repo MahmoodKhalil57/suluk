@@ -1,0 +1,255 @@
+# Functions
+
+## `referenceHtml`
+```ts
+referenceHtml(doc: OpenAPIv4Document, opts: ReferenceOptions): string
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+- `opts: ReferenceOptions` — default: `{}`
+**Returns:** `string`
+
+## `referenceResponse`
+```ts
+referenceResponse(doc: OpenAPIv4Document, opts: ReferenceOptions): Response
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+- `opts: ReferenceOptions` — default: `{}`
+**Returns:** `Response`
+
+## `referenceInsightsHtml`
+```ts
+referenceInsightsHtml(doc: OpenAPIv4Document, opts: { costLedgerUrl?: string; whoamiUrl?: string; pageTitle?: string }): string
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+- `opts: { costLedgerUrl?: string; whoamiUrl?: string; pageTitle?: string }` — default: `{}`
+**Returns:** `string`
+
+## `referenceInsightsResponse`
+```ts
+referenceInsightsResponse(doc: OpenAPIv4Document, opts: { costLedgerUrl?: string; whoamiUrl?: string; pageTitle?: string }): Response
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+- `opts: { costLedgerUrl?: string; whoamiUrl?: string; pageTitle?: string }` — default: `{}`
+**Returns:** `Response`
+
+## ir
+
+### `normalize`
+Project a v4 document into the normalized IR. Never throws; problems become diagnostics.
+```ts
+normalize(doc: OpenAPIv4Document): RefDoc
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+**Returns:** `RefDoc`
+
+## facets
+
+### `escapeHtml`
+```ts
+escapeHtml(s: string): string
+```
+**Parameters:**
+- `s: string`
+**Returns:** `string`
+
+### `crossCut`
+The reachability matrix: every operation × every viewer. The projection made explicit (the contract refracted).
+```ts
+crossCut(doc: OpenAPIv4Document, viewers: Viewer[]): { viewers: Viewer[]; rows: CrossCutRow[] }
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+- `viewers: Viewer[]` — default: `DEFAULT_VIEWERS`
+**Returns:** `{ viewers: Viewer[]; rows: CrossCutRow[] }`
+
+### `reachable`
+Can a viewer reach an operation at all (full OR scoped)? Drives the View-as lens hide/show.
+```ts
+reachable(facet: AccessFacet | undefined, v: Viewer): boolean
+```
+**Parameters:**
+- `facet: AccessFacet | undefined`
+- `v: Viewer`
+**Returns:** `boolean`
+
+### `reachState`
+Three-valued reachability — `full` (●), `scoped` (◐, reachable but restricted to the caller's OWN rows), or
+`none` (·). Honest about owner-scoping: a signed-in user can call an owner-scoped op, but only over their own
+data — not the same as full access. (The View-as lens treats full+scoped as "shown", none as "hidden".)
+```ts
+reachState(facet: AccessFacet | undefined, v: Viewer): ReachState
+```
+**Parameters:**
+- `facet: AccessFacet | undefined`
+- `v: Viewer`
+**Returns:** `ReachState`
+
+### `costRollup`
+```ts
+costRollup(doc: OpenAPIv4Document): CostRollup
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+**Returns:** `CostRollup`
+
+## schema
+
+### `schemaHtml`
+Render a schema compactly. `depth`/`seen` guard against $ref cycles + runaway nesting.
+```ts
+schemaHtml(doc: OpenAPIv4Document, schema: unknown, depth: number, seen: Set<string>): string
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+- `schema: unknown`
+- `depth: number` — default: `0`
+- `seen: Set<string>` — default: `...`
+**Returns:** `string`
+
+### `sampleOf`
+A representative sample VALUE for a schema (for request/response examples). Cycle/depth-guarded.
+```ts
+sampleOf(doc: OpenAPIv4Document, schema: unknown, depth: number, seen: Set<string>): unknown
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+- `schema: unknown`
+- `depth: number` — default: `0`
+- `seen: Set<string>` — default: `...`
+**Returns:** `unknown`
+
+### `constraintNotes`
+Format JSON-Schema validation keywords (constraints) into compact chips. `format` is omitted here (it's in typeOf).
+```ts
+constraintNotes(s: Schema): string
+```
+**Parameters:**
+- `s: Schema`
+**Returns:** `string`
+
+## codegen
+
+### `codeSamples`
+```ts
+codeSamples(server: string, op: NormalizedOperation, bodySample: unknown): CodeSample[]
+```
+**Parameters:**
+- `server: string`
+- `op: NormalizedOperation`
+- `bodySample: unknown`
+**Returns:** `CodeSample[]`
+
+## panels
+
+### `costExplorer`
+```ts
+costExplorer(ir: RefDoc): string
+```
+**Parameters:**
+- `ir: RefDoc`
+**Returns:** `string`
+
+### `adaPlayground`
+```ts
+adaPlayground(ir: RefDoc): string
+```
+**Parameters:**
+- `ir: RefDoc`
+**Returns:** `string`
+
+### `projectionMap`
+The projection thesis as a compact map: this ONE contract becomes N layers. Contract-derivable counts only.
+```ts
+projectionMap(ir: RefDoc): string
+```
+**Parameters:**
+- `ir: RefDoc`
+**Returns:** `string`
+
+### `hardeningPanel`
+The Hardening incentive panel — the weakest operations + their concrete fixes, gamified toward the next grade.
+```ts
+hardeningPanel(audit: DocAudit): string
+```
+**Parameters:**
+- `audit: DocAudit`
+**Returns:** `string`
+
+### `hardenBadge`
+```ts
+hardenBadge(g: Grade, title: string): string
+```
+**Parameters:**
+- `g: Grade`
+- `title: string`
+**Returns:** `string`
+
+### `facetsPanel`
+Facet panels — the v4 OPERATIONAL facets a 3.x tool can't host: who's rate-metered (x-suluk-ratelimit), and
+which costs accrue on a BACKGROUND event rather than the route (x-suluk-cost trigger, C024/C025). Doc-derived.
+```ts
+facetsPanel(doc: OpenAPIv4Document): string
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+**Returns:** `string`
+
+## portal
+
+### `portalHtml`
+```ts
+portalHtml(entries: PortalEntry[], opts: PortalOptions): string
+```
+**Parameters:**
+- `entries: PortalEntry[]`
+- `opts: PortalOptions` — default: `{}`
+**Returns:** `string`
+
+### `portalResponse`
+```ts
+portalResponse(entries: PortalEntry[], opts: PortalOptions): Response
+```
+**Parameters:**
+- `entries: PortalEntry[]`
+- `opts: PortalOptions` — default: `{}`
+**Returns:** `Response`
+
+## audit
+
+### `auditDocument`
+Audit the document's input surface → per-op grades + a deduped rollup + a severity breakdown.
+```ts
+auditDocument(doc: OpenAPIv4Document, opts: AuditOptions): DocAudit
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+- `opts: AuditOptions` — default: `{}`
+**Returns:** `DocAudit`
+
+### `auditOperation`
+Audit one request's INPUT surface (request body + typed parameter slots).
+```ts
+auditOperation(doc: OpenAPIv4Document, uri: string, name: string, req: RawReq): OpAudit
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+- `uri: string`
+- `name: string`
+- `req: RawReq`
+**Returns:** `OpAudit`
+
+### `assertGrade`
+CI gate (the hard incentive): throw if the document's hardening grade is below `min`.
+```ts
+assertGrade(doc: OpenAPIv4Document, min: Grade, opts: AuditOptions): DocAudit
+```
+**Parameters:**
+- `doc: OpenAPIv4Document`
+- `min: Grade`
+- `opts: AuditOptions` — default: `{}`
+**Returns:** `DocAudit`

@@ -76,6 +76,22 @@ principalFromSession(session: SessionLike | null | undefined, opts: PrincipalOpt
 
 **Returns:** `Principal`
 
+### mcpConnectionKeyId
+
+The attributed-spend identity of an MCP bearer caller — `mcp:<userId>:<clientId>`. The SINGLE source shared by auth's
+ `mcpBearerAuth` (which stamps it as the request `keyId`) and the `mcp` connection store, so they never drift + so `mcp`
+ needs no `../auth` import.
+
+```ts
+mcpConnectionKeyId(userId: string, clientId: string): string
+```
+
+**Parameters:**
+- `userId: string` — 
+- `clientId: string` — 
+
+**Returns:** `string`
+
 ### orgScope
 
 Build the org-namespaced scope `org:<orgId>:<action>` (the tenancy encoding).

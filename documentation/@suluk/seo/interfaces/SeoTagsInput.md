@@ -6,7 +6,7 @@
 
 # Interface: SeoTagsInput
 
-Defined in: [meta.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L7)
+Defined in: [meta.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L7)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [meta.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba
 
 > `optional` **alternates?**: [`Alternate`](Alternate.md)[]
 
-Defined in: [meta.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L24)
+Defined in: [meta.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L24)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [meta.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **canonical?**: `string`
 
-Defined in: [meta.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L12)
+Defined in: [meta.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L12)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [meta.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **description?**: `string`
 
-Defined in: [meta.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L11)
+Defined in: [meta.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L11)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [meta.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **image?**: `string`
 
-Defined in: [meta.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L14)
+Defined in: [meta.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L14)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [meta.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **imageAlt?**: `string`
 
-Defined in: [meta.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L15)
+Defined in: [meta.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L15)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [meta.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **keywords?**: `string`[]
 
-Defined in: [meta.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L26)
+Defined in: [meta.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L26)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [meta.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **locale?**: `string`
 
-Defined in: [meta.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L18)
+Defined in: [meta.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L18)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [meta.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **modifiedTime?**: `string`
 
-Defined in: [meta.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L28)
+Defined in: [meta.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L28)
 
 ***
 
@@ -78,7 +78,7 @@ Defined in: [meta.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **noindex?**: `boolean`
 
-Defined in: [meta.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L23)
+Defined in: [meta.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L23)
 
 ***
 
@@ -86,7 +86,7 @@ Defined in: [meta.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **publishedTime?**: `string`
 
-Defined in: [meta.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L27)
+Defined in: [meta.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L27)
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: [meta.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **robots?**: `string` \| [`RobotsMeta`](RobotsMeta.md)
 
-Defined in: [meta.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L22)
+Defined in: [meta.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L22)
 
 ***
 
@@ -102,7 +102,7 @@ Defined in: [meta.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **siteName?**: `string`
 
-Defined in: [meta.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L17)
+Defined in: [meta.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L17)
 
 ***
 
@@ -110,7 +110,7 @@ Defined in: [meta.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **themeColor?**: `string`
 
-Defined in: [meta.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L25)
+Defined in: [meta.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L25)
 
 ***
 
@@ -118,7 +118,7 @@ Defined in: [meta.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **title?**: `string`
 
-Defined in: [meta.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L8)
+Defined in: [meta.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L8)
 
 ***
 
@@ -126,7 +126,7 @@ Defined in: [meta.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba
 
 > `optional` **titleTemplate?**: `string`
 
-Defined in: [meta.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L10)
+Defined in: [meta.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L10)
 
 A template containing `%s`, e.g. "%s — saasuluk".
 
@@ -136,7 +136,7 @@ A template containing `%s`, e.g. "%s — saasuluk".
 
 > `optional` **twitterCard?**: `"summary"` \| `"summary_large_image"`
 
-Defined in: [meta.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L19)
+Defined in: [meta.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L19)
 
 ***
 
@@ -144,7 +144,7 @@ Defined in: [meta.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **twitterCreator?**: `string`
 
-Defined in: [meta.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L21)
+Defined in: [meta.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L21)
 
 ***
 
@@ -152,7 +152,7 @@ Defined in: [meta.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **twitterSite?**: `string`
 
-Defined in: [meta.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L20)
+Defined in: [meta.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L20)
 
 ***
 
@@ -160,7 +160,7 @@ Defined in: [meta.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **type?**: `string`
 
-Defined in: [meta.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L16)
+Defined in: [meta.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L16)
 
 ***
 
@@ -168,4 +168,4 @@ Defined in: [meta.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **url?**: `string`
 
-Defined in: [meta.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L13)
+Defined in: [meta.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L13)

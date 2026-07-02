@@ -65,21 +65,6 @@ mountAuthRoutes<T>(app: T, opts?: AuthOptions & { roleScopes?: Record<string, st
 
 **Returns:** `T`
 
-### mcpConnectionKeyId
-
-The scoped-caller id for an MCP connection — `mcp:<userId>:<clientId>`, NOT the bare clientId (which is shared across
- every user who authorized the same OAuth app), so per-connection attribution + caps are correctly per-(user,connection).
-
-```ts
-mcpConnectionKeyId(userId: string, clientId: string): string
-```
-
-**Parameters:**
-- `userId: string` — 
-- `clientId: string` — 
-
-**Returns:** `string`
-
 ### getCurrentUser
 
 Resolve the session user from the request headers.

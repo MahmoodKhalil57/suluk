@@ -8,7 +8,7 @@
 
 > **mergePackageJson**(`baselineJson`, `existingJson`): `string`
 
-Defined in: [plan.ts:579](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/plan.ts#L579)
+Defined in: [plan.ts:593](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/plan.ts#L593)
 
 Merge the generated framework baseline package.json with the app's EXISTING one (if any). The baseline WINS for the
 framework + module deps (so `@suluk/*` stay `"latest"` and the ecosystem stays on its pinned range — deps stay current

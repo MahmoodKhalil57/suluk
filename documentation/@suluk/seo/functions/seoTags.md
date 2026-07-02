@@ -8,7 +8,7 @@
 
 > **seoTags**(`i`): [`Tag`](../interfaces/Tag.md)[]
 
-Defined in: [meta.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L49)
+Defined in: [meta.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/meta.ts#L49)
 
 ## Parameters
 

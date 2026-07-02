@@ -8,9 +8,21 @@
 
 > `const` **costService**: `object`
 
-Defined in: [service.ts:268](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L268)
+Defined in: [service.ts:302](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L302)
 
 ## Type Declaration
+
+### compose
+
+> `readonly` **compose**: `object`
+
+#### compose.offers
+
+> `readonly` **offers**: `object`
+
+#### compose.offers.eraseStep
+
+> `readonly` **eraseStep**: [`Capability`](../interfaces/Capability.md)\<`unknown`\>
 
 ### contract
 

@@ -8,7 +8,7 @@
 
 > **componentReport**(`doc`, `baseline`): [`ComponentReport`](../interfaces/ComponentReport.md)
 
-Defined in: [cockpit/src/visual.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/visual.ts#L49)
+Defined in: [cockpit/src/visual.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/visual.ts#L49)
 
 Decompose a contract's generated components into primitives and check their pixel-confidence vs a baseline.
 

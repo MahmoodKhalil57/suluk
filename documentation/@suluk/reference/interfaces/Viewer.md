@@ -6,7 +6,7 @@
 
 # Interface: Viewer
 
-Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/facets.ts#L67)
+Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/facets.ts#L67)
 
 A viewer the reference can project the surface for.
 
@@ -16,7 +16,7 @@ A viewer the reference can project the surface for.
 
 > **admin**: `boolean`
 
-Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/facets.ts#L67)
+Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/facets.ts#L67)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/sulu
 
 > **authenticated**: `boolean`
 
-Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/facets.ts#L67)
+Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/facets.ts#L67)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/sulu
 
 > **id**: `string`
 
-Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/facets.ts#L67)
+Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/facets.ts#L67)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/sulu
 
 > **label**: `string`
 
-Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/facets.ts#L67)
+Defined in: [reference/src/facets.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/facets.ts#L67)

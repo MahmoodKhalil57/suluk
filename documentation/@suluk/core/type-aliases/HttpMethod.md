@@ -8,7 +8,7 @@
 
 > **HttpMethod** = `"get"` \| `"GET"` \| `"put"` \| `"PUT"` \| `"post"` \| `"POST"` \| `"patch"` \| `"PATCH"` \| `"delete"` \| `"DELETE"` \| `"head"` \| `"HEAD"` \| `"options"` \| `"OPTIONS"` \| `"trace"` \| `"TRACE"`
 
-Defined in: [types.ts:348](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L348)
+Defined in: [types.ts:348](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L348)
 
 `@suluk/core` — the foundation library for the OpenAPI v4.0 "Suluk" candidate.
 

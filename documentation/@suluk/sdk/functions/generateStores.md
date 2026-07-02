@@ -8,7 +8,7 @@
 
 > **generateStores**(`doc`, `opts?`): `string`
 
-Defined in: [generate-stores.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/sdk/src/generate-stores.ts#L36)
+Defined in: [generate-stores.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/sdk/src/generate-stores.ts#L36)
 
 generateStores(doc) — project the C037 reactive facet (`x-suluk-store` + `x-suluk-notify`) into a typed Nano Stores
 reactive layer (states + mutation→store invalidation + a hookable callback seam) on top of the generated client.

@@ -6,7 +6,7 @@
 
 # Interface: WorkerBinding
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cloudflare/src/worker.ts#L9)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/worker.ts#L9)
 
 ## Indexable
 
@@ -18,7 +18,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:9](https://github.com/
 
 > **name**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cloudflare/src/worker.ts#L11)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/worker.ts#L11)
 
 ***
 
@@ -26,4 +26,4 @@ Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:11](https://github.com
 
 > **type**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cloudflare/src/worker.ts#L10)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/worker.ts#L10)

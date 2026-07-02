@@ -8,7 +8,7 @@
 
 > **buildPackageJson**(`name`, `services`, `catalog?`, `local?`): `string`
 
-Defined in: [plan.ts:539](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/plan.ts#L539)
+Defined in: [plan.ts:553](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/plan.ts#L553)
 
 The framework baseline package.json — name from the manifest, the union of BASE + each service's deps (versions
  resolved: @suluk/* → "latest", ecosystem → pinned), + the toolchain devDeps + the regenerate/typecheck scripts.

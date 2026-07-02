@@ -8,9 +8,47 @@
 
 > `const` **erasureService**: `object`
 
-Defined in: [service.ts:269](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L269)
+Defined in: [service.ts:303](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L303)
 
 ## Type Declaration
+
+### compose
+
+> `readonly` **compose**: `object`
+
+#### compose.exposes
+
+> `readonly` **exposes**: `object`
+
+#### compose.exposes.cascade
+
+> `readonly` **cascade**: `object`
+
+#### compose.exposes.cascade.fanIn
+
+> `readonly` **fanIn**: `true` = `true`
+
+#### compose.exposes.cascade.hookOptKey
+
+> `readonly` **hookOptKey**: `"extraSteps"` = `"extraSteps"`
+
+#### compose.exposes.cascade.kind
+
+> `readonly` **kind**: `"port"` = `"port"`
+
+#### compose.exposes.cascade.render
+
+> `readonly` **render**: (`exprs`) => `string`
+
+##### Parameters
+
+###### exprs
+
+`string`[]
+
+##### Returns
+
+`string`
 
 ### contract
 

@@ -8,7 +8,7 @@
 
 > **memoryMigrationStore**(): [`MigrationStore`](../interfaces/MigrationStore.md)
 
-Defined in: [provision/src/migration-store.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/migration-store.ts#L31)
+Defined in: [provision/src/migration-store.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/migration-store.ts#L31)
 
 An in-memory migration store (tests / dry-runs).
 

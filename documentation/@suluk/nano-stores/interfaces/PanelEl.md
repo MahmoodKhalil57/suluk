@@ -6,7 +6,7 @@
 
 # Interface: PanelEl
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L8)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L8)
 
 createDrawer — the reusable open/close controller behind any slide-in panel (cart, mobile nav, a Sheet): toggles
 the panel + backdrop visibility and an `open` class (for the CSS transition), makes the page chrome `inert` while
@@ -20,7 +20,7 @@ open/close state machine is unit-testable without a real DOM.
 
 > **classList**: `object`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L10)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L10)
 
 #### add()
 
@@ -56,7 +56,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:10](https://github.co
 
 > **hidden**: `boolean`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L9)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L9)
 
 ## Methods
 
@@ -64,7 +64,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:9](https://github.com
 
 > **setAttribute**(`name`, `value`): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L11)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L11)
 
 #### Parameters
 

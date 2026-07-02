@@ -8,7 +8,7 @@
 
 > **createCheckout**(`cfg`, `o`): `Promise`\<`string`\>
 
-Defined in: [packages/billing/src/payments.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/billing/src/payments.ts#L36)
+Defined in: [packages/billing/src/payments.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/billing/src/payments.ts#L36)
 
 Create a Stripe Checkout Session (one-time top-up) — the hosted FALLBACK to the on-site Payment Element. Reuses the
  user's existing customer or has Checkout create one, captures the billing address, and saves the card for future

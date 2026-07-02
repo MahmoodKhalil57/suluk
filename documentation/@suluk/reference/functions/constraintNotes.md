@@ -8,7 +8,7 @@
 
 > **constraintNotes**(`s`): `string`
 
-Defined in: [reference/src/schema.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/schema.ts#L23)
+Defined in: [reference/src/schema.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/schema.ts#L23)
 
 Format JSON-Schema validation keywords (constraints) into compact chips. `format` is omitted here (it's in typeOf).
 

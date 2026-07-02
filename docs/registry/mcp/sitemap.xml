@@ -2,74 +2,74 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/index.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/modules.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/hierarchy.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/modules/mcp.connections.routes.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/functions/mcp.connections.routes.mcpConnectionsRoutes.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/modules/mcp.connections.service.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/interfaces/mcp.connections.service.McpConnectionView.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/interfaces/mcp.connections.service.McpConnectionPatch.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/classes/mcp.connections.service.McpConnections.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/variables/mcp.connections.service.McpConnectionsLive.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/modules/mcp.contract.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/variables/mcp.contract.mcpOps.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/modules/mcp.provision.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/variables/mcp.provision.mcpProvision.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/modules/mcp.routes.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/functions/mcp.routes.mountMcp.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/modules/mcp.schema.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/mcp/variables/mcp.schema.mcpConnection.html</loc>
-		<lastmod>2026-07-02T12:09:28.118Z</lastmod>
+		<lastmod>2026-07-02T12:29:19.713Z</lastmod>
 	</url>
 </urlset>

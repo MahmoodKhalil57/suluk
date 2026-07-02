@@ -6,7 +6,7 @@
 
 # Interface: DocCheck
 
-Defined in: [cockpit/src/cycle.ts:197](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/cycle.ts#L197)
+Defined in: [cockpit/src/cycle.ts:197](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/cycle.ts#L197)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/cycle.ts:197](https://github.com/MahmoodKhalil57/suluk/
 
 > **message**: `string`
 
-Defined in: [cockpit/src/cycle.ts:197](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/cycle.ts#L197)
+Defined in: [cockpit/src/cycle.ts:197](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/cycle.ts#L197)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/cycle.ts:197](https://github.com/MahmoodKhalil57/suluk/
 
 > **name**: `string`
 
-Defined in: [cockpit/src/cycle.ts:197](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/cycle.ts#L197)
+Defined in: [cockpit/src/cycle.ts:197](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/cycle.ts#L197)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [cockpit/src/cycle.ts:197](https://github.com/MahmoodKhalil57/suluk/
 
 > **pass**: `boolean`
 
-Defined in: [cockpit/src/cycle.ts:197](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/cycle.ts#L197)
+Defined in: [cockpit/src/cycle.ts:197](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/cycle.ts#L197)

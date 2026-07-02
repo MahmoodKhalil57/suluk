@@ -8,7 +8,7 @@
 
 > `const` **authService**: `object`
 
-Defined in: [service.ts:199](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L199)
+Defined in: [service.ts:219](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L219)
 
 ## Type Declaration
 
@@ -45,6 +45,66 @@ Defined in: [service.ts:199](https://github.com/MahmoodKhalil57/suluk/blob/47253
 ##### Returns
 
 `string`
+
+#### compose.offers
+
+> `readonly` **offers**: `object`
+
+#### compose.offers.mcpAuthInstance
+
+> `readonly` **mcpAuthInstance**: `object`
+
+#### compose.offers.mcpAuthInstance.build
+
+> `readonly` **build**: () => `string`
+
+##### Returns
+
+`string`
+
+#### compose.offers.mcpAuthInstance.from
+
+> `readonly` **from**: `"./auth"` = `"./auth"`
+
+#### compose.offers.mcpAuthInstance.imports
+
+> `readonly` **imports**: \[\{ `from`: `"./auth"`; `symbol`: `"createAuth"`; \}\]
+
+#### compose.offers.mcpAuthInstance.kind
+
+> `readonly` **kind**: `"capability"` = `"capability"`
+
+#### compose.offers.mcpAuthInstance.symbol
+
+> `readonly` **symbol**: `"createAuth"` = `"createAuth"`
+
+#### compose.offers.provideAuthApi
+
+> `readonly` **provideAuthApi**: `object`
+
+#### compose.offers.provideAuthApi.build
+
+> `readonly` **build**: () => `string`
+
+##### Returns
+
+`string`
+
+#### compose.offers.provideAuthApi.from
+
+> `readonly` **from**: `"./auth"` = `"./auth"`
+
+#### compose.offers.provideAuthApi.imports
+
+> `readonly` **imports**: \[\{ `from`: `"./auth"`; `symbol`: `"createAuth"`; \}\]
+
+#### compose.offers.provideAuthApi.kind
+
+> `readonly` **kind**: `"capability"` = `"capability"`
+
+#### compose.offers.provideAuthApi.symbol
+
+> `readonly` **symbol**: `"createAuth"` = `"createAuth"`
 
 ### deps
 

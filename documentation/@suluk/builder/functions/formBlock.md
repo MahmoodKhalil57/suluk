@@ -8,7 +8,7 @@
 
 > **formBlock**(`entity`, `defs?`): [`DslDocument`](../interfaces/DslDocument.md)
 
-Defined in: [fullstack.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/fullstack.ts#L49)
+Defined in: [fullstack.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/fullstack.ts#L49)
 
 A Form block for an entity. Its contract (`params`) exposes only tone + which fields — the field SET is fixed.
 

@@ -8,7 +8,7 @@
 
 > **handleRpc**(`msg`, `ctx`): `Promise`\<[`RpcResponse`](../interfaces/RpcResponse.md) \| `null`\>
 
-Defined in: [protocol.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/mcp/src/protocol.ts#L54)
+Defined in: [protocol.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/mcp/src/protocol.ts#L54)
 
 Dispatch one JSON-RPC message. Returns `null` ONLY for a notification — a message with no `id` MEMBER; the caller
  then emits no body. Anything carrying an `id` (even the discouraged `id: null`) always gets a correlated response.

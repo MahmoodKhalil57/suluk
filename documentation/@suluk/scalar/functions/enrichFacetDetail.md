@@ -8,7 +8,7 @@
 
 > **enrichFacetDetail**(`spec`): `void`
 
-Defined in: [index.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/scalar/src/index.ts#L113)
+Defined in: [index.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/scalar/src/index.ts#L113)
 
 Append the v4 facet detail to each operation's description (progressive disclosure, complementing the badges).
 

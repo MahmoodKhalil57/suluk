@@ -8,7 +8,7 @@
 
 > **renderFormSkeletonTsx**(`spec`, `opts?`): `string`
 
-Defined in: [render-skeleton.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/render-skeleton.ts#L19)
+Defined in: [render-skeleton.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/shadcn/src/render-skeleton.ts#L19)
 
 A form skeleton — one label+control placeholder per field, plus a submit-button placeholder.
 

@@ -6,7 +6,7 @@
 
 # Interface: EffectiveSkill
 
-Defined in: [agents/src/policy.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L28)
+Defined in: [agents/src/policy.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/policy.ts#L28)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/policy.ts:28](https://github.com/MahmoodKhalil57/suluk/b
 
 > **model**: `string`[]
 
-Defined in: [agents/src/policy.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L31)
+Defined in: [agents/src/policy.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/policy.ts#L31)
 
 INTERSECT(skill.model, policy.modelAllowlist).
 
@@ -24,7 +24,7 @@ INTERSECT(skill.model, policy.modelAllowlist).
 
 > **name**: `string`
 
-Defined in: [agents/src/policy.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L29)
+Defined in: [agents/src/policy.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/policy.ts#L29)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [agents/src/policy.ts:29](https://github.com/MahmoodKhalil57/suluk/b
 
 > `optional` **tier?**: `"resident"` \| `"cold-tail"`
 
-Defined in: [agents/src/policy.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L32)
+Defined in: [agents/src/policy.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/policy.ts#L32)
 
 ***
 
@@ -40,6 +40,6 @@ Defined in: [agents/src/policy.ts:32](https://github.com/MahmoodKhalil57/suluk/b
 
 > **usable**: `boolean`
 
-Defined in: [agents/src/policy.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L34)
+Defined in: [agents/src/policy.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/policy.ts#L34)
 
 false ⇒ model ∩ allowlist = ∅: the operator's allowlist leaves this skill no model to run.

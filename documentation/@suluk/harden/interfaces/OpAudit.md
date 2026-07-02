@@ -6,7 +6,7 @@
 
 # Interface: OpAudit
 
-Defined in: [audit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L19)
+Defined in: [audit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/harden/src/audit.ts#L19)
 
 `@suluk/harden` — schema hardening as a derived, scored contract facet. Audit a v4 'Suluk' document's INPUT
 schemas for the validations that keep malformed/oversized input from breaking the system, grade them A–F,
@@ -26,7 +26,7 @@ surface the grade to incentivise the author, and gate CI on a minimum.
 
 > **clean**: `number`
 
-Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L18)
+Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/harden/src/audit.ts#L18)
 
 #### Inherited from
 
@@ -38,7 +38,7 @@ Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **findings**: [`Finding`](Finding.md)[]
 
-Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L18)
+Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/harden/src/audit.ts#L18)
 
 #### Inherited from
 
@@ -50,7 +50,7 @@ Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **grade**: [`Grade`](../type-aliases/Grade.md)
 
-Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L18)
+Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/harden/src/audit.ts#L18)
 
 #### Inherited from
 
@@ -62,7 +62,7 @@ Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **method**: `string`
 
-Defined in: [audit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L19)
+Defined in: [audit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/harden/src/audit.ts#L19)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [audit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **nodes**: `number`
 
-Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L18)
+Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/harden/src/audit.ts#L18)
 
 #### Inherited from
 
@@ -82,7 +82,7 @@ Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **operation**: `string`
 
-Defined in: [audit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L19)
+Defined in: [audit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/harden/src/audit.ts#L19)
 
 ***
 
@@ -90,7 +90,7 @@ Defined in: [audit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **path**: `string`
 
-Defined in: [audit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L19)
+Defined in: [audit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/harden/src/audit.ts#L19)
 
 ***
 
@@ -98,7 +98,7 @@ Defined in: [audit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **score**: `number`
 
-Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L18)
+Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/harden/src/audit.ts#L18)
 
 #### Inherited from
 

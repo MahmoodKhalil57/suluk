@@ -8,7 +8,7 @@
 
 > **generateVocabulary**(`doc`): [`Vocabulary`](../interfaces/Vocabulary.md)
 
-Defined in: [journeys/src/vocabulary.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/journeys/src/vocabulary.ts#L83)
+Defined in: [journeys/src/vocabulary.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/vocabulary.ts#L83)
 
 Project a v4 document into the deterministic step vocabulary.
 

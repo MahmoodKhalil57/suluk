@@ -6,7 +6,7 @@
 
 # Interface: ShellOptions
 
-Defined in: [shell.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L11)
+Defined in: [shell.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L11)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [shell.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **active**: `string`
 
-Defined in: [shell.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L21)
+Defined in: [shell.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L21)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [shell.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **basePath**: `string`
 
-Defined in: [shell.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L14)
+Defined in: [shell.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L14)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [shell.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **body**: `string`
 
-Defined in: [shell.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L23)
+Defined in: [shell.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L23)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [shell.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **brand**: `string`
 
-Defined in: [shell.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L13)
+Defined in: [shell.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L13)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [shell.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > `optional` **crumbs?**: `object`[]
 
-Defined in: [shell.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L25)
+Defined in: [shell.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L25)
 
 #### href?
 
@@ -62,7 +62,7 @@ Defined in: [shell.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > `optional` **entities?**: `object`[]
 
-Defined in: [shell.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L16)
+Defined in: [shell.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L16)
 
 Flat collections nav (legacy/simple form). Ignored when `nav` is provided.
 
@@ -80,7 +80,7 @@ Flat collections nav (legacy/simple form). Ignored when `nav` is provided.
 
 > `optional` **headHtml?**: `string`
 
-Defined in: [shell.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L24)
+Defined in: [shell.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L24)
 
 ***
 
@@ -88,7 +88,7 @@ Defined in: [shell.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **heading**: `string`
 
-Defined in: [shell.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L22)
+Defined in: [shell.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L22)
 
 ***
 
@@ -96,7 +96,7 @@ Defined in: [shell.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > `optional` **homeLabel?**: `string`
 
-Defined in: [shell.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L20)
+Defined in: [shell.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L20)
 
 Label for the home/dashboard nav link (default "Dashboard").
 
@@ -106,7 +106,7 @@ Label for the home/dashboard nav link (default "Dashboard").
 
 > `optional` **nav?**: [`NavGroup`](NavGroup.md)[]
 
-Defined in: [shell.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L18)
+Defined in: [shell.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L18)
 
 Grouped sidebar nav (dashboard-framework form): one section per group, each with its items.
 
@@ -116,4 +116,4 @@ Grouped sidebar nav (dashboard-framework form): one section per group, each with
 
 > **title**: `string`
 
-Defined in: [shell.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L12)
+Defined in: [shell.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/shell.ts#L12)

@@ -6,7 +6,7 @@
 
 # Interface: Info
 
-Defined in: [types.ts:309](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L309)
+Defined in: [types.ts:309](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L309)
 
 `@suluk/core` — the foundation library for the OpenAPI v4.0 "Suluk" candidate.
 
@@ -21,7 +21,7 @@ CANDIDATE tooling — provisional; the soft points (CONFIDENCE.md) are isolated 
 
 > `optional` **contact?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [types.ts:314](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L314)
+Defined in: [types.ts:314](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L314)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [types.ts:314](https://github.com/MahmoodKhalil57/suluk/blob/472537f
 
 > `optional` **description?**: `string`
 
-Defined in: [types.ts:312](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L312)
+Defined in: [types.ts:312](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L312)
 
 ***
 
@@ -37,7 +37,7 @@ Defined in: [types.ts:312](https://github.com/MahmoodKhalil57/suluk/blob/472537f
 
 > `optional` **license?**: `object`
 
-Defined in: [types.ts:315](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L315)
+Defined in: [types.ts:315](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L315)
 
 #### name?
 
@@ -53,7 +53,7 @@ Defined in: [types.ts:315](https://github.com/MahmoodKhalil57/suluk/blob/472537f
 
 > `optional` **termsOfService?**: `string`
 
-Defined in: [types.ts:313](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L313)
+Defined in: [types.ts:313](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L313)
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: [types.ts:313](https://github.com/MahmoodKhalil57/suluk/blob/472537f
 
 > **title**: `string`
 
-Defined in: [types.ts:310](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L310)
+Defined in: [types.ts:310](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L310)
 
 ***
 
@@ -69,4 +69,4 @@ Defined in: [types.ts:310](https://github.com/MahmoodKhalil57/suluk/blob/472537f
 
 > **version**: `string`
 
-Defined in: [types.ts:311](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L311)
+Defined in: [types.ts:311](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/types.ts#L311)

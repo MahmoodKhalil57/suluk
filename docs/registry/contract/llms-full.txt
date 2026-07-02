@@ -72,11 +72,12 @@ scopeForRequest(method: string, path: string): { op: string; scope?: string } | 
 ### mountContract
 
 ```ts
-mountContract<T>(app: T): T
+mountContract<T>(app: T, opts?: MountContractOptions): T
 ```
 
 **Parameters:**
 - `app: T` — 
+- `opts: MountContractOptions` (optional) — 
 
 **Returns:** `T`
 

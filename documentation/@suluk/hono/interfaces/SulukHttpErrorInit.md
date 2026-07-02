@@ -6,7 +6,7 @@
 
 # Interface: SulukHttpErrorInit
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L13)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/errors.ts#L13)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/hono/src/errors.ts:13](https://github.com/Mahmo
 
 > `optional` **detail?**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L15)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/errors.ts#L15)
 
 the human-readable explanation (RFC-9457 `detail`).
 
@@ -24,7 +24,7 @@ the human-readable explanation (RFC-9457 `detail`).
 
 > `optional` **errors?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L19)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/errors.ts#L19)
 
 structured validation errors (saastarter's `details`).
 
@@ -34,7 +34,7 @@ structured validation errors (saastarter's `details`).
 
 > `optional` **instance?**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L17)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/errors.ts#L17)
 
 a URI reference identifying the specific occurrence (RFC-9457 `instance`).
 
@@ -44,7 +44,7 @@ a URI reference identifying the specific occurrence (RFC-9457 `instance`).
 
 > `optional` **logContext?**: `unknown`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L25)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/errors.ts#L25)
 
 server-only diagnostic context (cause/service/op) — LOGGED by onError, never sent on the wire.
 
@@ -54,7 +54,7 @@ server-only diagnostic context (cause/service/op) — LOGGED by onError, never s
 
 > `optional` **retryAfterMs?**: `number`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L23)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/errors.ts#L23)
 
 RateLimitedError: ms until the window resets — drives the Retry-After header (route-handler.ts:75).
 
@@ -64,6 +64,6 @@ RateLimitedError: ms until the window resets — drives the Retry-After header (
 
 > `optional` **type?**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L21)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/errors.ts#L21)
 
 override the `type` URI (default "about:blank").

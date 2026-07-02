@@ -6,7 +6,7 @@
 
 # Interface: MatchResult
 
-Defined in: [ada.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/ada.ts#L56)
+Defined in: [ada.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/ada.ts#L56)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [ada.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba
 
 > **operation**: [`Operation`](Operation.md)
 
-Defined in: [ada.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/ada.ts#L57)
+Defined in: [ada.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/ada.ts#L57)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [ada.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba
 
 > **pathParams**: `Record`\<`string`, `string`\>
 
-Defined in: [ada.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/ada.ts#L59)
+Defined in: [ada.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/ada.ts#L59)
 
 Captured path variables (the per-location PATH slot instance).
 
@@ -32,6 +32,6 @@ Captured path variables (the per-location PATH slot instance).
 
 > **query**: `Record`\<`string`, `string`[]\>
 
-Defined in: [ada.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/ada.ts#L61)
+Defined in: [ada.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/ada.ts#L61)
 
 Raw query string key→values (the per-location QUERY slot instance, before schema coercion).

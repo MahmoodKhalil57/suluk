@@ -8,4 +8,4 @@
 
 > `const` **FIRST\_PARTY\_REGISTRY**: [`ModuleRegistry`](../interfaces/ModuleRegistry.md)
 
-Defined in: [modules/index.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/modules/index.ts#L20)
+Defined in: [modules/index.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/modules/index.ts#L20)

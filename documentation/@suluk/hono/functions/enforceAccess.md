@@ -8,7 +8,7 @@
 
 > **enforceAccess**(`cfg`): `MiddlewareHandler`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/enforce.ts#L76)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/enforce.ts#L76)
 
 The facet-driven gate. Apply once (after identity is resolved, before the handlers): every operation is then
 enforced at the level its `x-suluk-access` declares. FAIL-CLOSED throughout — a missing facet denies (deny-by-

@@ -6,7 +6,7 @@
 
 # Interface: ApplyOptions
 
-Defined in: [provision/src/apply.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L16)
+Defined in: [provision/src/apply.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L16)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/apply.ts:16](https://github.com/MahmoodKhalil57/suluk
 
 > **brokers**: `Record`\<`string`, [`Broker`](Broker.md)\>
 
-Defined in: [provision/src/apply.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L18)
+Defined in: [provision/src/apply.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L18)
 
 broker id → broker (the catalog of executors). A step whose `service` is absent here is an error.
 
@@ -24,7 +24,7 @@ broker id → broker (the catalog of executors). A step whose `service` is absen
 
 > `optional` **log?**: (`msg`) => `void`
 
-Defined in: [provision/src/apply.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L27)
+Defined in: [provision/src/apply.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L27)
 
 #### Parameters
 
@@ -42,7 +42,7 @@ Defined in: [provision/src/apply.ts:27](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **poll?**: [`PollOptions`](PollOptions.md)
 
-Defined in: [provision/src/apply.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L26)
+Defined in: [provision/src/apply.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L26)
 
 async-poll tuning + seams (see [PollOptions](PollOptions.md)).
 
@@ -52,7 +52,7 @@ async-poll tuning + seams (see [PollOptions](PollOptions.md)).
 
 > `optional` **prune?**: `boolean`
 
-Defined in: [provision/src/apply.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L24)
+Defined in: [provision/src/apply.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L24)
 
 deprovision orphans (state − config). Defaults to the config's `pruneOrphans`.
 
@@ -62,7 +62,7 @@ deprovision orphans (state − config). Defaults to the config's `pruneOrphans`.
 
 > `optional` **sink?**: [`BindingSink`](BindingSink.md)
 
-Defined in: [provision/src/apply.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L22)
+Defined in: [provision/src/apply.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L22)
 
 where bound credentials land (the @suluk/env manifest in prod; memory in tests). Optional — omit to skip sinking.
 
@@ -72,6 +72,6 @@ where bound credentials land (the @suluk/env manifest in prod; memory in tests).
 
 > **store**: [`StateStore`](StateStore.md)
 
-Defined in: [provision/src/apply.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L20)
+Defined in: [provision/src/apply.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L20)
 
 the journal load/save (a JSON file in prod; memory in tests).

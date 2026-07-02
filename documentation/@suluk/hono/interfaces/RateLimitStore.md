@@ -6,7 +6,7 @@
 
 # Interface: RateLimitStore
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/ratelimit.ts#L45)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/ratelimit.ts#L45)
 
 The swap point for a durable counter. `consume` atomically records one hit for `key` under the budget and
 reports whether it's now over. A production impl (KV / Durable Object) MUST be atomic-per-key; the in-memory
@@ -18,7 +18,7 @@ default is per-instance and NOT durable, so it is dev-only.
 
 > **consume**(`key`, `opts`): [`RateLimitResult`](RateLimitResult.md) \| `Promise`\<[`RateLimitResult`](RateLimitResult.md)\>
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/ratelimit.ts#L46)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/ratelimit.ts#L46)
 
 #### Parameters
 

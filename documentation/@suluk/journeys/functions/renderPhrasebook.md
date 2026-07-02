@@ -8,7 +8,7 @@
 
 > **renderPhrasebook**(`vocab`): `string`
 
-Defined in: [journeys/src/vocabulary.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/journeys/src/vocabulary.ts#L114)
+Defined in: [journeys/src/vocabulary.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/journeys/src/vocabulary.ts#L114)
 
 A foldable, entity-grouped phrasebook (Markdown) — the human surface an author picks step phrases from.
 

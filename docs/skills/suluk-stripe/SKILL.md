@@ -1,0 +1,62 @@
+---
+description: "DEPRECATED — GUTTED to a thin re-export shell over @suluk/payments (C048), removed in the NEXT MAJOR. The pricing primitives, the Stripe webhook surface (signature verification + event router), and the form-encoder/transport are re-exported from @suluk/payments for backward compatibility; the rest (usage-based Billing Meters, checkout-param builders, shipping/tax adapters, PaymentProvider/StripeLike types, restStripe) was DELETED as dead. Use @suluk/payments — its PaymentConnector (agnostic) / stripeConnector for payment flows."
+name: suluk-stripe
+---
+
+# @suluk/stripe
+
+DEPRECATED — GUTTED to a thin re-export shell over @suluk/payments (C048), removed in the NEXT MAJOR. The pricing primitives, the Stripe webhook surface (signature verification + event router), and the form-encoder/transport are re-exported from @suluk/payments for backward compatibility; the rest (usage-based Billing Meters, checkout-param builders, shipping/tax adapters, PaymentProvider/StripeLike types, restStripe) was DELETED as dead. Use @suluk/payments — its PaymentConnector (agnostic) / stripeConnector for payment flows.
+
+## Quick Start
+
+```ts
+import { restStripe, setupUsageBilling, stripeProvider } from "@suluk/stripe";
+
+const client = restStripe(process.env.STRIPE_SECRET_KEY!); // SDK-free, fetch-only — Workers-safe
+
+// one-time: product + meter + metered price. Save the returned ids.
+const { priceId, eventName } = await setupUsageBilling(client, {
+  productName: "API usage",
+  eventName: "api_cost",
+  currency: "usd",
+  unitAmountDecimal: "0.000002", // per aggregated unit (a decimal string)
+  aggregation: "sum",
+  interval: "month",
+});
+
+// runtime
+const billing = stripeProvider(client, { webhookSecret: process.env.STRIPE_WEBHOOK_SECRET });
+const { id: customerId } = await billing.createCustomer({ email: "user@acme.dev" });
+await billing.subscribeMetered({ customerId, priceId });
+await billing.reportUsage({ customerId, eventName, value: 4050 }); // one meter event
+const { url } = await billing.billingPortalUrl!({ customerId, returnUrl: "https://app.dev/account" });
+```
+
+## Configuration
+
+2 configuration interfaces — see references/config.md for details.
+
+## Quick Reference
+
+**pricing:** `subtotal` (Subtotal in cents — integer, non-negative), `computeDiscountAmount` (The cents a discount removes from `subtotalCents` — ROUNDED to a whole cent and CLAMPED to [0, subtotal] so a
+discount can never exceed the order or go negative), `validateDiscount` (Validate a discount against a subtotal, with a SPECIFIC rejection reason (PARITY: "specific discount-rejection
+reasons" — a shopper is told *why*, not just "invalid")), `prorateDiscount` (Split `discountCents` across `lines` proportionally to each line's total, as whole cents that sum EXACTLY to
+`discountCents` (largest-remainder apportionment)), `orderTotal` (Compose the authoritative order total from lines + an optional (already-validated) discount), `composeTotal` (Fold every component into ONE authoritative total: subtotal − discount + shipping + tax, each a non-negative whole
+cent and the discount never exceeding the subtotal), `verifyAmount` (ANTI-TAMPERING: recompute the total from authoritative line prices + the discount and compare it to the amount
+the client claims (e), `cartFingerprint` (A stable fingerprint of the priced cart (+ discount) — order-independent over lines), `idempotencyKey` (A deterministic idempotency key for a checkout attempt), `requiresStripe` (Does this total require a real Stripe charge, or can it complete as a free order), `CartLine` (One cart line), `Discount` (A discount's MATH shape (the structural part; app-side eligibility rules are separate)), `DiscountResult`, `DiscountRejection`, `OrderTotal`, `OrderTotalFull` (The full order total once shipping + tax (from the ), `AmountVerdict`, `STRIPE_MIN_CHARGE_CENTS` (Stripe's minimum chargeable amount (USD))
+**stripe-webhook:** `verifyStripeSignature` (Verify a Stripe `stripe-signature` header against the raw request body + the endpoint signing secret), `timingSafeHexEqual` (Constant-time hex-string compare (no early-out) — guards the signature check against timing oracles), `webhookRouter` (Build a router, optionally seeded with a `{ type → handler }` map), `StripeWebhookEvent` (A verified webhook event — only `type` is required (the router dispatches on it); `data` carries the payload), `WebhookHandler`, `WebhookRouter`, `HandleResult`, `STRIPE_EVENTS` (The common Stripe checkout/billing event types (for discoverability + typo-safe registration))
+**stripe-transport:** `toForm` (Stripe's bracket-nested `x-www-form-urlencoded` encoder: objects → `key[k]`, arrays → `key[i]`, scalars appended;
+ undefined/null are skipped), `stripePost`, `stripeGet`
+
+## References
+
+Load these on demand — do NOT read all at once:
+
+- When calling any function → read `references/functions.md` for full signatures, parameters, and return types
+- When defining typed variables or function parameters → read `references/types.md`
+- When using exported constants → read `references/variables.md`
+- When configuring options → read `references/config.md` for all settings and defaults
+
+## Links
+
+- [Repository](https://github.com/MahmoodKhalil57/suluk)

@@ -8,7 +8,7 @@
 
 > **renderIndex**(`fw`): `string`
 
-Defined in: [render.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/docs/src/render.ts#L82)
+Defined in: [render.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/docs/src/render.ts#L82)
 
 ## Parameters
 

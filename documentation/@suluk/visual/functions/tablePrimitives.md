@@ -8,7 +8,7 @@
 
 > **tablePrimitives**(`spec`, `sources`): [`UsedPrimitive`](../interfaces/UsedPrimitive.md)[]
 
-Defined in: [shadcn.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/visual/src/shadcn.ts#L31)
+Defined in: [shadcn.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/visual/src/shadcn.ts#L31)
 
 The distinct primitives a generated TABLE is composed of: its layout + the cell primitive.
 

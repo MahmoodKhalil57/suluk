@@ -6,7 +6,7 @@
 
 # Interface: V4ToZodOptions
 
-Defined in: [to-zod.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/zod/src/to-zod.ts#L13)
+Defined in: [to-zod.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/zod/src/to-zod.ts#L13)
 
 ## Properties
 
@@ -14,6 +14,6 @@ Defined in: [to-zod.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537f
 
 > `optional` **defs?**: `Record`\<`string`, `unknown`\> \| ((`ref`) => `unknown`)
 
-Defined in: [to-zod.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/zod/src/to-zod.ts#L15)
+Defined in: [to-zod.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/zod/src/to-zod.ts#L15)
 
 Resolver for `$ref`: a map of pointer → schema, or a function. Supports "#/$defs/X", "#/components/schemas/X".

@@ -8,7 +8,7 @@
 
 > **verifyAmount**(`lines`, `discount`, `claimedCents`, `opts?`): [`AmountVerdict`](../interfaces/AmountVerdict.md)
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:137](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L137)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:137](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/pricing.ts#L137)
 
 ANTI-TAMPERING: recompute the total from authoritative line prices + the discount and compare it to the amount
 the client claims (e.g. a PaymentIntent amount the browser posted). Reject any mismatch beyond `toleranceCents`

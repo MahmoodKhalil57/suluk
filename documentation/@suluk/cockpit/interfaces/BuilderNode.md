@@ -6,7 +6,7 @@
 
 # Interface: BuilderNode
 
-Defined in: [cockpit/src/builder.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/builder.ts#L13)
+Defined in: [cockpit/src/builder.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/builder.ts#L13)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/builder.ts:13](https://github.com/MahmoodKhalil57/suluk
 
 > **children**: `BuilderNode`[]
 
-Defined in: [cockpit/src/builder.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/builder.ts#L18)
+Defined in: [cockpit/src/builder.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/builder.ts#L18)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/builder.ts:18](https://github.com/MahmoodKhalil57/suluk
 
 > **contract**: `string`[]
 
-Defined in: [cockpit/src/builder.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/builder.ts#L17)
+Defined in: [cockpit/src/builder.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/builder.ts#L17)
 
 The param-contract keys this tier exposes upward (empty for a leaf component).
 
@@ -32,7 +32,7 @@ The param-contract keys this tier exposes upward (empty for a leaf component).
 
 > **label**: `string`
 
-Defined in: [cockpit/src/builder.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/builder.ts#L15)
+Defined in: [cockpit/src/builder.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/builder.ts#L15)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [cockpit/src/builder.ts:15](https://github.com/MahmoodKhalil57/suluk
 
 > **tier**: `"page"` \| `"section"` \| `"block"` \| `"component"`
 
-Defined in: [cockpit/src/builder.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/builder.ts#L14)
+Defined in: [cockpit/src/builder.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/builder.ts#L14)

@@ -8,7 +8,7 @@
 
 > **krokiD2Url**(`d2`): `string`
 
-Defined in: [diagram.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/docs/src/diagram.ts#L99)
+Defined in: [diagram.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/docs/src/diagram.ts#L99)
 
 ## Parameters
 

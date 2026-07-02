@@ -6,7 +6,7 @@
 
 # Interface: ArchNode
 
-Defined in: [diagram.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/docs/src/diagram.ts#L39)
+Defined in: [diagram.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/docs/src/diagram.ts#L39)
 
 A package node enriched for the UML architecture diagram (name, public-export count, a sample of exports).
 
@@ -16,7 +16,7 @@ A package node enriched for the UML architecture diagram (name, public-export co
 
 > **exports**: `number`
 
-Defined in: [diagram.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/docs/src/diagram.ts#L43)
+Defined in: [diagram.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/docs/src/diagram.ts#L43)
 
 Number of public symbols the barrel re-exports (the node's surface-area badge).
 
@@ -26,7 +26,7 @@ Number of public symbols the barrel re-exports (the node's surface-area badge).
 
 > **id**: `string`
 
-Defined in: [diagram.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/docs/src/diagram.ts#L40)
+Defined in: [diagram.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/docs/src/diagram.ts#L40)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [diagram.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/472537
 
 > **name**: `string`
 
-Defined in: [diagram.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/docs/src/diagram.ts#L41)
+Defined in: [diagram.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/docs/src/diagram.ts#L41)
 
 ***
 
@@ -42,6 +42,6 @@ Defined in: [diagram.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/472537
 
 > **topExports**: `string`[]
 
-Defined in: [diagram.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/docs/src/diagram.ts#L45)
+Defined in: [diagram.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/docs/src/diagram.ts#L45)
 
 A small deterministic sample of exported symbol names (for the node's members compartment).

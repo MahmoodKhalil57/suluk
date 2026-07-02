@@ -8,7 +8,7 @@
 
 > **renderContract**(`spec`): `string`
 
-Defined in: [index.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/stubgen/src/index.ts#L92)
+Defined in: [index.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/stubgen/src/index.ts#L92)
 
 Render the CONTRACT half — a `@suluk/hono` RouteContract literal to paste into `contractDoc([...])`.
 

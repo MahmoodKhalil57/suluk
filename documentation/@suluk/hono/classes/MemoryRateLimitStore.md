@@ -6,7 +6,7 @@
 
 # Class: MemoryRateLimitStore
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/ratelimit.ts#L55)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/ratelimit.ts#L55)
 
 DEV-ONLY fixed-window store — a single in-process Map, ported from saastarter rate-limit.ts:7-38. Per-instance
 (does NOT coordinate across workers/isolates) so it must NOT back production; use a @suluk/deploy KV/DO binding
@@ -33,7 +33,7 @@ documented alternative a durable store may choose instead.
 
 > **consume**(`key`, `__namedParameters`): [`RateLimitResult`](../interfaces/RateLimitResult.md)
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/ratelimit.ts#L58)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/ratelimit.ts#L58)
 
 #### Parameters
 

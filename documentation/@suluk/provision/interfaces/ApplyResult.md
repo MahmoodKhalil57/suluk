@@ -6,7 +6,7 @@
 
 # Interface: ApplyResult
 
-Defined in: [provision/src/apply.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L37)
+Defined in: [provision/src/apply.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L37)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/apply.ts:37](https://github.com/MahmoodKhalil57/suluk
 
 > **outputsByRef**: `Record`\<`string`, `Record`\<`string`, `string`\>\>
 
-Defined in: [provision/src/apply.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L41)
+Defined in: [provision/src/apply.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L41)
 
 every instance's resolved outputs after the run (for assertions + downstream tooling).
 
@@ -24,7 +24,7 @@ every instance's resolved outputs after the run (for assertions + downstream too
 
 > **state**: [`InstanceState`](InstanceState.md)[]
 
-Defined in: [provision/src/apply.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L39)
+Defined in: [provision/src/apply.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L39)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [provision/src/apply.ts:39](https://github.com/MahmoodKhalil57/suluk
 
 > **steps**: [`AppliedStep`](AppliedStep.md)[]
 
-Defined in: [provision/src/apply.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L38)
+Defined in: [provision/src/apply.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L38)

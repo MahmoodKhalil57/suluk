@@ -8,7 +8,7 @@
 
 > **rewriteRepoLinks**(`md`, `repoUrl`, `relDir`, `ref?`): `string`
 
-Defined in: [md.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/docs/src/md.ts#L18)
+Defined in: [md.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/docs/src/md.ts#L18)
 
 Rewrite repo-RELATIVE markdown links (`](../../doc/x.md)`, `](./y)`) to absolute GitHub blob URLs so a
 README harvested into the site doesn't ship dead links. `relDir` is the package's path from the repo root

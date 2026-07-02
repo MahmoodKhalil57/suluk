@@ -6,7 +6,7 @@
 
 # Interface: RobotsGroup
 
-Defined in: [robots.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/robots.ts#L3)
+Defined in: [robots.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/robots.ts#L3)
 
 robots.txt generation — user-agent groups with allow/disallow/crawl-delay, plus sitemap + host directives.
 
@@ -16,7 +16,7 @@ robots.txt generation — user-agent groups with allow/disallow/crawl-delay, plu
 
 > `optional` **allow?**: `string`[]
 
-Defined in: [robots.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/robots.ts#L5)
+Defined in: [robots.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/robots.ts#L5)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [robots.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > `optional` **crawlDelay?**: `number`
 
-Defined in: [robots.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/robots.ts#L7)
+Defined in: [robots.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/robots.ts#L7)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [robots.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > `optional` **disallow?**: `string`[]
 
-Defined in: [robots.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/robots.ts#L6)
+Defined in: [robots.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/robots.ts#L6)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [robots.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **userAgent**: `string` \| `string`[]
 
-Defined in: [robots.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/robots.ts#L4)
+Defined in: [robots.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/robots.ts#L4)

@@ -8,7 +8,7 @@
 
 > `const` **webhooksService**: `object`
 
-Defined in: [service.ts:285](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L285)
+Defined in: [service.ts:320](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/platform/src/service.ts#L320)
 
 ## Type Declaration
 

@@ -8,7 +8,7 @@
 
 > **scalarV4Html**(`doc`, `opts?`): [`RenderResult`](../interfaces/RenderResult.md)
 
-Defined in: [index.ts:253](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/scalar/src/index.ts#L253)
+Defined in: [index.ts:253](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/scalar/src/index.ts#L253)
 
 The saasuluk-grade **v4 reference**: the self-hosted Scalar UI fed the v4 doc (faithful + facet-enriched), wrapped
 in a suluk toolbar that adds the v4-native "View as" ROLE projector (Anonymous / Signed-in / Admin) — picking a

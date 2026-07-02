@@ -8,7 +8,7 @@
 
 > **verifyStripeSignature**(`rawBody`, `sigHeader`, `secret`, `opts?`): `Promise`\<`boolean`\>
 
-Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/stripe-webhook.ts#L30)
+Defined in: [tooling/ts/packages/payments/src/stripe-webhook.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/payments/src/stripe-webhook.ts#L30)
 
 Verify a Stripe `stripe-signature` header against the raw request body + the endpoint signing secret. Returns true iff
 a v1 signature matches the HMAC of `${t}.${rawBody}` AND the timestamp is within tolerance. Pass the RAW (unparsed)

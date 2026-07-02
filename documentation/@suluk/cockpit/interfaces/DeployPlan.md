@@ -6,7 +6,7 @@
 
 # Interface: DeployPlan
 
-Defined in: [deploy/src/types.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/deploy/src/types.ts#L81)
+Defined in: [deploy/src/types.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/deploy/src/types.ts#L81)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [deploy/src/types.ts:81](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **files**: [`DeployFile`](../../deploy/interfaces/DeployFile.md)[]
 
-Defined in: [deploy/src/types.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/deploy/src/types.ts#L83)
+Defined in: [deploy/src/types.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/deploy/src/types.ts#L83)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [deploy/src/types.ts:83](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **notes**: `string`[]
 
-Defined in: [deploy/src/types.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/deploy/src/types.ts#L86)
+Defined in: [deploy/src/types.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/deploy/src/types.ts#L86)
 
 Human-facing notes (auth, manual fill-ins, caveats).
 
@@ -32,7 +32,7 @@ Human-facing notes (auth, manual fill-ins, caveats).
 
 > **provider**: `string`
 
-Defined in: [deploy/src/types.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/deploy/src/types.ts#L82)
+Defined in: [deploy/src/types.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/deploy/src/types.ts#L82)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [deploy/src/types.ts:82](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **steps**: [`DeployStep`](DeployStep.md)[]
 
-Defined in: [deploy/src/types.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/deploy/src/types.ts#L84)
+Defined in: [deploy/src/types.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/deploy/src/types.ts#L84)

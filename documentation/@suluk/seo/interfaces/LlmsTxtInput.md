@@ -6,7 +6,7 @@
 
 # Interface: LlmsTxtInput
 
-Defined in: [llms.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/llms.ts#L6)
+Defined in: [llms.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/llms.ts#L6)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [llms.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba
 
 > `optional` **details?**: `string`
 
-Defined in: [llms.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/llms.ts#L11)
+Defined in: [llms.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/llms.ts#L11)
 
 Free-form markdown paragraph(s) after the summary.
 
@@ -24,7 +24,7 @@ Free-form markdown paragraph(s) after the summary.
 
 > `optional` **sections?**: [`LlmsSection`](LlmsSection.md)[]
 
-Defined in: [llms.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/llms.ts#L12)
+Defined in: [llms.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/llms.ts#L12)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [llms.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/472537fcb
 
 > `optional` **summary?**: `string`
 
-Defined in: [llms.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/llms.ts#L9)
+Defined in: [llms.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/llms.ts#L9)
 
 One-line summary, rendered as a blockquote.
 
@@ -42,4 +42,4 @@ One-line summary, rendered as a blockquote.
 
 > **title**: `string`
 
-Defined in: [llms.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/llms.ts#L7)
+Defined in: [llms.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/seo/src/llms.ts#L7)

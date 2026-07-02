@@ -8,7 +8,7 @@
 
 > **emitV4**(`routes`, `ctx?`): [`EmitResult`](../interfaces/EmitResult.md)
 
-Defined in: [tooling/ts/packages/hono/src/emit.ts:154](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/emit.ts#L154)
+Defined in: [tooling/ts/packages/hono/src/emit.ts:154](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/emit.ts#L154)
 
 Project a list of route contracts into a v4 document for a given principal + time.
 - WHEN: removedSince ≤ now ⇒ hidden; deprecatedSince ≤ now ⇒ marked deprecated.

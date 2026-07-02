@@ -8,7 +8,7 @@
 
 > **contractDoc**\<`T`\>(`routes`): `T`
 
-Defined in: [tooling/ts/packages/hono/src/contract.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/contract.ts#L89)
+Defined in: [tooling/ts/packages/hono/src/contract.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/hono/src/contract.ts#L89)
 
 Stricter, OPT-IN variant of [contract](contract.md): identical runtime behavior + literal inference, but every route must be
 DOCUMENTED (a `summary` or `description`) or it fails to type-check at the contract site — lifting the doc-coverage

@@ -6,7 +6,7 @@
 
 # Interface: DrawerOptions
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L14)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L14)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:14](https://github.co
 
 > `optional` **backdrop?**: [`PanelEl`](PanelEl.md) \| `null`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L18)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L18)
 
 the dimming backdrop (clicking it closes).
 
@@ -24,7 +24,7 @@ the dimming backdrop (clicking it closes).
 
 > **drawer**: [`PanelEl`](PanelEl.md)
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L16)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L16)
 
 the sliding panel.
 
@@ -34,7 +34,7 @@ the sliding panel.
 
 > `optional` **hideDelayMs?**: `number`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L22)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L22)
 
 ms to wait before hard-hiding on close (matches the CSS transition; default 220).
 
@@ -44,7 +44,7 @@ ms to wait before hard-hiding on close (matches the CSS transition; default 220)
 
 > `optional` **inertTargets?**: () => `object`[]
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L24)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L24)
 
 page-chrome elements to make `inert` while open (focus-trap + AT hide).
 
@@ -58,7 +58,7 @@ page-chrome elements to make `inert` while open (focus-trap + AT hide).
 
 > `optional` **initialFocus?**: () => \{ `focus`: `void`; \} \| `null` \| `undefined`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L26)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L26)
 
 element to focus on open (e.g. the close button).
 
@@ -72,7 +72,7 @@ element to focus on open (e.g. the close button).
 
 > `optional` **onClose?**: () => `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L29)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L29)
 
 #### Returns
 
@@ -84,7 +84,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:29](https://github.co
 
 > `optional` **onOpen?**: () => `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L28)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L28)
 
 called on open / close (e.g. cart.reload() before showing).
 
@@ -98,7 +98,7 @@ called on open / close (e.g. cart.reload() before showing).
 
 > `optional` **openClass?**: `string`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L20)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L20)
 
 class toggled for the open transition (default "open").
 
@@ -108,7 +108,7 @@ class toggled for the open transition (default "open").
 
 > `optional` **raf?**: (`fn`) => `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L31)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L31)
 
 injectables (default the globals) — tests pass sync stand-ins.
 
@@ -128,7 +128,7 @@ injectables (default the globals) — tests pass sync stand-ins.
 
 > `optional` **setHideTimer?**: (`fn`, `ms`) => `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/drawer.ts#L32)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/drawer.ts#L32)
 
 #### Parameters
 

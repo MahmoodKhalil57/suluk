@@ -8,7 +8,7 @@
 
 > **sourceCoverage**(`doc`): `object`
 
-Defined in: [source.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/source.ts#L39)
+Defined in: [source.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/core/src/source.ts#L39)
 
 Count of operations carrying a source pointer vs total — the provenance-coverage gauge.
 

@@ -268,6 +268,7 @@ Apache-2.0
 - [ingestAuthOpenAPI](functions/ingestAuthOpenAPI.md)
 - [isPreviewRuntime](functions/isPreviewRuntime.md)
 - [isSafeRelativePath](functions/isSafeRelativePath.md)
+- [mcpConnectionKeyId](functions/mcpConnectionKeyId.md)
 - [mergeAuth](functions/mergeAuth.md)
 - [mountAuth](functions/mountAuth.md)
 - [normalizeOas30](functions/normalizeOas30.md)

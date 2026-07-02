@@ -8,7 +8,7 @@
 
 > **createCustomer**(`cfg`, `email`, `userId`): `Promise`\<`string`\>
 
-Defined in: [packages/billing/src/billing.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/billing/src/billing.ts#L17)
+Defined in: [packages/billing/src/billing.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/billing/src/billing.ts#L17)
 
 Create a Stripe customer for the user (the caller persists the id). Routed through @suluk/payments (C048) — the
  processor is swappable; the Stripe request (POST /customers with email + metadata[userId]) is unchanged.

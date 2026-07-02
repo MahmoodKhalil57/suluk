@@ -6,7 +6,7 @@
 
 # Interface: SyncResult
 
-Defined in: [audience.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/email/src/audience.ts#L93)
+Defined in: [audience.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/email/src/audience.ts#L93)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [audience.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/47253
 
 > **failed**: `number`
 
-Defined in: [audience.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/email/src/audience.ts#L96)
+Defined in: [audience.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/email/src/audience.ts#L96)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [audience.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/47253
 
 > **removed**: `number`
 
-Defined in: [audience.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/email/src/audience.ts#L95)
+Defined in: [audience.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/email/src/audience.ts#L95)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [audience.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/47253
 
 > **upserted**: `number`
 
-Defined in: [audience.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/email/src/audience.ts#L94)
+Defined in: [audience.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/email/src/audience.ts#L94)

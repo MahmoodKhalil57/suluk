@@ -6,7 +6,7 @@
 
 # Interface: FlattenSuggestion
 
-Defined in: [agents/src/context.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/context.ts#L84)
+Defined in: [agents/src/context.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/context.ts#L84)
 
 The dual of unflatten: a thin/redundant layer worth collapsing UP into its parent.
 
@@ -16,7 +16,7 @@ The dual of unflatten: a thin/redundant layer worth collapsing UP into its paren
 
 > **child**: `string`
 
-Defined in: [agents/src/context.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/context.ts#L86)
+Defined in: [agents/src/context.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/context.ts#L86)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [agents/src/context.ts:86](https://github.com/MahmoodKhalil57/suluk/
 
 > **fitsTarget**: `boolean`
 
-Defined in: [agents/src/context.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/context.ts#L90)
+Defined in: [agents/src/context.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/context.ts#L90)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [agents/src/context.ts:90](https://github.com/MahmoodKhalil57/suluk/
 
 > **mergedParentTokens**: `number`
 
-Defined in: [agents/src/context.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/context.ts#L89)
+Defined in: [agents/src/context.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/context.ts#L89)
 
 the parent's load if the child's resident tools+instructions were inlined.
 
@@ -42,7 +42,7 @@ the parent's load if the child's resident tools+instructions were inlined.
 
 > **parent**: `string`
 
-Defined in: [agents/src/context.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/context.ts#L85)
+Defined in: [agents/src/context.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/context.ts#L85)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [agents/src/context.ts:85](https://github.com/MahmoodKhalil57/suluk/
 
 > **reason**: `string`
 
-Defined in: [agents/src/context.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/context.ts#L87)
+Defined in: [agents/src/context.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/context.ts#L87)
 
 ***
 
@@ -58,6 +58,6 @@ Defined in: [agents/src/context.ts:87](https://github.com/MahmoodKhalil57/suluk/
 
 > **savedHopOverhead**: `number`
 
-Defined in: [agents/src/context.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/context.ts#L92)
+Defined in: [agents/src/context.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/context.ts#L92)
 
 per-hop overhead removed by collapsing (the child's framing + its dispatch tool).

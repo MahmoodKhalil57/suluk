@@ -8,7 +8,7 @@
 
 > **debitOnceAttributed**(`db`, `userId`, `amount`, `reason`, `idemKey`, `keyId?`): `Promise`\<[`DebitOutcome`](../type-aliases/DebitOutcome.md)\>
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/credits/src/credits.ts#L122)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/credits/src/credits.ts#L122)
 
 Idempotent debit + per-key ATTRIBUTION — the money primitive a per-item bulk charge needs ([debitOnceIfCovers](debitOnceIfCovers.md)
 itself does NOT attribute). On a FRESH `debited` it records the spend against `keyId` (the row id is the stable nonce);

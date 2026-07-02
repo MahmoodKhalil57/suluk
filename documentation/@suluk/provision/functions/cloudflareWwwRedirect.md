@@ -8,7 +8,7 @@
 
 > **cloudflareWwwRedirect**(`cf`): [`Broker`](../interfaces/Broker.md)
 
-Defined in: [provision/src/brokers/cloudflare.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/brokers/cloudflare.ts#L68)
+Defined in: [provision/src/brokers/cloudflare.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/brokers/cloudflare.ts#L68)
 
 A www → apex 301 redirect (C058) on the zone of `params.apexHost` — provisions the `www` canonicalization the URL
  single-source assumes. Idempotent (dedup by rule description). `deprovision` removes just the suluk rule. Zone-scoped:

@@ -8,7 +8,7 @@
 
 > **bindAsyncButton**\<`E`\>(`el`, `handler`, `opts?`): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/async-button.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/async-button.ts#L49)
+Defined in: [tooling/ts/packages/nano-stores/src/async-button.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/async-button.ts#L49)
 
 Convenience: attach an auto-pending async handler to an element's event (default "click").
 

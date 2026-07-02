@@ -8,7 +8,7 @@
 
 > **asSourceRef**(`from`): [`SourceRef`](../interfaces/SourceRef.md) \| `undefined`
 
-Defined in: [examples/src/index.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/examples/src/index.ts#L89)
+Defined in: [examples/src/index.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/examples/src/index.ts#L89)
 
 The structured source edge if `x-suluk-from` names an `op`; otherwise undefined (a free note is not wireable).
 

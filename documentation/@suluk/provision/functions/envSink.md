@@ -8,7 +8,7 @@
 
 > **envSink**(`opts?`): [`BindingSink`](../interfaces/BindingSink.md)
 
-Defined in: [provision/src/env-sink.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/env-sink.ts#L19)
+Defined in: [provision/src/env-sink.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/env-sink.ts#L19)
 
 A [BindingSink](../interfaces/BindingSink.md) that persists bindings into a `.env` via @suluk/env (encrypted by default; commit-safe).
 

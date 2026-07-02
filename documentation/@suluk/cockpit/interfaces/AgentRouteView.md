@@ -6,7 +6,7 @@
 
 # Interface: AgentRouteView
 
-Defined in: [cockpit/src/agents.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/agents.ts#L23)
+Defined in: [cockpit/src/agents.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L23)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/agents.ts:23](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **guarantee?**: `string`
 
-Defined in: [cockpit/src/agents.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/agents.ts#L26)
+Defined in: [cockpit/src/agents.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L26)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/agents.ts:26](https://github.com/MahmoodKhalil57/suluk/
 
 > **name**: `string`
 
-Defined in: [cockpit/src/agents.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/agents.ts#L24)
+Defined in: [cockpit/src/agents.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L24)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [cockpit/src/agents.ts:24](https://github.com/MahmoodKhalil57/suluk/
 
 > **operationRef**: `string`
 
-Defined in: [cockpit/src/agents.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/agents.ts#L25)
+Defined in: [cockpit/src/agents.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L25)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [cockpit/src/agents.ts:25](https://github.com/MahmoodKhalil57/suluk/
 
 > **resolves**: `boolean`
 
-Defined in: [cockpit/src/agents.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/agents.ts#L30)
+Defined in: [cockpit/src/agents.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L30)
 
 does the operationRef resolve to a real operation? (false ⇒ a dangling ref, like Conin's MCP-only primitive).
 
@@ -48,6 +48,6 @@ does the operationRef resolve to a real operation? (false ⇒ a dangling ref, li
 
 > `optional` **tier?**: `"resident"` \| `"cold-tail"`
 
-Defined in: [cockpit/src/agents.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/agents.ts#L28)
+Defined in: [cockpit/src/agents.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cockpit/src/agents.ts#L28)
 
 serving partition: resident (default tool list) vs cold-tail (behind discover_tools). Absent ⇒ resident.

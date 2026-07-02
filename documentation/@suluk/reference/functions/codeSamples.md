@@ -8,7 +8,7 @@
 
 > **codeSamples**(`server`, `op`, `bodySample`): `CodeSample`[]
 
-Defined in: [reference/src/codegen.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/codegen.ts#L26)
+Defined in: [reference/src/codegen.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/reference/src/codegen.ts#L26)
 
 ## Parameters
 

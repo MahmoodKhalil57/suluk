@@ -8,7 +8,7 @@
 
 > **fileMigrationStore**(`dir?`): [`MigrationStore`](../interfaces/MigrationStore.md)
 
-Defined in: [provision/src/migration-store.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/migration-store.ts#L61)
+Defined in: [provision/src/migration-store.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/migration-store.ts#L61)
 
 A file-backed migration store rooted at `dir` (default `provision/`). Commits `NNNN_tag.json` + `meta/_journal.json` +
  `meta/NNNN_snapshot.json`; keeps the env-local `meta/_applied.json` (gitignore it).

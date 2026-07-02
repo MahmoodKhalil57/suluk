@@ -6,7 +6,7 @@
 
 # Interface: RenderResult
 
-Defined in: [index.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/scalar/src/index.ts#L45)
+Defined in: [index.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/scalar/src/index.ts#L45)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [index.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/472537fc
 
 > **diagnostics**: [`Diagnostic`](../../openapi-compat/interfaces/Diagnostic.md)[]
 
-Defined in: [index.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/scalar/src/index.ts#L49)
+Defined in: [index.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/scalar/src/index.ts#L49)
 
 Lossy-conversion diagnostics from the v4→3.1 downgrade (e.g. method collisions).
 
@@ -24,6 +24,6 @@ Lossy-conversion diagnostics from the v4→3.1 downgrade (e.g. method collisions
 
 > **html**: `string`
 
-Defined in: [index.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/scalar/src/index.ts#L47)
+Defined in: [index.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/scalar/src/index.ts#L47)
 
 A complete, self-contained HTML document.

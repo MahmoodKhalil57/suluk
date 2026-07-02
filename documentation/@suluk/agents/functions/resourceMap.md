@@ -8,7 +8,7 @@
 
 > **resourceMap**(`doc`): `Record`\<`string`, [`SulukResource`](../../core/interfaces/SulukResource.md)\>
 
-Defined in: [agents/src/resources.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/resources.ts#L15)
+Defined in: [agents/src/resources.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/resources.ts#L15)
 
 The top-level resources catalog (empty when absent).
 

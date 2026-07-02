@@ -1,0 +1,8 @@
+# Variables & Constants
+
+## account
+
+### `billingAccount`
+```ts
+const billingAccount: SQLiteTableWithColumns<{ name: "billing_account"; schema: undefined; columns: { userId: SQLiteColumn<{ name: "userId"; tableName: "billing_account"; dataType: "string"; columnType: "SQLiteText"; data: string; driverParam: string; notNull: true; hasDefault: false; isPrimaryKey: true; isAutoincrement: false; hasRuntimeDefault: false; enumValues: [string, ...string[]]; baseColumn: never; identity: undefined; generated: undefined }, {}, { length: number | undefined }>; stripeCustomerId: SQLiteColumn<{ name: "stripeCustomerId"; tableName: "billing_account"; dataType: "string"; columnType: "SQLiteText"; data: string; driverParam: string; notNull: false; hasDefault: false; isPrimaryKey: false; isAutoincrement: false; hasRuntimeDefault: false; enumValues: [string, ...string[]]; baseColumn: never; identity: undefined; generated: undefined }, {}, { length: number | undefined }>; subscriptionId: SQLiteColumn<{ name: "subscriptionId"; tableName: "billing_account"; dataType: "string"; columnType: "SQLiteText"; data: string; driverParam: string; notNull: false; hasDefault: false; isPrimaryKey: false; isAutoincrement: false; hasRuntimeDefault: false; enumValues: [string, ...string[]]; baseColumn: never; identity: undefined; generated: undefined }, {}, { length: number | undefined }>; updatedAt: SQLiteColumn<{ name: "updatedAt"; tableName: "billing_account"; dataType: "date"; columnType: "SQLiteTimestamp"; data: Date; driverParam: number; notNull: true; hasDefault: false; isPrimaryKey: false; isAutoincrement: false; hasRuntimeDefault: false; enumValues: undefined; baseColumn: never; identity: undefined; generated: undefined }, {}, {}> }; dialect: "sqlite" }>
+```

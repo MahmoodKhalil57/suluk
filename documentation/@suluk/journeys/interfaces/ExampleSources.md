@@ -6,7 +6,7 @@
 
 # Interface: ExampleSources
 
-Defined in: [examples/src/index.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/examples/src/index.ts#L26)
+Defined in: [examples/src/index.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/examples/src/index.ts#L26)
 
 The two human-authored tiers a caller may supply; the synthetic tier is derived from the schema.
 
@@ -16,7 +16,7 @@ The two human-authored tiers a caller may supply; the synthetic tier is derived 
 
 > `optional` **maintainer?**: `unknown`
 
-Defined in: [examples/src/index.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/examples/src/index.ts#L30)
+Defined in: [examples/src/index.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/examples/src/index.ts#L30)
 
 tier 2 — an explicit maintainer example (overrides the schema's own `examples`/`example`/`const`).
 
@@ -26,6 +26,6 @@ tier 2 — an explicit maintainer example (overrides the schema's own `examples`
 
 > `optional` **public?**: `unknown`
 
-Defined in: [examples/src/index.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/examples/src/index.ts#L28)
+Defined in: [examples/src/index.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/examples/src/index.ts#L28)
 
 tier 3 (highest) — a tester-curated, willing-to-expose example. After C040-P4 promotion it also lives in Zod meta.

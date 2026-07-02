@@ -6,7 +6,7 @@
 
 # Interface: LedgerStats
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:174](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/credits/src/credits.ts#L174)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:174](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/credits/src/credits.ts#L174)
 
 `@suluk/credits` — a metered credit ledger (C046, extracted verbatim). The package OWNS the schema (`credit_transaction`
 + the `credit_amount`/`credit_key` sidecars); the app injects a Drizzle handle (D1 in prod, bun:sqlite in tests). The
@@ -20,7 +20,7 @@ activity-log query. App-specific payment-alert kinds + the user-table count stay
 
 > **balanceOutstanding**: `number`
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:177](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/credits/src/credits.ts#L177)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:177](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/credits/src/credits.ts#L177)
 
 ***
 
@@ -28,7 +28,7 @@ Defined in: [tooling/ts/packages/credits/src/credits.ts:177](https://github.com/
 
 > **creditsIssued**: `number`
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:175](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/credits/src/credits.ts#L175)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:175](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/credits/src/credits.ts#L175)
 
 ***
 
@@ -36,4 +36,4 @@ Defined in: [tooling/ts/packages/credits/src/credits.ts:175](https://github.com/
 
 > **creditsSpent**: `number`
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:176](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/credits/src/credits.ts#L176)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:176](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/credits/src/credits.ts#L176)

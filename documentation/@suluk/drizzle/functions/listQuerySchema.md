@@ -8,7 +8,7 @@
 
 > **listQuerySchema**(`table?`, `opts?`): `ZodType`
 
-Defined in: [query.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/drizzle/src/query.ts#L27)
+Defined in: [query.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/drizzle/src/query.ts#L27)
 
 The Zod query schema for a list route: page/perPage/sort/order/q (coerced from strings). Extra column filters
 are read by [parseListQuery](parseListQuery.md) at runtime (OpenAPI query params are flat, so they aren't enumerated here).

@@ -2,166 +2,166 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/index.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/modules.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/hierarchy.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/documents/Used_by_(registry).html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/modules/index.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.AudienceContact.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.AudienceResult.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.AudienceProvider.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.ConsoleAudienceOptions.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.consoleAudience.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.ResendAudienceOptions.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.resendAudience.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.NewsletterRow.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.SyncResult.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.syncNewsletter.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.EmailMessage.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.SendResult.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.EmailProvider.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.ConsoleProviderOptions.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.consoleProvider.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.StoredEmail.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.MailboxSink.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.storeProvider.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.ResendProviderOptions.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.resendProvider.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.pickProvider.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.EmailBrand.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.BrandedEmailOptions.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.RenderContext.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/variables/index.DEFAULT_EMAIL_STRINGS.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.renderEmailHtml.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.TemplateContext.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/variables/index.TEMPLATE_STRINGS.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.verifyEmail.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.resetPasswordEmail.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.changeEmailEmail.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.deleteAccountEmail.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/interfaces/index.OrderLine.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.orderConfirmationEmail.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.orderStatusEmail.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/email/functions/index.newsletterEmail.html</loc>
-		<lastmod>2026-07-02T12:09:09.275Z</lastmod>
+		<lastmod>2026-07-02T12:28:59.054Z</lastmod>
 	</url>
 </urlset>

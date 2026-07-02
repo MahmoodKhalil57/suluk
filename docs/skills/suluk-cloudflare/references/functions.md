@@ -1,0 +1,274 @@
+# Functions
+
+## resources
+
+### `provisionD1`
+Create-or-get a D1 database by name.
+```ts
+provisionD1(cf: CloudflareClient, name: string): Promise<D1Database>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `name: string`
+**Returns:** `Promise<D1Database>`
+
+### `queryD1`
+Run SQL against a D1 database (D1 accepts multiple `;`-separated statements per call). `params` are bound via the
+ D1 /query `params` array — ALWAYS pass values as params (never string-interpolate user/test data into `sql`).
+```ts
+queryD1(cf: CloudflareClient, databaseId: string, sql: string, params?: unknown[]): Promise<unknown>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `databaseId: string`
+- `sql: string`
+- `params: unknown[]` (optional)
+**Returns:** `Promise<unknown>`
+
+### `d1Rows`
+Rows from a D1 query response — the API returns `[{ results, success, meta }]` (one per statement); take the last.
+```ts
+d1Rows(result: unknown): Record<string, unknown>[]
+```
+**Parameters:**
+- `result: unknown`
+**Returns:** `Record<string, unknown>[]`
+
+### `kvGet`
+Read a KV value (raw); null when the key is absent.
+```ts
+kvGet(cf: CloudflareClient, namespaceId: string, key: string): Promise<string | null>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `namespaceId: string`
+- `key: string`
+**Returns:** `Promise<string | null>`
+
+### `kvPut`
+Write a KV value (optional TTL in seconds).
+```ts
+kvPut(cf: CloudflareClient, namespaceId: string, key: string, value: string, opts: { expirationTtl?: number }): Promise<void>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `namespaceId: string`
+- `key: string`
+- `value: string`
+- `opts: { expirationTtl?: number }` — default: `{}`
+**Returns:** `Promise<void>`
+
+### `kvDelete`
+Delete a KV key.
+```ts
+kvDelete(cf: CloudflareClient, namespaceId: string, key: string): Promise<void>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `namespaceId: string`
+- `key: string`
+**Returns:** `Promise<void>`
+
+### `kvList`
+List KV keys (optionally by prefix) — returns the key names.
+```ts
+kvList(cf: CloudflareClient, namespaceId: string, prefix?: string): Promise<string[]>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `namespaceId: string`
+- `prefix: string` (optional)
+**Returns:** `Promise<string[]>`
+
+### `applyMigrations`
+Apply D1 migrations with a LEDGER (`_suluk_migrations`) so each runs exactly once — the missing piece that makes a
+redeploy safe. A migration not yet in the ledger is run and recorded; if it fails because the schema is ALREADY
+present (a DB migrated by raw execute before tracking existed), that idempotency error is swallowed and the
+migration is baselined (recorded), not fatal. Any other SQL error aborts. Returns the names newly recorded.
+```ts
+applyMigrations(cf: CloudflareClient, databaseId: string, migrations: Migration[], now: () => number): Promise<string[]>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `databaseId: string`
+- `migrations: Migration[]`
+- `now: () => number` — default: `...`
+**Returns:** `Promise<string[]>`
+
+### `provisionKvNamespace`
+Create-or-get a Workers KV namespace by title (e.g. a sessions or rate-limit store).
+```ts
+provisionKvNamespace(cf: CloudflareClient, title: string): Promise<KvNamespace>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `title: string`
+**Returns:** `Promise<KvNamespace>`
+
+### `provisionR2Bucket`
+Create-or-get an R2 bucket by name (e.g. media/upload storage).
+```ts
+provisionR2Bucket(cf: CloudflareClient, name: string): Promise<{ name: string }>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `name: string`
+**Returns:** `Promise<{ name: string }>`
+
+### `putSecret`
+Set ONE Worker secret (an encrypted `secret_text` binding). The script must already exist.
+```ts
+putSecret(cf: CloudflareClient, scriptName: string, name: string, value: string): Promise<void>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `scriptName: string`
+- `name: string`
+- `value: string`
+**Returns:** `Promise<void>`
+
+### `putSecrets`
+Set many secrets, skipping empty/undefined values; returns the names actually set.
+```ts
+putSecrets(cf: CloudflareClient, scriptName: string, secrets: Record<string, string | undefined>): Promise<string[]>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `scriptName: string`
+- `secrets: Record<string, string | undefined>`
+**Returns:** `Promise<string[]>`
+
+### `resolveZoneId`
+Resolve a zone id from its apex host (e.g. `example.com`). Throws when the token can't see the zone.
+```ts
+resolveZoneId(cf: CloudflareClient, apexHost: string): Promise<string>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `apexHost: string`
+**Returns:** `Promise<string>`
+
+### `ensureWwwRedirect`
+Ensure a www→apex 301 redirect (path + query preserved) on the zone. Idempotent (dedup by rule description).
+```ts
+ensureWwwRedirect(cf: CloudflareClient, zoneId: string, apexHost: string): Promise<{ added: boolean }>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `zoneId: string`
+- `apexHost: string`
+**Returns:** `Promise<{ added: boolean }>`
+
+### `removeWwwRedirect`
+Remove the suluk www→apex redirect rule from the zone (leaves any other redirect rules intact).
+```ts
+removeWwwRedirect(cf: CloudflareClient, zoneId: string, apexHost: string): Promise<void>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `zoneId: string`
+- `apexHost: string`
+**Returns:** `Promise<void>`
+
+## assets
+
+### `uploadAssets`
+Upload a set of static assets; returns the completion JWT for the worker metadata, or `null` when there are none.
+When every file is already cached server-side the session returns no buckets and its own jwt IS the completion token.
+```ts
+uploadAssets(cf: CloudflareClient, scriptName: string, files: AssetFile[]): Promise<string | null>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `scriptName: string`
+- `files: AssetFile[]`
+**Returns:** `Promise<string | null>`
+
+### `assetHash`
+The Workers-Assets manifest hash: the first 32 hex chars (16 bytes) of the contents' SHA-256. The API rejects
+ the full 64-char digest ("file hash size of 64 is too large").
+```ts
+assetHash(bytes: Uint8Array): Promise<string>
+```
+**Parameters:**
+- `bytes: Uint8Array`
+**Returns:** `Promise<string>`
+
+### `extractAssetRuleFiles`
+Pull `_headers` / `_redirects` OUT of an asset list. Cloudflare Workers Static Assets does NOT serve these as files
+— it parses their raw text (sent in the worker metadata's `assets.config._headers` / `._redirects`) into the
+header/redirect rules the asset runtime applies. So they must be EXCLUDED from the upload manifest (else they'd
+serve as public 200 blobs and the rules would never activate) and their contents routed to the config instead.
+This mirrors exactly what wrangler does (excludes the two files, forwards their contents in the config).
+```ts
+extractAssetRuleFiles(files: AssetFile[]): AssetRuleFiles
+```
+**Parameters:**
+- `files: AssetFile[]`
+**Returns:** `AssetRuleFiles`
+
+## worker
+
+### `deployWorker`
+```ts
+deployWorker(cf: CloudflareClient, opts: DeployWorkerOptions): Promise<{ id?: string }>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `opts: DeployWorkerOptions`
+**Returns:** `Promise<{ id?: string }>`
+
+### `putCronTriggers`
+Set the cron triggers for a script (separate endpoint — metadata doesn't carry them).
+```ts
+putCronTriggers(cf: CloudflareClient, scriptName: string, crons: string[]): Promise<void>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `scriptName: string`
+- `crons: string[]`
+**Returns:** `Promise<void>`
+
+## deploy
+
+### `deploy`
+Orchestrate a full deploy over a client + plan. `log` narrates each step.
+```ts
+deploy(cf: CloudflareClient, plan: DeployPlan, log: DeployLog): Promise<DeployResult>
+```
+**Parameters:**
+- `cf: CloudflareClient`
+- `plan: DeployPlan`
+- `log: DeployLog` — default: `...`
+**Returns:** `Promise<DeployResult>`
+
+### `deployWith`
+Convenience: build a client from token/account options and run a deploy.
+```ts
+deployWith(opts: CloudflareClientOptions, plan: DeployPlan, log?: DeployLog): Promise<DeployResult>
+```
+**Parameters:**
+- `opts: CloudflareClientOptions`
+- `plan: DeployPlan`
+- `log: DeployLog` (optional)
+**Returns:** `Promise<DeployResult>`
+
+## ratelimit
+
+### `kvRateLimitStore`
+Build a KV-backed RateLimitStore. `kv` is the namespace, or a getter (lazy — capture the binding on first request).
+Falls open to `opts.fallback` (default a per-instance memory store) when KV is absent or errors.
+```ts
+kvRateLimitStore(kv: KvLike | (() => KvLike | undefined) | undefined, opts: { fallback?: RateLimitStore }): RateLimitStore
+```
+**Parameters:**
+- `kv: KvLike | (() => KvLike | undefined) | undefined`
+- `opts: { fallback?: RateLimitStore }` — default: `{}`
+**Returns:** `RateLimitStore`
+
+### `memoryRateLimitStore`
+A per-instance in-memory fixed-window store — the fail-open fallback (DEV only / KV-blip; not cross-isolate).
+```ts
+memoryRateLimitStore(): RateLimitStore
+```
+**Returns:** `RateLimitStore`

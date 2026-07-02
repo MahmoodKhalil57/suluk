@@ -8,7 +8,7 @@
 
 > **triggerOf**(`model`): [`CostTrigger`](../type-aliases/CostTrigger.md)
 
-Defined in: [contract.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cost/src/contract.ts#L56)
+Defined in: [contract.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cost/src/contract.ts#L56)
 
 The trigger an operation's cost declares (C024; default "synchronous").
 

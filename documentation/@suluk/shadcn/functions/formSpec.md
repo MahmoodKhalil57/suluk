@@ -8,7 +8,7 @@
 
 > **formSpec**(`schema`, `opts?`): [`FormSpec`](../interfaces/FormSpec.md)
 
-Defined in: [spec.ts:178](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L178)
+Defined in: [spec.ts:178](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/shadcn/src/spec.ts#L178)
 
 Build a [FormSpec](../interfaces/FormSpec.md) from an object Schema Object. Each property becomes one [FieldSpec](../interfaces/FieldSpec.md).
 A non-object root (array/scalar/boolean/unresolved-ref) yields zero fields plus a warning — honest, not silent.

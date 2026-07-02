@@ -6,7 +6,7 @@
 
 # Interface: ConformanceFinding
 
-Defined in: [agents/src/conformance.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/conformance.ts#L13)
+Defined in: [agents/src/conformance.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/conformance.ts#L13)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/conformance.ts:13](https://github.com/MahmoodKhalil57/su
 
 > **code**: `string`
 
-Defined in: [agents/src/conformance.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/conformance.ts#L16)
+Defined in: [agents/src/conformance.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/conformance.ts#L16)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [agents/src/conformance.ts:16](https://github.com/MahmoodKhalil57/su
 
 > **detail**: `string`
 
-Defined in: [agents/src/conformance.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/conformance.ts#L17)
+Defined in: [agents/src/conformance.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/conformance.ts#L17)
 
 ***
 
@@ -30,6 +30,6 @@ Defined in: [agents/src/conformance.ts:17](https://github.com/MahmoodKhalil57/su
 
 > **severity**: `"error"` \| `"warning"`
 
-Defined in: [agents/src/conformance.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/conformance.ts#L15)
+Defined in: [agents/src/conformance.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/conformance.ts#L15)
 
 `error` is gate-failing (a conformance FAILURE); `warning` is advisory.

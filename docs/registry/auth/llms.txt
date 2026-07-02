@@ -12,8 +12,6 @@
 `c.
 - `mountAuthRoutes`: Mount Better Auth on your app: the caller-resolution middleware (`identity` session · `apiKeyAuth` · `mcpBearerAuth`) on
 `/api/*` FIRST, then the `...
-- `mcpConnectionKeyId`: The scoped-caller id for an MCP connection — `mcp:<userId>:<clientId>`, NOT the bare clientId (which is shared across
- every user who authorized th...
 - `getCurrentUser`: Resolve the session user from the request headers.
 - `currentUserLayer`: A `CurrentUser` layer for one request — provide it alongside your feature service layers.
 - `CurrentUser`

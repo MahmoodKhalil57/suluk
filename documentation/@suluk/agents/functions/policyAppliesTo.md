@@ -8,7 +8,7 @@
 
 > **policyAppliesTo**(`policy`, `agentKey`): `boolean`
 
-Defined in: [agents/src/policy.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L58)
+Defined in: [agents/src/policy.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/agents/src/policy.ts#L58)
 
 Does this policy govern `agentKey`? (empty/absent appliesTo ⇒ all agents.)
 

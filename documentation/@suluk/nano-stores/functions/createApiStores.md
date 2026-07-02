@@ -8,7 +8,7 @@
 
 > **createApiStores**(`routes`, `opts?`): [`ApiStores`](../interfaces/ApiStores.md)
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/stores.ts#L112)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/stores.ts#L112)
 
 ## Parameters
 

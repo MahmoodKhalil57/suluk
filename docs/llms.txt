@@ -184,6 +184,7 @@ landed, per the C034 follow-up).
 - `ingestAuthOpenAPI`: Normalize + upgrade Better Auth's OpenAPI 3.0 schema to a v4 document (the auth surface).
 - `mergeAuth`: Deep-merge auth paths + components (schemas + securitySchemes) into an app's v4 document.
 - `principalFromSession`: Extract a { scopes } principal from a Better Auth session.
+- `mcpConnectionKeyId`: The attributed-spend identity of an MCP bearer caller — `mcp:<userId>:<clientId>`.
 - `orgScope`: Build the org-namespaced scope `org:<orgId>:<action>` (the tenancy encoding).
 - `parseOrgScope`: Parse an `org:<id>:<action>` scope back into its parts (null if it isn't one).
 - `mountAuth`: Mount the Better Auth handler onto a Hono app under basePath/* (default /api/auth/*).

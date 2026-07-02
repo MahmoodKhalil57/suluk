@@ -6,7 +6,7 @@
 
 # Interface: AppliedDiscount
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/discount.ts#L11)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/discount.ts#L11)
 
 A validated, applied discount. `type`/`value` mirror @suluk/stripe's Discount so the money core can consume it.
 
@@ -16,7 +16,7 @@ A validated, applied discount. `type`/`value` mirror @suluk/stripe's Discount so
 
 > **code**: `string`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/discount.ts#L12)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/discount.ts#L12)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:12](https://github.
 
 > **type**: `"percent"` \| `"fixed"`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/discount.ts#L13)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/discount.ts#L13)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:13](https://github.
 
 > `optional` **validatedAt?**: `number`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/discount.ts#L16)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/discount.ts#L16)
 
 epoch ms when it was validated — lets the app re-validate stale discounts.
 
@@ -42,4 +42,4 @@ epoch ms when it was validated — lets the app re-validate stale discounts.
 
 > **value**: `number`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/discount.ts#L14)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/nano-stores/src/discount.ts#L14)

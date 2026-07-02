@@ -6,7 +6,7 @@
 
 # Interface: RegistryItem
 
-Defined in: [registry-shadcn.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-shadcn.ts#L22)
+Defined in: [registry-shadcn.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/registry-shadcn.ts#L22)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [registry-shadcn.ts:22](https://github.com/MahmoodKhalil57/suluk/blo
 
 > **$schema**: `string`
 
-Defined in: [registry-shadcn.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-shadcn.ts#L23)
+Defined in: [registry-shadcn.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/registry-shadcn.ts#L23)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [registry-shadcn.ts:23](https://github.com/MahmoodKhalil57/suluk/blo
 
 > `optional` **dependencies?**: `string`[]
 
-Defined in: [registry-shadcn.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-shadcn.ts#L28)
+Defined in: [registry-shadcn.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/registry-shadcn.ts#L28)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [registry-shadcn.ts:28](https://github.com/MahmoodKhalil57/suluk/blo
 
 > **description**: `string`
 
-Defined in: [registry-shadcn.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-shadcn.ts#L27)
+Defined in: [registry-shadcn.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/registry-shadcn.ts#L27)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [registry-shadcn.ts:27](https://github.com/MahmoodKhalil57/suluk/blo
 
 > **files**: [`RegistryFile`](RegistryFile.md)[]
 
-Defined in: [registry-shadcn.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-shadcn.ts#L30)
+Defined in: [registry-shadcn.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/registry-shadcn.ts#L30)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [registry-shadcn.ts:30](https://github.com/MahmoodKhalil57/suluk/blo
 
 > **name**: `string`
 
-Defined in: [registry-shadcn.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-shadcn.ts#L24)
+Defined in: [registry-shadcn.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/registry-shadcn.ts#L24)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [registry-shadcn.ts:24](https://github.com/MahmoodKhalil57/suluk/blo
 
 > `optional` **registryDependencies?**: `string`[]
 
-Defined in: [registry-shadcn.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-shadcn.ts#L29)
+Defined in: [registry-shadcn.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/registry-shadcn.ts#L29)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [registry-shadcn.ts:29](https://github.com/MahmoodKhalil57/suluk/blo
 
 > **title**: `string`
 
-Defined in: [registry-shadcn.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-shadcn.ts#L26)
+Defined in: [registry-shadcn.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/registry-shadcn.ts#L26)
 
 ***
 
@@ -70,4 +70,4 @@ Defined in: [registry-shadcn.ts:26](https://github.com/MahmoodKhalil57/suluk/blo
 
 > **type**: `string`
 
-Defined in: [registry-shadcn.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-shadcn.ts#L25)
+Defined in: [registry-shadcn.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/builder/src/registry-shadcn.ts#L25)

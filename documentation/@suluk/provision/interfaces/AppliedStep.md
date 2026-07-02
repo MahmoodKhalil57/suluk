@@ -6,7 +6,7 @@
 
 # Interface: AppliedStep
 
-Defined in: [provision/src/apply.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L30)
+Defined in: [provision/src/apply.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L30)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/apply.ts:30](https://github.com/MahmoodKhalil57/suluk
 
 > **action**: [`StepAction`](../type-aliases/StepAction.md)
 
-Defined in: [provision/src/apply.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L32)
+Defined in: [provision/src/apply.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L32)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [provision/src/apply.ts:32](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **instanceId?**: `string`
 
-Defined in: [provision/src/apply.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L33)
+Defined in: [provision/src/apply.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L33)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [provision/src/apply.ts:33](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **outputs?**: `Record`\<`string`, `string`\>
 
-Defined in: [provision/src/apply.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L34)
+Defined in: [provision/src/apply.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L34)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [provision/src/apply.ts:34](https://github.com/MahmoodKhalil57/suluk
 
 > **ref**: `string`
 
-Defined in: [provision/src/apply.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/apply.ts#L31)
+Defined in: [provision/src/apply.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/provision/src/apply.ts#L31)

@@ -1,0 +1,161 @@
+# Functions
+
+## provider
+
+### `consoleProvider`
+DEV provider — logs a summary instead of sending (saastarter resend.ts:21-32). Never touches the network.
+```ts
+consoleProvider(opts: ConsoleProviderOptions): EmailProvider
+```
+**Parameters:**
+- `opts: ConsoleProviderOptions` — default: `{}`
+**Returns:** `EmailProvider`
+
+### `resendProvider`
+Resend binding via the REST API (https://api.resend.com/emails) over `fetch` — Workers-safe, no `resend` SDK.
+Returns `{ ok:false, error }` on a non-2xx or a transport error (the caller decides whether a send failure is
+fatal); never throws.
+```ts
+resendProvider(opts: ResendProviderOptions): EmailProvider
+```
+**Parameters:**
+- `opts: ResendProviderOptions`
+**Returns:** `EmailProvider`
+
+### `storeProvider`
+DEV/mock provider — SAVES the message to a mailbox sink (sqlite/json) instead of sending. Inspectable, never touches
+the network, needs no separate mail server. The mock-until-keyed default for local dev when no `RESEND_API_KEY` is set.
+```ts
+storeProvider(sink: MailboxSink): EmailProvider
+```
+**Parameters:**
+- `sink: MailboxSink`
+**Returns:** `EmailProvider`
+
+### `pickProvider`
+Pick the provider the way saastarter's `isLocal` switch does: prod (a key + a from) ⇒ resend. In DEV (or no key) ⇒ a
+mailbox storeProvider when a `sink` is supplied (the mock-until-keyed local default — saves + inspectable),
+else the console provider (log-only).
+```ts
+pickProvider(opts: { dev: boolean; apiKey?: string; from?: string; costMicroUsd?: number; sink?: MailboxSink }): EmailProvider
+```
+**Parameters:**
+- `opts: { dev: boolean; apiKey?: string; from?: string; costMicroUsd?: number; sink?: MailboxSink }`
+**Returns:** `EmailProvider`
+
+## render
+
+### `renderEmailHtml`
+```ts
+renderEmailHtml(options: BrandedEmailOptions, ctx: RenderContext): string
+```
+**Parameters:**
+- `options: BrandedEmailOptions`
+- `ctx: RenderContext`
+**Returns:** `string`
+
+## templates
+
+### `verifyEmail`
+Email-verification (Better Auth sendVerificationEmail).
+```ts
+verifyEmail(params: { verifyUrl: string; userName?: string }, ctx: TemplateContext): RenderedEmail
+```
+**Parameters:**
+- `params: { verifyUrl: string; userName?: string }`
+- `ctx: TemplateContext`
+**Returns:** `RenderedEmail`
+
+### `resetPasswordEmail`
+Password reset.
+```ts
+resetPasswordEmail(params: { resetUrl: string; userName?: string }, ctx: TemplateContext): RenderedEmail
+```
+**Parameters:**
+- `params: { resetUrl: string; userName?: string }`
+- `ctx: TemplateContext`
+**Returns:** `RenderedEmail`
+
+### `changeEmailEmail`
+Change-email confirmation.
+```ts
+changeEmailEmail(params: { confirmUrl: string; newEmail: string }, ctx: TemplateContext): RenderedEmail
+```
+**Parameters:**
+- `params: { confirmUrl: string; newEmail: string }`
+- `ctx: TemplateContext`
+**Returns:** `RenderedEmail`
+
+### `deleteAccountEmail`
+Account-deletion confirmation (saastarter options.ts:100-125).
+```ts
+deleteAccountEmail(params: { confirmUrl: string; userName?: string }, ctx: TemplateContext): RenderedEmail
+```
+**Parameters:**
+- `params: { confirmUrl: string; userName?: string }`
+- `ctx: TemplateContext`
+**Returns:** `RenderedEmail`
+
+### `orderConfirmationEmail`
+Order confirmation — renders a line-item table + total (amounts formatted via Intl in the given locale), and an
+ optional "Shipping to" block when the order ships a physical good. `shippingAddress` is one display line per array
+ entry (e.g. ["Jane Doe", "12 Oak St", "Austin, TX 78701", "US"]); entries are HTML-escaped here defensively.
+```ts
+orderConfirmationEmail(params: { orderNumber: string; items: OrderLine[]; totalCents: number; currency: string; locale?: string; orderUrl?: string; shippingAddress?: string[] }, ctx: TemplateContext): RenderedEmail
+```
+**Parameters:**
+- `params: { orderNumber: string; items: OrderLine[]; totalCents: number; currency: string; locale?: string; orderUrl?: string; shippingAddress?: string[] }`
+- `ctx: TemplateContext`
+**Returns:** `RenderedEmail`
+
+### `orderStatusEmail`
+Order-status update.
+```ts
+orderStatusEmail(params: { orderNumber: string; status: string; trackingUrl?: string }, ctx: TemplateContext): RenderedEmail
+```
+**Parameters:**
+- `params: { orderNumber: string; status: string; trackingUrl?: string }`
+- `ctx: TemplateContext`
+**Returns:** `RenderedEmail`
+
+### `newsletterEmail`
+Newsletter — a branded wrapper around app-supplied marketing HTML, with an unsubscribe footer link.
+```ts
+newsletterEmail(params: { subject: string; heading: string; bodyHtml: string; unsubscribeUrl?: string }, ctx: TemplateContext): RenderedEmail
+```
+**Parameters:**
+- `params: { subject: string; heading: string; bodyHtml: string; unsubscribeUrl?: string }`
+- `ctx: TemplateContext`
+**Returns:** `RenderedEmail`
+
+## audience
+
+### `consoleAudience`
+DEV audience — logs, never calls the network.
+```ts
+consoleAudience(opts: ConsoleAudienceOptions): AudienceProvider
+```
+**Parameters:**
+- `opts: ConsoleAudienceOptions` — default: `{}`
+**Returns:** `AudienceProvider`
+
+### `resendAudience`
+Resend Audiences via the REST API (https://api.resend.com/audiences/{id}/contacts) over `fetch` — no SDK; never throws.
+```ts
+resendAudience(opts: ResendAudienceOptions): AudienceProvider
+```
+**Parameters:**
+- `opts: ResendAudienceOptions`
+**Returns:** `AudienceProvider`
+
+### `syncNewsletter`
+Reconcile the `Newsletter` rows to an email-provider audience: a `subscribed` row is upserted, an `unsubscribed`
+row is removed. Drives the audience from your DB (the source of truth), so the two never drift. Returns the tally.
+```ts
+syncNewsletter(provider: AudienceProvider, audienceId: string, rows: NewsletterRow[]): Promise<SyncResult>
+```
+**Parameters:**
+- `provider: AudienceProvider`
+- `audienceId: string`
+- `rows: NewsletterRow[]`
+**Returns:** `Promise<SyncResult>`

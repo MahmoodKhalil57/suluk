@@ -8,7 +8,7 @@
 
 > **titleField**(`fields`): `string`
 
-Defined in: [fields.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/fields.ts#L103)
+Defined in: [fields.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/panel/src/fields.ts#L103)
 
 The entity's best "title" field — for list columns + relationship option labels.
 

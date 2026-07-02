@@ -6,7 +6,7 @@
 
 # Interface: RequestOptions
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cloudflare/src/client.ts#L33)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/client.ts#L33)
 
 `@suluk/cloudflare` — API-driven provisioning + deployment for a Suluk app on Cloudflare, no wrangler CLI. A typed
 REST client, idempotent provisioners (D1 / KV / R2 / secrets), the Workers module-script + static-assets upload
@@ -19,7 +19,7 @@ itself — readable, testable, and the same contract-first discipline as the res
 
 > `optional` **body?**: `BodyInit`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cloudflare/src/client.ts#L37)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/client.ts#L37)
 
 a raw body (e.g. FormData / multipart) — takes precedence over `json`.
 
@@ -29,7 +29,7 @@ a raw body (e.g. FormData / multipart) — takes precedence over `json`.
 
 > `optional` **headers?**: `Record`\<`string`, `string`\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cloudflare/src/client.ts#L39)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/client.ts#L39)
 
 extra headers.
 
@@ -39,7 +39,7 @@ extra headers.
 
 > `optional` **json?**: `unknown`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cloudflare/src/client.ts#L35)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/client.ts#L35)
 
 a JSON body (sets content-type + serializes).
 
@@ -49,7 +49,7 @@ a JSON body (sets content-type + serializes).
 
 > `optional` **query?**: `Record`\<`string`, `string` \| `number` \| `boolean` \| `undefined`\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cloudflare/src/client.ts#L41)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/client.ts#L41)
 
 query params.
 
@@ -59,6 +59,6 @@ query params.
 
 > `optional` **token?**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cloudflare/src/client.ts#L43)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/6ca20cc58a630d10d850c784bcf2e00a0e69bc7c/tooling/ts/packages/cloudflare/src/client.ts#L43)
 
 override the Bearer token (e.g. an assets-upload JWT).
