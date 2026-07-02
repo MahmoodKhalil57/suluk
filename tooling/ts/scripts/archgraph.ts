@@ -60,6 +60,9 @@ export interface DiagramConfig {
   /** legend line describing what a box is. */ boxLegend: string;
   /** legend line describing an edge. */ edgeLegend: string;
   deprecated: Set<string>;
+  /** OPTIONAL band override — return a node's stratum index (0-based) directly instead of the topological longest-path.
+   *  The registry graph uses this so its bands ARE its `foundation|services|derivation|surfaces` folders (labels match). */
+  layerOf?: (node: ArchNode) => number;
 }
 
 /** The @suluk PACKAGE stack — the default (so `renderArchitectureSvg(graph)` keeps its original output). */
@@ -123,6 +126,9 @@ export const REGISTRY_CONFIG: DiagramConfig = {
   boxLegend: "registry item — header + top exports",
   edgeLegend: "registry dependency → the base module",
   deprecated: new Set(),
+  // band each item by its STRATUM FOLDER (foundation→services→derivation→surfaces) so the graph's bands ARE the registry's
+  // folder categories (labels accurate). Safe: every registryDependency points from a higher stratum to a lower one.
+  layerOf: (n) => { const i = ["foundation", "services", "derivation", "surfaces"].indexOf(n.category ?? ""); return i >= 0 ? i : 1; },
 };
 
 /** UML member notation for a sampled export name: `+ Name` for a Type (Capitalized), `+ name()` for a function. */
@@ -161,9 +167,10 @@ function perRowOf(n: number): number {
 }
 
 /** Deterministic layout: order each band (barycentre over lower bands, keystone pinned centre), place, size, y-stack. */
-function layout(graph: ArchitectureGraph, keystoneName: string) {
+function layout(graph: ArchitectureGraph, keystoneName: string, layerOf?: (node: ArchNode) => number) {
   const coreId = graph.nodes.find((n) => n.name === keystoneName)?.id;
-  const layer = layersOf(graph);
+  // bands come from the config's `layerOf` (e.g. the registry's stratum folder) when supplied, else the topological longest-path.
+  const layer = layerOf ? new Map(graph.nodes.map((n) => [n.id, Math.max(0, layerOf(n))])) : layersOf(graph);
   const maxLayer = Math.max(0, ...layer.values());
   const dependents = new Map<string, number>();
   graph.nodes.forEach((n) => dependents.set(n.id, 0));
@@ -258,7 +265,7 @@ const topRoundedRect = (w: number, r: number, h: number) =>
 
 /** Render the architecture UML diagram to a standalone SVG string. `config` selects the package/registry surface. */
 export function renderArchitectureSvg(graph: ArchitectureGraph, config: DiagramConfig = PACKAGE_CONFIG): string {
-  const { placed, bands, width, height, maxLayer } = layout(graph, config.keystoneName);
+  const { placed, bands, width, height, maxLayer } = layout(graph, config.keystoneName, config.layerOf);
   const nodeOf = (id: string) => placed.get(id);
   const coreId = graph.nodes.find((n) => n.name === config.keystoneName)?.id;
 

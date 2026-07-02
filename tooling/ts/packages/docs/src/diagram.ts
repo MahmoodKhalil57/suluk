@@ -43,6 +43,9 @@ export interface ArchNode {
   exports: number;
   /** A small deterministic sample of exported symbol names (for the node's members compartment). */
   topExports: string[];
+  /** OPTIONAL band key — when a {@link DiagramConfig} supplies `layerOf`, the node's stratum comes from this instead of
+   *  the topological longest-path (e.g. the registry graph bands by its `foundation|services|derivation|surfaces` folder). */
+  category?: string;
 }
 export interface ArchitectureGraph {
   nodes: ArchNode[];

@@ -99,7 +99,7 @@ export function documentedRegistry(): RegistryItem[] {
 /** The registry as an ArchitectureGraph: each item a node, `registryDependencies` the intra-registry edges. */
 export function registryGraphData(items = documentedRegistry()): ArchitectureGraph {
   const present = new Set(items.map((i) => i.name));
-  const nodes = items.map((i) => ({ id: i.name, name: i.name, exports: i.exports, topExports: i.topExports }));
+  const nodes = items.map((i) => ({ id: i.name, name: i.name, exports: i.exports, topExports: i.topExports, category: i.category }));
   const links: { source: string; target: string }[] = [];
   for (const i of items) for (const d of i.regDeps) if (present.has(d) && d !== i.name) links.push({ source: i.name, target: d });
   return { nodes, links };
