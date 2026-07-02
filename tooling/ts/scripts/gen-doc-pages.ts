@@ -6,8 +6,8 @@
 // Also exports documentedPackages() — the single source of truth for WHICH packages get a root site — reused
 // by build-docs.ts. Reuses @suluk/docs (harvest + architectureGraphData). Runnable standalone
 // (`bun tooling/ts/scripts/gen-doc-pages.ts`) or via build-docs.ts / deploy-docs.ts.
-import { harvest, harvestPackage, architectureGraphData } from "../packages/docs/src/index";
-import { renderArchitectureSvg } from "./archgraph";
+import { harvest, harvestPackage, architectureGraphData, parseExports, type ArchitectureGraph } from "../packages/docs/src/index";
+import { renderArchitectureSvg, REGISTRY_CONFIG } from "./archgraph";
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
@@ -42,6 +42,63 @@ export function documentedPackages(): DocPackage[] {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
+/** A shadcn-registry item, harvested from registry.json + its own `.ts` files — the registry analogue of DocPackage. */
+export interface RegistryItem {
+  name: string; // the item slug (url + output-dir segment)
+  title: string;
+  description: string;
+  dir: string; // absolute registry/<name>
+  files: string[]; // absolute `.ts` entry files (from registry.json files[]) — the TypeDoc entry points
+  regDeps: string[]; // other registry items it builds on (registryDependencies, the intra-registry edges)
+  npmDeps: string[]; // third-party npm deps
+  sulukDeps: string[]; // the @suluk/* packages it wires over
+  hasReadme: boolean;
+  exports: number; // count of public symbols across its files (the surface-area badge)
+  topExports: string[]; // a deterministic sample (for the arch-graph members compartment)
+}
+
+/** The single source of truth for the registry: registry.json items, enriched with parsed exports + their files. */
+export function documentedRegistry(): RegistryItem[] {
+  const reg = JSON.parse(readFileSync(join(repoRoot, "registry.json"), "utf8")) as {
+    items?: { name: string; title?: string; description?: string; dependencies?: string[]; registryDependencies?: string[]; files?: { path: string }[] }[];
+  };
+  const strip = (d: string) => d.replace(/^MahmoodKhalil57\/suluk\//, "");
+  return (reg.items ?? [])
+    .map((it) => {
+      const dir = join(repoRoot, "registry", it.name);
+      const files = (it.files ?? [])
+        .map((f) => join(repoRoot, f.path))
+        .filter((p) => p.endsWith(".ts") && existsSync(p));
+      const names = new Set<string>();
+      for (const f of files) for (const n of parseExports(readFileSync(f, "utf8"))) names.add(n);
+      const sorted = [...names].sort((a, b) => a.localeCompare(b));
+      const deps = it.dependencies ?? [];
+      return {
+        name: it.name,
+        title: it.title || it.name,
+        description: it.description || "",
+        dir,
+        files,
+        regDeps: (it.registryDependencies ?? []).map(strip),
+        npmDeps: deps.filter((d) => !d.startsWith("@suluk/")),
+        sulukDeps: deps.filter((d) => d.startsWith("@suluk/")),
+        hasReadme: existsSync(join(dir, "README.md")),
+        exports: sorted.length,
+        topExports: sorted.slice(0, 6),
+      };
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/** The registry as an ArchitectureGraph: each item a node, `registryDependencies` the intra-registry edges. */
+export function registryGraphData(items = documentedRegistry()): ArchitectureGraph {
+  const present = new Set(items.map((i) => i.name));
+  const nodes = items.map((i) => ({ id: i.name, name: i.name, exports: i.exports, topExports: i.topExports }));
+  const links: { source: string; target: string }[] = [];
+  for (const i of items) for (const d of i.regDeps) if (present.has(d) && d !== i.name) links.push({ source: i.name, target: d });
+  return { nodes, links };
+}
+
 /** Regenerate architecture.md + packages.md; returns the documented-package list (for build-docs). */
 export function generatePages(): DocPackage[] {
   mkdirSync(pagesDir, { recursive: true });
@@ -60,6 +117,9 @@ export function generatePages(): DocPackage[] {
   // (not the retired `architecture-pkggraph.svg`) also side-steps jsdelivr's @main cache on the old URL.
   writeFileSync(join(pagesDir, "architecture-uml.svg"), renderArchitectureSvg(architectureGraphData(fw.packages)));
   const GRAPH = "https://cdn.jsdelivr.net/gh/MahmoodKhalil57/suluk@main/tooling/ts/docs-pages/architecture-uml.svg";
+  // The REGISTRY architecture diagram — the same renderer, the registry surface: every shadcn item tied to the
+  // ones it builds on (registryDependencies), with `app` as the foundation keystone.
+  writeFileSync(join(pagesDir, "registry-uml.svg"), renderArchitectureSvg(registryGraphData(), REGISTRY_CONFIG));
   const prose = (fw.architecture ?? "# Architecture\n\nSuluk derives a whole stack from one v4 contract.")
     .replace(/^\s*#\s+.*\r?\n/, ""); // strip leading H1 (frontmatter title is the page heading)
   const architectureMd = `---

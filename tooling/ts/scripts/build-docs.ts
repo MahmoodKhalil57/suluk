@@ -14,7 +14,7 @@ import { Application, TSConfigReader } from "typedoc";
 import { join, dirname, relative, posix, sep } from "node:path";
 import { existsSync, readdirSync, readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { generatePages, type DocPackage } from "./gen-doc-pages";
+import { generatePages, documentedRegistry, type DocPackage, type RegistryItem } from "./gen-doc-pages";
 import { stripReadmeHeader } from "../packages/docs/src/index";
 
 const TS = join(dirname(new URL(import.meta.url).pathname), ".."); // tooling/ts
@@ -28,19 +28,13 @@ const REPO_URL = "https://github.com/MahmoodKhalil57/suluk";
 const CANDIDATE_GROUP = "Suluk independent OpenAPI v4.0 candidate";
 const ECOSYSTEM_GROUP = "EcoSystem";
 
-/** The shadcn-registry items (registry.json), sorted — the source of truth for the Registry folder. */
-function registryItems(): { name: string; title: string; description: string }[] {
-  const reg = JSON.parse(readFileSync(join(REPO, "registry.json"), "utf8")) as { items?: { name: string; title?: string; description?: string }[] };
-  return (reg.items ?? [])
-    .map((i) => ({ name: i.name, title: i.title || i.name, description: i.description || "" }))
-    .sort((a, b) => a.name.localeCompare(b.name));
-}
+const UML = "https://cdn.jsdelivr.net/gh/MahmoodKhalil57/suluk@main/tooling/ts/docs-pages/registry-uml.svg";
 
 const PLUGINS = [
   "typedoc-github-theme",
   join(TS, "scripts", "typedoc-vscode-icons.mjs"),
   join(TS, "scripts", "typedoc-branding-head.mjs"),
-  join(TS, "packages", "typedoc-umlclass", "src", "index.js"), // d3 UML class diagrams on class/interface pages
+  join(TS, "packages", "typedoc-umlclass", "src", "index.js"), // d3 per-package UML class diagram on each module index
 ];
 
 // Shared render options. No entryPointStrategy:"packages" here — each root is a single-entry "resolve" render.
@@ -148,23 +142,36 @@ function generateUmbrellaDocs(tmp: string, pkgs: DocPackage[], opts: { forMarkdo
     );
   }
 
-  // ── REGISTRY folder (group: EcoSystem): one page PER shadcn-registry item (its README). ──
-  const items = registryItems();
+  // ── REGISTRY folder (group: EcoSystem): mirrors PACKAGES. In the HTML site each item is its OWN root
+  //    (docs/registry/<name>/ — README + TS API + UML), so its nav entry is a stub linking there; in the
+  //    MARKDOWN mirror (no per-item roots) the entry is the item's README inline. Both embed the arch graph. ──
+  const items = documentedRegistry();
   const regChildren: string[] = [];
   const regRows: string[] = [];
   for (const it of items) {
-    const readmePath = join(REPO, "registry", it.name, "README.md");
-    const body = existsSync(readmePath)
-      ? absolutizeRepoLinks(readFileSync(readmePath, "utf8"), `registry/${it.name}`).replace(/^﻿?\s*#\s+.*\r?\n/, "")
-      : `${it.description}\n\n\`\`\`bash\npnpm dlx shadcn@latest add MahmoodKhalil57/suluk/${it.name}\n\`\`\``;
-    writeFileSync(join(tmp, `reg-${it.name}.md`), `---\ntitle: ${JSON.stringify(it.name)}\n---\n\n# ${it.title}\n\n${body.trim()}\n`);
+    const url = `${UMBRELLA_URL}registry/${it.name}/`;
+    if (opts.forMarkdown) {
+      const readmePath = join(it.dir, "README.md");
+      const body = existsSync(readmePath)
+        ? absolutizeRepoLinks(readFileSync(readmePath, "utf8"), `registry/${it.name}`).replace(/^﻿?\s*#\s+.*\r?\n/, "")
+        : `${it.description}\n\n\`\`\`bash\npnpm dlx shadcn@latest add MahmoodKhalil57/suluk/${it.name}\n\`\`\``;
+      writeFileSync(join(tmp, `reg-${it.name}.md`), `---\ntitle: ${JSON.stringify(it.name)}\n---\n\n# ${it.title}\n\n${body.trim()}\n`);
+      regRows.push(`- [**${it.name}**](./reg-${it.name}.md) — ${it.description || it.title}`);
+    } else {
+      const wires = it.sulukDeps.length ? `Wires ${it.sulukDeps.map((d) => `\`${d}\``).join(", ")}.` : "";
+      const builds = it.regDeps.length ? ` Builds on ${it.regDeps.map((d) => `[\`${d}\`](./reg-${d}.md)`).join(", ")}.` : "";
+      writeFileSync(
+        join(tmp, `reg-${it.name}.md`),
+        `---\ntitle: ${JSON.stringify(it.name)}\n---\n\n# ${it.title}\n\n${it.description}\n\n${wires}${builds}\n\n**[Open the full \`${it.name}\` docs — README · TypeScript API · UML diagram →](${url})**\n\n\`\`\`bash\npnpm dlx shadcn@latest add MahmoodKhalil57/suluk/${it.name}\n\`\`\`\n`,
+      );
+      regRows.push(`- <a href="${url}"><code>${it.name}</code></a> — ${it.description || it.title}`);
+    }
     regChildren.push(`./reg-${it.name}.md`);
-    regRows.push(`- [**${it.name}**](./reg-${it.name}.md) — ${it.description || it.title}`);
   }
   const registry = join(tmp, "registry.md");
   writeFileSync(
     registry,
-    `---\ntitle: Registry\ngroup: ${ECOSYSTEM_GROUP}\nchildren:\n${regChildren.map((c) => `  - ${c}`).join("\n")}\n---\n\n# Registry\n\nThe [shadcn registry](${REPO_URL}/blob/main/registry/README.md) distributes the generic SaaS-backend modules as **code you own**, wired over the \`@suluk/*\` packages (own the wiring, npm the logic). Install any item with:\n\n\`\`\`bash\npnpm dlx shadcn@latest add MahmoodKhalil57/suluk/<item>\n\`\`\`\n\n${items.length} items:\n\n${regRows.join("\n")}\n`,
+    `---\ntitle: Registry\ngroup: ${ECOSYSTEM_GROUP}\nchildren:\n${regChildren.map((c) => `  - ${c}`).join("\n")}\n---\n\n# Registry\n\nThe [shadcn registry](${REPO_URL}/blob/main/registry/README.md) distributes the generic SaaS-backend modules as **code you own**, wired over the \`@suluk/*\` packages (own the wiring, npm the logic). Each item is its **own documentation site** — its README, the full TypeScript surface, and a UML class diagram. Here is how the ${items.length} modules build on each other (\`app\` is the foundation everything rests on):\n\n![Suluk registry — how the modules compose](${UML})\n\nInstall any item with:\n\n\`\`\`bash\npnpm dlx shadcn@latest add MahmoodKhalil57/suluk/<item>\n\`\`\`\n\n${items.length} items:\n\n${regRows.join("\n")}\n`,
   );
 
   const children: string[] = [];
@@ -292,8 +299,49 @@ export async function buildDocs(): Promise<DocPackage[]> {
     console.log(`  ✓ ${p.name} → docs/packages/${p.slug}/`);
   }
 
+  // 3. PER-REGISTRY-ITEM roots into docs/registry/<name>/ (README + TS surface + UML), the registry analogue of
+  //    the package roots. The items' `.ts` files live outside any package tsconfig, so we write ONE shared
+  //    tsconfig (extends the base) listing every registry file, and each item's render selects its own subset as
+  //    entry points. `DOCS_REG=a,b` limits the set for dev speed; `DOCS_NOREG=1` (or a DOCS_ONLY package filter) skips them.
+  const regOnly = process.env.DOCS_REG?.split(",").map((s) => s.trim()).filter(Boolean);
+  const skipReg = process.env.DOCS_NOREG === "1" || (!!only && !process.env.DOCS_REG);
+  const regItems: RegistryItem[] = skipReg ? [] : documentedRegistry().filter((it) => (regOnly ? regOnly.includes(it.name) : true));
+  if (regItems.length) {
+    const allFiles = [...new Set(documentedRegistry().flatMap((it) => it.files))];
+    const regTsconfig = join(tmp, "tsconfig.registry.json");
+    writeFileSync(regTsconfig, JSON.stringify({
+      extends: join(TS, "tsconfig.base.json"),
+      compilerOptions: { types: ["bun"], noEmit: true },
+      files: allFiles,
+    }));
+    for (const it of regItems) {
+      if (!it.files.length) { console.log(`  – ${it.name} (no .ts files) — skipped`); continue; }
+      let readme = "none";
+      if (it.hasReadme) {
+        const rewritten = absolutizeRepoLinks(readFileSync(join(it.dir, "README.md"), "utf8"), `registry/${it.name}`);
+        readme = join(tmp, `regroot-${it.name}.md`);
+        writeFileSync(readme, rewritten);
+      }
+      await render(`registry/${it.name}`, {
+        ...BASE,
+        name: `${it.name} (registry)`,
+        tsconfig: regTsconfig,
+        entryPoints: it.files,
+        readme,
+        out: join(DOCS, "registry", it.name),
+        hostedBaseUrl: `${UMBRELLA_URL}registry/${it.name}/`,
+        sort: ["source-order"],
+        navigationLinks: {
+          "↑ Suluk": UMBRELLA_URL,
+          GitHub: `${REPO_URL}/tree/main/registry/${it.name}`,
+        },
+      });
+      console.log(`  ✓ registry/${it.name} → docs/registry/${it.name}/`);
+    }
+  }
+
   rmSync(tmp, { recursive: true, force: true });
-  console.log(`Built umbrella + ${pkgs.length} package roots → docs/`);
+  console.log(`Built umbrella + ${pkgs.length} package roots + ${regItems.length} registry roots → docs/`);
   return pkgs;
 }
 

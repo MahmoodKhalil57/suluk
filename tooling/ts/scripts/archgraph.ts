@@ -36,33 +36,94 @@ const C = {
 // six layer hues (strip / rail / band-tint / badge fill); all pass ≥4.5:1 with white badge text
 const HUE = ["#e8a34c", "#34b3a6", "#6e8bf0", "#b48cea", "#ee7fa0", "#5fb874"]; // L0…L5
 
-// Band editorial labels (role name, not just the number) — index = layer. The short form is used on shallow
-// bands where the full rotated label would overflow into its neighbours.
-const BAND_LABEL = [
-  "L0 · FOUNDATION — primitives & the core contract",
-  "L1 · DERIVATION — engine & facets",
-  "L2 · PROJECTIONS — renderers, stores & data",
-  "L3 · COMPOSERS — builder / billing / editor",
-  "L4 · COCKPIT — governed console",
-  "L5 · APPS — shipped surfaces",
-];
-const BAND_LABEL_SHORT = ["L0 · FOUNDATION", "L1 · DERIVATION", "L2 · PROJECTIONS", "L3 · COMPOSERS", "L4 · COCKPIT", "L5 · APPS"];
+/** Build a name → «stereotype» role lookup from a {role: names[]} table; unmapped names fall back to `fallback`. */
+function roleTable(table: Record<string, string[]>, fallback: string): (name: string) => string {
+  const map: Record<string, string> = {};
+  for (const role of Object.keys(table)) for (const n of table[role]) map[n] = role;
+  return (name: string) => map[name] ?? fallback;
+}
 
-// Fixed name → UML «stereotype» role table (presentation only; deterministic). Unmapped ⇒ «package».
-const ROLE: Record<string, string> = {};
-const setRoles = (role: string, names: string[]) => names.forEach((n) => (ROLE[n] = role));
-setRoles("contract", ["core"]);
-setRoles("engine", ["hono", "builder", "platform", "provision"]);
-setRoles("primitive", ["zod", "theme", "i18n", "env", "examples", "models"]);
-setRoles("facet", ["harden", "cost", "openapi-compat", "seo", "keys", "credits"]);
-setRoles("renderer", ["scalar", "swagger", "reference", "editor", "docs", "cockpit", "panel"]);
-setRoles("generator", ["sdk", "stubgen", "testgen", "drizzle", "shadcn", "mcp", "nano-stores"]);
-setRoles("adapter", ["cloudflare", "better-auth", "payments", "stripe", "deploy", "email", "agents", "chat", "billing"]);
-setRoles("app", ["admin", "suluk-vscode"]);
-setRoles("tooling", ["eslint", "visual", "journeys", "scalar-standalone", "typedoc-umlclass"]);
+/**
+ * Everything about a graph that differs between the two surfaces this renderer draws — the @suluk PACKAGE stack
+ * and the shadcn-REGISTRY stack. The layout/box/edge/legend machinery is identical; only these vary.
+ */
+export interface DiagramConfig {
+  title: string;
+  /** subtitle line (n = node count). */ subtitle: (n: number) => string;
+  caption: string;
+  /** the node to emphasise (border + halo + bus) — the graph's keystone; "" for none. */ keystoneName: string;
+  keystoneBusLabel: (deps: number) => string;
+  keystoneLegend: (deps: number) => string;
+  roleOf: (name: string) => string;
+  /** editorial band label per layer index (full form). */ bandLabels: string[];
+  bandLabelsShort: string[];
+  /** legend line describing what a box is. */ boxLegend: string;
+  /** legend line describing an edge. */ edgeLegend: string;
+  deprecated: Set<string>;
+}
 
-const roleOf = (name: string) => ROLE[name] ?? "package";
-const DEPRECATED = new Set(["stripe"]);
+/** The @suluk PACKAGE stack — the default (so `renderArchitectureSvg(graph)` keeps its original output). */
+export const PACKAGE_CONFIG: DiagramConfig = {
+  title: "Suluk — architecture",
+  subtitle: (n) => `One v4 contract in — a whole derived stack out. ${n} @suluk packages · read top (apps) down to core.`,
+  caption: "Boxes = packages (UML class-box: «role» · name · NN exports · sample members). Dashed → = «use» dependency (points to the supplier).",
+  keystoneName: "core",
+  keystoneBusLabel: (d) => `↓ core keystone bus · ${d} depend on core`,
+  keystoneLegend: (d) => `core keystone bus (${d} depend on core)`,
+  roleOf: roleTable({
+    contract: ["core"],
+    engine: ["hono", "builder", "platform", "provision"],
+    primitive: ["zod", "theme", "i18n", "env", "examples", "models"],
+    facet: ["harden", "cost", "openapi-compat", "seo", "keys", "credits"],
+    renderer: ["scalar", "swagger", "reference", "editor", "docs", "cockpit", "panel"],
+    generator: ["sdk", "stubgen", "testgen", "drizzle", "shadcn", "mcp", "nano-stores"],
+    adapter: ["cloudflare", "better-auth", "payments", "stripe", "deploy", "email", "agents", "chat", "billing"],
+    app: ["admin", "suluk-vscode"],
+    tooling: ["eslint", "visual", "journeys", "scalar-standalone", "typedoc-umlclass"],
+  }, "package"),
+  bandLabels: [
+    "L0 · FOUNDATION — primitives & the core contract",
+    "L1 · DERIVATION — engine & facets",
+    "L2 · PROJECTIONS — renderers, stores & data",
+    "L3 · COMPOSERS — builder / billing / editor",
+    "L4 · COCKPIT — governed console",
+    "L5 · APPS — shipped surfaces",
+  ],
+  bandLabelsShort: ["L0 · FOUNDATION", "L1 · DERIVATION", "L2 · PROJECTIONS", "L3 · COMPOSERS", "L4 · COCKPIT", "L5 · APPS"],
+  boxLegend: "package (@suluk/*) — header + top exports",
+  edgeLegend: "«use» dependency → the supplier",
+  deprecated: new Set(["stripe"]),
+};
+
+/** The shadcn-REGISTRY stack — own-the-code backend modules wired over the @suluk packages, tied by registryDependencies. */
+export const REGISTRY_CONFIG: DiagramConfig = {
+  title: "Suluk registry — how the modules compose",
+  subtitle: (n) => `${n} own-the-code backend modules · each builds on the ones below · read top (surfaces) down to the app.`,
+  caption: "Boxes = registry items (UML class-box: «role» · name · NN exports · sample members). Dashed → = registry dependency (points to the module it builds on).",
+  keystoneName: "app",
+  keystoneBusLabel: (d) => `↓ app foundation · ${d} modules build on app`,
+  keystoneLegend: (d) => `app foundation bus (${d} build on app)`,
+  roleOf: roleTable({
+    foundation: ["app"],
+    auth: ["auth", "keys"],
+    contract: ["contract"],
+    ledger: ["credits", "cost", "billing"],
+    middleware: ["rate-limit", "rate-credit", "i18n"],
+    service: ["erasure", "logs", "webhooks", "email"],
+    surface: ["admin", "reference", "mcp"],
+    dev: ["audit", "journeys"],
+  }, "module"),
+  bandLabels: [
+    "L0 · FOUNDATION — the Hono app + Effect runtime seam",
+    "L1 · SERVICES — auth, billing, credits & the feature modules",
+    "L2 · DERIVATION — the contract keystone + key algebra",
+    "L3 · SURFACES — the reference & MCP endpoints",
+  ],
+  bandLabelsShort: ["L0 · FOUNDATION", "L1 · SERVICES", "L2 · DERIVATION", "L3 · SURFACES"],
+  boxLegend: "registry item — header + top exports",
+  edgeLegend: "registry dependency → the base module",
+  deprecated: new Set(),
+};
 
 /** UML member notation for a sampled export name: `+ Name` for a Type (Capitalized), `+ name()` for a function. */
 function memberLabel(name: string): string {
@@ -99,9 +160,9 @@ function perRowOf(n: number): number {
   return Math.ceil(n / rows);
 }
 
-/** Deterministic layout: order each band (barycentre over lower bands, core pinned centre), place, size, y-stack. */
-function layout(graph: ArchitectureGraph) {
-  const coreId = graph.nodes.find((n) => n.name === "core")?.id;
+/** Deterministic layout: order each band (barycentre over lower bands, keystone pinned centre), place, size, y-stack. */
+function layout(graph: ArchitectureGraph, keystoneName: string) {
+  const coreId = graph.nodes.find((n) => n.name === keystoneName)?.id;
   const layer = layersOf(graph);
   const maxLayer = Math.max(0, ...layer.values());
   const dependents = new Map<string, number>();
@@ -195,11 +256,11 @@ type Sel = d3.Selection<SVGGElement, unknown, null, undefined>;
 const topRoundedRect = (w: number, r: number, h: number) =>
   `M0,${r} Q0,0 ${r},0 H${w - r} Q${w},0 ${w},${r} V${h} H0 Z`;
 
-/** Render the architecture UML diagram to a standalone SVG string. */
-export function renderArchitectureSvg(graph: ArchitectureGraph): string {
-  const { placed, bands, width, height, maxLayer } = layout(graph);
+/** Render the architecture UML diagram to a standalone SVG string. `config` selects the package/registry surface. */
+export function renderArchitectureSvg(graph: ArchitectureGraph, config: DiagramConfig = PACKAGE_CONFIG): string {
+  const { placed, bands, width, height, maxLayer } = layout(graph, config.keystoneName);
   const nodeOf = (id: string) => placed.get(id);
-  const coreId = graph.nodes.find((n) => n.name === "core")?.id;
+  const coreId = graph.nodes.find((n) => n.name === config.keystoneName)?.id;
 
   const doc = new JSDOM("<!DOCTYPE html><body></body>").window.document;
   const svg = d3
@@ -211,7 +272,7 @@ export function renderArchitectureSvg(graph: ArchitectureGraph): string {
     .attr("preserveAspectRatio", "xMidYMid meet")
     .attr("font-family", "ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif")
     .attr("role", "img")
-    .attr("aria-label", `Suluk architecture — ${graph.nodes.length} @suluk packages in ${maxLayer + 1} derivation strata`);
+    .attr("aria-label", `${config.title} — ${graph.nodes.length} nodes in ${maxLayer + 1} strata`);
 
   // markers: open (unfilled) UML dependency arrowheads, one per colour
   const defs = svg.append("defs");
@@ -234,11 +295,11 @@ export function renderArchitectureSvg(graph: ArchitectureGraph): string {
     const midY = (b.top + b.bottom) / 2;
     // the rotated label runs VERTICALLY, so its footprint is the band's HEIGHT; fall back to the short form when
     // the full label wouldn't fit (short top bands), so adjacent bands' labels never interleave.
-    const full = BAND_LABEL[b.layer];
+    const full = config.bandLabels[b.layer] ?? `L${b.layer}`;
     const fits = full.length * 6.4 <= b.bottom - b.top - 12;
     svg.append("text").attr("transform", `translate(${LEFT_RAIL - 16},${midY}) rotate(-90)`).attr("text-anchor", "middle")
       .attr("font-size", 10).attr("font-weight", 700).attr("letter-spacing", "0.06em").attr("fill", hue)
-      .attr("fill-opacity", 0.92).text(fits ? full : BAND_LABEL_SHORT[b.layer]);
+      .attr("fill-opacity", 0.92).text(fits ? full : (config.bandLabelsShort[b.layer] ?? `L${b.layer}`));
   });
   // the L0 "ground" double baseline
   const l0 = bands.find((b) => b.layer === 0);
@@ -259,7 +320,7 @@ export function renderArchitectureSvg(graph: ArchitectureGraph): string {
     // horizontal label in the gutter above the top band (a rotated one runs off the top edge)
     svg.append("text").attr("x", core.cx).attr("y", topBand - 8).attr("text-anchor", "middle")
       .attr("font-size", 10).attr("font-weight", 700).attr("fill", C.bus)
-      .text(`↓ core keystone bus · ${core.dependents} depend on core`);
+      .text(config.keystoneBusLabel(core.dependents));
   }
 
   // ── dependency edges (all except the collapsed core edges): dashed «use» beziers, open arrow, behind nodes ─
@@ -278,7 +339,7 @@ export function renderArchitectureSvg(graph: ArchitectureGraph): string {
   // ── nodes (core drawn last, on top of its halo) ─
   const drawNode = (p: Placed) => {
     const hue = HUE[p.layer];
-    const isCore = p.name === "core";
+    const isCore = p.name === config.keystoneName;
     const g = (svg.append("g") as unknown as Sel).attr("transform", `translate(${p.x},${p.y})`);
     if (isCore) g.append("ellipse").attr("cx", BOX_W / 2).attr("cy", p.h / 2).attr("rx", BOX_W / 2 + 16).attr("ry", p.h / 2 + 12)
       .attr("fill", C.bus).attr("fill-opacity", 0.14);
@@ -289,10 +350,11 @@ export function renderArchitectureSvg(graph: ArchitectureGraph): string {
 
     // header: «stereotype» + name (+ deprecated mark)
     g.append("text").attr("x", BOX_W / 2).attr("y", STRIP_H + 15).attr("text-anchor", "middle")
-      .attr("font-size", 9.5).attr("font-style", "italic").attr("fill", hue).text(`«${roleOf(p.name)}»`);
+      .attr("font-size", 9.5).attr("font-style", "italic").attr("fill", hue).text(`«${config.roleOf(p.name)}»`);
+    const deprecated = config.deprecated.has(p.name);
     const nameT = g.append("text").attr("x", BOX_W / 2).attr("y", STRIP_H + 31).attr("text-anchor", "middle")
-      .attr("font-size", 13).attr("font-weight", 700).attr("fill", DEPRECATED.has(p.name) ? C.muted : C.name).text(p.name);
-    if (DEPRECATED.has(p.name)) nameT.attr("text-decoration", "line-through");
+      .attr("font-size", 13).attr("font-weight", 700).attr("fill", deprecated ? C.muted : C.name).text(p.name);
+    if (deprecated) nameT.attr("text-decoration", "line-through");
 
     // exports badge (top-RIGHT header corner); hollow for a 0-export bundle
     const label = p.exports > 0 ? String(p.exports) : "bundle";
@@ -327,25 +389,25 @@ export function renderArchitectureSvg(graph: ArchitectureGraph): string {
     }
 
   };
-  [...placed.values()].filter((p) => p.name !== "core").sort((a, b) => a.layer - b.layer || a.x - b.x).forEach(drawNode);
+  [...placed.values()].filter((p) => p.name !== config.keystoneName).sort((a, b) => a.layer - b.layer || a.x - b.x).forEach(drawNode);
   if (core) drawNode(core);
 
   // ── title + thesis caption (top-left) ─
   svg.append("text").attr("x", 14).attr("y", 30).attr("font-size", 20).attr("font-weight", 800).attr("fill", C.title)
-    .text("Suluk — architecture");
+    .text(config.title);
   svg.append("text").attr("x", 14).attr("y", 52).attr("font-size", 12).attr("fill", C.sub)
-    .text(`One v4 contract in — a whole derived stack out. ${graph.nodes.length} @suluk packages · read top (apps) down to core.`);
+    .text(config.subtitle(graph.nodes.length));
   svg.append("text").attr("x", 14).attr("y", 70).attr("font-size", 11).attr("fill", C.muted)
-    .text("Boxes = packages (UML class-box: «role» · name · NN exports · sample members). Dashed → = «use» dependency (points to the supplier).");
+    .text(config.caption);
 
   // ── legend (top-right), itself a small «legend» UML box ─
-  drawLegend(svg, width);
+  drawLegend(svg, width, config, maxLayer, core?.dependents ?? 0);
 
   return (doc.body.querySelector("svg") as unknown as { outerHTML: string }).outerHTML;
 }
 
 /** A compact key, drawn as a small «legend» class-box in the sparse upper-right whitespace. */
-function drawLegend(svg: d3.Selection<SVGSVGElement, unknown, null, undefined>, width: number) {
+function drawLegend(svg: d3.Selection<SVGSVGElement, unknown, null, undefined>, width: number, config: DiagramConfig, maxLayer: number, keystoneDeps: number) {
   const w = 322, h = 150, x = width - w - RIGHT_PAD, y = TITLE_H + 14;
   const g = (svg.append("g") as unknown as Sel).attr("transform", `translate(${x},${y})`);
   g.append("rect").attr("width", w).attr("height", h).attr("rx", RX).attr("fill", C.core).attr("stroke", C.border).attr("stroke-width", 1);
@@ -357,16 +419,16 @@ function drawLegend(svg: d3.Selection<SVGSVGElement, unknown, null, undefined>, 
     draw(row);
     row.append("text").attr("x", 44).attr("y", 4).attr("font-size", 10).attr("fill", C.member).text(text);
   };
-  line(38, (r) => r.append("path").attr("d", "M0,0 H32").attr("stroke", C.edge).attr("stroke-width", 1).attr("stroke-dasharray", "5,4").attr("marker-end", "url(#arr)"), "«use» dependency → the supplier");
-  line(58, (r) => r.append("line").attr("x1", 0).attr("x2", 32).attr("y1", 0).attr("y2", 0).attr("stroke", C.bus).attr("stroke-width", 2.5), "core keystone bus (25 depend on core)");
+  line(38, (r) => r.append("path").attr("d", "M0,0 H32").attr("stroke", C.edge).attr("stroke-width", 1).attr("stroke-dasharray", "5,4").attr("marker-end", "url(#arr)"), config.edgeLegend);
+  line(58, (r) => r.append("line").attr("x1", 0).attr("x2", 32).attr("y1", 0).attr("y2", 0).attr("stroke", C.bus).attr("stroke-width", 2.5), config.keystoneLegend(keystoneDeps));
   line(78, (r) => { r.append("rect").attr("x", 0).attr("y", -6).attr("width", 22).attr("height", 13).attr("rx", 6.5).attr("fill", HUE[2]); r.append("text").attr("x", 11).attr("y", 4).attr("text-anchor", "middle").attr("font-size", 9).attr("font-weight", 700).attr("fill", "#12151d").text("NN"); }, "public export count");
-  line(98, (r) => { r.append("rect").attr("x", 0).attr("y", -6).attr("width", 22).attr("height", 13).attr("rx", 6.5).attr("fill", C.fanin); r.append("text").attr("x", 11).attr("y", 4).attr("text-anchor", "middle").attr("font-size", 9).attr("font-weight", 700).attr("fill", C.faninText).text("←N"); }, "fan-in: packages that depend on this");
-  // layer hue chips
+  line(98, (r) => { r.append("rect").attr("x", 0).attr("y", -6).attr("width", 22).attr("height", 13).attr("rx", 6.5).attr("fill", C.fanin); r.append("text").attr("x", 11).attr("y", 4).attr("text-anchor", "middle").attr("font-size", 9).attr("font-weight", 700).attr("fill", C.faninText).text("←N"); }, "fan-in: dependents on this");
+  // layer hue chips (only the strata that exist)
   const chips = (g.append("g") as unknown as Sel).attr("transform", `translate(12,${118})`);
   chips.append("text").attr("x", 0).attr("y", 4).attr("font-size", 9.5).attr("fill", C.muted).text("strata:");
-  ["L0", "L1", "L2", "L3", "L4", "L5"].forEach((lbl, i) => {
+  for (let i = 0; i <= Math.min(maxLayer, 5); i++) {
     const cg = chips.append("g").attr("transform", `translate(${44 + i * 46},0)`);
     cg.append("rect").attr("x", 0).attr("y", -7).attr("width", 12).attr("height", 12).attr("rx", 2).attr("fill", HUE[i]);
-    cg.append("text").attr("x", 16).attr("y", 3).attr("font-size", 9.5).attr("fill", C.member).text(lbl);
-  });
+    cg.append("text").attr("x", 16).attr("y", 3).attr("font-size", 9.5).attr("fill", C.member).text(`L${i}`);
+  }
 }

@@ -65,14 +65,28 @@ function classBox(t, urlTo) {
 }
 
 /**
- * Build the per-package UML model for a container (project/module): all its classes & interfaces as boxes, plus
- * the extends/implements edges BETWEEN them (intra-package inheritance — "relationships within the package").
+ * Collect every class & interface in a container's subtree. Single-entry packages have their types as DIRECT
+ * children of the Project; multi-entry roots (e.g. a shadcn-registry item with several `.ts` files) nest them
+ * under one Module per file — so we recurse through Module/Namespace containers (but never into a class's own
+ * members) to gather them all into one per-root diagram.
+ */
+function collectTypes(container, acc) {
+  for (const c of container.children ?? []) {
+    if (c.kindOf(K.Class | K.Interface)) acc.push(c);
+    else if (c.kindOf(K.Module | K.Namespace)) collectTypes(c, acc);
+  }
+  return acc;
+}
+
+/**
+ * Build the per-root UML model for a container (project/module): all its classes & interfaces as boxes, plus
+ * the extends/implements edges BETWEEN them (intra-root inheritance — "relationships within the package/item").
  * Returns `null` if the container has no classes/interfaces.
  * @returns {null | { boxes: object[], edges: {from:string,to:string,kind:"extends"|"implements"}[] }}
  */
 export function packageUmlModel(container, urlTo) {
   if (!container || typeof container.kindOf !== "function") return null;
-  const types = (container.children ?? []).filter((c) => c.kindOf(K.Class | K.Interface));
+  const types = collectTypes(container, []);
   if (!types.length) return null;
   const names = new Set(types.map((t) => t.name));
   const boxes = types.map((t) => classBox(t, urlTo));
