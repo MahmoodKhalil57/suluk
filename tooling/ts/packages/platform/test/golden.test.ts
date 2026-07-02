@@ -67,6 +67,15 @@ const OUTPUTS: Record<string, string> = {
   provisionScript: "provision.ts",
   mintTokens: "mint-tokens.ts",
   envScaffold: "env.scaffold",
+  // the LOCAL on-push CI/CD (async worktree → idempotent stages → deploy on the default branch) + its lint/format config.
+  prePushHook: "githooks_pre-push",
+  ciStages: "scripts_ci-stages.ts",
+  ciRun: "scripts_ci-run.ts",
+  ciLocal: "scripts_ci-local.ts",
+  ciWorktree: "scripts_ci-worktree.ts",
+  emitContract: "scripts_emit-contract.ts", // present because AUTOTOOLFACTORY installs `contract`
+  eslintConfig: "eslint.config.js",
+  prettierrc: "prettierrc.json",
 };
 
 describe("GOLDEN — autotoolfactory byte-identity lock (the C053 guardrail)", () => {

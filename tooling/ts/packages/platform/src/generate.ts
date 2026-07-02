@@ -65,6 +65,14 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
     ["scripts/link-key.ts", plan.linkKey, true], // register the private key into ~/.suluk/settings.json (the central store)
     ["scripts/provision.ts", plan.provisionScript, true], // the credential lifecycle (source .env.temp/.env → provision → seal)
     ["scripts/mint-tokens.ts", plan.mintTokens, true], // mint scoped least-privilege CF tokens from the master
+    // the LOCAL on-push CI/CD (async worktree runner + shared stages + variants); configs are write-if-absent (customizable).
+    [".githooks/pre-push", plan.prePushHook, true], // the async, non-blocking on-push hook (chmod +x below)
+    ["scripts/ci-stages.ts", plan.ciStages, true], // the ONE shared stage list
+    ["scripts/ci-run.ts", plan.ciRun, true], // the detached isolated-worktree runner (+ deploy on the default branch)
+    ["scripts/ci-local.ts", plan.ciLocal, true], // `bun run ci:local` — the in-place variant
+    ["scripts/ci-worktree.ts", plan.ciWorktree, true], // `bun run ci:worktree` — the manual detached variant
+    ["eslint.config.js", plan.eslintConfig, false], // customizable — scaffold if absent
+    [".prettierrc.json", plan.prettierrc, false], // customizable — scaffold if absent
     [".env.temp", plan.envTemp, false], // the PLAINTEXT provisioning bootstrap — SCAFFOLD IF ABSENT (gitignored; consumed by provision)
     [".env", plan.envScaffold, false], // the COMMITTED encrypted-secrets file — SCAFFOLD IF ABSENT (never clobber secrets)
   ] as const) {
@@ -73,6 +81,13 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
       await opts.write(file, content);
       written.push(file);
     }
+  }
+  // the git hook must be executable (git invokes core.hooksPath hooks via their +x bit). Best-effort — a platform without
+  // `chmod` (or a recorder-backed test) must not abort generation; on failure the operator runs `chmod +x` themselves.
+  try {
+    await opts.run("chmod", ["+x", ".githooks/pre-push"]);
+  } catch (e) {
+    log(`⚠ could not chmod +x .githooks/pre-push (${e instanceof Error ? e.message : String(e)}) — set it manually`);
   }
 
   // 2) the module code — the importable fetcher pulls each module's files from the registry (resolving registryDependencies)
@@ -104,6 +119,24 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
     log("▸ writing scripts/purge-state.ts");
     await opts.write("scripts/purge-state.ts", plan.purgeScript);
     written.push("scripts/purge-state.ts");
+  }
+  // the suluk-gate pre-step — derive openapi.v4.json from the contract (only when the `contract` service is installed).
+  if (plan.emitContract) {
+    log("▸ writing scripts/emit-contract.ts");
+    await opts.write("scripts/emit-contract.ts", plan.emitContract);
+    written.push("scripts/emit-contract.ts");
+  }
+
+  // 4) format + lint-fix the scaffold so the on-push CI is GREEN out of the box. The FETCHED registry modules are not
+  //    prettier-clean at printWidth 160 (they're authored narrower), so a fresh `format:check`/`lint` would go red on the
+  //    very first push. Normalize once now (idempotent: prettier --write + eslint --fix mutate only style, never behavior).
+  //    Best-effort — a formatter hiccup must not fail generation (the operator can always re-run `bun run format`).
+  try {
+    log("▸ formatting scaffold (prettier --write · eslint --fix)");
+    await opts.run("bun", ["run", "format"]);
+    await opts.run("bun", ["run", "lint:fix"]);
+  } catch (e) {
+    log(`⚠ scaffold format skipped (${e instanceof Error ? e.message : String(e)}) — run \`bun run format\` yourself`);
   }
 
   log(`✓ generated ${name}: ${plan.services.length} services. Next: bun install && suluk-provision apply`);

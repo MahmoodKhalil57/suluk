@@ -4,11 +4,20 @@
   "type": "module",
   "scripts": {
     "generate": "suluk-platform",
+    "prepare": "git config core.hooksPath .githooks || true",
     "check": "bun run scripts/env-check.ts",
     "dev": "bun run --hot src/dev.ts",
     "dev:cf": "wrangler dev",
     "deploy": "bun run scripts/deploy.ts",
     "purge": "bun run scripts/purge-state.ts",
+    "ci:local": "bun run scripts/ci-local.ts",
+    "ci:worktree": "bun run scripts/ci-worktree.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "bundle:check": "bun build src/index.ts --outdir .ci/bundle --format esm",
+    "suluk:gate": "bun run scripts/emit-contract.ts && bun run src/scripts/conformance.ts",
     "env:keygen": "suluk-env keygen",
     "link-key": "bun run scripts/link-key.ts",
     "env:set": "suluk-env set",
@@ -51,6 +60,12 @@
     "@cloudflare/workers-types": "^4.20260701.1",
     "@types/node": "^26.0.1",
     "typescript": "^6.0.3",
-    "wrangler": "^4.0.0"
+    "wrangler": "^4.0.0",
+    "@suluk/eslint": "latest",
+    "eslint": "^9.0.0",
+    "@eslint/js": "^9.0.0",
+    "typescript-eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "globals": "^16.0.0"
   }
 }

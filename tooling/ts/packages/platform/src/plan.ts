@@ -7,6 +7,7 @@ import { type PlatformManifest, type Platform, type WireDecl, isPlatform } from 
 import { liftSystemBrand, deriveHosts } from "./resolve";
 import { resolveWiring, groupImports, type Wiring } from "./wire";
 import { CATALOG, CORE_SERVICES, orderServices, collectEnv, BASE_DEPS, DEV_DEPS, resolveVersion, type EnvVar, type Service } from "./catalog";
+import { buildPrePushHook, buildCiRun, buildCiStages, buildCiLocal, buildCiWorktree, buildEmitContract, buildEslintConfig, buildPrettierrc } from "./ci";
 
 export interface PlatformPlan {
   services: string[];
@@ -61,6 +62,17 @@ export interface PlatformPlan {
   /** the generated `scripts/purge-state.ts` — clears dev/live state (recommended on a mock↔real swap or a provision
    *  migration). Always emitted. */
   purgeScript?: string;
+  /** the LOCAL on-push CI/CD (modeled on toolfactory): the pre-push hook + the worktree runner + the shared stage list +
+   *  the in-place/manual variants + the lint/format config. Async, idempotent stages → deploy on the default branch. */
+  prePushHook: string;
+  ciRun: string;
+  ciStages: string;
+  ciLocal: string;
+  ciWorktree: string;
+  eslintConfig: string;
+  prettierrc: string;
+  /** `scripts/emit-contract.ts` — derives openapi.v4.json from the contract for the suluk gate. Only when `contract` installed. */
+  emitContract?: string;
 }
 
 export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
@@ -146,6 +158,15 @@ export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
     deployScript: buildDeployScript(manifest.name, services, env, manifest.vars ?? {}),
     devEntry: buildDevEntry(services, manifest.localVars, manifest.__localHost),
     purgeScript: buildPurgeScript(services),
+    // the LOCAL on-push CI/CD (async worktree → idempotent stages → deploy on the default branch) + its lint/format config.
+    prePushHook: buildPrePushHook(),
+    ciRun: buildCiRun(),
+    ciStages: buildCiStages(services),
+    ciLocal: buildCiLocal(),
+    ciWorktree: buildCiWorktree(),
+    eslintConfig: buildEslintConfig(),
+    prettierrc: buildPrettierrc(),
+    ...(services.includes("contract") ? { emitContract: buildEmitContract() } : {}),
   };
 }
 
@@ -575,7 +596,8 @@ function buildGitignore(local = false): string {
   // NOTE: `.env` is NOT ignored — it is COMMITTED with its secret values ENCRYPTED (@suluk/env). The PRIVATE key
   // (`.env.keys`) is what must never be committed; that + `.env.temp`/`.dev.vars` are ignored.
   // local mode also ignores `.suluk/` (the bun-dev sqlite DB + JSON KV — local dev data, never committed).
-  return ["node_modules/", ".env.keys", ".env.temp", ".dev.vars", ".wrangler/", "dist/", ...(local ? [".suluk/"] : []), ""].join("\n");
+  // `.ci/` = the local CI logs + bundle-check output; `openapi.v4.json` = the emit-contract artifact the suluk gate reads.
+  return ["node_modules/", ".env.keys", ".env.temp", ".dev.vars", ".wrangler/", "dist/", ".ci/", "openapi.v4.json", ...(local ? [".suluk/"] : []), ""].join("\n");
 }
 
 /** Merge the generated .gitignore into an existing one — APPEND any missing entries (never skip-if-present, so an app's
@@ -650,12 +672,17 @@ export function buildPackageJson(name: string, services: string[], catalog: Reco
   deps.add("@suluk/deploy");
   const dependencies: Record<string, string> = {};
   for (const d of [...deps].sort()) dependencies[d] = resolveVersion(d);
+  // the LOCAL CI's lint/format toolchain (devDeps) + the @suluk/eslint shared rules.
+  const devDependencies: Record<string, string> = { ...DEV_DEPS, "@suluk/eslint": "latest", eslint: "^9.0.0", "@eslint/js": "^9.0.0", "typescript-eslint": "^8.0.0", prettier: "^3.0.0", globals: "^16.0.0" };
+  // the Suluk conformance gate runs only when the `audit` module is installed (+ `contract` to derive the doc from).
+  const sulukGate = services.includes("audit") && services.includes("contract");
   const pkg = {
     name,
     private: true,
     type: "module",
     scripts: {
       generate: "suluk-platform", // re-pull modules + rewrite the scaffold config + src/index.ts + provision.config.ts
+      prepare: "git config core.hooksPath .githooks || true", // install the async on-push CI hook (.githooks/pre-push)
       check: "bun run scripts/env-check.ts", // the encrypted-env preflight (keypair present? required secrets set + encrypted?)
       // `dev` is ALWAYS the local bun server — mock-or-live autodetect from the decrypted .env, never wrangler. `dev:cf` is
       // the opt-in real-Workers-runtime test (wrangler dev, gated on Workers env). `deploy` is the @suluk/deploy API deploy.
@@ -663,6 +690,17 @@ export function buildPackageJson(name: string, services: string[], catalog: Reco
       "dev:cf": "wrangler dev",
       deploy: "bun run scripts/deploy.ts",
       purge: "bun run scripts/purge-state.ts",
+      // LOCAL CI/CD — the pre-push hook runs `ci:worktree` async; `ci:local` runs the same stages in-place.
+      "ci:local": "bun run scripts/ci-local.ts",
+      "ci:worktree": "bun run scripts/ci-worktree.ts",
+      lint: "eslint .",
+      "lint:fix": "eslint . --fix",
+      format: "prettier --write .",
+      "format:check": "prettier --check .",
+      "bundle:check": "bun build src/index.ts --outdir .ci/bundle --format esm", // the Worker bundles (dry — .ci/ is gitignored)
+      // derive the v4 doc from the contract, then gate on it. conformance.ts is FETCHED by the `audit` module and (like every
+      // registry file) lands UNDER src/ — so it's src/scripts/conformance.ts, reading the root openapi.v4.json emit-contract wrote.
+      ...(sulukGate ? { "suluk:gate": "bun run scripts/emit-contract.ts && bun run src/scripts/conformance.ts" } : {}),
       "env:keygen": "suluk-env keygen", // create the @suluk/env keypair (SULUK_PUBLIC_KEY → .env; private → .env.keys)
       "link-key": "bun run scripts/link-key.ts", // register the private key in ~/.suluk/settings.json (the central store)
       "env:set": "suluk-env set", // encrypt + add a secret: `bun run env:set BETTER_AUTH_SECRET=...`
@@ -673,7 +711,7 @@ export function buildPackageJson(name: string, services: string[], catalog: Reco
       test: "bun test",
     },
     dependencies,
-    devDependencies: { ...DEV_DEPS },
+    devDependencies,
   };
   return JSON.stringify(pkg, null, 2) + "\n";
 }

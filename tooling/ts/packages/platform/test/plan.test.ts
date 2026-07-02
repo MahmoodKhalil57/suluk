@@ -182,10 +182,13 @@ describe("generatePlatform — the orchestration (with recorders)", () => {
       read: async () => null, // a fresh app — no existing config
       fetch: mockFetch,
     });
-    expect(ran).toEqual(["bun install"]); // the ONLY subprocess — the package manager. No `bunx shadcn add`.
+    // subprocesses: chmod the git hook (after the config write) → the ONE `bun install` → format the scaffold so the
+    // on-push CI is green out of the box. NO `bunx shadcn add` (the registry fetch is in-process).
+    expect(ran).toEqual(["chmod +x .githooks/pre-push", "bun install", "bun run format", "bun run lint:fix"]);
     // the SCAFFOLD CONFIG is written first (before any fetch); the glue (src/index.ts …) last. Local-dev is the default →
-    // src/dev.ts + purge + the API deploy script are always emitted.
-    expect(wrote.slice(0, 14)).toEqual(["package.json", "wrangler.toml", ".gitignore", "tsconfig.json", "components.json", ".env.example", "scripts/env-check.ts", "src/env.ts", "scripts/deploy.ts", "scripts/sync-secrets.ts", "scripts/link-key.ts", "scripts/provision.ts", "scripts/mint-tokens.ts", ".env.temp"]);
+    // src/dev.ts + purge + the API deploy script are always emitted. The LOCAL CI/CD (hook + ci scripts + lint/format config)
+    // lands in the config block, right after mint-tokens.
+    expect(wrote.slice(0, 20)).toEqual(["package.json", "wrangler.toml", ".gitignore", "tsconfig.json", "components.json", ".env.example", "scripts/env-check.ts", "src/env.ts", "scripts/deploy.ts", "scripts/sync-secrets.ts", "scripts/link-key.ts", "scripts/provision.ts", "scripts/mint-tokens.ts", ".githooks/pre-push", "scripts/ci-stages.ts", "scripts/ci-run.ts", "scripts/ci-local.ts", "scripts/ci-worktree.ts", "eslint.config.js", ".prettierrc.json"]);
     // the FETCHED module files land between the config + the glue; `app` (a dep of every service) is written EXACTLY once.
     expect(wrote).toContain("src/app.ts");
     expect(wrote.filter((p) => p === "src/app.ts").length).toBe(1);
