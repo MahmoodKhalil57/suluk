@@ -6,7 +6,7 @@
 
 # Interface: McpOp
 
-Defined in: [tools.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/tools.ts#L9)
+Defined in: [tools.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/tools.ts#L9)
 
 `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server. The same contract that drives
 the API, SDK, docs, admin, and panel now drives an agent-callable surface: every operation becomes an MCP tool
@@ -21,7 +21,7 @@ CANDIDATE tooling — NOT official OAS.
 
 > **hasBody**: `boolean`
 
-Defined in: [tools.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/tools.ts#L20)
+Defined in: [tools.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/tools.ts#L20)
 
 Whether this op carries a request body (the tool exposes it under `body`).
 
@@ -31,7 +31,7 @@ Whether this op carries a request body (the tool exposes it under `body`).
 
 > **method**: `string`
 
-Defined in: [tools.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/tools.ts#L12)
+Defined in: [tools.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/tools.ts#L12)
 
 ***
 
@@ -39,7 +39,7 @@ Defined in: [tools.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > **name**: `string`
 
-Defined in: [tools.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/tools.ts#L11)
+Defined in: [tools.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/tools.ts#L11)
 
 Tool name (sanitized to MCP rules) — also how the executor finds the operation.
 
@@ -49,7 +49,7 @@ Tool name (sanitized to MCP rules) — also how the executor finds the operation
 
 > **path**: `string`
 
-Defined in: [tools.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/tools.ts#L14)
+Defined in: [tools.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/tools.ts#L14)
 
 Path template with a leading slash, e.g. `/product/{id}`.
 
@@ -59,7 +59,7 @@ Path template with a leading slash, e.g. `/product/{id}`.
 
 > **pathParams**: `string`[]
 
-Defined in: [tools.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/tools.ts#L16)
+Defined in: [tools.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/tools.ts#L16)
 
 Path-template variable names, in template order — all required.
 
@@ -69,7 +69,7 @@ Path-template variable names, in template order — all required.
 
 > **queryParams**: `string`[]
 
-Defined in: [tools.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/tools.ts#L18)
+Defined in: [tools.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/tools.ts#L18)
 
 Query parameter names.
 
@@ -79,6 +79,6 @@ Query parameter names.
 
 > **readOnly**: `boolean`
 
-Defined in: [tools.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/tools.ts#L22)
+Defined in: [tools.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/tools.ts#L22)
 
 GET/HEAD — safe, side-effect-free. The default projection only exposes these.

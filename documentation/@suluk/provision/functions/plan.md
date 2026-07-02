@@ -8,7 +8,7 @@
 
 > **plan**(`config`, `state`, `prune?`): [`ProvisionPlan`](../interfaces/ProvisionPlan.md)
 
-Defined in: [provision/src/plan.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/plan.ts#L32)
+Defined in: [provision/src/plan.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/plan.ts#L32)
 
 Diff `config` against `state`. Desired instances are emitted in binding-DAG order (create/update/noop); orphans
  (state − config) become `deprovision` steps only when `prune` (the config default, or an override) is on.

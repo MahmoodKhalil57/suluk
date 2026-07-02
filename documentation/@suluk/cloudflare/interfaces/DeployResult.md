@@ -6,7 +6,7 @@
 
 # Interface: DeployResult
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/deploy.ts#L101)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/deploy.ts#L101)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:101](https://github.co
 
 > **accountId**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/deploy.ts#L102)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/deploy.ts#L102)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:102](https://github.co
 
 > **assetsUploaded**: `number`
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/deploy.ts#L110)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/deploy.ts#L110)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:110](https://github.co
 
 > **crons**: `string`[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/deploy.ts#L112)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/deploy.ts#L112)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:112](https://github.co
 
 > `optional` **d1?**: `object`
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/deploy.ts#L104)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/deploy.ts#L104)
 
 #### binding
 
@@ -54,7 +54,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:104](https://github.co
 
 > **durableObjects**: `object`[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/deploy.ts#L107)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/deploy.ts#L107)
 
 #### binding
 
@@ -70,7 +70,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:107](https://github.co
 
 > **durableObjectsRemoved**: `string`[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/deploy.ts#L109)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/deploy.ts#L109)
 
 DO classes present in `prevDurableObjects` but gone from this deploy — orphaned (NOT dropped); a manual decision to delete.
 
@@ -80,7 +80,7 @@ DO classes present in `prevDurableObjects` but gone from this deploy — orphane
 
 > **kv**: `object`[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/deploy.ts#L105)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/deploy.ts#L105)
 
 #### binding
 
@@ -96,7 +96,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:105](https://github.co
 
 > **r2**: `object`[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/deploy.ts#L106)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/deploy.ts#L106)
 
 #### binding
 
@@ -112,7 +112,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:106](https://github.co
 
 > **scriptName**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/deploy.ts#L103)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/deploy.ts#L103)
 
 ***
 
@@ -120,4 +120,4 @@ Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:103](https://github.co
 
 > **secretsSet**: `string`[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/deploy.ts#L111)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/deploy.ts#L111)

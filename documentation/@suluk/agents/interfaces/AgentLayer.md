@@ -6,7 +6,7 @@
 
 # Interface: AgentLayer
 
-Defined in: [agents/src/pyramid.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L41)
+Defined in: [agents/src/pyramid.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L41)
 
 One agent's row in the pyramid view: where it sits + what it composes + the three static-observability signals.
 
@@ -16,7 +16,7 @@ One agent's row in the pyramid view: where it sits + what it composes + the thre
 
 > **agent**: `string`
 
-Defined in: [agents/src/pyramid.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L42)
+Defined in: [agents/src/pyramid.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L42)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [agents/src/pyramid.ts:42](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **budget?**: `number`
 
-Defined in: [agents/src/pyramid.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L60)
+Defined in: [agents/src/pyramid.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L60)
 
 the agent's DECLARED `contextBudget.tokens`, if any.
 
@@ -34,7 +34,7 @@ the agent's DECLARED `contextBudget.tokens`, if any.
 
 > `optional` **contextTokens?**: `number`
 
-Defined in: [agents/src/pyramid.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L58)
+Defined in: [agents/src/pyramid.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L58)
 
 estimated default context load (tokens) — `contextReport`.
 
@@ -44,7 +44,7 @@ estimated default context load (tokens) — `contextReport`.
 
 > `optional` **contextWaste?**: `object`
 
-Defined in: [agents/src/pyramid.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L64)
+Defined in: [agents/src/pyramid.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L64)
 
 CONTEXT-WASTE WARNING — resident tools the analyzer says should move to cold-tail, and the tokens that frees.
 
@@ -62,7 +62,7 @@ CONTEXT-WASTE WARNING — resident tools the analyzer says should move to cold-t
 
 > **cyclic**: `boolean`
 
-Defined in: [agents/src/pyramid.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L46)
+Defined in: [agents/src/pyramid.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L46)
 
 true ⇒ a reachable sub-agent cycle makes the level unbounded — a defect the cycle-linter / grade fail on.
 
@@ -72,7 +72,7 @@ true ⇒ a reachable sub-agent cycle makes the level unbounded — a defect the 
 
 > `optional` **grade?**: [`AgentGrade`](../type-aliases/AgentGrade.md)
 
-Defined in: [agents/src/pyramid.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L55)
+Defined in: [agents/src/pyramid.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L55)
 
 HARDENING — `gradeAgent` A–F.
 
@@ -82,7 +82,7 @@ HARDENING — `gradeAgent` A–F.
 
 > **level**: `number`
 
-Defined in: [agents/src/pyramid.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L44)
+Defined in: [agents/src/pyramid.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L44)
 
 composition height above the floor; a leaf agent = 1. `-1` ⇒ cyclic (see `cyclic`) so the row stays JSON-safe.
 
@@ -92,7 +92,7 @@ composition height above the floor; a leaf agent = 1. `-1` ⇒ cyclic (see `cycl
 
 > `optional` **overBudget?**: `boolean`
 
-Defined in: [agents/src/pyramid.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L62)
+Defined in: [agents/src/pyramid.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L62)
 
 TOKEN WARNING — the estimate exceeds the declared budget.
 
@@ -102,7 +102,7 @@ TOKEN WARNING — the estimate exceeds the declared budget.
 
 > **routeCount**: `number`
 
-Defined in: [agents/src/pyramid.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L48)
+Defined in: [agents/src/pyramid.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L48)
 
 level-0 deterministic capabilities composed directly (the calculators).
 
@@ -112,7 +112,7 @@ level-0 deterministic capabilities composed directly (the calculators).
 
 > `optional` **shippable?**: `boolean`
 
-Defined in: [agents/src/pyramid.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L56)
+Defined in: [agents/src/pyramid.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L56)
 
 ***
 
@@ -120,7 +120,7 @@ Defined in: [agents/src/pyramid.ts:56](https://github.com/MahmoodKhalil57/suluk/
 
 > **skillCount**: `number`
 
-Defined in: [agents/src/pyramid.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L50)
+Defined in: [agents/src/pyramid.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L50)
 
 model-bearing tiers — the agent's internal AI. `0` ⇒ a deterministic composition agent (closer to the floor).
 
@@ -130,6 +130,6 @@ model-bearing tiers — the agent's internal AI. `0` ⇒ a deterministic composi
 
 > **subAgentCount**: `number`
 
-Defined in: [agents/src/pyramid.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/pyramid.ts#L52)
+Defined in: [agents/src/pyramid.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L52)
 
 higher-layer units composed (by-name sub-agent refs).

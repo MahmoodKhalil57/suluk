@@ -8,7 +8,7 @@
 
 > **mountAuth**\<`T`\>(`app`, `auth`, `opts?`): `T`
 
-Defined in: [mount.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/better-auth/src/mount.ts#L23)
+Defined in: [mount.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/better-auth/src/mount.ts#L23)
 
 Mount the Better Auth handler onto a Hono app under basePath/* (default /api/auth/*).
 

@@ -6,7 +6,7 @@
 
 # Interface: Guard
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/enforce.ts#L94)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L94)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/hono/src/enforce.ts:94](https://github.com/Mahm
 
 > **requireAdmin**: `MiddlewareHandler`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/enforce.ts#L98)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L98)
 
 401 if anonymous, else 403 unless the caller is admin.
 
@@ -24,7 +24,7 @@ Defined in: [tooling/ts/packages/hono/src/enforce.ts:98](https://github.com/Mahm
 
 > **requireAuth**: `MiddlewareHandler`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/enforce.ts#L96)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L96)
 
 401 unless a verified principal is present.
 
@@ -34,7 +34,7 @@ Defined in: [tooling/ts/packages/hono/src/enforce.ts:96](https://github.com/Mahm
 
 > **requireScopes**: (...`need`) => `MiddlewareHandler`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/enforce.ts#L100)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L100)
 
 401 if anonymous, else 403 unless the caller holds EVERY named scope.
 

@@ -8,7 +8,7 @@
 
 > **chatApp**(`opts`): `Hono`
 
-Defined in: [chat/src/app.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/chat/src/app.ts#L116)
+Defined in: [chat/src/app.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/chat/src/app.ts#L116)
 
 `@suluk/chat` — a contract-driven chat AGENT for any suluk app. The same OpenAPI v4 operations that drive the API,
 SDK, docs, admin, panel, and MCP server are projected (via @suluk/mcp) into tools an in-page assistant can call;

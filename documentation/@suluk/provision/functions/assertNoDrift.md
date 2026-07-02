@@ -8,7 +8,7 @@
 
 > **assertNoDrift**(`config`, `state`): `void`
 
-Defined in: [provision/src/check.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/check.ts#L24)
+Defined in: [provision/src/check.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/check.ts#L24)
 
 Fail-closed: throw when there's any drift (the CI gate).
 

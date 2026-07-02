@@ -8,7 +8,7 @@
 
 > **parseKeyMeta**(`metadata`): `object`
 
-Defined in: [packages/keys/src/scopes.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/keys/src/scopes.ts#L25)
+Defined in: [packages/keys/src/scopes.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/keys/src/scopes.ts#L25)
 
 metadata JSON → the per-key controls (each null when absent/invalid): the PAID credit cap + the rate-limit share %.
  Defensive — a bad value reads as "no override"; the share is clamped to [1,100] to mirror the auth-time clamp.

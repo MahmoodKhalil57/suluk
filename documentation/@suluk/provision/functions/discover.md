@@ -8,7 +8,7 @@
 
 > **discover**(`state`, `brokers`): `Promise`\<[`DiscoveredInstance`](../interfaces/DiscoveredInstance.md)[]\>
 
-Defined in: [provision/src/pull.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/pull.ts#L82)
+Defined in: [provision/src/pull.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/pull.ts#L82)
 
 Discover live instances (via `broker.list`) that AREN'T in the journal — untracked resources to adopt (`pull
  --discover`). Skips services whose broker has no `list`.

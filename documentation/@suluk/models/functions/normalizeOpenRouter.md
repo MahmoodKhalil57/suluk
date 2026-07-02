@@ -8,7 +8,7 @@
 
 > **normalizeOpenRouter**(`models`, `asOf`): [`ModelRecord`](../interfaces/ModelRecord.md)[]
 
-Defined in: [normalize.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/normalize.ts#L67)
+Defined in: [normalize.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/normalize.ts#L67)
 
 ## Parameters
 

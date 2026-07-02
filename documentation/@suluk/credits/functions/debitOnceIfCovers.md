@@ -8,7 +8,7 @@
 
 > **debitOnceIfCovers**(`db`, `userId`, `amount`, `reason`, `idemKey`): `Promise`\<[`DebitOutcome`](../type-aliases/DebitOutcome.md)\>
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/credits/src/credits.ts#L102)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/credits/src/credits.ts#L102)
 
 Idempotent atomic debit: debit `amount` ONLY if the balance covers it AND this exact logical operation (identified by
 `idemKey`) hasn't already been debited. The row id is DERIVED from the key (`${reason}:${idemKey}`), so a retry/duplicate

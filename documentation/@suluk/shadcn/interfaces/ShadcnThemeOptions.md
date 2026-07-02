@@ -6,7 +6,7 @@
 
 # Interface: ShadcnThemeOptions
 
-Defined in: [theme.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/theme.ts#L9)
+Defined in: [theme.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/theme.ts#L9)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [theme.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f1
 
 > `optional` **baseColor?**: `string`
 
-Defined in: [theme.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/theme.ts#L13)
+Defined in: [theme.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/theme.ts#L13)
 
 base color name for components.json. Default "neutral".
 
@@ -24,7 +24,7 @@ base color name for components.json. Default "neutral".
 
 > `optional` **cssPath?**: `string`
 
-Defined in: [theme.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/theme.ts#L15)
+Defined in: [theme.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/theme.ts#L15)
 
 the globals.css path recorded in components.json. Default "src/app/globals.css".
 
@@ -34,7 +34,7 @@ the globals.css path recorded in components.json. Default "src/app/globals.css".
 
 > `optional` **darkSelector?**: `string`
 
-Defined in: [theme.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/theme.ts#L17)
+Defined in: [theme.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/theme.ts#L17)
 
 the dark-mode selector (shadcn convention is `.dark`; saastarter uses `[data-theme='dark']`). Default ".dark".
 
@@ -44,7 +44,7 @@ the dark-mode selector (shadcn convention is `.dark`; saastarter uses `[data-the
 
 > `optional` **rsc?**: `boolean`
 
-Defined in: [theme.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/theme.ts#L19)
+Defined in: [theme.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/theme.ts#L19)
 
 React Server Components flag for components.json. Default true.
 
@@ -54,6 +54,6 @@ React Server Components flag for components.json. Default true.
 
 > `optional` **style?**: `string`
 
-Defined in: [theme.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/theme.ts#L11)
+Defined in: [theme.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/theme.ts#L11)
 
 shadcn style. Default "new-york".

@@ -8,4 +8,4 @@
 
 > `const` **SUPPORTED\_PROTOCOLS**: `Set`\<`string`\>
 
-Defined in: [protocol.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/protocol.ts#L10)
+Defined in: [protocol.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/protocol.ts#L10)

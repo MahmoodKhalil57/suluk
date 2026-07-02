@@ -6,7 +6,7 @@
 
 # Interface: TaxResult
 
-Defined in: [packages/billing/src/tax.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/billing/src/tax.ts#L11)
+Defined in: [packages/billing/src/tax.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/billing/src/tax.ts#L11)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [packages/billing/src/tax.ts:11](https://github.com/MahmoodKhalil57/
 
 > **calculationId**: `string` \| `null`
 
-Defined in: [packages/billing/src/tax.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/billing/src/tax.ts#L13)
+Defined in: [packages/billing/src/tax.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/billing/src/tax.ts#L13)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [packages/billing/src/tax.ts:13](https://github.com/MahmoodKhalil57/
 
 > **taxCents**: `number`
 
-Defined in: [packages/billing/src/tax.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/billing/src/tax.ts#L12)
+Defined in: [packages/billing/src/tax.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/billing/src/tax.ts#L12)

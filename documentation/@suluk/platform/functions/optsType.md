@@ -8,7 +8,7 @@
 
 > **optsType**\<`T`\>(): [`Schema`](../interfaces/Schema.md)\<`T`\>
 
-Defined in: [service.ts:134](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/platform/src/service.ts#L134)
+Defined in: [service.ts:134](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/service.ts#L134)
 
 A TYPED opts marker for a service's `serviceOpts`/`brandOpts`. Phase 2 uses it purely for TYPES — the manifest author
 gets autocomplete + type-checking on that service's opts. It carries the value type `T` in the `Schema<T>` slot; Phase 3

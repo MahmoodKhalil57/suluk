@@ -8,7 +8,7 @@
 
 > **createSubscriptionOnDefaultCard**(`cfg`, `customerId`, `plan`, `userId`, `branding?`): `Promise`\<\{ `clientSecret`: `string`; `subscriptionId`: `string`; \} \| `null`\>
 
-Defined in: [packages/billing/src/subscriptions.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/billing/src/subscriptions.ts#L78)
+Defined in: [packages/billing/src/subscriptions.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/billing/src/subscriptions.ts#L78)
 
 Create a subscription ON the saved default card (one-click). payment_behavior=default_incomplete leaves the first
  invoice unpaid with a PaymentIntent the browser confirms (confirmCardPayment → 3DS in-page) → the subscription

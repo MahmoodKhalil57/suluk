@@ -8,7 +8,7 @@
 
 > **cloudflareToken**(`cf`): [`Broker`](../interfaces/Broker.md)
 
-Defined in: [provision/src/brokers/cloudflare.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/brokers/cloudflare.ts#L81)
+Defined in: [provision/src/brokers/cloudflare.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/brokers/cloudflare.ts#L81)
 
 A scoped, least-privilege Cloudflare API token (this is `mint-service-tokens.ts`). `params.permissionGroups` is the
  permission-group id list; `params.resources` defaults to the whole account. The token VALUE is returned only at

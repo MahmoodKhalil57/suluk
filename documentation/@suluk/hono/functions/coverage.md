@@ -8,7 +8,7 @@
 
 > **coverage**(`doc`): `number`
 
-Defined in: [tooling/ts/packages/hono/src/audit.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/audit.ts#L47)
+Defined in: [tooling/ts/packages/hono/src/audit.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/audit.ts#L47)
 
 A coarse coverage score in [0,1]: 1 = fully documented (no findings), lower = more gaps.
 

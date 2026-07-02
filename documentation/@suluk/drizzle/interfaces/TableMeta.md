@@ -6,7 +6,7 @@
 
 # Interface: TableMeta
 
-Defined in: [meta.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/meta.ts#L40)
+Defined in: [meta.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/meta.ts#L40)
 
 `@suluk/drizzle` — the DATA floor of the Suluk cycle: a Drizzle ORM table is the system of record, and this
 package projects it into the v4 "Suluk" contract. The chain is
@@ -27,7 +27,7 @@ silent: the v4 conversion surfaces zodToV4 warnings (tableToV4Warnings) and comp
 
 > **columns**: [`ColumnMeta`](ColumnMeta.md)[]
 
-Defined in: [meta.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/meta.ts#L46)
+Defined in: [meta.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/meta.ts#L46)
 
 ***
 
@@ -35,7 +35,7 @@ Defined in: [meta.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f1
 
 > **name**: `string`
 
-Defined in: [meta.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/meta.ts#L41)
+Defined in: [meta.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/meta.ts#L41)
 
 ***
 
@@ -43,7 +43,7 @@ Defined in: [meta.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f1
 
 > **primaryKey**: `string`[]
 
-Defined in: [meta.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/meta.ts#L43)
+Defined in: [meta.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/meta.ts#L43)
 
 Column names flagged `primary` (ordered as drizzle reports the columns).
 
@@ -53,6 +53,6 @@ Column names flagged `primary` (ordered as drizzle reports the columns).
 
 > **unique**: `string`[]
 
-Defined in: [meta.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/meta.ts#L45)
+Defined in: [meta.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/meta.ts#L45)
 
 Column names carrying a UNIQUE constraint (the natural keys for upsert / by-field lookup).

@@ -8,7 +8,7 @@
 
 > **provisionD1**(`cf`, `name`): `Promise`\<[`D1Database`](../interfaces/D1Database.md)\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/resources.ts#L13)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/resources.ts#L13)
 
 Create-or-get a D1 database by name.
 

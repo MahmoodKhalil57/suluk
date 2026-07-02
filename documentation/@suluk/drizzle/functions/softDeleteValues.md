@@ -8,7 +8,7 @@
 
 > **softDeleteValues**(`opts?`, `now?`): `Record`\<`string`, `string`\>
 
-Defined in: [mutations.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/mutations.ts#L20)
+Defined in: [mutations.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/mutations.ts#L20)
 
 The patch a soft delete applies — sets the deletedAt column to `now` (default current time).
 

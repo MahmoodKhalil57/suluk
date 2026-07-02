@@ -6,7 +6,7 @@
 
 # Interface: SettlementFinding
 
-Defined in: [settlement.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/settlement.ts#L22)
+Defined in: [settlement.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/settlement.ts#L22)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [settlement.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55f
 
 > **fix**: `string`
 
-Defined in: [settlement.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/settlement.ts#L28)
+Defined in: [settlement.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/settlement.ts#L28)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [settlement.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/55f
 
 > **message**: `string`
 
-Defined in: [settlement.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/settlement.ts#L27)
+Defined in: [settlement.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/settlement.ts#L27)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [settlement.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55f
 
 > **operation**: `string`
 
-Defined in: [settlement.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/settlement.ts#L25)
+Defined in: [settlement.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/settlement.ts#L25)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [settlement.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55f
 
 > **path**: `string`
 
-Defined in: [settlement.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/settlement.ts#L26)
+Defined in: [settlement.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/settlement.ts#L26)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [settlement.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/55f
 
 > **rule**: `string`
 
-Defined in: [settlement.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/settlement.ts#L23)
+Defined in: [settlement.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/settlement.ts#L23)
 
 ***
 
@@ -54,4 +54,4 @@ Defined in: [settlement.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55f
 
 > **severity**: [`SettlementSeverity`](../type-aliases/SettlementSeverity.md)
 
-Defined in: [settlement.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/settlement.ts#L24)
+Defined in: [settlement.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/settlement.ts#L24)

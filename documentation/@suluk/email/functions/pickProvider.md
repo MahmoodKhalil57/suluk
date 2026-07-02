@@ -8,7 +8,7 @@
 
 > **pickProvider**(`opts`): [`EmailProvider`](../interfaces/EmailProvider.md)
 
-Defined in: [provider.ts:140](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L140)
+Defined in: [provider.ts:140](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L140)
 
 Pick the provider the way saastarter's `isLocal` switch does: prod (a key + a from) ⇒ resend. In DEV (or no key) ⇒ a
 mailbox [storeProvider](storeProvider.md) when a `sink` is supplied (the mock-until-keyed local default — saves + inspectable),

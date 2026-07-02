@@ -8,7 +8,7 @@
 
 > **grantOnce**(`db`, `userId`, `amount`, `idemKey`, `reason?`, `amountCents?`, `legacyKey?`): `Promise`\<`boolean`\>
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:204](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/credits/src/credits.ts#L204)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:204](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/credits/src/credits.ts#L204)
 
 Idempotent money-IN grant — credit `amount` exactly once, keyed on the ledger row id `idemKey` (a STABLE per-payment
 anchor: `pi:<id>` / `inv:<id>` / `cs:<id>`), so a webhook redelivery or dashboard "Resend" can NEVER double-credit. The

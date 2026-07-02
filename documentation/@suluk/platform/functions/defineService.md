@@ -8,7 +8,7 @@
 
 > **defineService**\<`S`\>(`s`): `S`
 
-Defined in: [service.ts:124](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/platform/src/service.ts#L124)
+Defined in: [service.ts:124](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/service.ts#L124)
 
 Author a service. `const S` PRESERVES the literal `id` + the precise `serviceOpts`/`brandOpts` marker types, so the
 manifest (`defineSystem`) can key typed opts by service id off the imported service objects — no codegen. Validates the id.

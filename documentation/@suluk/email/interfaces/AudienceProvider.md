@@ -6,7 +6,7 @@
 
 # Interface: AudienceProvider
 
-Defined in: [audience.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/audience.ts#L25)
+Defined in: [audience.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/audience.ts#L25)
 
 The swappable audience binding — mirror contacts to an email-provider audience/list.
 
@@ -16,7 +16,7 @@ The swappable audience binding — mirror contacts to an email-provider audience
 
 > `readonly` **id**: `string`
 
-Defined in: [audience.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/audience.ts#L27)
+Defined in: [audience.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/audience.ts#L27)
 
 a stable id (e.g. "resend", "console").
 
@@ -26,7 +26,7 @@ a stable id (e.g. "resend", "console").
 
 > **remove**(`audienceId`, `email`): `Promise`\<[`AudienceResult`](AudienceResult.md)\>
 
-Defined in: [audience.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/audience.ts#L31)
+Defined in: [audience.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/audience.ts#L31)
 
 remove (or unsubscribe) a contact from the audience.
 
@@ -50,7 +50,7 @@ remove (or unsubscribe) a contact from the audience.
 
 > **upsert**(`audienceId`, `contact`): `Promise`\<[`AudienceResult`](AudienceResult.md)\>
 
-Defined in: [audience.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/audience.ts#L29)
+Defined in: [audience.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/audience.ts#L29)
 
 add or update a contact in the audience (idempotent upsert).
 

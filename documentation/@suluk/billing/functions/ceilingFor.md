@@ -8,7 +8,7 @@
 
 > **ceilingFor**(`metadata`, `periodEndSec`, `currentPriceCents`): `number`
 
-Defined in: [packages/billing/src/subscriptions.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/billing/src/subscriptions.ts#L116)
+Defined in: [packages/billing/src/subscriptions.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/billing/src/subscriptions.ts#L116)
 
 The "paid ceiling" for the CURRENT cycle = the highest plan price already CHARGED this cycle. Persisted in subscription
  metadata (raised on each above-ceiling upgrade), guarded by the period end so it auto-resets at the next renewal. Falls

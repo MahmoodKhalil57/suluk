@@ -8,7 +8,7 @@
 
 > **cloudflarePagesDomain**(`cf`): [`Broker`](../interfaces/Broker.md)
 
-Defined in: [provision/src/brokers/cloudflare-domains.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/brokers/cloudflare-domains.ts#L22)
+Defined in: [provision/src/brokers/cloudflare-domains.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/brokers/cloudflare-domains.ts#L22)
 
 ## Parameters
 

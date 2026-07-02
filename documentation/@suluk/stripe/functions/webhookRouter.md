@@ -8,7 +8,7 @@
 
 > **webhookRouter**(`handlers?`): [`WebhookRouter`](../interfaces/WebhookRouter.md)
 
-Defined in: [stripe-webhook.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/stripe-webhook.ts#L70)
+Defined in: [stripe-webhook.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/stripe-webhook.ts#L70)
 
 Build a router, optionally seeded with a `{ type → handler }` map.
 

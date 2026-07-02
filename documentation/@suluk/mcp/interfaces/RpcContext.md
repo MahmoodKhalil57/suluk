@@ -6,7 +6,7 @@
 
 # Interface: RpcContext
 
-Defined in: [protocol.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/protocol.ts#L17)
+Defined in: [protocol.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/protocol.ts#L17)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [protocol.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa0
 
 > **exec**: [`ToolExec`](../type-aliases/ToolExec.md)
 
-Defined in: [protocol.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/protocol.ts#L20)
+Defined in: [protocol.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/protocol.ts#L20)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [protocol.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/55fa0
 
 > **info**: `object`
 
-Defined in: [protocol.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/protocol.ts#L19)
+Defined in: [protocol.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/protocol.ts#L19)
 
 #### name
 
@@ -38,7 +38,7 @@ Defined in: [protocol.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa0
 
 > `optional` **instructions?**: `string`
 
-Defined in: [protocol.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/protocol.ts#L24)
+Defined in: [protocol.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/protocol.ts#L24)
 
 Optional free-text usage guidance surfaced to the model on `initialize`.
 
@@ -48,7 +48,7 @@ Optional free-text usage guidance surfaced to the model on `initialize`.
 
 > `optional` **protocolVersion?**: `string`
 
-Defined in: [protocol.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/protocol.ts#L22)
+Defined in: [protocol.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/protocol.ts#L22)
 
 Server's preferred protocol version (echoed back only if the client didn't pin a supported one).
 
@@ -58,7 +58,7 @@ Server's preferred protocol version (echoed back only if the client didn't pin a
 
 > `optional` **resident?**: `Set`\<`string`\>
 
-Defined in: [protocol.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/protocol.ts#L32)
+Defined in: [protocol.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/protocol.ts#L32)
 
 TIER-TRIM (C027 tier-trim serving) — the names of the RESIDENT tools. When set, `tools/list` serves only those
 plus a synthetic `discover_tools` meta-tool; the COLD-TAIL (every other tool) is withheld from the default
@@ -72,4 +72,4 @@ and self-healing. Absent ⇒ the full surface is served (no trim).
 
 > **tools**: [`McpTool`](McpTool.md)[]
 
-Defined in: [protocol.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/mcp/src/protocol.ts#L18)
+Defined in: [protocol.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/mcp/src/protocol.ts#L18)

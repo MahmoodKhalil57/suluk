@@ -6,7 +6,7 @@
 
 # Interface: Check
 
-Defined in: [tooling/ts/packages/hono/src/checks.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/checks.ts#L17)
+Defined in: [tooling/ts/packages/hono/src/checks.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/checks.ts#L17)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/hono/src/checks.ts:17](https://github.com/Mahmo
 
 > **name**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/checks.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/checks.ts#L18)
+Defined in: [tooling/ts/packages/hono/src/checks.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/checks.ts#L18)
 
 ## Methods
 
@@ -22,7 +22,7 @@ Defined in: [tooling/ts/packages/hono/src/checks.ts:18](https://github.com/Mahmo
 
 > **run**(): `object`
 
-Defined in: [tooling/ts/packages/hono/src/checks.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/checks.ts#L19)
+Defined in: [tooling/ts/packages/hono/src/checks.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/checks.ts#L19)
 
 #### Returns
 

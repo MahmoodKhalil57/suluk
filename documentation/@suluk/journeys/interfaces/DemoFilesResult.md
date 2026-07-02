@@ -6,7 +6,7 @@
 
 # Interface: DemoFilesResult
 
-Defined in: [journeys/src/cli.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/cli.ts#L28)
+Defined in: [journeys/src/cli.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/cli.ts#L28)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/cli.ts:28](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **files**: `Record`\<`string`, `string`\>
 
-Defined in: [journeys/src/cli.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/cli.ts#L30)
+Defined in: [journeys/src/cli.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/cli.ts#L30)
 
 relative path → file content. When format is "both", Bruno files are under `bruno/`, Postman under `postman/`.
 
@@ -24,7 +24,7 @@ relative path → file content. When format is "both", Bruno files are under `br
 
 > **requests**: `number`
 
-Defined in: [journeys/src/cli.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/cli.ts#L32)
+Defined in: [journeys/src/cli.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/cli.ts#L32)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [journeys/src/cli.ts:32](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **scenarios**: `number`
 
-Defined in: [journeys/src/cli.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/cli.ts#L31)
+Defined in: [journeys/src/cli.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/cli.ts#L31)

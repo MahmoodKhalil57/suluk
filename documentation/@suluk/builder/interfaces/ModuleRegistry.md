@@ -6,7 +6,7 @@
 
 # Interface: ModuleRegistry
 
-Defined in: [module.ts:264](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L264)
+Defined in: [module.ts:264](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/module.ts#L264)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [module.ts:264](https://github.com/MahmoodKhalil57/suluk/blob/55fa00
 
 > `optional` **homepage?**: `string`
 
-Defined in: [module.ts:266](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L266)
+Defined in: [module.ts:266](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/module.ts#L266)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [module.ts:266](https://github.com/MahmoodKhalil57/suluk/blob/55fa00
 
 > **modules**: [`ModuleEntry`](ModuleEntry.md)[]
 
-Defined in: [module.ts:267](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L267)
+Defined in: [module.ts:267](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/module.ts#L267)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [module.ts:267](https://github.com/MahmoodKhalil57/suluk/blob/55fa00
 
 > **name**: `string`
 
-Defined in: [module.ts:265](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/module.ts#L265)
+Defined in: [module.ts:265](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/module.ts#L265)

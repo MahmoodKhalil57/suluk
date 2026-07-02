@@ -6,7 +6,7 @@
 
 # Interface: RenderSkeletonOptions
 
-Defined in: [render-skeleton.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/render-skeleton.ts#L8)
+Defined in: [render-skeleton.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/render-skeleton.ts#L8)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [render-skeleton.ts:8](https://github.com/MahmoodKhalil57/suluk/blob
 
 > `optional` **componentName?**: `string`
 
-Defined in: [render-skeleton.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/render-skeleton.ts#L10)
+Defined in: [render-skeleton.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/render-skeleton.ts#L10)
 
 React component name (default per view: GeneratedFormSkeleton / …TableSkeleton / …DetailSkeleton).
 
@@ -24,6 +24,6 @@ React component name (default per view: GeneratedFormSkeleton / …TableSkeleton
 
 > `optional` **rows?**: `number`
 
-Defined in: [render-skeleton.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/shadcn/src/render-skeleton.ts#L12)
+Defined in: [render-skeleton.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/render-skeleton.ts#L12)
 
 placeholder row count for the table/detail skeleton (default 5 / fields).

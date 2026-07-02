@@ -6,7 +6,7 @@
 
 # Interface: ChangedOp
 
-Defined in: [cockpit/src/drift.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/drift.ts#L25)
+Defined in: [cockpit/src/drift.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/drift.ts#L25)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: [cockpit/src/drift.ts:25](https://github.com/MahmoodKhalil57/suluk/b
 
 > **changes**: `string`[]
 
-Defined in: [cockpit/src/drift.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/drift.ts#L27)
+Defined in: [cockpit/src/drift.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/drift.ts#L27)
 
 human-readable field-level changes, deployed→local
 
@@ -28,7 +28,7 @@ human-readable field-level changes, deployed→local
 
 > **detail**: `string`
 
-Defined in: [cockpit/src/drift.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/drift.ts#L23)
+Defined in: [cockpit/src/drift.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/drift.ts#L23)
 
 e.g. "GET project"
 
@@ -42,7 +42,7 @@ e.g. "GET project"
 
 > **name**: `string`
 
-Defined in: [cockpit/src/drift.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cockpit/src/drift.ts#L21)
+Defined in: [cockpit/src/drift.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/drift.ts#L21)
 
 human display handle (the C009 name); disambiguated by `detail` when names repeat across paths
 

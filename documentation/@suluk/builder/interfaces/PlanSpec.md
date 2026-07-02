@@ -6,7 +6,7 @@
 
 # Interface: PlanSpec
 
-Defined in: [marketing.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/marketing.ts#L27)
+Defined in: [marketing.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/marketing.ts#L27)
 
 A pricing plan — static config (no live Stripe matrix); `stripePriceId` is carried for the app to resolve.
 
@@ -16,7 +16,7 @@ A pricing plan — static config (no live Stripe matrix); `stripePriceId` is car
 
 > `optional` **ctaHref?**: `string`
 
-Defined in: [marketing.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/marketing.ts#L33)
+Defined in: [marketing.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/marketing.ts#L33)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [marketing.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/55fa
 
 > **ctaKey**: `string`
 
-Defined in: [marketing.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/marketing.ts#L32)
+Defined in: [marketing.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/marketing.ts#L32)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [marketing.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/55fa
 
 > `optional` **featured?**: `boolean`
 
-Defined in: [marketing.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/marketing.ts#L34)
+Defined in: [marketing.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/marketing.ts#L34)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [marketing.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/55fa
 
 > **featureKeys**: `string`[]
 
-Defined in: [marketing.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/marketing.ts#L31)
+Defined in: [marketing.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/marketing.ts#L31)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [marketing.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa
 
 > **id**: `string`
 
-Defined in: [marketing.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/marketing.ts#L28)
+Defined in: [marketing.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/marketing.ts#L28)
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: [marketing.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/55fa
 
 > **nameKey**: `string`
 
-Defined in: [marketing.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/marketing.ts#L29)
+Defined in: [marketing.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/marketing.ts#L29)
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: [marketing.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa
 
 > **priceCents**: `number`
 
-Defined in: [marketing.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/marketing.ts#L30)
+Defined in: [marketing.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/marketing.ts#L30)
 
 ***
 
@@ -72,6 +72,6 @@ Defined in: [marketing.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa
 
 > `optional` **stripePriceId?**: `string`
 
-Defined in: [marketing.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/marketing.ts#L36)
+Defined in: [marketing.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/marketing.ts#L36)
 
 the app resolves the live price/checkout from this, if set.

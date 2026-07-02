@@ -8,7 +8,7 @@
 
 > **scalarResponse**(`doc`, `opts?`): `Response`
 
-Defined in: [index.ts:223](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/scalar/src/index.ts#L223)
+Defined in: [index.ts:223](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/scalar/src/index.ts#L223)
 
 Convenience for Bun.serve / Hono / fetch handlers: the Scalar page as a text/html Response.
 

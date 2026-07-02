@@ -6,7 +6,7 @@
 
 # Interface: ScenarioOutline
 
-Defined in: [journeys/src/outline.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/outline.ts#L23)
+Defined in: [journeys/src/outline.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/outline.ts#L23)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/outline.ts:23](https://github.com/MahmoodKhalil57/sulu
 
 > **columns**: [`OutlineColumn`](OutlineColumn.md)[]
 
-Defined in: [journeys/src/outline.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/outline.ts#L31)
+Defined in: [journeys/src/outline.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/outline.ts#L31)
 
 client-facing input columns (computed fields dropped). Empty ⇒ a plain Scenario, no Examples table.
 
@@ -24,7 +24,7 @@ client-facing input columns (computed fields dropped). Empty ⇒ a plain Scenari
 
 > **method**: `string`
 
-Defined in: [journeys/src/outline.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/outline.ts#L26)
+Defined in: [journeys/src/outline.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/outline.ts#L26)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [journeys/src/outline.ts:26](https://github.com/MahmoodKhalil57/sulu
 
 > **op**: `string`
 
-Defined in: [journeys/src/outline.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/outline.ts#L25)
+Defined in: [journeys/src/outline.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/outline.ts#L25)
 
 the operation's v4 by-name handle.
 
@@ -42,7 +42,7 @@ the operation's v4 by-name handle.
 
 > **uri**: `string`
 
-Defined in: [journeys/src/outline.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/outline.ts#L27)
+Defined in: [journeys/src/outline.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/outline.ts#L27)
 
 ***
 
@@ -50,6 +50,6 @@ Defined in: [journeys/src/outline.ts:27](https://github.com/MahmoodKhalil57/sulu
 
 > **whenPhrase**: `string`
 
-Defined in: [journeys/src/outline.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/outline.ts#L29)
+Defined in: [journeys/src/outline.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/outline.ts#L29)
 
 the `When` step text (placeholders reference the Examples columns).

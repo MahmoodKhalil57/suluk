@@ -6,7 +6,7 @@
 
 # Interface: AssetRuleFiles
 
-Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/assets.ts#L37)
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/assets.ts#L37)
 
 The result of splitting Workers-Assets rule files out of an asset list.
 
@@ -16,7 +16,7 @@ The result of splitting Workers-Assets rule files out of an asset list.
 
 > `optional` **\_headers?**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/assets.ts#L41)
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/assets.ts#L41)
 
 raw `_headers` file contents, if present — passed in the worker metadata's assets.config, NOT uploaded.
 
@@ -26,7 +26,7 @@ raw `_headers` file contents, if present — passed in the worker metadata's ass
 
 > `optional` **\_redirects?**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/assets.ts#L43)
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/assets.ts#L43)
 
 raw `_redirects` file contents, if present.
 
@@ -36,6 +36,6 @@ raw `_redirects` file contents, if present.
 
 > **assets**: [`AssetFile`](AssetFile.md)[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/assets.ts#L39)
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/assets.ts#L39)
 
 the remaining files to actually upload + serve.

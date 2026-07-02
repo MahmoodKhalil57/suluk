@@ -6,7 +6,7 @@
 
 # Interface: CostAttribution
 
-Defined in: [types.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L47)
+Defined in: [types.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L47)
 
 WHO is charged when a third party fires the event with no live session (C024) — a declared STRATEGY the runtime
 resolves a concrete principal from, modeled on `SulukRateLimit.key`. The `expression` is RUNTIME-ONLY: a C018
@@ -18,7 +18,7 @@ runtime-expression that NEVER enters the static matcher (D1-consistent, exactly 
 
 > `optional` **expression?**: `string`
 
-Defined in: [types.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L52)
+Defined in: [types.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L52)
 
 for event-expression: a C018 runtime-expression (e.g. "{$event.body#/customer}"). Runtime-resolved only.
 
@@ -28,7 +28,7 @@ for event-expression: a C018 runtime-expression (e.g. "{$event.body#/customer}")
 
 > **strategy**: `"session"` \| `"event-expression"` \| `"job-stamped"`
 
-Defined in: [types.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L50)
+Defined in: [types.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L50)
 
 session = the live caller (the existing path); event-expression = read the principal from the event payload at
  runtime; job-stamped = the job carries its own principal.
@@ -39,7 +39,7 @@ session = the live caller (the existing path); event-expression = read the princ
 
 > `optional` **trust?**: `"verified"` \| `"unverified-payload"`
 
-Defined in: [types.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L55)
+Defined in: [types.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L55)
 
 is the attribution input authentic? An event-expression off an UNVERIFIED webhook payload is attacker-controlled
  — honor it as authoritative only when "verified" (a signature/secret check the runtime performs).

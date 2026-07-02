@@ -6,7 +6,7 @@
 
 # Interface: OpenAPIv4Document
 
-Defined in: [types.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L13)
+Defined in: [types.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L13)
 
 Top-level OpenAPI v4 document.
 
@@ -20,7 +20,7 @@ Top-level OpenAPI v4 document.
 
 > `optional` **apiResponses?**: `Record`\<`string`, [`Response`](Response.md)\>
 
-Defined in: [types.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L23)
+Defined in: [types.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L23)
 
 Document-level responses reusable across all operations (§5).
 
@@ -30,7 +30,7 @@ Document-level responses reusable across all operations (§5).
 
 > `optional` **components?**: [`Components`](Components.md)
 
-Defined in: [types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L72)
+Defined in: [types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L72)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > **info**: [`Info`](Info.md)
 
-Defined in: [types.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L16)
+Defined in: [types.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L16)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [types.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > **openapi**: `string`
 
-Defined in: [types.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L15)
+Defined in: [types.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L15)
 
 e.g. "4.0.0-candidate".
 
@@ -56,7 +56,7 @@ e.g. "4.0.0-candidate".
 
 > **paths**: `Record`\<`string`, [`PathItem`](PathItem.md)\>
 
-Defined in: [types.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L21)
+Defined in: [types.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L21)
 
 Map keyed by RFC6570 parseable-profile uriTemplate (C005).
 
@@ -66,7 +66,7 @@ Map keyed by RFC6570 parseable-profile uriTemplate (C005).
 
 > `optional` **servers?**: [`Server`](Server.md)[]
 
-Defined in: [types.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L17)
+Defined in: [types.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L17)
 
 ***
 
@@ -74,7 +74,7 @@ Defined in: [types.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > `optional` **tags?**: `Record`\<`string`, [`Tag`](Tag.md)\>
 
-Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L19)
+Defined in: [types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L19)
 
 Map keyed by tag name (C009).
 
@@ -84,7 +84,7 @@ Map keyed by tag name (C009).
 
 > `optional` **webhooks?**: `Record`\<`string`, [`Request`](Request.md)\>
 
-Defined in: [types.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L25)
+Defined in: [types.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L25)
 
 Incoming operations not hosted at the API's own paths (§14, C018).
 
@@ -94,7 +94,7 @@ Incoming operations not hosted at the API's own paths (§14, C018).
 
 > `optional` **x-suluk-agents?**: `Record`\<`string`, [`SulukAgent`](SulukAgent.md)\>
 
-Defined in: [types.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L42)
+Defined in: [types.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L42)
 
 AGENTS vendor map (C027) — `x-suluk-agents`. A composition manifest layered ON TOP of the API: each SulukAgent
 is an LLM-orchestrated unit of SKILLS (model-bearing instruction bundles) + deterministic ROUTES (by-name
@@ -111,7 +111,7 @@ survive as the ordinary operations they always referenced. Originated, low ceili
 
 > `optional` **x-suluk-jobs?**: `Record`\<`string`, [`SulukJob`](SulukJob.md)\>
 
-Defined in: [types.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L31)
+Defined in: [types.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L31)
 
 JOBS vendor map (C025) — non-HTTP background work (cron / queue consumers) that has NO inbound Request, so it
 can't live in `paths` or `webhooks`. The first-class home C024 pre-blessed for its `scheduled`/`queue-consumed`
@@ -123,7 +123,7 @@ cost triggers. A VENDOR EXTENSION (the `x-suluk-*` namespace) — NOT a normativ
 
 > `optional` **x-suluk-notify?**: [`SulukNotifyPolicy`](../type-aliases/SulukNotifyPolicy.md)
 
-Defined in: [types.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L71)
+Defined in: [types.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L71)
 
 REACTIVE notify policy (C037) — `x-suluk-notify`. A document-level status→severity map that drives the CALLBACK
 layer of the `@suluk/sdk` reactive client: which responses surface to the user, and how. CLIENT-CODEGEN ONLY —
@@ -137,7 +137,7 @@ per-op `x-suluk-store` facet + ADR C037. Originated, low ceiling (~0.5).
 
 > `optional` **x-suluk-policy?**: `Record`\<`string`, [`SulukPolicy`](SulukPolicy.md)\>
 
-Defined in: [types.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L52)
+Defined in: [types.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L52)
 
 POLICY vendor map (C028) — `x-suluk-policy`, keyed by OPERATOR/fleet name (not agent name: the operator owns
 it, one policy spans many third-party agents). An operator-owned governance overlay that NARROWS what an agent
@@ -153,7 +153,7 @@ ceiling (~0.52); pairs with ADR C028.
 
 > `optional` **x-suluk-resources?**: `Record`\<`string`, [`SulukResource`](SulukResource.md)\>
 
-Defined in: [types.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L63)
+Defined in: [types.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L63)
 
 RESOURCES vendor map (C036) — `x-suluk-resources`. The loadable, on-demand CATALOG of instructions / references /
 scripts an agent can ACTIVATE when a task matches (Cloudflare "Agent Skills" / loadable context-memory alignment;

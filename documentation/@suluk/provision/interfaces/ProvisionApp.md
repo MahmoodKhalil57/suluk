@@ -6,7 +6,7 @@
 
 # Interface: ProvisionApp
 
-Defined in: [provision/src/app.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/app.ts#L11)
+Defined in: [provision/src/app.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/app.ts#L11)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/app.ts:11](https://github.com/MahmoodKhalil57/suluk/b
 
 > **brokers**: `Record`\<`string`, [`Broker`](Broker.md)\>
 
-Defined in: [provision/src/app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/app.ts#L15)
+Defined in: [provision/src/app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/app.ts#L15)
 
 service id → broker (the executors `apply` dispatches to).
 
@@ -24,7 +24,7 @@ service id → broker (the executors `apply` dispatches to).
 
 > **config**: [`ProvisionConfig`](ProvisionConfig.md)
 
-Defined in: [provision/src/app.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/app.ts#L13)
+Defined in: [provision/src/app.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/app.ts#L13)
 
 the desired instances (+ pruneOrphans default).
 
@@ -34,7 +34,7 @@ the desired instances (+ pruneOrphans default).
 
 > `optional` **migrations?**: [`MigrationStore`](MigrationStore.md)
 
-Defined in: [provision/src/app.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/app.ts#L22)
+Defined in: [provision/src/app.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/app.ts#L22)
 
 the committed migration history — enables `generate` + `migrate` (the drizzle-style repeatable path). Optional;
  a real config points it at `fileMigrationStore("provision")`.
@@ -45,7 +45,7 @@ the committed migration history — enables `generate` + `migrate` (the drizzle-
 
 > `optional` **sink?**: [`BindingSink`](BindingSink.md)
 
-Defined in: [provision/src/app.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/app.ts#L19)
+Defined in: [provision/src/app.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/app.ts#L19)
 
 where bound credentials land (defaults to the @suluk/env sink). Optional.
 
@@ -55,6 +55,6 @@ where bound credentials land (defaults to the @suluk/env sink). Optional.
 
 > **store**: [`StateStore`](StateStore.md)
 
-Defined in: [provision/src/app.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/app.ts#L17)
+Defined in: [provision/src/app.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/app.ts#L17)
 
 the journal (defaults to a file store in a real config).

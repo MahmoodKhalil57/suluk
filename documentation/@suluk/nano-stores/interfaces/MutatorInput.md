@@ -6,7 +6,7 @@
 
 # Interface: MutatorInput
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/stores.ts#L92)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/stores.ts#L92)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:92](https://github.co
 
 > `optional` **action?**: `string`
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/stores.ts#L96)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/stores.ts#L96)
 
 Overrides the store's default action for this call (the `x-suluk-action` cost-tracing tag).
 
@@ -24,7 +24,7 @@ Overrides the store's default action for this call (the `x-suluk-action` cost-tr
 
 > `optional` **data?**: `unknown`
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/stores.ts#L93)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/stores.ts#L93)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:93](https://github.co
 
 > `optional` **params?**: `Record`\<`string`, `string` \| `number`\>
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/stores.ts#L94)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/stores.ts#L94)

@@ -6,7 +6,7 @@
 
 # Interface: Drawer
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/drawer.ts#L35)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/drawer.ts#L35)
 
 ## Methods
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:35](https://github.co
 
 > **close**(): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/drawer.ts#L37)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/drawer.ts#L37)
 
 #### Returns
 
@@ -26,7 +26,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:37](https://github.co
 
 > **isOpen**(): `boolean`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/drawer.ts#L39)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/drawer.ts#L39)
 
 #### Returns
 
@@ -38,7 +38,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:39](https://github.co
 
 > **open**(): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/drawer.ts#L36)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/drawer.ts#L36)
 
 #### Returns
 
@@ -50,7 +50,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:36](https://github.co
 
 > **toggle**(): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/drawer.ts#L38)
+Defined in: [tooling/ts/packages/nano-stores/src/drawer.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/drawer.ts#L38)
 
 #### Returns
 

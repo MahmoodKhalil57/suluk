@@ -8,7 +8,7 @@
 
 > **recordKey**(`db`, `txnId`, `keyId`): `Promise`\<`void`\>
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/credits/src/credits.ts#L44)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/credits/src/credits.ts#L44)
 
 Attribute a debit row to the API KEY that spent it (per-key usage + limit join). Best-effort + idempotent (PK on
  txnId) — attribution is reporting, NOT the money path, so a failure here must never break the debit it rode in on.

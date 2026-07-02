@@ -8,7 +8,7 @@
 
 > **pathDepth**(`path`): `number`
 
-Defined in: [packages/keys/src/path.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/keys/src/path.ts#L26)
+Defined in: [packages/keys/src/path.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/keys/src/path.ts#L26)
 
 Depth of a path: 0 = root, >0 = a delegated child.
 

@@ -6,7 +6,7 @@
 
 # Interface: ModelCatalog
 
-Defined in: [types.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L67)
+Defined in: [types.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L67)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [types.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > **generatedAt**: `string`
 
-Defined in: [types.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L69)
+Defined in: [types.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L69)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [types.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > **rows**: [`ModelRecord`](ModelRecord.md)[]
 
-Defined in: [types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L72)
+Defined in: [types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L72)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > **schemaVersion**: `string`
 
-Defined in: [types.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L68)
+Defined in: [types.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L68)
 
 ***
 
@@ -38,6 +38,6 @@ Defined in: [types.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > **snapshotHash**: `string`
 
-Defined in: [types.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L71)
+Defined in: [types.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L71)
 
 content-addressed so a selection is reproducible week-over-week (ties C027 contentHash).

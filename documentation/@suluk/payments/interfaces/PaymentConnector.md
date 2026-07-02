@@ -6,7 +6,7 @@
 
 # Interface: PaymentConnector
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L25)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L25)
 
 A payment processor behind the unified schema. The CORE flows (authorize/capture/void/refund/sync) are required; the
 advanced surfaces (customer, tokenize/vault, recurring, webhook) are OPTIONAL — a connector declares them as it gains
@@ -18,7 +18,7 @@ coverage, and the caller feature-detects. A soft decline is returned as `status:
 
 > `readonly` **name**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L27)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L27)
 
 the processor id, e.g. "stripe".
 
@@ -28,7 +28,7 @@ the processor id, e.g. "stripe".
 
 > **authorize**(`req`): `Promise`\<[`PaymentResponse`](PaymentResponse.md)\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L28)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L28)
 
 #### Parameters
 
@@ -46,7 +46,7 @@ Defined in: [tooling/ts/packages/payments/src/connector.ts:28](https://github.co
 
 > **capture**(`req`): `Promise`\<[`PaymentResponse`](PaymentResponse.md)\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L29)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L29)
 
 #### Parameters
 
@@ -64,7 +64,7 @@ Defined in: [tooling/ts/packages/payments/src/connector.ts:29](https://github.co
 
 > `optional` **createCustomer**(`req`): `Promise`\<\{ `customerId`: `string`; \}\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L36)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L36)
 
 create a processor customer (returns its id).
 
@@ -90,7 +90,7 @@ create a processor customer (returns its id).
 
 > `optional` **createPaymentSession**(`req`): `Promise`\<[`ClientSession`](ClientSession.md)\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L51)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L51)
 
 Create a browser-confirmable PAYMENT session (Stripe PaymentIntent client_secret) — the Payment-Element / one-click
  path. The browser confirms with the processor SDK; crediting happens on the webhook, not here.
@@ -111,7 +111,7 @@ Create a browser-confirmable PAYMENT session (Stripe PaymentIntent client_secret
 
 > `optional` **createSetupSession**(`req`): `Promise`\<[`ClientSession`](ClientSession.md)\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L53)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L53)
 
 Create a browser-confirmable SETUP session (Stripe SetupIntent client_secret) — vault a card without charging.
 
@@ -131,7 +131,7 @@ Create a browser-confirmable SETUP session (Stripe SetupIntent client_secret) �
 
 > `optional` **handleWebhook**(`raw`, `headers`): `Promise`\<[`WebhookEvent`](WebhookEvent.md)\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L46)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L46)
 
 verify + normalize a processor webhook into a unified event.
 
@@ -155,7 +155,7 @@ verify + normalize a processor webhook into a unified event.
 
 > `optional` **recurringCharge**(`req`): `Promise`\<[`PaymentResponse`](PaymentResponse.md)\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L42)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L42)
 
 charge an established recurring mandate off-session.
 
@@ -185,7 +185,7 @@ charge an established recurring mandate off-session.
 
 > `optional` **recurringRevoke**(`req`): `Promise`\<`void`\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L44)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L44)
 
 revoke a recurring mandate.
 
@@ -207,7 +207,7 @@ revoke a recurring mandate.
 
 > `optional` **recurringSetup**(`req`): `Promise`\<\{ `mandateId`: `string`; \}\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L40)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L40)
 
 set up an off-session mandate for recurring charges.
 
@@ -233,7 +233,7 @@ set up an off-session mandate for recurring charges.
 
 > **refund**(`req`): `Promise`\<[`RefundResponse`](RefundResponse.md)\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L31)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L31)
 
 #### Parameters
 
@@ -251,7 +251,7 @@ Defined in: [tooling/ts/packages/payments/src/connector.ts:31](https://github.co
 
 > **sync**(`req`): `Promise`\<[`PaymentResponse`](PaymentResponse.md)\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L32)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L32)
 
 #### Parameters
 
@@ -269,7 +269,7 @@ Defined in: [tooling/ts/packages/payments/src/connector.ts:32](https://github.co
 
 > `optional` **tokenize**(`req`): `Promise`\<\{ `token`: [`Secret`](../type-aliases/Secret.md); \}\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L38)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L38)
 
 vault an instrument → a reusable token (the app/processor vault; the library stores nothing).
 
@@ -295,7 +295,7 @@ vault an instrument → a reusable token (the app/processor vault; the library s
 
 > **void**(`req`): `Promise`\<[`PaymentResponse`](PaymentResponse.md)\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/connector.ts#L30)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/connector.ts#L30)
 
 #### Parameters
 

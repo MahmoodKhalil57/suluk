@@ -8,7 +8,7 @@
 
 > **buildAda**(`doc`): [`Ada`](../interfaces/Ada.md)
 
-Defined in: [ada.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/ada.ts#L31)
+Defined in: [ada.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/ada.ts#L31)
 
 Build the ADA from a parsed document: index every request, compute signatures, detect collisions.
 

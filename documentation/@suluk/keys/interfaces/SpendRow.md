@@ -6,7 +6,7 @@
 
 # Interface: SpendRow
 
-Defined in: [packages/keys/src/chain.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/keys/src/chain.ts#L66)
+Defined in: [packages/keys/src/chain.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/keys/src/chain.ts#L66)
 
 One row of per-path spend (a positive amount), as the app's subtree query returns it.
 
@@ -16,7 +16,7 @@ One row of per-path spend (a positive amount), as the app's subtree query return
 
 > **path**: `string`
 
-Defined in: [packages/keys/src/chain.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/keys/src/chain.ts#L67)
+Defined in: [packages/keys/src/chain.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/keys/src/chain.ts#L67)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [packages/keys/src/chain.ts:67](https://github.com/MahmoodKhalil57/s
 
 > **spent**: `number`
 
-Defined in: [packages/keys/src/chain.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/keys/src/chain.ts#L68)
+Defined in: [packages/keys/src/chain.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/keys/src/chain.ts#L68)

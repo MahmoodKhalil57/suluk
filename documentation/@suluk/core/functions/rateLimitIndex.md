@@ -8,7 +8,7 @@
 
 > **rateLimitIndex**(`doc`): [`RateLimitGroup`](../interfaces/RateLimitGroup.md)[]
 
-Defined in: [ratelimit.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/ratelimit.ts#L44)
+Defined in: [ratelimit.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/ratelimit.ts#L44)
 
 The DERIVED index: every operation that declares a rate-limit budget + its config. Computed by walking the
 document; never read back from stored state. The "what is rate-limited, and how?" lookup (reference panels,

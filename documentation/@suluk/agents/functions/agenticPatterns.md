@@ -8,7 +8,7 @@
 
 > **agenticPatterns**(`doc`, `name`): [`PatternAffordance`](../interfaces/PatternAffordance.md)[]
 
-Defined in: [agents/src/patterns.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/patterns.ts#L40)
+Defined in: [agents/src/patterns.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/patterns.ts#L40)
 
 The agentic patterns an agent's composition SHAPE affords (advisory; the runtime picks the actual trajectory).
 Returns `[]` for a flat agent (no sub-agents, no multi-round thinking) — a single-step tool-user affords none of

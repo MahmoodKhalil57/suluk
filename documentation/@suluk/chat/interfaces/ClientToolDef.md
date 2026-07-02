@@ -6,7 +6,7 @@
 
 # Interface: ClientToolDef
 
-Defined in: [chat/src/loop.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/chat/src/loop.ts#L14)
+Defined in: [chat/src/loop.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/chat/src/loop.ts#L14)
 
 A browser-executed tool: the model can call it, but the WORKER never runs it — it streams a `client_tool` event
  to the widget, which executes the action (cart, theme, navigation, …) locally. Defs only (no handler) reach the
@@ -18,7 +18,7 @@ A browser-executed tool: the model can call it, but the WORKER never runs it —
 
 > **description**: `string`
 
-Defined in: [chat/src/loop.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/chat/src/loop.ts#L14)
+Defined in: [chat/src/loop.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/chat/src/loop.ts#L14)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [chat/src/loop.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/
 
 > **name**: `string`
 
-Defined in: [chat/src/loop.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/chat/src/loop.ts#L14)
+Defined in: [chat/src/loop.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/chat/src/loop.ts#L14)
 
 ***
 
@@ -34,4 +34,4 @@ Defined in: [chat/src/loop.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/
 
 > **parameters**: `object`
 
-Defined in: [chat/src/loop.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/chat/src/loop.ts#L14)
+Defined in: [chat/src/loop.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/chat/src/loop.ts#L14)

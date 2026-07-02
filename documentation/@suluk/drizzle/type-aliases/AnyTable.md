@@ -8,7 +8,7 @@
 
 > **AnyTable** = `Parameters`\<*typeof* `getTableColumns`\>\[`0`\]
 
-Defined in: [meta.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/meta.ts#L11)
+Defined in: [meta.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/meta.ts#L11)
 
 Any drizzle table object accepted by getTableColumns/getTableName. We stay structural — the concrete
  dialect type (SQLite/Pg/MySQL) is irrelevant here; we only read the column descriptor surface.

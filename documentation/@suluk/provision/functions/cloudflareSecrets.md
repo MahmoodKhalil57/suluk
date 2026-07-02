@@ -8,7 +8,7 @@
 
 > **cloudflareSecrets**(`cf`): [`Broker`](../interfaces/Broker.md)
 
-Defined in: [provision/src/brokers/cloudflare.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/brokers/cloudflare.ts#L100)
+Defined in: [provision/src/brokers/cloudflare.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/brokers/cloudflare.ts#L100)
 
 Worker secrets — the runtime-secret SINK as a broker (this is `sync-secrets.ts`). `params.script` is the Worker name;
  `params.secrets` is a `Record<string,string>` of secret name → value (resolved from upstream `@ref.key` bindings).

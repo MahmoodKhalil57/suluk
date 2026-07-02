@@ -8,7 +8,7 @@
 
 > **collide**(`a`, `b`): [`CollisionVerdict`](../type-aliases/CollisionVerdict.md)
 
-Defined in: [signature.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/signature.ts#L58)
+Defined in: [signature.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/signature.ts#L58)
 
 Pairwise three-valued collision predicate (C003 detect-and-tolerate; NOT a gate).
 

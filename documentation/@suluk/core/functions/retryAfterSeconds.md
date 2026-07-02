@@ -8,7 +8,7 @@
 
 > **retryAfterSeconds**(`facet`): `number`
 
-Defined in: [ratelimit.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/ratelimit.ts#L24)
+Defined in: [ratelimit.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/ratelimit.ts#L24)
 
 Retry-After seconds for a budget — `ceil(windowMs / 1000)`, ported from saastarter route-handler.ts:75.
 Poison-guarded: a non-finite window yields 0 (never propagates NaN into a header).

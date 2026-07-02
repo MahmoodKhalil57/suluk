@@ -6,7 +6,7 @@
 
 # Interface: OpenRouterConfig
 
-Defined in: [chat/src/openrouter.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/chat/src/openrouter.ts#L20)
+Defined in: [chat/src/openrouter.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/chat/src/openrouter.ts#L20)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [chat/src/openrouter.ts:20](https://github.com/MahmoodKhalil57/suluk
 
 > **apiKey**: `string`
 
-Defined in: [chat/src/openrouter.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/chat/src/openrouter.ts#L21)
+Defined in: [chat/src/openrouter.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/chat/src/openrouter.ts#L21)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [chat/src/openrouter.ts:21](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **baseUrl?**: `string`
 
-Defined in: [chat/src/openrouter.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/chat/src/openrouter.ts#L23)
+Defined in: [chat/src/openrouter.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/chat/src/openrouter.ts#L23)
 
 default https://openrouter.ai/api/v1
 
@@ -32,7 +32,7 @@ default https://openrouter.ai/api/v1
 
 > `optional` **referer?**: `string`
 
-Defined in: [chat/src/openrouter.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/chat/src/openrouter.ts#L25)
+Defined in: [chat/src/openrouter.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/chat/src/openrouter.ts#L25)
 
 OpenRouter ranking attribution (optional).
 
@@ -42,7 +42,7 @@ OpenRouter ranking attribution (optional).
 
 > `optional` **temperature?**: `number`
 
-Defined in: [chat/src/openrouter.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/chat/src/openrouter.ts#L27)
+Defined in: [chat/src/openrouter.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/chat/src/openrouter.ts#L27)
 
 ***
 
@@ -50,4 +50,4 @@ Defined in: [chat/src/openrouter.ts:27](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **title?**: `string`
 
-Defined in: [chat/src/openrouter.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/chat/src/openrouter.ts#L26)
+Defined in: [chat/src/openrouter.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/chat/src/openrouter.ts#L26)

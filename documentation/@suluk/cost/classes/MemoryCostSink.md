@@ -6,7 +6,7 @@
 
 # Class: MemoryCostSink
 
-Defined in: [meter.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/meter.ts#L15)
+Defined in: [meter.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/meter.ts#L15)
 
 A simple in-memory sink (for the demo / tests). Production swaps in D1, a queue, etc.
 
@@ -30,7 +30,7 @@ A simple in-memory sink (for the demo / tests). Production swaps in D1, a queue,
 
 > **clear**(): `void`
 
-Defined in: [meter.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/meter.ts#L19)
+Defined in: [meter.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/meter.ts#L19)
 
 #### Returns
 
@@ -42,7 +42,7 @@ Defined in: [meter.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > **events**(): [`CostEvent`](../interfaces/CostEvent.md)[]
 
-Defined in: [meter.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/meter.ts#L18)
+Defined in: [meter.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/meter.ts#L18)
 
 #### Returns
 
@@ -54,7 +54,7 @@ Defined in: [meter.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > **record**(`e`): `void`
 
-Defined in: [meter.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/meter.ts#L17)
+Defined in: [meter.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/meter.ts#L17)
 
 #### Parameters
 

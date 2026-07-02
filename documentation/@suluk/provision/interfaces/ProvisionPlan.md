@@ -6,7 +6,7 @@
 
 # Interface: ProvisionPlan
 
-Defined in: [provision/src/plan.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/plan.ts#L22)
+Defined in: [provision/src/plan.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/plan.ts#L22)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/plan.ts:22](https://github.com/MahmoodKhalil57/suluk/
 
 > **clean**: `boolean`
 
-Defined in: [provision/src/plan.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/plan.ts#L27)
+Defined in: [provision/src/plan.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/plan.ts#L27)
 
 true when every step is a noop and there are no (prunable) orphans — the `check` CI gate passes on this.
 
@@ -24,7 +24,7 @@ true when every step is a noop and there are no (prunable) orphans — the `chec
 
 > **orphans**: `string`[]
 
-Defined in: [provision/src/plan.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/plan.ts#L25)
+Defined in: [provision/src/plan.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/plan.ts#L25)
 
 refs present in state but absent from config — deprovisioned only when pruning is on (else surfaced, not touched).
 
@@ -34,4 +34,4 @@ refs present in state but absent from config — deprovisioned only when pruning
 
 > **steps**: [`PlanStep`](PlanStep.md)[]
 
-Defined in: [provision/src/plan.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/plan.ts#L23)
+Defined in: [provision/src/plan.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/plan.ts#L23)

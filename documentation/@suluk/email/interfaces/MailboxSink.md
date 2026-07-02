@@ -6,7 +6,7 @@
 
 # Interface: MailboxSink
 
-Defined in: [provider.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L69)
+Defined in: [provider.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L69)
 
 A mailbox sink — where [storeProvider](../functions/storeProvider.md) SAVES instead of sending (a JSON file / sqlite in local dev). `list`
  powers a dev inbox view. Structurally typed so a bun-only file sink (e.g. `@suluk/cloudflare/local`) satisfies it.
@@ -17,7 +17,7 @@ A mailbox sink — where [storeProvider](../functions/storeProvider.md) SAVES in
 
 > `optional` **list**(): `Promise`\<[`StoredEmail`](StoredEmail.md)[]\>
 
-Defined in: [provider.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L71)
+Defined in: [provider.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L71)
 
 #### Returns
 
@@ -29,7 +29,7 @@ Defined in: [provider.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/55fa0
 
 > **save**(`email`): `Promise`\<`void`\>
 
-Defined in: [provider.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/provider.ts#L70)
+Defined in: [provider.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L70)
 
 #### Parameters
 

@@ -6,7 +6,7 @@
 
 # Interface: StatCard
 
-Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/app.ts#L15)
+Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/panel/src/app.ts#L15)
 
 A KPI tile on the dashboard home.
 
@@ -16,7 +16,7 @@ A KPI tile on the dashboard home.
 
 > `optional` **hint?**: `string`
 
-Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/app.ts#L15)
+Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/panel/src/app.ts#L15)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13
 
 > `optional` **href?**: `string`
 
-Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/app.ts#L15)
+Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/panel/src/app.ts#L15)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13
 
 > **label**: `string`
 
-Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/app.ts#L15)
+Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/panel/src/app.ts#L15)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13
 
 > **value**: `string` \| `number`
 
-Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/panel/src/app.ts#L15)
+Defined in: [app.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/panel/src/app.ts#L15)

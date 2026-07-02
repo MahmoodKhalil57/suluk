@@ -8,7 +8,7 @@
 
 > **parseRegistry**(`json`): [`ParsedRegistry`](../interfaces/ParsedRegistry.md)
 
-Defined in: [registry-remote.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/registry-remote.ts#L82)
+Defined in: [registry-remote.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/registry-remote.ts#L82)
 
 Parse an UNTRUSTED registry payload (e.g. fetched JSON) into a ModuleRegistry, rejecting malformed entries.
 

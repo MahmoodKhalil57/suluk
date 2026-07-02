@@ -6,7 +6,7 @@
 
 # Interface: CostEvent
 
-Defined in: [types.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L118)
+Defined in: [types.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L118)
 
 What a single request actually cost — the rawest record, attributed all the way down.
 
@@ -16,7 +16,7 @@ What a single request actually cost — the rawest record, attributed all the wa
 
 > `optional` **action?**: `string`
 
-Defined in: [types.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L126)
+Defined in: [types.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L126)
 
 The frontend action that triggered it (a button-click id), if the client tagged the request.
 
@@ -26,7 +26,7 @@ The frontend action that triggered it (a button-click id), if the client tagged 
 
 > **at**: `number`
 
-Defined in: [types.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L120)
+Defined in: [types.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L120)
 
 Wall-clock ms (an input, never read ambiently — pass it in, so events are reproducible/testable).
 
@@ -36,7 +36,7 @@ Wall-clock ms (an input, never read ambiently — pass it in, so events are repr
 
 > **breakdown**: `object`[]
 
-Defined in: [types.ts:134](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L134)
+Defined in: [types.ts:134](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L134)
 
 Per-source breakdown (µ$).
 
@@ -54,7 +54,7 @@ Per-source breakdown (µ$).
 
 > `optional` **dedupeKey?**: `string`
 
-Defined in: [types.ts:130](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L130)
+Defined in: [types.ts:130](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L130)
 
 Dedupe id for at-least-once event delivery — two events with the same key are the SAME charge (C024).
 
@@ -64,7 +64,7 @@ Dedupe id for at-least-once event delivery — two events with the same key are 
 
 > **operation**: `string`
 
-Defined in: [types.ts:124](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L124)
+Defined in: [types.ts:124](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L124)
 
 Which operation (the v4 by-name handle).
 
@@ -74,7 +74,7 @@ Which operation (the v4 by-name handle).
 
 > `optional` **principal?**: `string`
 
-Defined in: [types.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L122)
+Defined in: [types.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L122)
 
 Who incurred it (the principal/user id), if known.
 
@@ -84,7 +84,7 @@ Who incurred it (the principal/user id), if known.
 
 > `optional` **reconciled?**: `boolean`
 
-Defined in: [types.ts:132](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L132)
+Defined in: [types.ts:132](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L132)
 
 true ⇒ totalMicroUsd is the third party's ACTUAL charge read from the event (C026), not a declared estimate.
 
@@ -94,7 +94,7 @@ true ⇒ totalMicroUsd is the third party's ACTUAL charge read from the event (C
 
 > **totalMicroUsd**: `number`
 
-Defined in: [types.ts:136](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L136)
+Defined in: [types.ts:136](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L136)
 
 Total µ$ for the request.
 
@@ -104,6 +104,6 @@ Total µ$ for the request.
 
 > `optional` **trigger?**: [`CostTrigger`](../type-aliases/CostTrigger.md)
 
-Defined in: [types.ts:128](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/types.ts#L128)
+Defined in: [types.ts:128](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L128)
 
 How this cost fired (C024; default "synchronous"). A non-sync value marks a background charge.

@@ -6,7 +6,7 @@
 
 # Interface: NormalizedOperation
 
-Defined in: [reference/src/ir.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L26)
+Defined in: [reference/src/ir.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L26)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [reference/src/ir.ts:26](https://github.com/MahmoodKhalil57/suluk/bl
 
 > `optional` **access?**: [`AccessFacet`](AccessFacet.md)
 
-Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L30)
+Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L30)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **collisions**: `CollisionNote`[]
 
-Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L30)
+Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L30)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/bl
 
 > `optional` **cost?**: [`CostModel`](CostModel.md)
 
-Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L30)
+Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L30)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/bl
 
 > `optional` **deprecated?**: `boolean`
 
-Defined in: [reference/src/ir.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L28)
+Defined in: [reference/src/ir.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L28)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [reference/src/ir.ts:28](https://github.com/MahmoodKhalil57/suluk/bl
 
 > `optional` **description?**: `string`
 
-Defined in: [reference/src/ir.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L28)
+Defined in: [reference/src/ir.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L28)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [reference/src/ir.ts:28](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **id**: `string`
 
-Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L27)
+Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L27)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **method**: `string`
 
-Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L27)
+Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L27)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **name**: `string`
 
-Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L27)
+Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L27)
 
 ***
 
@@ -78,7 +78,7 @@ Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **path**: `string`
 
-Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L27)
+Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L27)
 
 ***
 
@@ -86,7 +86,7 @@ Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **request**: `NormalizedRequest`
 
-Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L29)
+Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L29)
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **responses**: `NormalizedResponse`[]
 
-Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L29)
+Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L29)
 
 ***
 
@@ -102,7 +102,7 @@ Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **security**: `string`[]
 
-Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L29)
+Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L29)
 
 ***
 
@@ -110,7 +110,7 @@ Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **servers**: `ServerEntry`[]
 
-Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L29)
+Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L29)
 
 ***
 
@@ -118,7 +118,7 @@ Defined in: [reference/src/ir.ts:29](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **shareCount**: `number`
 
-Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L30)
+Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L30)
 
 ***
 
@@ -126,7 +126,7 @@ Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **signature**: `OpSignature`
 
-Defined in: [reference/src/ir.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L31)
+Defined in: [reference/src/ir.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L31)
 
 ***
 
@@ -134,7 +134,7 @@ Defined in: [reference/src/ir.ts:31](https://github.com/MahmoodKhalil57/suluk/bl
 
 > `optional` **source?**: [`SulukSource`](../../core/interfaces/SulukSource.md)
 
-Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L30)
+Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L30)
 
 ***
 
@@ -142,7 +142,7 @@ Defined in: [reference/src/ir.ts:30](https://github.com/MahmoodKhalil57/suluk/bl
 
 > `optional` **summary?**: `string`
 
-Defined in: [reference/src/ir.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L28)
+Defined in: [reference/src/ir.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L28)
 
 ***
 
@@ -150,4 +150,4 @@ Defined in: [reference/src/ir.ts:28](https://github.com/MahmoodKhalil57/suluk/bl
 
 > `optional` **tag?**: `string`
 
-Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/reference/src/ir.ts#L27)
+Defined in: [reference/src/ir.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/ir.ts#L27)

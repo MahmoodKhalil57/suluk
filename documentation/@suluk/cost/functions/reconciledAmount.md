@@ -8,7 +8,7 @@
 
 > **reconciledAmount**(`model`, `event`): `number` \| `undefined`
 
-Defined in: [event.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/event.ts#L67)
+Defined in: [event.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/event.ts#L67)
 
 Resolve the ACTUAL charged amount (in µ$) from the event when the model is `payload-reconciled` (C026), else
 undefined. Reads the runtime amount-expression (e.g. the Stripe event amount) and converts from its declared unit

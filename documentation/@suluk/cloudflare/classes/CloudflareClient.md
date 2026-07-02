@@ -6,7 +6,7 @@
 
 # Class: CloudflareClient
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/client.ts#L48)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/client.ts#L48)
 
 `@suluk/cloudflare` — API-driven provisioning + deployment for a Suluk app on Cloudflare, no wrangler CLI. A typed
 REST client, idempotent provisioners (D1 / KV / R2 / secrets), the Workers module-script + static-assets upload
@@ -19,7 +19,7 @@ itself — readable, testable, and the same contract-first discipline as the res
 
 > **new CloudflareClient**(`opts`): `CloudflareClient`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/client.ts#L54)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/client.ts#L54)
 
 #### Parameters
 
@@ -37,7 +37,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/client.ts:54](https://github.com
 
 > **accountId**: `string` \| `undefined`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/client.ts#L52)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/client.ts#L52)
 
 ## Methods
 
@@ -45,7 +45,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/client.ts:52](https://github.com
 
 > **request**\<`T`\>(`method`, `path`, `opts?`): `Promise`\<`T`\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/client.ts#L63)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/client.ts#L63)
 
 Make a request and return the unwrapped `result`, throwing a CloudflareError when `success` is false.
 
@@ -79,7 +79,7 @@ Make a request and return the unwrapped `result`, throwing a CloudflareError whe
 
 > **requestText**(`method`, `path`, `opts?`): `Promise`\<`string` \| `null`\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/client.ts#L82)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/client.ts#L82)
 
 Like [request](#request) but returns the RAW body (no `{success,result}` envelope) — for KV value reads, which
  return the stored value directly. Returns null on 404 (key not found). Never echoes the body into an error.
@@ -108,7 +108,7 @@ Like [request](#request) but returns the RAW body (no `{success,result}` envelop
 
 > **resolveAccountId**(): `Promise`\<`string`\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/client.ts#L97)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/client.ts#L97)
 
 Resolve (and cache) the account id — the first account the token can see, unless one was supplied.
 

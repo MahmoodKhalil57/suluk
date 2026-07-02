@@ -6,7 +6,7 @@
 
 # Interface: HardFilters
 
-Defined in: [types.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L76)
+Defined in: [types.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L76)
 
 Hard requirements — these FILTER (can empty the set ⇒ fail-loud), never rank.
 
@@ -16,7 +16,7 @@ Hard requirements — these FILTER (can empty the set ⇒ fail-loud), never rank
 
 > `optional` **fidelityFloor?**: [`Tier`](../type-aliases/Tier.md)
 
-Defined in: [types.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L86)
+Defined in: [types.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L86)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [types.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > `optional` **inputModalities?**: `string`[]
 
-Defined in: [types.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L81)
+Defined in: [types.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L81)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [types.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > `optional` **maxInputPrice?**: `number`
 
-Defined in: [types.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L87)
+Defined in: [types.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L87)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [types.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > `optional` **maxOutputPrice?**: `number`
 
-Defined in: [types.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L88)
+Defined in: [types.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L88)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [types.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > `optional` **minOutputTokens?**: `number`
 
-Defined in: [types.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L85)
+Defined in: [types.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L85)
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: [types.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > `optional` **minWindowRequired?**: `number`
 
-Defined in: [types.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L84)
+Defined in: [types.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L84)
 
 the analyzer's per-agent minWindowRequired (context.ts) becomes the hard min-context gate.
 
@@ -66,7 +66,7 @@ the analyzer's per-agent minWindowRequired (context.ts) becomes the hard min-con
 
 > `optional` **needsForcedToolChoice?**: `boolean`
 
-Defined in: [types.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L78)
+Defined in: [types.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L78)
 
 ***
 
@@ -74,7 +74,7 @@ Defined in: [types.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > `optional` **needsStructured?**: `boolean`
 
-Defined in: [types.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L79)
+Defined in: [types.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L79)
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: [types.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > `optional` **needsTools?**: `boolean`
 
-Defined in: [types.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L77)
+Defined in: [types.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L77)
 
 ***
 
@@ -90,7 +90,7 @@ Defined in: [types.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > `optional` **outputModalities?**: `string`[]
 
-Defined in: [types.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L82)
+Defined in: [types.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L82)
 
 ***
 
@@ -98,7 +98,7 @@ Defined in: [types.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f
 
 > `optional` **policy?**: `object`
 
-Defined in: [types.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L90)
+Defined in: [types.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L90)
 
 C028 governance/allowlist — the TERMINAL, non-overridable MEET (a preference can NEVER widen these).
 
@@ -124,4 +124,4 @@ C028 governance/allowlist — the TERMINAL, non-overridable MEET (a preference c
 
 > `optional` **strictSchema?**: `boolean`
 
-Defined in: [types.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L80)
+Defined in: [types.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L80)

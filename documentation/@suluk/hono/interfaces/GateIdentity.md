@@ -6,7 +6,7 @@
 
 # Interface: GateIdentity
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/access.ts#L41)
+Defined in: [tooling/ts/packages/hono/src/access.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/access.ts#L41)
 
 The resolved caller identity a gate decision needs (compute from your Hono Context: isAdmin flag + principal id).
 
@@ -16,7 +16,7 @@ The resolved caller identity a gate decision needs (compute from your Hono Conte
 
 > **isAdmin**: `boolean`
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/access.ts#L41)
+Defined in: [tooling/ts/packages/hono/src/access.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/access.ts#L41)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [tooling/ts/packages/hono/src/access.ts:41](https://github.com/Mahmo
 
 > **principal**: `string` \| `null`
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/access.ts#L41)
+Defined in: [tooling/ts/packages/hono/src/access.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/access.ts#L41)

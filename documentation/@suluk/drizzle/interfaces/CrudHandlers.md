@@ -6,7 +6,7 @@
 
 # Interface: CrudHandlers
 
-Defined in: [handlers.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L22)
+Defined in: [handlers.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/handlers.ts#L22)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [handlers.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55fa0
 
 > **create**: (`c`) => `Promise`\<`Response`\>
 
-Defined in: [handlers.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L25)
+Defined in: [handlers.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/handlers.ts#L25)
 
 #### Parameters
 
@@ -32,7 +32,7 @@ Defined in: [handlers.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa0
 
 > **delete**: (`c`) => `Promise`\<`Response`\>
 
-Defined in: [handlers.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L27)
+Defined in: [handlers.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/handlers.ts#L27)
 
 #### Parameters
 
@@ -50,7 +50,7 @@ Defined in: [handlers.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa0
 
 > **get**: (`c`) => `Promise`\<`Response`\>
 
-Defined in: [handlers.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L24)
+Defined in: [handlers.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/handlers.ts#L24)
 
 #### Parameters
 
@@ -68,7 +68,7 @@ Defined in: [handlers.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa0
 
 > **list**: (`c`) => `Promise`\<`Response`\>
 
-Defined in: [handlers.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L23)
+Defined in: [handlers.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/handlers.ts#L23)
 
 #### Parameters
 
@@ -86,7 +86,7 @@ Defined in: [handlers.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa0
 
 > **update**: (`c`) => `Promise`\<`Response`\>
 
-Defined in: [handlers.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/drizzle/src/handlers.ts#L26)
+Defined in: [handlers.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/handlers.ts#L26)
 
 #### Parameters
 

@@ -6,7 +6,7 @@
 
 # Interface: DiagramNode
 
-Defined in: [agents/src/diagram.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/diagram.ts#L14)
+Defined in: [agents/src/diagram.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/diagram.ts#L14)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/diagram.ts:14](https://github.com/MahmoodKhalil57/suluk/
 
 > **badges**: `string`[]
 
-Defined in: [agents/src/diagram.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/diagram.ts#L20)
+Defined in: [agents/src/diagram.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/diagram.ts#L20)
 
 short pills shown on hover (model / scope / guarantee / tier / trust / maxDepth …).
 
@@ -24,7 +24,7 @@ short pills shown on hover (model / scope / guarantee / tier / trust / maxDepth 
 
 > `optional` **children?**: `DiagramNode`[]
 
-Defined in: [agents/src/diagram.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/diagram.ts#L25)
+Defined in: [agents/src/diagram.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/diagram.ts#L25)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [agents/src/diagram.ts:25](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **collapsed?**: `boolean`
 
-Defined in: [agents/src/diagram.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/diagram.ts#L24)
+Defined in: [agents/src/diagram.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/diagram.ts#L24)
 
 start collapsed (the cold-tail does, so the default view stays high-level).
 
@@ -42,7 +42,7 @@ start collapsed (the cold-tail does, so the default view stays high-level).
 
 > **id**: `string`
 
-Defined in: [agents/src/diagram.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/diagram.ts#L15)
+Defined in: [agents/src/diagram.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/diagram.ts#L15)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [agents/src/diagram.ts:15](https://github.com/MahmoodKhalil57/suluk/
 
 > **kind**: [`DiagramKind`](../type-aliases/DiagramKind.md)
 
-Defined in: [agents/src/diagram.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/diagram.ts#L17)
+Defined in: [agents/src/diagram.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/diagram.ts#L17)
 
 ***
 
@@ -58,7 +58,7 @@ Defined in: [agents/src/diagram.ts:17](https://github.com/MahmoodKhalil57/suluk/
 
 > **label**: `string`
 
-Defined in: [agents/src/diagram.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/diagram.ts#L16)
+Defined in: [agents/src/diagram.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/diagram.ts#L16)
 
 ***
 
@@ -66,7 +66,7 @@ Defined in: [agents/src/diagram.ts:16](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **note?**: `string`
 
-Defined in: [agents/src/diagram.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/diagram.ts#L22)
+Defined in: [agents/src/diagram.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/diagram.ts#L22)
 
 a one-liner under the title (the agent description / the skill `whenToUse`).
 
@@ -76,4 +76,4 @@ a one-liner under the title (the agent description / the skill `whenToUse`).
 
 > `optional` **tier?**: `"resident"` \| `"cold-tail"`
 
-Defined in: [agents/src/diagram.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/diagram.ts#L18)
+Defined in: [agents/src/diagram.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/diagram.ts#L18)

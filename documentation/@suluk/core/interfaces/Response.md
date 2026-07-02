@@ -6,7 +6,7 @@
 
 # Interface: Response
 
-Defined in: [types.ts:462](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L462)
+Defined in: [types.ts:462](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L462)
 
 Named in its containing map. Precedence: request > pathResponses > apiResponses (C012 #17b).
 
@@ -16,7 +16,7 @@ Named in its containing map. Precedence: request > pathResponses > apiResponses 
 
 > `optional` **contentSchema?**: [`SchemaOrRef`](../type-aliases/SchemaOrRef.md)
 
-Defined in: [types.ts:466](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L466)
+Defined in: [types.ts:466](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L466)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [types.ts:466](https://github.com/MahmoodKhalil57/suluk/blob/55fa001
 
 > `optional` **contentType?**: `string` \| `string`[]
 
-Defined in: [types.ts:465](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L465)
+Defined in: [types.ts:465](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L465)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [types.ts:465](https://github.com/MahmoodKhalil57/suluk/blob/55fa001
 
 > `optional` **description?**: `string`
 
-Defined in: [types.ts:467](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L467)
+Defined in: [types.ts:467](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L467)
 
 ***
 
@@ -40,6 +40,6 @@ Defined in: [types.ts:467](https://github.com/MahmoodKhalil57/suluk/blob/55fa001
 
 > **status**: `string` \| `number`
 
-Defined in: [types.ts:464](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/core/src/types.ts#L464)
+Defined in: [types.ts:464](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L464)
 
 HTTP status ("200"/200), a wildcard ("5XX"), or "default".

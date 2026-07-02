@@ -8,7 +8,7 @@
 
 > **resolveVersion**(`dep`): `string`
 
-Defined in: [catalog.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/platform/src/catalog.ts#L53)
+Defined in: [catalog.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/catalog.ts#L53)
 
 Resolve a dep to its version: an @suluk/* package → "latest" (fixes flow via `bun update`); a known ecosystem dep →
  its pinned range; anything else → "latest" (a best-effort default).

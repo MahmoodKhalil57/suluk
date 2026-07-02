@@ -6,7 +6,7 @@
 
 # Class: InsufficientCreditsError
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/credits/src/credits.ts#L16)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/credits/src/credits.ts#L16)
 
 `@suluk/credits` — a metered credit ledger (C046, extracted verbatim). The package OWNS the schema (`credit_transaction`
 + the `credit_amount`/`credit_key` sidecars); the app injects a Drizzle handle (D1 in prod, bun:sqlite in tests). The
@@ -24,7 +24,7 @@ activity-log query. App-specific payment-alert kinds + the user-table count stay
 
 > **new InsufficientCreditsError**(`balance`, `needed`): `InsufficientCreditsError`
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/credits/src/credits.ts#L17)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/credits/src/credits.ts#L17)
 
 #### Parameters
 
@@ -50,7 +50,7 @@ Defined in: [tooling/ts/packages/credits/src/credits.ts:17](https://github.com/M
 
 > `readonly` **balance**: `number`
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/credits/src/credits.ts#L18)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/credits/src/credits.ts#L18)
 
 ***
 
@@ -96,7 +96,7 @@ Defined in: tooling/ts/node\_modules/.bun/typescript@6.0.3/node\_modules/typescr
 
 > `readonly` **needed**: `number`
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/credits/src/credits.ts#L19)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/credits/src/credits.ts#L19)
 
 ***
 

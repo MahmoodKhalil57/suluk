@@ -6,7 +6,7 @@
 
 # ~~Interface: DiscountResult~~
 
-Defined in: [pricing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/pricing.ts#L42)
+Defined in: [pricing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/pricing.ts#L42)
 
 ## Deprecated
 
@@ -25,7 +25,7 @@ no consumer): the Stripe usage-billing (Billing Meters), the checkout-param buil
 
 > **amountCents**: `number`
 
-Defined in: [pricing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/pricing.ts#L42)
+Defined in: [pricing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/pricing.ts#L42)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [pricing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa00
 
 > `optional` **reason?**: [`DiscountRejection`](../type-aliases/DiscountRejection.md)
 
-Defined in: [pricing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/pricing.ts#L42)
+Defined in: [pricing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/pricing.ts#L42)
 
 ***
 
@@ -41,4 +41,4 @@ Defined in: [pricing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa00
 
 > **valid**: `boolean`
 
-Defined in: [pricing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/pricing.ts#L42)
+Defined in: [pricing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/pricing.ts#L42)

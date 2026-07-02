@@ -6,7 +6,7 @@
 
 # Interface: AppSpec
 
-Defined in: [fullstack.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/fullstack.ts#L104)
+Defined in: [fullstack.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/fullstack.ts#L104)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [fullstack.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/55f
 
 > `optional` **baseUrl?**: `string`
 
-Defined in: [fullstack.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/fullstack.ts#L109)
+Defined in: [fullstack.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/fullstack.ts#L109)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [fullstack.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/55f
 
 > **entities**: [`Entity`](Entity.md)[]
 
-Defined in: [fullstack.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/fullstack.ts#L105)
+Defined in: [fullstack.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/fullstack.ts#L105)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [fullstack.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/55f
 
 > `optional` **info?**: `object`
 
-Defined in: [fullstack.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/fullstack.ts#L108)
+Defined in: [fullstack.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/fullstack.ts#L108)
 
 #### title?
 
@@ -46,6 +46,6 @@ Defined in: [fullstack.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/55f
 
 > `optional` **pages?**: [`DslDocument`](DslDocument.md)[]
 
-Defined in: [fullstack.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/builder/src/fullstack.ts#L107)
+Defined in: [fullstack.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/fullstack.ts#L107)
 
 Optional explicit pages; if omitted, one "App" page composing every entity's CRUD section is generated.

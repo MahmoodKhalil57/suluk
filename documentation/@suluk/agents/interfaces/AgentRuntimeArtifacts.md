@@ -6,7 +6,7 @@
 
 # Interface: AgentRuntimeArtifacts
 
-Defined in: [agents/src/runtime.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/runtime.ts#L29)
+Defined in: [agents/src/runtime.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/runtime.ts#L29)
 
 What every runtime adapter returns: owned source + the reachable sub-agent list + the deploy hint.
 
@@ -16,7 +16,7 @@ What every runtime adapter returns: owned source + the reachable sub-agent list 
 
 > **deploy**: [`RuntimeDeployHint`](../type-aliases/RuntimeDeployHint.md)
 
-Defined in: [agents/src/runtime.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/runtime.ts#L35)
+Defined in: [agents/src/runtime.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/runtime.ts#L35)
 
 provider-specific deploy descriptor (Cloudflare → `@suluk/deploy`'s `durableObjects`; Node → none).
 
@@ -26,7 +26,7 @@ provider-specific deploy descriptor (Cloudflare → `@suluk/deploy`'s `durableOb
 
 > **files**: `Record`\<`string`, `string`\>
 
-Defined in: [agents/src/runtime.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/runtime.ts#L31)
+Defined in: [agents/src/runtime.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/runtime.ts#L31)
 
 path → owned source the user writes into their project.
 
@@ -36,6 +36,6 @@ path → owned source the user writes into their project.
 
 > **reachableSubAgents**: `string`[]
 
-Defined in: [agents/src/runtime.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/runtime.ts#L33)
+Defined in: [agents/src/runtime.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/runtime.ts#L33)
 
 reachable sub-agents (each a separate runtime unit; scaffold per provider).

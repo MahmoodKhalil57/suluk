@@ -6,7 +6,7 @@
 
 # Interface: ColumnDef
 
-Defined in: [sql.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/deploy/src/sql.ts#L23)
+Defined in: [sql.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/sql.ts#L23)
 
 One column, structured — shared by the full-schema emitter and the migration-delta.
 
@@ -16,7 +16,7 @@ One column, structured — shared by the full-schema emitter and the migration-d
 
 > **name**: `string`
 
-Defined in: [sql.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/deploy/src/sql.ts#L24)
+Defined in: [sql.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/sql.ts#L24)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [sql.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13
 
 > **notNull**: `boolean`
 
-Defined in: [sql.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/deploy/src/sql.ts#L26)
+Defined in: [sql.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/sql.ts#L26)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [sql.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13
 
 > **pk**: `boolean`
 
-Defined in: [sql.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/deploy/src/sql.ts#L27)
+Defined in: [sql.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/sql.ts#L27)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [sql.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13
 
 > **type**: `string`
 
-Defined in: [sql.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/deploy/src/sql.ts#L25)
+Defined in: [sql.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/sql.ts#L25)

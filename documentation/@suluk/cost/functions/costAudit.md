@@ -8,7 +8,7 @@
 
 > **costAudit**(`doc`): [`CostFinding`](../interfaces/CostFinding.md)[]
 
-Defined in: [contract.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cost/src/contract.ts#L78)
+Defined in: [contract.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/contract.ts#L78)
 
 Cost-coverage audit: which operations have NOT declared what they cost — plus (C024) the background-cost
 disciplines: a deferred cost that resolves no principal would bill to `@unattributed` (fail LOUD, never silent),

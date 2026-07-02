@@ -6,7 +6,7 @@
 
 # Interface: NewsletterRow
 
-Defined in: [audience.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/audience.ts#L88)
+Defined in: [audience.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/audience.ts#L88)
 
 One newsletter subscriber row (the shape of the MARKETING module's `Newsletter` entity).
 
@@ -16,7 +16,7 @@ One newsletter subscriber row (the shape of the MARKETING module's `Newsletter` 
 
 > **email**: `string`
 
-Defined in: [audience.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/audience.ts#L89)
+Defined in: [audience.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/audience.ts#L89)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [audience.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/55fa0
 
 > `optional` **status?**: `"subscribed"` \| `"unsubscribed"`
 
-Defined in: [audience.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/email/src/audience.ts#L90)
+Defined in: [audience.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/audience.ts#L90)

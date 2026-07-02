@@ -6,7 +6,7 @@
 
 # Interface: OutlineColumn
 
-Defined in: [journeys/src/outline.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/outline.ts#L16)
+Defined in: [journeys/src/outline.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/outline.ts#L16)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/outline.ts:16](https://github.com/MahmoodKhalil57/sulu
 
 > **name**: `string`
 
-Defined in: [journeys/src/outline.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/outline.ts#L17)
+Defined in: [journeys/src/outline.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/outline.ts#L17)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [journeys/src/outline.ts:17](https://github.com/MahmoodKhalil57/sulu
 
 > **origin**: [`FieldOrigin`](../type-aliases/FieldOrigin.md)
 
-Defined in: [journeys/src/outline.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/outline.ts#L18)
+Defined in: [journeys/src/outline.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/outline.ts#L18)
 
 ***
 
@@ -30,6 +30,6 @@ Defined in: [journeys/src/outline.ts:18](https://github.com/MahmoodKhalil57/sulu
 
 > **seed**: `string`
 
-Defined in: [journeys/src/outline.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/journeys/src/outline.ts#L20)
+Defined in: [journeys/src/outline.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/outline.ts#L20)
 
 the seed cell for the first Examples row: a synthesized value (`input`) or a `<op.select>` wiring token (`sourced`).

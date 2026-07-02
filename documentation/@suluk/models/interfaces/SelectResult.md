@@ -6,7 +6,7 @@
 
 # Interface: SelectResult
 
-Defined in: [types.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L114)
+Defined in: [types.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L114)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [types.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/55fa001
 
 > **candidateCount**: `number`
 
-Defined in: [types.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L118)
+Defined in: [types.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L118)
 
 the count after hard filtering.
 
@@ -24,7 +24,7 @@ the count after hard filtering.
 
 > **coverageGaps**: `string`[]
 
-Defined in: [types.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L122)
+Defined in: [types.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L122)
 
 UNKNOWN-coverage warning: soft axes with no data on the winner (honesty surface).
 
@@ -34,7 +34,7 @@ UNKNOWN-coverage warning: soft axes with no data on the winner (honesty surface)
 
 > **ranked**: [`RankedModel`](RankedModel.md)[]
 
-Defined in: [types.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L116)
+Defined in: [types.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L116)
 
 ranked best-first; empty when no model satisfies the hard filters.
 
@@ -44,6 +44,6 @@ ranked best-first; empty when no model satisfies the hard filters.
 
 > `optional` **unsatisfiable?**: `string`[]
 
-Defined in: [types.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/types.ts#L120)
+Defined in: [types.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L120)
 
 present when the requirements emptied the set — names the unsatisfiable filter(s).

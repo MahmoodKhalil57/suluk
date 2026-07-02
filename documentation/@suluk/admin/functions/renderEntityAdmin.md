@@ -8,7 +8,7 @@
 
 > **renderEntityAdmin**(`doc`, `name`, `base`, `_rows?`): `string`
 
-Defined in: [render-data.ts:137](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/admin/src/render-data.ts#L137)
+Defined in: [render-data.ts:137](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/admin/src/render-data.ts#L137)
 
 One entity's data-admin page — a FULLY FUNCTIONAL CRUD UI (saastarter's Payload admin, projected): a live list
 table (loaded from the entity's CRUD endpoint), a create/edit form, and per-row Edit + Delete — all driven by

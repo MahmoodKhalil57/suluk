@@ -8,7 +8,7 @@
 
 > **applyTierOverlay**(`catalog`, `tiers`, `opts`): [`ModelCatalog`](../interfaces/ModelCatalog.md)
 
-Defined in: [overlay.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/models/src/overlay.ts#L14)
+Defined in: [overlay.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/overlay.ts#L14)
 
 Overlay coarse tiers onto matching rows' intel cells, then re-hash (selection now depends on these tiers).
 

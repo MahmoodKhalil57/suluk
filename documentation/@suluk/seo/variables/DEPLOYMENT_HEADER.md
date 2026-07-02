@@ -8,7 +8,7 @@
 
 > `const` **DEPLOYMENT\_HEADER**: `"x-deployment-id"` = `"x-deployment-id"`
 
-Defined in: [skew.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/seo/src/skew.ts#L8)
+Defined in: [skew.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/seo/src/skew.ts#L8)
 
 Deploy skew-protection — pin a client to the deployment it loaded, and force a full reload after a new deploy
  (so a long-lived tab never runs old HTML against freshly-rotated chunks / a changed contract).

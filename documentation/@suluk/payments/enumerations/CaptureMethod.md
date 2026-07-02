@@ -6,7 +6,7 @@
 
 # Enumeration: CaptureMethod
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/types.ts#L17)
+Defined in: [tooling/ts/packages/payments/src/types.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L17)
 
 Auto-capture on authorize, or authorize-then-capture-later.
 
@@ -16,7 +16,7 @@ Auto-capture on authorize, or authorize-then-capture-later.
 
 > **AUTOMATIC**: `"AUTOMATIC"`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/types.ts#L18)
+Defined in: [tooling/ts/packages/payments/src/types.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L18)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:18](https://github.com/Ma
 
 > **MANUAL**: `"MANUAL"`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/types.ts#L19)
+Defined in: [tooling/ts/packages/payments/src/types.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L19)

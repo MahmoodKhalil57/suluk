@@ -2,122 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/index.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/modules.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/hierarchy.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/variables/DEFAULT_COMPAT_DATE.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/variables/cloudflare.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/variables/providers.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/functions/migrationSql.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/SecretPushPlan.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/functions/secretPushPlan.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/DurableBinding.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/BindingPlan.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/functions/durableBindings.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/ColumnDef.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/functions/tableName.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/functions/entityColumns.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/functions/columnDdl.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/functions/createTable.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/functions/schemaToSql.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/StoredObject.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/StorageProvider.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/R2BucketLike.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/functions/r2Storage.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/functions/memoryStorage.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/DeployEntity.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/DurableObjectBinding.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/DeployInput.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/DeployFile.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/DeployStep.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/DeployPlan.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/deploy/interfaces/DeployProvider.html</loc>
-		<lastmod>2026-07-01T23:48:05.164Z</lastmod>
+		<lastmod>2026-07-02T00:04:32.802Z</lastmod>
 	</url>
 </urlset>

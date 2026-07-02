@@ -6,7 +6,7 @@
 
 # Interface: ClientSession
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:192](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/types.ts#L192)
+Defined in: [tooling/ts/packages/payments/src/types.ts:192](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L192)
 
 A browser-confirmable session: the server creates the intent, the browser SDK confirms it with `clientSecret`, so raw
 card data never touches the server (PCI-scope reduction). Crediting lands on the processor webhook, not the create
@@ -18,7 +18,7 @@ call. This is the piece a pure server-side `authorize` can't express — the Pay
 
 > **clientSecret**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:194](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/types.ts#L194)
+Defined in: [tooling/ts/packages/payments/src/types.ts:194](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L194)
 
 the token the browser SDK confirms with — Stripe's `client_secret`; another processor's equivalent.
 
@@ -28,7 +28,7 @@ the token the browser SDK confirms with — Stripe's `client_secret`; another pr
 
 > `optional` **connectorTransactionId?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:195](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/types.ts#L195)
+Defined in: [tooling/ts/packages/payments/src/types.ts:195](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L195)
 
 ***
 
@@ -36,4 +36,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:195](https://github.com/M
 
 > `optional` **customerId?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:196](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/payments/src/types.ts#L196)
+Defined in: [tooling/ts/packages/payments/src/types.ts:196](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L196)

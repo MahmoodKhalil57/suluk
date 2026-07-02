@@ -6,7 +6,7 @@
 
 # Interface: StateStore
 
-Defined in: [provision/src/types.ts:142](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L142)
+Defined in: [provision/src/types.ts:142](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/types.ts#L142)
 
 The persisted provision journal (desired-vs-live diffing). The default store is a JSON file; a test passes memory.
 
@@ -16,7 +16,7 @@ The persisted provision journal (desired-vs-live diffing). The default store is 
 
 > **load**(): [`InstanceState`](InstanceState.md)[] \| `Promise`\<[`InstanceState`](InstanceState.md)[]\>
 
-Defined in: [provision/src/types.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L143)
+Defined in: [provision/src/types.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/types.ts#L143)
 
 #### Returns
 
@@ -28,7 +28,7 @@ Defined in: [provision/src/types.ts:143](https://github.com/MahmoodKhalil57/sulu
 
 > **save**(`state`): `void` \| `Promise`\<`void`\>
 
-Defined in: [provision/src/types.ts:144](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/types.ts#L144)
+Defined in: [provision/src/types.ts:144](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/types.ts#L144)
 
 #### Parameters
 

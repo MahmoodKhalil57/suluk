@@ -8,7 +8,7 @@
 
 > **subAgentKey**(`ref`): `string` \| `null`
 
-Defined in: [agents/src/resolve.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/resolve.ts#L57)
+Defined in: [agents/src/resolve.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/resolve.ts#L57)
 
 Decode a sub-agent ref `#/x-suluk-agents/<key>` to its key (or null if malformed / not an agent ref).
 

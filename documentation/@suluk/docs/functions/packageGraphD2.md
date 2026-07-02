@@ -4,13 +4,11 @@
 
 [Suluk](../../../packages.md) / [@suluk/docs](../README.md) / packageGraphD2
 
-# Function: packageGraphD2()
+# ~~Function: packageGraphD2()~~
 
 > **packageGraphD2**(`packages`): `string`
 
-Defined in: [diagram.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/docs/src/diagram.ts#L17)
-
-D2 source for the `@suluk` package dependency graph — the tools that come together to derive a whole stack.
+Defined in: [diagram.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/docs/src/diagram.ts#L42)
 
 ## Parameters
 
@@ -21,3 +19,8 @@ D2 source for the `@suluk` package dependency graph — the tools that come toge
 ## Returns
 
 `string`
+
+## Deprecated
+
+D2 is being retired across the repo in favour of d3 (see `packageGraphData` + the d3 SVG renderer
+in `scripts/pkggraph.ts`). Kept for backward compatibility; no longer used by the docs build.

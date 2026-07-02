@@ -6,7 +6,7 @@
 
 # Interface: DurableBinding
 
-Defined in: [secrets.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/deploy/src/secrets.ts#L45)
+Defined in: [secrets.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/secrets.ts#L45)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [secrets.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/55fa00
 
 > **binding**: `string`
 
-Defined in: [secrets.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/deploy/src/secrets.ts#L48)
+Defined in: [secrets.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/secrets.ts#L48)
 
 the binding name the Worker code reads (e.g. RATE_LIMIT).
 
@@ -24,7 +24,7 @@ the binding name the Worker code reads (e.g. RATE_LIMIT).
 
 > **kind**: `"kv"` \| `"do"` \| `"r2"` \| `"queue"`
 
-Defined in: [secrets.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/deploy/src/secrets.ts#L46)
+Defined in: [secrets.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/secrets.ts#L46)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [secrets.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/55fa00
 
 > **reason**: `string`
 
-Defined in: [secrets.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/deploy/src/secrets.ts#L52)
+Defined in: [secrets.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/secrets.ts#L52)
 
 why the contract needs it.
 
@@ -42,6 +42,6 @@ why the contract needs it.
 
 > **resource**: `string`
 
-Defined in: [secrets.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/deploy/src/secrets.ts#L50)
+Defined in: [secrets.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/secrets.ts#L50)
 
 the resource name to create.

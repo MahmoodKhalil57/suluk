@@ -6,7 +6,7 @@
 
 # Interface: AsyncBindOptions
 
-Defined in: [tooling/ts/packages/nano-stores/src/async-button.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/async-button.ts#L8)
+Defined in: [tooling/ts/packages/nano-stores/src/async-button.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/async-button.ts#L8)
 
 asyncHandler / bindAsyncButton — promise-aware double-submit safety as a primitive, so builders write a normal
 async handler and get race-safety for free instead of hand-rolling `btn.disabled = true; try {...} finally {...}`
@@ -20,7 +20,7 @@ restored on settle, with a re-entry guard. Framework-agnostic; works on any elem
 
 > `optional` **ariaBusy?**: `boolean`
 
-Defined in: [tooling/ts/packages/nano-stores/src/async-button.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/async-button.ts#L12)
+Defined in: [tooling/ts/packages/nano-stores/src/async-button.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/async-button.ts#L12)
 
 set aria-busy="true" during the call (default true).
 
@@ -30,6 +30,6 @@ set aria-busy="true" during the call (default true).
 
 > `optional` **pendingLabel?**: `string`
 
-Defined in: [tooling/ts/packages/nano-stores/src/async-button.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/nano-stores/src/async-button.ts#L10)
+Defined in: [tooling/ts/packages/nano-stores/src/async-button.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/async-button.ts#L10)
 
 text to show while in-flight (restored after).

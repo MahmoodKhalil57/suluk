@@ -6,7 +6,7 @@
 
 # Interface: MigrationStep
 
-Defined in: [provision/src/migration.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/migration.ts#L13)
+Defined in: [provision/src/migration.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/migration.ts#L13)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/migration.ts:13](https://github.com/MahmoodKhalil57/s
 
 > **action**: `"create"` \| `"update"` \| `"deprovision"`
 
-Defined in: [provision/src/migration.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/migration.ts#L14)
+Defined in: [provision/src/migration.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/migration.ts#L14)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [provision/src/migration.ts:14](https://github.com/MahmoodKhalil57/s
 
 > **name**: `string`
 
-Defined in: [provision/src/migration.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/migration.ts#L17)
+Defined in: [provision/src/migration.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/migration.ts#L17)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [provision/src/migration.ts:17](https://github.com/MahmoodKhalil57/s
 
 > **ref**: `string`
 
-Defined in: [provision/src/migration.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/migration.ts#L15)
+Defined in: [provision/src/migration.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/migration.ts#L15)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [provision/src/migration.ts:15](https://github.com/MahmoodKhalil57/s
 
 > **service**: `string`
 
-Defined in: [provision/src/migration.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/migration.ts#L16)
+Defined in: [provision/src/migration.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/migration.ts#L16)
 
 ***
 
@@ -46,6 +46,6 @@ Defined in: [provision/src/migration.ts:16](https://github.com/MahmoodKhalil57/s
 
 > `optional` **spec?**: [`InstanceSpec`](InstanceSpec.md)
 
-Defined in: [provision/src/migration.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/provision/src/migration.ts#L19)
+Defined in: [provision/src/migration.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/migration.ts#L19)
 
 the full spec for a create/update (so the migration is self-describing); absent for a deprovision.

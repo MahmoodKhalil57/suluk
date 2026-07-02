@@ -8,7 +8,7 @@
 
 > **assertAgentGrade**(`doc`, `agentName`, `min`, `opts?`): [`AgentGradeReport`](../interfaces/AgentGradeReport.md)
 
-Defined in: [agents/src/grade.ts:207](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/agents/src/grade.ts#L207)
+Defined in: [agents/src/grade.ts:207](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/grade.ts#L207)
 
 CI GATE (the hard incentive, mirrors `@suluk/harden`'s assertGrade): throw if the agent's grade is below `min`.
 Returns the report on pass, so a test can additionally assert on it.

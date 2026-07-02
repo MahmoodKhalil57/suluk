@@ -8,7 +8,7 @@
 
 > **extractAssetRuleFiles**(`files`): [`AssetRuleFiles`](../interfaces/AssetRuleFiles.md)
 
-Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/cloudflare/src/assets.ts#L53)
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/assets.ts#L53)
 
 Pull `_headers` / `_redirects` OUT of an asset list. Cloudflare Workers Static Assets does NOT serve these as files
 — it parses their raw text (sent in the worker metadata's `assets.config._headers` / `._redirects`) into the

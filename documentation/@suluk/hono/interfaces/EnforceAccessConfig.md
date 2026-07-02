@@ -6,7 +6,7 @@
 
 # Interface: EnforceAccessConfig
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/enforce.ts#L50)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L50)
 
 Read identity from a request — the app supplies these (it owns its principal/scope model).
 
@@ -20,7 +20,7 @@ Read identity from a request — the app supplies these (it owns its principal/s
 
 > **accessOf**: (`operation`) => [`AccessFacet`](AccessFacet.md) \| `undefined`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/enforce.ts#L54)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L54)
 
 the declared access facet for an operation (e.g. from the document's x-suluk-access).
 
@@ -40,7 +40,7 @@ the declared access facet for an operation (e.g. from the document's x-suluk-acc
 
 > `optional` **defaultRequires?**: [`AccessRequires`](../type-aliases/AccessRequires.md)
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/enforce.ts#L60)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L60)
 
 what an operation that declares NO access facet requires. Defaults to "authenticated" — DENY BY DEFAULT, so a
 dropped/missing facet is a 401 in tests, NEVER a silent public route (a fail-open default is how an annotation
@@ -52,7 +52,7 @@ gap becomes a live breach). Mark genuinely-public ops explicitly `requires:"anyo
 
 > `optional` **isAdmin?**: (`c`) => `boolean`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/enforce.ts#L32)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L32)
 
 fast-path admin check (verified). If omitted, the literal "admin" scope is used.
 
@@ -76,7 +76,7 @@ fast-path admin check (verified). If omitted, the literal "admin" scope is used.
 
 > **operationOf**: (`c`) => `string` \| `undefined`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/enforce.ts#L52)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L52)
 
 the operation name for this request, or undefined for non-contract paths (static/auth/docs → allowed).
 
@@ -96,7 +96,7 @@ the operation name for this request, or undefined for non-contract paths (static
 
 > **principal**: (`c`) => `string` \| `null` \| `undefined`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/enforce.ts#L30)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L30)
 
 the caller's verified principal id, or null/undefined for anonymous.
 
@@ -120,7 +120,7 @@ the caller's verified principal id, or null/undefined for anonymous.
 
 > `optional` **scopes?**: (`c`) => `string`[] \| `undefined`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/55fa001f13aff683539d55f653ea19ece6bd829c/tooling/ts/packages/hono/src/enforce.ts#L34)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L34)
 
 the caller's granted scopes (e.g. ["admin"], ["org:1:read"]). Default: none.
 
