@@ -236,8 +236,6 @@ events into Stripe usage — one meter event per principal. You meter usage; the
 ## How the tools compose
 
 Each package derives one facet from the single v4 contract; here is how they depend on each other — every
-package pointing at its `@suluk/*` dependencies.
+package pointing at its `@suluk/*` dependencies (rendered with [d3](https://d3js.org)).
 
-![Suluk package dependency graph](https://kroki.io/d2/svg/eJx1lk2u3CAMx_dzCjTdtIssuqumUtU79AQM-CU0BKJA5nWmqtRVD1D1hO8kFR8BM3F28Z-fDQFs8459W_U6srff_9hgX5kfgHlrtWPCTrN1wN4DFwObuRh5D-ztz1-mvGNfXXSTMIORYIQC9-Ek1QLCK2subFH94E8nLidlLuyn5lfQF3aO9vkzcwOf4cICzk2v4deJ92C8w2gUSPZ8Be9h6fjqhzNywTLld1VaK9Njj6TQ9Kq0hAXTSSFpMXCP0GDSnLarfNF8AUwXkfaxYpxVEz4pB3Qb2x5GdW1IdxBvAamao8kKSUuYtb0jOAk0awUOG0yaW9TjofFPZYWkw9osPrYk0OzElcZosGnS3DBnbjTltDJ4V5NAsz_4NGvAO7BJJD_wRQJOpiTQrDUWk9ZYklMfP-GIwSS573ZdDNzxWjeJ5MeWHY-4ScwIm8RMU1aCxvGSQNcGw43tnLcLOFwbsEz62RkMn1UX6h732PVphPKeuQlocYn2AXmfnirdJtG85v7FLhPms0Tzi70pF2twddg00mOBF1jACJxfRSM9nOCa4wxLAr2vaaxznhvJtTWAt3Y_SM4nR-wjR5oCfOUd0DfeDVwKvDlJoFm_qCBVNgoH7Hrtm_TMCk2_8r5vektWSNqD823srND0ABNedLTps_H3GaQV3TppoblrEmY3RkW4KbdyfPGTQLIPKxH4sPLgvoSHRXdzwsr2qmCd8kyPDdZ9YaHlYSv2yvzCqOPFTNWkfVUUbKc-l4PtVRHGtkzGWm5V23OiBEb2w0pshmqN7XRDsbLFDK-MEnAzJjHX7_RreQsqWu04GbJTRjZKupmNlFaElLw4LKXG387tfDN3bGBYSdcHK-mY4mOlLj-9P_BOpMkKkWXKDpuNzPj_6YVQ6GrmFVZhd_p1qNRMpOXdjM-KYIcGmxt5ma2aW_uP7buOZyMsfGu6cbA8GlvZPgklKhbzj2HJyTH27fib-NYXNe976No1P3BjPVbjNj9vXsFju6xW7m8xo7bWVRvb0783Ophb7WclYKPkP08nU5Bq7k7YybFiMn6XLU2JUIeLGYtubiBNZcjZVF2qvZs5V_nCpuwgzJyPbY2sh0HIqSTuR7ZauBtIefgfOLTn0g)
-
-[D2 source](https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/tooling/ts/docs-pages/architecture.d2) — render with the [d2 CLI](https://d2lang.com) or paste it into [d2lang.com/playground](https://play.d2lang.com).
+![Suluk package dependency graph](https://cdn.jsdelivr.net/gh/MahmoodKhalil57/suluk@main/tooling/ts/docs-pages/architecture-pkggraph.svg)

@@ -1,11 +1,13 @@
 // Regenerate the DERIVED narrative pages for the umbrella site, so they can never drift from the packages:
-//   docs-pages/architecture.md — the design prose (ARCHITECTURE.md) + a fresh D2 of the @suluk/* graph
-//   docs-pages/packages.md     — the Packages index: every documented package → its own root docs site
+//   docs-pages/architecture.md            — the design prose (ARCHITECTURE.md) + a d3 package-dependency graph
+//   docs-pages/architecture-pkggraph.svg  — that graph, a static SVG rendered with d3 (replaces the old D2/kroki)
+//   docs-pages/packages.md                — the Packages index: every documented package → its own root docs site
 //
 // Also exports documentedPackages() — the single source of truth for WHICH packages get a root site — reused
-// by build-docs.ts. Reuses @suluk/docs (harvest + packageGraphD2 + krokiD2Url). Runnable standalone
+// by build-docs.ts. Reuses @suluk/docs (harvest + packageGraphData). Runnable standalone
 // (`bun tooling/ts/scripts/gen-doc-pages.ts`) or via build-docs.ts / deploy-docs.ts.
-import { harvest, harvestPackage, packageGraphD2, krokiD2Url } from "../packages/docs/src/index";
+import { harvest, harvestPackage, packageGraphData } from "../packages/docs/src/index";
+import { renderPackageGraphSvg } from "./pkggraph";
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
@@ -13,7 +15,6 @@ const tsRoot = new URL("..", import.meta.url).pathname; // tooling/ts
 const repoRoot = join(tsRoot, "..", "..");
 const pagesDir = join(tsRoot, "docs-pages");
 const packagesRoot = join(tsRoot, "packages");
-const RAW = "https://raw.githubusercontent.com/MahmoodKhalil57/suluk/main/tooling/ts/docs-pages/architecture.d2";
 
 /** Packages that get NO root docs site: the private demo app, the prebuilt bundle, the editor extension app. */
 export const EXCLUDED = new Set(["example-petshop", "scalar-standalone", "vscode"]);
@@ -45,7 +46,7 @@ export function documentedPackages(): DocPackage[] {
 export function generatePages(): DocPackage[] {
   mkdirSync(pagesDir, { recursive: true });
 
-  // ── architecture.md: ARCHITECTURE.md prose + a fresh D2 dependency graph ──
+  // ── architecture.md: ARCHITECTURE.md prose + a d3 package-dependency graph (static SVG, replaces D2/kroki) ──
   const fw = harvest({
     packagesDir: packagesRoot,
     title: "Suluk", tagline: "", description: "",
@@ -53,7 +54,11 @@ export function generatePages(): DocPackage[] {
     architecturePath: join(tsRoot, "..", "ARCHITECTURE.md"),
     repoRoot,
   });
-  const d2 = packageGraphD2(fw.packages);
+  // Render the graph to a static SVG with d3 and commit it; reference it via jsdelivr (which serves the committed
+  // file as image/svg+xml — raw.githubusercontent serves .svg as text/plain, so an <img> there won't render).
+  // The same <img> works in the HTML site AND the GitHub markdown mirror.
+  writeFileSync(join(pagesDir, "architecture-pkggraph.svg"), renderPackageGraphSvg(packageGraphData(fw.packages)));
+  const GRAPH = "https://cdn.jsdelivr.net/gh/MahmoodKhalil57/suluk@main/tooling/ts/docs-pages/architecture-pkggraph.svg";
   const prose = (fw.architecture ?? "# Architecture\n\nSuluk derives a whole stack from one v4 contract.")
     .replace(/^\s*#\s+.*\r?\n/, ""); // strip leading H1 (frontmatter title is the page heading)
   const architectureMd = `---
@@ -67,14 +72,11 @@ ${prose.trim()}
 ## How the tools compose
 
 Each package derives one facet from the single v4 contract; here is how they depend on each other — every
-package pointing at its \`@suluk/*\` dependencies.
+package pointing at its \`@suluk/*\` dependencies (rendered with [d3](https://d3js.org)).
 
-![Suluk package dependency graph](${krokiD2Url(d2)})
-
-[D2 source](${RAW}) — render with the [d2 CLI](https://d2lang.com) or paste it into [d2lang.com/playground](https://play.d2lang.com).
+![Suluk package dependency graph](${GRAPH})
 `;
   writeFileSync(join(pagesDir, "architecture.md"), architectureMd);
-  writeFileSync(join(pagesDir, "architecture.d2"), d2 + "\n");
 
   // ── packages.md: the index of per-package root sites. Links are ABSOLUTE (the umbrella and each root are
   // SEPARATE renders, so the umbrella can't resolve packages/<name>/ as a local file — TypeDoc would warn and
@@ -97,7 +99,7 @@ ${rows}
 `;
   writeFileSync(join(pagesDir, "packages.md"), packagesMd);
 
-  console.log(`Regenerated architecture.md (+ .d2) and packages.md — ${pkgs.length} documented packages.`);
+  console.log(`Regenerated architecture.md (+ d3 SVG) and packages.md — ${pkgs.length} documented packages.`);
   return pkgs;
 }
 

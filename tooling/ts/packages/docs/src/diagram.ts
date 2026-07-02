@@ -13,7 +13,32 @@ function d2id(name: string): string {
   return /^[A-Za-z_][A-Za-z0-9_]*$/.test(s) ? s : `"${s.replace(/"/g, '\\"')}"`;
 }
 
-/** D2 source for the `@suluk` package dependency graph — the tools that come together to derive a whole stack. */
+export interface PackageGraph {
+  nodes: { id: string; label: string }[];
+  links: { source: string; target: string }[];
+}
+
+/**
+ * The `@suluk` package dependency graph as pure data (each package → its drawn `@suluk` dependencies) — the input
+ * to the d3 renderer (build tooling), replacing the old D2/kroki path. Zero-dep, so it stays in `@suluk/docs`.
+ */
+export function packageGraphData(packages: PackageDoc[]): PackageGraph {
+  const visible = packages.filter((p) => !p.private);
+  const present = new Set(visible.map((p) => p.name));
+  const nodes = visible.map((p) => ({ id: p.name, label: short(p.name) }));
+  const links: { source: string; target: string }[] = [];
+  for (const p of visible) {
+    for (const dep of [...p.dependencies, ...p.peerDependencies]) {
+      if (present.has(dep) && dep !== p.name) links.push({ source: p.name, target: dep });
+    }
+  }
+  return { nodes, links };
+}
+
+/**
+ * @deprecated D2 is being retired across the repo in favour of d3 (see `packageGraphData` + the d3 SVG renderer
+ * in `scripts/pkggraph.ts`). Kept for backward compatibility; no longer used by the docs build.
+ */
 export function packageGraphD2(packages: PackageDoc[]): string {
   const visible = packages.filter((p) => !p.private);
   // only DRAWN packages are valid edge endpoints — a dep on a private package is omitted (no dangling phantom node)
@@ -29,7 +54,10 @@ export function packageGraphD2(packages: PackageDoc[]): string {
   return lines.join("\n");
 }
 
-/** A kroki.io render URL for D2 source (deflate + base64url) — the package graph is public, so embedding is fine. */
+/**
+ * @deprecated Part of the retired D2/kroki path; use `packageGraphData` + the d3 SVG renderer instead.
+ * A kroki.io render URL for D2 source (deflate + base64url).
+ */
 export function krokiD2Url(d2: string): string {
   return `https://kroki.io/d2/svg/${deflateSync(new TextEncoder().encode(d2)).toString("base64url")}`;
 }
