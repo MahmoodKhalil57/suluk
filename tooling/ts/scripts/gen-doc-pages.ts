@@ -47,7 +47,8 @@ export interface RegistryItem {
   name: string; // the item slug (url + output-dir segment)
   title: string;
   description: string;
-  dir: string; // absolute registry/<name>
+  category: string; // the stratum folder: foundation | services | derivation | surfaces (from registry/<category>/<name>/)
+  dir: string; // absolute registry/<category>/<name>
   files: string[]; // absolute `.ts` entry files (from registry.json files[]) — the TypeDoc entry points
   regDeps: string[]; // other registry items it builds on (registryDependencies, the intra-registry edges)
   npmDeps: string[]; // third-party npm deps
@@ -65,7 +66,11 @@ export function documentedRegistry(): RegistryItem[] {
   const strip = (d: string) => d.replace(/^MahmoodKhalil57\/suluk\//, "");
   return (reg.items ?? [])
     .map((it) => {
-      const dir = join(repoRoot, "registry", it.name);
+      // the item's source dir + stratum are DERIVED from its registry.json paths (registry/<category>/<name>/<file>),
+      // so the harvest follows the category-folder restructure without a second source of truth.
+      const segs = (it.files?.[0]?.path ?? `registry/${it.name}/_`).split("/");
+      const category = segs.length >= 4 ? segs[1] : "";
+      const dir = join(repoRoot, ...segs.slice(0, -1));
       const files = (it.files ?? [])
         .map((f) => join(repoRoot, f.path))
         .filter((p) => p.endsWith(".ts") && existsSync(p));
@@ -77,6 +82,7 @@ export function documentedRegistry(): RegistryItem[] {
         name: it.name,
         title: it.title || it.name,
         description: it.description || "",
+        category,
         dir,
         files,
         regDeps: (it.registryDependencies ?? []).map(strip),

@@ -210,17 +210,27 @@ function generateUmbrellaDocs(tmp: string, pkgs: DocPackage[], opts: { forMarkdo
   //    (docs/registry/<name>/ — README + TS API + UML), so its nav entry is a stub linking there; in the
   //    MARKDOWN mirror (no per-item roots) the entry is the item's README inline. Both embed the arch graph. ──
   const items = documentedRegistry();
-  const regChildren: string[] = [];
-  const regRows: string[] = [];
+  // The 19 items are organised into FOUR STRATA folders (Registry › <stratum> › item) — the dependency order the
+  // `requires` guard enforces: foundation → services → derivation → surfaces.
+  const CATEGORY_ORDER = ["foundation", "services", "derivation", "surfaces"];
+  const CATEGORY_BLURB: Record<string, string> = {
+    foundation: "The base every app rests on — the Hono app + Effect `Db` runtime seam.",
+    services: "The owned feature modules — identity, money, limits, comms, governance. Add the ones you need; the `requires` guard pulls their peers.",
+    derivation: "Derived from the installed modules — the v4 contract keystone plus the audit + BDD tools that read it.",
+    surfaces: "Caller-, agent-, and admin-facing projections of the contract.",
+  };
+  const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+  const byCat = new Map<string, { name: string; row: string }[]>();
   for (const it of items) {
     const url = `${UMBRELLA_URL}registry/${it.name}/`;
+    let row: string;
     if (opts.forMarkdown) {
       const readmePath = join(it.dir, "README.md");
       const body = existsSync(readmePath)
-        ? absolutizeRepoLinks(readFileSync(readmePath, "utf8"), `registry/${it.name}`).replace(/^﻿?\s*#\s+.*\r?\n/, "")
+        ? absolutizeRepoLinks(readFileSync(readmePath, "utf8"), `registry/${it.category}/${it.name}`).replace(/^﻿?\s*#\s+.*\r?\n/, "")
         : `${it.description}\n\n\`\`\`bash\npnpm dlx shadcn@latest add MahmoodKhalil57/suluk/${it.name}\n\`\`\``;
       writeFileSync(join(tmp, `reg-${it.name}.md`), `---\ntitle: ${JSON.stringify(it.name)}\n---\n\n# ${it.title}\n\n${body.trim()}\n`);
-      regRows.push(`- [**${it.name}**](./reg-${it.name}.md) — ${it.description || it.title}`);
+      row = `- [**${it.name}**](./reg-${it.name}.md) — ${it.description || it.title}`;
     } else {
       const wires = it.sulukDeps.length ? `Wires ${it.sulukDeps.map((d) => `\`${d}\``).join(", ")}.` : "";
       const builds = it.regDeps.length ? ` Builds on ${it.regDeps.map((d) => `[\`${d}\`](./reg-${d}.md)`).join(", ")}.` : "";
@@ -228,14 +238,30 @@ function generateUmbrellaDocs(tmp: string, pkgs: DocPackage[], opts: { forMarkdo
         join(tmp, `reg-${it.name}.md`),
         `---\ntitle: ${JSON.stringify(it.name)}\n---\n\n# ${it.title}\n\n${it.description}\n\n${wires}${builds}\n\n**[Open the full \`${it.name}\` docs — README · TypeScript API · UML diagram →](${url})**\n\n\`\`\`bash\npnpm dlx shadcn@latest add MahmoodKhalil57/suluk/${it.name}\n\`\`\`\n`,
       );
-      regRows.push(`- <a href="${url}"><code>${it.name}</code></a> — ${it.description || it.title}`);
+      row = `- <a href="${url}"><code>${it.name}</code></a> — ${it.description || it.title}`;
     }
-    regChildren.push(`./reg-${it.name}.md`);
+    const cat = it.category || "services";
+    if (!byCat.has(cat)) byCat.set(cat, []);
+    byCat.get(cat)!.push({ name: it.name, row });
+  }
+  // one FOLDER doc per stratum (its items as children); the Registry doc groups the four folders.
+  const catChildren: string[] = [];
+  const bodySections: string[] = [];
+  for (const cat of CATEGORY_ORDER) {
+    const list = byCat.get(cat) ?? [];
+    if (!list.length) continue;
+    const kids = list.map((x) => `  - ./reg-${x.name}.md`).join("\n");
+    writeFileSync(
+      join(tmp, `reg-cat-${cat}.md`),
+      `---\ntitle: ${JSON.stringify(cap(cat))}\nchildren:\n${kids}\n---\n\n# ${cap(cat)}\n\n${CATEGORY_BLURB[cat]}\n\n${list.length} module${list.length === 1 ? "" : "s"}:\n\n${list.map((x) => x.row).join("\n")}\n`,
+    );
+    catChildren.push(`./reg-cat-${cat}.md`);
+    bodySections.push(`### ${cap(cat)}\n\n${CATEGORY_BLURB[cat]}\n\n${list.map((x) => x.row).join("\n")}`);
   }
   const registry = join(tmp, "registry.md");
   writeFileSync(
     registry,
-    `---\ntitle: Registry\ngroup: ${ECOSYSTEM_GROUP}\nchildren:\n${regChildren.map((c) => `  - ${c}`).join("\n")}\n---\n\n# Registry\n\nThe [shadcn registry](${REPO_URL}/blob/main/registry/README.md) distributes the generic SaaS-backend modules as **code you own**, wired over the \`@suluk/*\` packages (own the wiring, npm the logic). Each item is its **own documentation site** — its README, the full TypeScript surface, and a UML class diagram. Here is how the ${items.length} modules build on each other (\`app\` is the foundation everything rests on):\n\n![Suluk registry — how the modules compose](${UML})\n\nInstall any item with:\n\n\`\`\`bash\npnpm dlx shadcn@latest add MahmoodKhalil57/suluk/<item>\n\`\`\`\n\n${items.length} items:\n\n${regRows.join("\n")}\n`,
+    `---\ntitle: Registry\ngroup: ${ECOSYSTEM_GROUP}\nchildren:\n${catChildren.map((c) => `  - ${c}`).join("\n")}\n---\n\n# Registry\n\nThe [shadcn registry](${REPO_URL}/blob/main/registry/README.md) distributes the generic SaaS-backend modules as **code you own**, wired over the \`@suluk/*\` packages (own the wiring, npm the logic). Each item is its **own documentation site** — its README, the full TypeScript surface, and a UML class diagram. The ${items.length} modules are organised into four strata — **foundation → services → derivation → surfaces** — the dependency order the \`requires\` guard enforces (a surface needs its derivation, which aggregates services, on the foundation):\n\n![Suluk registry — how the modules compose](${UML})\n\nInstall any item with:\n\n\`\`\`bash\npnpm dlx shadcn@latest add MahmoodKhalil57/suluk/<item>\n\`\`\`\n\n${bodySections.join("\n\n")}\n`,
   );
 
   const children: string[] = [];
@@ -420,7 +446,7 @@ export async function buildDocs(): Promise<DocPackage[]> {
       if (!it.files.length) { console.log(`  – ${it.name} (no .ts files) — skipped`); continue; }
       let readme = "none";
       if (it.hasReadme) {
-        const rewritten = absolutizeRepoLinks(readFileSync(join(it.dir, "README.md"), "utf8"), `registry/${it.name}`);
+        const rewritten = absolutizeRepoLinks(readFileSync(join(it.dir, "README.md"), "utf8"), `registry/${it.category}/${it.name}`);
         readme = join(tmp, `regroot-${it.name}.md`);
         writeFileSync(readme, rewritten);
       }

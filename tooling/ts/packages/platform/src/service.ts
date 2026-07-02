@@ -230,7 +230,7 @@ export const authService = defineService({
   serviceOpts: optsType<AuthServiceOpts>(), // typed: `serviceOpts.auth.mcp` autocompletes + type-checks
   compose: {
     exposes: {
-      // the signup hook. The seam is PINNED to (userId, env) — registry/auth/auth.ts widened to pass the Worker env into the
+      // the signup hook. The seam is PINNED to (userId, env) — registry/services/auth/auth.ts widened to pass the Worker env into the
       // databaseHook callback (env is already in buildAuth's closure), so a consumer expr can build its Effect layers.
       onUserCreated: { kind: "port", hookOptKey: "onUserCreated", render: (exprs) => `async (userId, env) => { ${exprs.join("; ")}; }` },
     },

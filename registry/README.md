@@ -31,23 +31,32 @@ correctness fix flows to you via npm; a forked money path never happens.
 
 ## Item conventions
 
-- Source lives in `registry/<item>/`; `registry.json` maps each file's `path` (repo source) → `target` (consumer dest).
-- **Provision fragment:** every module that needs infra exports an `InstanceSpec[]` (`registry/<item>/<item>.provision.ts`)
-  — the D1/KV/connector it needs. The shared app database is `ref: "db"`, so modules add migrations to ONE database.
+- Source is grouped by **stratum**: `registry/<category>/<item>/`, where `<category>` is one of
+  **foundation → services → derivation → surfaces** (the dependency order the platform generator's `requires` guard
+  enforces — a surface needs its derivation, which aggregates services, on the foundation). `registry.json` maps each
+  file's `path` (repo source) → `target` (consumer dest); the install command is name-based (`add …/<item>`), so the
+  folder move never changes how you consume an item.
+- **Provision fragment:** every module that needs infra exports an `InstanceSpec[]`
+  (`registry/<category>/<item>/<item>.provision.ts`) — the D1/KV/connector it needs. The shared app database is
+  `ref: "db"`, so modules add migrations to ONE database.
 - **Deps:** `dependencies` = npm (incl. the `@suluk/*` logic); `registryDependencies` = other modules (chaining + order).
 
-## Items
+## Items (by stratum)
 
-| item | what | logic (npm) |
-|---|---|---|
-| `app` | base Hono app + the Effect `Db` service | `@suluk/core` |
-| `auth` | Better Auth mount + `CurrentUser` Effect service (the foundation) | `@suluk/better-auth` |
-| `credits` | Credits service — balance / atomic debit / idempotent grant | `@suluk/credits` |
-| `keys` | Keys service — lineage subtree, cascade revoke, pooled headroom | `@suluk/keys` |
-| `billing` | Billing service — customer / Payment-Element + add-card sessions / cards / portal | `@suluk/billing` (+ `@suluk/payments`) |
-| `logs` | activity log (fully owned Effect service) | — |
+**foundation/** — the base every app rests on:
+- `app` — base Hono app + the Effect `Db` service (`@suluk/core`).
 
-`auth`'s schema is a Better-Auth-v1 SCAFFOLD — regenerate with `npx @better-auth/cli generate` for byte-exactness.
+**services/** — the owned feature modules (add the ones you need; `requires` pulls their peers):
+- `auth` — Better Auth mount + `CurrentUser` service (`@suluk/better-auth`) · `keys` — key lineage / cascade revoke / pooled headroom (`@suluk/keys`)
+- `credits` — atomic ledger (balance / debit / idempotent grant, `@suluk/credits`) · `cost` — per-event cost (`@suluk/cost`) · `billing` — Stripe customer / Payment-Element / portal (`@suluk/billing` + `@suluk/payments`)
+- `rate-limit` · `rate-credit` — request + credit rate limits · `i18n` — localization · `email` — transactional email · `webhooks` — outbound webhooks · `logs` — activity log · `erasure` — GDPR account-erasure cascade
 
-_Still to come: `cost` / `journeys` / `audit`, then the C051 manifest generator that assembles a whole platform from one
-`platform.config.ts` — the one-shot `autotoolfactory`._
+**derivation/** — derived from the installed modules:
+- `contract` — the v4 contract keystone (doc projection + scope gate) · `audit` — readiness/security audit over the contract · `journeys` — runnable BDD over the contract
+
+**surfaces/** — caller-, agent-, and admin-facing projections:
+- `reference` — the v4 API reference page · `mcp` — the agent (MCP) tool surface · `admin` — the admin API
+
+`auth`'s schema is a Better-Auth-v1 SCAFFOLD — regenerate with `npx @better-auth/cli generate` for byte-exactness. The
+[C051](../doc/architecture/decisions/C051-platform-generator-autotoolfactory.md) generator assembles a whole platform
+from one `platform.config.ts` (the one-shot `autotoolfactory`).

@@ -16,7 +16,7 @@
       ],
       "files": [
         {
-          "path": "registry/app/app.ts",
+          "path": "registry/foundation/app/app.ts",
           "type": "registry:file",
           "target": "src/app.ts"
         }
@@ -42,17 +42,17 @@
       ],
       "files": [
         {
-          "path": "registry/auth/auth.ts",
+          "path": "registry/services/auth/auth.ts",
           "type": "registry:file",
           "target": "src/auth.ts"
         },
         {
-          "path": "registry/auth/auth.schema.ts",
+          "path": "registry/services/auth/auth.schema.ts",
           "type": "registry:file",
           "target": "src/db/auth.ts"
         },
         {
-          "path": "registry/auth/auth.provision.ts",
+          "path": "registry/services/auth/auth.provision.ts",
           "type": "registry:file",
           "target": "provision/auth.ts"
         }
@@ -75,12 +75,12 @@
       ],
       "files": [
         {
-          "path": "registry/contract/contract.contract.ts",
+          "path": "registry/derivation/contract/contract.contract.ts",
           "type": "registry:file",
           "target": "src/contract.ts"
         },
         {
-          "path": "registry/contract/contract.routes.ts",
+          "path": "registry/derivation/contract/contract.routes.ts",
           "type": "registry:file",
           "target": "src/routes/contract.ts"
         }
@@ -103,27 +103,27 @@
       ],
       "files": [
         {
-          "path": "registry/credits/credits.service.ts",
+          "path": "registry/services/credits/credits.service.ts",
           "type": "registry:file",
           "target": "src/services/credits.ts"
         },
         {
-          "path": "registry/credits/credits.routes.ts",
+          "path": "registry/services/credits/credits.routes.ts",
           "type": "registry:file",
           "target": "src/routes/credits.ts"
         },
         {
-          "path": "registry/credits/credits.schema.ts",
+          "path": "registry/services/credits/credits.schema.ts",
           "type": "registry:file",
           "target": "src/db/credits.ts"
         },
         {
-          "path": "registry/credits/credits.provision.ts",
+          "path": "registry/services/credits/credits.provision.ts",
           "type": "registry:file",
           "target": "provision/credits.ts"
         },
         {
-          "path": "registry/credits/credits.contract.ts",
+          "path": "registry/services/credits/credits.contract.ts",
           "type": "registry:file",
           "target": "contract/credits.ts"
         }
@@ -146,27 +146,27 @@
       ],
       "files": [
         {
-          "path": "registry/keys/keys.service.ts",
+          "path": "registry/services/keys/keys.service.ts",
           "type": "registry:file",
           "target": "src/services/keys.ts"
         },
         {
-          "path": "registry/keys/keys.routes.ts",
+          "path": "registry/services/keys/keys.routes.ts",
           "type": "registry:file",
           "target": "src/routes/keys.ts"
         },
         {
-          "path": "registry/keys/keys.schema.ts",
+          "path": "registry/services/keys/keys.schema.ts",
           "type": "registry:file",
           "target": "src/db/keys.ts"
         },
         {
-          "path": "registry/keys/keys.provision.ts",
+          "path": "registry/services/keys/keys.provision.ts",
           "type": "registry:file",
           "target": "provision/keys.ts"
         },
         {
-          "path": "registry/keys/keys.contract.ts",
+          "path": "registry/services/keys/keys.contract.ts",
           "type": "registry:file",
           "target": "contract/keys.ts"
         }
@@ -191,32 +191,32 @@
       ],
       "files": [
         {
-          "path": "registry/billing/billing.pricing.ts",
+          "path": "registry/services/billing/billing.pricing.ts",
           "type": "registry:file",
           "target": "src/pricing.ts"
         },
         {
-          "path": "registry/billing/billing.service.ts",
+          "path": "registry/services/billing/billing.service.ts",
           "type": "registry:file",
           "target": "src/services/billing.ts"
         },
         {
-          "path": "registry/billing/billing.routes.ts",
+          "path": "registry/services/billing/billing.routes.ts",
           "type": "registry:file",
           "target": "src/routes/billing.ts"
         },
         {
-          "path": "registry/billing/billing.schema.ts",
+          "path": "registry/services/billing/billing.schema.ts",
           "type": "registry:file",
           "target": "src/db/billing.ts"
         },
         {
-          "path": "registry/billing/billing.provision.ts",
+          "path": "registry/services/billing/billing.provision.ts",
           "type": "registry:file",
           "target": "provision/billing.ts"
         },
         {
-          "path": "registry/billing/billing.contract.ts",
+          "path": "registry/services/billing/billing.contract.ts",
           "type": "registry:file",
           "target": "contract/billing.ts"
         }
@@ -239,27 +239,27 @@
       ],
       "files": [
         {
-          "path": "registry/cost/cost.service.ts",
+          "path": "registry/services/cost/cost.service.ts",
           "type": "registry:file",
           "target": "src/services/cost.ts"
         },
         {
-          "path": "registry/cost/cost.routes.ts",
+          "path": "registry/services/cost/cost.routes.ts",
           "type": "registry:file",
           "target": "src/routes/cost.ts"
         },
         {
-          "path": "registry/cost/cost.schema.ts",
+          "path": "registry/services/cost/cost.schema.ts",
           "type": "registry:file",
           "target": "src/db/cost.ts"
         },
         {
-          "path": "registry/cost/cost.provision.ts",
+          "path": "registry/services/cost/cost.provision.ts",
           "type": "registry:file",
           "target": "provision/cost.ts"
         },
         {
-          "path": "registry/cost/cost.contract.ts",
+          "path": "registry/services/cost/cost.contract.ts",
           "type": "registry:file",
           "target": "contract/cost.ts"
         }
@@ -282,27 +282,27 @@
       ],
       "files": [
         {
-          "path": "registry/erasure/erasure.service.ts",
+          "path": "registry/services/erasure/erasure.service.ts",
           "type": "registry:file",
           "target": "src/services/erasure.ts"
         },
         {
-          "path": "registry/erasure/erasure.routes.ts",
+          "path": "registry/services/erasure/erasure.routes.ts",
           "type": "registry:file",
           "target": "src/routes/erasure.ts"
         },
         {
-          "path": "registry/erasure/erasure.schema.ts",
+          "path": "registry/services/erasure/erasure.schema.ts",
           "type": "registry:file",
           "target": "src/db/erasure.ts"
         },
         {
-          "path": "registry/erasure/erasure.provision.ts",
+          "path": "registry/services/erasure/erasure.provision.ts",
           "type": "registry:file",
           "target": "provision/erasure.ts"
         },
         {
-          "path": "registry/erasure/erasure.contract.ts",
+          "path": "registry/services/erasure/erasure.contract.ts",
           "type": "registry:file",
           "target": "contract/erasure.ts"
         }
@@ -323,17 +323,17 @@
       ],
       "files": [
         {
-          "path": "registry/email/email.service.ts",
+          "path": "registry/services/email/email.service.ts",
           "type": "registry:file",
           "target": "src/services/email.ts"
         },
         {
-          "path": "registry/email/email.routes.ts",
+          "path": "registry/services/email/email.routes.ts",
           "type": "registry:file",
           "target": "src/routes/email.ts"
         },
         {
-          "path": "registry/email/email.contract.ts",
+          "path": "registry/services/email/email.contract.ts",
           "type": "registry:file",
           "target": "contract/email.ts"
         }
@@ -356,27 +356,27 @@
       ],
       "files": [
         {
-          "path": "registry/webhooks/webhooks.service.ts",
+          "path": "registry/services/webhooks/webhooks.service.ts",
           "type": "registry:file",
           "target": "src/services/webhooks.ts"
         },
         {
-          "path": "registry/webhooks/webhooks.routes.ts",
+          "path": "registry/services/webhooks/webhooks.routes.ts",
           "type": "registry:file",
           "target": "src/routes/webhooks.ts"
         },
         {
-          "path": "registry/webhooks/webhooks.schema.ts",
+          "path": "registry/services/webhooks/webhooks.schema.ts",
           "type": "registry:file",
           "target": "src/db/webhooks.ts"
         },
         {
-          "path": "registry/webhooks/webhooks.provision.ts",
+          "path": "registry/services/webhooks/webhooks.provision.ts",
           "type": "registry:file",
           "target": "provision/webhooks.ts"
         },
         {
-          "path": "registry/webhooks/webhooks.contract.ts",
+          "path": "registry/services/webhooks/webhooks.contract.ts",
           "type": "registry:file",
           "target": "contract/webhooks.ts"
         }
@@ -397,7 +397,7 @@
       ],
       "files": [
         {
-          "path": "registry/rate-limit/rate-limit.service.ts",
+          "path": "registry/services/rate-limit/rate-limit.service.ts",
           "type": "registry:file",
           "target": "src/services/rate-limit.ts"
         }
@@ -417,7 +417,7 @@
       ],
       "files": [
         {
-          "path": "registry/rate-credit/rate-credit.service.ts",
+          "path": "registry/services/rate-credit/rate-credit.service.ts",
           "type": "registry:file",
           "target": "src/services/rate-credit.ts"
         }
@@ -437,7 +437,7 @@
       ],
       "files": [
         {
-          "path": "registry/i18n/i18n.service.ts",
+          "path": "registry/services/i18n/i18n.service.ts",
           "type": "registry:file",
           "target": "src/services/i18n.ts"
         }
@@ -459,12 +459,12 @@
       ],
       "files": [
         {
-          "path": "registry/reference/reference.routes.ts",
+          "path": "registry/surfaces/reference/reference.routes.ts",
           "type": "registry:file",
           "target": "src/routes/reference.ts"
         },
         {
-          "path": "registry/reference/reference.contract.ts",
+          "path": "registry/surfaces/reference/reference.contract.ts",
           "type": "registry:file",
           "target": "contract/reference.ts"
         }
@@ -486,17 +486,17 @@
       ],
       "files": [
         {
-          "path": "registry/admin/admin.service.ts",
+          "path": "registry/surfaces/admin/admin.service.ts",
           "type": "registry:file",
           "target": "src/services/admin.ts"
         },
         {
-          "path": "registry/admin/admin.routes.ts",
+          "path": "registry/surfaces/admin/admin.routes.ts",
           "type": "registry:file",
           "target": "src/routes/admin.ts"
         },
         {
-          "path": "registry/admin/admin.contract.ts",
+          "path": "registry/surfaces/admin/admin.contract.ts",
           "type": "registry:file",
           "target": "contract/admin.ts"
         }
@@ -522,32 +522,32 @@
       ],
       "files": [
         {
-          "path": "registry/mcp/mcp.routes.ts",
+          "path": "registry/surfaces/mcp/mcp.routes.ts",
           "type": "registry:file",
           "target": "src/routes/mcp.ts"
         },
         {
-          "path": "registry/mcp/mcp.connections.service.ts",
+          "path": "registry/surfaces/mcp/mcp.connections.service.ts",
           "type": "registry:file",
           "target": "src/services/mcp.ts"
         },
         {
-          "path": "registry/mcp/mcp.connections.routes.ts",
+          "path": "registry/surfaces/mcp/mcp.connections.routes.ts",
           "type": "registry:file",
           "target": "src/routes/mcp-connections.ts"
         },
         {
-          "path": "registry/mcp/mcp.schema.ts",
+          "path": "registry/surfaces/mcp/mcp.schema.ts",
           "type": "registry:file",
           "target": "src/db/mcp.ts"
         },
         {
-          "path": "registry/mcp/mcp.provision.ts",
+          "path": "registry/surfaces/mcp/mcp.provision.ts",
           "type": "registry:file",
           "target": "provision/mcp.ts"
         },
         {
-          "path": "registry/mcp/mcp.contract.ts",
+          "path": "registry/surfaces/mcp/mcp.contract.ts",
           "type": "registry:file",
           "target": "contract/mcp.ts"
         }
@@ -569,27 +569,27 @@
       ],
       "files": [
         {
-          "path": "registry/logs/logs.service.ts",
+          "path": "registry/services/logs/logs.service.ts",
           "type": "registry:file",
           "target": "src/services/logs.ts"
         },
         {
-          "path": "registry/logs/logs.routes.ts",
+          "path": "registry/services/logs/logs.routes.ts",
           "type": "registry:file",
           "target": "src/routes/logs.ts"
         },
         {
-          "path": "registry/logs/logs.schema.ts",
+          "path": "registry/services/logs/logs.schema.ts",
           "type": "registry:file",
           "target": "src/db/logs.ts"
         },
         {
-          "path": "registry/logs/logs.provision.ts",
+          "path": "registry/services/logs/logs.provision.ts",
           "type": "registry:file",
           "target": "provision/logs.ts"
         },
         {
-          "path": "registry/logs/logs.contract.ts",
+          "path": "registry/services/logs/logs.contract.ts",
           "type": "registry:file",
           "target": "contract/logs.ts"
         }
@@ -606,17 +606,17 @@
       ],
       "files": [
         {
-          "path": "registry/journeys/journeys.config.ts",
+          "path": "registry/derivation/journeys/journeys.config.ts",
           "type": "registry:file",
           "target": "journeys.config.ts"
         },
         {
-          "path": "registry/journeys/example.feature",
+          "path": "registry/derivation/journeys/example.feature",
           "type": "registry:file",
           "target": "journeys/example.feature"
         },
         {
-          "path": "registry/journeys/journeys.test.ts",
+          "path": "registry/derivation/journeys/journeys.test.ts",
           "type": "registry:file",
           "target": "src/journeys.test.ts"
         }
@@ -634,7 +634,7 @@
       ],
       "files": [
         {
-          "path": "registry/audit/conformance.ts",
+          "path": "registry/derivation/audit/conformance.ts",
           "type": "registry:file",
           "target": "scripts/conformance.ts"
         }
