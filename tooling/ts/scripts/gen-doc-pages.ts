@@ -1,13 +1,13 @@
 // Regenerate the DERIVED narrative pages for the umbrella site, so they can never drift from the packages:
-//   docs-pages/architecture.md            — the design prose (ARCHITECTURE.md) + a d3 package-dependency graph
-//   docs-pages/architecture-pkggraph.svg  — that graph, a static SVG rendered with d3 (replaces the old D2/kroki)
-//   docs-pages/packages.md                — the Packages index: every documented package → its own root docs site
+//   docs-pages/architecture.md        — the design prose (ARCHITECTURE.md) + the UML architecture diagram
+//   docs-pages/architecture-uml.svg   — that diagram: a static UML "Strata-of-Derivation" SVG rendered with d3
+//   docs-pages/packages.md            — the Packages index: every documented package → its own root docs site
 //
 // Also exports documentedPackages() — the single source of truth for WHICH packages get a root site — reused
-// by build-docs.ts. Reuses @suluk/docs (harvest + packageGraphData). Runnable standalone
+// by build-docs.ts. Reuses @suluk/docs (harvest + architectureGraphData). Runnable standalone
 // (`bun tooling/ts/scripts/gen-doc-pages.ts`) or via build-docs.ts / deploy-docs.ts.
-import { harvest, harvestPackage, packageGraphData } from "../packages/docs/src/index";
-import { renderPackageGraphSvg } from "./pkggraph";
+import { harvest, harvestPackage, architectureGraphData } from "../packages/docs/src/index";
+import { renderArchitectureSvg } from "./archgraph";
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
@@ -54,11 +54,12 @@ export function generatePages(): DocPackage[] {
     architecturePath: join(tsRoot, "..", "ARCHITECTURE.md"),
     repoRoot,
   });
-  // Render the graph to a static SVG with d3 and commit it; reference it via jsdelivr (which serves the committed
-  // file as image/svg+xml — raw.githubusercontent serves .svg as text/plain, so an <img> there won't render).
-  // The same <img> works in the HTML site AND the GitHub markdown mirror.
-  writeFileSync(join(pagesDir, "architecture-pkggraph.svg"), renderPackageGraphSvg(packageGraphData(fw.packages)));
-  const GRAPH = "https://cdn.jsdelivr.net/gh/MahmoodKhalil57/suluk@main/tooling/ts/docs-pages/architecture-pkggraph.svg";
+  // Render the UML architecture diagram to a static SVG with d3 and commit it; reference it via jsdelivr (which
+  // serves the committed file as image/svg+xml — raw.githubusercontent serves .svg as text/plain, so an <img>
+  // there won't render). The same <img> works in the HTML site AND the GitHub markdown mirror. A fresh filename
+  // (not the retired `architecture-pkggraph.svg`) also side-steps jsdelivr's @main cache on the old URL.
+  writeFileSync(join(pagesDir, "architecture-uml.svg"), renderArchitectureSvg(architectureGraphData(fw.packages)));
+  const GRAPH = "https://cdn.jsdelivr.net/gh/MahmoodKhalil57/suluk@main/tooling/ts/docs-pages/architecture-uml.svg";
   const prose = (fw.architecture ?? "# Architecture\n\nSuluk derives a whole stack from one v4 contract.")
     .replace(/^\s*#\s+.*\r?\n/, ""); // strip leading H1 (frontmatter title is the page heading)
   const architectureMd = `---
@@ -69,12 +70,15 @@ title: Architecture
 
 ${prose.trim()}
 
-## How the tools compose
+## The package architecture
 
-Each package derives one facet from the single v4 contract; here is how they depend on each other — every
-package pointing at its \`@suluk/*\` dependencies (rendered with [d3](https://d3js.org)).
+The ${fw.packages.filter((p) => !p.private).length} \`@suluk/*\` packages form a **derivation stack**: everything is projected from the single v4
+contract in \`@suluk/core\` (the keystone — 25 packages depend on it), up through six named strata from raw
+primitives to shipped apps. This is a **UML view** of that stack — every package is a class-box carrying its
+\`«role»\`, its public-export count, and a sample of its exports, and every dashed arrow is a \`«use»\` dependency
+pointing at the package it depends on. Read it top (apps) down to the foundation.
 
-![Suluk package dependency graph](${GRAPH})
+![Suluk architecture — a UML strata diagram of the @suluk packages](${GRAPH})
 `;
   writeFileSync(join(pagesDir, "architecture.md"), architectureMd);
 

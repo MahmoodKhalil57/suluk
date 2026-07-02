@@ -35,6 +35,44 @@ export function packageGraphData(packages: PackageDoc[]): PackageGraph {
   return { nodes, links };
 }
 
+/** A package node enriched for the UML architecture diagram (name, public-export count, a sample of exports). */
+export interface ArchNode {
+  id: string;
+  name: string;
+  /** Number of public symbols the barrel re-exports (the node's surface-area badge). */
+  exports: number;
+  /** A small deterministic sample of exported symbol names (for the node's members compartment). */
+  topExports: string[];
+}
+export interface ArchitectureGraph {
+  nodes: ArchNode[];
+  links: { source: string; target: string }[];
+}
+
+/**
+ * The `@suluk` graph enriched for the UML "Strata-of-Derivation" architecture diagram: each package carries its
+ * export count + a sample of export names so the renderer can draw a UML class-box (name + members compartment)
+ * per package, and the same `@suluk`-only dependency edges as {@link packageGraphData}. Pure data, zero-dep —
+ * the layout/stereotypes/colours live in the build-tooling renderer (`scripts/pkggraph.ts`).
+ */
+export function architectureGraphData(packages: PackageDoc[]): ArchitectureGraph {
+  const visible = packages.filter((p) => !p.private);
+  const present = new Set(visible.map((p) => p.name));
+  const nodes: ArchNode[] = visible.map((p) => ({
+    id: p.name,
+    name: short(p.name),
+    exports: p.exports.length,
+    topExports: p.exports.slice(0, 6), // the barrel's exports are already sorted; take a stable sample
+  }));
+  const links: { source: string; target: string }[] = [];
+  for (const p of visible) {
+    for (const dep of [...p.dependencies, ...p.peerDependencies]) {
+      if (present.has(dep) && dep !== p.name) links.push({ source: p.name, target: dep });
+    }
+  }
+  return { nodes, links };
+}
+
 /**
  * @deprecated D2 is being retired across the repo in favour of d3 (see `packageGraphData` + the d3 SVG renderer
  * in `scripts/pkggraph.ts`). Kept for backward compatibility; no longer used by the docs build.
