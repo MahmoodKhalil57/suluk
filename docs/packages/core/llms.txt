@@ -1,0 +1,95 @@
+# @suluk/core
+
+> Core library for the OpenAPI v4.0 Suluk candidate: parse, validate, resolve, signature, ADA, match.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `parseDocument`: Parse a Suluk v4 document from YAML or JSON source text. (YAML is a superset; JSON parses as YAML too.)
+- `validateDocument`: Validate a document's STRUCTURE against the v4 meta-schema (SPEC §1, ADRs C003/C004/C009/C013).
+- `isValidDocument`: Type guard: a parsed doc that validates is treated as an OpenAPIv4Document.
+- `isReference`: Structural guard for an OpenAPI Reference Object (C019 §A.
+- `resolveRef`: Resolve a same-document OpenAPI reference "#/components/<type>/<name>" BY NAME (C019 §A.
+- `deref`: Resolve a value that may itself be a Reference (one hop). Returns the value unchanged if it is not a Reference.
+- `sourceIndex`: The DERIVED reverse index: source pointer → the operations projected from it.
+- `sourceCoverage`: Count of operations carrying a source pointer vs total — the provenance-coverage gauge.
+- `scrubSource`: Return a CLONE of the document with every `x-suluk-source` removed — for externally published projections, where
+a source pointer is internal-layou...
+- `sourceKey`: "<file>#<symbol>" — the canonical string key for a source pointer.
+- `rateLimitOf`: Read the declared rate-limit facet off an operation.
+- `rateLimitIndex`: The DERIVED index: every operation that declares a rate-limit budget + its config.
+- `rateLimitCoverage`: Coverage gauge: operations declaring a budget vs total — the rate-limit-coverage counterpart to `sourceCoverage`.
+- `retryAfterSeconds`: Retry-After seconds for a budget — `ceil(windowMs / 1000)`, ported from saastarter route-handler.
+- `isProblemDetails`: Structural guard — discriminates a Problem Details body (parallel to saastarter's `isApiError` and core's
+`isReference`).
+- `toProblemDetails`: Pure constructor: a tag (+ optional detail/instance/errors/type) → the canonical Problem Details body.
+- `compileTemplate`
+- `matchPath`: Reverse-parse: match a concrete URL path against the template.
+- `variableCount`: Number of variable segments (for concrete-over-variable precedence ranking).
+- `computeSignature`: Compute a request's canonical signature tuple + deterministic key string (C019 §A.2).
+- `collide`: Pairwise three-valued collision predicate (C003 detect-and-tolerate; NOT a gate).
+- `buildAda`: Build the ADA from a parsed document: index every request, compute signatures, detect collisions.
+- `matchRequest`: Match a concrete HTTP request (method + URL) to zero-or-one operation (CONFORMANCE §B.
+- `parseQuery`: Parse a raw query string into the form-style key→values map (C019 §A.3 default; repeated keys → array).
+- `RATELIMIT_EXT`: The vendor-extension key under which an operation declares its rate budget.
+- `PROBLEM_CONTENT_TYPE`: RFC-9457 media type for a Problem Details body.
+- `PROBLEM_STATUS_TABLE`: typed-throw → HTTP status, ported verbatim from saastarter route-handler.
+- `TITLE_BY_TAG`: Human-readable `title` per tag (RFC-9457 §3.
+- `PROBLEM_DETAILS_SCHEMA`: The canonical JSON Schema (2020-12) form of ProblemDetails — the `$ref` target @suluk/hono's emit
+injects into `components.
+
+## Optional
+
+### Types
+
+- `OpenAPIv4Document`: Top-level OpenAPI v4 document.
+- `Info`: `@suluk/core` — the foundation library for the OpenAPI v4.
+- `Server`: Server IDENTITY — a by-name shape primitive (C015 #55); environment URL config is a deployment concern.
+- `Tag`: `@suluk/core` — the foundation library for the OpenAPI v4.
+- `PathItem`: A pathItem, keyed in `paths` by its uriTemplate. Each request *is* an operation (SPEC §1.3/1.4).
+- `Shared`: Optional inheritance wrapper; its `parameterSchema` is allOf-composed into each request (C012 #116, @0.55).
+- `Request`: A Request *is* an operation (SPEC §1.
+- `HttpMethod`: `@suluk/core` — the foundation library for the OpenAPI v4.
+- `ParameterSchema`: Per-location typed parameter slots (C004 #20). Each slot is a JSON Schema 2020-12 over its instance.
+- `Response`: Named in its containing map. Precedence: request > pathResponses > apiResponses (C012 #17b).
+- `Callback`: A runtime-expression-keyed map of pathItem-shaped definitions (§14, C018).
+- `Components`: Reusable definitions; the referencing anchor (C013). Keyed by name (C009).
+- `SecurityRequirement`: Map of securityScheme name → array of scope strings (referenced BY NAME, C014 #69).
+- `SecurityScheme`: `@suluk/core` — the foundation library for the OpenAPI v4.
+- `Reference`: An OpenAPI Reference Object (C013 #49).
+- `Schema`: A JSON Schema 2020-12 object (or boolean).
+- `SchemaOrRef`: Either an inline Schema Object or an OpenAPI Reference Object.
+- `SulukSource`: A stable, symbolic pointer back to the authored source an element was projected from (advisory provenance).
+- `SulukRateLimit`: RATE-LIMIT facet shape (saastarter-parity Phase 0): the per-operation rate budget an operation DECLARES.
+- `SulukApproval`: HUMAN-IN-THE-LOOP APPROVAL facet (Stage 1.
+- `SchemaProperty`: The PROPERTY-LEVEL facet locus (saastarter-parity Phase 0).
+- `PropertyFacets`: A map of property name → its (optionally facet-bearing) subschema — the property-level facet locus.
+- `SulukJob`: A background job (C025) — non-HTTP work fired by a `scheduled` (cron) or `queue-consumed` trigger.
+- `SulukAgent`: A composition agent (C027) — an LLM-orchestrated unit.
+- `SulukSkillRef`: A SKILL within an agent — an instruction bundle (the LLM tier).
+- `SulukRouteRef`: A deterministic ROUTE within an agent — EXCLUSIVELY a by-name `operationRef` into an EXISTING
+paths[*]/webhooks/x-suluk-jobs operation (never an in...
+- `SulukAgentRef`: A by-name reference to a sub-agent within the same `x-suluk-agents` map (C009/C013; resolved at projection time, never by the matcher).
+- `SulukPolicy`: An OPERATOR governance policy (C028) — a member of the `x-suluk-policy` map, keyed by operator/fleet name.
+- `SulukResource`: A loadable RESOURCE (C036) — a member of the top-level `x-suluk-resources` catalog.
+- `SulukResourceRef`: A by-name reference to a loadable resource within the same `x-suluk-resources` catalog (C036; resolved at projection, never by the matcher; mirrors...
+- `SulukStore`: A REACTIVE-STORE declaration (C037) — the per-operation `x-suluk-store` facet.
+- `SulukNotifyPolicy`: The document-level `x-suluk-notify` policy (C037) — a status→severity map driving the `@suluk/sdk` callback layer.
+- `SulukNotifySeverity`: A status→severity entry value for SulukNotifyPolicy (C037) — how loudly the generated client surfaces a response.
+- `ValidationResult`
+- `ValidationIssue`
+- `SourceGroup`
+- `SourceRef`
+- `RateLimitGroup`
+- `ProblemDetails`: An RFC-9457 Problem Details object.
+- `ProblemStatus`: The HTTP statuses the error model can produce.
+- `ErrorTag`: The closed set of domain-error tags that map to an HTTP status (saastarter src/lib/effect/errors.ts).
+- `CompiledTemplate`
+- `PathSegment`: uriTemplate compile + match + reverse-parse — the RFC6570 parseable-profile tooling default (C005, C019 §A.
+- `SignatureTuple`: Canonical signature tuple (C019 §A.2). The ADA's identity of a request; the matcher/collision key.
+- `CollisionVerdict`
+- `Ada`: The Abstract Description API (SPEC §13, CONFORMANCE §B): the consumption surface computed from the DOM.
+- `Operation`: One operation in the ADA: a request resolved with its pathItem context, signature, and compiled template.
+- `Collision`
+- `MatchResult`

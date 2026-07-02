@@ -6,7 +6,7 @@
 
 # Interface: PanelOptions
 
-Defined in: [app.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L28)
+Defined in: [app.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L28)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [app.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa39
 
 > `optional` **authorize?**: (`c`) => `boolean` \| `Promise`\<`boolean`\>
 
-Defined in: [app.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L35)
+Defined in: [app.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L35)
 
 Gate — return true to allow. Default: deny everything.
 
@@ -34,7 +34,7 @@ Gate — return true to allow. Default: deny everything.
 
 > `optional` **basePath?**: `string`
 
-Defined in: [app.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L31)
+Defined in: [app.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L31)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [app.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa39
 
 > **document**: [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md) \| ((`c`) => [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md) \| `Promise`\<[`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md)\>)
 
-Defined in: [app.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L30)
+Defined in: [app.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L30)
 
 The v4 document — a value, or a per-request function (e.g. return projectDocument(doc, roleOf(c))).
 
@@ -52,7 +52,7 @@ The v4 document — a value, or a per-request function (e.g. return projectDocum
 
 > `optional` **groups?**: [`PanelGroup`](PanelGroup.md)[] \| ((`c`) => [`PanelGroup`](PanelGroup.md)[] \| `Promise`\<[`PanelGroup`](PanelGroup.md)[]\>)
 
-Defined in: [app.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L48)
+Defined in: [app.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L48)
 
 ***
 
@@ -60,7 +60,7 @@ Defined in: [app.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa39
 
 > `optional` **headHtml?**: `string` \| ((`c`) => `string`)
 
-Defined in: [app.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L37)
+Defined in: [app.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L37)
 
 Injected into <head> after the default theme (link a color-scheme sheet + stamper to follow the host theme).
 
@@ -70,7 +70,7 @@ Injected into <head> after the default theme (link a color-scheme sheet + stampe
 
 > `optional` **hide?**: `string`[]
 
-Defined in: [app.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L39)
+Defined in: [app.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L39)
 
 Field names to omit from every entity.
 
@@ -80,7 +80,7 @@ Field names to omit from every entity.
 
 > `optional` **hideEntities?**: `string`[]
 
-Defined in: [app.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L41)
+Defined in: [app.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L41)
 
 Entity names to omit from the panel entirely (e.g. ones you handle via a custom `section` instead).
 
@@ -90,7 +90,7 @@ Entity names to omit from the panel entirely (e.g. ones you handle via a custom 
 
 > `optional` **home?**: (`c`) => `string` \| `Promise`\<`string`\>
 
-Defined in: [app.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L52)
+Defined in: [app.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L52)
 
 Replace the auto-generated home (stat cards + entity/section cards) with a BESPOKE overview — your product's
  landing page (welcome, recent activity, recommendations, quick actions). Stat cards, when set, render above it.
@@ -111,7 +111,7 @@ Replace the auto-generated home (stat cards + entity/section cards) with a BESPO
 
 > `optional` **homeHeading?**: `string` \| ((`c`) => `string` \| `Promise`\<`string`\>)
 
-Defined in: [app.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L54)
+Defined in: [app.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L54)
 
 Heading on the dashboard home (default "Dashboard").
 
@@ -121,7 +121,7 @@ Heading on the dashboard home (default "Dashboard").
 
 > `optional` **homeLabel?**: `string`
 
-Defined in: [app.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L56)
+Defined in: [app.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L56)
 
 Label of the home nav link (default "Dashboard").
 
@@ -131,7 +131,7 @@ Label of the home nav link (default "Dashboard").
 
 > `optional` **sections?**: [`PanelSection`](PanelSection.md)[] \| ((`c`) => [`PanelSection`](PanelSection.md)[] \| `Promise`\<[`PanelSection`](PanelSection.md)[]\>)
 
-Defined in: [app.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L49)
+Defined in: [app.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L49)
 
 ***
 
@@ -139,7 +139,7 @@ Defined in: [app.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa39
 
 > `optional` **stats?**: [`StatCard`](StatCard.md)[] \| ((`c`) => [`StatCard`](StatCard.md)[] \| `Promise`\<[`StatCard`](StatCard.md)[]\>)
 
-Defined in: [app.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L47)
+Defined in: [app.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L47)
 
 Dashboard-framework extras (all optional — omit for a plain CRUD admin). Each may be a per-request FUNCTION so
  the dashboard adapts to WHO is logged in — a bespoke, role-dependent product dashboard, not a generic CRUD index.
@@ -150,7 +150,7 @@ Dashboard-framework extras (all optional — omit for a plain CRUD admin). Each 
 
 > `optional` **title?**: `string`
 
-Defined in: [app.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L33)
+Defined in: [app.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L33)
 
 Brand shown in the sidebar + titles.
 
@@ -160,7 +160,7 @@ Brand shown in the sidebar + titles.
 
 > `optional` **uploadPath?**: `string`
 
-Defined in: [app.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/app.ts#L44)
+Defined in: [app.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/app.ts#L44)
 
 Endpoint that accepts a `multipart/form-data` `file` and returns `{ url }` — enables the media field's upload
  button (e.g. an R2-backed worker route). Omit and media fields are paste-a-URL only.

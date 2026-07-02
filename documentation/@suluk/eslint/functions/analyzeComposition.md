@@ -8,7 +8,7 @@
 
 > **analyzeComposition**(`source`, `options?`): [`Violation`](../interfaces/Violation.md)[]
 
-Defined in: [analyze.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/eslint/src/analyze.ts#L80)
+Defined in: [analyze.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/eslint/src/analyze.ts#L80)
 
 Collect every violation, then apply each metric's budget (report only the occurrences BEYOND the budget).
 

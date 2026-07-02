@@ -8,7 +8,7 @@
 
 > **synthesize**(`schema`, `hint?`, `opts?`): `unknown`
 
-Defined in: [examples/src/index.ts:244](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/examples/src/index.ts#L244)
+Defined in: [examples/src/index.ts:244](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/examples/src/index.ts#L244)
 
 A deterministic, schema-shaped example value. `const`/`enum`/`default`/explicit `examples` win (so a synthesized
 object's fields respect pinned values); otherwise a fixed representative is chosen per type. Object fields are

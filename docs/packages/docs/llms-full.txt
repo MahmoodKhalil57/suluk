@@ -1,0 +1,271 @@
+# @suluk/docs
+
+> Generate an intuitive static documentation site for a Bun/TS monorepo, straight from source (package.json + doc-comments + exports + README/ARCHITECTURE). Deployable to GitHub Pages. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### harvest
+
+`@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+(package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one
+stylesheet, deployable to GitHub Pages with zero build. Suluk documents itself with it. CANDIDATE tooling.
+
+```ts
+harvest(opts: HarvestOptions): FrameworkDoc
+```
+
+**Parameters:**
+- `opts: HarvestOptions` — 
+
+**Returns:** `FrameworkDoc`
+
+### harvestPackage
+
+`@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+(package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one
+stylesheet, deployable to GitHub Pages with zero build. Suluk documents itself with it. CANDIDATE tooling.
+
+```ts
+harvestPackage(dir: string, repoRoot?: string): PackageDoc | null
+```
+
+**Parameters:**
+- `dir: string` — 
+- `repoRoot: string` (optional) — 
+
+**Returns:** `PackageDoc | null`
+
+### stripReadmeHeader
+
+Strip a README's leading branding/header chrome so it integrates under the site's own page title without a
+duplicate logo + H1. Handles both house styles: the centered-logo HTML header (`<p align="center">…</p>` +
+`<h1 align="center">` + taglines + `---`) and the plain `# @pkg` H1 followed by a bold one-line value-prop.
+Everything from the first real content line (the CANDIDATE note / intro prose / first `##`) is kept.
+
+```ts
+stripReadmeHeader(md: string): string
+```
+
+**Parameters:**
+- `md: string` — 
+
+**Returns:** `string`
+
+### firstBlockComment
+
+Extract + clean the first JSDoc block comment.
+
+```ts
+firstBlockComment(src: string): string
+```
+
+**Parameters:**
+- `src: string` — 
+
+**Returns:** `string`
+
+### parseExports
+
+Collect the public symbol names a barrel re-exports.
+
+```ts
+parseExports(src: string): string[]
+```
+
+**Parameters:**
+- `src: string` — 
+
+**Returns:** `string[]`
+
+### generateSite
+
+```ts
+generateSite(fw: FrameworkDoc, opts: SiteOptions): SiteFile[]
+```
+
+**Parameters:**
+- `fw: FrameworkDoc` — 
+- `opts: SiteOptions` — 
+
+**Returns:** `SiteFile[]`
+
+### renderIndex
+
+```ts
+renderIndex(fw: FrameworkDoc): string
+```
+
+**Parameters:**
+- `fw: FrameworkDoc` — 
+
+**Returns:** `string`
+
+### renderPackage
+
+```ts
+renderPackage(fw: FrameworkDoc, p: PackageDoc): string
+```
+
+**Parameters:**
+- `fw: FrameworkDoc` — 
+- `p: PackageDoc` — 
+
+**Returns:** `string`
+
+### renderMarkdownPage
+
+```ts
+renderMarkdownPage(fw: FrameworkDoc, file: string, title: string, md: string): string
+```
+
+**Parameters:**
+- `fw: FrameworkDoc` — 
+- `file: string` — 
+- `title: string` — 
+- `md: string` — 
+
+**Returns:** `string`
+
+### mdToHtml
+
+```ts
+mdToHtml(md: string): string
+```
+
+**Parameters:**
+- `md: string` — 
+
+**Returns:** `string`
+
+### inline
+
+Inline spans: `code`, `![alt](url)` image, `[text](url)`, **bold**, *italic*. Escapes first, then injects safe tags.
+
+```ts
+inline(text: string): string
+```
+
+**Parameters:**
+- `text: string` — 
+
+**Returns:** `string`
+
+### escapeHtml
+
+```ts
+escapeHtml(s: string): string
+```
+
+**Parameters:**
+- `s: string` — 
+
+**Returns:** `string`
+
+### rewriteRepoLinks
+
+Rewrite repo-RELATIVE markdown links (`](../../doc/x.md)`, `](./y)`) to absolute GitHub blob URLs so a
+README harvested into the site doesn't ship dead links. `relDir` is the package's path from the repo root
+(e.g. `tooling/ts/packages/core`); the link is resolved against it and normalized. Absolute links
+(`http(s):`, `mailto:`, protocol-relative), pure `#anchors`, and already-absolute paths are left untouched.
+
+```ts
+rewriteRepoLinks(md: string, repoUrl: string, relDir: string, ref: string): string
+```
+
+**Parameters:**
+- `md: string` — 
+- `repoUrl: string` — 
+- `relDir: string` — 
+- `ref: string` — 
+
+**Returns:** `string`
+
+### packageGraphData
+
+The `@suluk` package dependency graph as pure data (each package → its drawn `@suluk` dependencies) — the input
+to the d3 renderer (build tooling), replacing the old D2/kroki path. Zero-dep, so it stays in `@suluk/docs`.
+
+```ts
+packageGraphData(packages: PackageDoc[]): PackageGraph
+```
+
+**Parameters:**
+- `packages: PackageDoc[]` — 
+
+**Returns:** `PackageGraph`
+
+### architectureGraphData
+
+The `@suluk` graph enriched for the UML "Strata-of-Derivation" architecture diagram: each package carries its
+export count + a sample of export names so the renderer can draw a UML class-box (name + members compartment)
+per package, and the same `@suluk`-only dependency edges as packageGraphData. Pure data, zero-dep —
+the layout/stereotypes/colours live in the build-tooling renderer (`scripts/pkggraph.ts`).
+
+```ts
+architectureGraphData(packages: PackageDoc[]): ArchitectureGraph
+```
+
+**Parameters:**
+- `packages: PackageDoc[]` — 
+
+**Returns:** `ArchitectureGraph`
+
+### packageGraphD2
+
+```ts
+packageGraphD2(packages: PackageDoc[]): string
+```
+
+**Parameters:**
+- `packages: PackageDoc[]` — 
+
+**Returns:** `string`
+
+### krokiD2Url
+
+```ts
+krokiD2Url(d2: string): string
+```
+
+**Parameters:**
+- `d2: string` — 
+
+**Returns:** `string`
+
+### FrameworkDoc
+
+`@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+(package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one
+stylesheet, deployable to GitHub Pages with zero build. Suluk documents itself with it. CANDIDATE tooling.
+
+### PackageDoc
+
+`@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+(package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one
+stylesheet, deployable to GitHub Pages with zero build. Suluk documents itself with it. CANDIDATE tooling.
+
+### ModuleDoc
+
+`@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+(package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one
+stylesheet, deployable to GitHub Pages with zero build. Suluk documents itself with it. CANDIDATE tooling.
+
+### SiteFile
+
+### PackageGraph
+
+### ArchitectureGraph
+
+### ArchNode
+
+A package node enriched for the UML architecture diagram (name, public-export count, a sample of exports).
+
+### STYLE
+
+The only hand-written CSS: typography for the rendered Markdown. daisyUI + Tailwind (from the CDN) own all the
+chrome; this re-applies readable defaults to the bare tags Tailwind's preflight strips. Colors prefer the
+daisyUI theme variables, with Suluk-brand fallbacks so it looks right even before the CDN settles.
+
+```ts
+const STYLE: "\n/* Base-color safety net: the daisyUI theme vars drive these, with Suluk-dark fallbacks so the page is never\n   unstyled even before/without the CDN's runtime utilities. */\nbody { background: var(--color-base-100, #0b0e14); color: var(--color-base-content, #cdd6f4); }\n.navbar { background: color-mix(in oklab, var(--color-base-200, #11141c) 85%, transparent); }\n.card { background: var(--color-base-200, #11141c); }\n.prose-suluk { line-height: 1.7; }\n.prose-suluk > :first-child { margin-top: 0; }\n.prose-suluk h1 { font-size: 1.55rem; font-weight: 700; margin: 1.2rem 0 .6rem; }\n.prose-suluk h2 { font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--color-primary, #f5a97f); margin: 1.8rem 0 .7rem; }\n.prose-suluk h3 { font-size: 1.05rem; font-weight: 600; margin: 1.3rem 0 .4rem; }\n.prose-suluk p { margin: .65rem 0; }\n.prose-suluk ul { list-style: disc; padding-left: 1.4rem; margin: .65rem 0; }\n.prose-suluk ol { list-style: decimal; padding-left: 1.4rem; margin: .65rem 0; }\n.prose-suluk li { margin: .25rem 0; }\n.prose-suluk li > ul, .prose-suluk li > ol { margin: .2rem 0; }\n.prose-suluk a { color: var(--color-info, #8aadf4); text-decoration: underline; text-underline-offset: 2px; }\n.prose-suluk strong { font-weight: 700; }\n.prose-suluk code { background: var(--color-base-200, #1e2433); border-radius: .35rem; padding: .12em .4em; font-size: .9em; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }\n.prose-suluk pre { background: var(--color-base-300, #11141c); border: 1px solid var(--color-base-300, #1e2433); border-radius: .6rem; padding: 1rem; overflow: auto; margin: .9rem 0; }\n.prose-suluk pre code { background: none; border: 0; padding: 0; font-size: .85rem; }\n.prose-suluk table { width: 100%; border-collapse: collapse; margin: .9rem 0; font-size: .9rem; display: block; overflow-x: auto; }\n.prose-suluk th, .prose-suluk td { text-align: left; padding: .45rem .7rem; border-bottom: 1px solid var(--color-base-300, #1e2433); vertical-align: top; }\n.prose-suluk th { color: var(--color-base-content, #cdd6f4); opacity: .7; font-weight: 600; }\n.prose-suluk blockquote { border-left: 3px solid var(--color-primary, #f5a97f); padding: .2rem .9rem; margin: .9rem 0; opacity: .85; }\n.prose-suluk hr { border: 0; border-top: 1px solid var(--color-base-300, #1e2433); margin: 1.4rem 0; }\n.prose-suluk img { max-width: 100%; }\n.modules dt { color: var(--color-primary, #f5a97f); margin-top: .5rem; font-family: ui-monospace, monospace; }\n.modules dd { margin: .15rem 0 0 0; opacity: .7; }\n"
+```

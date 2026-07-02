@@ -8,7 +8,7 @@
 
 > **storeProvider**(`sink`): [`EmailProvider`](../interfaces/EmailProvider.md)
 
-Defined in: [provider.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/provider.ts#L78)
+Defined in: [provider.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/email/src/provider.ts#L78)
 
 DEV/mock provider — SAVES the message to a mailbox sink (sqlite/json) instead of sending. Inspectable, never touches
 the network, needs no separate mail server. The mock-until-keyed default for local dev when no `RESEND_API_KEY` is set.

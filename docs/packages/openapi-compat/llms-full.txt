@@ -1,0 +1,63 @@
+# @suluk/openapi-compat
+
+> Lossless-where-possible conversion between the OpenAPI v4 'Suluk' candidate and OpenAPI 3.1 (the dialect Scalar/Swagger consume). CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### downgrade
+
+Project a v4 "Suluk" document to OpenAPI 3.1. Returns the 3.1 document plus diagnostics for everything
+that could not be carried losslessly. Schema Objects are shared verbatim (identical dialect).
+
+```ts
+downgrade(doc: OpenAPIv4Document): DowngradeResult
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `DowngradeResult`
+
+### upgrade
+
+Project an OpenAPI 3.1 document up to the v4 "Suluk" model.
+
+```ts
+upgrade(doc31: Record<string, unknown>): OpenAPIv4Document
+```
+
+**Parameters:**
+- `doc31: Record<string, unknown>` — 
+
+**Returns:** `OpenAPIv4Document`
+
+### validate31
+
+```ts
+validate31(document: unknown): Validation31
+```
+
+**Parameters:**
+- `document: unknown` — 
+
+**Returns:** `Validation31`
+
+### DowngradeResult
+
+`@suluk/openapi-compat` — convert between the OpenAPI v4 "Suluk" candidate and OpenAPI 3.1.
+
+downgrade(v4) → 3.1 is the lever for Scalar & Swagger UI (they consume 3.x). upgrade(3.1) → v4 is the
+reverse. The pair is lossless for documents that fit 3.1's expressivity; where v4 exceeds 3.1 (notably
+multiple requests per method on one path, C003), downgrade() reports it in `diagnostics` rather than
+losing it silently. Schema Objects are shared verbatim (both are JSON Schema 2020-12). CANDIDATE tooling.
+
+### Diagnostic
+
+`@suluk/openapi-compat` — convert between the OpenAPI v4 "Suluk" candidate and OpenAPI 3.1.
+
+downgrade(v4) → 3.1 is the lever for Scalar & Swagger UI (they consume 3.x). upgrade(3.1) → v4 is the
+reverse. The pair is lossless for documents that fit 3.1's expressivity; where v4 exceeds 3.1 (notably
+multiple requests per method on one path, C003), downgrade() reports it in `diagnostics` rather than
+losing it silently. Schema Objects are shared verbatim (both are JSON Schema 2020-12). CANDIDATE tooling.
+
+### Validation31

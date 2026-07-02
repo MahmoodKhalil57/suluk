@@ -1,0 +1,274 @@
+# billing (registry module)
+
+> An Effect-TS Billing service over @suluk/billing (which runs on @suluk/payments' agnostic connector + client-token surface): ensure-customer, Payment-Element + add-card sessions, saved cards, billing portal. The webhook dispatch + pricing matrix stay in your app (C046/C048).
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### stripeCutCents
+
+The ACTUAL Stripe cut on a charge of `chargeCents`, in cents — `ceil` so we never under-estimate what Stripe keeps.
+
+```ts
+stripeCutCents(chargeCents: number): number
+```
+
+**Parameters:**
+- `chargeCents: number` — 
+
+**Returns:** `number`
+
+### creditsForCharge
+
+The ONE "pay X → get Y credits" function behind every acquisition path (top-up, pack, subscription): credits a
+`chargeCents` payment buys at `perCreditMicroUsd`, AFTER netting Stripe's cut. Y bakes in COGS + markup + the tier
+discount (all in the rate) and the processing fee (the netting). Tax, when enabled, stays a SEPARATE on-top line.
+
+```ts
+creditsForCharge(chargeCents: number, perCreditMicroUsd: number): number
+```
+
+**Parameters:**
+- `chargeCents: number` — 
+- `perCreditMicroUsd: number` — 
+
+**Returns:** `number`
+
+### creditsForUsd
+
+Credits a CUSTOM one-time USD charge buys (the "Add credits" dialog), at the retail rate, net of Stripe's cut. Server-authoritative.
+
+```ts
+creditsForUsd(cents: number): number
+```
+
+**Parameters:**
+- `cents: number` — 
+
+**Returns:** `number`
+
+### packById
+
+```ts
+packById(id: string): CreditPack | undefined
+```
+
+**Parameters:**
+- `id: string` — 
+
+**Returns:** `CreditPack | undefined`
+
+### subPlanById
+
+```ts
+subPlanById(id: string): any
+```
+
+**Parameters:**
+- `id: string` — 
+
+**Returns:** `any`
+
+### subPlanByPrice
+
+The plan whose monthly price is exactly `priceCents` (each tier has a distinct price), or undefined — maps a live
+ Stripe item price back to a plan.
+
+```ts
+subPlanByPrice(priceCents: number): any
+```
+
+**Parameters:**
+- `priceCents: number` — 
+
+**Returns:** `any`
+
+### refundGrossCents
+
+Gross buyback value (cents) for `credits` at the refund rate, BEFORE the Stripe fee.
+
+```ts
+refundGrossCents(credits: number): number
+```
+
+**Parameters:**
+- `credits: number` — 
+
+**Returns:** `number`
+
+### refundNetCents
+
+Net cash refunded (cents): the gross buyback minus the Stripe cut the user eats on the payout, floored at 0.
+
+```ts
+refundNetCents(credits: number): number
+```
+
+**Parameters:**
+- `credits: number` — 
+
+**Returns:** `number`
+
+### autoTopupClaimWhere
+
+```ts
+autoTopupClaimWhere(userId: string, cutoff: Date): any
+```
+
+**Parameters:**
+- `userId: string` — 
+- `cutoff: Date` — 
+
+**Returns:** `any`
+
+### billingRoutes
+
+```ts
+billingRoutes(): any
+```
+
+**Returns:** `any`
+
+### StripeCfg
+
+The Stripe config (secret key + optional mock fetch) as an Effect service — provided from env at the route.
+
+```ts
+constructor(): StripeCfg
+```
+
+### Billing
+
+```ts
+constructor(): Billing
+```
+
+### CreditPack
+
+### PaymentAlertRow
+
+A payment-health flag row as the UI reads it.
+
+### CREDIT_COGS_MICROUSD
+
+```ts
+const CREDIT_COGS_MICROUSD: 450
+```
+
+### MARKUP_PCT
+
+```ts
+const MARKUP_PCT: 73
+```
+
+### creditPriceMicroUsd
+
+Retail price per credit (µ$) = COGS marked up — what a one-time top-up pays.
+
+```ts
+const creditPriceMicroUsd: number
+```
+
+### SUB_TIER_DISCOUNT
+
+```ts
+const SUB_TIER_DISCOUNT: Record<string, number>
+```
+
+### subCreditPriceMicroUsd
+
+The LOWEST subscriber per-credit price (the deepest tier discount) — the conservative value the ≥COGS audit checks.
+
+```ts
+const subCreditPriceMicroUsd: number
+```
+
+### PROVIDER_FEE_PCT
+
+```ts
+const PROVIDER_FEE_PCT: 0.029
+```
+
+### PROVIDER_FEE_FLAT_CENTS
+
+```ts
+const PROVIDER_FEE_FLAT_CENTS: 30
+```
+
+### CREDIT_PACKS
+
+One-time top-up packs (round prices; credits derived from the marked-up COGS).
+
+```ts
+const CREDIT_PACKS: CreditPack[]
+```
+
+### SUB_PLANS
+
+Recurring subscription plans (3 monthly tiers; round prices, credits derived at each tier's subsidized rate).
+
+```ts
+const SUB_PLANS: billingAccount[]
+```
+
+### minAcquisitionPriceMicroUsd
+
+The CHEAPEST per-credit price across EVERY acquisition path (one-time packs at retail + each plan at its tier
+ discount). The refund buyback stays strictly below this, so buying credits then refunding them can never profit.
+
+```ts
+const minAcquisitionPriceMicroUsd: number
+```
+
+### REFUND_HAIRCUT_PCT
+
+```ts
+const REFUND_HAIRCUT_PCT: 0.2
+```
+
+### refundCreditPriceMicroUsd
+
+```ts
+const refundCreditPriceMicroUsd: number
+```
+
+### BillingLive
+
+```ts
+const BillingLive: any
+```
+
+### autoTopup
+
+The user's off-session auto-recharge config — MODULE-OWNED (auto-topup is app POLICY, excluded from @suluk/billing).
+ `lastTriggeredAt` is the CAS anchor the trigger flips so two concurrent debits can't double-charge (see the routes).
+
+```ts
+const autoTopup: any
+```
+
+### paymentAlert
+
+A standing payment-health flag surfaced in the billing UI (a declined renewal / auto-top-up / 3DS-needed) — MODULE-OWNED
+ (alert kinds are app POLICY). Append-only; the app clears a user's alerts on a successful charge.
+
+```ts
+const paymentAlert: any
+```
+
+### billingAccount
+
+```ts
+let billingAccount: any
+```
+
+### billingProvision
+
+```ts
+const billingProvision: billingAccount[]
+```
+
+### billingOps
+
+```ts
+const billingOps: ({ method: string; path: string; name: string; summary: string; tags: string[]; responses: { status: number; description: string }[]; scopes?: undefined; request?: undefined; errors?: undefined } | { method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; responses: { status: number; description: string }[]; request?: undefined; errors?: undefined } | { method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; request: { json: ZodObject<{ packId: ZodString; successUrl: ZodString; cancelUrl: ZodString }, "strip", ZodTypeAny, { packId: string; successUrl: string; cancelUrl: string }, { packId: string; successUrl: string; cancelUrl: string }> }; responses: { status: number; description: string }[]; errors?: undefined } | { method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; errors: number[]; request: { json: ZodObject<{ planId: ZodString; hosted: ZodOptional<ZodBoolean>; successUrl: ZodOptional<ZodString>; cancelUrl: ZodOptional<ZodString> }, "strip", ZodTypeAny, { planId: string; successUrl?: string; cancelUrl?: string; hosted?: boolean }, { planId: string; successUrl?: string; cancelUrl?: string; hosted?: boolean }> }; responses: { status: number; description: string }[] } | { method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; errors: number[]; responses: { status: number; description: string }[]; request?: undefined })[]
+```

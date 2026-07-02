@@ -1,0 +1,9 @@
+# journeys (registry module)
+
+> Dev/CI tooling (no runtime mount): author plain-Gherkin user journeys against the step vocabulary @suluk/journeys projects from your v4 contract, then bind + grade coverage as a bun:test gate. The binder resolves each step exact-or-unbound and grades contract→authored coverage; unbound steps are your worklist. Ships a config, an example feature, and the coverage harness.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `default`

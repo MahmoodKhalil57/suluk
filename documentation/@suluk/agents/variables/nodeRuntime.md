@@ -8,6 +8,6 @@
 
 > `const` **nodeRuntime**: [`AgentRuntimeProvider`](../interfaces/AgentRuntimeProvider.md)\<[`NodeAgentOptions`](../interfaces/NodeAgentOptions.md)\>
 
-Defined in: [agents/src/runtime.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/runtime.ts#L54)
+Defined in: [agents/src/runtime.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/runtime.ts#L54)
 
 The Node/Bun adapter — wraps `projectNodeAgent`. A plain long-lived process, so the deploy hint carries no infra.

@@ -6,7 +6,7 @@
 
 # Interface: SulukRouteRef
 
-Defined in: [types.ts:258](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L258)
+Defined in: [types.ts:258](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L258)
 
 A deterministic ROUTE within an agent — EXCLUSIVELY a by-name `operationRef` into an EXISTING
 paths[*]/webhooks/x-suluk-jobs operation (never an inline re-declaration — inlining forks C009 identity and
@@ -19,7 +19,7 @@ route-vs-skill discriminator. `guarantee` is DECLARED intent, never schema-enfor
 
 > `optional` **guarantee?**: `"same-in-same-out"` \| `"idempotent"` \| `"safe"`
 
-Defined in: [types.ts:262](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L262)
+Defined in: [types.ts:262](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L262)
 
 declared determinism intent (advisory, unverifiable-by-schema); NOT enforced.
 
@@ -29,7 +29,7 @@ declared determinism intent (advisory, unverifiable-by-schema); NOT enforced.
 
 > **operationRef**: `string`
 
-Defined in: [types.ts:260](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L260)
+Defined in: [types.ts:260](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L260)
 
 a by-name `$ref` into an existing operation (resolve-linted; a dangling ref fails burhan-converge).
 
@@ -39,7 +39,7 @@ a by-name `$ref` into an existing operation (resolve-linted; a dangling ref fail
 
 > `optional` **scope?**: `string`[]
 
-Defined in: [types.ts:270](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L270)
+Defined in: [types.ts:270](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L270)
 
 ***
 
@@ -47,7 +47,7 @@ Defined in: [types.ts:270](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **tier?**: `"resident"` \| `"cold-tail"`
 
-Defined in: [types.ts:269](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L269)
+Defined in: [types.ts:269](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L269)
 
 Static serving partition (C027): `resident` (in the default tool list) vs `cold-tail` (revealed via
 `discover_tools` on demand). Absent ⇒ resident. This is what a serving adapter trims to make the cheap/lower

@@ -6,7 +6,7 @@
 
 # Interface: ParsedRegistry
 
-Defined in: [builder/src/registry-remote.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/registry-remote.ts#L19)
+Defined in: [builder/src/registry-remote.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-remote.ts#L19)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [builder/src/registry-remote.ts:19](https://github.com/MahmoodKhalil
 
 > **modules**: [`ModuleEntry`](ModuleEntry.md)[]
 
-Defined in: [builder/src/registry-remote.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/registry-remote.ts#L22)
+Defined in: [builder/src/registry-remote.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-remote.ts#L22)
 
 only the well-formed module entries
 
@@ -24,7 +24,7 @@ only the well-formed module entries
 
 > **name**: `string`
 
-Defined in: [builder/src/registry-remote.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/registry-remote.ts#L20)
+Defined in: [builder/src/registry-remote.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-remote.ts#L20)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [builder/src/registry-remote.ts:20](https://github.com/MahmoodKhalil
 
 > **rejected**: `object`[]
 
-Defined in: [builder/src/registry-remote.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/registry-remote.ts#L24)
+Defined in: [builder/src/registry-remote.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/registry-remote.ts#L24)
 
 malformed entries, surfaced (title + why) rather than hidden
 

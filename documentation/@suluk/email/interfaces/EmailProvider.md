@@ -6,7 +6,7 @@
 
 # Interface: EmailProvider
 
-Defined in: [provider.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/provider.ts#L37)
+Defined in: [provider.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/email/src/provider.ts#L37)
 
 The swappable binding. An app picks one impl; the template set is provider-agnostic.
 
@@ -16,7 +16,7 @@ The swappable binding. An app picks one impl; the template set is provider-agnos
 
 > `readonly` **id**: `string`
 
-Defined in: [provider.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/provider.ts#L39)
+Defined in: [provider.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/email/src/provider.ts#L39)
 
 a stable id (e.g. "resend", "console") — matches the @suluk/builder provider-slot impl id.
 
@@ -26,7 +26,7 @@ a stable id (e.g. "resend", "console") — matches the @suluk/builder provider-s
 
 > **send**(`message`): `Promise`\<[`SendResult`](SendResult.md)\>
 
-Defined in: [provider.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/provider.ts#L40)
+Defined in: [provider.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/email/src/provider.ts#L40)
 
 #### Parameters
 

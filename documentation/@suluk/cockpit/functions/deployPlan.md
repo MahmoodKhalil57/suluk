@@ -8,7 +8,7 @@
 
 > **deployPlan**(`doc`): [`DeployPlan`](../interfaces/DeployPlan.md)
 
-Defined in: [cockpit/src/deploy.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/deploy.ts#L13)
+Defined in: [cockpit/src/deploy.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/deploy.ts#L13)
 
 Build the Cloudflare deploy plan from a v4 document (its schemas → entities).
 

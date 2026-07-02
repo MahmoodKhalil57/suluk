@@ -6,7 +6,7 @@
 
 # Interface: RefundRequest
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:164](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L164)
+Defined in: [tooling/ts/packages/payments/src/types.ts:164](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L164)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:164](https://github.com/M
 
 > **connectorTransactionId**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:166](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L166)
+Defined in: [tooling/ts/packages/payments/src/types.ts:166](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L166)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:166](https://github.com/M
 
 > **merchantRefundId**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:165](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L165)
+Defined in: [tooling/ts/packages/payments/src/types.ts:165](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L165)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:165](https://github.com/M
 
 > **paymentAmount**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:169](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L169)
+Defined in: [tooling/ts/packages/payments/src/types.ts:169](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L169)
 
 the ORIGINAL payment amount (minor units) — some processors require it to compute a partial refund.
 
@@ -40,7 +40,7 @@ the ORIGINAL payment amount (minor units) — some processors require it to comp
 
 > `optional` **reason?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:170](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L170)
+Defined in: [tooling/ts/packages/payments/src/types.ts:170](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L170)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:170](https://github.com/M
 
 > **refundAmount**: [`MinorAmount`](MinorAmount.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:167](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L167)
+Defined in: [tooling/ts/packages/payments/src/types.ts:167](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L167)
 
 ***
 
@@ -56,4 +56,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:167](https://github.com/M
 
 > `optional` **testMode?**: `boolean`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:171](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L171)
+Defined in: [tooling/ts/packages/payments/src/types.ts:171](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L171)

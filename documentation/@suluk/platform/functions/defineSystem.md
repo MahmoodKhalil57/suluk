@@ -8,7 +8,7 @@
 
 > **defineSystem**\<`T`\>(`s`): [`SystemManifest`](../interfaces/SystemManifest.md)\<`T`\>
 
-Defined in: [manifest.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/manifest.ts#L98)
+Defined in: [manifest.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/manifest.ts#L98)
 
 Author a SYSTEM. `const T` captures the services tuple so `serviceOpts` types resolve per service id.
 

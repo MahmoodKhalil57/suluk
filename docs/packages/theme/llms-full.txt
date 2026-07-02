@@ -1,0 +1,282 @@
+# @suluk/theme
+
+> The design-token CONTRACT: a typed TokenSpec (OKLCH colors + radius/fonts/shadows + type/spacing scales + breakpoints) that PROJECTS into CSS custom properties, the Tailwind v4 @theme block, and a shadcn token map — one source of truth for the look. Includes an OKLCH value type + a deterministic generate-dark-from-light, with reference schemes proving the mechanism (the 40+ curated catalog is meta-product breadth). CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### oklch
+
+Construct an OKLCH color (clamped to valid ranges).
+
+```ts
+oklch(l: number, c: number, h: number, alpha?: number): Oklch
+```
+
+**Parameters:**
+- `l: number` — 
+- `c: number` — 
+- `h: number` — 
+- `alpha: number` (optional) — 
+
+**Returns:** `Oklch`
+
+### clampOklch
+
+Clamp to valid ranges: l∈[0,1], c≥0, h wrapped to [0,360), alpha∈[0,1]. Non-finite inputs collapse to 0.
+
+```ts
+clampOklch(color: Oklch): Oklch
+```
+
+**Parameters:**
+- `color: Oklch` — 
+
+**Returns:** `Oklch`
+
+### formatOklch
+
+Format as a CSS `oklch(L C H)` / `oklch(L C H / A)` string.
+
+```ts
+formatOklch(color: Oklch): string
+```
+
+**Parameters:**
+- `color: Oklch` — 
+
+**Returns:** `string`
+
+### parseOklch
+
+Parse a CSS `oklch(L C H)` / `oklch(L C H / A)` string. Percentages on L are normalized (50% → 0.5). Null on miss.
+
+```ts
+parseOklch(input: string): Oklch | null
+```
+
+**Parameters:**
+- `input: string` — 
+
+**Returns:** `Oklch | null`
+
+### withLightness
+
+A copy with a new lightness (kept in [0,1]).
+
+```ts
+withLightness(color: Oklch, l: number): Oklch
+```
+
+**Parameters:**
+- `color: Oklch` — 
+- `l: number` — 
+
+**Returns:** `Oklch`
+
+### withAlpha
+
+A copy with a new alpha.
+
+```ts
+withAlpha(color: Oklch, alpha: number): Oklch
+```
+
+**Parameters:**
+- `color: Oklch` — 
+- `alpha: number` — 
+
+**Returns:** `Oklch`
+
+### cssVarName
+
+The CSS custom-property name for a color role (kebab-cased: primaryForeground → --primary-foreground).
+
+```ts
+cssVarName(role: keyof ColorTokens): string
+```
+
+**Parameters:**
+- `role: keyof ColorTokens` — 
+
+**Returns:** `string`
+
+### deriveDark
+
+Derive a dark TokenSpec from a light one (colors remapped; radius/fonts/scales carried through).
+
+```ts
+deriveDark(light: TokenSpec): TokenSpec
+```
+
+**Parameters:**
+- `light: TokenSpec` — 
+
+**Returns:** `TokenSpec`
+
+### themeFromLight
+
+Build a complete {light, dark} ThemeSpec, deriving dark when not supplied.
+
+```ts
+themeFromLight(light: TokenSpec, dark?: TokenSpec): { light: TokenSpec; dark: TokenSpec }
+```
+
+**Parameters:**
+- `light: TokenSpec` — 
+- `dark: TokenSpec` (optional) — 
+
+**Returns:** `{ light: TokenSpec; dark: TokenSpec }`
+
+### parseShadcnCss
+
+Parse a shadcn/tweakcn theme CSS string into light + dark ColorTokens. Dark is read from a `.dark` /
+ `html[data-theme="dark"]` block when present, otherwise deterministically derived from light. Returns null when
+ the CSS has no recognizable `:root` shadcn token block.
+
+```ts
+parseShadcnCss(css: string, name: string): { name: string; light: ColorTokens; dark: ColorTokens } | null
+```
+
+**Parameters:**
+- `css: string` — 
+- `name: string` — 
+
+**Returns:** `{ name: string; light: ColorTokens; dark: ColorTokens } | null`
+
+### toCssVars
+
+A scheme's CSS custom properties — the colors (OKLCH) + radius + any fonts/shadows/scales — under one selector.
+
+```ts
+toCssVars(spec: TokenSpec, opts: CssVarsOptions): string
+```
+
+**Parameters:**
+- `spec: TokenSpec` — 
+- `opts: CssVarsOptions` — 
+
+**Returns:** `string`
+
+### toThemeCss
+
+Both modes as CSS: light at :root, dark at the dark selector.
+
+```ts
+toThemeCss(theme: ThemeSpec, opts: ThemeCssOptions): string
+```
+
+**Parameters:**
+- `theme: ThemeSpec` — 
+- `opts: ThemeCssOptions` — 
+
+**Returns:** `string`
+
+### toTailwindTheme
+
+The Tailwind v4 `@theme inline` block — maps each token to its utility variable (`--color-background`,
+`--radius-lg`, `--font-sans`, breakpoints) referencing the `:root` custom properties, so Tailwind utilities
+(`bg-background`, `rounded-lg`) resolve to the same source the CSS vars define.
+
+```ts
+toTailwindTheme(spec: TokenSpec): string
+```
+
+**Parameters:**
+- `spec: TokenSpec` — 
+
+**Returns:** `string`
+
+### toShadcnTokens
+
+The shadcn token map: CSS-var name → OKLCH value (+ --radius). What a shadcn `components.json`/globals consumes.
+
+```ts
+toShadcnTokens(spec: TokenSpec): Record<string, string>
+```
+
+**Parameters:**
+- `spec: TokenSpec` — 
+
+**Returns:** `Record<string, string>`
+
+### renderBaseCss
+
+The reusable design-system BASE layer — the accessibility + motion contract every builder inherits, independent
+of the scheme colors. Parameterized by CSS-var names so an app on its OWN color vocabulary (not the shadcn role
+names) can point it at its own ring/destructive vars. Emits, all reduced-motion-gated:
+  - keyboard-only focus rings (`:focus-visible`) on every interactive element — mouse clicks stay clean;
+  - the `[aria-invalid]` destructive border+ring contract (app toggles the attribute, theme owns the look);
+  - the `.sr-only` + `.skip-link` accessibility utilities (skip-to-content);
+  - motion primitives — `shake`/`fade-in-down` (form errors), `[data-reveal]` staggered scroll-reveal, and the
+    asymptotic `.navprogress` bar — so each app drives behavior while the look is one inherited source;
+  - a GLOBAL `prefers-reduced-motion` baseline that neutralizes all of the above for users who ask for it.
+
+```ts
+renderBaseCss(opts: BaseCssOptions): string
+```
+
+**Parameters:**
+- `opts: BaseCssOptions` — 
+
+**Returns:** `string`
+
+### Oklch
+
+The OKLCH value type (saastarter-parity Phase 1). saastarter's themes are OKLCH (globals.css), the modern
+perceptually-uniform color space — lightness, chroma, hue are independent, which is exactly what makes a
+deterministic light→dark derivation tractable (you move L without smearing hue). Pure value type + parse/format;
+no CSS engine, no deps.
+
+### ColorTokens
+
+The shadcn color-token roles (each a foreground/surface pair where applicable).
+
+### FontTokens
+
+### TokenSpec
+
+One mode's tokens (light or dark).
+
+### ThemeSpec
+
+A complete scheme: the light mode + its dark mode (authored, or derived via deriveDark).
+
+### COLOR_ROLES
+
+the color roles, in CSS-var order — the single list emit + derive iterate.
+
+```ts
+const COLOR_ROLES: ReadonlyArray<keyof ColorTokens>
+```
+
+### graphite
+
+Neutral graphite (saastarter's default scheme name) — a chroma-free brand.
+
+```ts
+const graphite: TokenSpec
+```
+
+### terracotta
+
+Terracotta — saastarter's signature accent (globals.css oklch(0.6397 0.172 36.44)).
+
+```ts
+const terracotta: TokenSpec
+```
+
+### ocean
+
+Ocean — a cool blue brand, to show a colored hue derives correctly.
+
+```ts
+const ocean: TokenSpec
+```
+
+### REFERENCE_SCHEMES
+
+The reference set, keyed by name.
+
+```ts
+const REFERENCE_SCHEMES: Record<string, TokenSpec>
+```

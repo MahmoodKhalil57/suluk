@@ -6,7 +6,7 @@
 
 # Interface: RpcResponse
 
-Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/mcp/src/protocol.ts#L13)
+Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/mcp/src/protocol.ts#L13)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `optional` **error?**: `object`
 
-Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/mcp/src/protocol.ts#L13)
+Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/mcp/src/protocol.ts#L13)
 
 #### code
 
@@ -34,7 +34,7 @@ Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > **id**: `string` \| `number` \| `null`
 
-Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/mcp/src/protocol.ts#L13)
+Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/mcp/src/protocol.ts#L13)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > **jsonrpc**: `"2.0"`
 
-Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/mcp/src/protocol.ts#L13)
+Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/mcp/src/protocol.ts#L13)
 
 ***
 
@@ -50,4 +50,4 @@ Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `optional` **result?**: `unknown`
 
-Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/mcp/src/protocol.ts#L13)
+Defined in: [protocol.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/mcp/src/protocol.ts#L13)

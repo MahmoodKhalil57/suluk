@@ -1,0 +1,50 @@
+# @suluk/drizzle
+
+> Drizzle ORM schema -> v4 'Suluk' contract: table -> Zod (drizzle-zod) -> v4 Schema Objects, DB metadata, and generated CRUD RouteContracts. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `tableMetadata`: Read a drizzle table's metadata.
+- `pascalCase`: "user_accounts" / "users" → "UserAccounts" / "Users". The v4 component key (C009 by-name).
+- `tableComponentName`: A drizzle table's PascalCase component name, derived from its SQL name.
+- `tableSchemas`: Build the select / insert / update Zod schemas for a table.
+update = insert.partial() — the canonical PATCH body (any subset of writable columns).
+- `tableToV4`: Lift a table's three Zod schemas to v4 Schema Objects via zodToV4.
+- `tableToV4Warnings`: Same conversion as tableToV4 but also returns the enumerated lossy boundary (per-projection
+zodToV4 warnings).
+- `tableComponents`: Build a v4 components.
+- `tableComponentsAudit`: Like tableComponents but enumerates name collisions instead of dropping them silently.
+- `crudRoutes`: Generate the five conventional CRUD RouteContracts for a drizzle table:
+  - list   GET    {base}            → 200 array(select)
+  - get    GET    {...
+- `listQuerySchema`: The Zod query schema for a list route: page/perPage/sort/order/q (coerced from strings).
+- `parseListQuery`: Normalize a raw query object into a ListQuery — pure, validating against the table's real columns:
+page/perPage are clamped (≥1, ≤maxPerPage); `sor...
+- `softDeleteValues`: The patch a soft delete applies — sets the deletedAt column to `now` (default current time).
+- `anonymizeValues`: The patch an anonymize-on-delete applies — redacts each named column to `value` (null by default).
+- `touchTimestamps`: The patch server-managed timestamps apply on write — `updatedAt` always, `createdAt` only when `creating`.
+- `notSoftDeleted`: The implicit list filter for a soft-deleting table — exclude rows whose deletedAt is set (unless asked to include).
+- `tableDDL`: `CREATE TABLE` DDL for one drizzle table (or its already-read metadata).
+- `schemaDDL`: `CREATE TABLE` DDL for many tables, newline-joined — the dev-schema twin of the prod migrations.
+- `crudHandlers`: Build the five gated CRUD handlers for a drizzle table. The dev + worker callers differ ONLY in `opts.db`.
+- `rowsChanged`: The number of rows a write affected, normalized across drivers (0 when unknown).
+- `claimOnce`: Atomically CLAIM a transition: `UPDATE table SET set WHERE where`, returning true iff this call changed a row.
+- `claimRows`: Atomically CLAIM a SET of rows and RETURN them: `UPDATE table SET set WHERE where RETURNING *`.
+
+## Optional
+
+### Types
+
+- `AnyTable`: Any drizzle table object accepted by getTableColumns/getTableName.
+- `ColumnMeta`: One column's metadata, lifted from drizzle's column descriptor (verified against drizzle-orm 0.45).
+- `TableMeta`: `@suluk/drizzle` — the DATA floor of the Suluk cycle: a Drizzle ORM table is the system of record, and this
+package projects it into the v4 "Suluk"...
+- `TableZodSchemas`: The three Zod projections of a table.
+- `TableV4Schemas`: The three v4 Schema Objects, mirroring TableZodSchemas.
+- `ListQuery`
+- `CrudHandlers`
+- `CrudDb`: Structural drizzle handle — the chainable builder API both bun:sqlite and D1 expose (loosely typed, like the app twins).
+- `WriteResult`: A drizzle `.run()` result across drivers (bun:sqlite / D1 / better-sqlite3).
+- `ClaimDb`: Minimal drizzle handle for a conditional update (bun:sqlite sync or D1 async — both awaited).

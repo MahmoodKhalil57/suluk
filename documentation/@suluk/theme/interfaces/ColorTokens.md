@@ -6,7 +6,7 @@
 
 # Interface: ColorTokens
 
-Defined in: [tokens.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L10)
+Defined in: [tokens.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L10)
 
 The shadcn color-token roles (each a foreground/surface pair where applicable).
 
@@ -16,7 +16,7 @@ The shadcn color-token roles (each a foreground/surface pair where applicable).
 
 > **accent**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L23)
+Defined in: [tokens.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L23)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [tokens.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **accentForeground**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L24)
+Defined in: [tokens.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L24)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [tokens.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **background**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L11)
+Defined in: [tokens.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L11)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [tokens.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **border**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L27)
+Defined in: [tokens.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L27)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [tokens.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **card**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L13)
+Defined in: [tokens.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L13)
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: [tokens.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **cardForeground**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L14)
+Defined in: [tokens.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L14)
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: [tokens.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **destructive**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L25)
+Defined in: [tokens.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L25)
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: [tokens.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **destructiveForeground**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L26)
+Defined in: [tokens.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L26)
 
 ***
 
@@ -80,7 +80,7 @@ Defined in: [tokens.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **foreground**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L12)
+Defined in: [tokens.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L12)
 
 ***
 
@@ -88,7 +88,7 @@ Defined in: [tokens.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **input**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L28)
+Defined in: [tokens.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L28)
 
 ***
 
@@ -96,7 +96,7 @@ Defined in: [tokens.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **muted**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L21)
+Defined in: [tokens.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L21)
 
 ***
 
@@ -104,7 +104,7 @@ Defined in: [tokens.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **mutedForeground**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L22)
+Defined in: [tokens.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L22)
 
 ***
 
@@ -112,7 +112,7 @@ Defined in: [tokens.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **popover**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L15)
+Defined in: [tokens.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L15)
 
 ***
 
@@ -120,7 +120,7 @@ Defined in: [tokens.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **popoverForeground**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L16)
+Defined in: [tokens.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L16)
 
 ***
 
@@ -128,7 +128,7 @@ Defined in: [tokens.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **primary**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L17)
+Defined in: [tokens.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L17)
 
 ***
 
@@ -136,7 +136,7 @@ Defined in: [tokens.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **primaryForeground**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L18)
+Defined in: [tokens.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L18)
 
 ***
 
@@ -144,7 +144,7 @@ Defined in: [tokens.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **ring**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L29)
+Defined in: [tokens.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L29)
 
 ***
 
@@ -152,7 +152,7 @@ Defined in: [tokens.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **secondary**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L19)
+Defined in: [tokens.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L19)
 
 ***
 
@@ -160,4 +160,4 @@ Defined in: [tokens.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **secondaryForeground**: [`Oklch`](Oklch.md)
 
-Defined in: [tokens.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L20)
+Defined in: [tokens.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/tokens.ts#L20)

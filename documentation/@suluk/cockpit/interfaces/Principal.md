@@ -6,7 +6,7 @@
 
 # Interface: Principal
 
-Defined in: [cockpit/src/cycle.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/cycle.ts#L37)
+Defined in: [cockpit/src/cycle.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/cycle.ts#L37)
 
 ## Properties
 
@@ -14,4 +14,4 @@ Defined in: [cockpit/src/cycle.ts:37](https://github.com/MahmoodKhalil57/suluk/b
 
 > `optional` **scopes?**: `string`[]
 
-Defined in: [cockpit/src/cycle.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/cycle.ts#L38)
+Defined in: [cockpit/src/cycle.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/cycle.ts#L38)

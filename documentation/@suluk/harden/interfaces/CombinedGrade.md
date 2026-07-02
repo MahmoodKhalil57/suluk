@@ -6,7 +6,7 @@
 
 # Interface: CombinedGrade
 
-Defined in: [audit.ts:136](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/audit.ts#L136)
+Defined in: [audit.ts:136](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L136)
 
 `@suluk/harden` — schema hardening as a derived, scored contract facet. Audit a v4 'Suluk' document's INPUT
 schemas for the validations that keep malformed/oversized input from breaking the system, grade them A–F,
@@ -22,7 +22,7 @@ surface the grade to incentivise the author, and gate CI on a minimum.
 
 > **average**: [`Grade`](../type-aliases/Grade.md)
 
-Defined in: [audit.ts:141](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/audit.ts#L141)
+Defined in: [audit.ts:141](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L141)
 
 the rounded-mean letter (informational — can mask a single failing dimension, so do not gate on it blindly; ties
  round toward the HIGHER letter, so the masking is always optimistic).
@@ -33,7 +33,7 @@ the rounded-mean letter (informational — can mask a single failing dimension, 
 
 > **grades**: [`Grade`](../type-aliases/Grade.md)[]
 
-Defined in: [audit.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/audit.ts#L143)
+Defined in: [audit.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L143)
 
 the input letters, as given.
 
@@ -43,6 +43,6 @@ the input letters, as given.
 
 > **worst**: [`Grade`](../type-aliases/Grade.md)
 
-Defined in: [audit.ts:138](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/audit.ts#L138)
+Defined in: [audit.ts:138](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/harden/src/audit.ts#L138)
 
 the WORST letter — a contract is as strong as its weakest graded dimension (the safe value to GATE on).

@@ -8,7 +8,7 @@
 
 > **sourceIndex**(`doc`): [`SourceGroup`](../interfaces/SourceGroup.md)[]
 
-Defined in: [source.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/source.ts#L22)
+Defined in: [source.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/source.ts#L22)
 
 The DERIVED reverse index: source pointer → the operations projected from it. Computed by walking the document;
 never read back from stored doc state. One authored symbol (a Drizzle table, an operation function) typically

@@ -6,7 +6,7 @@
 
 # Interface: RefDoc
 
-Defined in: [reference/src/ir.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/reference/src/ir.ts#L33)
+Defined in: [reference/src/ir.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/ir.ts#L33)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [reference/src/ir.ts:33](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **diagnostics**: `Diagnostic`[]
 
-Defined in: [reference/src/ir.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/reference/src/ir.ts#L38)
+Defined in: [reference/src/ir.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/ir.ts#L38)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [reference/src/ir.ts:38](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **info**: `object`
 
-Defined in: [reference/src/ir.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/reference/src/ir.ts#L35)
+Defined in: [reference/src/ir.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/ir.ts#L35)
 
 #### description?
 
@@ -42,7 +42,7 @@ Defined in: [reference/src/ir.ts:35](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **models**: `ModelEntry`[]
 
-Defined in: [reference/src/ir.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/reference/src/ir.ts#L37)
+Defined in: [reference/src/ir.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/ir.ts#L37)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [reference/src/ir.ts:37](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **operations**: [`NormalizedOperation`](NormalizedOperation.md)[]
 
-Defined in: [reference/src/ir.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/reference/src/ir.ts#L36)
+Defined in: [reference/src/ir.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/ir.ts#L36)
 
 ***
 
@@ -58,7 +58,7 @@ Defined in: [reference/src/ir.ts:36](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **security**: `SecuritySchemeEntry`[]
 
-Defined in: [reference/src/ir.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/reference/src/ir.ts#L37)
+Defined in: [reference/src/ir.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/ir.ts#L37)
 
 ***
 
@@ -66,7 +66,7 @@ Defined in: [reference/src/ir.ts:37](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **servers**: `ServerEntry`[]
 
-Defined in: [reference/src/ir.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/reference/src/ir.ts#L36)
+Defined in: [reference/src/ir.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/ir.ts#L36)
 
 ***
 
@@ -74,7 +74,7 @@ Defined in: [reference/src/ir.ts:36](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **spec**: `object`
 
-Defined in: [reference/src/ir.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/reference/src/ir.ts#L34)
+Defined in: [reference/src/ir.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/ir.ts#L34)
 
 #### dialect
 
@@ -90,7 +90,7 @@ Defined in: [reference/src/ir.ts:34](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **tags**: `TagEntry`[]
 
-Defined in: [reference/src/ir.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/reference/src/ir.ts#L36)
+Defined in: [reference/src/ir.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/ir.ts#L36)
 
 ***
 
@@ -98,4 +98,4 @@ Defined in: [reference/src/ir.ts:36](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **webhooks**: [`NormalizedOperation`](NormalizedOperation.md)[]
 
-Defined in: [reference/src/ir.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/reference/src/ir.ts#L37)
+Defined in: [reference/src/ir.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/reference/src/ir.ts#L37)

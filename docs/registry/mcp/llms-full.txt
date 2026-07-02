@@ -1,0 +1,65 @@
+# mcp (registry module)
+
+> The API-as-MCP surface: mounts @suluk/mcp's mcpApp at /api/mcp with the contract's apiDocument(scopes) as the per-caller tool list (a caller only sees the tools its principal can call — the contract-first payoff), executes tools in-process via appExec, exposes the OAuth /.well-known discovery (Better Auth's mcp plugin, enabled in auth via opts.mcp), and manages MCP connections (list/update/revoke; session-only) over an owned mcp_connection table. Own the wiring, npm the protocol + OAuth server.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### mountMcp
+
+```ts
+mountMcp<T>(app: T): T
+```
+
+**Parameters:**
+- `app: T` — 
+
+**Returns:** `T`
+
+### mcpConnectionsRoutes
+
+```ts
+mcpConnectionsRoutes(): any
+```
+
+**Returns:** `any`
+
+### McpConnections
+
+```ts
+constructor(): McpConnections
+```
+
+### McpConnectionView
+
+A connection's knob-row as returned to the owner.
+
+### McpConnectionPatch
+
+A partial patch of a connection's knobs. An OMITTED field is left untouched; a field explicitly `null` clears it.
+
+### McpConnectionsLive
+
+```ts
+const McpConnectionsLive: any
+```
+
+### mcpConnection
+
+One user's knobs on one OAuth connection they authorized. Composite PK (userId, clientId) — a connection is per-user,
+ never the bare (shared) clientId. All knob columns are nullable (absent ⇒ no cap / full share / enabled).
+
+```ts
+const mcpConnection: any
+```
+
+### mcpProvision
+
+```ts
+const mcpProvision: InstanceSpec[]
+```
+
+### mcpOps
+
+```ts
+const mcpOps: { method: string; path: string; name: string; summary: string; tags: string[]; responses: { status: number; description: string }[] }[]
+```

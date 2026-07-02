@@ -1,0 +1,55 @@
+# @suluk/cloudflare
+
+> Butter-smooth, API-driven provisioning + deployment for a Suluk app on Cloudflare — no wrangler CLI. A typed REST client + idempotent provisioners (D1, KV, R2, secrets) + the Workers module-script + static-assets upload flow, orchestrated into one deploy(). The platform that ships itself, shipping itself. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `provisionD1`: Create-or-get a D1 database by name.
+- `queryD1`: Run SQL against a D1 database (D1 accepts multiple `;`-separated statements per call).
+- `d1Rows`: Rows from a D1 query response — the API returns `[{ results, success, meta }]` (one per statement); take the last.
+- `kvGet`: Read a KV value (raw); null when the key is absent.
+- `kvPut`: Write a KV value (optional TTL in seconds).
+- `kvDelete`: Delete a KV key.
+- `kvList`: List KV keys (optionally by prefix) — returns the key names.
+- `applyMigrations`: Apply D1 migrations with a LEDGER (`_suluk_migrations`) so each runs exactly once — the missing piece that makes a
+redeploy safe.
+- `provisionKvNamespace`: Create-or-get a Workers KV namespace by title (e.g. a sessions or rate-limit store).
+- `provisionR2Bucket`: Create-or-get an R2 bucket by name (e.g. media/upload storage).
+- `putSecret`: Set ONE Worker secret (an encrypted `secret_text` binding). The script must already exist.
+- `putSecrets`: Set many secrets, skipping empty/undefined values; returns the names actually set.
+- `resolveZoneId`: Resolve a zone id from its apex host (e.g. `example.com`). Throws when the token can't see the zone.
+- `ensureWwwRedirect`: Ensure a www→apex 301 redirect (path + query preserved) on the zone. Idempotent (dedup by rule description).
+- `removeWwwRedirect`: Remove the suluk www→apex redirect rule from the zone (leaves any other redirect rules intact).
+- `uploadAssets`: Upload a set of static assets; returns the completion JWT for the worker metadata, or `null` when there are none.
+- `assetHash`: The Workers-Assets manifest hash: the first 32 hex chars (16 bytes) of the contents' SHA-256.
+- `extractAssetRuleFiles`: Pull `_headers` / `_redirects` OUT of an asset list.
+- `deployWorker`
+- `putCronTriggers`: Set the cron triggers for a script (separate endpoint — metadata doesn't carry them).
+- `deploy`: Orchestrate a full deploy over a client + plan. `log` narrates each step.
+- `deployWith`: Convenience: build a client from token/account options and run a deploy.
+- `kvRateLimitStore`: Build a KV-backed RateLimitStore.
+- `memoryRateLimitStore`: A per-instance in-memory fixed-window store — the fail-open fallback (DEV only / KV-blip; not cross-isolate).
+- `CloudflareClient`: `@suluk/cloudflare` — API-driven provisioning + deployment for a Suluk app on Cloudflare, no wrangler CLI.
+- `CloudflareError`: `@suluk/cloudflare` — API-driven provisioning + deployment for a Suluk app on Cloudflare, no wrangler CLI.
+
+## Optional
+
+### Types
+
+- `D1Database`
+- `KvNamespace`
+- `Migration`
+- `AssetFile`: One asset: its server path (e.g. "/index.html"), bytes, and content type.
+- `UploadSession`
+- `AssetRuleFiles`: The result of splitting Workers-Assets rule files out of an asset list.
+- `WorkerBinding`
+- `WorkerMigration`: A Durable Object migration, INLINE in the script-upload metadata (NOT the D1 `Migration` in resources.
+- `DeployPlan`
+- `DeployResult`
+- `DeployLog`
+- `DurableObjectBinding`: A Durable Object class to bind + (for same-script classes) create via an inline script migration.
+- `RateLimitStore`: Matches @suluk/hono's RateLimitStore (structural — satisfies enforceRateLimit's `store` without a package dep).
+- `ConsumeResult`
+- `KvLike`: The slice of the Workers KV API this needs (get/put with TTL).

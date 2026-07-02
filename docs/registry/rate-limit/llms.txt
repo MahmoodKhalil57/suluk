@@ -1,0 +1,11 @@
+# rate-limit (registry module)
+
+> A principal-aware rate-limit MIDDLEWARE over @suluk/hono's enforceRateLimit (the fixed-window bucket math, the swappable RateLimitStore, MemoryRateLimitStore, and the 429 + Retry-After RFC-9457 envelope stay upstream). Owns only the wiring: a keyer that keys by the authenticated user id off the Hono context (else client IP) + the store choice (MemoryRateLimitStore in dev; swap a KV/DO-backed store for prod). mountRateLimit(app) applies it globally via app.use. A stateless binding — no schema, no provision (C052).
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `rateLimit`: Build the principal-aware rate-limit middleware.
+- `mountRateLimit`: Apply principal-aware rate limiting to EVERY request — the global-middleware mount the generated entry calls as
+`mountRateLimit(app)` (a cross-cutt...

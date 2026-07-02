@@ -6,7 +6,7 @@
 
 # Interface: TestgenOptions
 
-Defined in: [generate.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/testgen/src/generate.ts#L77)
+Defined in: [generate.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/testgen/src/generate.ts#L77)
 
 `@suluk/testgen` — generate a DETERMINISTIC conformance test suite from a v4 "Suluk" contract. The contract's
 claims made executable: the server ENFORCES x-suluk-access on the wire, declared statuses hold, 2xx bodies
@@ -18,7 +18,7 @@ conform to their schemas, declared costs are well-formed. A pure function of the
 
 > `optional` **baseURL?**: `string`
 
-Defined in: [generate.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/testgen/src/generate.ts#L79)
+Defined in: [generate.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/testgen/src/generate.ts#L79)
 
 the deployment under test; the generated suite reads SULUK_BASE_URL first, then falls back to this.
 
@@ -28,6 +28,6 @@ the deployment under test; the generated suite reads SULUK_BASE_URL first, then 
 
 > `optional` **framework?**: `"bun"` \| `"vitest"`
 
-Defined in: [generate.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/testgen/src/generate.ts#L81)
+Defined in: [generate.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/testgen/src/generate.ts#L81)
 
 which test runner's imports to emit (both share the test/expect/describe API). Default "bun".

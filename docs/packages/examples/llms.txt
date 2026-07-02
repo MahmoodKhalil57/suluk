@@ -1,0 +1,33 @@
+# @suluk/examples
+
+> Example precedence + deterministic, origin-aware schema synthesis from a v4 'Suluk' contract. The shared, zero-dependency leaf both @suluk/journeys and @suluk/sdk read: resolveExample (public > maintainer > synthetic), a deterministic synthesizer, and the C041 field-origin discipline (x-suluk-origin input|sourced|computed + the wireable SourceRef). Pure, self-contained, faker-dep-free. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `fieldOrigin`: Read a property's origin: explicit `x-suluk-origin` wins; else `readOnly` ⇒ `computed`; else default `input`.
+- `asSourceRef`: The structured source edge if `x-suluk-from` names an `op`; otherwise undefined (a free note is not wireable).
+- `describeInputs`: Describe the TOP-LEVEL fields of an object schema by origin — the surface a client / the @suluk/sdk generator uses to
+know what it may freely fill ...
+- `resolveSourced`: Resolve a `sourced` field's value from a scenario-scoped bag of captured operation results (keyed by `op.
+- `resolveExample`: Resolve a single example by precedence. `hint` (typically the field/op name) only steers SYNTHETIC string values; it
+never changes which tier wins.
+- `synthesize`: A deterministic, schema-shaped example value.
+- `ORIGIN_KEYWORD`
+- `FROM_KEYWORD`
+
+## Optional
+
+### Types
+
+- `JsonSchema`: A JSON Schema 2020-12 object (the v4 inner-schema shape). Opaque-ish; we read a known subset.
+- `ExampleTier`: Which source supplied the resolved value. `public` (highest) > `maintainer` > `synthetic` (lowest).
+- `ExampleSources`: The two human-authored tiers a caller may supply; the synthetic tier is derived from the schema.
+- `ResolvedExample`
+- `FieldOrigin`: `input` = the client is the authority (free, faker-able); `sourced` = retrieved elsewhere (wired); `computed` = server-derived.
+- `SourceRef`: A machine-wireable source edge for a `sourced` field: pull `select` (default "id") from operation `op`'s response.
+- `FieldSource`: `x-suluk-from` is EITHER a free human note (string, doc-only) OR a structured, wireable `SourceRef`.
+- `FieldDescriptor`
+- `SynthDirection`: Direction controls origin handling: a "request" example omits server-`computed` fields a client never sends; a
+ "response" example omits `writeOnly...

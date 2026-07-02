@@ -1,0 +1,41 @@
+# @suluk/nano-stores
+
+> v4 'Suluk' contracts -> typed Nano Stores client: per-operation fetcher/mutator stores (@nanostores/query) with Zod-validated I/O. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `buildUrl`: URL templating for the STATE corner.
+- `createApiStores`
+- `createCartStore`
+- `createDiscountStore`
+- `asyncHandler`: Wrap an async (or sync) handler with auto-disable + aria-busy + optional pending label + re-entry guard.
+- `bindAsyncButton`: Convenience: attach an auto-pending async handler to an element's event (default "click").
+- `createProgressBar`
+- `revealOnScroll`: Start revealing; returns a cleanup that disconnects the observer.
+- `createDrawer`
+- `markInvalid`: Mark a field invalid: aria-invalid="true" (the theme rings it red) + a brief shake.
+- `clearInvalid`: Clear a field's invalid state.
+- `clearInvalidOnInput`: Attach real-time clearing: editing a field clears its invalid state (so the red ring disappears as the user fixes
+ it, instead of lingering until t...
+- `SchemaViolationError`: A validation failure on either edge — carries the Zod issues so callers can surface what drifted.
+
+## Optional
+
+### Types
+
+- `ApiStores`
+- `FetcherFactory`: A bound fetcher store factory: call with the route's path params to get a cache-keyed store.
+- `MutatorInvoker`: A bound mutator store: `.mutate({ data, params })` runs the (validated) request and returns the validated body.
+- `MutatorInput`
+- `CartStore`
+- `CartLine`: One cart line.
+- `DiscountStore`
+- `AppliedDiscount`: A validated, applied discount. `type`/`value` mirror @suluk/stripe's Discount so the money core can consume it.
+- `ProgressBar`
+- `ProgressElement`
+- `Drawer`
+- `PanelEl`: createDrawer — the reusable open/close controller behind any slide-in panel (cart, mobile nav, a Sheet): toggles
+the panel + backdrop visibility an...
+- `FieldLike`: Form-error feedback primitives (saastarter parity: "invalid fields ring red + shake", "errors clear as you type").

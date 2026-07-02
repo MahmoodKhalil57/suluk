@@ -6,7 +6,7 @@
 
 # Interface: Validation31
 
-Defined in: [validate31.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/compat/src/validate31.ts#L18)
+Defined in: [validate31.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/compat/src/validate31.ts#L18)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [validate31.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/aaf
 
 > **errors**: `object`[]
 
-Defined in: [validate31.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/compat/src/validate31.ts#L20)
+Defined in: [validate31.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/compat/src/validate31.ts#L20)
 
 #### message
 
@@ -30,4 +30,4 @@ Defined in: [validate31.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf
 
 > **valid**: `boolean`
 
-Defined in: [validate31.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/compat/src/validate31.ts#L19)
+Defined in: [validate31.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/compat/src/validate31.ts#L19)

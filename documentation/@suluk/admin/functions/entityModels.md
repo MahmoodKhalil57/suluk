@@ -8,7 +8,7 @@
 
 > **entityModels**(`doc`): [`EntityModel`](../interfaces/EntityModel.md)[]
 
-Defined in: [render-data.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/admin/src/render-data.ts#L66)
+Defined in: [render-data.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/admin/src/render-data.ts#L66)
 
 Project a v4 document's component schemas into admin entity models (fields + per-CRUD access scope), sorted.
 

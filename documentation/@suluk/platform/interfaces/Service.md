@@ -6,7 +6,7 @@
 
 # Interface: Service\<SO, BO\>
 
-Defined in: [service.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L109)
+Defined in: [service.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L109)
 
 THE COMMON INTERFACE. `SO` = the service-opts value type, `BO` = the brand-opts value type (both Phase 2). A core service
 and a community service instantiate the exact same shape via [defineService](../functions/defineService.md).
@@ -27,7 +27,7 @@ and a community service instantiate the exact same shape via [defineService](../
 
 > `readonly` `optional` **brandOpts?**: [`Schema`](Schema.md)\<`BO`\>
 
-Defined in: [service.ts:119](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L119)
+Defined in: [service.ts:119](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L119)
 
 ***
 
@@ -35,7 +35,7 @@ Defined in: [service.ts:119](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `readonly` `optional` **compose?**: [`CompositionSurface`](CompositionSurface.md)
 
-Defined in: [service.ts:121](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L121)
+Defined in: [service.ts:121](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L121)
 
 ***
 
@@ -43,7 +43,7 @@ Defined in: [service.ts:121](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `readonly` `optional` **contract?**: `object`
 
-Defined in: [service.ts:115](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L115)
+Defined in: [service.ts:115](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L115)
 
 the module's CONTRACT fragment — its `RouteContract[]` (ops), composed into `src/contract.ops.ts` (mirrors `provision`).
 
@@ -61,7 +61,7 @@ the module's CONTRACT fragment — its `RouteContract[]` (ops), composed into `s
 
 > `readonly` `optional` **deps?**: `string`[]
 
-Defined in: [service.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L116)
+Defined in: [service.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L116)
 
 ***
 
@@ -69,7 +69,7 @@ Defined in: [service.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `readonly` `optional` **env?**: [`EnvVar`](EnvVar.md)[]
 
-Defined in: [service.ts:117](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L117)
+Defined in: [service.ts:117](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L117)
 
 ***
 
@@ -77,7 +77,7 @@ Defined in: [service.ts:117](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `readonly` **id**: `string`
 
-Defined in: [service.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L110)
+Defined in: [service.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L110)
 
 ***
 
@@ -85,7 +85,7 @@ Defined in: [service.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `readonly` **mount**: [`Mount`](../type-aliases/Mount.md)
 
-Defined in: [service.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L112)
+Defined in: [service.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L112)
 
 ***
 
@@ -93,7 +93,7 @@ Defined in: [service.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `readonly` `optional` **provision?**: `object`
 
-Defined in: [service.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L113)
+Defined in: [service.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L113)
 
 #### from
 
@@ -109,7 +109,7 @@ Defined in: [service.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `readonly` `optional` **reads?**: `object`
 
-Defined in: [service.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L120)
+Defined in: [service.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L120)
 
 #### globalBrand?
 
@@ -125,7 +125,7 @@ Defined in: [service.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `readonly` `optional` **registry?**: `string`
 
-Defined in: [service.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L111)
+Defined in: [service.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L111)
 
 ***
 
@@ -133,4 +133,4 @@ Defined in: [service.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `readonly` `optional` **serviceOpts?**: [`Schema`](Schema.md)\<`SO`\>
 
-Defined in: [service.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L118)
+Defined in: [service.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/service.ts#L118)

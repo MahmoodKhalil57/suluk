@@ -1,0 +1,56 @@
+# logs (registry module)
+
+> A fully-owned Effect-TS activity log over an append-only table: record an action, read a principal's recent activity. No @suluk logic package — the whole module is yours to extend.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### logsRoutes
+
+```ts
+logsRoutes(): any
+```
+
+**Returns:** `any`
+
+### Logs
+
+```ts
+constructor(): Logs
+```
+
+### LogEntry
+
+### LogQuery
+
+A small, SAFE filter over the activity log (the Activity/query surface). A CLOSED whitelist of fields — `userId`
+(exact), `action` (exact, or `~substring` via a leading `~`), `since` (createdAt >= a ms epoch) — every value compiled
+to a BOUND drizzle parameter (the `${value}` helpers), so user text NEVER reaches SQL as text. Mirrors the oracle
+(`logquery.ts`) discipline; adapted to `activity_log`'s columns. Same shape the query route composes from ?params.
+
+### LogBucket
+
+One bucket of a coarse action-count timeseries (count of matching rows per distinct `action`).
+
+### LogsLive
+
+```ts
+const LogsLive: any
+```
+
+### activityLog
+
+```ts
+const activityLog: any
+```
+
+### logsProvision
+
+```ts
+const logsProvision: InstanceSpec[]
+```
+
+### logsOps
+
+```ts
+const logsOps: { method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; responses: { status: number; description: string }[] }[]
+```

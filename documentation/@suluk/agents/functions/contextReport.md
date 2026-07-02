@@ -8,7 +8,7 @@
 
 > **contextReport**(`doc`, `opts?`): [`ContextReport`](../interfaces/ContextReport.md)
 
-Defined in: [agents/src/context.ts:121](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/context.ts#L121)
+Defined in: [agents/src/context.ts:121](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/context.ts#L121)
 
 Compute the context-intelligence report (load + right-sizing + model fit) for every agent in the document.
 

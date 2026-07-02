@@ -8,7 +8,7 @@
 
 > **PathSegment** = \{ `kind`: `"literal"`; `value`: `string`; \} \| \{ `kind`: `"var"`; `multi`: `boolean`; `name`: `string`; \}
 
-Defined in: [template.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/template.ts#L7)
+Defined in: [template.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/template.ts#L7)
 
 uriTemplate compile + match + reverse-parse — the RFC6570 parseable-profile tooling default (C005, C019 §A.4).
 Buildable subset: literal segments, single-segment `{var}`, leading-slash multi-segment `{+var}`, and a

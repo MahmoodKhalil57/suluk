@@ -1,0 +1,29 @@
+# @suluk/shadcn
+
+> v4 'Suluk' Schema Objects -> shadcn/ui form + table specs and TSX scaffolds (react-hook-form + zodResolver). Codegen, no runtime UI deps. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `formSpec`: Build a FormSpec from an object Schema Object.
+- `tableSpec`: Build a TableSpec.
+- `renderFormTsx`: Render a shadcn <Form> component from a FormSpec. Returns TSX source as a string.
+- `renderTableTsx`: Render a shadcn <Table> component from a TableSpec. Returns TSX source as a string.
+- `renderDetailTsx`: Render a read-only shadcn detail (show) view from a FormSpec. Returns TSX source as a string.
+- `renderFormSkeletonTsx`: A form skeleton — one label+control placeholder per field, plus a submit-button placeholder.
+- `renderTableSkeletonTsx`: A table skeleton — a header row of column placeholders + N body rows of cell placeholders.
+- `renderDetailSkeletonTsx`: A detail skeleton — one label+value placeholder row per field.
+- `renderShadcnTheme`: The full shadcn theme file set from a TokenSpec/ThemeSpec: the css path → globals.css + components.json.
+- `renderGlobalsCss`: The shadcn `globals.
+- `renderComponentsJson`: The shadcn `components.json` CLI config — `cssVariables: true`, so the generated tokens drive the components.
+
+## Optional
+
+### Types
+
+- `FieldWidget`: The shadcn form control we pick for a property. Drives which control the renderer emits.
+- `FieldSpec`: One form control, derived from a single object property.
+- `FormSpec`: `@suluk/shadcn` — the UI corner.
+- `ColumnSpec`: One table column, derived from a single object property.
+- `TableSpec`: `@suluk/shadcn` — the UI corner.

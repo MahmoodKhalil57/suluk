@@ -1,0 +1,122 @@
+# @suluk/builder
+
+> Tiered contract-narrowing DSL (components→blocks→sections→pages) bound to the Suluk cycle. A page composes sections; buildApp emits backend (routes+v4) AND frontend (page TSX) at once. Inspired by multivendorbuilder's DSL, rebuilt with the Suluk discipline. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `isBind`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `isEach`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `isSlot`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `isListSpec`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `registry`: Build a registry from loose document lists + the set of leaf component names.
+- `emptyRegistry`
+- `findDoc`
+- `allowedTypes`: The type names a document of `tier` is allowed to reference (its children come from COMPOSES[tier]).
+- `resolveParams`: Effective param values: defaults, then a variant preset, then consumer props (only keys in `params`).
+- `resolveList`: The effective ordered selection for a `list` param.
+- `validateDocument`: Validate one document against the registry.
+- `validateAll`: Validate every page / section / block in the registry.
+- `renderPageTsx`
+- `resolveComponents`: Ordered component names a page resolves to (section list → each section's block list → block===component).
+- `crudRoutesFromSchema`: Generate backend CRUD RouteContracts from an entity's v4 schema (schemas → Zod for the bodies).
+- `formBlock`: A Form block for an entity. Its contract (`params`) exposes only tone + which fields — the field SET is fixed.
+- `tableBlock`: A Table block for an entity. Exposes tone + which columns.
+- `crudSection`: A CRUD section composing the entity's Table + Form blocks.
+- `appPage`: A page composing the given sections. Forwards tone; exposes only { sections, tone } upward.
+- `buildApp`: Build the WHOLE app — backend (routes + v4) and frontend (components + pages) — from one declarative spec.
+- `toShadcnRegistry`: Convert a BuiltApp into a shadcn registry: one "block" item per entity bundling its frontend components +
+backend routes module + its v4 schema, pl...
+- `installModule`: Merge a module's contract fragment into the app document — REFUSING on any collision or unmet requirement.
+- `namespaceModule`: Resolve a collision by NAMESPACING a module: prefix its OWNED entities, rewrite internal $refs that point to
+them, and remap auto-CRUD cost keys ac...
+- `crudV4Paths`: The v4 CRUD operations for one entity, with $ref-based schemas (so the entity lives in components.schemas).
+- `moduleOperations`: Every operation handle a module declares (auto-CRUD per provided entity + explicit ops).
+- `gradeModule`: A conformance grade.
+- `previewInstall`: Preview an install WITHOUT committing — what it adds, what it requires, any conflicts, and its grade.
+- `schemaRefName`: The ROOT schema NAME a $ref targets, or null if it isn't a components/schemas reference.
+- `resolveTemplate`: Resolve a template's module names to actual modules from a registry — REPORTING any name that doesn't resolve
+ (a typo or a module missing from thi...
+- `buildMarketing`: Build the marketing landing — sections + blocks + a page — from one spec. Synchronous: no fetch, no runtime.
+- `marketingPage`: A landing page composing the given marketing sections — mirrors appPage (exposes only { tone, sections }).
+- `seoMeta`: Resolve a seoMeta field-group: og* default to title/description, sensible card/type/locale defaults.
+- `jsonLd`: Emit a schema.org JSON-LD object for an entity/page — drop it into a <script type="application/ld+json">.
+- `planComposition`: Topologically order modules by `requires`/`provides`, modelling the collision invariants installModule enforces.
+- `composeModules`: Install a set of modules in dependency order, returning the merged platform contract + a per-step trace.
+- `providerFacets`: The facets the catalog knows about (payments, auth, email, storage).
+- `readProviders`: The active provider bindings recorded in the document (from installed modules' providerSlots).
+- `swapProvider`: Rebind a facet's slot to another implementation of the same interface. Returns the unchanged doc on error.
+- `parseRegistry`: Parse an UNTRUSTED registry payload (e.g. fetched JSON) into a ModuleRegistry, rejecting malformed entries.
+- `validateModule`: Validate one UNTRUSTED module manifest, VALUE-shapes included. Returns the typed module or a human reason.
+- `signRegistry`: Sign a registry value with a private JWK → a base64 signature over its canonical bytes.
+- `verifyRegistrySignature`: Verify a registry value against a base64 signature + a pinned public JWK. Never throws — false on any error.
+- `generateSigningKeypair`: Generate an ECDSA P-256 keypair as JWKs (for tooling / tests — a publisher keeps the private key).
+- `isSignedEnvelope`
+- `COMPOSES`: What each tier may compose (its children come from this tier). `components` is the leaf (real UI).
+- `LAYOUT`: Universal structural containers — valid at ANY tier; their children stay in the doc's composed tier.
+- `AUTH`
+- `ECOMMERCE`
+- `CRM`
+- `BILLING`
+- `MARKETING`
+- `PREVIEW`
+- `PREVIEW_ONLY_MARKER`: The marker every preview-only operation carries; converge keys on it to surface the backdoor.
+- `FIRST_PARTY_REGISTRY`
+- `STACK_TEMPLATES`
+- `MARKETING_COMPONENTS`: The leaf marketing components (app-provided UI). Registered so a section's block may reference them.
+- `PROVIDER_CATALOG`: The catalog of swappable implementations per facet. First-party bindings carry their `@suluk` package.
+
+## Optional
+
+### Types
+
+- `Tier`: The composition DSL — the contract model.
+- `ListControl`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `ParamSpec`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `DslNode`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `DslDocument`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `DslChild`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `BindRef`: Forwards a resolved param of the current document.
+- `EachRef`: Placeholder expanded to the consumer's catalog selection.
+- `SlotRef`: Placeholder where a consumer's passed-in children render.
+- `Registry`
+- `DslError`
+- `Entity`
+- `AppSpec`
+- `BuiltApp`
+- `RegistryItem`
+- `RegistryFile`
+- `SulukModule`
+- `InstallResult`
+- `ModuleCost`: A per-operation cost facet (mirrors @suluk/cost's CostModel; kept local so builder needn't depend on cost).
+- `ModuleRegistry`
+- `ModuleEntry`
+- `ModuleGrade`
+- `InstallPreview`
+- `StackTemplate`: A named set of modules that compose into a working platform (L2 — the non-developer flow).
+- `MarketingSpec`
+- `BuiltMarketing`
+- `PlanSpec`: A pricing plan — static config (no live Stripe matrix); `stripePriceId` is carried for the app to resolve.
+- `ProjectionSource`: A declarative projection a data-driven section reads from — the app's renderer turns it into a query.
+- `SeoMeta`
+- `SeoMetaInput`
+- `JsonLdKind`
+- `CompositionPlan`
+- `ComposeResult`
+- `ComposeStep`
+- `ProviderImpl`: Provider SLOTS (M3) — "swap out a provider you chose.
+- `ProviderBinding`
+- `SwapResult`
+- `RegistrySource`: A configured remote registry (persisted by the host).
+- `ParsedRegistry`
+- `SignedEnvelope`: A signed registry payload: the registry value + a detached base64 signature over its canonical bytes.

@@ -1,0 +1,53 @@
+# cost (registry module)
+
+> An Effect-TS Cost service over @suluk/cost (the storage-agnostic cost algebra: integer micro-USD, per-source breakdowns, background-event attribution + at-least-once dedup stay upstream). Persists live-request + fired-event costs into D1 and reads the raw ledger picture back (total, by principal/operation/action/source). This module owns the cost_event + cost_dedup tables; the projection logic is npm.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### costRoutes
+
+```ts
+costRoutes(): any
+```
+
+**Returns:** `any`
+
+### Cost
+
+```ts
+constructor(): Cost
+```
+
+### CostLive
+
+```ts
+const CostLive: any
+```
+
+### costEvent
+
+One recorded cost — the raw, per-request/per-event picture. `breakdown` is the JSON per-source array.
+
+```ts
+const costEvent: any
+```
+
+### costDedup
+
+The at-least-once dedup ledger — a background event's `dedupeKey` recorded once, so redelivery is a no-op.
+
+```ts
+const costDedup: any
+```
+
+### costProvision
+
+```ts
+const costProvision: InstanceSpec[]
+```
+
+### costOps
+
+```ts
+const costOps: { method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; responses: { status: number; description: string }[] }[]
+```

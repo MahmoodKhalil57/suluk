@@ -6,7 +6,7 @@
 
 # Interface: SdkOptions
 
-Defined in: [generate.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/sdk/src/generate.ts#L153)
+Defined in: [generate.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/sdk/src/generate.ts#L153)
 
 `@suluk/sdk` — generate a complete, intuitive TypeScript SDK from a v4 "Suluk" contract. ofetch-based,
 entity-grouped, fully typed, auth wired, and the v4 superpowers (declared cost + access) surfaced as typed
@@ -21,4 +21,4 @@ metadata on each method. A library a developer downloads and uses straight away 
 
 > `optional` **baseURL?**: `string`
 
-Defined in: [generate.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/sdk/src/generate.ts#L153)
+Defined in: [generate.ts:153](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/sdk/src/generate.ts#L153)

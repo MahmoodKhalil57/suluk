@@ -8,7 +8,7 @@
 
 > **validateDiscount**(`subtotalCents`, `d`): [`DiscountResult`](../interfaces/DiscountResult.md)
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L76)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L76)
 
 Validate a discount against a subtotal, with a SPECIFIC rejection reason (PARITY: "specific discount-rejection
 reasons" — a shopper is told *why*, not just "invalid"). Structural only; the app layers active/window/usage.

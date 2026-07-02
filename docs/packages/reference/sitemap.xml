@@ -2,170 +2,178 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/index.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/modules.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/hierarchy.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/types/Grade.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/documents/Used_by_(registry).html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/OpAudit.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/modules/index.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/DocAudit.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/types/index.Grade.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/auditOperation.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.OpAudit.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/auditDocument.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.DocAudit.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/assertGrade.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.auditOperation.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/codeSamples.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.auditDocument.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/escapeHtml.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.assertGrade.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/CostModel.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.codeSamples.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/costRollup.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.escapeHtml.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/AccessFacet.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.CostModel.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/Viewer.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.costRollup.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/variables/DEFAULT_VIEWERS.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.AccessFacet.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/reachState.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.Viewer.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/reachable.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/variables/index.DEFAULT_VIEWERS.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/CrossCutRow.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.reachState.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/crossCut.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.reachable.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/ReferencePlugin.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.CrossCutRow.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/ReferenceOptions.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.crossCut.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/referenceHtml.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.ReferencePlugin.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/referenceResponse.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.ReferenceOptions.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/referenceInsightsHtml.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.referenceHtml.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/referenceInsightsResponse.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.referenceResponse.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/NormalizedOperation.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.referenceInsightsHtml.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/RefDoc.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.referenceInsightsResponse.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/normalize.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.NormalizedOperation.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/hardenBadge.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.RefDoc.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/hardeningPanel.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.normalize.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/facetsPanel.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.hardenBadge.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/costExplorer.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.hardeningPanel.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/adaPlayground.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.facetsPanel.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/projectionMap.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.costExplorer.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/PortalEntry.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.adaPlayground.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/PortalOptions.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.projectionMap.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/portalHtml.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.PortalEntry.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/portalResponse.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/interfaces/index.PortalOptions.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/constraintNotes.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.portalHtml.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/schemaHtml.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.portalResponse.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/sampleOf.html</loc>
-		<lastmod>2026-07-02T01:57:55.187Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.constraintNotes.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.schemaHtml.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/reference/functions/index.sampleOf.html</loc>
+		<lastmod>2026-07-02T12:09:17.584Z</lastmod>
 	</url>
 </urlset>

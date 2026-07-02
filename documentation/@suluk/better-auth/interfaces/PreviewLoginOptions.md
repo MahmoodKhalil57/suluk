@@ -6,7 +6,7 @@
 
 # Interface: PreviewLoginOptions
 
-Defined in: [preview.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/preview.ts#L40)
+Defined in: [preview.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/better-auth/src/preview.ts#L40)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [preview.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **allowedRoles**: `string`[]
 
-Defined in: [preview.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/preview.ts#L43)
+Defined in: [preview.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/better-auth/src/preview.ts#L43)
 
 The roles a preview may assume — derive from the contract (cockpit previewRoles), NEVER a hardcoded list.
  A requested role MUST be a member; "anonymous" is handled by the launcher (it opens the app with no login).
@@ -25,7 +25,7 @@ The roles a preview may assume — derive from the contract (cockpit previewRole
 
 > **mintSession**: (`role`) => [`MintedSession`](MintedSession.md) \| `Promise`\<[`MintedSession`](MintedSession.md)\>
 
-Defined in: [preview.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/preview.ts#L46)
+Defined in: [preview.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/better-auth/src/preview.ts#L46)
 
 Establish a role-scoped session for the SEEDED demo user of `role` (looks it up in env.PREVIEW_DB).
  This is the only code that touches a session; it must bind to a seeded throwaway row, never a real user.
@@ -46,6 +46,6 @@ Establish a role-scoped session for the SEEDED demo user of `role` (looks it up 
 
 > `optional` **redirectTo?**: `string`
 
-Defined in: [preview.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/preview.ts#L48)
+Defined in: [preview.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/better-auth/src/preview.ts#L48)
 
 Where to land after login (default "/").

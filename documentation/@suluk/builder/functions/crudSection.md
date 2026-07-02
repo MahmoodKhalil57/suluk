@@ -8,7 +8,7 @@
 
 > **crudSection**(`entity`): [`DslDocument`](../interfaces/DslDocument.md)
 
-Defined in: [fullstack.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/fullstack.ts#L73)
+Defined in: [fullstack.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/fullstack.ts#L73)
 
 A CRUD section composing the entity's Table + Form blocks. It HARDCODES the block field/column details and
 re-publishes only { tone, blocks } upward — so a page may reorder/hide the two blocks and set tone, but can

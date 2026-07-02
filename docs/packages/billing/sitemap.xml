@@ -2,210 +2,218 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/index.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/modules.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/hierarchy.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/types/BillingDB.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/documents/Used_by_(registry).html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/variables/billingAccount.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/modules/index.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/billingCustomerId.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/types/index.BillingDB.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/billingSubscriptionId.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/variables/index.billingAccount.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/linkBillingCustomer.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.billingCustomerId.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/upsertBillingAccount.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.billingSubscriptionId.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/clearSubscription.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.linkBillingCustomer.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/createCustomer.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.upsertBillingAccount.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/createSetupIntent.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.clearSubscription.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/createPaymentIntent.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.createCustomer.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/TaxAddress.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.createSetupIntent.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/PaymentMethodWire.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.createPaymentIntent.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/listPaymentMethods.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/index.TaxAddress.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/defaultCard.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/index.PaymentMethodWire.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/defaultPaymentMethodId.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.listPaymentMethods.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/ownsPaymentMethod.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.defaultCard.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/setDefaultPaymentMethod.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.defaultPaymentMethodId.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/setSubscriptionDefaultCard.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.ownsPaymentMethod.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/detachPaymentMethod.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.setDefaultPaymentMethod.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/setSubscriptionCancel.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.setSubscriptionDefaultCard.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/payOpenInvoice.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.detachPaymentMethod.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/mockStripeFetch.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.setSubscriptionCancel.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/types/TopupMeta.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.payOpenInvoice.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/CheckoutOpts.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.mockStripeFetch.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/createCheckout.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/types/index.TopupMeta.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/SubscriptionCheckoutOpts.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/index.CheckoutOpts.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/createSubscriptionCheckout.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.createCheckout.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/createPortalSessionForCustomer.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/index.SubscriptionCheckoutOpts.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/createPaymentIntentOnDefaultCard.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.createSubscriptionCheckout.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/chargeOffSession.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.createPortalSessionForCustomer.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/SubPlan.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.createPaymentIntentOnDefaultCard.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/planById.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.chargeOffSession.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/planByPrice.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/index.SubPlan.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/SubscriptionBranding.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.planById.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/ensurePlanPrice.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.planByPrice.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/createSubscriptionOnDefaultCard.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/index.SubscriptionBranding.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/ceilingFor.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.ensurePlanPrice.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/SubscriptionStatus.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.createSubscriptionOnDefaultCard.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/getSubscriptionStatus.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.ceilingFor.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/ChangePlanResult.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/index.SubscriptionStatus.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/changeSubscriptionPlan.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.getSubscriptionStatus.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/TaxResult.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/index.ChangePlanResult.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/TaxLocation.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.changeSubscriptionPlan.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/calculateTax.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/index.TaxResult.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/recordTaxTransaction.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/index.TaxLocation.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/StripeConfig.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.calculateTax.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/stripePost.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.recordTaxTransaction.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/stripeGet.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/interfaces/index.StripeConfig.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/toForm.html</loc>
-		<lastmod>2026-07-02T01:57:37.512Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.stripePost.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.stripeGet.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/billing/functions/index.toForm.html</loc>
+		<lastmod>2026-07-02T12:09:01.309Z</lastmod>
 	</url>
 </urlset>

@@ -1,0 +1,10 @@
+# @suluk/testgen
+
+> Generate a DETERMINISTIC conformance test suite from a v4 'Suluk' contract — the executable form of the contract's claims. Asserts the SERVER ENFORCES x-suluk-access on the real wire (anon rejected on non-public ops; public ops reachable), smoke-tests declared statuses, validates 2xx bodies against their declared schemas, and checks every declared cost is well-formed. A pure function of the document — same contract in, same suite out, no network at generate-time. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `generateTests`: `@suluk/testgen` — generate a DETERMINISTIC conformance test suite from a v4 "Suluk" contract.
+- `generateMoneyTests`: Emit the money-correctness conformance suite as a self-contained test-file string.

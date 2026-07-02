@@ -8,7 +8,7 @@
 
 > **signRegistry**(`value`, `privateKeyJwk`): `Promise`\<`string`\>
 
-Defined in: [builder/src/signing.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/signing.ts#L71)
+Defined in: [builder/src/signing.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/signing.ts#L71)
 
 Sign a registry value with a private JWK → a base64 signature over its canonical bytes.
 

@@ -8,7 +8,7 @@
 
 > `const` **ECOSYSTEM\_VERSIONS**: `Record`\<`string`, `string`\>
 
-Defined in: [catalog.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/catalog.ts#L33)
+Defined in: [catalog.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/catalog.ts#L33)
 
 Pinned ranges for the NON-@suluk ecosystem deps — the single place they're kept current for every generated app.
  `@suluk/*` are NOT here: they resolve to "latest" so a package fix flows to the app via `bun update` (the C052 payoff).

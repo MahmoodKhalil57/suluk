@@ -6,7 +6,7 @@
 
 # Interface: UsageReport
 
-Defined in: [types.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/types.ts#L112)
+Defined in: [types.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cost/src/types.ts#L112)
 
 A measured usage report for one variable component during a request (e.g. {source:"openai", units: 1350}).
 
@@ -16,7 +16,7 @@ A measured usage report for one variable component during a request (e.g. {sourc
 
 > **source**: `string`
 
-Defined in: [types.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/types.ts#L113)
+Defined in: [types.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cost/src/types.ts#L113)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [types.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **units**: `number`
 
-Defined in: [types.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/types.ts#L114)
+Defined in: [types.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cost/src/types.ts#L114)

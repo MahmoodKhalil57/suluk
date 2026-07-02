@@ -6,7 +6,7 @@
 
 # Interface: ApiKeyMetadata
 
-Defined in: [apikey.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/apikey.ts#L13)
+Defined in: [apikey.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/better-auth/src/apikey.ts#L13)
 
 Metadata stored on a key for delegation tracking (saastarter metadata.ts:4-8).
 
@@ -16,7 +16,7 @@ Metadata stored on a key for delegation tracking (saastarter metadata.ts:4-8).
 
 > `optional` **createdVia?**: `"delegation"`
 
-Defined in: [apikey.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/apikey.ts#L16)
+Defined in: [apikey.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/better-auth/src/apikey.ts#L16)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [apikey.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **parentKeyId?**: `string`
 
-Defined in: [apikey.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/apikey.ts#L14)
+Defined in: [apikey.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/better-auth/src/apikey.ts#L14)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [apikey.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **parentKeyName?**: `string`
 
-Defined in: [apikey.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/apikey.ts#L15)
+Defined in: [apikey.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/better-auth/src/apikey.ts#L15)

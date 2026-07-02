@@ -6,7 +6,7 @@
 
 # Interface: LocaleConfig
 
-Defined in: [locale.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/i18n/src/locale.ts#L23)
+Defined in: [locale.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/i18n/src/locale.ts#L23)
 
 `@suluk/i18n` — the locale primitive every content app needs. Consolidates the fragmented i18n surface into one
 package: a typed locale/direction model (defineLocales/dirOf), a Workers-safe message loader with default-locale
@@ -21,7 +21,7 @@ CANDIDATE tooling.
 
 > `readonly` **default**: `string`
 
-Defined in: [locale.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/i18n/src/locale.ts#L26)
+Defined in: [locale.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/i18n/src/locale.ts#L26)
 
 the fallback locale — every namespace must ship this one (the `?? en` of saastarter i18n.ts:189).
 
@@ -31,4 +31,4 @@ the fallback locale — every namespace must ship this one (the `?? en` of saast
 
 > `readonly` **locales**: readonly [`LocaleDef`](LocaleDef.md)[]
 
-Defined in: [locale.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/i18n/src/locale.ts#L24)
+Defined in: [locale.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/i18n/src/locale.ts#L24)

@@ -1,0 +1,48 @@
+# credits (registry module)
+
+> An Effect-TS Credits service (Context.Tag + Layer) wrapping @suluk/credits (the atomic debit CAS + idempotent grant stay upstream), its Hono routes, schema re-export, and a provision fragment for the D1 tables. The hybrid pattern: own the service wiring, npm the money logic.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### creditsRoutes
+
+```ts
+creditsRoutes(): any
+```
+
+**Returns:** `any`
+
+### Credits
+
+```ts
+constructor(): Credits
+```
+
+### CreditsLive
+
+```ts
+const CreditsLive: any
+```
+
+### creditTransaction
+
+The credit-ledger schema (Suluk registry: `credits`) — re-exported from `@suluk/credits`, which OWNS the table
+definitions (the append-only `credit_transaction` + the `credit_amount`/`credit_key` sidecars). Your drizzle config +
+migrations import from here; the definitions stay upstream so a schema change ships as a package update, not a manual
+edit. `userId` is a plain column — add the FK to your `user` table in your migration if you want the cascade.
+
+```ts
+let creditTransaction: any
+```
+
+### creditsProvision
+
+```ts
+const creditsProvision: creditTransaction[]
+```
+
+### creditsOps
+
+```ts
+const creditsOps: ({ method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; responses: { status: number; description: string }[]; errors?: undefined; request?: undefined } | { method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; errors: number[]; request: { json: ZodObject<{ userId: ZodString; amount: ZodNumber; reason: ZodOptional<ZodString> }, "strip", ZodTypeAny, { userId: string; amount: number; reason?: string }, { userId: string; amount: number; reason?: string }> }; responses: { status: number; description: string }[] } | { method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; request: { json: ZodObject<{ userId: ZodString; amount: ZodNumber; idemKey: ZodString; reason: ZodOptional<ZodString> }, "strip", ZodTypeAny, { userId: string; amount: number; idemKey: string; reason?: string }, { userId: string; amount: number; idemKey: string; reason?: string }> }; responses: { status: number; description: string }[]; errors?: undefined })[]
+```

@@ -1,0 +1,51 @@
+# @suluk/reference
+
+> Render an OpenAPI v4 'Suluk' document NATIVELY — as v4, not via the 3.1 downgrade. Shows what a 3.x renderer (Scalar/Swagger) cannot: the 4.0.0-candidate identity, the requests-shape (a path has NAMED requests, incl. multiple sharing one method), and the cost facet (x-suluk-cost) as a first-class per-operation badge. Self-contained server-rendered HTML — no client build, Workers-safe. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `referenceHtml`
+- `referenceResponse`
+- `referenceInsightsHtml`
+- `referenceInsightsResponse`
+- `normalize`: Project a v4 document into the normalized IR. Never throws; problems become diagnostics.
+- `escapeHtml`
+- `crossCut`: The reachability matrix: every operation × every viewer. The projection made explicit (the contract refracted).
+- `reachable`: Can a viewer reach an operation at all (full OR scoped)? Drives the View-as lens hide/show.
+- `reachState`: Three-valued reachability — `full` (●), `scoped` (◐, reachable but restricted to the caller's OWN rows), or
+`none` (·).
+- `costRollup`
+- `schemaHtml`: Render a schema compactly. `depth`/`seen` guard against $ref cycles + runaway nesting.
+- `sampleOf`: A representative sample VALUE for a schema (for request/response examples). Cycle/depth-guarded.
+- `constraintNotes`: Format JSON-Schema validation keywords (constraints) into compact chips. `format` is omitted here (it's in typeOf).
+- `codeSamples`
+- `costExplorer`
+- `adaPlayground`
+- `projectionMap`: The projection thesis as a compact map: this ONE contract becomes N layers. Contract-derivable counts only.
+- `hardeningPanel`: The Hardening incentive panel — the weakest operations + their concrete fixes, gamified toward the next grade.
+- `hardenBadge`
+- `facetsPanel`: Facet panels — the v4 OPERATIONAL facets a 3.
+- `portalHtml`
+- `portalResponse`
+- `auditDocument`: Audit the document's input surface → per-op grades + a deduped rollup + a severity breakdown.
+- `auditOperation`: Audit one request's INPUT surface (request body + typed parameter slots).
+- `assertGrade`: CI gate (the hard incentive): throw if the document's hardening grade is below `min`.
+- `DEFAULT_VIEWERS`
+
+## Optional
+
+### Types
+
+- `ReferencePlugin`
+- `RefDoc`
+- `NormalizedOperation`
+- `Viewer`: A viewer the reference can project the surface for.
+- `AccessFacet`: Access as a contract facet: who can REACH an operation. Annotated on each request as x-suluk-access.
+- `CostModel`: C024 — the cost facet may declare a non-synchronous trigger (the cost accrues on a background event).
+- `CrossCutRow`
+- `PortalEntry`
+- `DocAudit`
+- `OpAudit`
+- `Grade`

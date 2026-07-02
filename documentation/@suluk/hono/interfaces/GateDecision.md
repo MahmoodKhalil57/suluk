@@ -6,7 +6,7 @@
 
 # Interface: GateDecision
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/access.ts#L43)
+Defined in: [tooling/ts/packages/hono/src/access.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/access.ts#L43)
 
 A gate decision: may the op run, scope the query to the owner, and — when denied — the honest status.
 
@@ -16,7 +16,7 @@ A gate decision: may the op run, scope the query to the owner, and — when deni
 
 > **ok**: `boolean`
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/access.ts#L43)
+Defined in: [tooling/ts/packages/hono/src/access.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/access.ts#L43)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [tooling/ts/packages/hono/src/access.ts:43](https://github.com/Mahmo
 
 > **scopeOwner**: `boolean`
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/access.ts#L43)
+Defined in: [tooling/ts/packages/hono/src/access.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/access.ts#L43)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [tooling/ts/packages/hono/src/access.ts:43](https://github.com/Mahmo
 
 > `optional` **status?**: `401` \| `403`
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/access.ts#L43)
+Defined in: [tooling/ts/packages/hono/src/access.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/access.ts#L43)

@@ -1,0 +1,563 @@
+# @suluk/payments
+
+> Provider-agnostic payments — a Workers-native TypeScript reimplementation of the Hyperswitch Prism connector interface. ONE unified request schema (authorize/capture/void/refund/sync + optional customer/tokenize/recurring/webhook); switch processor by config, not code. Prism's native FFI core can't run on the edge, so we adopt its interface + integer-exact status semantics and implement over fetch — zero native deps, light, swappable. The seam that supersedes @suluk/stripe. INTERFACE-first (C048); real connectors + the billing rewire follow. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### paymentClient
+
+The Prism-style entry point: read the single processor named in `config.connectorConfig`, look up its factory in the
+registry, and return a bound PaymentConnector. Throws IntegrationError on a config that names zero, more
+than one, or an unregistered processor — a request-phase bug, surfaced before any money moves.
+
+```ts
+paymentClient(config: ConnectorConfig, registry: ConnectorRegistry, http?: HttpOptions): PaymentConnector
+```
+
+**Parameters:**
+- `config: ConnectorConfig` — 
+- `registry: ConnectorRegistry` — 
+- `http: HttpOptions` (optional) — 
+
+**Returns:** `PaymentConnector`
+
+### stripePost
+
+```ts
+stripePost(cfg: StripeConfig, path: string, form: URLSearchParams, idempotencyKey?: string): Promise<Response>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `path: string` — 
+- `form: URLSearchParams` — 
+- `idempotencyKey: string` (optional) — 
+
+**Returns:** `Promise<Response>`
+
+### stripeGet
+
+```ts
+stripeGet(cfg: StripeConfig, path: string): Promise<Response>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `path: string` — 
+
+**Returns:** `Promise<Response>`
+
+### toForm
+
+Stripe's bracket-nested `x-www-form-urlencoded` encoder: objects → `key[k]`, arrays → `key[i]`, scalars appended;
+ undefined/null are skipped. Handles the nested arrays checkout/subscription payloads need (`line_items[0][price]`).
+
+```ts
+toForm(obj: Record<string, unknown>): URLSearchParams
+```
+
+**Parameters:**
+- `obj: Record<string, unknown>` — 
+
+**Returns:** `URLSearchParams`
+
+### subtotal
+
+Subtotal in cents — integer, non-negative.
+
+```ts
+subtotal(lines: CartLine[]): number
+```
+
+**Parameters:**
+- `lines: CartLine[]` — 
+
+**Returns:** `number`
+
+### computeDiscountAmount
+
+The cents a discount removes from `subtotalCents` — ROUNDED to a whole cent and CLAMPED to [0, subtotal] so a
+discount can never exceed the order or go negative. Validation (eligibility) is `validateDiscount`; this is the
+raw amount assuming the discount applies.
+
+```ts
+computeDiscountAmount(subtotalCents: number, d: Discount): number
+```
+
+**Parameters:**
+- `subtotalCents: number` — 
+- `d: Discount` — 
+
+**Returns:** `number`
+
+### validateDiscount
+
+Validate a discount against a subtotal, with a SPECIFIC rejection reason (PARITY: "specific discount-rejection
+reasons" — a shopper is told *why*, not just "invalid"). Structural only; the app layers active/window/usage.
+
+```ts
+validateDiscount(subtotalCents: number, d: Discount | null | undefined): DiscountResult
+```
+
+**Parameters:**
+- `subtotalCents: number` — 
+- `d: Discount | null | undefined` — 
+
+**Returns:** `DiscountResult`
+
+### prorateDiscount
+
+Split `discountCents` across `lines` proportionally to each line's total, as whole cents that sum EXACTLY to
+`discountCents` (largest-remainder apportionment). This is what keeps the cart drawer and the order summary
+from disagreeing by a cent. Each line's share is clamped to its own total.
+
+```ts
+prorateDiscount(lines: CartLine[], discountCents: number): number[]
+```
+
+**Parameters:**
+- `lines: CartLine[]` — 
+- `discountCents: number` — 
+
+**Returns:** `number[]`
+
+### orderTotal
+
+Compose the authoritative order total from lines + an optional (already-validated) discount.
+
+```ts
+orderTotal(lines: CartLine[], discount?: Discount | null): OrderTotal
+```
+
+**Parameters:**
+- `lines: CartLine[]` — 
+- `discount: Discount | null` (optional) — 
+
+**Returns:** `OrderTotal`
+
+### composeTotal
+
+Fold every component into ONE authoritative total: subtotal − discount + shipping + tax, each a non-negative whole
+cent and the discount never exceeding the subtotal. The single place the order total is composed once shipping (a
+ShippingOption) and tax (a TaxResult) are resolved — so the cart drawer, checkout summary, order record, and the
+Stripe charge can never disagree.
+
+```ts
+composeTotal(parts: { subtotalCents: number; discountCents?: number; shippingCents?: number; taxCents?: number }): OrderTotalFull
+```
+
+**Parameters:**
+- `parts: { subtotalCents: number; discountCents?: number; shippingCents?: number; taxCents?: number }` — 
+
+**Returns:** `OrderTotalFull`
+
+### verifyAmount
+
+ANTI-TAMPERING: recompute the total from authoritative line prices + the discount and compare it to the amount
+the client claims (e.g. a PaymentIntent amount the browser posted). Reject any mismatch beyond `toleranceCents`
+(default 0 — money is exact). The server must call this before honoring any client-supplied amount.
+
+```ts
+verifyAmount(lines: CartLine[], discount: Discount | null | undefined, claimedCents: number, opts: { toleranceCents?: number }): AmountVerdict
+```
+
+**Parameters:**
+- `lines: CartLine[]` — 
+- `discount: Discount | null | undefined` — 
+- `claimedCents: number` — 
+- `opts: { toleranceCents?: number }` — 
+
+**Returns:** `AmountVerdict`
+
+### cartFingerprint
+
+A stable fingerprint of the priced cart (+ discount) — order-independent over lines. Two carts that should be
+charged identically produce the same fingerprint; any price/qty/discount change produces a different one.
+
+```ts
+cartFingerprint(lines: CartLine[], discount?: Discount | null): string
+```
+
+**Parameters:**
+- `lines: CartLine[]` — 
+- `discount: Discount | null` (optional) — 
+
+**Returns:** `string`
+
+### idempotencyKey
+
+A deterministic idempotency key for a checkout attempt. The SAME cart under the same scope (principal) yields
+the SAME key, so a retried "create payment intent" REUSES the existing intent instead of charging twice; a
+changed cart yields a new key. Thread this into the processor's idempotency-key header.
+
+```ts
+idempotencyKey(scope: string, lines: CartLine[], discount?: Discount | null): string
+```
+
+**Parameters:**
+- `scope: string` — 
+- `lines: CartLine[]` — 
+- `discount: Discount | null` (optional) — 
+
+**Returns:** `string`
+
+### requiresStripe
+
+Does this total require a real Stripe charge, or can it complete as a free order? Centralizes the $0.50 floor
+ decision so the free-checkout branch and the Stripe branch can never disagree about where $0–$0.49 goes.
+
+```ts
+requiresStripe(totalCents: number): boolean
+```
+
+**Parameters:**
+- `totalCents: number` — 
+
+**Returns:** `boolean`
+
+### verifyStripeSignature
+
+Verify a Stripe `stripe-signature` header against the raw request body + the endpoint signing secret. Returns true iff
+a v1 signature matches the HMAC of `${t}.${rawBody}` AND the timestamp is within tolerance. Pass the RAW (unparsed)
+body — re-serializing JSON changes the bytes and breaks the HMAC.
+
+```ts
+verifyStripeSignature(rawBody: string, sigHeader: string, secret: string, opts: VerifyOptions): Promise<boolean>
+```
+
+**Parameters:**
+- `rawBody: string` — 
+- `sigHeader: string` — 
+- `secret: string` — 
+- `opts: VerifyOptions` — 
+
+**Returns:** `Promise<boolean>`
+
+### timingSafeHexEqual
+
+Constant-time hex-string compare (no early-out) — guards the signature check against timing oracles.
+
+```ts
+timingSafeHexEqual(a: string, b: string): boolean
+```
+
+**Parameters:**
+- `a: string` — 
+- `b: string` — 
+
+**Returns:** `boolean`
+
+### webhookRouter
+
+Build a router, optionally seeded with a `{ type → handler }` map.
+
+```ts
+webhookRouter(handlers: Record<string, WebhookHandler>): WebhookRouter
+```
+
+**Parameters:**
+- `handlers: Record<string, WebhookHandler>` — 
+
+**Returns:** `WebhookRouter`
+
+### IntegrationError
+
+Request-phase: bad/missing config, a missing required field, a serialization failure. The caller's bug to fix.
+
+```ts
+constructor(errorCode: string, message: string): IntegrationError
+```
+
+**Properties:**
+- `errorCode: string` — 
+- `name: string` — 
+- `message: string` — 
+- `stack: string` — 
+- `cause: unknown` — 
+
+### ConnectorError
+
+Response-phase: the processor returned an unexpected shape the connector couldn't transform.
+
+```ts
+constructor(errorCode: string, message: string): ConnectorError
+```
+
+**Properties:**
+- `errorCode: string` — 
+- `name: string` — 
+- `message: string` — 
+- `stack: string` — 
+- `cause: unknown` — 
+
+### NetworkError
+
+Transport: timeout, connection refused, DNS failure — may recover on retry.
+
+```ts
+constructor(errorCode: string, message: string): NetworkError
+```
+
+**Properties:**
+- `errorCode: string` — 
+- `name: string` — 
+- `message: string` — 
+- `stack: string` — 
+- `cause: unknown` — 
+
+### PaymentLibError
+
+The error taxonomy (C048) — mirrors Prism's three hard-failure classes. A SOFT decline is NOT one of these: it comes
+back in-band as `status: FAILURE` on the response. These are thrown only for request-phase config/validation problems
+(`IntegrationError`), unexpected processor responses (`ConnectorError`), and transport failures (`NetworkError`) — so a
+caller can distinguish "the card was declined" (in-band, expected) from "the integration is broken" (thrown).
+
+```ts
+constructor(errorCode: string, message: string): PaymentLibError
+```
+
+**Properties:**
+- `errorCode: string` — 
+- `name: string` — 
+- `message: string` — 
+- `stack: string` — 
+- `cause: unknown` — 
+
+### Secret
+
+A processor-side secret / PII value — wrapped so it's explicit at every call site and never accidentally logged.
+
+### Currency
+
+ISO-4217 currency. A curated set for `Currency.USD`-style access; open to any code a connector accepts.
+
+```ts
+type Currency = typeof Currency[keyof typeof Currency] | string & {}
+```
+
+### MinorAmount
+
+An amount in the currency's minor unit (cents), the Prism convention (no floats in the money path).
+
+### CardDetails
+
+### PaymentMethod
+
+The payment instrument. Extend with wallet / bank-transfer as connectors gain coverage; card + token are the core.
+ `token` is a saved/vaulted instrument id (the app's or the processor's vault — the library stores nothing).
+
+### Address
+
+### OrderDetail
+
+### PaymentError
+
+A structured error the library surfaces (in-band on FAILURE, or on a thrown IntegrationError/ConnectorError). Only
+ primitive fields — never a processor's raw object (which may not be serializable).
+
+### RedirectionData
+
+Where to send the customer for 3DS / redirect flows (present when status is AUTHENTICATION_PENDING).
+
+### AuthorizeRequest
+
+### PaymentResponse
+
+### CaptureRequest
+
+### VoidRequest
+
+### RefundRequest
+
+### RefundResponse
+
+### SyncRequest
+
+### ClientSession
+
+A browser-confirmable session: the server creates the intent, the browser SDK confirms it with `clientSecret`, so raw
+card data never touches the server (PCI-scope reduction). Crediting lands on the processor webhook, not the create
+call. This is the piece a pure server-side `authorize` can't express — the Payment-Element / one-click / add-card flows.
+
+### CreatePaymentSessionRequest
+
+Create a PAYMENT session to confirm in-browser. Omit `paymentMethod` for a Payment-Element flow (the browser collects
+ the card); pass a saved `paymentMethod` token for a one-click charge on a saved card.
+
+### CreateSetupSessionRequest
+
+Create a SETUP session to vault a card without charging ("add card").
+
+### PaymentConnector
+
+A payment processor behind the unified schema. The CORE flows (authorize/capture/void/refund/sync) are required; the
+advanced surfaces (customer, tokenize/vault, recurring, webhook) are OPTIONAL — a connector declares them as it gains
+coverage, and the caller feature-detects. A soft decline is returned as `status: FAILURE`, never thrown.
+
+### ConnectorAuth
+
+A connector's typed credentials (per processor). `Secret`-wrapped so keys aren't logged.
+
+```ts
+type ConnectorAuth = Record<string, Secret | undefined>
+```
+
+### ConnectorFactory
+
+Builds a connector from its typed auth + http options — what each processor module exports.
+
+```ts
+type ConnectorFactory = (auth: ConnectorAuth, http?: HttpOptions) => PaymentConnector
+```
+
+### ConnectorRegistry
+
+The connector registry: processor id → factory. The app composes it from the connector modules it ships.
+
+```ts
+type ConnectorRegistry = Record<string, ConnectorFactory>
+```
+
+### WebhookEvent
+
+A normalized webhook event (the unified shape a connector's handleWebhook produces).
+
+### CartLine
+
+One cart line. `unitCents` is the authoritative price (from the server, not the client).
+
+### Discount
+
+A discount's MATH shape (the structural part; app-side eligibility rules are separate).
+
+### DiscountResult
+
+### DiscountRejection
+
+```ts
+type DiscountRejection = "no-discount" | "non-positive-value" | "percent-out-of-range" | "below-minimum"
+```
+
+### OrderTotal
+
+### OrderTotalFull
+
+The full order total once shipping + tax (from the ./shipping + ./tax adapters) are known.
+
+### AmountVerdict
+
+### StripeWebhookEvent
+
+A verified webhook event — only `type` is required (the router dispatches on it); `data` carries the payload.
+
+### WebhookHandler
+
+```ts
+type WebhookHandler = (event: StripeWebhookEvent) => void | Promise<void>
+```
+
+### WebhookRouter
+
+### HandleResult
+
+### CaptureMethod
+
+Auto-capture on authorize, or authorize-then-capture-later.
+
+- `AUTOMATIC` = `"AUTOMATIC"` — 
+- `MANUAL` = `"MANUAL"` — 
+
+### AuthenticationType
+
+3-D Secure preference.
+
+- `NO_THREE_DS` = `"NO_THREE_DS"` — 
+- `THREE_DS` = `"THREE_DS"` — 
+
+### PaymentStatus
+
+Payment status — INTEGER values mirroring Prism exactly (do NOT renumber; a real Prism backend + connector code depend
+on these). A soft decline is `FAILURE` returned IN-BAND on the response (never thrown). Use with authorize/capture/void.
+
+- `UNSPECIFIED` = `0` — 
+- `STARTED` = `1` — 
+- `AUTHENTICATION_FAILED` = `2` — 
+- `ROUTER_DECLINED` = `3` — 
+- `AUTHENTICATION_PENDING` = `4` — 
+- `AUTHENTICATION_SUCCESSFUL` = `5` — 
+- `AUTHORIZED` = `6` — 
+- `AUTHORIZATION_FAILED` = `7` — 
+- `CHARGED` = `8` — 
+- `VOIDED` = `11` — 
+- `VOID_INITIATED` = `12` — 
+- `CAPTURE_INITIATED` = `13` — 
+- `CAPTURE_FAILED` = `14` — 
+- `VOID_FAILED` = `15` — 
+- `PARTIAL_CHARGED` = `17` — 
+- `UNRESOLVED` = `19` — 
+- `PENDING` = `20` — 
+- `FAILURE` = `21` — 
+- `PARTIALLY_AUTHORIZED` = `25` — 
+- `EXPIRED` = `26` — 
+
+### RefundStatus
+
+Refund status — a SEPARATE enum from PaymentStatus with overlapping integers (mirrors Prism). `REFUND_PENDING`
+ is a normal success state for many processors — treat PENDING + SUCCESS both as success.
+
+- `UNSPECIFIED` = `0` — 
+- `REFUND_FAILURE` = `1` — 
+- `REFUND_MANUAL_REVIEW` = `2` — 
+- `REFUND_PENDING` = `3` — 
+- `REFUND_SUCCESS` = `4` — 
+- `REFUND_TRANSACTION_FAILURE` = `5` — 
+
+### Currency
+
+ISO-4217 currency. A curated set for `Currency.USD`-style access; open to any code a connector accepts.
+
+```ts
+const Currency: { USD: "USD"; EUR: "EUR"; GBP: "GBP"; AED: "AED"; SAR: "SAR"; INR: "INR"; CAD: "CAD"; AUD: "AUD" }
+```
+
+### mockConnector
+
+```ts
+const mockConnector: ConnectorFactory
+```
+
+### MOCK_DECLINE_CARD
+
+Well-known test PANs (Stripe-compatible values, for familiarity).
+
+```ts
+const MOCK_DECLINE_CARD: "4000000000000002"
+```
+
+### MOCK_3DS_CARD
+
+```ts
+const MOCK_3DS_CARD: "4000000000003220"
+```
+
+### stripeConnector
+
+```ts
+const stripeConnector: ConnectorFactory
+```
+
+### STRIPE_MIN_CHARGE_CENTS
+
+Stripe's minimum chargeable amount (USD). Below it, a charge is impossible — the order must go the free path.
+
+```ts
+const STRIPE_MIN_CHARGE_CENTS: 50
+```
+
+### STRIPE_EVENTS
+
+The common Stripe checkout/billing event types (for discoverability + typo-safe registration).
+
+```ts
+const STRIPE_EVENTS: { checkoutCompleted: "checkout.session.completed"; checkoutExpired: "checkout.session.expired"; paymentSucceeded: "payment_intent.succeeded"; paymentFailed: "payment_intent.payment_failed"; chargeRefunded: "charge.refunded"; disputeClosed: "charge.dispute.closed"; setupSucceeded: "setup_intent.succeeded"; subscriptionUpdated: "customer.subscription.updated"; subscriptionDeleted: "customer.subscription.deleted"; invoicePaid: "invoice.paid" }
+```

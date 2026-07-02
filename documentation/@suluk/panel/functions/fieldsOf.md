@@ -8,7 +8,7 @@
 
 > **fieldsOf**(`schema`, `entities?`, `opts?`): [`Field`](../interfaces/Field.md)[]
 
-Defined in: [fields.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/fields.ts#L82)
+Defined in: [fields.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/fields.ts#L82)
 
 Infer the ordered field set for an entity. `entities` is the set of entity names (for relationship detection).
 

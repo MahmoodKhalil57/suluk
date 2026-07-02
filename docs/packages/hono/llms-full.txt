@@ -1,0 +1,412 @@
+# @suluk/hono
+
+> The Suluk derivation engine: minimal Hono+Zod RouteContracts in; v4 doc (dynamic per principal+time), validation, contract tests, and doc-coverage audit out. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### contract
+
+Identity helper that preserves literal inference when authoring a contract array.
+
+```ts
+contract<T>(routes: T): T
+```
+
+**Parameters:**
+- `routes: T` — 
+
+**Returns:** `T`
+
+### contractDoc
+
+Stricter, OPT-IN variant of contract: identical runtime behavior + literal inference, but every route must be
+DOCUMENTED (a `summary` or `description`) or it fails to type-check at the contract site — lifting the doc-coverage
+audit (`audit()`'s `missing-doc` finding) into the type system, so an undocumented operation is a red squiggle, not a
+CI warning. `contract()` stays UNCHANGED (some callers author docs separately / exercise the advisory audit); adopt
+`contractDoc` where you want documentation enforced as you type.
+
+```ts
+contractDoc<T>(routes: T): T
+```
+
+**Parameters:**
+- `routes: T` — 
+
+**Returns:** `T`
+
+### responseList
+
+Normalize responses (list or map) to a list.
+
+```ts
+responseList(r: RouteResponse[] | Record<string, RouteResponse> | undefined): RouteResponse[]
+```
+
+**Parameters:**
+- `r: RouteResponse[] | Record<string, RouteResponse> | undefined` — 
+
+**Returns:** `RouteResponse[]`
+
+### emitV4
+
+Project a list of route contracts into a v4 document for a given principal + time.
+- WHEN: removedSince ≤ now ⇒ hidden; deprecatedSince ≤ now ⇒ marked deprecated.
+- WHO: if a principal is supplied, an operation requiring scopes the principal lacks is omitted.
+
+```ts
+emitV4(routes: readonly RouteContract[], ctx: EmitContext): EmitResult
+```
+
+**Parameters:**
+- `routes: readonly RouteContract[]` — 
+- `ctx: EmitContext` — 
+
+**Returns:** `EmitResult`
+
+### audit
+
+Walk every operation and report documentation gaps.
+
+```ts
+audit(doc: OpenAPIv4Document): Finding[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `Finding[]`
+
+### coverage
+
+A coarse coverage score in [0,1]: 1 = fully documented (no findings), lower = more gaps.
+
+```ts
+coverage(doc: OpenAPIv4Document): number
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `number`
+
+### autofill
+
+Fill obvious documentation gaps in-place-safe (returns a new doc): synthesize a summary from the
+operation name + method/path, and a description for undescribed responses. Conservative — never
+overwrites authored text. This is the "automatically document under-documented routes" lever.
+
+```ts
+autofill(doc: OpenAPIv4Document): OpenAPIv4Document
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `OpenAPIv4Document`
+
+### contractChecks
+
+Build the full check suite for a set of route contracts.
+
+```ts
+contractChecks(routes: readonly RouteContract[]): Check[]
+```
+
+**Parameters:**
+- `routes: readonly RouteContract[]` — 
+
+**Returns:** `Check[]`
+
+### runContractChecks
+
+Run every check and summarize.
+
+```ts
+runContractChecks(routes: readonly RouteContract[]): CheckRun
+```
+
+**Parameters:**
+- `routes: readonly RouteContract[]` — 
+
+**Returns:** `CheckRun`
+
+### validateSchema2020
+
+```ts
+validateSchema2020(schema: unknown): SchemaCheck
+```
+
+**Parameters:**
+- `schema: unknown` — 
+
+**Returns:** `SchemaCheck`
+
+### mount
+
+Mount each contract's handler (with request validation derived from its Zod schemas) onto `app`.
+
+```ts
+mount<T>(app: T, routes: readonly RouteContract[]): T
+```
+
+**Parameters:**
+- `app: T` — 
+- `routes: readonly RouteContract[]` — 
+
+**Returns:** `T`
+
+### enforceAccess
+
+The facet-driven gate. Apply once (after identity is resolved, before the handlers): every operation is then
+enforced at the level its `x-suluk-access` declares. FAIL-CLOSED throughout — a missing facet denies (deny-by-
+default), an unknown/mis-cased `requires` denies, and a non-owner `scope` is enforced even when `requires` is
+"anyone" (a named scope implies authentication). Non-contract paths (operationOf → undefined) pass untouched;
+a consumer's operationOf MUST be at least as strict as the router and MUST fail closed if it can't resolve.
+
+```ts
+enforceAccess(cfg: EnforceAccessConfig): MiddlewareHandler
+```
+
+**Parameters:**
+- `cfg: EnforceAccessConfig` — 
+
+**Returns:** `MiddlewareHandler`
+
+### createGuard
+
+Build explicit, hand-applied guards bound to one identity model (for fine-grained per-route gating).
+
+```ts
+createGuard(cfg: IdentityConfig): Guard
+```
+
+**Parameters:**
+- `cfg: IdentityConfig` — 
+
+**Returns:** `Guard`
+
+### gate
+
+Decide whether a caller may run an op (per the rule), whether to scope the query to their own rows, and the honest
+deny status. FAIL-CLOSED: an `owner` op with no principal is 401 (the wire must enforce what `x-suluk-access`
+claims — a null-scoped empty 200 would let the facet lie); `admin` with no principal is 401, signed-in-non-admin is
+403; `none` hard-denies 403. A signed-in owner is scoped to their rows; an admin sees all.
+
+```ts
+gate(rule: Rule, id: GateIdentity): GateDecision
+```
+
+**Parameters:**
+- `rule: Rule` — 
+- `id: GateIdentity` — 
+
+**Returns:** `GateDecision`
+
+### policyFor
+
+The policy for an access mode (default: owned when an ownerCol is present, else public). `policies` overrides the preset.
+
+```ts
+policyFor(access: AccessMode | undefined, ownerCol?: string, policies: Record<AccessMode, Policy>): Policy
+```
+
+**Parameters:**
+- `access: AccessMode | undefined` — 
+- `ownerCol: string` (optional) — 
+- `policies: Record<AccessMode, Policy>` — 
+
+**Returns:** `Policy`
+
+### ruleToRequires
+
+```ts
+ruleToRequires(rule: Rule): AccessRequires
+```
+
+**Parameters:**
+- `rule: Rule` — 
+
+**Returns:** `AccessRequires`
+
+### onError
+
+Build the Hono error handler. Every response carries `content-type: application/problem+json`.
+
+```ts
+onError(opts: OnErrorOptions): ErrorHandler
+```
+
+**Parameters:**
+- `opts: OnErrorOptions` — 
+
+**Returns:** `ErrorHandler`
+
+### enforceRateLimit
+
+The facet-driven rate-limit gate. Apply once (typically after identity, alongside enforceAccess): every operation
+that DECLARES an `x-suluk-ratelimit` budget is metered; the rest pass untouched. On overflow → 429 + Retry-After.
+
+```ts
+enforceRateLimit(cfg: EnforceRateLimitConfig): MiddlewareHandler
+```
+
+**Parameters:**
+- `cfg: EnforceRateLimitConfig` — 
+
+**Returns:** `MiddlewareHandler`
+
+### SulukHttpError
+
+A typed, throwable HTTP error. `tag` selects the status + title from the frozen core tables; the instance
+renders to a Problem Details body via toProblem. Throw one from a handler; `onError()` maps it.
+
+```ts
+constructor(tag: ErrorTag, init: SulukHttpErrorInit): SulukHttpError
+```
+
+**Properties:**
+- `tag: ErrorTag` — 
+- `instance: string` — 
+- `errors: Record<string, unknown>` — 
+- `problemType: string` — 
+- `retryAfterMs: number` — 
+- `logContext: unknown` — 
+- `detail: string` — the human `detail` (distinct from Error.message, which mirrors it for stack-trace readability).
+- `name: string` — 
+- `message: string` — 
+- `stack: string` — 
+- `cause: unknown` — 
+
+**Methods:**
+- `toProblem(): ProblemDetails` — render to the canonical RFC-9457 Problem Details body.
+
+### MemoryRateLimitStore
+
+DEV-ONLY fixed-window store — a single in-process Map, ported from saastarter rate-limit.ts:7-38. Per-instance
+(does NOT coordinate across workers/isolates) so it must NOT back production; use a @suluk/deploy KV/DO binding
+there. Retry-After is the FULL `windowMs` (saastarter parity, rate-limit.ts:35); the precise `resetAt - now` is a
+documented alternative a durable store may choose instead.
+
+```ts
+constructor(): MemoryRateLimitStore
+```
+
+**Methods:**
+- `consume(key: string, __namedParameters: RateLimitConsumeOptions): RateLimitResult` — 
+
+### RouteContract
+
+`@suluk/hono` — the derivation engine. The user authors minimal RouteContracts (Hono + Zod); everything
+else is derived: the v4 document (dynamic per principal + time), request validation, contract tests, and
+a documentation-coverage audit. See tooling/ARCHITECTURE.md. CANDIDATE tooling.
+
+### DocumentedRoute
+
+A route that satisfies documentation coverage at the TYPE level: it MUST carry a `summary` or a `description`. Used by
+contractDoc so a route authored with neither fails to type-check.
+
+```ts
+type DocumentedRoute = RouteContract & ({ summary: string } | { description: string })
+```
+
+### RouteRequest
+
+`@suluk/hono` — the derivation engine. The user authors minimal RouteContracts (Hono + Zod); everything
+else is derived: the v4 document (dynamic per principal + time), request validation, contract tests, and
+a documentation-coverage audit. See tooling/ARCHITECTURE.md. CANDIDATE tooling.
+
+### RouteResponse
+
+`@suluk/hono` — the derivation engine. The user authors minimal RouteContracts (Hono + Zod); everything
+else is derived: the v4 document (dynamic per principal + time), request validation, contract tests, and
+a documentation-coverage audit. See tooling/ARCHITECTURE.md. CANDIDATE tooling.
+
+### Method
+
+`@suluk/hono` — the derivation engine. The user authors minimal RouteContracts (Hono + Zod); everything
+else is derived: the v4 document (dynamic per principal + time), request validation, contract tests, and
+a documentation-coverage audit. See tooling/ARCHITECTURE.md. CANDIDATE tooling.
+
+```ts
+type Method = "get" | "post" | "put" | "patch" | "delete" | "head" | "options"
+```
+
+### EmitContext
+
+### EmitResult
+
+### EmitDiagnostic
+
+### Finding
+
+### Check
+
+### CheckRun
+
+### SchemaCheck
+
+### Guard
+
+### AccessFacet
+
+### AccessRequires
+
+```ts
+type AccessRequires = "anyone" | "authenticated" | "admin"
+```
+
+### Rule
+
+A CRUD operation's authorization rule.
+
+```ts
+type Rule = "any" | "owner" | "admin" | "none"
+```
+
+### Policy
+
+The five CRUD operations' rules for one access mode.
+
+### AccessMode
+
+The built-in access modes (a sensible SaaS/commerce default set; override via `policyFor`'s `policies` arg).
+
+```ts
+type AccessMode = "public" | "admin" | "submit" | "owned" | "ownedAppend" | "ownedReadonly" | "review"
+```
+
+### GateIdentity
+
+The resolved caller identity a gate decision needs (compute from your Hono Context: isAdmin flag + principal id).
+
+### GateDecision
+
+A gate decision: may the op run, scope the query to the owner, and — when denied — the honest status.
+
+### SulukHttpErrorInit
+
+### RateLimitStore
+
+The swap point for a durable counter. `consume` atomically records one hit for `key` under the budget and
+reports whether it's now over. A production impl (KV / Durable Object) MUST be atomic-per-key; the in-memory
+default is per-instance and NOT durable, so it is dev-only.
+
+### RateLimitResult
+
+### DEFAULT_POLICIES
+
+The opt-in default mode→policy preset. Adopt by reference, or pass your own matrix to policyFor.
+
+```ts
+const DEFAULT_POLICIES: Record<AccessMode, Policy>
+```
+
+### HttpErrors
+
+Factory helpers mirroring saastarter's TaggedError set (errors.ts) with the SAME field semantics the route-handler
+rendered (route-handler.ts:24-86). `externalService`/`internal` keep their detail GENERIC on the wire and stash
+the cause in `logContext` (route-handler.ts:63,81 log it server-side, never leak it).
+
+```ts
+const HttpErrors: { unauthorized: (detail?: string) => SulukHttpError; forbidden: (detail?: string, resource?: string) => SulukHttpError; invalidApiKey: (reason: string) => SulukHttpError; validation: (message: string, details?: Record<string, unknown>) => SulukHttpError; notFound: (resource: string, id?: string) => SulukHttpError; conflict: (message: string) => SulukHttpError; payment: (message: string, code?: string) => SulukHttpError; invalidDiscount: (code: string, reason: string) => SulukHttpError; externalService: (service: string, operation: string, cause?: unknown) => SulukHttpError; rateLimited: (retryAfterMs: number) => SulukHttpError; internal: (message?: string, cause?: unknown) => SulukHttpError }
+```

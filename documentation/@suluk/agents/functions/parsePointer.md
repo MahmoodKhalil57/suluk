@@ -8,7 +8,7 @@
 
 > **parsePointer**(`ref`): `string`[] \| `null`
 
-Defined in: [agents/src/resolve.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/resolve.ts#L12)
+Defined in: [agents/src/resolve.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/resolve.ts#L12)
 
 Parse a `#/a/b~1c/d` fragment pointer into its decoded tokens (or null if not a local fragment pointer).
 

@@ -1,0 +1,43 @@
+# @suluk/credits
+
+> A metered CREDIT LEDGER: append-only transactions, balance, the ATOMIC debit-if-covers (a single conditional INSERT that can never drive the ledger negative under concurrency), the idempotent debit (INSERT OR IGNORE — the money-OUT double-spend guard for partial refunds), per-key spend attribution, the recent-transactions + activity-log query, and aggregate stats. The package OWNS the credit tables; the app injects a Drizzle handle (D1 in prod, bun:sqlite in tests). The money-correctness core, extracted verbatim from a real app (C046). CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `getBalance`: Current balance = sum of all ledger deltas for the user.
+- `record`: Append one ledger row (the single writer); returns the new row id. `delta` is + on grant/top-up, − on debit.
+- `recordKey`: Attribute a debit row to the API KEY that spent it (per-key usage + limit join).
+- `debitIfCovers`: ATOMIC metered debit — append `-amount` ONLY IF the balance still covers it, in ONE conditional INSERT (atomic on both
+bun:sqlite and D1), then bes...
+- `keySpend`: Total credits a key has spent — SUM(abs(delta)) over its attributed DEBITS (delta < 0). Drives the per-key cap + the
+ keys-page usage column.
+- `nonceFor`: The DETERMINISTIC ledger row id an idempotent operation maps to — exported so a caller can pre-check existence at the
+ SAME id debitOnceIfCovers wi...
+- `debitOnceIfCovers`: Idempotent atomic debit: debit `amount` ONLY if the balance covers it AND this exact logical operation (identified by
+`idemKey`) hasn't already bee...
+- `debitOnceAttributed`: Idempotent debit + per-key ATTRIBUTION — the money primitive a per-item bulk charge needs (debitOnceIfCovers
+itself does NOT attribute).
+- `ledgerRow`: The signed credit `delta` + recorded `amountCents` for ONE ledger row id, or null if absent.
+- `recordAmount`: Annotate a ledger row with the CASH that moved (signed). Idempotent (PK on txnId), best-effort (purely cosmetic). No-op on 0/null.
+- `listTransactions`: The user's recent ledger rows (grants + debits) with the cash that moved, newest first — the "recent transactions" +
+ the activity log.
+- `ledgerStats`: Aggregate ledger stats (granted vs spent, outstanding) — the generic part of an admin dashboard.
+- `grantOnce`: Idempotent money-IN grant — credit `amount` exactly once, keyed on the ledger row id `idemKey` (a STABLE per-payment
+anchor: `pi:<id>` / `inv:<id>`...
+- `addCredits`: Grant/top-up credits. Returns the new balance.
+- `debitCredits`: Debit credits if the balance covers it; throws InsufficientCreditsError otherwise.
+- `InsufficientCreditsError`: `@suluk/credits` — a metered credit ledger (C046, extracted verbatim).
+- `creditTransaction`
+- `creditAmount`
+- `creditKey`
+
+## Optional
+
+### Types
+
+- `CreditsDB`: The injected DB handle. Prod is drizzle/d1; tests bridge drizzle/bun-sqlite to this type (a runtime-identity narrow).
+- `DebitOutcome`: The outcome of an idempotent debit attempt (see debitOnceIfCovers).
+- `LedgerEntry`: One ledger row as a panel shows it (`createdAt` epoch-ms).
+- `LedgerStats`: `@suluk/credits` — a metered credit ledger (C046, extracted verbatim).

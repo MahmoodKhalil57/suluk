@@ -6,7 +6,7 @@
 
 # Interface: FormSpec
 
-Defined in: [spec.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L48)
+Defined in: [spec.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L48)
 
 `@suluk/shadcn` — the UI corner. v4 "Suluk" Schema Objects → shadcn/ui form + table specs and TSX scaffolds.
 
@@ -24,7 +24,7 @@ renderers surface those warnings as a leading comment block. Nothing is dropped 
 
 > **fields**: [`FieldSpec`](FieldSpec.md)[]
 
-Defined in: [spec.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L49)
+Defined in: [spec.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L49)
 
 ***
 
@@ -32,6 +32,6 @@ Defined in: [spec.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa3
 
 > **warnings**: `string`[]
 
-Defined in: [spec.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L51)
+Defined in: [spec.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L51)
 
 Properties we could not faithfully map (enumerated; never dropped silently).

@@ -1,0 +1,15 @@
+# credits (registry module)
+
+> An Effect-TS Credits service (Context.Tag + Layer) wrapping @suluk/credits (the atomic debit CAS + idempotent grant stay upstream), its Hono routes, schema re-export, and a provision fragment for the D1 tables. The hybrid pattern: own the service wiring, npm the money logic.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `creditsRoutes`
+- `Credits`
+- `CreditsLive`
+- `creditTransaction`: The credit-ledger schema (Suluk registry: `credits`) — re-exported from `@suluk/credits`, which OWNS the table
+definitions (the append-only `credit...
+- `creditsProvision`
+- `creditsOps`

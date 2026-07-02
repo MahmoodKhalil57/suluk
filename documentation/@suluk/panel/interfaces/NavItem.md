@@ -6,7 +6,7 @@
 
 # Interface: NavItem
 
-Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/shell.ts#L8)
+Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L8)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa3
 
 > `optional` **count?**: `number`
 
-Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/shell.ts#L8)
+Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L8)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa3
 
 > **href**: `string`
 
-Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/shell.ts#L8)
+Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L8)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa3
 
 > **label**: `string`
 
-Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/shell.ts#L8)
+Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L8)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa3
 
 > **name**: `string`
 
-Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/shell.ts#L8)
+Defined in: [shell.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/panel/src/shell.ts#L8)

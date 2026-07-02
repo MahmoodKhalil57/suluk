@@ -6,7 +6,7 @@
 
 # Interface: Discount
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L23)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L23)
 
 A discount's MATH shape (the structural part; app-side eligibility rules are separate).
 
@@ -16,7 +16,7 @@ A discount's MATH shape (the structural part; app-side eligibility rules are sep
 
 > `optional` **maxDiscountCents?**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L30)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L30)
 
 cap the amount removed (cents) — e.g. "30% off, up to $50". Applied before the [0, subtotal] clamp.
 
@@ -26,7 +26,7 @@ cap the amount removed (cents) — e.g. "30% off, up to $50". Applied before the
 
 > `optional` **minSubtotalCents?**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L28)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L28)
 
 the discount only applies at/above this subtotal (cents).
 
@@ -36,7 +36,7 @@ the discount only applies at/above this subtotal (cents).
 
 > **type**: `"percent"` \| `"fixed"`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L24)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L24)
 
 ***
 
@@ -44,6 +44,6 @@ Defined in: [tooling/ts/packages/payments/src/pricing.ts:24](https://github.com/
 
 > **value**: `number`
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L26)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L26)
 
 percent: 0–100; fixed: cents off the subtotal.

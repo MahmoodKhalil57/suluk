@@ -1,0 +1,29 @@
+# @suluk/mcp
+
+> Project ONE OpenAPI v4 document into a Model Context Protocol (MCP) server: each operation becomes an MCP tool (read-only by default), served over the Streamable-HTTP JSON-RPC transport as a Hono-mountable app. Same contract that drives the API/SDK/docs/admin/panel now drives an agent-callable surface — zero hand-written tool schemas. CANDIDATE tooling — NOT official OAS.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `toolsFrom`: `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server.
+- `handleRpc`: Dispatch one JSON-RPC message.
+- `buildRequest`: Build the same-origin Request for an operation call. `origin` is trusted; `args` values are caller-supplied.
+- `originExec`: Default executor — fetch the worker's own public origin.
+- `appExec`: In-process executor for when the MCP server is mounted on the SAME app as the store routes.
+- `mcpApp`
+- `DISCOVER_TOOL`: The synthetic meta-tool that reveals the cold-tail. It is NEVER routed to `exec` — handled in `tools/call`.
+- `LATEST_PROTOCOL`
+- `SUPPORTED_PROTOCOLS`
+
+## Optional
+
+### Types
+
+- `McpTool`: `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server.
+- `McpOp`: `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server.
+- `RpcRequest`
+- `RpcResponse`
+- `RpcContext`
+- `ToolExec`
+- `FetchApp`

@@ -1,0 +1,227 @@
+# @suluk/deploy
+
+> Deploy a Suluk app behind a SWAPPABLE target interface. Cloudflare is the first provider (Workers + D1 + static assets) — an adapter, since the stack is already Cloudflare-native. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### schemaToSql
+
+A full schema.sql for the app's entities.
+
+```ts
+schemaToSql(entities: DeployEntity[]): string
+```
+
+**Parameters:**
+- `entities: DeployEntity[]` — 
+
+**Returns:** `string`
+
+### createTable
+
+CREATE TABLE for one entity (or a manual-define comment for a $ref/boolean schema).
+
+```ts
+createTable(entity: DeployEntity): string
+```
+
+**Parameters:**
+- `entity: DeployEntity` — 
+
+**Returns:** `string`
+
+### entityColumns
+
+The columns of an entity, in DDL order (id is a synthesized autoincrement PK when absent). [] for a $ref/boolean.
+
+```ts
+entityColumns(entity: DeployEntity): ColumnDef[]
+```
+
+**Parameters:**
+- `entity: DeployEntity` — 
+
+**Returns:** `ColumnDef[]`
+
+### columnDdl
+
+The DDL fragment for one column.
+
+```ts
+columnDdl(c: ColumnDef): string
+```
+
+**Parameters:**
+- `c: ColumnDef` — 
+
+**Returns:** `string`
+
+### tableName
+
+The SQLite table name for an entity.
+
+```ts
+tableName(entity: DeployEntity): string
+```
+
+**Parameters:**
+- `entity: DeployEntity` — 
+
+**Returns:** `string`
+
+### migrationSql
+
+The SQL to migrate from `prev` entities to `next` entities — additive only.
+
+```ts
+migrationSql(prev: DeployEntity[], next: DeployEntity[]): string
+```
+
+**Parameters:**
+- `prev: DeployEntity[]` — 
+- `next: DeployEntity[]` — 
+
+**Returns:** `string`
+
+### secretPushPlan
+
+The steps to push the named secrets to a Worker. Default: one interactive `wrangler secret put NAME` per secret
+(the value is typed at the prompt — never on the command line). `bulk` instead emits a single
+`wrangler secret bulk` step + a note to generate the JSON from the DECRYPTED env (@suluk/env decrypt-from-PQC).
+
+```ts
+secretPushPlan(secretNames: string[], opts: { workerName: string; bulk?: boolean }): SecretPushPlan
+```
+
+**Parameters:**
+- `secretNames: string[]` — 
+- `opts: { workerName: string; bulk?: boolean }` — 
+
+**Returns:** `SecretPushPlan`
+
+### durableBindings
+
+The durable bindings a contract needs, derived from its facets: a rate-limit budget (x-suluk-ratelimit) needs a
+KV counter store; a declared cost (x-suluk-cost) needs a KV sink. Emits the binding list + the
+`wrangler kv namespace create` steps (the host runs them, then fills the ids into wrangler.jsonc).
+
+```ts
+durableBindings(doc: OpenAPIv4Document, appName: string): BindingPlan
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `appName: string` — 
+
+**Returns:** `BindingPlan`
+
+### r2Storage
+
+Cloudflare R2 storage (the reference StorageProvider). `publicBaseUrl` is the bucket's served domain.
+
+```ts
+r2Storage(bucket: R2BucketLike, opts: { publicBaseUrl: string }): StorageProvider
+```
+
+**Parameters:**
+- `bucket: R2BucketLike` — 
+- `opts: { publicBaseUrl: string }` — 
+
+**Returns:** `StorageProvider`
+
+### memoryStorage
+
+A DEV in-memory storage (per-process; not durable) — the swap default for local/tests, never production.
+
+```ts
+memoryStorage(opts: { publicBaseUrl?: string }): StorageProvider & { has: any }
+```
+
+**Parameters:**
+- `opts: { publicBaseUrl?: string }` — 
+
+**Returns:** `StorageProvider & { has: any }`
+
+### DeployProvider
+
+A deployment target. Pure: it produces the plan; the host executes the steps (with the user's credentials).
+
+### DeployPlan
+
+`@suluk/deploy` — ship a Suluk app behind a SWAPPABLE target interface. A DeployProvider turns the app into
+the files + ordered steps that deploy it; the host (the vscode extension) runs the steps in a terminal
+after the user authenticates. Cloudflare is the first provider (Workers + D1 + static assets) — an adapter,
+since the stack is already Cloudflare-native (Hono=Workers, sqlite-core=D1, frontend=assets). CANDIDATE.
+
+### DeployInput
+
+`@suluk/deploy` — ship a Suluk app behind a SWAPPABLE target interface. A DeployProvider turns the app into
+the files + ordered steps that deploy it; the host (the vscode extension) runs the steps in a terminal
+after the user authenticates. Cloudflare is the first provider (Workers + D1 + static assets) — an adapter,
+since the stack is already Cloudflare-native (Hono=Workers, sqlite-core=D1, frontend=assets). CANDIDATE.
+
+### DeployEntity
+
+`@suluk/deploy` — ship a Suluk app behind a SWAPPABLE target interface. A DeployProvider turns the app into
+the files + ordered steps that deploy it; the host (the vscode extension) runs the steps in a terminal
+after the user authenticates. Cloudflare is the first provider (Workers + D1 + static assets) — an adapter,
+since the stack is already Cloudflare-native (Hono=Workers, sqlite-core=D1, frontend=assets). CANDIDATE.
+
+### DeployFile
+
+A file the provider wants written into the project.
+
+### DeployStep
+
+One ordered shell step the host (the vscode extension) runs in a terminal AFTER the user authenticates.
+
+### DurableObjectBinding
+
+A Durable Object class to bind + migrate. The Cloudflare Agents SDK runs each agent as a SQLite-backed Durable
+Object, so a deploy that ships agents must emit BOTH a `durable_objects.bindings` entry AND a `migrations` entry
+that creates the class. `@suluk/deploy` stays decoupled from the agent contract: the CALLER (the cockpit, or
+`@suluk/agents`' future `projectCloudflareAgent`) computes which agents are Durable Objects and passes them here.
+
+### ColumnDef
+
+One column, structured — shared by the full-schema emitter and the migration-delta.
+
+### SecretPushPlan
+
+### BindingPlan
+
+### DurableBinding
+
+### StorageProvider
+
+The swappable storage binding (the builder `storage` slot). Other providers (S3/GCS) implement the same shape.
+
+### StoredObject
+
+A stored object — its key + the public URL to reach it.
+
+### R2BucketLike
+
+The minimal Workers R2 surface this binding calls — satisfied by the real `R2Bucket` and by a mock.
+
+### providers
+
+The provider registry. Add new targets here; the interface is the contract.
+
+```ts
+const providers: Record<string, DeployProvider>
+```
+
+### cloudflare
+
+The Cloudflare deployment provider.
+
+```ts
+const cloudflare: DeployProvider
+```
+
+### DEFAULT_COMPAT_DATE
+
+```ts
+const DEFAULT_COMPAT_DATE: "2026-06-01"
+```

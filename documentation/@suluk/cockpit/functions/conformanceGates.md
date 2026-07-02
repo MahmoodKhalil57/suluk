@@ -8,7 +8,7 @@
 
 > **conformanceGates**(`doc`): [`Gate`](../interfaces/Gate.md)[]
 
-Defined in: [cockpit/src/conformance.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/conformance.ts#L44)
+Defined in: [cockpit/src/conformance.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/conformance.ts#L44)
 
 The CONFORMANCE gates — the readiness dimensions, each composed from a shipped Suluk audit. No host needed.
 

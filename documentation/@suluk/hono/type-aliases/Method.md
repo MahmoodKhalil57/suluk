@@ -8,7 +8,7 @@
 
 > **Method** = `"get"` \| `"post"` \| `"put"` \| `"patch"` \| `"delete"` \| `"head"` \| `"options"`
 
-Defined in: [tooling/ts/packages/hono/src/contract.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/contract.ts#L9)
+Defined in: [tooling/ts/packages/hono/src/contract.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/contract.ts#L9)
 
 `@suluk/hono` — the derivation engine. The user authors minimal RouteContracts (Hono + Zod); everything
 else is derived: the v4 document (dynamic per principal + time), request validation, contract tests, and

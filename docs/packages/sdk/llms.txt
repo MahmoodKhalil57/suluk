@@ -1,0 +1,21 @@
+# @suluk/sdk
+
+> Generate a COMPLETE, intuitive TypeScript SDK from a v4 'Suluk' contract — built on ofetch, entity-grouped, fully typed from the schemas, auth wired (bearer/session) via interceptors, and the v4 superpowers (declared cost + access) surfaced as typed metadata. Not a bag of functions: a library a developer downloads and uses straight away. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `generateSdk`: `@suluk/sdk` — generate a complete, intuitive TypeScript SDK from a v4 "Suluk" contract.
+- `tsType`: A JSON schema → a TS type string (used for typed method inputs + response types).
+- `resolveOps`: walkOps + DETERMINISTIC method-name collision resolution — SHARED by generateSdk AND generateStores so the client
+accessor names (`client.
+- `clientAccessor`: The client accessor for an op — the dotted path AFTER `client.
+- `generateStores`: generateStores(doc) — project the C037 reactive facet (`x-suluk-store` + `x-suluk-notify`) into a typed Nano Stores
+reactive layer (states + mutati...
+
+## Optional
+
+### Types
+
+- `OpInfo`: `@suluk/sdk` — generate a complete, intuitive TypeScript SDK from a v4 "Suluk" contract.

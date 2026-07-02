@@ -6,7 +6,7 @@
 
 # Interface: FieldSpec
 
-Defined in: [spec.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L26)
+Defined in: [spec.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L26)
 
 One form control, derived from a single object property.
 
@@ -16,7 +16,7 @@ One form control, derived from a single object property.
 
 > `optional` **description?**: `string`
 
-Defined in: [spec.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L36)
+Defined in: [spec.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L36)
 
 Schema `description`, if any (rendered as helper text).
 
@@ -26,7 +26,7 @@ Schema `description`, if any (rendered as helper text).
 
 > **label**: `string`
 
-Defined in: [spec.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L30)
+Defined in: [spec.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L30)
 
 Human label (title if present, else the humanised name).
 
@@ -36,7 +36,7 @@ Human label (title if present, else the humanised name).
 
 > `optional` **max?**: `number`
 
-Defined in: [spec.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L41)
+Defined in: [spec.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L41)
 
 ***
 
@@ -44,7 +44,7 @@ Defined in: [spec.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa3
 
 > `optional` **min?**: `number`
 
-Defined in: [spec.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L40)
+Defined in: [spec.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L40)
 
 Numeric bounds (minimum/maximum) — surfaced on number/date inputs.
 
@@ -54,7 +54,7 @@ Numeric bounds (minimum/maximum) — surfaced on number/date inputs.
 
 > **name**: `string`
 
-Defined in: [spec.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L28)
+Defined in: [spec.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L28)
 
 Property name = react-hook-form field name.
 
@@ -64,7 +64,7 @@ Property name = react-hook-form field name.
 
 > `optional` **options?**: `string`[]
 
-Defined in: [spec.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L38)
+Defined in: [spec.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L38)
 
 Allowed values for a `select` (the enum members, stringified).
 
@@ -74,7 +74,7 @@ Allowed values for a `select` (the enum members, stringified).
 
 > `optional` **pattern?**: `string`
 
-Defined in: [spec.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L43)
+Defined in: [spec.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L43)
 
 String `pattern` (regex source) — surfaced as a hint.
 
@@ -84,7 +84,7 @@ String `pattern` (regex source) — surfaced as a hint.
 
 > `optional` **relation?**: `string`
 
-Defined in: [spec.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L45)
+Defined in: [spec.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L45)
 
 For a `relation` widget: the entity this property references (from `x-suluk-relation`).
 
@@ -94,7 +94,7 @@ For a `relation` widget: the entity this property references (from `x-suluk-rela
 
 > **required**: `boolean`
 
-Defined in: [spec.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L34)
+Defined in: [spec.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L34)
 
 Whether the property is in the object's `required[]`.
 
@@ -104,6 +104,6 @@ Whether the property is in the object's `required[]`.
 
 > **widget**: [`FieldWidget`](../type-aliases/FieldWidget.md)
 
-Defined in: [spec.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/shadcn/src/spec.ts#L32)
+Defined in: [spec.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/shadcn/src/spec.ts#L32)
 
 Which shadcn control to render.

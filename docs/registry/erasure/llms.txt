@@ -1,0 +1,23 @@
+# erasure (registry module)
+
+> An Effect-TS Erasure service over @suluk/better-auth's beforeDeleteCascade (the fail-closed GDPR orchestrator — abort rather than half-erase — stays upstream). Runs an ordered delete/anonymize cascade across the core Suluk tables when a user is erased, wireable into Better Auth's deleteUser.beforeDelete hook, and writes an erasure_receipt audit row. You pick the posture (delete vs anonymize) and trim the cascade to the modules you installed.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `sulukCascade`: The default hard-DELETE cascade over the core Suluk tables — EDIT to match the modules you installed + your posture.
+- `erasureHook`: The Better Auth `user.
+- `erasureRoutes`
+- `Erasure`
+- `ErasureLive`
+- `step`
+- `erasureReceipt`
+- `erasureProvision`
+- `erasureOps`
+
+## Optional
+
+### Types
+
+- `ErasureUser`: The minimal user shape the cascade needs (Better Auth passes the full user; we only read the id).

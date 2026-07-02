@@ -1,0 +1,696 @@
+# @suluk/core
+
+> Core library for the OpenAPI v4.0 Suluk candidate: parse, validate, resolve, signature, ADA, match.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### parseDocument
+
+Parse a Suluk v4 document from YAML or JSON source text. (YAML is a superset; JSON parses as YAML too.)
+
+```ts
+parseDocument(source: string): OpenAPIv4Document
+```
+
+**Parameters:**
+- `source: string` — 
+
+**Returns:** `OpenAPIv4Document`
+
+### validateDocument
+
+Validate a document's STRUCTURE against the v4 meta-schema (SPEC §1, ADRs C003/C004/C009/C013).
+
+Uses a PRECOMPILED (ajv-standalone) validator (src/validate.standalone.js) — a plain function, no
+`new Function`/eval — so @suluk/core validates on Cloudflare Workers (the deploy target forbids dynamic
+code generation) and starts instantly. Regenerate with `bun run scripts/gen-validator.ts`. It does NOT
+validate the inner JSON Schema 2020-12 Schema Objects (those are the 2020-12 dialect's concern).
+
+```ts
+validateDocument(doc: unknown): ValidationResult
+```
+
+**Parameters:**
+- `doc: unknown` — 
+
+**Returns:** `ValidationResult`
+
+### isValidDocument
+
+Type guard: a parsed doc that validates is treated as an OpenAPIv4Document.
+
+```ts
+isValidDocument(doc: unknown): doc is OpenAPIv4Document
+```
+
+**Parameters:**
+- `doc: unknown` — 
+
+**Returns:** `doc is OpenAPIv4Document`
+
+### isReference
+
+Structural guard for an OpenAPI Reference Object (C019 §A.1). NOTE: a JSON Schema may also carry a
+ `$ref` keyword; in Schema-Object position the slot+token rule (C019) decides — this is the structural test.
+
+```ts
+isReference(x: unknown): x is Reference
+```
+
+**Parameters:**
+- `x: unknown` — 
+
+**Returns:** `x is Reference`
+
+### resolveRef
+
+Resolve a same-document OpenAPI reference "#/components/<type>/<name>" BY NAME (C019 §A.1, C009).
+Each pointer token is a map KEY (O(1) by-name); MUST throw if a key is absent; NEVER falls back to
+positional/order lookup. Returns the referenced target. (Cross-document imports — C013 #72 — are not
+yet implemented; a bare "#/..." is always same-document.)
+
+```ts
+resolveRef(doc: OpenAPIv4Document, ref: string): unknown
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `ref: string` — 
+
+**Returns:** `unknown`
+
+### deref
+
+Resolve a value that may itself be a Reference (one hop). Returns the value unchanged if it is not a Reference.
+
+```ts
+deref<T>(doc: OpenAPIv4Document, value: Reference | T): T
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `value: Reference | T` — 
+
+**Returns:** `T`
+
+### sourceIndex
+
+The DERIVED reverse index: source pointer → the operations projected from it. Computed by walking the document;
+never read back from stored doc state. One authored symbol (a Drizzle table, an operation function) typically
+fans out to several operations (a table → its 5 CRUD ops), so this is the "what does this source drive?" lookup.
+
+```ts
+sourceIndex(doc: OpenAPIv4Document): SourceGroup[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `SourceGroup[]`
+
+### sourceCoverage
+
+Count of operations carrying a source pointer vs total — the provenance-coverage gauge.
+
+```ts
+sourceCoverage(doc: OpenAPIv4Document): { stamped: number; total: number }
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `{ stamped: number; total: number }`
+
+### scrubSource
+
+Return a CLONE of the document with every `x-suluk-source` removed — for externally published projections, where
+a source pointer is internal-layout disclosure (council: scrub from external). Shallow-clones paths/requests so
+the canonical (which keeps provenance for the maintainer view) is never mutated.
+
+```ts
+scrubSource(doc: OpenAPIv4Document): OpenAPIv4Document
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `OpenAPIv4Document`
+
+### sourceKey
+
+"<file>#<symbol>" — the canonical string key for a source pointer.
+
+```ts
+sourceKey(s: SulukSource): string
+```
+
+**Parameters:**
+- `s: SulukSource` — 
+
+**Returns:** `string`
+
+### rateLimitOf
+
+Read the declared rate-limit facet off an operation.
+
+```ts
+rateLimitOf(req: { x-suluk-ratelimit?: SulukRateLimit }): SulukRateLimit | undefined
+```
+
+**Parameters:**
+- `req: { x-suluk-ratelimit?: SulukRateLimit }` — 
+
+**Returns:** `SulukRateLimit | undefined`
+
+### rateLimitIndex
+
+The DERIVED index: every operation that declares a rate-limit budget + its config. Computed by walking the
+document; never read back from stored state. The "what is rate-limited, and how?" lookup (reference panels,
+deploy-binding provisioning, audit).
+
+```ts
+rateLimitIndex(doc: OpenAPIv4Document): RateLimitGroup[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `RateLimitGroup[]`
+
+### rateLimitCoverage
+
+Coverage gauge: operations declaring a budget vs total — the rate-limit-coverage counterpart to `sourceCoverage`.
+
+```ts
+rateLimitCoverage(doc: OpenAPIv4Document): { limited: number; total: number }
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `{ limited: number; total: number }`
+
+### retryAfterSeconds
+
+Retry-After seconds for a budget — `ceil(windowMs / 1000)`, ported from saastarter route-handler.ts:75.
+Poison-guarded: a non-finite window yields 0 (never propagates NaN into a header).
+
+```ts
+retryAfterSeconds(facet: Pick<SulukRateLimit, "windowMs">): number
+```
+
+**Parameters:**
+- `facet: Pick<SulukRateLimit, "windowMs">` — 
+
+**Returns:** `number`
+
+### isProblemDetails
+
+Structural guard — discriminates a Problem Details body (parallel to saastarter's `isApiError` and core's
+`isReference`). Checks the two always-present RFC-9457 members `title` (string) + `status` (number).
+
+```ts
+isProblemDetails(body: unknown): body is ProblemDetails
+```
+
+**Parameters:**
+- `body: unknown` — 
+
+**Returns:** `body is ProblemDetails`
+
+### toProblemDetails
+
+Pure constructor: a tag (+ optional detail/instance/errors/type) → the canonical Problem Details body.
+Fills `status` + `title` from the frozen tables and a stable legacy `error` code. No I/O, no throwing.
+
+```ts
+toProblemDetails(args: { tag: ErrorTag; detail?: string; instance?: string; errors?: Record<string, unknown>; type?: string }): ProblemDetails
+```
+
+**Parameters:**
+- `args: { tag: ErrorTag; detail?: string; instance?: string; errors?: Record<string, unknown>; type?: string }` — 
+
+**Returns:** `ProblemDetails`
+
+### compileTemplate
+
+```ts
+compileTemplate(tmpl: string): CompiledTemplate
+```
+
+**Parameters:**
+- `tmpl: string` — 
+
+**Returns:** `CompiledTemplate`
+
+### matchPath
+
+Reverse-parse: match a concrete URL path against the template. Returns captured path variables, or null
+if no match. Split on '/' first, then percent-decode captures (RFC3986 §2.1). Deterministic / injective
+within the profile (no operator can yield two interpretations).
+
+```ts
+matchPath(c: CompiledTemplate, urlPath: string): Record<string, string> | null
+```
+
+**Parameters:**
+- `c: CompiledTemplate` — 
+- `urlPath: string` — 
+
+**Returns:** `Record<string, string> | null`
+
+### variableCount
+
+Number of variable segments (for concrete-over-variable precedence ranking).
+
+```ts
+variableCount(c: CompiledTemplate): number
+```
+
+**Parameters:**
+- `c: CompiledTemplate` — 
+
+**Returns:** `number`
+
+### computeSignature
+
+Compute a request's canonical signature tuple + deterministic key string (C019 §A.2).
+
+```ts
+computeSignature(uriTemplate: string, req: Request): { tuple: SignatureTuple; key: string }
+```
+
+**Parameters:**
+- `uriTemplate: string` — 
+- `req: Request` — 
+
+**Returns:** `{ tuple: SignatureTuple; key: string }`
+
+### collide
+
+Pairwise three-valued collision predicate (C003 detect-and-tolerate; NOT a gate).
+
+```ts
+collide(a: SignatureTuple, b: SignatureTuple): CollisionVerdict
+```
+
+**Parameters:**
+- `a: SignatureTuple` — 
+- `b: SignatureTuple` — 
+
+**Returns:** `CollisionVerdict`
+
+### buildAda
+
+Build the ADA from a parsed document: index every request, compute signatures, detect collisions.
+
+```ts
+buildAda(doc: OpenAPIv4Document): Ada
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `Ada`
+
+### matchRequest
+
+Match a concrete HTTP request (method + URL) to zero-or-one operation (CONFORMANCE §B.3).
+Recognition direction: reverse-parse the path, filter by method; concrete-over-variable is a runtime
+tiebreak (fewest path variables wins). Returns null if no operation matches.
+
+```ts
+matchRequest(ada: Ada, method: string, url: string): MatchResult | null
+```
+
+**Parameters:**
+- `ada: Ada` — 
+- `method: string` — 
+- `url: string` — 
+
+**Returns:** `MatchResult | null`
+
+### parseQuery
+
+Parse a raw query string into the form-style key→values map (C019 §A.3 default; repeated keys → array).
+
+```ts
+parseQuery(qs: string): Record<string, string[]>
+```
+
+**Parameters:**
+- `qs: string` — 
+
+**Returns:** `Record<string, string[]>`
+
+### OpenAPIv4Document
+
+Top-level OpenAPI v4 document.
+
+### Info
+
+`@suluk/core` — the foundation library for the OpenAPI v4.0 "Suluk" candidate.
+
+parse → validate (meta-schema) → resolve references (by-name) → compute signatures → build the ADA →
+match requests. Implements the structural + behavioral contract in
+specification/candidate-v4/conformance/CONFORMANCE.md and the buildable grammars in SPEC Appendix A (C019).
+CANDIDATE tooling — provisional; the soft points (CONFIDENCE.md) are isolated here.
+
+### Server
+
+Server IDENTITY — a by-name shape primitive (C015 #55); environment URL config is a deployment concern.
+
+### Tag
+
+`@suluk/core` — the foundation library for the OpenAPI v4.0 "Suluk" candidate.
+
+parse → validate (meta-schema) → resolve references (by-name) → compute signatures → build the ADA →
+match requests. Implements the structural + behavioral contract in
+specification/candidate-v4/conformance/CONFORMANCE.md and the buildable grammars in SPEC Appendix A (C019).
+CANDIDATE tooling — provisional; the soft points (CONFIDENCE.md) are isolated here.
+
+### PathItem
+
+A pathItem, keyed in `paths` by its uriTemplate. Each request *is* an operation (SPEC §1.3/1.4).
+
+### Shared
+
+Optional inheritance wrapper; its `parameterSchema` is allOf-composed into each request (C012 #116, @0.55).
+
+### Request
+
+A Request *is* an operation (SPEC §1.4). DOM handle = its name (the key in `PathItem.requests`);
+ADA identity = its signature (C003/C019 Appendix A — computed, not authored).
+
+### HttpMethod
+
+`@suluk/core` — the foundation library for the OpenAPI v4.0 "Suluk" candidate.
+
+parse → validate (meta-schema) → resolve references (by-name) → compute signatures → build the ADA →
+match requests. Implements the structural + behavioral contract in
+specification/candidate-v4/conformance/CONFORMANCE.md and the buildable grammars in SPEC Appendix A (C019).
+CANDIDATE tooling — provisional; the soft points (CONFIDENCE.md) are isolated here.
+
+```ts
+type HttpMethod = "get" | "GET" | "put" | "PUT" | "post" | "POST" | "patch" | "PATCH" | "delete" | "DELETE" | "head" | "HEAD" | "options" | "OPTIONS" | "trace" | "TRACE"
+```
+
+### ParameterSchema
+
+Per-location typed parameter slots (C004 #20). Each slot is a JSON Schema 2020-12 over its instance.
+
+### Response
+
+Named in its containing map. Precedence: request > pathResponses > apiResponses (C012 #17b).
+
+### Callback
+
+A runtime-expression-keyed map of pathItem-shaped definitions (§14, C018).
+The enclosing `Request.callbacks` is name-keyed, so `callbacks[name][expression]` is a PathItem.
+
+```ts
+type Callback = Record<string, PathItem>
+```
+
+### Components
+
+Reusable definitions; the referencing anchor (C013). Keyed by name (C009).
+
+### SecurityRequirement
+
+Map of securityScheme name → array of scope strings (referenced BY NAME, C014 #69).
+
+```ts
+type SecurityRequirement = Record<string, string[]>
+```
+
+### SecurityScheme
+
+`@suluk/core` — the foundation library for the OpenAPI v4.0 "Suluk" candidate.
+
+parse → validate (meta-schema) → resolve references (by-name) → compute signatures → build the ADA →
+match requests. Implements the structural + behavioral contract in
+specification/candidate-v4/conformance/CONFORMANCE.md and the buildable grammars in SPEC Appendix A (C019).
+CANDIDATE tooling — provisional; the soft points (CONFIDENCE.md) are isolated here.
+
+### Reference
+
+An OpenAPI Reference Object (C013 #49). `$ref` is a JSON-Pointer "#/components/<type>/<name>"
+resolved BY NAME (C009; the resolve algorithm is C019 Appendix A).
+
+### Schema
+
+A JSON Schema 2020-12 object (or boolean). Opaque here — validated by the 2020-12 dialect (C013).
+May itself contain a JSON-Schema `$ref` keyword (distinct from an OpenAPI Reference Object).
+Its `properties[name]` subschemas are the PROPERTY-LEVEL facet locus (SchemaProperty).
+
+```ts
+type Schema = Record<string, unknown> | boolean
+```
+
+### SchemaOrRef
+
+Either an inline Schema Object or an OpenAPI Reference Object.
+
+```ts
+type SchemaOrRef = Schema | Reference
+```
+
+### SulukSource
+
+A stable, symbolic pointer back to the authored source an element was projected from (advisory provenance).
+
+### SulukRateLimit
+
+RATE-LIMIT facet shape (saastarter-parity Phase 0): the per-operation rate budget an operation DECLARES.
+Orthogonal to the NORMATIVE spec, which holds rate-limiting out-of-scope (C012 / frontier #43, ceiling 0.74):
+like `x-suluk-cost`/`access`/`source` this is a vendor extension in the `x-suluk-*` namespace, never a
+normative OAS construct. Advisory only — the facet declares the budget; the middleware enforces it.
+
+`windowMs` + `maxRequests` are the fixed-window budget, ported from saastarter's `checkRateLimit` opts
+(src/lib/effect/rate-limit.ts:16-19). `key` is the declared key STRATEGY the runtime resolves a concrete
+key from: only `"ip"` is saastarter-faithful (it keys by a resolved IP); `"principal"`/`"api-key"`/`"global"`
+are ORIGINATED extensions (honestly-low ceiling — `"principal"` keying is gated on the Principal-model
+decision, roadmap Open-Decision #5, so the Phase-0 middleware implements only `"ip"` + a caller-supplied override).
+
+### SulukApproval
+
+HUMAN-IN-THE-LOOP APPROVAL facet (Stage 1.4). Like x-suluk-cost/access/ratelimit it is an ADVISORY vendor extension
+in the `x-suluk-*` namespace — the facet DECLARES the gate; a runtime adapter ENFORCES it (e.g. @suluk/agents'
+`projectCloudflareAgent` emits the Cloudflare Agents SDK `needsApproval` predicate from it). STATIC by construction:
+`required` is a fixed boolean — the facet NEVER carries a request-value selector (the D1 red-line), so a server can
+never be pressured into a dynamic dispatch decision; the gate is "this action, always", decided at author time.
+
+### SchemaProperty
+
+The PROPERTY-LEVEL facet locus (saastarter-parity Phase 0). core's `x-suluk-*` facets are operation-level
+today (on Request); a Schema Object's `properties[name]` is the locus for a FUTURE property-level
+facet — e.g. `@suluk/drizzle` attaching `x-suluk-i18n` to a localized column. This is an ADVISORY typed VIEW
+over the opaque Schema: it never narrows the runtime Schema type (which stays 2020-12-opaque), so a
+property carrying an `x-suluk-*` member is still a valid 2020-12 subschema (the dialect ignores `x-*` keywords).
+
+### PropertyFacets
+
+A map of property name → its (optionally facet-bearing) subschema — the property-level facet locus.
+
+```ts
+type PropertyFacets = Record<string, SchemaProperty>
+```
+
+### SulukJob
+
+A background job (C025) — non-HTTP work fired by a `scheduled` (cron) or `queue-consumed` trigger. It carries no
+Request/Response (there is no HTTP exchange); its STATIC fields (trigger + schedule/queue) are locally decidable,
+and it carries the same advisory `x-suluk-*` facets an operation does (notably `x-suluk-cost` with a matching
+`trigger`, so a job's cost is declared + audited like any other). Provenance via `x-suluk-source`.
+
+### SulukAgent
+
+A composition agent (C027) — an LLM-orchestrated unit. The map KEY is its stable wire-level identity (the emitted
+MCP-tool / OpenRouter-function id; C009 by-name, never by index). It carries NO Request/Response and is NEVER
+consulted by the request→operation matcher (D1). `description` is required + routing-oriented (the field the
+serving LLM selects on). `routes` are deterministic (a by-name `operationRef` into an existing operation, NO
+`model`); `skills` are LLM (a `model` is present). `agents` are by-name sub-agent refs; `maxDepth` is REQUIRED
+whenever `agents` is non-empty (a typed LEAF = `maxDepth` 0, `agents` {}), and a cycle-linter rejects name-cycles
+at author/install time (JSON-Schema cannot express acyclicity). A child's effective scope is INTERSECTION(child,
+caller), never union. Determinism is DECLARED, never schema-enforced.
+
+### SulukSkillRef
+
+A SKILL within an agent — an instruction bundle (the LLM tier). PRESENCE of `model` is what makes this a skill
+(the system-text path) rather than a deterministic route. Skill text is a PROVENANCE POINTER (source URL +
+content-hash + version), not inlined mutable prose: the served instructions are the single source of truth and a
+projected SKILL.md is GENERATED from it, the content-hash binding making drift tool-detectable and fail-loud.
+
+### SulukRouteRef
+
+A deterministic ROUTE within an agent — EXCLUSIVELY a by-name `operationRef` into an EXISTING
+paths[*]/webhooks/x-suluk-jobs operation (never an inline re-declaration — inlining forks C009 identity and
+strands the operation on a 3.1 downgrade). It has NO `model` field, ever — that absence is the hard static
+route-vs-skill discriminator. `guarantee` is DECLARED intent, never schema-enforced (mirrors C026 PROVISIONAL).
+
+### SulukAgentRef
+
+A by-name reference to a sub-agent within the same `x-suluk-agents` map (C009/C013; resolved at projection time, never by the matcher).
+
+### SulukPolicy
+
+An OPERATOR governance policy (C028) — a member of the `x-suluk-policy` map, keyed by operator/fleet name. Every
+field is STATIC, locally decidable, and NARROW-ONLY: applying a policy can only REMOVE capability an agent
+self-declared (effective = INTERSECT(policy, agent)), never grant. No field may reference request/DOM/header/body
+values (D1; the #20 tripwire is declined here too). `appliesTo` binds BY AGENT NAME (`#/x-suluk-agents/<key>`).
+
+### SulukResource
+
+A loadable RESOURCE (C036) — a member of the top-level `x-suluk-resources` catalog. Cloudflare's "Agent Skills"
+model, in Suluk's contract-first form: an on-demand bundle of content the agent loads only when a task matches, so
+a large library does not bloat every prompt. NOT a SulukSkillRef (which is model-bearing, always-on system
+text) — a resource carries NO model and is content-only. Structural; never read by the matcher.
+
+### SulukResourceRef
+
+A by-name reference to a loadable resource within the same `x-suluk-resources` catalog (C036; resolved at projection, never by the matcher; mirrors SulukAgentRef).
+
+### SulukStore
+
+A REACTIVE-STORE declaration (C037) — the per-operation `x-suluk-store` facet. The contract's statement of how the
+frontend should turn this operation into reactive state, so the `@suluk/sdk` generator can emit a ready-to-use
+reactive client (states + events + callbacks) instead of every consumer hand-wiring stores + invalidation. A QUERY
+(read) BACKS a store; a MUTATION (write) INVALIDATES stores on success. `key` (query) and `invalidates` (mutation)
+are DISJOINT roles — presence-of-`key` discriminates query-vs-mutation, mirroring C027's presence-of-`model`
+skill-vs-route discriminator. CLIENT-CODEGEN ONLY: the reactive layer reads it; the matcher/runtime NEVER do. Every
+field names author-chosen STORE names or param NAMES — NEVER a request/header/body/query VALUE — so nothing here can
+leak into a request selector (D1 safe; see plan/facts/0reactive.bn + test/store-d1-invariance.test.ts). Structural.
+
+### SulukNotifyPolicy
+
+The document-level `x-suluk-notify` policy (C037) — a status→severity map driving the `@suluk/sdk` callback layer.
+Keys are an HTTP status (`"402"`), a status CLASS (`"2xx"` | `"4xx"` | `"5xx"`), or `"network"` (no response). The
+value is the severity the generated client raises through an INJECTED `notify(severity, problem)` adapter (the
+consumer wires it to their toaster — policy DECLARED, rendering INJECTED). A specific status beats its class.
+CLIENT-CODEGEN ONLY; never read by the matcher/runtime.
+
+```ts
+type SulukNotifyPolicy = Record<string, SulukNotifySeverity>
+```
+
+### SulukNotifySeverity
+
+A status→severity entry value for SulukNotifyPolicy (C037) — how loudly the generated client surfaces a response.
+
+```ts
+type SulukNotifySeverity = "silent" | "info" | "success" | "warn" | "error"
+```
+
+### ValidationResult
+
+### ValidationIssue
+
+### SourceGroup
+
+### SourceRef
+
+### RateLimitGroup
+
+### ProblemDetails
+
+An RFC-9457 Problem Details object. `type` is the machine identifier (a URI reference; default `"about:blank"`),
+`title` is human-readable, `status` is the HTTP status. `detail` is the human explanation; `errors` carries
+structured validation details (what saastarter put in `details`). `error` is a LEGACY machine-code member kept
+for Phase 0 (the existing SDK + the @suluk/hono `deny()` body read it) — deprecated in favor of `type`/`detail`.
+
+### ProblemStatus
+
+The HTTP statuses the error model can produce.
+
+```ts
+type ProblemStatus = 400 | 401 | 402 | 403 | 404 | 409 | 429 | 500 | 502
+```
+
+### ErrorTag
+
+The closed set of domain-error tags that map to an HTTP status (saastarter src/lib/effect/errors.ts).
+
+```ts
+type ErrorTag = "UnauthorizedError" | "ForbiddenError" | "InvalidApiKeyError" | "ValidationError" | "NotFoundError" | "ConflictError" | "PaymentError" | "InvalidDiscountError" | "ExternalServiceError" | "RateLimitedError" | "PayloadOperationError"
+```
+
+### CompiledTemplate
+
+### PathSegment
+
+uriTemplate compile + match + reverse-parse — the RFC6570 parseable-profile tooling default (C005, C019 §A.4).
+Buildable subset: literal segments, single-segment `{var}`, leading-slash multi-segment `{+var}`, and a
+query key-set (`{?a,b}`, `{&a}`, or `?a={a}`). Split-BEFORE-decode (the §2.4 bug-fix). Provisional @0.62.
+
+```ts
+type PathSegment = { kind: "literal"; value: string } | { kind: "var"; name: string; multi: boolean }
+```
+
+### SignatureTuple
+
+Canonical signature tuple (C019 §A.2). The ADA's identity of a request; the matcher/collision key.
+
+### CollisionVerdict
+
+```ts
+type CollisionVerdict = "provably-disjoint" | "provable-collision" | "not-statically-determinable"
+```
+
+### Ada
+
+The Abstract Description API (SPEC §13, CONFORMANCE §B): the consumption surface computed from the DOM.
+
+### Operation
+
+One operation in the ADA: a request resolved with its pathItem context, signature, and compiled template.
+
+### Collision
+
+### MatchResult
+
+### RATELIMIT_EXT
+
+The vendor-extension key under which an operation declares its rate budget.
+
+```ts
+const RATELIMIT_EXT: "x-suluk-ratelimit"
+```
+
+### PROBLEM_CONTENT_TYPE
+
+RFC-9457 media type for a Problem Details body.
+
+```ts
+const PROBLEM_CONTENT_TYPE: "application/problem+json"
+```
+
+### PROBLEM_STATUS_TABLE
+
+typed-throw → HTTP status, ported verbatim from saastarter route-handler.ts:24-86. Frozen — the single
+source of the mapping every package shares. Note `ExternalServiceError` → 502 (route-handler.ts:62-67):
+the roadmap's Phase-0 list abbreviated the codes and omitted it; the faithful port keeps it.
+
+```ts
+const PROBLEM_STATUS_TABLE: Readonly<Record<ErrorTag, ProblemStatus>>
+```
+
+### TITLE_BY_TAG
+
+Human-readable `title` per tag (RFC-9457 §3.1.1: `title` is human, `type` is the machine id). The STATIC
+saastarter strings are ported verbatim where one exists; the rest derive a sensible title (saastarter built
+those messages from dynamic data — e.g. `${resource} not found` — so there is no static string to port).
+
+```ts
+const TITLE_BY_TAG: Readonly<Record<ErrorTag, string>>
+```
+
+### PROBLEM_DETAILS_SCHEMA
+
+The canonical JSON Schema (2020-12) form of ProblemDetails — the `$ref` target @suluk/hono's emit
+injects into `components.schemas.ProblemDetails`, so the SDK's `isApiError` typing and testgen's
+error-conformance validate against ONE shared schema. Frozen; mirrors the type above.
+
+```ts
+const PROBLEM_DETAILS_SCHEMA: Readonly<{ type: "object"; title: "ProblemDetails"; description: "RFC-9457 Problem Details (application/problem+json)."; properties: { type: { type: string; format: string; default: string }; title: { type: string }; status: { type: string }; detail: { type: string }; instance: { type: string; format: string }; errors: { type: string; additionalProperties: boolean }; error: { type: string; deprecated: boolean } }; required: string[] }>
+```

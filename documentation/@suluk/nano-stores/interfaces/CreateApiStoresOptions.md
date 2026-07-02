@@ -6,7 +6,7 @@
 
 # Interface: CreateApiStoresOptions
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/nano-stores/src/stores.ts#L74)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/stores.ts#L74)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:74](https://github.co
 
 > `optional` **action?**: `string` \| (() => `string` \| `undefined`)
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/nano-stores/src/stores.ts#L84)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/stores.ts#L84)
 
 The current frontend ACTION (a button-click id), sent as `x-suluk-action` on every request so the
 server's cost meter (@suluk/cost) can attribute cost back to the UI action. A function lets it reflect
@@ -26,7 +26,7 @@ the live action. A per-call action on `.mutate({ action })` overrides it.
 
 > `optional` **baseUrl?**: `string`
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/nano-stores/src/stores.ts#L76)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/stores.ts#L76)
 
 Prepended to every built URL (e.g. "https://api.example.com").
 
@@ -36,6 +36,6 @@ Prepended to every built URL (e.g. "https://api.example.com").
 
 > `optional` **fetch?**: *typeof* `fetch`
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/nano-stores/src/stores.ts#L78)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/nano-stores/src/stores.ts#L78)
 
 Injected fetch — defaults to the global. Tests pass a recording mock.

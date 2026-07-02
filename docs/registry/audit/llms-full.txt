@@ -1,0 +1,5 @@
+# audit (registry module)
+
+> Dev/CI tooling (no runtime mount): a single conformance script that consolidates @suluk/cockpit's lifecycle gates + @suluk/harden's input-hardening security grade + schema-fact readiness grade into one unified ship-readiness pass/fail. Loads your v4 contract and exits non-zero when a gate blocks or the combined grade falls below the floor — the one command your pipeline gates on.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.

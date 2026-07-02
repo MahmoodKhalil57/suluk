@@ -1,0 +1,121 @@
+# rate-credit (registry module)
+
+> A credit-backed free-tier rate limiter alongside the fixed-window rate-limit: a per-principal token bucket denominated in µ$ (the same unit as a route's COGS in cost). Each free-tier request debits a small fixed cost; 429 (RFC-9457 via @suluk/core) when the bucket is empty. C052: the µ$ bucket math is app-owned policy (ported here, not a package); only the RFC-9457 envelope is npm. State is one KV binding env.RATE_CREDIT_KV (a binding, not an owned D1 table — no provision fragment). Lazy epoch-ms regen (no cron), FAIL-OPEN on KV error or an unbound namespace. mountRateCredit(app) applies globally after identity resolves; keys by c.var.user?.id else cf-connecting-ip; skips /api/health + /api/webhooks.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### debitRateCredit
+
+Lazily regenerate the bucket, then try to debit `costMicroUsd`. Returns `allowed:false` (→ the caller 429s) when the
+regenerated balance can't cover the cost. Persists the new balance either way (so the regen is anchored). A cost ≤ 0 is
+always allowed and writes nothing. Fail-open on any KV problem or an unbound namespace.
+
+```ts
+debitRateCredit(kv: RateCreditKv | undefined, key: string, costMicroUsd: number, nowMs: number, dials: BucketDials): Promise<RateCreditResult>
+```
+
+**Parameters:**
+- `kv: RateCreditKv | undefined` — 
+- `key: string` — 
+- `costMicroUsd: number` — 
+- `nowMs: number` — 
+- `dials: BucketDials` — 
+
+**Returns:** `Promise<RateCreditResult>`
+
+### rateCredit
+
+The credit-backed free-tier limiter as a Hono middleware. Per request (except the skip list): resolve the principal
+key, debit the fixed cost from its µ$ bucket, and 429 (RFC-9457) when the bucket can't cover it — otherwise pass. When
+`RATE_CREDIT_KV` is unbound (dev), no-op pass and log once.
+
+```ts
+rateCredit(opts: RateCreditOptions): MiddlewareHandler
+```
+
+**Parameters:**
+- `opts: RateCreditOptions` — 
+
+**Returns:** `MiddlewareHandler`
+
+### mountRateCredit
+
+Apply the credit-backed free-tier limiter to the `/api/*` surface — the global-middleware mount the generated entry
+calls as `mountRateCredit(app)` (a cross-cutting concern, not a routed resource). Register it AFTER identity resolves so
+the principal is on the context, alongside the fixed-window `rate-limit`.
+
+```ts
+mountRateCredit<T>(app: T, opts: RateCreditOptions): T
+```
+
+**Parameters:**
+- `app: T` — 
+- `opts: RateCreditOptions` — 
+
+**Returns:** `T`
+
+### keyRateDials
+
+A per-API-key sub-bucket's dials = its SHARE (%) of the account allowance, with burst AND sustained scaled together —
+ so a capped key gets a proportional slice of the SAME shared µ$ cost allowance (not a separate budget). `sharePct` is
+ clamped to [1,100]; 100 = the full allowance (no extra throttle beyond the shared account bucket). Because both dials
+ scale by the same factor, the refill-from-empty TIME is identical at every share — only the burst + throughput shrink.
+
+```ts
+keyRateDials(sharePct: number): BucketDials
+```
+
+**Parameters:**
+- `sharePct: number` — 
+
+**Returns:** `BucketDials`
+
+### rateCreditKey
+
+The KV key for a principal (signed-in user) or an IP.
+
+```ts
+rateCreditKey(principal: { userId?: string; ip: string }): string
+```
+
+**Parameters:**
+- `principal: { userId?: string; ip: string }` — 
+
+**Returns:** `string`
+
+### RateCreditKv
+
+A minimal local shape of a Cloudflare KV namespace — just the two members this module touches. Avoids a hard dependency
+on `@cloudflare/workers-types` at the module boundary; if your app already pulls that in, this structurally matches
+`KVNamespace`.
+
+### BucketDials
+
+A token bucket's two dials: its burst ceiling + its sustained refill rate. The account-wide allowance uses the module
+ constants; a per-API-key SUB-bucket (keyRateDials) uses a proportional slice of them — same µ$ cost unit.
+
+### RateCreditResult
+
+### RateCreditBindings
+
+The bindings this module reads: one KV namespace for the buckets. Structurally merged into the app `Bindings`.
+
+### RATE_CREDIT_CAP_MICROUSD
+
+```ts
+const RATE_CREDIT_CAP_MICROUSD: 50000
+```
+
+### RATE_CREDIT_REGEN_PER_HOUR_MICROUSD
+
+```ts
+const RATE_CREDIT_REGEN_PER_HOUR_MICROUSD: 10000
+```
+
+### RATE_CREDIT_REQUEST_COST_MICROUSD
+
+The fixed µ$ cost a single free-tier request debits (a whole free bucket ≈ 50 requests of burst, ~10/hour sustained).
+
+```ts
+const RATE_CREDIT_REQUEST_COST_MICROUSD: 1000
+```

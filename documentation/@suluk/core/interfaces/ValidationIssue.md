@@ -6,7 +6,7 @@
 
 # Interface: ValidationIssue
 
-Defined in: [validate.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/validate.ts#L4)
+Defined in: [validate.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/validate.ts#L4)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [validate.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **message**: `string`
 
-Defined in: [validate.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/validate.ts#L4)
+Defined in: [validate.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/validate.ts#L4)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [validate.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **path**: `string`
 
-Defined in: [validate.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/validate.ts#L4)
+Defined in: [validate.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/validate.ts#L4)

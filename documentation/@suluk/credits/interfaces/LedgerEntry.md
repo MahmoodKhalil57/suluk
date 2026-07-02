@@ -6,7 +6,7 @@
 
 # Interface: LedgerEntry
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/credits/src/credits.ts#L143)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/credits/src/credits.ts#L143)
 
 One ledger row as a panel shows it (`createdAt` epoch-ms). `amountCents` is the SIGNED cash that moved (+ in, − out),
  or null for credits-only rows (usage debits, free grants).
@@ -17,7 +17,7 @@ One ledger row as a panel shows it (`createdAt` epoch-ms). `amountCents` is the 
 
 > **amountCents**: `number` \| `null`
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:148](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/credits/src/credits.ts#L148)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:148](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/credits/src/credits.ts#L148)
 
 ***
 
@@ -25,7 +25,7 @@ Defined in: [tooling/ts/packages/credits/src/credits.ts:148](https://github.com/
 
 > **createdAt**: `number`
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:147](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/credits/src/credits.ts#L147)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:147](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/credits/src/credits.ts#L147)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [tooling/ts/packages/credits/src/credits.ts:147](https://github.com/
 
 > **delta**: `number`
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:145](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/credits/src/credits.ts#L145)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:145](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/credits/src/credits.ts#L145)
 
 ***
 
@@ -41,7 +41,7 @@ Defined in: [tooling/ts/packages/credits/src/credits.ts:145](https://github.com/
 
 > **id**: `string`
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:144](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/credits/src/credits.ts#L144)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:144](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/credits/src/credits.ts#L144)
 
 ***
 
@@ -49,4 +49,4 @@ Defined in: [tooling/ts/packages/credits/src/credits.ts:144](https://github.com/
 
 > **reason**: `string`
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:146](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/credits/src/credits.ts#L146)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:146](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/credits/src/credits.ts#L146)

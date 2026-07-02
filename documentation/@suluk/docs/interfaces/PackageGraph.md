@@ -6,7 +6,7 @@
 
 # Interface: PackageGraph
 
-Defined in: [diagram.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/diagram.ts#L16)
+Defined in: [diagram.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/docs/src/diagram.ts#L16)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [diagram.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **links**: `object`[]
 
-Defined in: [diagram.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/diagram.ts#L18)
+Defined in: [diagram.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/docs/src/diagram.ts#L18)
 
 #### source
 
@@ -30,7 +30,7 @@ Defined in: [diagram.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **nodes**: `object`[]
 
-Defined in: [diagram.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/diagram.ts#L17)
+Defined in: [diagram.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/docs/src/diagram.ts#L17)
 
 #### id
 

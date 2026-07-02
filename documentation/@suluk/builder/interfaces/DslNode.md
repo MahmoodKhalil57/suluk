@@ -6,7 +6,7 @@
 
 # Interface: DslNode
 
-Defined in: [dsl.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/dsl.ts#L57)
+Defined in: [dsl.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L57)
 
 `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
 Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
@@ -25,7 +25,7 @@ frontend + backend files into one installable unit. CANDIDATE tooling — NOT of
 
 > `optional` **children?**: [`DslChild`](../type-aliases/DslChild.md) \| [`DslChild`](../type-aliases/DslChild.md)[]
 
-Defined in: [dsl.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/dsl.ts#L64)
+Defined in: [dsl.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L64)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [dsl.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa39
 
 > `optional` **props?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [dsl.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/dsl.ts#L63)
+Defined in: [dsl.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L63)
 
 Inputs for the referenced doc, or props for a component. A value may be a {$bind} into the current doc.
 
@@ -43,7 +43,7 @@ Inputs for the referenced doc, or props for a component. A value may be a {$bind
 
 > **type**: `string`
 
-Defined in: [dsl.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/dsl.ts#L59)
+Defined in: [dsl.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L59)
 
 A component (leaf) name, or a block/section doc name.
 
@@ -53,6 +53,6 @@ A component (leaf) name, or a block/section doc name.
 
 > `optional` **variant?**: `string`
 
-Defined in: [dsl.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/dsl.ts#L61)
+Defined in: [dsl.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/dsl.ts#L61)
 
 Pick a named preset (variant) on the referenced document.

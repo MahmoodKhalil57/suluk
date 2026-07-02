@@ -1,0 +1,30 @@
+# @suluk/admin
+
+> The /superadmin web admin panel — the same cockpit as the vscode extension (@suluk/cockpit core), rendered as a Hono-served web UI. Superadmin-gated. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `adminApp`: Build the /superadmin Hono app. Mount it on your server: `app.route("/", adminApp({...}))`.
+- `layout`
+- `renderCycle`
+- `renderBuilder`
+- `renderChecks`
+- `renderDeploy`
+- `esc`
+- `entityModels`: Project a v4 document's component schemas into admin entity models (fields + per-CRUD access scope), sorted.
+- `renderEntityForm`: A create/edit form for an entity, derived from its schema. `id` is omitted on create (DB-assigned).
+- `renderEntityTable`: A list table for an entity — a column per field; `rows` are optional sample data to fill it.
+- `renderDataIndex`: The data-admin index: every CRUD-managed entity + its access scopes, linking to its per-entity page.
+- `renderEntityAdmin`: One entity's data-admin page — a FULLY FUNCTIONAL CRUD UI (saastarter's Payload admin, projected): a live list
+table (loaded from the entity's CRUD...
+- `renderAnalytics`: Render the analytics dashboard for a document.
+
+## Optional
+
+### Types
+
+- `EntityModel`
+- `EntityField`
+- `EntityAccess`

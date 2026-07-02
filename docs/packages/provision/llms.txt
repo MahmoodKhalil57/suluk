@@ -1,0 +1,85 @@
+# @suluk/provision
+
+> Declarative service provisioning for a Suluk app, modelled on the Open Service Broker API and driven like drizzle-kit. Declare the infra you want in one provision.config (D1/KV/R2/secrets/Stripe/domains/tokens as OSB brokers); `plan` diffs desired-vs-live, `apply` walks the binding DAG (provision → poll async last-operation → bind → land credentials in @suluk/env, encrypted + commit-safe), `check` flags drift/orphans. A layer ABOVE @suluk/cloudflare / @suluk/deploy / @suluk/env — it orchestrates, they execute. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `defineProvision`: Validate + return a provision config.
+- `topoOrder`: Order `instances` so each comes after its binding producers.
+- `parseRef`: Parse a single value: a `@ref.key` string → its parts, else null (not a reference).
+- `depsOf`: Every instance ref a spec's params depend on (deduped) — the spec's in-edges in the DAG.
+- `resolveParams`: Resolve a spec's params against the accumulated outputs (ref → its output map).
+- `stableStringify`: A stable JSON string (recursively sorted keys) — order-independent so a fingerprint is reproducible.
+- `fingerprint`: The drift fingerprint of a desired instance = a stable hash of (name + plan + params).
+- `plan`: Diff `config` against `state`.
+- `apply`: Execute the plan for `config`. Idempotent end-to-end: re-running a settled config is all-noops, touches no provider.
+- `pollToDone`: Poll an async operation to a terminal state. Throws on "failed" or after `timeoutMs`.
+- `checkDrift`: Report whether live state matches the config (orphans counted only when pruning is the config default).
+- `assertNoDrift`: Fail-closed: throw when there's any drift (the CI gate).
+- `pull`: Fetch each journaled instance's live state via its broker (OSB fetch) → an external-drift report. Read-only.
+- `reconcile`: Fold a pull report into the journal: DROP externally-deleted instances (so the next `apply` re-creates them) + MERGE
+ live outputs over drifted one...
+- `discover`: Discover live instances (via `broker.
+- `teardown`: Deprovision the whole journal, consumers-first, honouring `protected`. Destructive — gate it behind confirmation.
+- `snapshot`: A snapshot of `config` at migration `idx`.
+- `diffSnapshots`: Diff the previous snapshot against the next (current) config → the ordered migration steps.
+- `migrationTag`: `NNNN_name` — the zero-padded migration tag.
+- `memoryMigrationStore`: An in-memory migration store (tests / dry-runs).
+- `fileMigrationStore`: A file-backed migration store rooted at `dir` (default `provision/`).
+- `generate`
+- `migrate`
+- `memoryStore`: A StateStore over an in-memory array (cloned on load/save so callers can't mutate the journal by reference).
+- `memorySink`: A BindingSink that records every (envVar → value) it lands — for assertions + a dry-run "what would be set" preview.
+- `fileStore`
+- `envSink`: A BindingSink that persists bindings into a `.env` via @suluk/env (encrypted by default; commit-safe).
+- `cloudflareD1`: D1 database.
+- `cloudflareKv`: Workers KV namespace. Provision is create-or-get. Output: `namespace_id`.
+- `cloudflareR2`: R2 bucket. Provision is create-or-get. Output: `bucket_name` (R2's id IS its name).
+- `cloudflareSecrets`: Worker secrets — the runtime-secret SINK as a broker (this is `sync-secrets.
+- `cloudflareToken`: A scoped, least-privilege Cloudflare API token (this is `mint-service-tokens.
+- `cloudflareWwwRedirect`: A www → apex 301 redirect (C058) on the zone of `params.
+- `cloudflarePagesDomain`
+- `defineProvisionApp`: Validate + return a provision app config (the CLI imports this as the config file's default export).
+- `runCli`
+- `EMPTY_SNAPSHOT`: The empty baseline — the "before the first migration" state, so the first `generate` diffs against nothing.
+- `SNAPSHOT_VERSION`
+
+## Optional
+
+### Types
+
+- `OperationState`: OSB last-operation state for an ASYNC provision/deprovision (a database that takes seconds, a cert that takes minutes).
+- `ServicePlan`: A plan tier within an offering (OSB Service Plan). Most infra has a single "standard" plan; `free` marks $0 tiers.
+- `ServiceOffering`: What a broker can provision (OSB Service Offering). `bindable` = provisioning yields credentials/config to bind.
+- `Catalog`: The set of offerings a broker advertises (OSB Catalog).
+- `InstanceSpec`: A declared instance the platform WANTS (the desired state — one entry in provision.config).
+- `InstanceState`: The live record of a provisioned instance (the journal `plan` diffs against — like drizzle's migration meta).
+- `ProvisionRequest`: The resolved request handed to a broker's `provision` (param refs already substituted).
+- `ProvisionResult`: A broker's provision outcome — sync (ready now) or async (poll `lastOperation` with `operation`).
+- `BindRequest`: The resolved request handed to a broker's `bind`.
+- `BindResult`: A broker's bind outcome — the credentials/config the platform + downstream instances consume.
+- `OperationRequest`: The request handed to `lastOperation` / `deprovision`.
+- `Broker`: The OSB-shaped broker every service implements.
+- `BindingSink`: Where bound credentials LAND.
+- `StateStore`: The persisted provision journal (desired-vs-live diffing). The default store is a JSON file; a test passes memory.
+- `ProvisionPlan`
+- `PlanStep`
+- `StepAction`
+- `ApplyResult`
+- `AppliedStep`
+- `DriftReport`
+- `PullReport`
+- `PullEntry`
+- `PullStatus`
+- `DiscoveredInstance`
+- `TeardownResult`
+- `Snapshot`
+- `Migration`
+- `MigrationStep`
+- `MigrationStore`
+- `MigrationJournal`
+- `MigrateResult`
+- `ProvisionApp`
+- `CliResult`

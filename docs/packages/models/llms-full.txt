@@ -1,0 +1,227 @@
+# @suluk/models
+
+> A weekly, PUBLIC-DATA-ONLY catalog of OpenRouter models + a selector: a suluk skill declares NEEDS (hard filters) + a small PREFERENCE (a named profile), and selectModel picks the best CURRENT model — never a hard-coded id. Decidable OpenRouter facts as numbers; noisy benchmarks as COARSE TIERS with {source, asOf}; no cross-axis composite (blending is the selector's job). CANDIDATE tooling — NOT official OAS.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### selectModel
+
+```ts
+selectModel(reqs: HardFilters, prefs: Preferences, catalog: ModelCatalog): SelectResult
+```
+
+**Parameters:**
+- `reqs: HardFilters` — 
+- `prefs: Preferences` — 
+- `catalog: ModelCatalog` — 
+
+**Returns:** `SelectResult`
+
+### deriveRequirements
+
+Derive HardFilters from an agent/skill's declared needs + the analyzer's load (the C027 seam).
+
+```ts
+deriveRequirements(input: { minWindowRequired?: number; hasRoutes?: boolean; needsStructured?: boolean; inputModalities?: string[]; policy?: { modelAllowlist?: string[]; allowedRegions?: string[]; allowedLicenses?: string[]; allowedRetention?: DataRetention[] } }): HardFilters
+```
+
+**Parameters:**
+- `input: { minWindowRequired?: number; hasRoutes?: boolean; needsStructured?: boolean; inputModalities?: string[]; policy?: { modelAllowlist?: string[]; allowedRegions?: string[]; allowedLicenses?: string[]; allowedRetention?: DataRetention[] } }` — 
+
+**Returns:** `HardFilters`
+
+### applyBucketing
+
+Bucket a raw leaderboard score into a coarse tier per the committed rule. Null/absent/unknown-axis ⇒ `unknown`.
+
+```ts
+applyBucketing(axis: string, score: number | null | undefined): Tier
+```
+
+**Parameters:**
+- `axis: string` — 
+- `score: number | null | undefined` — 
+
+**Returns:** `Tier`
+
+### normalizeOpenRouter
+
+```ts
+normalizeOpenRouter(models: ORModel[], asOf: string): ModelRecord[]
+```
+
+**Parameters:**
+- `models: ORModel[]` — 
+- `asOf: string` — 
+
+**Returns:** `ModelRecord[]`
+
+### normalizeOpenRouterModel
+
+One OpenRouter model → its decidable fact cells (intel/gov tiers stay UNKNOWN; filled by the Class-B pass).
+
+```ts
+normalizeOpenRouterModel(m: ORModel, asOf: string): ModelRecord
+```
+
+**Parameters:**
+- `m: ORModel` — 
+- `asOf: string` — 
+
+**Returns:** `ModelRecord`
+
+### catalogFrom
+
+```ts
+catalogFrom(rows: ModelRecord[], asOf: string): ModelCatalog
+```
+
+**Parameters:**
+- `rows: ModelRecord[]` — 
+- `asOf: string` — 
+
+**Returns:** `ModelCatalog`
+
+### snapshotHash
+
+A content-addressed hash over the rows' load-bearing SELECTION inputs — facts AND intel tiers (a re-pick under a
+different catalog must differ; reproducible pin; ties C027 contentHash).
+
+```ts
+snapshotHash(rows: ModelRecord[]): string
+```
+
+**Parameters:**
+- `rows: ModelRecord[]` — 
+
+**Returns:** `string`
+
+### fetchOpenRouterCatalog
+
+Fetch OpenRouter `/models` and normalize to the fact-cell catalog. NETWORK — run from a weekly script/CI, not tests.
+
+```ts
+fetchOpenRouterCatalog(asOf: string, opts: { baseUrl?: string; fetchImpl?: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response> }): Promise<ModelCatalog>
+```
+
+**Parameters:**
+- `asOf: string` — 
+- `opts: { baseUrl?: string; fetchImpl?: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response> }` — 
+
+**Returns:** `Promise<ModelCatalog>`
+
+### applyTierOverlay
+
+Overlay coarse tiers onto matching rows' intel cells, then re-hash (selection now depends on these tiers).
+
+```ts
+applyTierOverlay(catalog: ModelCatalog, tiers: Record<string, Partial<Record<IntelAxis, Tier>>>, opts: { source: string; asOf: string }): ModelCatalog
+```
+
+**Parameters:**
+- `catalog: ModelCatalog` — 
+- `tiers: Record<string, Partial<Record<IntelAxis, Tier>>>` — 
+- `opts: { source: string; asOf: string }` — 
+
+**Returns:** `ModelCatalog`
+
+### Tier
+
+`@suluk/models` — the catalog schema (council wf_729cde52-cc7). A row is keyed BY MODEL (id, capabilities, benchmark
+tiers, context window — all per-model). Per-ENDPOINT axes (price/region/data-retention/latency, which differ across
+the provider endpoints one model fans out to) belong in a future optional `endpoints[]` sub-list (keying micro-panel
+wf_27de1bec-a42: model-keyed HYBRID, @0.6 — RESERVED, not built: OpenRouter routes endpoints at runtime + honors ZDR
+via a request flag, and no fleet needs per-endpoint region governance yet). NB until then `gov.region`/`dataRetention`
+are per-MODEL and stay UNKNOWN (fail-closed) — do NOT populate a "representative" region (it would silently degrade
+fail-closed to fail-OPEN at the endpoint layer — a forged in-region attestation; see C030).
+Decidable OpenRouter facts are NUMBERS/BOOLS; noisy third-party benchmarks are COARSE TIERS (frontier/strong/mid/basic/
+unknown) — never a 2-decimal score (that launders noisy/contaminated public data as precision). Every cell carries
+{source, asOf}; an unsourced cell is MISSING, never a confident value, and a missing tier is NEVER imputed to
+worst (that would kill new models). The catalog stores NO cross-axis composite — blending is the selector's job
+at query time under explicit operator weights (storing a blend launders preference as fact).
+
+```ts
+type Tier = "frontier" | "strong" | "mid" | "basic" | "unknown"
+```
+
+### Cell
+
+One catalog value with provenance. `value: null` ⇒ UNKNOWN (and `source` is ""); never imputed.
+
+### DataRetention
+
+```ts
+type DataRetention = "zero" | "ephemeral" | "logged" | "trains" | "unknown"
+```
+
+### ModelRecord
+
+### ModelCatalog
+
+### HardFilters
+
+Hard requirements — these FILTER (can empty the set ⇒ fail-loud), never rank.
+
+### Profile
+
+```ts
+type Profile = "tool-reliable" | "cheap-fast" | "balanced" | "max-reasoning" | "long-context" | "vision"
+```
+
+### Preferences
+
+Preference — RANKS the survivors. A named profile is the 90% case; the escape hatch is ≤4 small int weights.
+
+### RankedModel
+
+### SelectResult
+
+### ResolvedProfile
+
+### AxisRule
+
+### ORModel
+
+The subset of an OpenRouter `/models` row we rely on (all public facts).
+
+### IntelAxis
+
+```ts
+type IntelAxis = "agenticToolUse" | "instructionFollowing" | "reasoning" | "coding" | "longCtxComprehension" | "knowledge" | "humanPreference"
+```
+
+### OPENROUTER_CATALOG
+
+```ts
+const OPENROUTER_CATALOG: ModelCatalog
+```
+
+### SEED_CATALOG
+
+Illustrative seed — NOT the live catalog. Tiers reflect coarse public standing as of asOf; UNKNOWN is honest.
+
+```ts
+const SEED_CATALOG: ModelCatalog
+```
+
+### PROFILES
+
+```ts
+const PROFILES: Record<Profile, ResolvedProfile>
+```
+
+### BUCKETING_RULES
+
+```ts
+const BUCKETING_RULES: Record<string, AxisRule>
+```
+
+### KNOWN_TIERS
+
+A SMALL, conservatively-CITED seed of coarse public standings for headline frontier models (the bootstrap until
+the full Class-B curation lands). These are adopted public-consensus priors at a LOW ceiling — verify at source;
+tune at review. Absent axes stay UNKNOWN. Source stamped `public-leaderboard-consensus`.
+
+```ts
+const KNOWN_TIERS: Record<string, Partial<Record<IntelAxis, Tier>>>
+```

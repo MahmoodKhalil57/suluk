@@ -2,210 +2,218 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/index.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/modules.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/hierarchy.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/ApiKeyMetadata.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/documents/Used_by_(registry).html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/parseApiKeyMetadata.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/modules/index.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/scopesToPermissions.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.ApiKeyMetadata.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/permissionsToScopes.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.parseApiKeyMetadata.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/ApiKeyVerifierLike.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.scopesToPermissions.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/types/VerifyReason.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.permissionsToScopes.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/VerifiedKey.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.ApiKeyVerifierLike.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/VerifyApiKeyResult.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/types/index.VerifyReason.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/VerifyApiKeyOptions.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.VerifiedKey.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/verifyApiKey.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.VerifyApiKeyResult.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/isSafeRelativePath.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.VerifyApiKeyOptions.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/resolveRedirectTo.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.verifyApiKey.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/withRedirectTo.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.isSafeRelativePath.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/EmailVerificationOptions.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.resolveRedirectTo.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/emailVerificationConfig.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.withRedirectTo.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/DevLoginAuthLike.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.EmailVerificationOptions.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/DevLoginOptions.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.emailVerificationConfig.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/variables/DEV_LOGIN_PASSWORD.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.DevLoginAuthLike.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/devLoginHandler.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.DevLoginOptions.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/CascadeStep.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/variables/index.DEV_LOGIN_PASSWORD.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/CascadeOptions.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.devLoginHandler.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/step.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.CascadeStep.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/anonymizeStep.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.CascadeOptions.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/deleteStep.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.step.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/beforeDeleteCascade.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.anonymizeStep.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/normalizeOas30.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.deleteStep.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/IngestOptions.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.beforeDeleteCascade.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/ingestAuthOpenAPI.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.normalizeOas30.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/mergeAuth.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.IngestOptions.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/AuthHandlerLike.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.ingestAuthOpenAPI.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/HonoLike.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.mergeAuth.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/MountAuthOptions.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.AuthHandlerLike.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/mountAuth.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.HonoLike.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/PreviewRequestLike.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.MountAuthOptions.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/PreviewEnvLike.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.mountAuth.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/MintedSession.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.PreviewRequestLike.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/PreviewLoginOptions.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.PreviewEnvLike.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/isPreviewRuntime.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.MintedSession.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/previewLoginHandler.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.PreviewLoginOptions.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/Principal.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.isPreviewRuntime.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/SessionLike.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.previewLoginHandler.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/PrincipalOptions.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.Principal.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/variables/MFA_SCOPE.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.SessionLike.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/orgScope.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.PrincipalOptions.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/parseOrgScope.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/variables/index.MFA_SCOPE.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/principalFromSession.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.orgScope.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/AuthMethods.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.parseOrgScope.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/AuthSecurity.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.principalFromSession.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 	<url>
-		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/authSecuritySchemes.html</loc>
-		<lastmod>2026-07-02T01:57:36.676Z</lastmod>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.AuthMethods.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/interfaces/index.AuthSecurity.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/better-auth/functions/index.authSecuritySchemes.html</loc>
+		<lastmod>2026-07-02T12:09:00.505Z</lastmod>
 	</url>
 </urlset>

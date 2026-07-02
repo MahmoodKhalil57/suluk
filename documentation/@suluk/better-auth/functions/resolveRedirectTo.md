@@ -8,7 +8,7 @@
 
 > **resolveRedirectTo**(`search`, `fallback?`): `string`
 
-Defined in: [auth-flow.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/auth-flow.ts#L17)
+Defined in: [auth-flow.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/better-auth/src/auth-flow.ts#L17)
 
 Read `redirectTo` from a query string / URLSearchParams; return it only if same-origin-relative, else `fallback`.
 

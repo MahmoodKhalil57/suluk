@@ -1,0 +1,105 @@
+# @suluk/stubgen
+
+> Generate honestly-provisional backend STUBS from a NEEDS-CONTRACT gap (a tester pre-wrote a scenario the contract can't back). Emits the CONTRACT half generically (a @suluk/hono RouteContract literal with inferred Zod) and the HANDLER half through a HandlerTarget adapter seam (mirroring @suluk/deploy / the C034 runtime seam) — the first adapter is the Effect+run()+RouteError shape. Zero-dep, pure, source-text out. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### stubSpec
+
+Resolve a gap to a renderable spec (inferring name/method/path/fields where not given).
+
+```ts
+stubSpec(gap: StubGap): StubSpec
+```
+
+**Parameters:**
+- `gap: StubGap` — 
+
+**Returns:** `StubSpec`
+
+### renderContract
+
+Render the CONTRACT half — a `@suluk/hono` RouteContract literal to paste into `contractDoc([...])`.
+
+```ts
+renderContract(spec: StubSpec): string
+```
+
+**Parameters:**
+- `spec: StubSpec` — 
+
+**Returns:** `string`
+
+### generateStub
+
+Generate the contract + handler stub for one gap, lowered through a handler target.
+
+```ts
+generateStub(gap: StubGap, target: HandlerTarget): GeneratedStub
+```
+
+**Parameters:**
+- `gap: StubGap` — 
+- `target: HandlerTarget` — 
+
+**Returns:** `GeneratedStub`
+
+### generateStubs
+
+Generate stubs for many gaps.
+
+```ts
+generateStubs(gaps: StubGap[], target: HandlerTarget): GeneratedStub[]
+```
+
+**Parameters:**
+- `gaps: StubGap[]` — 
+- `target: HandlerTarget` — 
+
+**Returns:** `GeneratedStub[]`
+
+### StubField
+
+`@suluk/stubgen` — turn a NEEDS-CONTRACT gap (a tester pre-wrote a scenario the contract can't back yet) into
+honestly-provisional backend STUBS the maintainer then writes pragmatically.
+
+Two halves, per C040-P3:
+  • the CONTRACT half is GENERIC — a `@suluk/hono` RouteContract literal (method/path/name inferred from the intent;
+    request Zod inferred from the gap's Examples columns; responses a placeholder), every inference tagged
+    `// TODO: tighten` — the inferred Zod is LOSSY by construction and the maintainer owns the final schema (never
+    laundered as authoritative).
+  • the HANDLER half goes through a `HandlerTarget` ADAPTER SEAM (mirroring @suluk/deploy's DeployProvider / the C034
+    runtime seam), because the handler idiom is app-specific. The first adapter is `honoEffectTarget` (the toolfactory
+    Effect + run() + RouteError<name> shape); `honoTarget` is a framework-generic fallback.
+
+Zero-dependency + pure (source-text out): @suluk/core never imports this; this imports nothing.
+
+### StubGap
+
+The input: a gap the contract cannot back, optionally with the Examples columns that hint the request shape.
+
+### StubSpec
+
+The resolved, renderable stub.
+
+### HandlerTarget
+
+The handler-emit adapter seam — a target renders the HANDLER half in its app's idiom.
+
+### GeneratedStub
+
+### honoEffectTarget
+
+The toolfactory idiom: an Effect program + the run() boundary + a contract-derived RouteError. The first adapter.
+
+```ts
+const honoEffectTarget: HandlerTarget
+```
+
+### honoTarget
+
+A framework-generic Hono fallback target.
+
+```ts
+const honoTarget: HandlerTarget
+```

@@ -1,0 +1,135 @@
+# @suluk/cockpit
+
+> The pure cockpit core (cycle model · builder model · codegen · deploy planning · validate/audit/preview) shared by the vscode extension and the /superadmin web admin panel. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `validateSource`: Parse + meta-schema validate a document source. Parse failure → a single error diagnostic.
+- `auditSource`: Documentation-coverage audit (under-documented routes) via the @suluk/hono engine.
+- `previewHtml`: Build a self-contained preview page (Scalar or Swagger) for a v4 source. Returns html + downgrade diagnostics.
+- `looksLikeV4`: True if a parsed document looks like a v4 "Suluk" document (so we only act on those).
+- `buildCycle`: Build the full cycle model from a v4 document, optionally projected for a principal (the "who").
+- `docChecks`: Doc-level "contract checks" — the mistakes a finished v4 document can still encode.
+- `cycleSummary`: A flat list for simple renderers / status lines.
+- `buildBuilderModel`: Build the full builder model from a v4 document (its schemas → entities → buildApp).
+- `builderTree`: The full tier tree (pages → sections → blocks → components) with each tier's contract.
+- `entitiesFromDoc`: Each components.schemas entry becomes a builder entity.
+- `generateAppFiles`: All files for the generated app: the v4 doc, the frontend components + pages, and the shadcn registry.
+- `generateRegistryJson`: The shadcn registry (index + items) as a pretty JSON string — the "Export shadcn registry" action.
+- `entityNames`: Entity names available for codegen (components.schemas).
+- `generateForm`: Generate a shadcn form component (TSX) for an entity.
+- `generateTable`: Generate a shadcn table component (TSX) for an entity.
+- `generateStoresModule`: Generate the Nano Stores client wiring.
+- `exportV4Json`: Export the v4 document as pretty JSON (the canonical interchange artifact).
+- `deployPlan`: Build the Cloudflare deploy plan from a v4 document (its schemas → entities).
+- `deployMarkdown`: Render the deploy plan as a DEPLOY.md the user can follow step by step.
+- `previewDeployPlan`: Build the PREVIEW deploy plan (charter-bounded role-preview): a `${slug}-preview` Worker with the two
+fail-closed locks + a seed.
+- `previewDeployMarkdown`: Render a PREVIEW deploy plan as a PREVIEW-DEPLOY.md — same steps, but headed with the role-preview safety.
+- `diffContracts`: Compare a LOCAL v4 contract against a DEPLOYED one and report the drift between them.
+- `canonical`: Stable, key-order-independent JSON — reordering object keys is NOT drift. Cycle-safe (never overflows).
+- `crossCut`: Project the contract through every viewer and surface the gated operations.
+- `documentScopes`: Every scope referenced by any operation's security requirements (sorted, deduped).
+- `defaultViewers`: Sensible default viewers for a document: anonymous, one per declared scope, and the full operator view —
+so a single command shows the whole gated ...
+- `previewRoles`
+- `previewAllowedRoles`: The roles a preview may be minted AS — the authenticated principals, EXCLUDING the login-less `anonymous`.
+- `previewLaunchUrl`: Resolve the browser deep-link for previewing AS a role — the security-critical guard, made PURE so it is
+unit-testable (the extension package has n...
+- `convergeContract`: Audit a contract for coherence contradictions a clean merge can still leave behind.
+- `contractToD2`: Generate D2 diagram source for a view of the contract.
+- `diagramViews`
+- `componentReport`: Decompose a contract's generated components into primitives and check their pixel-confidence vs a baseline.
+- `approveComponents`: The "verify once": approve every used primitive at its current content hash, returning the new baseline.
+- `primitiveCss`: A small stylesheet for the control fragments above — so a host can render `primitiveControl` inline.
+- `contractGates`: The CONTRACT-level ship gates — everything decidable from the document itself (no host needed).
+- `shipSummary`: A one-line readiness summary over a set of gates (contract + host). "info" gates never count against ready.
+- `conformanceGates`: The CONFORMANCE gates — the readiness dimensions, each composed from a shipped Suluk audit. No host needed.
+- `assertConformance`: CI gate (the hard incentive): throw if any conformance gate is an `error` (a blocker). Returns the gates otherwise.
+- `agentsView`: Build the OBSERVE view-model for the agent layer of a document. Never throws; tolerates non-installable agents.
+- `agentsSummary`: A one-line ship-readiness summary for the agent layer (mirrors the cockpit's other *Summary helpers).
+- `formatMicroUsd`: Format micro-USD as a display string (we store raw integers; this is only for humans).
+- `summarize`
+- `installModule`: Merge a module's contract fragment into the app document — REFUSING on any collision or unmet requirement.
+- `namespaceModule`: Resolve a collision by NAMESPACING a module: prefix its OWNED entities, rewrite internal $refs that point to
+them, and remap auto-CRUD cost keys ac...
+- `previewInstall`: Preview an install WITHOUT committing — what it adds, what it requires, any conflicts, and its grade.
+- `gradeModule`: A conformance grade.
+- `providerFacets`: The facets the catalog knows about (payments, auth, email, storage).
+- `readProviders`: The active provider bindings recorded in the document (from installed modules' providerSlots).
+- `swapProvider`: Rebind a facet's slot to another implementation of the same interface. Returns the unchanged doc on error.
+- `parseRegistry`: Parse an UNTRUSTED registry payload (e.g. fetched JSON) into a ModuleRegistry, rejecting malformed entries.
+- `validateModule`: Validate one UNTRUSTED module manifest, VALUE-shapes included. Returns the typed module or a human reason.
+- `signRegistry`: Sign a registry value with a private JWK → a base64 signature over its canonical bytes.
+- `verifyRegistrySignature`: Verify a registry value against a base64 signature + a pinned public JWK. Never throws — false on any error.
+- `generateSigningKeypair`: Generate an ECDSA P-256 keypair as JWKs (for tooling / tests — a publisher keeps the private key).
+- `isSignedEnvelope`
+- `composeModules`: Install a set of modules in dependency order, returning the merged platform contract + a per-step trace.
+- `planComposition`: Topologically order modules by `requires`/`provides`, modelling the collision invariants installModule enforces.
+- `resolveTemplate`: Resolve a template's module names to actual modules from a registry — REPORTING any name that doesn't resolve
+ (a typo or a module missing from thi...
+- `ECOMMERCE`
+- `CRM`
+- `BILLING`
+- `FIRST_PARTY_REGISTRY`
+- `PROVIDER_CATALOG`: The catalog of swappable implementations per facet. First-party bindings carry their `@suluk` package.
+- `STACK_TEMPLATES`
+
+## Optional
+
+### Types
+
+- `Diagnostic`: `@suluk/cockpit` — the PURE cockpit core: the cycle model, the builder model, codegen, deploy planning, and
+the validate/audit/preview helpers.
+- `CycleModel`
+- `CycleLayer`
+- `CycleItem`
+- `LayerStatus`
+- `Principal`
+- `DocCheck`
+- `BuilderModel`
+- `BuilderNode`
+- `GeneratedFile`
+- `DeployPlan`
+- `DeployStep`: One ordered shell step the host (the vscode extension) runs in a terminal AFTER the user authenticates.
+- `DeployProvider`: A deployment target. Pure: it produces the plan; the host executes the steps (with the user's credentials).
+- `ContractDiff`
+- `ChangedOp`
+- `OpRef`
+- `ProviderDelta`
+- `ProviderChange`
+- `Viewer`: A viewer to project for.
+- `ViewerView`
+- `GatedOp`
+- `CrossCut`
+- `PreviewRole`: A principal you can preview the running app AS — derived from the contract, never hardcoded.
+- `ConvergeReport`
+- `ConvergeFinding`
+- `ConvergeCode`
+- `DiagramView`
+- `ComponentReport`
+- `Baseline`: The approved baseline — primitive key → its verified entry. Persist as JSON; commit it.
+- `Gate`
+- `GateStatus`
+- `AgentsView`
+- `AgentNodeView`
+- `AgentSkillView`
+- `AgentRouteView`
+- `AgentGovernedView`: The agent-declared vs operator-effective diff + the cost three-number (cap / estimate / actual). Read-only.
+- `CostSummary`
+- `SulukModule`
+- `InstallResult`
+- `ModuleEntry`
+- `ModuleRegistry`
+- `ModuleGrade`
+- `InstallPreview`
+- `ProviderImpl`: Provider SLOTS (M3) — "swap out a provider you chose.
+- `ProviderBinding`
+- `RegistrySource`: A configured remote registry (persisted by the host).
+- `ParsedRegistry`
+- `SignedEnvelope`: A signed registry payload: the registry value + a detached base64 signature over its canonical bytes.
+- `ComposeResult`
+- `CompositionPlan`
+- `StackTemplate`: A named set of modules that compose into a working platform (L2 — the non-developer flow).

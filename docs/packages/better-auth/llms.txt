@@ -1,0 +1,56 @@
+# @suluk/better-auth
+
+> Official Better-Auth-on-Hono support for Suluk: auth methods -> v4 securitySchemes; ingest Better Auth's OpenAPI 3.0 -> v4; session -> principal for per-viewer docs. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `authSecuritySchemes`: Build v4 securitySchemes from the enabled Better Auth methods.
+- `normalizeOas30`: Recursively rewrite OpenAPI-3.0 Schema-Object dialect into JSON Schema 2020-12.
+- `ingestAuthOpenAPI`: Normalize + upgrade Better Auth's OpenAPI 3.0 schema to a v4 document (the auth surface).
+- `mergeAuth`: Deep-merge auth paths + components (schemas + securitySchemes) into an app's v4 document.
+- `principalFromSession`: Extract a { scopes } principal from a Better Auth session.
+- `orgScope`: Build the org-namespaced scope `org:<orgId>:<action>` (the tenancy encoding).
+- `parseOrgScope`: Parse an `org:<id>:<action>` scope back into its parts (null if it isn't one).
+- `mountAuth`: Mount the Better Auth handler onto a Hono app under basePath/* (default /api/auth/*).
+- `verifyApiKey`: Verify an API key (optionally requiring scopes) and return a `{ scopes }` Principal.
+- `scopesToPermissions`: Flat scopes → Better Auth permissions.
+- `permissionsToScopes`: Better Auth permissions → flat scopes.
+- `parseApiKeyMetadata`: Safely parse key metadata, handling Better Auth's potential DOUBLE-stringification of the JSON field.
+- `beforeDeleteCascade`: Build the Better Auth `user.
+- `step`: A generic cascade step.
+- `anonymizeStep`: An ANONYMIZE step — keep the row, scrub its PII (the FK-safe posture; recommended default).
+- `deleteStep`: A hard-DELETE step — cascade-remove a subsystem's rows for the user.
+- `isSafeRelativePath`: A path is safe to redirect to iff it's a SINGLE-leading-slash relative path (rejects "//host", "http(s)://…",
+ backslash tricks, and protocol-relat...
+- `resolveRedirectTo`: Read `redirectTo` from a query string / URLSearchParams; return it only if same-origin-relative, else `fallback`.
+- `withRedirectTo`: Append a (guarded) `redirectTo` to an href — e.
+- `emailVerificationConfig`: A Better Auth `emailVerification` block with frictionless-activation defaults.
+- `previewLoginHandler`: Handle `GET /preview/login?
+- `isPreviewRuntime`: True iff BOTH independent locks say "preview". Exported so callers/tests can assert the gate in isolation.
+- `devLoginHandler`: Handle `POST /api/auth/dev-login` with `{ email }`.
+- `MFA_SCOPE`: The scope a route requires to be sure the caller cleared their second factor (twoFactor plugin).
+- `DEV_LOGIN_PASSWORD`: The fixed internal password the dev-login uses to drive email/password sign-up + sign-in. Not a real credential.
+
+## Optional
+
+### Types
+
+- `AuthMethods`: `@suluk/better-auth` — official Better-Auth-on-Hono support for the Suluk derivation engine.
+- `AuthSecurity`: `@suluk/better-auth` — official Better-Auth-on-Hono support for the Suluk derivation engine.
+- `Principal`: The principal extractor — the loop-closer for per-viewer docs.
+- `SessionLike`: A minimal view of a Better Auth session (duck-typed; works with the real Session shape).
+- `AuthHandlerLike`: mountAuth — the thin Hono adapter for Better Auth (the documented integration:
+app.
+- `HonoLike`
+- `ApiKeyVerifierLike`: A duck-typed view of Better Auth's server `verifyApiKey` (the app injects `betterAuth.api`).
+- `VerifyApiKeyResult`
+- `VerifiedKey`: The verified key's identity surface (metadata parsed via the double-stringification guard).
+- `VerifyReason`
+- `ApiKeyMetadata`: Metadata stored on a key for delegation tracking (saastarter metadata.ts:4-8).
+- `CascadeStep`: One step of the erasure cascade — the erasure of one subsystem for one user.
+- `PreviewRequestLike`: A minimal view of the Worker request — only `.url` (to read the `role` query param) is needed. Web `Request` satisfies it.
+- `PreviewEnvLike`: The two independent locks live on the Worker env: a var and a binding. Duck-typed; extra keys ignored.
+- `MintedSession`: What a successful mint returns: the headers to set on the redirect (e.g. the session Set-Cookie).
+- `DevLoginAuthLike`: The Better Auth surface this needs — its public `signUpEmail`/`signInEmail` server endpoints. Duck-typed.

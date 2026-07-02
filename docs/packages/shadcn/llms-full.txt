@@ -1,0 +1,201 @@
+# @suluk/shadcn
+
+> v4 'Suluk' Schema Objects -> shadcn/ui form + table specs and TSX scaffolds (react-hook-form + zodResolver). Codegen, no runtime UI deps. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### formSpec
+
+Build a FormSpec from an object Schema Object. Each property becomes one FieldSpec.
+A non-object root (array/scalar/boolean/unresolved-ref) yields zero fields plus a warning — honest, not silent.
+
+```ts
+formSpec(schema: SchemaOrRef, opts: SpecOptions): FormSpec
+```
+
+**Parameters:**
+- `schema: SchemaOrRef` — 
+- `opts: SpecOptions` — 
+
+**Returns:** `FormSpec`
+
+### tableSpec
+
+Build a TableSpec. An array root uses its `items` object; an object root uses its own properties.
+Each property becomes one ColumnSpec. Non-derivable roots yield zero columns plus a warning.
+
+```ts
+tableSpec(schema: SchemaOrRef, opts: SpecOptions): TableSpec
+```
+
+**Parameters:**
+- `schema: SchemaOrRef` — 
+- `opts: SpecOptions` — 
+
+**Returns:** `TableSpec`
+
+### renderFormTsx
+
+Render a shadcn <Form> component from a FormSpec. Returns TSX source as a string.
+
+```ts
+renderFormTsx(spec: FormSpec, opts: RenderFormOptions): string
+```
+
+**Parameters:**
+- `spec: FormSpec` — 
+- `opts: RenderFormOptions` — 
+
+**Returns:** `string`
+
+### renderTableTsx
+
+Render a shadcn <Table> component from a TableSpec. Returns TSX source as a string.
+
+```ts
+renderTableTsx(spec: TableSpec, opts: RenderTableOptions): string
+```
+
+**Parameters:**
+- `spec: TableSpec` — 
+- `opts: RenderTableOptions` — 
+
+**Returns:** `string`
+
+### renderDetailTsx
+
+Render a read-only shadcn detail (show) view from a FormSpec. Returns TSX source as a string.
+
+```ts
+renderDetailTsx(spec: FormSpec, opts: RenderDetailOptions): string
+```
+
+**Parameters:**
+- `spec: FormSpec` — 
+- `opts: RenderDetailOptions` — 
+
+**Returns:** `string`
+
+### renderFormSkeletonTsx
+
+A form skeleton — one label+control placeholder per field, plus a submit-button placeholder.
+
+```ts
+renderFormSkeletonTsx(spec: FormSpec, opts: RenderSkeletonOptions): string
+```
+
+**Parameters:**
+- `spec: FormSpec` — 
+- `opts: RenderSkeletonOptions` — 
+
+**Returns:** `string`
+
+### renderTableSkeletonTsx
+
+A table skeleton — a header row of column placeholders + N body rows of cell placeholders.
+
+```ts
+renderTableSkeletonTsx(spec: TableSpec, opts: RenderSkeletonOptions): string
+```
+
+**Parameters:**
+- `spec: TableSpec` — 
+- `opts: RenderSkeletonOptions` — 
+
+**Returns:** `string`
+
+### renderDetailSkeletonTsx
+
+A detail skeleton — one label+value placeholder row per field.
+
+```ts
+renderDetailSkeletonTsx(spec: FormSpec, opts: RenderSkeletonOptions): string
+```
+
+**Parameters:**
+- `spec: FormSpec` — 
+- `opts: RenderSkeletonOptions` — 
+
+**Returns:** `string`
+
+### renderShadcnTheme
+
+The full shadcn theme file set from a TokenSpec/ThemeSpec: the css path → globals.css + components.json.
+
+```ts
+renderShadcnTheme(theme: TokenSpec | ThemeSpec, opts: ShadcnThemeOptions): Record<string, string>
+```
+
+**Parameters:**
+- `theme: TokenSpec | ThemeSpec` — 
+- `opts: ShadcnThemeOptions` — 
+
+**Returns:** `Record<string, string>`
+
+### renderGlobalsCss
+
+The shadcn `globals.css`: the Tailwind import + the `dark` custom-variant + the token vars (light at `:root`,
+dark at the dark selector) + the `@theme inline` mapping + a base layer applying border/bg/text tokens.
+
+```ts
+renderGlobalsCss(theme: TokenSpec | ThemeSpec, opts: ShadcnThemeOptions): string
+```
+
+**Parameters:**
+- `theme: TokenSpec | ThemeSpec` — 
+- `opts: ShadcnThemeOptions` — 
+
+**Returns:** `string`
+
+### renderComponentsJson
+
+The shadcn `components.json` CLI config — `cssVariables: true`, so the generated tokens drive the components.
+
+```ts
+renderComponentsJson(opts: ShadcnThemeOptions): string
+```
+
+**Parameters:**
+- `opts: ShadcnThemeOptions` — 
+
+**Returns:** `string`
+
+### FieldWidget
+
+The shadcn form control we pick for a property. Drives which control the renderer emits.
+
+```ts
+type FieldWidget = "text" | "number" | "checkbox" | "switch" | "select" | "textarea" | "date" | "email" | "url" | "datetime" | "file" | "richtext" | "relation"
+```
+
+### FieldSpec
+
+One form control, derived from a single object property.
+
+### FormSpec
+
+`@suluk/shadcn` — the UI corner. v4 "Suluk" Schema Objects → shadcn/ui form + table specs and TSX scaffolds.
+
+The chain is: Zod → v4 Schema Object (@suluk/zod) → descriptor model (formSpec/tableSpec, here) → shadcn TSX
+(renderFormTsx/renderTableTsx, here). This package is CODEGEN ONLY — no runtime UI deps; it emits component
+source as strings against the conventional shadcn/ui import paths (react-hook-form + zodResolver for forms).
+
+Honest-loss discipline (house pattern): the descriptor specs carry a `warnings: string[]` channel for every
+property we could not faithfully map (unresolvable $ref, boolean schemas, non-object roots), and the
+renderers surface those warnings as a leading comment block. Nothing is dropped silently. CANDIDATE tooling.
+
+### ColumnSpec
+
+One table column, derived from a single object property.
+
+### TableSpec
+
+`@suluk/shadcn` — the UI corner. v4 "Suluk" Schema Objects → shadcn/ui form + table specs and TSX scaffolds.
+
+The chain is: Zod → v4 Schema Object (@suluk/zod) → descriptor model (formSpec/tableSpec, here) → shadcn TSX
+(renderFormTsx/renderTableTsx, here). This package is CODEGEN ONLY — no runtime UI deps; it emits component
+source as strings against the conventional shadcn/ui import paths (react-hook-form + zodResolver for forms).
+
+Honest-loss discipline (house pattern): the descriptor specs carry a `warnings: string[]` channel for every
+property we could not faithfully map (unresolvable $ref, boolean schemas, non-object roots), and the
+renderers surface those warnings as a leading comment block. Nothing is dropped silently. CANDIDATE tooling.

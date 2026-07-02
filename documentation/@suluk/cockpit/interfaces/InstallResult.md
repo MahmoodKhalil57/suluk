@@ -6,7 +6,7 @@
 
 # Interface: InstallResult
 
-Defined in: [builder/src/module.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/module.ts#L44)
+Defined in: [builder/src/module.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/module.ts#L44)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [builder/src/module.ts:44](https://github.com/MahmoodKhalil57/suluk/
 
 > **added**: `object`
 
-Defined in: [builder/src/module.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/module.ts#L49)
+Defined in: [builder/src/module.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/module.ts#L49)
 
 #### operations
 
@@ -30,7 +30,7 @@ Defined in: [builder/src/module.ts:49](https://github.com/MahmoodKhalil57/suluk/
 
 > **conflicts**: `string`[]
 
-Defined in: [builder/src/module.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/module.ts#L48)
+Defined in: [builder/src/module.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/module.ts#L48)
 
 Collision / requirement errors; non-empty ⇒ the install was REFUSED.
 
@@ -40,7 +40,7 @@ Collision / requirement errors; non-empty ⇒ the install was REFUSED.
 
 > **doc**: [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md)
 
-Defined in: [builder/src/module.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/module.ts#L46)
+Defined in: [builder/src/module.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/module.ts#L46)
 
 The merged document (UNCHANGED from `base` when installed === false).
 
@@ -50,4 +50,4 @@ The merged document (UNCHANGED from `base` when installed === false).
 
 > **installed**: `boolean`
 
-Defined in: [builder/src/module.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/module.ts#L50)
+Defined in: [builder/src/module.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/module.ts#L50)

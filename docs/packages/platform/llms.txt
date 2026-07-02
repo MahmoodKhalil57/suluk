@@ -1,0 +1,88 @@
+# @suluk/platform
+
+> The platform generator (C051): write one `definePlatform` manifest → it plans the shadcn-registry adds, generates the wired Hono entry, and merges each module's provision fragment into a single provision.config. The manifest compiles to a shadcn-add list + a C047 provision.config; the generator runs the adds + `@suluk/provision`. Turns the Suluk backend registry into a one-command platform. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `definePlatform`: Validate + return a platform.
+- `defineSystem`: Author a SYSTEM. `const T` captures the services tuple so `serviceOpts` types resolve per service id.
+- `defineBrand`: Author a BRAND.
+- `isPlatform`: Discriminate the C053 `{ system, brand }` shape from the legacy manifest.
+- `resolveNodeOpts`: Resolve the node quadrants of `{ system, brand }` into the `{ services, opts, vars }` a legacy manifest carries:
+ - `opts[id]` (→ entry): the globa...
+- `liftSystemBrand`: Lower a `{ system, brand }` platform to the legacy PlatformManifest the C051 generator renders.
+- `liftLegacy`: The MIGRATE direction — a legacy PlatformManifest → the C053 `{ system, brand }` split (the inverse of
+liftSystemBrand).
+- `serviceId`: A ServiceRef → its runtime id (a string ref is the id; a Service object contributes `.id`).
+- `resolveWiring`: Validate + compile the wires into per-producer hook fields + the imports they need.
+- `groupImports`: Group wire imports by module specifier → one `import { a, b } from "x";` per module (first-seen order).
+- `assertJsonSafe`: Reject non-JSON data (functions/symbols/bigint/undefined) + prototype-pollution keys anywhere in a wire's params.
+- `validateIdentifier`: Guard a code IDENTIFIER (a capability symbol / import symbol) — fail closed on anything that isn't a plain identifier.
+- `lit`: A schema-validated value → an inert JSON literal (never an identifier or call).
+- `defineService`: Author a service.
+- `optsType`: A TYPED opts marker for a service's `serviceOpts`/`brandOpts`.
+- `toCatalogEntry`: Project a Service onto the legacy CatalogEntry shape the C051 generator reads.
+- `orderServices`: app + auth always come first (the base + the user/apikey tables others reference); the rest keep manifest order.
+- `collectEnv`: The env vars the selected services need, de-duped by name (first declaration wins).
+- `resolveVersion`: Resolve a dep to its version: an @suluk/* package → "latest" (fixes flow via `bun update`); a known ecosystem dep →
+ its pinned range; anything els...
+- `mergeProvision`
+- `planPlatform`
+- `buildPackageJson`: The framework baseline package.
+- `mergePackageJson`: Merge the generated framework baseline package.
+- `mergeWranglerToml`: Preserve the operator's provisioned binding ids (keyed by `binding = "NAME"`) across a wrangler.toml regenerate.
+- `mergeGitignore`: Merge the generated .
+- `generatePlatform`
+- `CORE_SERVICES`: The core services keyed by id (key === `service.id`, guaranteed by construction).
+- `appService`: The 19 CORE services, expressed through the common interface (the dogfood).
+- `authService`
+- `contractService`
+- `mcpService`
+- `creditsService`
+- `keysService`
+- `billingService`
+- `costService`
+- `erasureService`
+- `emailService`
+- `webhooksService`
+- `rateLimitService`
+- `rateCreditService`
+- `i18nService`
+- `referenceService`
+- `adminService`
+- `logsService`
+- `journeysService`
+- `auditService`
+- `CATALOG`: The offerings, derived from the core service set. `app` is the base (no mount symbol, no fragment).
+- `BASE_DEPS`: The always-present framework deps (every generated app: the Effect services + Hono entry + the merged provision.
+- `ECOSYSTEM_VERSIONS`: Pinned ranges for the NON-@suluk ecosystem deps — the single place they're kept current for every generated app.
+- `DEV_DEPS`: The generated app's devDeps (the Workers + TS toolchain).
+
+## Optional
+
+### Types
+
+- `PlatformManifest`: The C051 legacy manifest — still valid, still the byte-identity anchor.
+- `SystemManifest`: A SYSTEM — the reusable, publishable template. Generic over the services tuple so `serviceOpts` is typed by service id.
+- `BrandManifest`: A BRAND — thin, swappable per deployment. Carries the app identity + the brand-facing opts (→ `[vars]`).
+- `Platform`: A bound platform = a system + a brand.
+- `ServiceRef`: A reference to a service: an imported Service object (fully typed) or a bare string id (resolved against the
+ catalog; opts typed as `unknown`).
+- `WireDecl`: An inter-service composition EDGE (Phase 3).
+- `Wiring`
+- `WireImport`
+- `Service`: THE COMMON INTERFACE.
+- `Port`: A typed PORT a service EXPOSES: a named hook others fill.
+- `Capability`: A typed CAPABILITY a service OFFERS to fill a port.
+- `CompositionSurface`: What a service brings to the composition graph: the ports it exposes + the capabilities it offers.
+- `Schema`: Standard-Schema v1 shape (zod v4 implements it).
+- `McpOAuthOpts`: The MCP OAuth authorization-server config (auth's `serviceOpts.mcp`) — the frontend OAuth pages + resource + scope set.
+- `AuthServiceOpts`: auth's serviceOpts: optionally activate the MCP OAuth server (Better Auth `mcp()` plugin).
+- `CatalogEntry`: The old catalog record — now a DERIVED VIEW of a Service (see toCatalogEntry); kept so `planPlatform`
+ and the C051 helpers read the same shape the...
+- `Mount`: How a module contributes to the generated `src/index.ts`. (Unchanged from C051.)
+- `EnvVar`: An env var a module (or the app's provisioning) needs — drives the generated `env.
+- `PlatformPlan`
+- `GenerateResult`

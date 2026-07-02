@@ -8,7 +8,7 @@
 
 > **readProviders**(`doc`): [`ProviderBinding`](../interfaces/ProviderBinding.md)[]
 
-Defined in: [builder/src/providers.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/providers.ts#L66)
+Defined in: [builder/src/providers.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/providers.ts#L66)
 
 The active provider bindings recorded in the document (from installed modules' providerSlots).
 

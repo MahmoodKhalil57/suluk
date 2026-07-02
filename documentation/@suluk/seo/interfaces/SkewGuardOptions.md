@@ -6,7 +6,7 @@
 
 # Interface: SkewGuardOptions
 
-Defined in: [skew.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/skew.ts#L15)
+Defined in: [skew.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/skew.ts#L15)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [skew.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa3
 
 > `optional` **endpoint?**: `string`
 
-Defined in: [skew.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/skew.ts#L17)
+Defined in: [skew.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/skew.ts#L17)
 
 Endpoint that echoes the current deployment id in the header (default "/api/health").
 
@@ -24,7 +24,7 @@ Endpoint that echoes the current deployment id in the header (default "/api/heal
 
 > `optional` **header?**: `string`
 
-Defined in: [skew.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/skew.ts#L19)
+Defined in: [skew.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/skew.ts#L19)
 
 Response header carrying the id (default "x-deployment-id").
 
@@ -34,6 +34,6 @@ Response header carrying the id (default "x-deployment-id").
 
 > `optional` **intervalMs?**: `number`
 
-Defined in: [skew.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/skew.ts#L21)
+Defined in: [skew.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/skew.ts#L21)
 
 Poll interval ms (default 60000).

@@ -8,7 +8,7 @@
 
 > **parseEnv**(`content`): `Record`\<`string`, `string`\>
 
-Defined in: [envfile.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/envfile.ts#L59)
+Defined in: [envfile.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/env/src/envfile.ts#L59)
 
 Parse .env content → an ordered { key, value } record (raw values; encrypted ones stay as tokens).
 

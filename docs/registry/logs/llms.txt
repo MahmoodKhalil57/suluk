@@ -1,0 +1,22 @@
+# logs (registry module)
+
+> A fully-owned Effect-TS activity log over an append-only table: record an action, read a principal's recent activity. No @suluk logic package — the whole module is yours to extend.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `logsRoutes`
+- `Logs`
+- `LogsLive`
+- `activityLog`
+- `logsProvision`
+- `logsOps`
+
+## Optional
+
+### Types
+
+- `LogEntry`
+- `LogQuery`: A small, SAFE filter over the activity log (the Activity/query surface).
+- `LogBucket`: One bucket of a coarse action-count timeseries (count of matching rows per distinct `action`).

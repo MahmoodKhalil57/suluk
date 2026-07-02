@@ -6,7 +6,7 @@
 
 # Interface: ArticleInput
 
-Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L54)
+Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L54)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **author?**: `string`
 
-Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L54)
+Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L54)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **dateModified?**: `string`
 
-Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L54)
+Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L54)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **datePublished?**: `string`
 
-Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L54)
+Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L54)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **description?**: `string`
 
-Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L54)
+Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L54)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **headline**: `string`
 
-Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L54)
+Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L54)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **image?**: `string`
 
-Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L54)
+Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L54)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **publisher?**: `Node`
 
-Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L54)
+Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L54)
 
 ***
 
@@ -70,4 +70,4 @@ Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **url?**: `string`
 
-Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L54)
+Defined in: [schema.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L54)

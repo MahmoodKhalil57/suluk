@@ -1,0 +1,66 @@
+# @suluk/billing
+
+> Stripe PLUMBING over an injected config (secret key + a mockable fetch): the HTTP transport (with the refund idempotency-key), customer/SetupIntent/PaymentIntent creation, the saved-card surface, the money-moving paths (hosted Checkout + portal + on-default-card top-up + off-session charge), Stripe Tax, the subscription mechanics over a generic SubPlan catalog, and the package-owned billing-account store. Pure Stripe wrappers — the webhook dispatch, credit grants, branded email, the pricing matrix, and refund/pooling stay in the app. Extracted from a real app (C046). CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `stripePost`: `@suluk/billing` — Stripe plumbing over an injected config (C046).
+- `stripeGet`: `@suluk/billing` — Stripe plumbing over an injected config (C046).
+- `toForm`: Stripe's bracket-nested `x-www-form-urlencoded` encoder: objects → `key[k]`, arrays → `key[i]`, scalars appended;
+ undefined/null are skipped.
+- `mockStripeFetch`: Build a mock Stripe `fetch`.
+- `createCustomer`: Create a Stripe customer for the user (the caller persists the id).
+- `createSetupIntent`: Create a $0 SetupIntent to vault a card without charging ("Add card"). Returns the client secret.
+- `createPaymentIntent`: Create a PaymentIntent for an on-site one-time top-up (saves the card; the webhook credits it). Returns the client secret.
+- `listPaymentMethods`: List a customer's saved cards (each with its billing address), marking the invoice default.
+- `defaultCard`: The customer's DEFAULT saved card — its id (to charge) + its billing address (to locate tax).
+- `defaultPaymentMethodId`: The customer's default payment-method id (to charge off-session), or null.
+- `ownsPaymentMethod`: Whether `pmId` belongs to `customerId` — guards set-default / detach against another customer's card.
+- `setDefaultPaymentMethod`: Make `pmId` the customer's default payment method for invoices.
+- `setSubscriptionDefaultCard`: Point an ACTIVE subscription at `pmId` too, so changing the default card moves the recurring charge to it.
+- `detachPaymentMethod`: Detach (remove) a saved card from the customer.
+- `setSubscriptionCancel`: Schedule the subscription to cancel at the period end (`cancel=true`) or resume it (`cancel=false`).
+- `payOpenInvoice`: Best-effort: if the subscription's latest invoice is still OPEN (a failed renewal), retry it NOW.
+- `createCheckout`: Create a Stripe Checkout Session (one-time top-up) — the hosted FALLBACK to the on-site Payment Element.
+- `createSubscriptionCheckout`: Stripe Checkout in SUBSCRIPTION mode (recurring). subscription_data.metadata carries who + how many credits/cycle.
+- `createPortalSessionForCustomer`: Open the Stripe billing portal (manage/cancel) for an existing customer. Returns the URL; throws on a Stripe error.
+- `createPaymentIntentOnDefaultCard`: Create a PaymentIntent on the customer's SAVED DEFAULT card — the one-click top-up path.
+- `chargeOffSession`: An OFF-SESSION charge on a saved card (auto-top-up).
+- `calculateTax`: Sales-tax / VAT for an on-site or auto top-up.
+- `recordTaxTransaction`: Record a finished tax calculation as a Tax Transaction (the compliance/reporting step), keyed to a `reference`
+ (e.
+- `planById`: The app's plan whose id is `id`, or undefined — the generic lookup the orchestrators use against the injected catalog.
+- `planByPrice`: The plan whose monthly price is exactly `priceCents` (each tier has a distinct price), or undefined — maps a live
+ Stripe item price back to a plan...
+- `ceilingFor`: The "paid ceiling" for the CURRENT cycle = the highest plan price already CHARGED this cycle.
+- `ensurePlanPrice`: Find (by lookup_key) or create the recurring Stripe Price for a plan.
+- `createSubscriptionOnDefaultCard`: Create a subscription ON the saved default card (one-click).
+- `getSubscriptionStatus`
+- `changeSubscriptionPlan`
+- `billingCustomerId`: The user's Stripe customer id, or null when they have no billing account yet.
+- `billingSubscriptionId`: The user's recorded Stripe subscription id, or null when they have no subscription.
+- `linkBillingCustomer`: Persist the user's Stripe customer id WITHOUT touching subscriptionId — so a one-time top-up never clears a
+ subscriber's `subscriptionId` (unlike ...
+- `upsertBillingAccount`: Persist customer + subscription together (the subscribe path sets both). Idempotent on the userId PK.
+- `clearSubscription`: Clear the recorded subscription (on customer.subscription.deleted) — leaves the customer id (+ its saved card) intact.
+- `billingAccount`
+
+## Optional
+
+### Types
+
+- `PaymentMethodWire`: A payment method as the billing panel shows it — card + its billing address + whether it's the customer's default.
+- `TaxAddress`: A buyer's tax location (from a saved card's billing address).
+- `CheckoutOpts`
+- `SubscriptionCheckoutOpts`
+- `TopupMeta`: The metadata tag the webhook reads to decide whether (and how) to credit a PaymentIntent.
+- `TaxResult`
+- `TaxLocation`: A buyer's tax location.
+- `SubPlan`: A subscription plan as the app prices it — generic shape; the app derives `priceCents`/`credits` from its COGS model.
+- `SubscriptionBranding`: Branding seam for the Stripe Product/Price a plan creates — app-controlled so find-or-create stays stable + on-brand.
+- `SubscriptionStatus`: The user's CURRENT subscription as the UI needs it (plan + status + period end + pending-cancel + the cycle's paid
+ ceiling), or null when there's ...
+- `ChangePlanResult`: Change the subscriber's plan IN PLACE against the cycle's PAID CEILING (see ceilingFor).
+- `BillingDB`: The injected DB handle. Prod is drizzle/d1; tests bridge drizzle/bun-sqlite to this type (a runtime-identity narrow).

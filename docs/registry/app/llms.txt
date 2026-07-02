@@ -1,0 +1,20 @@
+# app (registry module)
+
+> The base Hono app (error handling + health) plus the Effect-TS `Db` service every feature module depends on. The foundation feature services build on.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `trustedOrigins`: The app-owned trusted-origin allowlist (from `TRUSTED_ORIGINS`). Keep it in sync with auth's `trustedOrigins`.
+- `createApp`: Create the base app. Mount a feature module's router: `app.route("/credits", creditsRoutes())`.
+- `DbLive`: Build the `Db` layer for one request from the Worker bindings.
+- `Db`: The database as an Effect service — every feature service depends on it; the app provides it per-request from the
+ D1 binding, so services never re...
+
+## Optional
+
+### Types
+
+- `Bindings`
+- `App`

@@ -8,6 +8,6 @@
 
 > `const` **DEV\_DEPS**: `Record`\<`string`, `string`\>
 
-Defined in: [catalog.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/catalog.ts#L44)
+Defined in: [catalog.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/catalog.ts#L44)
 
 The generated app's devDeps (the Workers + TS toolchain).

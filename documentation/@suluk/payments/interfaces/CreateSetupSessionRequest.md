@@ -6,7 +6,7 @@
 
 # Interface: CreateSetupSessionRequest
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:213](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L213)
+Defined in: [tooling/ts/packages/payments/src/types.ts:213](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L213)
 
 Create a SETUP session to vault a card without charging ("add card").
 
@@ -16,7 +16,7 @@ Create a SETUP session to vault a card without charging ("add card").
 
 > **customerId**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:214](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L214)
+Defined in: [tooling/ts/packages/payments/src/types.ts:214](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L214)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:214](https://github.com/M
 
 > `optional` **metadata?**: `Record`\<`string`, `string`\>
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:215](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L215)
+Defined in: [tooling/ts/packages/payments/src/types.ts:215](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L215)

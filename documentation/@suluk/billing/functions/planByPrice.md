@@ -8,7 +8,7 @@
 
 > **planByPrice**(`plans`, `priceCents`): [`SubPlan`](../interfaces/SubPlan.md) \| `undefined`
 
-Defined in: [packages/billing/src/subscriptions.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/subscriptions.ts#L26)
+Defined in: [packages/billing/src/subscriptions.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/billing/src/subscriptions.ts#L26)
 
 The plan whose monthly price is exactly `priceCents` (each tier has a distinct price), or undefined — maps a live
  Stripe item price back to a plan (e.g. resolving the paid-ceiling plan).

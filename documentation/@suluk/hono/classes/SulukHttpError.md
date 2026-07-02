@@ -6,7 +6,7 @@
 
 # Class: SulukHttpError
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L32)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L32)
 
 A typed, throwable HTTP error. `tag` selects the status + title from the frozen core tables; the instance
 renders to a Problem Details body via [toProblem](#toproblem). Throw one from a handler; `onError()` maps it.
@@ -21,7 +21,7 @@ renders to a Problem Details body via [toProblem](#toproblem). Throw one from a 
 
 > **new SulukHttpError**(`tag`, `init?`): `SulukHttpError`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L40)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L40)
 
 #### Parameters
 
@@ -61,7 +61,7 @@ The cause of the error.
 
 > `readonly` `optional` **detail?**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L53)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L53)
 
 the human `detail` (distinct from Error.message, which mirrors it for stack-trace readability).
 
@@ -71,7 +71,7 @@ the human `detail` (distinct from Error.message, which mirrors it for stack-trac
 
 > `readonly` `optional` **errors?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L35)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L35)
 
 ***
 
@@ -79,7 +79,7 @@ Defined in: [tooling/ts/packages/hono/src/errors.ts:35](https://github.com/Mahmo
 
 > `readonly` `optional` **instance?**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L34)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L34)
 
 ***
 
@@ -87,7 +87,7 @@ Defined in: [tooling/ts/packages/hono/src/errors.ts:34](https://github.com/Mahmo
 
 > `readonly` `optional` **logContext?**: `unknown`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L38)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L38)
 
 ***
 
@@ -119,7 +119,7 @@ Defined in: tooling/ts/node\_modules/.bun/typescript@6.0.3/node\_modules/typescr
 
 > `readonly` `optional` **problemType?**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L36)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L36)
 
 ***
 
@@ -127,7 +127,7 @@ Defined in: [tooling/ts/packages/hono/src/errors.ts:36](https://github.com/Mahmo
 
 > `readonly` `optional` **retryAfterMs?**: `number`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L37)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L37)
 
 ***
 
@@ -147,7 +147,7 @@ Defined in: tooling/ts/node\_modules/.bun/typescript@6.0.3/node\_modules/typescr
 
 > `readonly` **tag**: [`ErrorTag`](../../core/type-aliases/ErrorTag.md)
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L33)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L33)
 
 ***
 
@@ -203,7 +203,7 @@ The maximum number of stack frames to capture.
 
 > **get** **retryAfterSeconds**(): `number` \| `undefined`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L61)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L61)
 
 seconds for the Retry-After header (RateLimitedError only) — `ceil(retryAfterMs/1000)`, else undefined.
 
@@ -219,7 +219,7 @@ seconds for the Retry-After header (RateLimitedError only) — `ceil(retryAfterM
 
 > **get** **status**(): [`ProblemStatus`](../../core/type-aliases/ProblemStatus.md)
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L56)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L56)
 
 the HTTP status this error renders as (the frozen core mapping).
 
@@ -233,7 +233,7 @@ the HTTP status this error renders as (the frozen core mapping).
 
 > **toProblem**(): [`ProblemDetails`](../../core/interfaces/ProblemDetails.md)
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/errors.ts#L66)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/hono/src/errors.ts#L66)
 
 render to the canonical RFC-9457 Problem Details body.
 

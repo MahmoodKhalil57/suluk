@@ -1,0 +1,147 @@
+# @suluk/agents
+
+> Suluk Agent composition (C027): lint + project an `x-suluk-agents` map (skills + deterministic routes + by-name sub-agents) to a Claude plugin AND an OpenRouter/OpenAI-compatible manifest — one contract, two artifacts, zero network at generate time. Determinism is DECLARED not enforced; the matcher never reads an agent field. CANDIDATE tooling — NOT official OAS.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `lintAgents`: `@suluk/agents` — the Suluk Agent composition layer (C027).
+- `lintOk`: True ⇒ no error-severity findings (warnings/info are advisory).
+- `assertAgentInstallable`: Convenience: lint a single agent's existence + errors, throwing the first error (for fail-loud projection).
+- `parsePointer`: Parse a `#/a/b~1c/d` fragment pointer into its decoded tokens (or null if not a local fragment pointer).
+- `resolveOperationRef`: Resolve a route's `operationRef` to an EXISTING operation.
+- `agentMap`: The agent map, or an empty record.
+- `subAgentKey`: Decode a sub-agent ref `#/x-suluk-agents/<key>` to its key (or null if malformed / not an agent ref).
+- `childKeys`: Direct sub-agent keys of an agent (decoded; may include dangling keys — the caller lint-checks existence).
+- `findCycle`: Detect a cycle in the agent graph reachable from `root`, following by-name sub-agent refs.
+- `subtreeDepth`: Longest sub-agent path depth below `root` (a leaf — no sub-agents — is depth 0).
+- `deepStrings`: Every string value reachable in an object (for the request-value-selector D1 scan).
+- `resolveInstruction`: Resolve a pinned instruction snapshot from an `instructions` map, accepting BOTH key conventions used across the
+package: the QUALIFIED `"<agent>/<...
+- `contentHash`: A short, stable content hash of an instructions snapshot.
+- `renderSkillMd`: Render a Claude SKILL.
+- `projectClaudePlugin`
+- `projectOpenRouter`
+- `projectCloudflareAgent`: Project an agent → an owned Cloudflare Agents-SDK scaffold + the Durable Object descriptors.
+- `projectNodeAgent`: Project one agent → an owned Bun/Node agent-server scaffold. Pure, fail-loud.
+- `routeToolDef`: Derive a route's tool-def from the contract (name + description + input schema + approval gate + paid-tool price).
+- `paidToolPrice`: Derive an x402 `paidTool` price from an operation's declared `x-suluk-cost` (a `CostModel`, read STRUCTURALLY — no
+`@suluk/cost` dep).
+- `reachableSurface`: The statically-enumerable reachable surface of an agent: its own route keys (the wire ids) + every route key of
+every transitively-reachable sub-ag...
+- `residentSurface`: The RESIDENT surface of an agent (C027) — its own routes whose `tier` is not `cold-tail` (the default-visible
+tool set).
+- `residentToolNames`: The RESIDENT served-tool NAMES across an agent's whole REACHABLE surface (C027 tier-trim serving) — every route key
+(the served wire id) whose `tie...
+- `assertServedSubset`: OVER-SERVE auditor: assert the tools a server actually exposes are a SUBSET of the declared reachable surface.
+- `assertServedSubsetGoverned`: POLICY-AWARE OVER-SERVE (C028): when an operator policy governs the agent, the served tools must be a subset of
+the POST-POLICY effective surface —...
+- `assertDefaultServedResident`: TIER-TRIM CONFORMANCE: the DEFAULT served tool set must contain NO cold-tail tool (those belong behind
+`discover_tools`).
+- `verifySkillFreshness`: SKILL-FRESHNESS: a skill's declared `provenance.
+- `conformanceOk`: True ⇒ no error-severity conformance findings (warnings are advisory). Mirrors `lintOk` — the served-fact gate.
+- `intersectScope`: INTERSECTION with null-as-unconstrained: ∩(null, X)=X, ∩(X, null)=X, ∩(X, Y)=X∩Y.
+- `analyzeScopes`: Walk the agent tree from `root`, computing each reachable node's effective (intersected) scope and every per-edge
+escalation.
+- `localEscalations`: A LOCAL author-time escalation check for one agent's direct children: a child may not DECLARE a permission its
+immediate parent does not grant (und...
+- `agentManifest`: Build the canonical, signable manifest for an agent and its reachable sub-tree. Pure; does not throw.
+- `verifyAgentFreshness`: Verify a signed manifest's skills against the CURRENT served snapshots: each skill's signed `contentHash` must
+equal the hash of its current snapshot.
+- `policyConstrain`: Apply ONE operator policy to an agent — a monotone MEET. Returns the narrowed envelope + an audit of every cut.
+- `effectiveUnderPolicies`: Apply ALL governing policies to an agent (MEET is associative/commutative — compose left-to-right).
+- `policiesFor`: All policies in the document that govern `agentKey`.
+- `policyAppliesTo`: Does this policy govern `agentKey`? (empty/absent appliesTo ⇒ all agents.)
+- `lintPolicy`: Lint every operator policy: D1 selector-rejection, dangling appliesTo, unsatisfiability, widening, cap<estimate.
+- `policyOk`: True ⇒ no error-severity policy findings.
+- `contextReport`: Compute the context-intelligence report (load + right-sizing + model fit) for every agent in the document.
+- `suggestUnflatten`: When an agent is over its target, the cheapest decomposition: which resident tools to push to cold-tail.
+- `resolveSkillModels`: Run the catalog selector for a skill from its declared NEEDS + the analyzer load.
+- `skillModels`: The public seam: the models for a skill — its DECLARED list (opt-out) or the catalog-SELECTED ranked ids, resolved
+to a runtime TARGET (pin / route...
+- `deriveCQT`: cost_quality_tradeoff 0.
+- `selectModel`
+- `deriveRequirements`: Derive HardFilters from an agent/skill's declared needs + the analyzer's load (the C027 seam).
+- `agentDiagram`: Build the agent's composition hierarchy. Cycle-safe: a back-edge on the current path becomes a marked leaf.
+- `agentDiagramHtml`: Render the agent as ONE self-contained, interactive HTML page (collapsible + zoomable D3 tree).
+- `gradeAgent`: Grade ONE agent A–F by aggregating the package's existing checks (+ two structure checks). Pure & static by default.
+- `gradeAgents`: Grade EVERY agent in the document (weakest first) — the rollup. Computes the whole-doc passes ONCE (not per agent).
+- `assertAgentGrade`: CI GATE (the hard incentive, mirrors `@suluk/harden`'s assertGrade): throw if the agent's grade is below `min`.
+- `agentGradeOk`: True ⇒ the agent's grade is at least `min`.
+- `gradeOf`: harden's letter thresholds, mirrored so the two grades share one ORDINAL scale (Stage 1.5 combines LETTERS).
+- `agentLevel`: An agent's pyramid LEVEL: its composition height above the deterministic route-floor.
+- `layerReport`: Build the whole-document pyramid view.
+- `agenticPatterns`: The agentic patterns an agent's composition SHAPE affords (advisory; the runtime picks the actual trajectory).
+- `affordedPatterns`: Convenience: just the pattern names an agent's shape affords (advisory).
+- `resourceCatalog`: The agent's reachable loadable-resource catalog — its DIRECT `resources` refs resolved against the top-level map
+(each sub-agent owns its own catal...
+- `lintResources`: Lint the resources catalog + every agent's refs into it: catalog entries must be well-formed (description, valid
+kind, pinned provenance), agent re...
+- `resourcesOk`: True ⇒ no error-severity resource finding (the install-gate predicate for the resources facet).
+- `resourceMap`: The top-level resources catalog (empty when absent).
+- `resourceKey`: Decode a resource ref `#/x-suluk-resources/<key>` to its key (or null if malformed / not a resource ref).
+- `runtimeProviders`: The runtime-provider registry. Add new targets here; the interface is the contract (mirrors `@suluk/deploy`'s `providers`).
+- `cloudflareRuntime`: The Cloudflare adapter — wraps `projectCloudflareAgent` into the generic seam (its `durableObjects` → the deploy hint).
+- `nodeRuntime`: The Node/Bun adapter — wraps `projectNodeAgent`. A plain long-lived process, so the deploy hint carries no infra.
+- `SEED_CATALOG`: Illustrative seed — NOT the live catalog. Tiers reflect coarse public standing as of asOf; UNKNOWN is honest.
+- `PROFILES`
+- `FLOOR_LEVEL`: Routes — the deterministic floor — sit at level 0. The lowest an orchestrating agent can sit is level 1.
+
+## Optional
+
+### Types
+
+- `LintFinding`: `@suluk/agents` — the Suluk Agent composition layer (C027).
+- `Severity`: `@suluk/agents` — the Suluk Agent composition layer (C027).
+- `OperationLocus`
+- `ResolvedOperation`
+- `SkillRenderInput`
+- `ClaudePluginArtifacts`
+- `OpenRouterAgentManifest`
+- `OpenRouterFunctionTool`
+- `CloudflareAgentArtifacts`
+- `NodeAgentArtifacts`
+- `AgentRuntimeProvider`: A runtime target. PURE: it projects the agent into owned source; the host writes the files + deploys (mirrors DeployProvider).
+- `AgentRuntimeArtifacts`: What every runtime adapter returns: owned source + the reachable sub-agent list + the deploy hint.
+- `RuntimeDeployHint`: The provider-specific deploy hint — a discriminated union (tightened from `Record<string,unknown>` once a 2nd adapter
+landed, per the C034 follow-up).
+- `RouteToolDef`: A tool DERIVED from a route's operation — the runtime-agnostic shape every adapter renders its own way.
+- `PaidToolPrice`: An x402 `paidTool` price derived from a route's declared `x-suluk-cost` (C026/C035).
+- `ConformanceFinding`
+- `Scope`
+- `ScopeEscalation`
+- `AgentManifest`
+- `AgentManifestNode`
+- `AgentManifestSkill`
+- `AgentManifestRoute`
+- `AgentManifestGoverned`: The operator-effective surface after x-suluk-policy narrowing (present only when a policy governs the agent).
+- `EffectiveAgent`
+- `EffectiveSkill`
+- `PolicyNarrowing`
+- `PolicyConstrainResult`
+- `ContextReport`
+- `AgentContextLoad`
+- `UnflattenSuggestion`
+- `FlattenSuggestion`: The dual of unflatten: a thin/redundant layer worth collapsing UP into its parent.
+- `ModelFit`: Per declared candidate model: does its context window hold this agent's load? (window null ⇒ unknown model.)
+- `ToolContextCost`
+- `SkillModelResolution`
+- `ResolvedTarget`: How a skill RESOLVES to a runtime model (C030, council wf_75f87ab6-b1b — unanimous hybrid).
+- `ModelCatalog`
+- `SelectResult`
+- `Preferences`: Preference — RANKS the survivors. A named profile is the 90% case; the escape hatch is ≤4 small int weights.
+- `HardFilters`: Hard requirements — these FILTER (can empty the set ⇒ fail-loud), never rank.
+- `DiagramNode`
+- `DiagramKind`
+- `AgentGrade`
+- `AgentGradeReport`
+- `AgentGradeFinding`
+- `GradeDimension`
+- `GradeSeverity`
+- `AgentLayer`: One agent's row in the pyramid view: where it sits + what it composes + the three static-observability signals.
+- `LayerReport`
+- `AgenticPattern`
+- `PatternAffordance`
+- `CatalogEntry`: One entry in an agent's loadable catalog — the CF Agent-Skill `get()` listing (what appears in the system prompt).
+- `ResourceFinding`

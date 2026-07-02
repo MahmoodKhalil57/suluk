@@ -1,0 +1,1171 @@
+# @suluk/agents
+
+> Suluk Agent composition (C027): lint + project an `x-suluk-agents` map (skills + deterministic routes + by-name sub-agents) to a Claude plugin AND an OpenRouter/OpenAI-compatible manifest — one contract, two artifacts, zero network at generate time. Determinism is DECLARED not enforced; the matcher never reads an agent field. CANDIDATE tooling — NOT official OAS.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### lintAgents
+
+`@suluk/agents` — the Suluk Agent composition layer (C027). Lint + project an `x-suluk-agents` map (skills +
+deterministic routes + by-name sub-agents) into a Claude plugin AND an OpenRouter/OpenAI-compatible manifest:
+one contract, two artifacts, zero network at generate time. This package is the OTHER side of the D1 wall —
+it reads `x-suluk-agents`, which @suluk/core's matcher (buildAda/matchRequest) provably never does. Selection
+and tiering are runtime-advisory; determinism is DECLARED, never enforced. CANDIDATE tooling — NOT official OAS.
+
+NB (the C027 module-boundary invariant): @suluk/core MUST NEVER import @suluk/agents. The dependency is one-way.
+test/core-boundary.test.ts enforces it as a maintained tripwire.
+
+```ts
+lintAgents(doc: OpenAPIv4Document): LintFinding[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `LintFinding[]`
+
+### lintOk
+
+True ⇒ no error-severity findings (warnings/info are advisory).
+
+```ts
+lintOk(findings: LintFinding[]): boolean
+```
+
+**Parameters:**
+- `findings: LintFinding[]` — 
+
+**Returns:** `boolean`
+
+### assertAgentInstallable
+
+Convenience: lint a single agent's existence + errors, throwing the first error (for fail-loud projection).
+
+```ts
+assertAgentInstallable(doc: OpenAPIv4Document, agentName: string): void
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+
+### parsePointer
+
+Parse a `#/a/b~1c/d` fragment pointer into its decoded tokens (or null if not a local fragment pointer).
+
+```ts
+parsePointer(ref: string): string[] | null
+```
+
+**Parameters:**
+- `ref: string` — 
+
+**Returns:** `string[] | null`
+
+### resolveOperationRef
+
+Resolve a route's `operationRef` to an EXISTING operation. Supports the three operation loci:
+ - `#/paths/<pathTemplate>/requests/<name>`  (a pathItem request — the common case)
+ - `#/webhooks/<name>`                        (an incoming webhook operation)
+ - `#/x-suluk-jobs/<name>`                    (a non-HTTP job, C025)
+Returns null when the ref dangles (the resolve-lint failure — Conin's MCP-only `run_core_primitive`).
+
+```ts
+resolveOperationRef(doc: OpenAPIv4Document, ref: string): ResolvedOperation | null
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `ref: string` — 
+
+**Returns:** `ResolvedOperation | null`
+
+### agentMap
+
+The agent map, or an empty record.
+
+```ts
+agentMap(doc: OpenAPIv4Document): Record<string, SulukAgent>
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `Record<string, SulukAgent>`
+
+### subAgentKey
+
+Decode a sub-agent ref `#/x-suluk-agents/<key>` to its key (or null if malformed / not an agent ref).
+
+```ts
+subAgentKey(ref: string): string | null
+```
+
+**Parameters:**
+- `ref: string` — 
+
+**Returns:** `string | null`
+
+### childKeys
+
+Direct sub-agent keys of an agent (decoded; may include dangling keys — the caller lint-checks existence).
+
+```ts
+childKeys(agent: SulukAgent): { local: string; key: string | null; ref: string }[]
+```
+
+**Parameters:**
+- `agent: SulukAgent` — 
+
+**Returns:** `{ local: string; key: string | null; ref: string }[]`
+
+### findCycle
+
+Detect a cycle in the agent graph reachable from `root`, following by-name sub-agent refs. Returns the cycle
+path (keys) if one exists, else null. JSON-Schema cannot express acyclicity — this is the author/install lint
+the C027 gate requires. (Same shape as the shipped builder/compose cycle detection, C021.)
+
+```ts
+findCycle(map: Record<string, SulukAgent>, root: string): string[] | null
+```
+
+**Parameters:**
+- `map: Record<string, SulukAgent>` — 
+- `root: string` — 
+
+**Returns:** `string[] | null`
+
+### subtreeDepth
+
+Longest sub-agent path depth below `root` (a leaf — no sub-agents — is depth 0). Returns Infinity if a cycle is
+reachable. `maxDepth` on an agent must be >= this for its subtree.
+
+```ts
+subtreeDepth(map: Record<string, SulukAgent>, root: string, seen: Set<string>): number
+```
+
+**Parameters:**
+- `map: Record<string, SulukAgent>` — 
+- `root: string` — 
+- `seen: Set<string>` — 
+
+**Returns:** `number`
+
+### deepStrings
+
+Every string value reachable in an object (for the request-value-selector D1 scan).
+
+```ts
+deepStrings(v: unknown, path: string): Generator<{ path: string; value: string }>
+```
+
+**Parameters:**
+- `v: unknown` — 
+- `path: string` — 
+
+**Returns:** `Generator<{ path: string; value: string }>`
+
+### resolveInstruction
+
+Resolve a pinned instruction snapshot from an `instructions` map, accepting BOTH key conventions used across the
+package: the QUALIFIED `"<agent>/<skill>"` key (unambiguous — two agents can share a skill name; the convention
+`context`/`grade` use) and the bare `"<skill>"` key (the original projection convention; back-compat). Qualified wins.
+One resolver everywhere means a single instructions map works for every projection AND the grade/context analyzer.
+
+```ts
+resolveInstruction(instructions: Record<string, string> | undefined, agentName: string, skillName: string): string | undefined
+```
+
+**Parameters:**
+- `instructions: Record<string, string> | undefined` — 
+- `agentName: string` — 
+- `skillName: string` — 
+
+**Returns:** `string | undefined`
+
+### contentHash
+
+A short, stable content hash of an instructions snapshot.
+
+```ts
+contentHash(instructions: string): string
+```
+
+**Parameters:**
+- `instructions: string` — 
+
+**Returns:** `string`
+
+### renderSkillMd
+
+Render a Claude SKILL.md: YAML frontmatter (name + description) + a GENERATED stamp carrying source, the
+computed contentHash, and version — then the instructions body verbatim. Deterministic in its inputs.
+
+```ts
+renderSkillMd(input: SkillRenderInput): string
+```
+
+**Parameters:**
+- `input: SkillRenderInput` — 
+
+**Returns:** `string`
+
+### projectClaudePlugin
+
+```ts
+projectClaudePlugin(doc: OpenAPIv4Document, agentName: string, opts: ClaudePluginOptions): ClaudePluginArtifacts
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `opts: ClaudePluginOptions` — 
+
+**Returns:** `ClaudePluginArtifacts`
+
+### projectOpenRouter
+
+```ts
+projectOpenRouter(doc: OpenAPIv4Document, agentName: string, opts: OpenRouterOptions): OpenRouterAgentManifest
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `opts: OpenRouterOptions` — 
+
+**Returns:** `OpenRouterAgentManifest`
+
+### projectCloudflareAgent
+
+Project an agent → an owned Cloudflare Agents-SDK scaffold + the Durable Object descriptors. Pure, fail-loud.
+Scaffolds the named agent AND every reachable sub-agent (each its own DO class file); the worker binds them all.
+`opts.className` renames ONLY the root; sub-agents use PascalCase of their x-suluk-agents key.
+
+```ts
+projectCloudflareAgent(doc: OpenAPIv4Document, agentName: string, opts: CloudflareAgentOptions): CloudflareAgentArtifacts
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `opts: CloudflareAgentOptions` — 
+
+**Returns:** `CloudflareAgentArtifacts`
+
+### projectNodeAgent
+
+Project one agent → an owned Bun/Node agent-server scaffold. Pure, fail-loud.
+
+```ts
+projectNodeAgent(doc: OpenAPIv4Document, agentName: string, opts: NodeAgentOptions): NodeAgentArtifacts
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `opts: NodeAgentOptions` — 
+
+**Returns:** `NodeAgentArtifacts`
+
+### routeToolDef
+
+Derive a route's tool-def from the contract (name + description + input schema + approval gate + paid-tool price).
+
+```ts
+routeToolDef(doc: OpenAPIv4Document, routeKey: string, operationRef: string): RouteToolDef
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `routeKey: string` — 
+- `operationRef: string` — 
+
+**Returns:** `RouteToolDef`
+
+### paidToolPrice
+
+Derive an x402 `paidTool` price from an operation's declared `x-suluk-cost` (a `CostModel`, read STRUCTURALLY — no
+`@suluk/cost` dep). The price is the FLAT (per-call/per-request) portion: `estimateMicroUsd` if given, else the sum
+of flat components' `microUsd`. Usage-metered components (per-token/second/mb/unit) are NEVER folded into the fixed
+number — they only set `metered` (so the projection can point at MPP `session` instead). Returns `null` when no
+chargeable cost is declared (a free tool stays a plain `tool()`). DECLARED, never enforced (C026 honesty).
+
+```ts
+paidToolPrice(cost: unknown): PaidToolPrice | null
+```
+
+**Parameters:**
+- `cost: unknown` — 
+
+**Returns:** `PaidToolPrice | null`
+
+### reachableSurface
+
+The statically-enumerable reachable surface of an agent: its own route keys (the wire ids) + every route key of
+every transitively-reachable sub-agent. Worst-case authz reach, computed with ZERO requests. (Cycle-safe.)
+
+```ts
+reachableSurface(doc: OpenAPIv4Document, agentName: string): { tools: string[]; agents: string[] }
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+
+**Returns:** `{ tools: string[]; agents: string[] }`
+
+### residentSurface
+
+The RESIDENT surface of an agent (C027) — its own routes whose `tier` is not `cold-tail` (the default-visible
+tool set). Cold-tail routes are revealed via `discover_tools`, never in the default list. This is the set a
+conforming serving adapter must trim to for the context-reduction claim to bind.
+
+```ts
+residentSurface(doc: OpenAPIv4Document, agentName: string): string[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+
+**Returns:** `string[]`
+
+### residentToolNames
+
+The RESIDENT served-tool NAMES across an agent's whole REACHABLE surface (C027 tier-trim serving) — every route key
+(the served wire id) whose `tier` is not `cold-tail`, across the agent AND its transitively-reachable sub-agents.
+Feed this to `@suluk/mcp` `mcpApp({ resident })`: the cold-tail is then withheld from the default `tools/list` and
+revealed on demand via `discover_tools`, never widening the declared surface. This is the runtime SERVING
+counterpart to `projectOpenRouter`'s resident/discoverable split — together they make the over-serve gap closeable.
+(Cycle-safe; mirrors `reachableSurface`.)
+
+```ts
+residentToolNames(doc: OpenAPIv4Document, agentName: string): string[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+
+**Returns:** `string[]`
+
+### assertServedSubset
+
+OVER-SERVE auditor: assert the tools a server actually exposes are a SUBSET of the declared reachable surface.
+Any served tool NOT in the surface is a WIDENING — the contract is no longer the source of truth for authz reach.
+
+```ts
+assertServedSubset(doc: OpenAPIv4Document, agentName: string, servedToolNames: string[]): ConformanceFinding[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `servedToolNames: string[]` — 
+
+**Returns:** `ConformanceFinding[]`
+
+### assertServedSubsetGoverned
+
+POLICY-AWARE OVER-SERVE (C028): when an operator policy governs the agent, the served tools must be a subset of
+the POST-POLICY effective surface — a served tool the operator DENIED is a conformance failure (the operator cap
+must hold on the wire). With no governing policy this is identical to assertServedSubset.
+
+```ts
+assertServedSubsetGoverned(doc: OpenAPIv4Document, agentName: string, servedToolNames: string[]): ConformanceFinding[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `servedToolNames: string[]` — 
+
+**Returns:** `ConformanceFinding[]`
+
+### assertDefaultServedResident
+
+TIER-TRIM CONFORMANCE: the DEFAULT served tool set must contain NO cold-tail tool (those belong behind
+`discover_tools`). A cold-tail tool in the default list is a silent no-op of the tier label — the reduction the
+tiering thesis promises is not actually being delivered on the served path.
+
+```ts
+assertDefaultServedResident(doc: OpenAPIv4Document, agentName: string, defaultServedToolNames: string[]): ConformanceFinding[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `defaultServedToolNames: string[]` — 
+
+**Returns:** `ConformanceFinding[]`
+
+### verifySkillFreshness
+
+SKILL-FRESHNESS: a skill's declared `provenance.contentHash` must match the hash of the CURRENT served snapshot.
+A mismatch means the served preprompt drifted after the contentHash was minted — an unsigned change in production
+(the C021 supply-chain concern). No declared hash ⇒ a warning (drift is undetectable).
+
+```ts
+verifySkillFreshness(declaredHash: string | undefined, currentSnapshot: string): ConformanceFinding[]
+```
+
+**Parameters:**
+- `declaredHash: string | undefined` — 
+- `currentSnapshot: string` — 
+
+**Returns:** `ConformanceFinding[]`
+
+### conformanceOk
+
+True ⇒ no error-severity conformance findings (warnings are advisory). Mirrors `lintOk` — the served-fact gate.
+
+```ts
+conformanceOk(findings: ConformanceFinding[]): boolean
+```
+
+**Parameters:**
+- `findings: ConformanceFinding[]` — 
+
+**Returns:** `boolean`
+
+### intersectScope
+
+INTERSECTION with null-as-unconstrained: ∩(null, X)=X, ∩(X, null)=X, ∩(X, Y)=X∩Y.
+
+```ts
+intersectScope(a: Scope, b: Scope): Scope
+```
+
+**Parameters:**
+- `a: Scope` — 
+- `b: Scope` — 
+
+**Returns:** `Scope`
+
+### analyzeScopes
+
+Walk the agent tree from `root`, computing each reachable node's effective (intersected) scope and every per-edge
+escalation. Cycle-guarded (lint rejects cycles independently); on a DAG/tree each node's effective is its first
+reaching path's intersection — sufficient for the shallow agent graphs C027 ships.
+
+```ts
+analyzeScopes(doc: OpenAPIv4Document, root: string): { effective: Record<string, Scope>; escalations: ScopeEscalation[] }
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `root: string` — 
+
+**Returns:** `{ effective: Record<string, Scope>; escalations: ScopeEscalation[] }`
+
+### localEscalations
+
+A LOCAL author-time escalation check for one agent's direct children: a child may not DECLARE a permission its
+immediate parent does not grant (under intersection it would be silently dropped — flag the author's confusion /
+a confused-deputy attempt). Used by the linter; the transitive picture is analyzeScopes.
+
+```ts
+localEscalations(doc: OpenAPIv4Document, agentName: string): ScopeEscalation[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+
+**Returns:** `ScopeEscalation[]`
+
+### agentManifest
+
+Build the canonical, signable manifest for an agent and its reachable sub-tree. Pure; does not throw.
+
+```ts
+agentManifest(doc: OpenAPIv4Document, agentName: string, opts: { catalog?: ModelCatalog }): AgentManifest
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `opts: { catalog?: ModelCatalog }` — 
+
+**Returns:** `AgentManifest`
+
+### verifyAgentFreshness
+
+Verify a signed manifest's skills against the CURRENT served snapshots: each skill's signed `contentHash` must
+equal the hash of its current snapshot. A mismatch ⇒ the served preprompt drifted after the signature was minted
+(a stale/unsigned change). A skill with no declared `contentHash` ⇒ unpinned (drift undetectable). Snapshots are
+keyed qualified `"<agentKey>/<skillName>"` (preferred) OR bare `"<skillName>"` (back-compat) — the same dual-accept
+`gradeAgent` and `resolveInstruction` use, so one `snapshots` map feeds every consumer; a skill with no provided
+snapshot is skipped (cannot be checked here).
+
+```ts
+verifyAgentFreshness(manifest: AgentManifest, snapshots: Record<string, string>): ConformanceFinding[]
+```
+
+**Parameters:**
+- `manifest: AgentManifest` — 
+- `snapshots: Record<string, string>` — 
+
+**Returns:** `ConformanceFinding[]`
+
+### policyConstrain
+
+Apply ONE operator policy to an agent — a monotone MEET. Returns the narrowed envelope + an audit of every cut.
+
+```ts
+policyConstrain(agentName: string, agent: SulukAgent, policy: SulukPolicy): PolicyConstrainResult
+```
+
+**Parameters:**
+- `agentName: string` — 
+- `agent: SulukAgent` — 
+- `policy: SulukPolicy` — 
+
+**Returns:** `PolicyConstrainResult`
+
+### effectiveUnderPolicies
+
+Apply ALL governing policies to an agent (MEET is associative/commutative — compose left-to-right).
+
+```ts
+effectiveUnderPolicies(doc: OpenAPIv4Document, agentName: string): PolicyConstrainResult
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+
+**Returns:** `PolicyConstrainResult`
+
+### policiesFor
+
+All policies in the document that govern `agentKey`.
+
+```ts
+policiesFor(doc: OpenAPIv4Document, agentKey: string): SulukPolicy[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentKey: string` — 
+
+**Returns:** `SulukPolicy[]`
+
+### policyAppliesTo
+
+Does this policy govern `agentKey`? (empty/absent appliesTo ⇒ all agents.)
+
+```ts
+policyAppliesTo(policy: SulukPolicy, agentKey: string): boolean
+```
+
+**Parameters:**
+- `policy: SulukPolicy` — 
+- `agentKey: string` — 
+
+**Returns:** `boolean`
+
+### lintPolicy
+
+Lint every operator policy: D1 selector-rejection, dangling appliesTo, unsatisfiability, widening, cap<estimate.
+
+```ts
+lintPolicy(doc: OpenAPIv4Document): LintFinding[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `LintFinding[]`
+
+### policyOk
+
+True ⇒ no error-severity policy findings.
+
+```ts
+policyOk(findings: LintFinding[]): boolean
+```
+
+**Parameters:**
+- `findings: LintFinding[]` — 
+
+**Returns:** `boolean`
+
+### contextReport
+
+Compute the context-intelligence report (load + right-sizing + model fit) for every agent in the document.
+
+```ts
+contextReport(doc: OpenAPIv4Document, opts: ContextOptions): ContextReport
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `opts: ContextOptions` — 
+
+**Returns:** `ContextReport`
+
+### suggestUnflatten
+
+When an agent is over its target, the cheapest decomposition: which resident tools to push to cold-tail.
+
+```ts
+suggestUnflatten(load: AgentContextLoad, target: number | undefined): UnflattenSuggestion | null
+```
+
+**Parameters:**
+- `load: AgentContextLoad` — 
+- `target: number | undefined` — 
+
+**Returns:** `UnflattenSuggestion | null`
+
+### resolveSkillModels
+
+Run the catalog selector for a skill from its declared NEEDS + the analyzer load.
+
+```ts
+resolveSkillModels(doc: OpenAPIv4Document, agentName: string, skillName: string, catalog: ModelCatalog, minWindowRequired?: number): SelectResult
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `skillName: string` — 
+- `catalog: ModelCatalog` — 
+- `minWindowRequired: number` (optional) — 
+
+**Returns:** `SelectResult`
+
+### skillModels
+
+The public seam: the models for a skill — its DECLARED list (opt-out) or the catalog-SELECTED ranked ids, resolved
+to a runtime TARGET (pin / router / latest) under the C030 governance gate.
+
+```ts
+skillModels(doc: OpenAPIv4Document, agentName: string, skillName: string, catalog: ModelCatalog, minWindowRequired?: number): SkillModelResolution
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `skillName: string` — 
+- `catalog: ModelCatalog` — 
+- `minWindowRequired: number` (optional) — 
+
+**Returns:** `SkillModelResolution`
+
+### deriveCQT
+
+cost_quality_tradeoff 0..10 (0=quality, 10=cost) — mechanical from the profile's cost-vs-intelligence weights
+(set explicitly; do NOT inherit OpenRouter's cost-leaning default of 7).
+
+```ts
+deriveCQT(skill: SulukSkillRef | undefined): number
+```
+
+**Parameters:**
+- `skill: SulukSkillRef | undefined` — 
+
+**Returns:** `number`
+
+### selectModel
+
+```ts
+selectModel(reqs: HardFilters, prefs: Preferences, catalog: ModelCatalog): SelectResult
+```
+
+**Parameters:**
+- `reqs: HardFilters` — 
+- `prefs: Preferences` — 
+- `catalog: ModelCatalog` — 
+
+**Returns:** `SelectResult`
+
+### deriveRequirements
+
+Derive HardFilters from an agent/skill's declared needs + the analyzer's load (the C027 seam).
+
+```ts
+deriveRequirements(input: { minWindowRequired?: number; hasRoutes?: boolean; needsStructured?: boolean; inputModalities?: string[]; policy?: { modelAllowlist?: string[]; allowedRegions?: string[]; allowedLicenses?: string[]; allowedRetention?: DataRetention[] } }): HardFilters
+```
+
+**Parameters:**
+- `input: { minWindowRequired?: number; hasRoutes?: boolean; needsStructured?: boolean; inputModalities?: string[]; policy?: { modelAllowlist?: string[]; allowedRegions?: string[]; allowedLicenses?: string[]; allowedRetention?: DataRetention[] } }` — 
+
+**Returns:** `HardFilters`
+
+### agentDiagram
+
+Build the agent's composition hierarchy. Cycle-safe: a back-edge on the current path becomes a marked leaf.
+
+```ts
+agentDiagram(doc: OpenAPIv4Document, agentName: string): DiagramNode
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+
+**Returns:** `DiagramNode`
+
+### agentDiagramHtml
+
+Render the agent as ONE self-contained, interactive HTML page (collapsible + zoomable D3 tree).
+
+```ts
+agentDiagramHtml(doc: OpenAPIv4Document, agentName: string, opts: AgentDiagramOptions): string
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `opts: AgentDiagramOptions` — 
+
+**Returns:** `string`
+
+### gradeAgent
+
+Grade ONE agent A–F by aggregating the package's existing checks (+ two structure checks). Pure & static by default.
+
+```ts
+gradeAgent(doc: OpenAPIv4Document, agentName: string, opts: AgentGradeOptions): AgentGradeReport
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `opts: AgentGradeOptions` — 
+
+**Returns:** `AgentGradeReport`
+
+### gradeAgents
+
+Grade EVERY agent in the document (weakest first) — the rollup. Computes the whole-doc passes ONCE (not per agent).
+
+```ts
+gradeAgents(doc: OpenAPIv4Document, opts: AgentGradeOptions): AgentGradeReport[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `opts: AgentGradeOptions` — 
+
+**Returns:** `AgentGradeReport[]`
+
+### assertAgentGrade
+
+CI GATE (the hard incentive, mirrors `@suluk/harden`'s assertGrade): throw if the agent's grade is below `min`.
+Returns the report on pass, so a test can additionally assert on it.
+
+```ts
+assertAgentGrade(doc: OpenAPIv4Document, agentName: string, min: AgentGrade, opts: AgentGradeOptions): AgentGradeReport
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+- `min: AgentGrade` — 
+- `opts: AgentGradeOptions` — 
+
+**Returns:** `AgentGradeReport`
+
+### agentGradeOk
+
+True ⇒ the agent's grade is at least `min`.
+
+```ts
+agentGradeOk(report: AgentGradeReport, min: AgentGrade): boolean
+```
+
+**Parameters:**
+- `report: AgentGradeReport` — 
+- `min: AgentGrade` — 
+
+**Returns:** `boolean`
+
+### gradeOf
+
+harden's letter thresholds, mirrored so the two grades share one ORDINAL scale (Stage 1.5 combines LETTERS).
+
+```ts
+gradeOf(score: number): AgentGrade
+```
+
+**Parameters:**
+- `score: number` — 
+
+**Returns:** `AgentGrade`
+
+### agentLevel
+
+An agent's pyramid LEVEL: its composition height above the deterministic route-floor. A leaf agent (skills/routes
+only, no sub-agents) is **1** (it composes only the floor). An agent that composes sub-agents is **1 + max(child
+level)**. Returns `FLOOR_LEVEL` (0) for any name that is NOT an orchestrating agent (a route/leaf capability — it
+lives on the floor). Returns `Infinity` when a sub-agent cycle makes the height unbounded (a contract defect the
+cycle-linter / grade already fail on). Cycle-safe via the shared `subtreeDepth` seen-guard. Never read by D1.
+
+```ts
+agentLevel(doc: OpenAPIv4Document, name: string): number
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `name: string` — 
+
+**Returns:** `number`
+
+### layerReport
+
+Build the whole-document pyramid view. Folds, for every agent: its static LEVEL + composition counts, plus the
+three observability signals the operator asked for — hardening (`gradeAgent`), token-budget and context-waste
+(`contextReport`). Pure + static. `opts` is the SAME options bag `gradeAgent` takes (instructions / catalog /
+modelWindows / served / snapshots); pass what you have and the richer columns fill in, omit it for the structure.
+
+```ts
+layerReport(doc: OpenAPIv4Document, opts: AgentGradeOptions): LayerReport
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `opts: AgentGradeOptions` — 
+
+**Returns:** `LayerReport`
+
+### agenticPatterns
+
+The agentic patterns an agent's composition SHAPE affords (advisory; the runtime picks the actual trajectory).
+Returns `[]` for a flat agent (no sub-agents, no multi-round thinking) — a single-step tool-user affords none of
+the multi-step patterns. Unknown agent name ⇒ `[]`.
+
+```ts
+agenticPatterns(doc: OpenAPIv4Document, name: string): PatternAffordance[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `name: string` — 
+
+**Returns:** `PatternAffordance[]`
+
+### affordedPatterns
+
+Convenience: just the pattern names an agent's shape affords (advisory).
+
+```ts
+affordedPatterns(doc: OpenAPIv4Document, name: string): AgenticPattern[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `name: string` — 
+
+**Returns:** `AgenticPattern[]`
+
+### resourceCatalog
+
+The agent's reachable loadable-resource catalog — its DIRECT `resources` refs resolved against the top-level map
+(each sub-agent owns its own catalog, so this is not transitive), sorted by key. Dangling refs are skipped here
+(`lintResources` owns that error). This is the listing a projection renders into the system prompt / `SKILL.md` set.
+
+```ts
+resourceCatalog(doc: OpenAPIv4Document, agentName: string): CatalogEntry[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `agentName: string` — 
+
+**Returns:** `CatalogEntry[]`
+
+### lintResources
+
+Lint the resources catalog + every agent's refs into it: catalog entries must be well-formed (description, valid
+kind, pinned provenance), agent refs must resolve, retrieved content is flagged (advisory), and `kind: "script"` is
+flagged a warning (CF Agent-Skill script execution is EARLY/experimental — C036's honest caveat). Pure; no throw.
+
+```ts
+lintResources(doc: OpenAPIv4Document): ResourceFinding[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `ResourceFinding[]`
+
+### resourcesOk
+
+True ⇒ no error-severity resource finding (the install-gate predicate for the resources facet).
+
+```ts
+resourcesOk(doc: OpenAPIv4Document): boolean
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `boolean`
+
+### resourceMap
+
+The top-level resources catalog (empty when absent).
+
+```ts
+resourceMap(doc: OpenAPIv4Document): Record<string, SulukResource>
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `Record<string, SulukResource>`
+
+### resourceKey
+
+Decode a resource ref `#/x-suluk-resources/<key>` to its key (or null if malformed / not a resource ref).
+
+```ts
+resourceKey(ref: string): string | null
+```
+
+**Parameters:**
+- `ref: string` — 
+
+**Returns:** `string | null`
+
+### LintFinding
+
+`@suluk/agents` — the Suluk Agent composition layer (C027). Lint + project an `x-suluk-agents` map (skills +
+deterministic routes + by-name sub-agents) into a Claude plugin AND an OpenRouter/OpenAI-compatible manifest:
+one contract, two artifacts, zero network at generate time. This package is the OTHER side of the D1 wall —
+it reads `x-suluk-agents`, which @suluk/core's matcher (buildAda/matchRequest) provably never does. Selection
+and tiering are runtime-advisory; determinism is DECLARED, never enforced. CANDIDATE tooling — NOT official OAS.
+
+NB (the C027 module-boundary invariant): @suluk/core MUST NEVER import @suluk/agents. The dependency is one-way.
+test/core-boundary.test.ts enforces it as a maintained tripwire.
+
+### Severity
+
+`@suluk/agents` — the Suluk Agent composition layer (C027). Lint + project an `x-suluk-agents` map (skills +
+deterministic routes + by-name sub-agents) into a Claude plugin AND an OpenRouter/OpenAI-compatible manifest:
+one contract, two artifacts, zero network at generate time. This package is the OTHER side of the D1 wall —
+it reads `x-suluk-agents`, which @suluk/core's matcher (buildAda/matchRequest) provably never does. Selection
+and tiering are runtime-advisory; determinism is DECLARED, never enforced. CANDIDATE tooling — NOT official OAS.
+
+NB (the C027 module-boundary invariant): @suluk/core MUST NEVER import @suluk/agents. The dependency is one-way.
+test/core-boundary.test.ts enforces it as a maintained tripwire.
+
+```ts
+type Severity = "error" | "warning" | "info"
+```
+
+### OperationLocus
+
+```ts
+type OperationLocus = "path" | "webhook" | "job"
+```
+
+### ResolvedOperation
+
+### SkillRenderInput
+
+### ClaudePluginArtifacts
+
+### OpenRouterAgentManifest
+
+### OpenRouterFunctionTool
+
+### CloudflareAgentArtifacts
+
+### NodeAgentArtifacts
+
+### AgentRuntimeProvider
+
+A runtime target. PURE: it projects the agent into owned source; the host writes the files + deploys (mirrors DeployProvider).
+
+### AgentRuntimeArtifacts
+
+What every runtime adapter returns: owned source + the reachable sub-agent list + the deploy hint.
+
+### RuntimeDeployHint
+
+The provider-specific deploy hint — a discriminated union (tightened from `Record<string,unknown>` once a 2nd adapter
+landed, per the C034 follow-up). Cloudflare ships the Durable Object descriptor for `@suluk/deploy`; the Node runtime
+is a plain long-lived process with no provisioned infra. A future adapter adds a new `kind`.
+
+```ts
+type RuntimeDeployHint = { kind: "cloudflare"; durableObjects: { binding: string; className: string }[] } | { kind: "node" }
+```
+
+### RouteToolDef
+
+A tool DERIVED from a route's operation — the runtime-agnostic shape every adapter renders its own way.
+
+### PaidToolPrice
+
+An x402 `paidTool` price derived from a route's declared `x-suluk-cost` (C026/C035).
+
+### ConformanceFinding
+
+### Scope
+
+```ts
+type Scope = string[] | null
+```
+
+### ScopeEscalation
+
+### AgentManifest
+
+### AgentManifestNode
+
+### AgentManifestSkill
+
+### AgentManifestRoute
+
+### AgentManifestGoverned
+
+The operator-effective surface after x-suluk-policy narrowing (present only when a policy governs the agent).
+
+### EffectiveAgent
+
+### EffectiveSkill
+
+### PolicyNarrowing
+
+### PolicyConstrainResult
+
+### ContextReport
+
+### AgentContextLoad
+
+### UnflattenSuggestion
+
+### FlattenSuggestion
+
+The dual of unflatten: a thin/redundant layer worth collapsing UP into its parent.
+
+### ModelFit
+
+Per declared candidate model: does its context window hold this agent's load? (window null ⇒ unknown model.)
+
+### ToolContextCost
+
+### SkillModelResolution
+
+### ResolvedTarget
+
+How a skill RESOLVES to a runtime model (C030, council wf_75f87ab6-b1b — unanimous hybrid). We keep the survivor
+SET (governance + caps + min-context, the moat) and either PIN a concrete reproducible id, or DELEGATE the
+per-request pick to OpenRouter's auto-router fenced by our ENUMERATED survivor allowlist (never a wildcard).
+
+```ts
+type ResolvedTarget = { kind: "pinned"; model: string } | { kind: "router"; model: "openrouter/auto"; allowedModels: string[]; costQualityTradeoff: number; provider?: { zdr: true } } | { kind: "latest"; model: string; note: string }
+```
+
+### ModelCatalog
+
+### SelectResult
+
+### Preferences
+
+Preference — RANKS the survivors. A named profile is the 90% case; the escape hatch is ≤4 small int weights.
+
+### HardFilters
+
+Hard requirements — these FILTER (can empty the set ⇒ fail-loud), never rank.
+
+### DiagramNode
+
+### DiagramKind
+
+```ts
+type DiagramKind = "agent" | "subagent" | "group" | "skill" | "route"
+```
+
+### AgentGrade
+
+```ts
+type AgentGrade = "A" | "B" | "C" | "D" | "F"
+```
+
+### AgentGradeReport
+
+### AgentGradeFinding
+
+### GradeDimension
+
+```ts
+type GradeDimension = "lint" | "context" | "structure" | "conformance" | "freshness"
+```
+
+### GradeSeverity
+
+```ts
+type GradeSeverity = "error" | "warning" | "info"
+```
+
+### AgentLayer
+
+One agent's row in the pyramid view: where it sits + what it composes + the three static-observability signals.
+
+### LayerReport
+
+### AgenticPattern
+
+```ts
+type AgenticPattern = "prompt-chaining" | "routing" | "parallelization" | "orchestrator-workers" | "evaluator-optimizer"
+```
+
+### PatternAffordance
+
+### CatalogEntry
+
+One entry in an agent's loadable catalog — the CF Agent-Skill `get()` listing (what appears in the system prompt).
+
+### ResourceFinding
+
+### runtimeProviders
+
+The runtime-provider registry. Add new targets here; the interface is the contract (mirrors `@suluk/deploy`'s `providers`).
+
+```ts
+const runtimeProviders: Record<string, AgentRuntimeProvider>
+```
+
+### cloudflareRuntime
+
+The Cloudflare adapter — wraps `projectCloudflareAgent` into the generic seam (its `durableObjects` → the deploy hint).
+
+```ts
+const cloudflareRuntime: AgentRuntimeProvider<CloudflareAgentOptions>
+```
+
+### nodeRuntime
+
+The Node/Bun adapter — wraps `projectNodeAgent`. A plain long-lived process, so the deploy hint carries no infra.
+
+```ts
+const nodeRuntime: AgentRuntimeProvider<NodeAgentOptions>
+```
+
+### SEED_CATALOG
+
+Illustrative seed — NOT the live catalog. Tiers reflect coarse public standing as of asOf; UNKNOWN is honest.
+
+```ts
+const SEED_CATALOG: ModelCatalog
+```
+
+### PROFILES
+
+```ts
+const PROFILES: Record<Profile, ResolvedProfile>
+```
+
+### FLOOR_LEVEL
+
+Routes — the deterministic floor — sit at level 0. The lowest an orchestrating agent can sit is level 1.
+
+```ts
+const FLOOR_LEVEL: 0
+```

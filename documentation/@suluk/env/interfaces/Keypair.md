@@ -6,7 +6,7 @@
 
 # Interface: Keypair
 
-Defined in: [crypto.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/crypto.ts#L39)
+Defined in: [crypto.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/env/src/crypto.ts#L39)
 
 `@suluk/env` — config + secrets as a single source of truth, made post-quantum-safe.
 
@@ -24,7 +24,7 @@ a Cloudflare Worker. Filesystem helpers + the CLI live in `@suluk/env/node`.
 
 > **privateKey**: `string`
 
-Defined in: [crypto.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/crypto.ts#L43)
+Defined in: [crypto.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/env/src/crypto.ts#L43)
 
 `mlkem768:<base64>` — keep secret (.env.keys / a secret binding); it can DECRYPT.
 
@@ -34,6 +34,6 @@ Defined in: [crypto.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **publicKey**: `string`
 
-Defined in: [crypto.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/crypto.ts#L41)
+Defined in: [crypto.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/env/src/crypto.ts#L41)
 
 `mlkem768:<base64>` — commit/share this; it can only ENCRYPT.

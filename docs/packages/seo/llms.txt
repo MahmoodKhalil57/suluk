@@ -1,0 +1,57 @@
+# @suluk/seo
+
+> A complete, framework-agnostic SEO toolkit for a Suluk app — robots.txt, sitemaps (hreflang + images + index), schema.org JSON-LD, head meta (OpenGraph/Twitter/canonical/hreflang), llms.txt, OG-image SVG, the PWA web manifest, and deploy skew-protection. Pure + Cloudflare-safe; inspired by the Nuxt SEO suite. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `robotsTxt`: `@suluk/seo` — a complete, framework-agnostic SEO toolkit for a Suluk app, inspired by the Nuxt SEO suite but
+pure + Cloudflare-safe (no runtime de...
+- `sitemapXml`
+- `sitemapIndex`
+- `organization`
+- `website`
+- `breadcrumb`
+- `offer`
+- `aggregateRating`
+- `product`
+- `faqPage`
+- `article`
+- `itemList`
+- `graph`: Compose nodes into ONE `@graph` document — the recommended single-script form (de-duplicates `@context`).
+- `ld`: Wrap a single node with `@context` for a standalone <script type="application/ld+json">.
+- `seoTags`
+- `renderTags`: Render tag descriptors to an HTML string (for an SSR <head>).
+- `resolveTitle`
+- `llmsTxt`
+- `ogImageSvg`
+- `webManifest`
+- `deploymentMeta`: A <meta> stamping the build/deployment id into the page.
+- `skewGuardScript`: Inline client guard (drop into a <script>).
+- `DEPLOYMENT_HEADER`: Deploy skew-protection — pin a client to the deployment it loaded, and force a full reload after a new deploy
+ (so a long-lived tab never runs old ...
+
+## Optional
+
+### Types
+
+- `RobotsGroup`: robots.txt generation — user-agent groups with allow/disallow/crawl-delay, plus sitemap + host directives.
+- `SitemapUrl`
+- `SitemapImage`
+- `SitemapAlternate`
+- `ChangeFreq`
+- `OfferInput`
+- `ProductInput`
+- `ArticleInput`
+- `SeoTagsInput`
+- `Tag`
+- `Alternate`
+- `RobotsMeta`
+- `LlmsTxtInput`
+- `LlmsSection`
+- `LlmsLink`: llms.
+- `OgImageInput`
+- `WebManifestInput`
+- `ManifestIcon`: PWA web app manifest generation (W3C). Pure JSON-string builder with sane defaults.
+- `ManifestShortcut`

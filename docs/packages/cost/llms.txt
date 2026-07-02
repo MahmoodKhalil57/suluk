@@ -1,0 +1,64 @@
+# @suluk/cost
+
+> Cost as a contract facet: declare per-operation cost (incl. third-party usage), bubble it into the v4 doc/Scalar/tests, and meter the ACTUAL per-user cost at runtime (frontend action -> operation -> third-party). Display as-is. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `formatMicroUsd`: Format micro-USD as a display string (we store raw integers; this is only for humans).
+- `settlementOf`: The settlement declared on an operation's cost.
+- `settlementAudit`: Audit that every PRICED operation names HOW it is settled, and that the named lever is coherent — the generic form of
+toolfactory's "cost names a l...
+- `impliedErrorStatuses`: The HTTP error statuses a request's FACETS imply (the generic form of toolfactory's errors-gate): a contract should
+declare these responses.
+- `settlementRollup`: A quick "how is this API monetized" tally — ops grouped by settlement method (+ priced-but-unsettled).
+- `annotateCosts`: Annotate a v4 document in place-safe (returns a new doc): set x-suluk-cost on each named operation (incl. webhooks).
+- `costOf`: Read the cost model declared on an operation (if any).
+- `costAudit`: Cost-coverage audit: which operations have NOT declared what they cost — plus (C024) the background-cost
+disciplines: a deferred cost that resolves...
+- `costTable`: The declared costs across the document (paths + webhooks + jobs), for display (the cockpit/admin show this raw).
+- `computeCost`: Compute the actual µ$ a request cost, from its declared model + the usage the handler reported.
+- `eachOperation`: Every named operation in the document — path requests AND C018 webhooks (which are Requests carrying facets) —
+as {path, name, req}.
+- `eachJob`: Every background JOB (C025) on the document, as {path, name, job} — non-HTTP cron/queue work.
+- `triggerOf`: The trigger an operation's cost declares (C024; default "synchronous").
+- `isDeferredCost`: Does this cost accrue on a BACKGROUND event (a non-synchronous trigger) rather than the declaring op's own run?
+- `costMeter`: Hono middleware: after the handler runs, record what the request cost (declared model + reported usage).
+- `recordUsage`: A handler calls this to report MEASURED third-party usage for the current request (e.g. tokens used).
+- `resolveEventExpression`: Resolve a C018 runtime-expression against a fired event.
+- `attributePrincipal`: Resolve the principal charged for a fired event per the model's attribution strategy.
+- `eventCostEvent`: Build the CostEvent for a FIRED background event — pure.
+- `recordEventCost`: Record a fired event's cost into a sink, deduped by its `dedupeKey` against `seen` (so at-least-once delivery
+can't double-charge).
+- `reconciledAmount`: Resolve the ACTUAL charged amount (in µ$) from the event when the model is `payload-reconciled` (C026), else
+undefined.
+- `summarize`
+- `principalCost`: What ONE principal cost you (the question that lets you price them) — and the trace by operation + action.
+- `MemoryCostSink`: A simple in-memory sink (for the demo / tests). Production swaps in D1, a queue, etc.
+- `UNATTRIBUTED`: The principal sentinel for a background cost that resolved to NO principal — billed to nobody, but never silent.
+- `COST_EXT`
+
+## Optional
+
+### Types
+
+- `CostBasis`: The cost model — what an operation declares it costs you, and what a single request actually cost.
+- `CostComponent`: `@suluk/cost` — cost as a contract facet + runtime metering.
+- `CostModel`: `@suluk/cost` — cost as a contract facet + runtime metering.
+- `UsageReport`: A measured usage report for one variable component during a request (e.g. {source:"openai", units: 1350}).
+- `CostEvent`: What a single request actually cost — the rawest record, attributed all the way down.
+- `CostTrigger`: WHEN/WHAT fires a cost (C024) — a STATIC, locally-decidable enum (the same KIND as CostBasis).
+- `CostAttribution`: WHO is charged when a third party fires the event with no live session (C024) — a declared STRATEGY the runtime
+resolves a concrete principal from,...
+- `ReconciliationBasis`: Whether a cost's amount is a declared guess or read from the event payload at runtime (C026).
+- `SettlementMethod`: HOW a declared cost is RECOVERED from the user (C044).
+- `CostSettlement`: `@suluk/cost` — cost as a contract facet + runtime metering.
+- `SettlementFinding`
+- `SettlementSeverity`
+- `SettlementRollup`
+- `CostFinding`
+- `CostRow`
+- `CostSink`
+- `EventCostInput`
+- `CostSummary`

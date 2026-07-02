@@ -1,0 +1,50 @@
+# i18n (registry module)
+
+> A locale/direction negotiation MIDDLEWARE over @suluk/i18n (the q-weighted Accept-Language matcher, the cookie parser, and the config/direction model stay upstream). Owns only the wiring: the app's default locale set + a Hono middleware that resolves each request's locale (?lang > cookie > Accept-Language) and stashes locale + dir on the context. mountI18n(app) applies it globally via app.use. A stateless binding — no schema, no provision (C052).
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### localeMiddleware
+
+Build the locale-negotiation middleware for a given locale set. Precedence: a `?lang=` query override wins (if it names
+a supported locale), then the `locale` cookie, then a q-weighted `Accept-Language` match — falling back to the config
+default. Sets `c.set("locale", code)` and `c.set("dir", "ltr"|"rtl")`. The matching itself lives in `@suluk/i18n`.
+
+```ts
+localeMiddleware(config: LocaleConfig): MiddlewareHandler
+```
+
+**Parameters:**
+- `config: LocaleConfig` — 
+
+**Returns:** `MiddlewareHandler`
+
+### mountI18n
+
+Apply locale/direction negotiation to EVERY request — the global-middleware mount the generated entry calls as
+`mountI18n(app)` (a cross-cutting concern). After it runs, every downstream handler can read `c.get("locale")` +
+`c.get("dir")`. Edit LOCALES to declare your locale set.
+
+```ts
+mountI18n<T>(app: T, config: LocaleConfig): T
+```
+
+**Parameters:**
+- `app: T` — 
+- `config: LocaleConfig` — 
+
+**Returns:** `T`
+
+### I18nVars
+
+What the middleware stashes on the Hono context (read them with `c.get("locale")` / `c.get("dir")`).
+
+### LOCALES
+
+The app's locale set — EDIT THIS to declare your locales (code + label + direction). Shipped with English (ltr) and
+Arabic (rtl, Eastern-Arabic numerals) as a bilingual starting point; `default` is the fallback every request lands on
+when nothing negotiates.
+
+```ts
+const LOCALES: LocaleConfig
+```

@@ -8,7 +8,7 @@
 
 > **recordTaxTransaction**(`cfg`, `calculationId`, `reference`): `Promise`\<`void`\>
 
-Defined in: [packages/billing/src/tax.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/tax.ts#L73)
+Defined in: [packages/billing/src/tax.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/billing/src/tax.ts#L73)
 
 Record a finished tax calculation as a Tax Transaction (the compliance/reporting step), keyed to a `reference`
  (e.g. `pi:<id>`) which is Stripe's idempotency anchor — a replay of the same reference returns the existing

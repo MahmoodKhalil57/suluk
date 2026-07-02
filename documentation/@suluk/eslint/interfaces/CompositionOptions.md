@@ -6,7 +6,7 @@
 
 # Interface: CompositionOptions
 
-Defined in: [analyze.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/eslint/src/analyze.ts#L15)
+Defined in: [analyze.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/eslint/src/analyze.ts#L15)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [analyze.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > `optional` **allowGetStaticPaths?**: `boolean`
 
-Defined in: [analyze.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/eslint/src/analyze.ts#L21)
+Defined in: [analyze.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/eslint/src/analyze.ts#L21)
 
 Treat Astro's page-bound `getStaticPaths` as allowed page-level logic, exempt from the frontmatter budget (default true).
 
@@ -24,7 +24,7 @@ Treat Astro's page-bound `getStaticPaths` as allowed page-level logic, exempt fr
 
 > `optional` **budgets?**: `Partial`\<`Record`\<[`Metric`](../type-aliases/Metric.md), `number`\>\>
 
-Defined in: [analyze.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/eslint/src/analyze.ts#L17)
+Defined in: [analyze.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/eslint/src/analyze.ts#L17)
 
 Max allowed count per metric before it's a violation (default 0 — pure composition).
 
@@ -34,6 +34,6 @@ Max allowed count per metric before it's a violation (default 0 — pure composi
 
 > `optional` **ignoreTags?**: `string`[]
 
-Defined in: [analyze.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/eslint/src/analyze.ts#L19)
+Defined in: [analyze.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/eslint/src/analyze.ts#L19)
 
 Lowercase tag names NOT counted as native HTML (framework/control elements).

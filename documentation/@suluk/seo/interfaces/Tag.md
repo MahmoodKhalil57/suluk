@@ -6,7 +6,7 @@
 
 # Interface: Tag
 
-Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/meta.ts#L30)
+Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L30)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa3
 
 > **attrs**: `Record`\<`string`, `string`\>
 
-Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/meta.ts#L30)
+Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L30)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa3
 
 > **tag**: `"title"` \| `"meta"` \| `"link"`
 
-Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/meta.ts#L30)
+Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L30)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa3
 
 > `optional` **text?**: `string`
 
-Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/meta.ts#L30)
+Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/meta.ts#L30)

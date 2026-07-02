@@ -8,7 +8,7 @@
 
 > **putSecret**(`cf`, `scriptName`, `name`, `value`): `Promise`\<`void`\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:169](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cloudflare/src/resources.ts#L169)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:169](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cloudflare/src/resources.ts#L169)
 
 Set ONE Worker secret (an encrypted `secret_text` binding). The script must already exist.
 

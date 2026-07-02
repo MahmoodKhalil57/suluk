@@ -6,7 +6,7 @@
 
 # Interface: EffectiveAgent
 
-Defined in: [agents/src/policy.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L36)
+Defined in: [agents/src/policy.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L36)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/policy.ts:36](https://github.com/MahmoodKhalil57/suluk/b
 
 > **agent**: `string`
 
-Defined in: [agents/src/policy.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L37)
+Defined in: [agents/src/policy.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L37)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [agents/src/policy.ts:37](https://github.com/MahmoodKhalil57/suluk/b
 
 > **allowedSubAgents**: `string`[]
 
-Defined in: [agents/src/policy.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L45)
+Defined in: [agents/src/policy.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L45)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [agents/src/policy.ts:45](https://github.com/MahmoodKhalil57/suluk/b
 
 > **allowedTools**: `string`[]
 
-Defined in: [agents/src/policy.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L43)
+Defined in: [agents/src/policy.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L43)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [agents/src/policy.ts:43](https://github.com/MahmoodKhalil57/suluk/b
 
 > **deniedSubAgents**: `string`[]
 
-Defined in: [agents/src/policy.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L46)
+Defined in: [agents/src/policy.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L46)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [agents/src/policy.ts:46](https://github.com/MahmoodKhalil57/suluk/b
 
 > **deniedTools**: `string`[]
 
-Defined in: [agents/src/policy.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L44)
+Defined in: [agents/src/policy.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L44)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [agents/src/policy.ts:44](https://github.com/MahmoodKhalil57/suluk/b
 
 > `optional` **maxDepth?**: `number`
 
-Defined in: [agents/src/policy.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L40)
+Defined in: [agents/src/policy.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L40)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [agents/src/policy.ts:40](https://github.com/MahmoodKhalil57/suluk/b
 
 > **nestingForbidden**: `boolean`
 
-Defined in: [agents/src/policy.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L41)
+Defined in: [agents/src/policy.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L41)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [agents/src/policy.ts:41](https://github.com/MahmoodKhalil57/suluk/b
 
 > **scope**: [`Scope`](../type-aliases/Scope.md)
 
-Defined in: [agents/src/policy.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L39)
+Defined in: [agents/src/policy.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L39)
 
 INTERSECT(agent.scope, policy.scopeAllowlist).
 
@@ -80,4 +80,4 @@ INTERSECT(agent.scope, policy.scopeAllowlist).
 
 > **skills**: [`EffectiveSkill`](EffectiveSkill.md)[]
 
-Defined in: [agents/src/policy.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L42)
+Defined in: [agents/src/policy.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/agents/src/policy.ts#L42)

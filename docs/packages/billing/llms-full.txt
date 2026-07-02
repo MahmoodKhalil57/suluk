@@ -1,0 +1,618 @@
+# @suluk/billing
+
+> Stripe PLUMBING over an injected config (secret key + a mockable fetch): the HTTP transport (with the refund idempotency-key), customer/SetupIntent/PaymentIntent creation, the saved-card surface, the money-moving paths (hosted Checkout + portal + on-default-card top-up + off-session charge), Stripe Tax, the subscription mechanics over a generic SubPlan catalog, and the package-owned billing-account store. Pure Stripe wrappers — the webhook dispatch, credit grants, branded email, the pricing matrix, and refund/pooling stay in the app. Extracted from a real app (C046). CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### stripePost
+
+`@suluk/billing` — Stripe plumbing over an injected config (C046). The transport + customer/intent creation + the
+saved-card surface (v1), plus the money-MOVING paths (hosted Checkout, portal, on-default-card top-up, off-session
+charge), the pricing-woven subscription logic made generic over a SubPlan catalog, the Stripe Tax mechanics, and the
+package-owned billing-account store (v2). Ported with the source's `res.ok`/field semantics verbatim; the Effect-Schema
+defensive decode is dropped (plain typed JSON access → no `effect` dep). STAYS APP (policy, not library): the Stripe
+WEBHOOK dispatch (composes @suluk/stripe webhookRouter + these primitives + @suluk/credits.grantOnce), the branded
+email templates, payment-alert kinds, and refund/subscription-pooling (operator-excluded from the start).
+
+```ts
+stripePost(cfg: StripeConfig, path: string, form: URLSearchParams, idempotencyKey?: string): Promise<Response>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `path: string` — 
+- `form: URLSearchParams` — 
+- `idempotencyKey: string` (optional) — 
+
+**Returns:** `Promise<Response>`
+
+### stripeGet
+
+`@suluk/billing` — Stripe plumbing over an injected config (C046). The transport + customer/intent creation + the
+saved-card surface (v1), plus the money-MOVING paths (hosted Checkout, portal, on-default-card top-up, off-session
+charge), the pricing-woven subscription logic made generic over a SubPlan catalog, the Stripe Tax mechanics, and the
+package-owned billing-account store (v2). Ported with the source's `res.ok`/field semantics verbatim; the Effect-Schema
+defensive decode is dropped (plain typed JSON access → no `effect` dep). STAYS APP (policy, not library): the Stripe
+WEBHOOK dispatch (composes @suluk/stripe webhookRouter + these primitives + @suluk/credits.grantOnce), the branded
+email templates, payment-alert kinds, and refund/subscription-pooling (operator-excluded from the start).
+
+```ts
+stripeGet(cfg: StripeConfig, path: string): Promise<Response>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `path: string` — 
+
+**Returns:** `Promise<Response>`
+
+### toForm
+
+Stripe's bracket-nested `x-www-form-urlencoded` encoder: objects → `key[k]`, arrays → `key[i]`, scalars appended;
+ undefined/null are skipped. Handles the nested arrays checkout/subscription payloads need (`line_items[0][price]`).
+
+```ts
+toForm(obj: Record<string, unknown>): URLSearchParams
+```
+
+**Parameters:**
+- `obj: Record<string, unknown>` — 
+
+**Returns:** `URLSearchParams`
+
+### mockStripeFetch
+
+Build a mock Stripe `fetch`. Returns generic objects for the endpoints @suluk/billing drives; a permissive fallback
+ for anything else. Ignores the auth header (any/no key works).
+
+```ts
+mockStripeFetch(): (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>
+```
+
+**Returns:** `(input: RequestInfo | URL, init?: RequestInit) => Promise<Response>`
+
+### createCustomer
+
+Create a Stripe customer for the user (the caller persists the id). Routed through @suluk/payments (C048) — the
+ processor is swappable; the Stripe request (POST /customers with email + metadata[userId]) is unchanged.
+
+```ts
+createCustomer(cfg: StripeConfig, email: string | null, userId: string): Promise<string>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `email: string | null` — 
+- `userId: string` — 
+
+**Returns:** `Promise<string>`
+
+### createSetupIntent
+
+Create a $0 SetupIntent to vault a card without charging ("Add card"). Returns the client secret.
+
+```ts
+createSetupIntent(cfg: StripeConfig, customerId: string, userId: string): Promise<string>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+- `userId: string` — 
+
+**Returns:** `Promise<string>`
+
+### createPaymentIntent
+
+Create a PaymentIntent for an on-site one-time top-up (saves the card; the webhook credits it). Returns the client secret.
+
+```ts
+createPaymentIntent(cfg: StripeConfig, customerId: string, amountCents: number, meta: { userId: string; credits: number; taxCalculation?: string | null }): Promise<string>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+- `amountCents: number` — 
+- `meta: { userId: string; credits: number; taxCalculation?: string | null }` — 
+
+**Returns:** `Promise<string>`
+
+### listPaymentMethods
+
+List a customer's saved cards (each with its billing address), marking the invoice default.
+
+```ts
+listPaymentMethods(cfg: StripeConfig, customerId: string): Promise<PaymentMethodWire[]>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+
+**Returns:** `Promise<PaymentMethodWire[]>`
+
+### defaultCard
+
+The customer's DEFAULT saved card — its id (to charge) + its billing address (to locate tax). Graceful: a transient
+ Stripe error returns null rather than blocking a top-up (this is only tax LOCATION / an off-session skip).
+
+```ts
+defaultCard(cfg: StripeConfig, customerId: string): Promise<{ pmId: string; address: TaxAddress | null } | null>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+
+**Returns:** `Promise<{ pmId: string; address: TaxAddress | null } | null>`
+
+### defaultPaymentMethodId
+
+The customer's default payment-method id (to charge off-session), or null.
+
+```ts
+defaultPaymentMethodId(cfg: StripeConfig, customerId: string): Promise<string | null>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+
+**Returns:** `Promise<string | null>`
+
+### ownsPaymentMethod
+
+Whether `pmId` belongs to `customerId` — guards set-default / detach against another customer's card.
+
+```ts
+ownsPaymentMethod(cfg: StripeConfig, customerId: string, pmId: string): Promise<boolean>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+- `pmId: string` — 
+
+**Returns:** `Promise<boolean>`
+
+### setDefaultPaymentMethod
+
+Make `pmId` the customer's default payment method for invoices.
+
+```ts
+setDefaultPaymentMethod(cfg: StripeConfig, customerId: string, pmId: string): Promise<void>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+- `pmId: string` — 
+
+**Returns:** `Promise<void>`
+
+### setSubscriptionDefaultCard
+
+Point an ACTIVE subscription at `pmId` too, so changing the default card moves the recurring charge to it.
+
+```ts
+setSubscriptionDefaultCard(cfg: StripeConfig, subscriptionId: string, pmId: string): Promise<void>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `subscriptionId: string` — 
+- `pmId: string` — 
+
+**Returns:** `Promise<void>`
+
+### detachPaymentMethod
+
+Detach (remove) a saved card from the customer.
+
+```ts
+detachPaymentMethod(cfg: StripeConfig, pmId: string): Promise<void>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `pmId: string` — 
+
+**Returns:** `Promise<void>`
+
+### setSubscriptionCancel
+
+Schedule the subscription to cancel at the period end (`cancel=true`) or resume it (`cancel=false`).
+
+```ts
+setSubscriptionCancel(cfg: StripeConfig, subscriptionId: string, cancel: boolean): Promise<void>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `subscriptionId: string` — 
+- `cancel: boolean` — 
+
+**Returns:** `Promise<void>`
+
+### payOpenInvoice
+
+Best-effort: if the subscription's latest invoice is still OPEN (a failed renewal), retry it NOW. No-op when there's
+ nothing open to pay; never throws (a fix-billing flow must not 500 on the retry).
+
+```ts
+payOpenInvoice(cfg: StripeConfig, subscriptionId: string): Promise<void>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `subscriptionId: string` — 
+
+**Returns:** `Promise<void>`
+
+### createCheckout
+
+Create a Stripe Checkout Session (one-time top-up) — the hosted FALLBACK to the on-site Payment Element. Reuses the
+ user's existing customer or has Checkout create one, captures the billing address, and saves the card for future
+ off-session use. Returns the hosted checkout URL.
+
+```ts
+createCheckout(cfg: StripeConfig, o: CheckoutOpts): Promise<string>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `o: CheckoutOpts` — 
+
+**Returns:** `Promise<string>`
+
+### createSubscriptionCheckout
+
+Stripe Checkout in SUBSCRIPTION mode (recurring). subscription_data.metadata carries who + how many credits/cycle.
+
+```ts
+createSubscriptionCheckout(cfg: StripeConfig, o: SubscriptionCheckoutOpts): Promise<string>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `o: SubscriptionCheckoutOpts` — 
+
+**Returns:** `Promise<string>`
+
+### createPortalSessionForCustomer
+
+Open the Stripe billing portal (manage/cancel) for an existing customer. Returns the URL; throws on a Stripe error.
+
+```ts
+createPortalSessionForCustomer(cfg: StripeConfig, customerId: string, returnUrl: string): Promise<string>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+- `returnUrl: string` — 
+
+**Returns:** `Promise<string>`
+
+### createPaymentIntentOnDefaultCard
+
+Create a PaymentIntent on the customer's SAVED DEFAULT card — the one-click top-up path. The server resolves the
+ default payment method (client can't inject one), pins the PI to it, and returns the client secret; the browser
+ confirms (3DS in-page if needed). Returns null when there's no default card to charge. No setup_future_usage — the
+ card is already saved.
+
+```ts
+createPaymentIntentOnDefaultCard(cfg: StripeConfig, customerId: string, amountCents: number, meta: TopupMeta): Promise<string | null>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+- `amountCents: number` — 
+- `meta: TopupMeta` — 
+
+**Returns:** `Promise<string | null>`
+
+### chargeOffSession
+
+An OFF-SESSION charge on a saved card (auto-top-up). Confirms immediately; metadata carries who + credits + `source`
+ so the payment_intent.succeeded webhook credits idempotently on the SAME `pi:<id>` key. Returns the PaymentIntent id +
+ status, plus `authRequired` when the card needs 3DS (a decline to NOTIFY, not throw on). A hard 402 card decline is
+ also returned (not thrown) so the caller can alert; a transient/transport failure throws (it may recover).
+
+```ts
+chargeOffSession(cfg: StripeConfig, customerId: string, pmId: string, amountCents: number, meta: TopupMeta): Promise<{ id: string | null; status: string | null; authRequired: boolean }>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+- `pmId: string` — 
+- `amountCents: number` — 
+- `meta: TopupMeta` — 
+
+**Returns:** `Promise<{ id: string | null; status: string | null; authRequired: boolean }>`
+
+### calculateTax
+
+Sales-tax / VAT for an on-site or auto top-up. The taxable base is the credits `subtotalCents` (tax_behavior=exclusive →
+tax added on top); the processing service fee is a pass-through, not part of the taxable sale. Located by the saved
+card's billing address (preferred — works off-session) or the request IP. GRACEFUL — no location or any failure yields
+`{ taxCents: 0 }` so a top-up always proceeds. When active, the returned `calculationId` is recorded via
+recordTaxTransaction.
+
+```ts
+calculateTax(cfg: StripeConfig, customerId: string, subtotalCents: number, loc: TaxLocation): Promise<TaxResult>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+- `subtotalCents: number` — 
+- `loc: TaxLocation` — 
+
+**Returns:** `Promise<TaxResult>`
+
+### recordTaxTransaction
+
+Record a finished tax calculation as a Tax Transaction (the compliance/reporting step), keyed to a `reference`
+ (e.g. `pi:<id>`) which is Stripe's idempotency anchor — a replay of the same reference returns the existing
+ transaction rather than creating a second, so re-delivery can't double-record. Best-effort — never throws into the
+ caller (the charge already succeeded; a missed record is reconciled manually).
+
+```ts
+recordTaxTransaction(cfg: StripeConfig, calculationId: string, reference: string): Promise<void>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `calculationId: string` — 
+- `reference: string` — 
+
+**Returns:** `Promise<void>`
+
+### planById
+
+The app's plan whose id is `id`, or undefined — the generic lookup the orchestrators use against the injected catalog.
+
+```ts
+planById(plans: SubPlan[], id: string): SubPlan | undefined
+```
+
+**Parameters:**
+- `plans: SubPlan[]` — 
+- `id: string` — 
+
+**Returns:** `SubPlan | undefined`
+
+### planByPrice
+
+The plan whose monthly price is exactly `priceCents` (each tier has a distinct price), or undefined — maps a live
+ Stripe item price back to a plan (e.g. resolving the paid-ceiling plan).
+
+```ts
+planByPrice(plans: SubPlan[], priceCents: number): SubPlan | undefined
+```
+
+**Parameters:**
+- `plans: SubPlan[]` — 
+- `priceCents: number` — 
+
+**Returns:** `SubPlan | undefined`
+
+### ceilingFor
+
+The "paid ceiling" for the CURRENT cycle = the highest plan price already CHARGED this cycle. Persisted in subscription
+ metadata (raised on each above-ceiling upgrade), guarded by the period end so it auto-resets at the next renewal. Falls
+ back to the current item price — a defer-change lowers the item price (for next cycle's billing) but NOT the ceiling, so
+ a later change to ANY plan ≤ the ceiling stays free (you already paid for that level); only EXCEEDING it charges. PURE.
+
+```ts
+ceilingFor(metadata: Record<string, string> | undefined, periodEndSec: number, currentPriceCents: number): number
+```
+
+**Parameters:**
+- `metadata: Record<string, string> | undefined` — 
+- `periodEndSec: number` — 
+- `currentPriceCents: number` — 
+
+**Returns:** `number`
+
+### ensurePlanPrice
+
+Find (by lookup_key) or create the recurring Stripe Price for a plan. The lookup_key embeds the price + credits, so a
+ repricing mints a FRESH price rather than reusing a stale one. Returns the price id.
+
+```ts
+ensurePlanPrice(cfg: StripeConfig, plan: SubPlan, branding?: SubscriptionBranding): Promise<string>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `plan: SubPlan` — 
+- `branding: SubscriptionBranding` (optional) — 
+
+**Returns:** `Promise<string>`
+
+### createSubscriptionOnDefaultCard
+
+Create a subscription ON the saved default card (one-click). payment_behavior=default_incomplete leaves the first
+ invoice unpaid with a PaymentIntent the browser confirms (confirmCardPayment → 3DS in-page) → the subscription
+ activates → invoice.paid grants the cycle's credits. Returns the first invoice's client secret + the subscription id,
+ or null when there's no default card.
+
+```ts
+createSubscriptionOnDefaultCard(cfg: StripeConfig, customerId: string, plan: SubPlan, userId: string, branding?: SubscriptionBranding): Promise<{ clientSecret: string; subscriptionId: string } | null>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `customerId: string` — 
+- `plan: SubPlan` — 
+- `userId: string` — 
+- `branding: SubscriptionBranding` (optional) — 
+
+**Returns:** `Promise<{ clientSecret: string; subscriptionId: string } | null>`
+
+### getSubscriptionStatus
+
+```ts
+getSubscriptionStatus(cfg: StripeConfig, subscriptionId: string, plans: SubPlan[]): Promise<SubscriptionStatus | null>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `subscriptionId: string` — 
+- `plans: SubPlan[]` — 
+
+**Returns:** `Promise<SubscriptionStatus | null>`
+
+### changeSubscriptionPlan
+
+```ts
+changeSubscriptionPlan(cfg: StripeConfig, subscriptionId: string, newPlan: SubPlan, userId: string, plans: SubPlan[], branding?: SubscriptionBranding): Promise<ChangePlanResult>
+```
+
+**Parameters:**
+- `cfg: StripeConfig` — 
+- `subscriptionId: string` — 
+- `newPlan: SubPlan` — 
+- `userId: string` — 
+- `plans: SubPlan[]` — 
+- `branding: SubscriptionBranding` (optional) — 
+
+**Returns:** `Promise<ChangePlanResult>`
+
+### billingCustomerId
+
+The user's Stripe customer id, or null when they have no billing account yet.
+
+```ts
+billingCustomerId(db: BillingDB, userId: string): Promise<string | null>
+```
+
+**Parameters:**
+- `db: BillingDB` — 
+- `userId: string` — 
+
+**Returns:** `Promise<string | null>`
+
+### billingSubscriptionId
+
+The user's recorded Stripe subscription id, or null when they have no subscription.
+
+```ts
+billingSubscriptionId(db: BillingDB, userId: string): Promise<string | null>
+```
+
+**Parameters:**
+- `db: BillingDB` — 
+- `userId: string` — 
+
+**Returns:** `Promise<string | null>`
+
+### linkBillingCustomer
+
+Persist the user's Stripe customer id WITHOUT touching subscriptionId — so a one-time top-up never clears a
+ subscriber's `subscriptionId` (unlike upsertBillingAccount, which sets it). Idempotent on the userId PK.
+
+```ts
+linkBillingCustomer(db: BillingDB, userId: string, customerId: string): Promise<void>
+```
+
+**Parameters:**
+- `db: BillingDB` — 
+- `userId: string` — 
+- `customerId: string` — 
+
+**Returns:** `Promise<void>`
+
+### upsertBillingAccount
+
+Persist customer + subscription together (the subscribe path sets both). Idempotent on the userId PK.
+
+```ts
+upsertBillingAccount(db: BillingDB, userId: string, customerId: string, subscriptionId: string | null): Promise<void>
+```
+
+**Parameters:**
+- `db: BillingDB` — 
+- `userId: string` — 
+- `customerId: string` — 
+- `subscriptionId: string | null` — 
+
+**Returns:** `Promise<void>`
+
+### clearSubscription
+
+Clear the recorded subscription (on customer.subscription.deleted) — leaves the customer id (+ its saved card) intact.
+
+```ts
+clearSubscription(db: BillingDB, userId: string): Promise<void>
+```
+
+**Parameters:**
+- `db: BillingDB` — 
+- `userId: string` — 
+
+**Returns:** `Promise<void>`
+
+### PaymentMethodWire
+
+A payment method as the billing panel shows it — card + its billing address + whether it's the customer's default.
+
+### TaxAddress
+
+A buyer's tax location (from a saved card's billing address).
+
+### CheckoutOpts
+
+### SubscriptionCheckoutOpts
+
+### TopupMeta
+
+The metadata tag the webhook reads to decide whether (and how) to credit a PaymentIntent.
+
+### TaxResult
+
+### TaxLocation
+
+A buyer's tax location. The saved card's BILLING ADDRESS is preferred (precise + works off-session); the request IP is
+ the fallback for a first on-session purchase where no card is saved yet.
+
+### SubPlan
+
+A subscription plan as the app prices it — generic shape; the app derives `priceCents`/`credits` from its COGS model.
+
+### SubscriptionBranding
+
+Branding seam for the Stripe Product/Price a plan creates — app-controlled so find-or-create stays stable + on-brand.
+
+### SubscriptionStatus
+
+The user's CURRENT subscription as the UI needs it (plan + status + period end + pending-cancel + the cycle's paid
+ ceiling), or null when there's no live subscription. Live state from Stripe; `plans` is the app catalog for the
+ price fallback when the live item lacks one.
+
+### ChangePlanResult
+
+Change the subscriber's plan IN PLACE against the cycle's PAID CEILING (see ceilingFor). ABOVE the ceiling = an
+ upgrade: immediate + prorated for the difference ABOVE THE CEILING, charged off-session; the matching prorated credits
+ land on that invoice.paid (3DS-safe). AT OR BELOW the ceiling = a deferred change: no charge + no new credits now — it
+ re-prices for the NEXT renewal (so up→down→up within a cycle never re-charges). Returns the kind, the period end, and a
+ clientSecret ONLY when the upgrade's prorated charge needs in-page 3DS. `plans` is the app catalog.
+
+### BillingDB
+
+The injected DB handle. Prod is drizzle/d1; tests bridge drizzle/bun-sqlite to this type (a runtime-identity narrow).
+
+```ts
+type BillingDB = DrizzleD1Database
+```
+
+### billingAccount
+
+```ts
+const billingAccount: SQLiteTableWithColumns<{ name: "billing_account"; schema: undefined; columns: { userId: SQLiteColumn<{ name: "userId"; tableName: "billing_account"; dataType: "string"; columnType: "SQLiteText"; data: string; driverParam: string; notNull: true; hasDefault: false; isPrimaryKey: true; isAutoincrement: false; hasRuntimeDefault: false; enumValues: [string, ...string[]]; baseColumn: never; identity: undefined; generated: undefined }, {}, { length: number | undefined }>; stripeCustomerId: SQLiteColumn<{ name: "stripeCustomerId"; tableName: "billing_account"; dataType: "string"; columnType: "SQLiteText"; data: string; driverParam: string; notNull: false; hasDefault: false; isPrimaryKey: false; isAutoincrement: false; hasRuntimeDefault: false; enumValues: [string, ...string[]]; baseColumn: never; identity: undefined; generated: undefined }, {}, { length: number | undefined }>; subscriptionId: SQLiteColumn<{ name: "subscriptionId"; tableName: "billing_account"; dataType: "string"; columnType: "SQLiteText"; data: string; driverParam: string; notNull: false; hasDefault: false; isPrimaryKey: false; isAutoincrement: false; hasRuntimeDefault: false; enumValues: [string, ...string[]]; baseColumn: never; identity: undefined; generated: undefined }, {}, { length: number | undefined }>; updatedAt: SQLiteColumn<{ name: "updatedAt"; tableName: "billing_account"; dataType: "date"; columnType: "SQLiteTimestamp"; data: Date; driverParam: number; notNull: true; hasDefault: false; isPrimaryKey: false; isAutoincrement: false; hasRuntimeDefault: false; enumValues: undefined; baseColumn: never; identity: undefined; generated: undefined }, {}, {}> }; dialect: "sqlite" }>
+```

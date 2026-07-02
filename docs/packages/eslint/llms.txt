@@ -1,0 +1,19 @@
+# @suluk/eslint
+
+> ESLint rules for Suluk apps. `composition-only`: enforce the tier discipline (pages & sections stay composition-only; native markup → blocks, logic → controllers) with configurable per-metric budgets. Pure, dependency-free detection core. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `analyzeComposition`: Collect every violation, then apply each metric's budget (report only the occurrences BEYOND the budget).
+- `compositionOnly`
+- `default`
+
+## Optional
+
+### Types
+
+- `Violation`
+- `Metric`: Pure detection core for the tier-composition rule — separated from the ESLint wrapper so it is unit-testable WITHOUT
+an ESLint / astro-parser harne...

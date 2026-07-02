@@ -2,62 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/index.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/modules.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/hierarchy.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/modules/email.contract.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/variables/email.contract.emailOps.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/modules/email.routes.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/functions/email.routes.emailRoutes.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/modules/email.service.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/interfaces/email.service.EmailEnv.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/interfaces/email.service.EmailConfig.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/functions/email.service.emailCfgFromEnv.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/classes/email.service.EmailCfg.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/functions/email.service.EmailCfgLive.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/classes/email.service.Email.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/registry/email/variables/email.service.EmailLive.html</loc>
-		<lastmod>2026-07-02T01:58:04.052Z</lastmod>
+		<lastmod>2026-07-02T12:09:25.471Z</lastmod>
 	</url>
 </urlset>

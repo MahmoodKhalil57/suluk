@@ -8,7 +8,7 @@
 
 > **stripeGet**(`cfg`, `path`): `Promise`\<`Response`\>
 
-Defined in: [packages/payments/src/stripe-transport.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/stripe-transport.ts#L28)
+Defined in: [packages/payments/src/stripe-transport.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/stripe-transport.ts#L28)
 
 `@suluk/billing` — Stripe plumbing over an injected config (C046). The transport + customer/intent creation + the
 saved-card surface (v1), plus the money-MOVING paths (hosted Checkout, portal, on-default-card top-up, off-session

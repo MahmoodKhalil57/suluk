@@ -1,0 +1,41 @@
+# auth (registry module)
+
+> The auth foundation: buildAuth (drizzle adapter + openAPI/apiKey/passkey plugins, parametrized), mountAuthRoutes (the Hono handler), and a CurrentUser Effect service. Owns the user + apikey tables. The schema is reconciled against Better Auth v1.6.23 (canonical) — regenerate with `npx @better-auth/cli generate` if you change plugins/version. The signup hook (onUserCreated) wires to the `credits` module.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `authDevMock`: LOCAL-DEV any-email login is armed only in dev-mock: NOT production AND no real Google key.
+- `createAuth`
+- `identity`: Resolve the Better Auth session ONCE per `/api/*` request and stash the principal on the context (so routes read
+`c.
+- `mountAuthRoutes`: Mount Better Auth on your app: the caller-resolution middleware (`identity` session · `apiKeyAuth` · `mcpBearerAuth`) on
+`/api/*` FIRST, then the `...
+- `mcpConnectionKeyId`: The scoped-caller id for an MCP connection — `mcp:<userId>:<clientId>`, NOT the bare clientId (which is shared across
+ every user who authorized th...
+- `getCurrentUser`: Resolve the session user from the request headers.
+- `currentUserLayer`: A `CurrentUser` layer for one request — provide it alongside your feature service layers.
+- `CurrentUser`
+- `apiKeyAuth`: Programmatic auth via an `x-api-key` header (the api-key plugin) — when there is NO session, verify the key and stash its
+OWNER + scopes + key id o...
+- `mcpBearerAuth`: The THIRD caller kind — an MCP OAuth bearer.
+- `user`
+- `session`
+- `account`
+- `verification`
+- `apikey`
+- `passkey`
+- `oauthApplication`
+- `oauthAccessToken`
+- `oauthConsent`
+- `authProvision`
+
+## Optional
+
+### Types
+
+- `AuthEnv`
+- `AppVars`: Request-scoped identity, set by identity (session) or apiKeyAuth (an `x-api-key`).
+- `AppCtx`
+- `SessionUser`

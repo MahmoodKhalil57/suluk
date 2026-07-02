@@ -1,0 +1,19 @@
+# reference (registry module)
+
+> An API reference PAGE rendered by @suluk/reference (the complete v4-native renderer: cost badges, access View-as projection, hardening, try-it) over apiDocument() — the SAME per-principal v4 document the contract keystone derives. GET /api/reference renders the full doc; GET /api/reference/:tool projects it to one operation (by its by-name handle). Own the wiring, npm the renderer. Derived + stateless — no schema, no provision.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### referenceRoutes
+
+```ts
+referenceRoutes(): any
+```
+
+**Returns:** `any`
+
+### referenceOps
+
+```ts
+const referenceOps: { method: string; path: string; name: string; summary: string; tags: string[]; responses: { status: number; description: string }[] }[]
+```

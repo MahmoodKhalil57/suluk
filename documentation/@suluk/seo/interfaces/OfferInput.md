@@ -6,7 +6,7 @@
 
 # Interface: OfferInput
 
-Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L25)
+Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L25)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **availability?**: `string`
 
-Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L25)
+Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L25)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **currency?**: `string`
 
-Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L25)
+Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L25)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > **price**: `string` \| `number`
 
-Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L25)
+Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L25)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **priceValidUntil?**: `string`
 
-Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L25)
+Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L25)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cf
 
 > `optional` **url?**: `string`
 
-Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/schema.ts#L25)
+Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/seo/src/schema.ts#L25)

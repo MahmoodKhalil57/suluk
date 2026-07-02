@@ -1,0 +1,94 @@
+# @suluk/journeys
+
+> Intuitive, runnable BDD over a v4 'Suluk' contract. Projects a deterministic Gherkin step VOCABULARY from the contract (Given from x-suluk-access, When from each operation, Then from declared statuses + x-suluk-store + x-suluk-cost), binds authored .feature stories EXACT-or-UNBOUND with outcome steps resolved relative to the scenario's When-subject, and emits a BIDIRECTIONAL tri-state gap report (PARAPHRASE / NEEDS-DEV-GLUE / NEEDS-CONTRACT) + contract->authored coverage holes. A pure function of the document. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `generateVocabulary`: Project a v4 document into the deterministic step vocabulary.
+- `renderPhrasebook`: A foldable, entity-grouped phrasebook (Markdown) — the human surface an author picks step phrases from.
+- `vocabularyHash`: A deterministic content hash of the vocabulary (djb2 hex) — for drift detection / the build artifact.
+- `opHandle`: Stable by-name handle.
+- `parseFeature`
+- `buildScenarioOutlines`: Build the structured outlines for every operation that has a client-facing request body.
+- `renderScenarioOutlines`: Render the generated outlines as a `.
+- `extractPublicRows`: Every `@public`-tagged Examples block's first row (the tester's curated public example). Pure.
+- `buildExampleObject`: Build a concrete public example object from a row, coercing by the body schema's field types.
+- `promoteExampleIntoZod`: Promote `example` into the source of the Zod schema bound to `const <schemaVar> = …`.
+- `promoteFeatureExamples`: Orchestrate promotion for a whole feature set: for each `@public` Examples row, resolve its target (the consumer maps
+scenario → schemaVar + body s...
+- `bindFeatures`: Bind a parsed feature set against the vocabulary (applying the scaffolder's definitions) and produce the gap report.
+- `detectUndefined`: Detect every authored step that is not yet runnable — the scaffolder's worklist (Cucumber-style "undefined steps",
+here resolved by MAPPING, not by...
+- `renderGapReport`: Render the gap report as readable text (for a CLI / a download endpoint).
+- `renderScaffold`: Render the scaffolder worklist: what a non-technical author wrote that is not yet runnable, and how to resolve it.
+- `emitRunnableSuite`: Emit a runnable bun:test suite (a string) from a parsed, bound feature set, lowered to the real SDK client.
+- `compileDemos`: Compile a bound feature set into the demo IR: ordered requests per scenario, with sourced fields wired to captures.
+- `renderPostman`: Render the demos as a Postman Collection v2.1.0 (a single JSON string).
+- `renderBruno`: Render the demos as a Bruno collection — a map of relative file path → `.bru`/json content the consumer writes.
+- `buildDemoFiles`: Pure: a v4 document text + `.feature` texts → the demo collection file map. No filesystem.
+- `planPromotions`: Plan the promotions for every `@public` Examples row: build the public example (content-typed) and apply
+`promoteExampleIntoZod` to the target's (p...
+- `parseTargetSpec`: Parse `"<scenario>=<file>#<schemaVar>"`. The scenario may contain spaces/`=` only before the FIRST `=`.
+- `miniDiff`: A minimal context diff (the edit is localized to one schema statement). Lines: `  ` ctx, `- ` removed, `+ ` added.
+- `buildAudit`: Run all readiness dimensions over a contract (+ optional `.feature` texts) and fold them into one grade. Pure.
+- `coverageGrade`: Grade a gap report's contract→authored coverage (covered/total) and surface the uncovered ops.
+- `resolveExample`: Resolve a single example by precedence. `hint` (typically the field/op name) only steers SYNTHETIC string values; it
+never changes which tier wins.
+- `synthesize`: A deterministic, schema-shaped example value.
+- `fieldOrigin`: Read a property's origin: explicit `x-suluk-origin` wins; else `readOnly` ⇒ `computed`; else default `input`.
+- `describeInputs`: Describe the TOP-LEVEL fields of an object schema by origin — the surface a client / the @suluk/sdk generator uses to
+know what it may freely fill ...
+- `asSourceRef`: The structured source edge if `x-suluk-from` names an `op`; otherwise undefined (a free note is not wireable).
+- `resolveSourced`: Resolve a `sourced` field's value from a scenario-scoped bag of captured operation results (keyed by `op.
+- `ORIGIN_KEYWORD`
+- `FROM_KEYWORD`
+
+## Optional
+
+### Types
+
+- `Vocabulary`: `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+- `JourneyStep`: `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+- `VocabOperation`: `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+- `StepKind`: `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+- `Feature`
+- `Scenario`
+- `FeatureStep`
+- `ScenarioOutline`
+- `OutlineColumn`
+- `PublicExampleRow`
+- `PromoteResult`
+- `PromoteTarget`
+- `PromoteFeatureResult`
+- `GapReport`
+- `ScenarioResult`
+- `StepResult`
+- `BindState`
+- `CoverageHole`
+- `Definitions`: The SCAFFOLDER's mapping layer (author-owned data, no developer).
+- `UndefinedStep`
+- `DemoScenario`
+- `DemoRequest`
+- `DemoValue`: A request value: a concrete literal, or a `{{var}}` reference to a captured upstream response field.
+- `DemoCapture`: Capture `res.<from>` of this request into the collection variable `var` (for downstream chaining).
+- `DemoFormat`
+- `DemoFilesResult`
+- `PromoteTargetSpec`: A `--target "<scenario>=<file>#<schemaVar>"` mapping.
+- `PromotionPlan`
+- `PromotionRow`
+- `PromotionFileResult`
+- `AuditResult`
+- `DimensionAudit`
+- `CoverageGrade`
+- `JsonSchema`: A JSON Schema 2020-12 object (the v4 inner-schema shape). Opaque-ish; we read a known subset.
+- `ExampleTier`: Which source supplied the resolved value. `public` (highest) > `maintainer` > `synthetic` (lowest).
+- `ExampleSources`: The two human-authored tiers a caller may supply; the synthetic tier is derived from the schema.
+- `ResolvedExample`
+- `FieldOrigin`: `input` = the client is the authority (free, faker-able); `sourced` = retrieved elsewhere (wired); `computed` = server-derived.
+- `SourceRef`: A machine-wireable source edge for a `sourced` field: pull `select` (default "id") from operation `op`'s response.
+- `FieldSource`: `x-suluk-from` is EITHER a free human note (string, doc-only) OR a structured, wireable `SourceRef`.
+- `FieldDescriptor`
+- `SynthDirection`: Direction controls origin handling: a "request" example omits server-`computed` fields a client never sends; a
+ "response" example omits `writeOnly...

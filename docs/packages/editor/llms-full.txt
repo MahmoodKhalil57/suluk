@@ -1,0 +1,54 @@
+# @suluk/editor
+
+> A fully-static, client-only OpenAPI v4 EDITOR (the editor.scalar.com analog, native v4). Two panes: a CodeMirror source editor + a live API reference rendered by the suluk Scalar fork; diagnostics from @suluk/core + @suluk/harden; 3.1→v4 upgrade via @suluk/openapi-compat; v4 superpowers (cost/access/hardening) in the preview. No server: parse→validate→harden→enrich→re-mount all run in the browser. editorHtml() emits a self-contained page; the built client bundle ships in dist/. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### editorHtml
+
+Build the self-contained editor page.
+
+```ts
+editorHtml(opts: EditorOptions): string
+```
+
+**Parameters:**
+- `opts: EditorOptions` — 
+
+**Returns:** `string`
+
+### editorResponse
+
+The editor page as a text/html Response (Workers / Bun.serve / Hono).
+
+```ts
+editorResponse(opts: EditorOptions): Response
+```
+
+**Parameters:**
+- `opts: EditorOptions` — 
+
+**Returns:** `Response`
+
+### EditorExample
+
+Seed documents the editor can open with. These are deliberately v4-NATIVE: the flagship "Suluk Galaxy" puts TWO
+named requests on one path sharing the same HTTP method (`checkout` → guestCheckout + memberCheckout) — the headline
+v4 capability that OpenAPI 3.1, which keys operations by method, cannot express. They also carry the v4 facets
+(`x-suluk-cost`, `x-suluk-access`) so the preview's cost explorer + access lens + hardening grade light up.
+
+`doc` is typed `unknown` on purpose: the v4 facets live as `x-suluk-*` members on requests, which the strict
+Request type does not enumerate. The editor stringifies `doc` to JSON for the source pane; @suluk/core then
+re-parses + validates it like any user input — so these are held to the same bar as a pasted document.
+
+### examples
+
+```ts
+const examples: EditorExample[]
+```
+
+### defaultExample
+
+```ts
+const defaultExample: EditorExample
+```

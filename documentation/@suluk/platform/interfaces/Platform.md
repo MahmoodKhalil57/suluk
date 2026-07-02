@@ -6,7 +6,7 @@
 
 # Interface: Platform
 
-Defined in: [manifest.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/manifest.ts#L92)
+Defined in: [manifest.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/manifest.ts#L92)
 
 A bound platform = a system + a brand.
 
@@ -16,7 +16,7 @@ A bound platform = a system + a brand.
 
 > **brand**: [`BrandManifest`](BrandManifest.md)
 
-Defined in: [manifest.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/manifest.ts#L94)
+Defined in: [manifest.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/manifest.ts#L94)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [manifest.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > **system**: [`SystemManifest`](SystemManifest.md)\<`any`\>
 
-Defined in: [manifest.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/manifest.ts#L93)
+Defined in: [manifest.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/platform/src/manifest.ts#L93)

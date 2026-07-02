@@ -1,0 +1,39 @@
+# @suluk/panel
+
+> Contract-first admin panels, in the spirit of Payload but projected from one OpenAPI v4 document. Infers Payload-style field types from the contract, renders shadcn/theme-aware forms + data tables, and mounts a role-aware superadmin (and per-role dashboards) — no config DSL, no framework lock-in. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `fieldsOf`: Infer the ordered field set for an entity. `entities` is the set of entity names (for relationship detection).
+- `titleField`: The entity's best "title" field — for list columns + relationship option labels.
+- `humanize`: "coverImageUrl" → "Cover Image", "categoryId" → "Category".
+- `entityModels`
+- `renderInput`
+- `renderFieldRow`: One labelled field row (label · required mark · description · the input).
+- `renderList`
+- `renderForm`
+- `renderShell`
+- `richtextEditor`: The editor markup for one rich-text field. `name` is the form field; `value` is the initial markdown.
+- `richtextScript`: Client init for every `[data-rt]` on the page — toolbar inserts markdown around the selection; the Preview tab
+ renders the markdown with an inline...
+- `mediaEditor`
+- `mediaScript`: Client init for every `[data-media]`: live preview on URL change + (if window.
+- `panelApp`
+- `PANEL_CSS`
+- `RICHTEXT_CSS`
+- `MEDIA_CSS`
+
+## Optional
+
+### Types
+
+- `Field`: `@suluk/panel` — contract-first admin panels, in the spirit of Payload but projected from ONE OpenAPI v4 document.
+- `FieldType`: Field-type inference — the Payload-parity core, contract-first.
+- `EntityModel`
+- `NavGroup`
+- `NavItem`
+- `StatCard`: A KPI tile on the dashboard home.
+- `PanelSection`: A custom, non-CRUD page mounted at `${basePath}/s/<id>`, rendered inside the panel shell.
+- `PanelGroup`: Sidebar grouping: a titled section listing entity names and/or section ids, in order.

@@ -1,0 +1,2140 @@
+# Suluk
+
+> Suluk = an OpenAPI v4.0 candidate spec + a contracts-in/everything-derived TypeScript framework: the @suluk/* packages (the npm logic) and a shadcn registry of own-the-code backend modules (the app-owned wiring).
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+## @suluk/admin
+
+### API
+
+- `adminApp`: Build the /superadmin Hono app. Mount it on your server: `app.route("/", adminApp({...}))`.
+- `layout`
+- `renderCycle`
+- `renderBuilder`
+- `renderChecks`
+- `renderDeploy`
+- `esc`
+- `entityModels`: Project a v4 document's component schemas into admin entity models (fields + per-CRUD access scope), sorted.
+- `renderEntityForm`: A create/edit form for an entity, derived from its schema. `id` is omitted on create (DB-assigned).
+- `renderEntityTable`: A list table for an entity — a column per field; `rows` are optional sample data to fill it.
+- `renderDataIndex`: The data-admin index: every CRUD-managed entity + its access scopes, linking to its per-entity page.
+- `renderEntityAdmin`: One entity's data-admin page — a FULLY FUNCTIONAL CRUD UI (saastarter's Payload admin, projected): a live list
+table (loaded from the entity's CRUD...
+- `renderAnalytics`: Render the analytics dashboard for a document.
+
+## Optional
+
+### Types
+
+- `EntityModel`
+- `EntityField`
+- `EntityAccess`
+
+## @suluk/agents
+
+### API
+
+- `lintAgents`: `@suluk/agents` — the Suluk Agent composition layer (C027).
+- `lintOk`: True ⇒ no error-severity findings (warnings/info are advisory).
+- `assertAgentInstallable`: Convenience: lint a single agent's existence + errors, throwing the first error (for fail-loud projection).
+- `parsePointer`: Parse a `#/a/b~1c/d` fragment pointer into its decoded tokens (or null if not a local fragment pointer).
+- `resolveOperationRef`: Resolve a route's `operationRef` to an EXISTING operation.
+- `agentMap`: The agent map, or an empty record.
+- `subAgentKey`: Decode a sub-agent ref `#/x-suluk-agents/<key>` to its key (or null if malformed / not an agent ref).
+- `childKeys`: Direct sub-agent keys of an agent (decoded; may include dangling keys — the caller lint-checks existence).
+- `findCycle`: Detect a cycle in the agent graph reachable from `root`, following by-name sub-agent refs.
+- `subtreeDepth`: Longest sub-agent path depth below `root` (a leaf — no sub-agents — is depth 0).
+- `deepStrings`: Every string value reachable in an object (for the request-value-selector D1 scan).
+- `resolveInstruction`: Resolve a pinned instruction snapshot from an `instructions` map, accepting BOTH key conventions used across the
+package: the QUALIFIED `"<agent>/<...
+- `contentHash`: A short, stable content hash of an instructions snapshot.
+- `renderSkillMd`: Render a Claude SKILL.
+- `projectClaudePlugin`
+- `projectOpenRouter`
+- `projectCloudflareAgent`: Project an agent → an owned Cloudflare Agents-SDK scaffold + the Durable Object descriptors.
+- `projectNodeAgent`: Project one agent → an owned Bun/Node agent-server scaffold. Pure, fail-loud.
+- `routeToolDef`: Derive a route's tool-def from the contract (name + description + input schema + approval gate + paid-tool price).
+- `paidToolPrice`: Derive an x402 `paidTool` price from an operation's declared `x-suluk-cost` (a `CostModel`, read STRUCTURALLY — no
+`@suluk/cost` dep).
+- `reachableSurface`: The statically-enumerable reachable surface of an agent: its own route keys (the wire ids) + every route key of
+every transitively-reachable sub-ag...
+- `residentSurface`: The RESIDENT surface of an agent (C027) — its own routes whose `tier` is not `cold-tail` (the default-visible
+tool set).
+- `residentToolNames`: The RESIDENT served-tool NAMES across an agent's whole REACHABLE surface (C027 tier-trim serving) — every route key
+(the served wire id) whose `tie...
+- `assertServedSubset`: OVER-SERVE auditor: assert the tools a server actually exposes are a SUBSET of the declared reachable surface.
+- `assertServedSubsetGoverned`: POLICY-AWARE OVER-SERVE (C028): when an operator policy governs the agent, the served tools must be a subset of
+the POST-POLICY effective surface —...
+- `assertDefaultServedResident`: TIER-TRIM CONFORMANCE: the DEFAULT served tool set must contain NO cold-tail tool (those belong behind
+`discover_tools`).
+- `verifySkillFreshness`: SKILL-FRESHNESS: a skill's declared `provenance.
+- `conformanceOk`: True ⇒ no error-severity conformance findings (warnings are advisory). Mirrors `lintOk` — the served-fact gate.
+- `intersectScope`: INTERSECTION with null-as-unconstrained: ∩(null, X)=X, ∩(X, null)=X, ∩(X, Y)=X∩Y.
+- `analyzeScopes`: Walk the agent tree from `root`, computing each reachable node's effective (intersected) scope and every per-edge
+escalation.
+- `localEscalations`: A LOCAL author-time escalation check for one agent's direct children: a child may not DECLARE a permission its
+immediate parent does not grant (und...
+- `agentManifest`: Build the canonical, signable manifest for an agent and its reachable sub-tree. Pure; does not throw.
+- `verifyAgentFreshness`: Verify a signed manifest's skills against the CURRENT served snapshots: each skill's signed `contentHash` must
+equal the hash of its current snapshot.
+- `policyConstrain`: Apply ONE operator policy to an agent — a monotone MEET. Returns the narrowed envelope + an audit of every cut.
+- `effectiveUnderPolicies`: Apply ALL governing policies to an agent (MEET is associative/commutative — compose left-to-right).
+- `policiesFor`: All policies in the document that govern `agentKey`.
+- `policyAppliesTo`: Does this policy govern `agentKey`? (empty/absent appliesTo ⇒ all agents.)
+- `lintPolicy`: Lint every operator policy: D1 selector-rejection, dangling appliesTo, unsatisfiability, widening, cap<estimate.
+- `policyOk`: True ⇒ no error-severity policy findings.
+- `contextReport`: Compute the context-intelligence report (load + right-sizing + model fit) for every agent in the document.
+- `suggestUnflatten`: When an agent is over its target, the cheapest decomposition: which resident tools to push to cold-tail.
+- `resolveSkillModels`: Run the catalog selector for a skill from its declared NEEDS + the analyzer load.
+- `skillModels`: The public seam: the models for a skill — its DECLARED list (opt-out) or the catalog-SELECTED ranked ids, resolved
+to a runtime TARGET (pin / route...
+- `deriveCQT`: cost_quality_tradeoff 0.
+- `selectModel`
+- `deriveRequirements`: Derive HardFilters from an agent/skill's declared needs + the analyzer's load (the C027 seam).
+- `agentDiagram`: Build the agent's composition hierarchy. Cycle-safe: a back-edge on the current path becomes a marked leaf.
+- `agentDiagramHtml`: Render the agent as ONE self-contained, interactive HTML page (collapsible + zoomable D3 tree).
+- `gradeAgent`: Grade ONE agent A–F by aggregating the package's existing checks (+ two structure checks). Pure & static by default.
+- `gradeAgents`: Grade EVERY agent in the document (weakest first) — the rollup. Computes the whole-doc passes ONCE (not per agent).
+- `assertAgentGrade`: CI GATE (the hard incentive, mirrors `@suluk/harden`'s assertGrade): throw if the agent's grade is below `min`.
+- `agentGradeOk`: True ⇒ the agent's grade is at least `min`.
+- `gradeOf`: harden's letter thresholds, mirrored so the two grades share one ORDINAL scale (Stage 1.5 combines LETTERS).
+- `agentLevel`: An agent's pyramid LEVEL: its composition height above the deterministic route-floor.
+- `layerReport`: Build the whole-document pyramid view.
+- `agenticPatterns`: The agentic patterns an agent's composition SHAPE affords (advisory; the runtime picks the actual trajectory).
+- `affordedPatterns`: Convenience: just the pattern names an agent's shape affords (advisory).
+- `resourceCatalog`: The agent's reachable loadable-resource catalog — its DIRECT `resources` refs resolved against the top-level map
+(each sub-agent owns its own catal...
+- `lintResources`: Lint the resources catalog + every agent's refs into it: catalog entries must be well-formed (description, valid
+kind, pinned provenance), agent re...
+- `resourcesOk`: True ⇒ no error-severity resource finding (the install-gate predicate for the resources facet).
+- `resourceMap`: The top-level resources catalog (empty when absent).
+- `resourceKey`: Decode a resource ref `#/x-suluk-resources/<key>` to its key (or null if malformed / not a resource ref).
+- `runtimeProviders`: The runtime-provider registry. Add new targets here; the interface is the contract (mirrors `@suluk/deploy`'s `providers`).
+- `cloudflareRuntime`: The Cloudflare adapter — wraps `projectCloudflareAgent` into the generic seam (its `durableObjects` → the deploy hint).
+- `nodeRuntime`: The Node/Bun adapter — wraps `projectNodeAgent`. A plain long-lived process, so the deploy hint carries no infra.
+- `SEED_CATALOG`: Illustrative seed — NOT the live catalog. Tiers reflect coarse public standing as of asOf; UNKNOWN is honest.
+- `PROFILES`
+- `FLOOR_LEVEL`: Routes — the deterministic floor — sit at level 0. The lowest an orchestrating agent can sit is level 1.
+
+## Optional
+
+### Types
+
+- `LintFinding`: `@suluk/agents` — the Suluk Agent composition layer (C027).
+- `Severity`: `@suluk/agents` — the Suluk Agent composition layer (C027).
+- `OperationLocus`
+- `ResolvedOperation`
+- `SkillRenderInput`
+- `ClaudePluginArtifacts`
+- `OpenRouterAgentManifest`
+- `OpenRouterFunctionTool`
+- `CloudflareAgentArtifacts`
+- `NodeAgentArtifacts`
+- `AgentRuntimeProvider`: A runtime target. PURE: it projects the agent into owned source; the host writes the files + deploys (mirrors DeployProvider).
+- `AgentRuntimeArtifacts`: What every runtime adapter returns: owned source + the reachable sub-agent list + the deploy hint.
+- `RuntimeDeployHint`: The provider-specific deploy hint — a discriminated union (tightened from `Record<string,unknown>` once a 2nd adapter
+landed, per the C034 follow-up).
+- `RouteToolDef`: A tool DERIVED from a route's operation — the runtime-agnostic shape every adapter renders its own way.
+- `PaidToolPrice`: An x402 `paidTool` price derived from a route's declared `x-suluk-cost` (C026/C035).
+- `ConformanceFinding`
+- `Scope`
+- `ScopeEscalation`
+- `AgentManifest`
+- `AgentManifestNode`
+- `AgentManifestSkill`
+- `AgentManifestRoute`
+- `AgentManifestGoverned`: The operator-effective surface after x-suluk-policy narrowing (present only when a policy governs the agent).
+- `EffectiveAgent`
+- `EffectiveSkill`
+- `PolicyNarrowing`
+- `PolicyConstrainResult`
+- `ContextReport`
+- `AgentContextLoad`
+- `UnflattenSuggestion`
+- `FlattenSuggestion`: The dual of unflatten: a thin/redundant layer worth collapsing UP into its parent.
+- `ModelFit`: Per declared candidate model: does its context window hold this agent's load? (window null ⇒ unknown model.)
+- `ToolContextCost`
+- `SkillModelResolution`
+- `ResolvedTarget`: How a skill RESOLVES to a runtime model (C030, council wf_75f87ab6-b1b — unanimous hybrid).
+- `ModelCatalog`
+- `SelectResult`
+- `Preferences`: Preference — RANKS the survivors. A named profile is the 90% case; the escape hatch is ≤4 small int weights.
+- `HardFilters`: Hard requirements — these FILTER (can empty the set ⇒ fail-loud), never rank.
+- `DiagramNode`
+- `DiagramKind`
+- `AgentGrade`
+- `AgentGradeReport`
+- `AgentGradeFinding`
+- `GradeDimension`
+- `GradeSeverity`
+- `AgentLayer`: One agent's row in the pyramid view: where it sits + what it composes + the three static-observability signals.
+- `LayerReport`
+- `AgenticPattern`
+- `PatternAffordance`
+- `CatalogEntry`: One entry in an agent's loadable catalog — the CF Agent-Skill `get()` listing (what appears in the system prompt).
+- `ResourceFinding`
+
+## @suluk/better-auth
+
+### API
+
+- `authSecuritySchemes`: Build v4 securitySchemes from the enabled Better Auth methods.
+- `normalizeOas30`: Recursively rewrite OpenAPI-3.0 Schema-Object dialect into JSON Schema 2020-12.
+- `ingestAuthOpenAPI`: Normalize + upgrade Better Auth's OpenAPI 3.0 schema to a v4 document (the auth surface).
+- `mergeAuth`: Deep-merge auth paths + components (schemas + securitySchemes) into an app's v4 document.
+- `principalFromSession`: Extract a { scopes } principal from a Better Auth session.
+- `orgScope`: Build the org-namespaced scope `org:<orgId>:<action>` (the tenancy encoding).
+- `parseOrgScope`: Parse an `org:<id>:<action>` scope back into its parts (null if it isn't one).
+- `mountAuth`: Mount the Better Auth handler onto a Hono app under basePath/* (default /api/auth/*).
+- `verifyApiKey`: Verify an API key (optionally requiring scopes) and return a `{ scopes }` Principal.
+- `scopesToPermissions`: Flat scopes → Better Auth permissions.
+- `permissionsToScopes`: Better Auth permissions → flat scopes.
+- `parseApiKeyMetadata`: Safely parse key metadata, handling Better Auth's potential DOUBLE-stringification of the JSON field.
+- `beforeDeleteCascade`: Build the Better Auth `user.
+- `step`: A generic cascade step.
+- `anonymizeStep`: An ANONYMIZE step — keep the row, scrub its PII (the FK-safe posture; recommended default).
+- `deleteStep`: A hard-DELETE step — cascade-remove a subsystem's rows for the user.
+- `isSafeRelativePath`: A path is safe to redirect to iff it's a SINGLE-leading-slash relative path (rejects "//host", "http(s)://…",
+ backslash tricks, and protocol-relat...
+- `resolveRedirectTo`: Read `redirectTo` from a query string / URLSearchParams; return it only if same-origin-relative, else `fallback`.
+- `withRedirectTo`: Append a (guarded) `redirectTo` to an href — e.
+- `emailVerificationConfig`: A Better Auth `emailVerification` block with frictionless-activation defaults.
+- `previewLoginHandler`: Handle `GET /preview/login?
+- `isPreviewRuntime`: True iff BOTH independent locks say "preview". Exported so callers/tests can assert the gate in isolation.
+- `devLoginHandler`: Handle `POST /api/auth/dev-login` with `{ email }`.
+- `MFA_SCOPE`: The scope a route requires to be sure the caller cleared their second factor (twoFactor plugin).
+- `DEV_LOGIN_PASSWORD`: The fixed internal password the dev-login uses to drive email/password sign-up + sign-in. Not a real credential.
+
+## Optional
+
+### Types
+
+- `AuthMethods`: `@suluk/better-auth` — official Better-Auth-on-Hono support for the Suluk derivation engine.
+- `AuthSecurity`: `@suluk/better-auth` — official Better-Auth-on-Hono support for the Suluk derivation engine.
+- `Principal`: The principal extractor — the loop-closer for per-viewer docs.
+- `SessionLike`: A minimal view of a Better Auth session (duck-typed; works with the real Session shape).
+- `AuthHandlerLike`: mountAuth — the thin Hono adapter for Better Auth (the documented integration:
+app.
+- `HonoLike`
+- `ApiKeyVerifierLike`: A duck-typed view of Better Auth's server `verifyApiKey` (the app injects `betterAuth.api`).
+- `VerifyApiKeyResult`
+- `VerifiedKey`: The verified key's identity surface (metadata parsed via the double-stringification guard).
+- `VerifyReason`
+- `ApiKeyMetadata`: Metadata stored on a key for delegation tracking (saastarter metadata.ts:4-8).
+- `CascadeStep`: One step of the erasure cascade — the erasure of one subsystem for one user.
+- `PreviewRequestLike`: A minimal view of the Worker request — only `.url` (to read the `role` query param) is needed. Web `Request` satisfies it.
+- `PreviewEnvLike`: The two independent locks live on the Worker env: a var and a binding. Duck-typed; extra keys ignored.
+- `MintedSession`: What a successful mint returns: the headers to set on the redirect (e.g. the session Set-Cookie).
+- `DevLoginAuthLike`: The Better Auth surface this needs — its public `signUpEmail`/`signInEmail` server endpoints. Duck-typed.
+
+## @suluk/billing
+
+### API
+
+- `stripePost`: `@suluk/billing` — Stripe plumbing over an injected config (C046).
+- `stripeGet`: `@suluk/billing` — Stripe plumbing over an injected config (C046).
+- `toForm`: Stripe's bracket-nested `x-www-form-urlencoded` encoder: objects → `key[k]`, arrays → `key[i]`, scalars appended;
+ undefined/null are skipped.
+- `mockStripeFetch`: Build a mock Stripe `fetch`.
+- `createCustomer`: Create a Stripe customer for the user (the caller persists the id).
+- `createSetupIntent`: Create a $0 SetupIntent to vault a card without charging ("Add card"). Returns the client secret.
+- `createPaymentIntent`: Create a PaymentIntent for an on-site one-time top-up (saves the card; the webhook credits it). Returns the client secret.
+- `listPaymentMethods`: List a customer's saved cards (each with its billing address), marking the invoice default.
+- `defaultCard`: The customer's DEFAULT saved card — its id (to charge) + its billing address (to locate tax).
+- `defaultPaymentMethodId`: The customer's default payment-method id (to charge off-session), or null.
+- `ownsPaymentMethod`: Whether `pmId` belongs to `customerId` — guards set-default / detach against another customer's card.
+- `setDefaultPaymentMethod`: Make `pmId` the customer's default payment method for invoices.
+- `setSubscriptionDefaultCard`: Point an ACTIVE subscription at `pmId` too, so changing the default card moves the recurring charge to it.
+- `detachPaymentMethod`: Detach (remove) a saved card from the customer.
+- `setSubscriptionCancel`: Schedule the subscription to cancel at the period end (`cancel=true`) or resume it (`cancel=false`).
+- `payOpenInvoice`: Best-effort: if the subscription's latest invoice is still OPEN (a failed renewal), retry it NOW.
+- `createCheckout`: Create a Stripe Checkout Session (one-time top-up) — the hosted FALLBACK to the on-site Payment Element.
+- `createSubscriptionCheckout`: Stripe Checkout in SUBSCRIPTION mode (recurring). subscription_data.metadata carries who + how many credits/cycle.
+- `createPortalSessionForCustomer`: Open the Stripe billing portal (manage/cancel) for an existing customer. Returns the URL; throws on a Stripe error.
+- `createPaymentIntentOnDefaultCard`: Create a PaymentIntent on the customer's SAVED DEFAULT card — the one-click top-up path.
+- `chargeOffSession`: An OFF-SESSION charge on a saved card (auto-top-up).
+- `calculateTax`: Sales-tax / VAT for an on-site or auto top-up.
+- `recordTaxTransaction`: Record a finished tax calculation as a Tax Transaction (the compliance/reporting step), keyed to a `reference`
+ (e.
+- `planById`: The app's plan whose id is `id`, or undefined — the generic lookup the orchestrators use against the injected catalog.
+- `planByPrice`: The plan whose monthly price is exactly `priceCents` (each tier has a distinct price), or undefined — maps a live
+ Stripe item price back to a plan...
+- `ceilingFor`: The "paid ceiling" for the CURRENT cycle = the highest plan price already CHARGED this cycle.
+- `ensurePlanPrice`: Find (by lookup_key) or create the recurring Stripe Price for a plan.
+- `createSubscriptionOnDefaultCard`: Create a subscription ON the saved default card (one-click).
+- `getSubscriptionStatus`
+- `changeSubscriptionPlan`
+- `billingCustomerId`: The user's Stripe customer id, or null when they have no billing account yet.
+- `billingSubscriptionId`: The user's recorded Stripe subscription id, or null when they have no subscription.
+- `linkBillingCustomer`: Persist the user's Stripe customer id WITHOUT touching subscriptionId — so a one-time top-up never clears a
+ subscriber's `subscriptionId` (unlike ...
+- `upsertBillingAccount`: Persist customer + subscription together (the subscribe path sets both). Idempotent on the userId PK.
+- `clearSubscription`: Clear the recorded subscription (on customer.subscription.deleted) — leaves the customer id (+ its saved card) intact.
+- `billingAccount`
+
+## Optional
+
+### Types
+
+- `PaymentMethodWire`: A payment method as the billing panel shows it — card + its billing address + whether it's the customer's default.
+- `TaxAddress`: A buyer's tax location (from a saved card's billing address).
+- `CheckoutOpts`
+- `SubscriptionCheckoutOpts`
+- `TopupMeta`: The metadata tag the webhook reads to decide whether (and how) to credit a PaymentIntent.
+- `TaxResult`
+- `TaxLocation`: A buyer's tax location.
+- `SubPlan`: A subscription plan as the app prices it — generic shape; the app derives `priceCents`/`credits` from its COGS model.
+- `SubscriptionBranding`: Branding seam for the Stripe Product/Price a plan creates — app-controlled so find-or-create stays stable + on-brand.
+- `SubscriptionStatus`: The user's CURRENT subscription as the UI needs it (plan + status + period end + pending-cancel + the cycle's paid
+ ceiling), or null when there's ...
+- `ChangePlanResult`: Change the subscriber's plan IN PLACE against the cycle's PAID CEILING (see ceilingFor).
+- `BillingDB`: The injected DB handle. Prod is drizzle/d1; tests bridge drizzle/bun-sqlite to this type (a runtime-identity narrow).
+
+## @suluk/builder
+
+### API
+
+- `isBind`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `isEach`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `isSlot`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `isListSpec`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `registry`: Build a registry from loose document lists + the set of leaf component names.
+- `emptyRegistry`
+- `findDoc`
+- `allowedTypes`: The type names a document of `tier` is allowed to reference (its children come from COMPOSES[tier]).
+- `resolveParams`: Effective param values: defaults, then a variant preset, then consumer props (only keys in `params`).
+- `resolveList`: The effective ordered selection for a `list` param.
+- `validateDocument`: Validate one document against the registry.
+- `validateAll`: Validate every page / section / block in the registry.
+- `renderPageTsx`
+- `resolveComponents`: Ordered component names a page resolves to (section list → each section's block list → block===component).
+- `crudRoutesFromSchema`: Generate backend CRUD RouteContracts from an entity's v4 schema (schemas → Zod for the bodies).
+- `formBlock`: A Form block for an entity. Its contract (`params`) exposes only tone + which fields — the field SET is fixed.
+- `tableBlock`: A Table block for an entity. Exposes tone + which columns.
+- `crudSection`: A CRUD section composing the entity's Table + Form blocks.
+- `appPage`: A page composing the given sections. Forwards tone; exposes only { sections, tone } upward.
+- `buildApp`: Build the WHOLE app — backend (routes + v4) and frontend (components + pages) — from one declarative spec.
+- `toShadcnRegistry`: Convert a BuiltApp into a shadcn registry: one "block" item per entity bundling its frontend components +
+backend routes module + its v4 schema, pl...
+- `installModule`: Merge a module's contract fragment into the app document — REFUSING on any collision or unmet requirement.
+- `namespaceModule`: Resolve a collision by NAMESPACING a module: prefix its OWNED entities, rewrite internal $refs that point to
+them, and remap auto-CRUD cost keys ac...
+- `crudV4Paths`: The v4 CRUD operations for one entity, with $ref-based schemas (so the entity lives in components.schemas).
+- `moduleOperations`: Every operation handle a module declares (auto-CRUD per provided entity + explicit ops).
+- `gradeModule`: A conformance grade.
+- `previewInstall`: Preview an install WITHOUT committing — what it adds, what it requires, any conflicts, and its grade.
+- `schemaRefName`: The ROOT schema NAME a $ref targets, or null if it isn't a components/schemas reference.
+- `resolveTemplate`: Resolve a template's module names to actual modules from a registry — REPORTING any name that doesn't resolve
+ (a typo or a module missing from thi...
+- `buildMarketing`: Build the marketing landing — sections + blocks + a page — from one spec. Synchronous: no fetch, no runtime.
+- `marketingPage`: A landing page composing the given marketing sections — mirrors appPage (exposes only { tone, sections }).
+- `seoMeta`: Resolve a seoMeta field-group: og* default to title/description, sensible card/type/locale defaults.
+- `jsonLd`: Emit a schema.org JSON-LD object for an entity/page — drop it into a <script type="application/ld+json">.
+- `planComposition`: Topologically order modules by `requires`/`provides`, modelling the collision invariants installModule enforces.
+- `composeModules`: Install a set of modules in dependency order, returning the merged platform contract + a per-step trace.
+- `providerFacets`: The facets the catalog knows about (payments, auth, email, storage).
+- `readProviders`: The active provider bindings recorded in the document (from installed modules' providerSlots).
+- `swapProvider`: Rebind a facet's slot to another implementation of the same interface. Returns the unchanged doc on error.
+- `parseRegistry`: Parse an UNTRUSTED registry payload (e.g. fetched JSON) into a ModuleRegistry, rejecting malformed entries.
+- `validateModule`: Validate one UNTRUSTED module manifest, VALUE-shapes included. Returns the typed module or a human reason.
+- `signRegistry`: Sign a registry value with a private JWK → a base64 signature over its canonical bytes.
+- `verifyRegistrySignature`: Verify a registry value against a base64 signature + a pinned public JWK. Never throws — false on any error.
+- `generateSigningKeypair`: Generate an ECDSA P-256 keypair as JWKs (for tooling / tests — a publisher keeps the private key).
+- `isSignedEnvelope`
+- `COMPOSES`: What each tier may compose (its children come from this tier). `components` is the leaf (real UI).
+- `LAYOUT`: Universal structural containers — valid at ANY tier; their children stay in the doc's composed tier.
+- `AUTH`
+- `ECOMMERCE`
+- `CRM`
+- `BILLING`
+- `MARKETING`
+- `PREVIEW`
+- `PREVIEW_ONLY_MARKER`: The marker every preview-only operation carries; converge keys on it to surface the backdoor.
+- `FIRST_PARTY_REGISTRY`
+- `STACK_TEMPLATES`
+- `MARKETING_COMPONENTS`: The leaf marketing components (app-provided UI). Registered so a section's block may reference them.
+- `PROVIDER_CATALOG`: The catalog of swappable implementations per facet. First-party bindings carry their `@suluk` package.
+
+## Optional
+
+### Types
+
+- `Tier`: The composition DSL — the contract model.
+- `ListControl`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `ParamSpec`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `DslNode`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `DslDocument`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `DslChild`: `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle.
+- `BindRef`: Forwards a resolved param of the current document.
+- `EachRef`: Placeholder expanded to the consumer's catalog selection.
+- `SlotRef`: Placeholder where a consumer's passed-in children render.
+- `Registry`
+- `DslError`
+- `Entity`
+- `AppSpec`
+- `BuiltApp`
+- `RegistryItem`
+- `RegistryFile`
+- `SulukModule`
+- `InstallResult`
+- `ModuleCost`: A per-operation cost facet (mirrors @suluk/cost's CostModel; kept local so builder needn't depend on cost).
+- `ModuleRegistry`
+- `ModuleEntry`
+- `ModuleGrade`
+- `InstallPreview`
+- `StackTemplate`: A named set of modules that compose into a working platform (L2 — the non-developer flow).
+- `MarketingSpec`
+- `BuiltMarketing`
+- `PlanSpec`: A pricing plan — static config (no live Stripe matrix); `stripePriceId` is carried for the app to resolve.
+- `ProjectionSource`: A declarative projection a data-driven section reads from — the app's renderer turns it into a query.
+- `SeoMeta`
+- `SeoMetaInput`
+- `JsonLdKind`
+- `CompositionPlan`
+- `ComposeResult`
+- `ComposeStep`
+- `ProviderImpl`: Provider SLOTS (M3) — "swap out a provider you chose.
+- `ProviderBinding`
+- `SwapResult`
+- `RegistrySource`: A configured remote registry (persisted by the host).
+- `ParsedRegistry`
+- `SignedEnvelope`: A signed registry payload: the registry value + a detached base64 signature over its canonical bytes.
+
+## @suluk/chat
+
+### API
+
+- `chatApp`: `@suluk/chat` — a contract-driven chat AGENT for any suluk app.
+- `sanitizeMessages`: Sanitize client-supplied history: ONLY user/assistant text turns survive — no client-forged system/tool turns or
+ tool_calls (which would be a prom...
+- `sanitizeClientTools`: Validate client-declared browser tools: well-formed names only, capped, and NEVER allowed to shadow a server
+ tool (a forged client tool with a ser...
+- `runAgent`
+- `streamCompletion`: One streamed chat completion.
+- `parseSSEStream`: Parse an OpenAI-style SSE completion stream: forward `delta.content`, accumulate `delta.tool_calls` by index.
+- `toolsToOpenAI`: Map @suluk/mcp tool descriptors to OpenAI/OpenRouter `tools` (function-calling) shape.
+- `chatWidget`
+- `DEFAULT_SYSTEM`: `@suluk/chat` — a contract-driven chat AGENT for any suluk app.
+
+## Optional
+
+### Types
+
+- `AgentEvent`
+- `ClientToolDef`: A browser-executed tool: the model can call it, but the WORKER never runs it — it streams a `client_tool` event
+ to the widget, which executes the ...
+- `ChatMessage`
+- `ToolCall`
+- `OpenAITool`
+
+## @suluk/cloudflare
+
+### API
+
+- `provisionD1`: Create-or-get a D1 database by name.
+- `queryD1`: Run SQL against a D1 database (D1 accepts multiple `;`-separated statements per call).
+- `d1Rows`: Rows from a D1 query response — the API returns `[{ results, success, meta }]` (one per statement); take the last.
+- `kvGet`: Read a KV value (raw); null when the key is absent.
+- `kvPut`: Write a KV value (optional TTL in seconds).
+- `kvDelete`: Delete a KV key.
+- `kvList`: List KV keys (optionally by prefix) — returns the key names.
+- `applyMigrations`: Apply D1 migrations with a LEDGER (`_suluk_migrations`) so each runs exactly once — the missing piece that makes a
+redeploy safe.
+- `provisionKvNamespace`: Create-or-get a Workers KV namespace by title (e.g. a sessions or rate-limit store).
+- `provisionR2Bucket`: Create-or-get an R2 bucket by name (e.g. media/upload storage).
+- `putSecret`: Set ONE Worker secret (an encrypted `secret_text` binding). The script must already exist.
+- `putSecrets`: Set many secrets, skipping empty/undefined values; returns the names actually set.
+- `resolveZoneId`: Resolve a zone id from its apex host (e.g. `example.com`). Throws when the token can't see the zone.
+- `ensureWwwRedirect`: Ensure a www→apex 301 redirect (path + query preserved) on the zone. Idempotent (dedup by rule description).
+- `removeWwwRedirect`: Remove the suluk www→apex redirect rule from the zone (leaves any other redirect rules intact).
+- `uploadAssets`: Upload a set of static assets; returns the completion JWT for the worker metadata, or `null` when there are none.
+- `assetHash`: The Workers-Assets manifest hash: the first 32 hex chars (16 bytes) of the contents' SHA-256.
+- `extractAssetRuleFiles`: Pull `_headers` / `_redirects` OUT of an asset list.
+- `deployWorker`
+- `putCronTriggers`: Set the cron triggers for a script (separate endpoint — metadata doesn't carry them).
+- `deploy`: Orchestrate a full deploy over a client + plan. `log` narrates each step.
+- `deployWith`: Convenience: build a client from token/account options and run a deploy.
+- `kvRateLimitStore`: Build a KV-backed RateLimitStore.
+- `memoryRateLimitStore`: A per-instance in-memory fixed-window store — the fail-open fallback (DEV only / KV-blip; not cross-isolate).
+- `CloudflareClient`: `@suluk/cloudflare` — API-driven provisioning + deployment for a Suluk app on Cloudflare, no wrangler CLI.
+- `CloudflareError`: `@suluk/cloudflare` — API-driven provisioning + deployment for a Suluk app on Cloudflare, no wrangler CLI.
+
+## Optional
+
+### Types
+
+- `D1Database`
+- `KvNamespace`
+- `Migration`
+- `AssetFile`: One asset: its server path (e.g. "/index.html"), bytes, and content type.
+- `UploadSession`
+- `AssetRuleFiles`: The result of splitting Workers-Assets rule files out of an asset list.
+- `WorkerBinding`
+- `WorkerMigration`: A Durable Object migration, INLINE in the script-upload metadata (NOT the D1 `Migration` in resources.
+- `DeployPlan`
+- `DeployResult`
+- `DeployLog`
+- `DurableObjectBinding`: A Durable Object class to bind + (for same-script classes) create via an inline script migration.
+- `RateLimitStore`: Matches @suluk/hono's RateLimitStore (structural — satisfies enforceRateLimit's `store` without a package dep).
+- `ConsumeResult`
+- `KvLike`: The slice of the Workers KV API this needs (get/put with TTL).
+
+## @suluk/cockpit
+
+### API
+
+- `validateSource`: Parse + meta-schema validate a document source. Parse failure → a single error diagnostic.
+- `auditSource`: Documentation-coverage audit (under-documented routes) via the @suluk/hono engine.
+- `previewHtml`: Build a self-contained preview page (Scalar or Swagger) for a v4 source. Returns html + downgrade diagnostics.
+- `looksLikeV4`: True if a parsed document looks like a v4 "Suluk" document (so we only act on those).
+- `buildCycle`: Build the full cycle model from a v4 document, optionally projected for a principal (the "who").
+- `docChecks`: Doc-level "contract checks" — the mistakes a finished v4 document can still encode.
+- `cycleSummary`: A flat list for simple renderers / status lines.
+- `buildBuilderModel`: Build the full builder model from a v4 document (its schemas → entities → buildApp).
+- `builderTree`: The full tier tree (pages → sections → blocks → components) with each tier's contract.
+- `entitiesFromDoc`: Each components.schemas entry becomes a builder entity.
+- `generateAppFiles`: All files for the generated app: the v4 doc, the frontend components + pages, and the shadcn registry.
+- `generateRegistryJson`: The shadcn registry (index + items) as a pretty JSON string — the "Export shadcn registry" action.
+- `entityNames`: Entity names available for codegen (components.schemas).
+- `generateForm`: Generate a shadcn form component (TSX) for an entity.
+- `generateTable`: Generate a shadcn table component (TSX) for an entity.
+- `generateStoresModule`: Generate the Nano Stores client wiring.
+- `exportV4Json`: Export the v4 document as pretty JSON (the canonical interchange artifact).
+- `deployPlan`: Build the Cloudflare deploy plan from a v4 document (its schemas → entities).
+- `deployMarkdown`: Render the deploy plan as a DEPLOY.md the user can follow step by step.
+- `previewDeployPlan`: Build the PREVIEW deploy plan (charter-bounded role-preview): a `${slug}-preview` Worker with the two
+fail-closed locks + a seed.
+- `previewDeployMarkdown`: Render a PREVIEW deploy plan as a PREVIEW-DEPLOY.md — same steps, but headed with the role-preview safety.
+- `diffContracts`: Compare a LOCAL v4 contract against a DEPLOYED one and report the drift between them.
+- `canonical`: Stable, key-order-independent JSON — reordering object keys is NOT drift. Cycle-safe (never overflows).
+- `crossCut`: Project the contract through every viewer and surface the gated operations.
+- `documentScopes`: Every scope referenced by any operation's security requirements (sorted, deduped).
+- `defaultViewers`: Sensible default viewers for a document: anonymous, one per declared scope, and the full operator view —
+so a single command shows the whole gated ...
+- `previewRoles`
+- `previewAllowedRoles`: The roles a preview may be minted AS — the authenticated principals, EXCLUDING the login-less `anonymous`.
+- `previewLaunchUrl`: Resolve the browser deep-link for previewing AS a role — the security-critical guard, made PURE so it is
+unit-testable (the extension package has n...
+- `convergeContract`: Audit a contract for coherence contradictions a clean merge can still leave behind.
+- `contractToD2`: Generate D2 diagram source for a view of the contract.
+- `diagramViews`
+- `componentReport`: Decompose a contract's generated components into primitives and check their pixel-confidence vs a baseline.
+- `approveComponents`: The "verify once": approve every used primitive at its current content hash, returning the new baseline.
+- `primitiveCss`: A small stylesheet for the control fragments above — so a host can render `primitiveControl` inline.
+- `contractGates`: The CONTRACT-level ship gates — everything decidable from the document itself (no host needed).
+- `shipSummary`: A one-line readiness summary over a set of gates (contract + host). "info" gates never count against ready.
+- `conformanceGates`: The CONFORMANCE gates — the readiness dimensions, each composed from a shipped Suluk audit. No host needed.
+- `assertConformance`: CI gate (the hard incentive): throw if any conformance gate is an `error` (a blocker). Returns the gates otherwise.
+- `agentsView`: Build the OBSERVE view-model for the agent layer of a document. Never throws; tolerates non-installable agents.
+- `agentsSummary`: A one-line ship-readiness summary for the agent layer (mirrors the cockpit's other *Summary helpers).
+- `formatMicroUsd`: Format micro-USD as a display string (we store raw integers; this is only for humans).
+- `summarize`
+- `installModule`: Merge a module's contract fragment into the app document — REFUSING on any collision or unmet requirement.
+- `namespaceModule`: Resolve a collision by NAMESPACING a module: prefix its OWNED entities, rewrite internal $refs that point to
+them, and remap auto-CRUD cost keys ac...
+- `previewInstall`: Preview an install WITHOUT committing — what it adds, what it requires, any conflicts, and its grade.
+- `gradeModule`: A conformance grade.
+- `providerFacets`: The facets the catalog knows about (payments, auth, email, storage).
+- `readProviders`: The active provider bindings recorded in the document (from installed modules' providerSlots).
+- `swapProvider`: Rebind a facet's slot to another implementation of the same interface. Returns the unchanged doc on error.
+- `parseRegistry`: Parse an UNTRUSTED registry payload (e.g. fetched JSON) into a ModuleRegistry, rejecting malformed entries.
+- `validateModule`: Validate one UNTRUSTED module manifest, VALUE-shapes included. Returns the typed module or a human reason.
+- `signRegistry`: Sign a registry value with a private JWK → a base64 signature over its canonical bytes.
+- `verifyRegistrySignature`: Verify a registry value against a base64 signature + a pinned public JWK. Never throws — false on any error.
+- `generateSigningKeypair`: Generate an ECDSA P-256 keypair as JWKs (for tooling / tests — a publisher keeps the private key).
+- `isSignedEnvelope`
+- `composeModules`: Install a set of modules in dependency order, returning the merged platform contract + a per-step trace.
+- `planComposition`: Topologically order modules by `requires`/`provides`, modelling the collision invariants installModule enforces.
+- `resolveTemplate`: Resolve a template's module names to actual modules from a registry — REPORTING any name that doesn't resolve
+ (a typo or a module missing from thi...
+- `ECOMMERCE`
+- `CRM`
+- `BILLING`
+- `FIRST_PARTY_REGISTRY`
+- `PROVIDER_CATALOG`: The catalog of swappable implementations per facet. First-party bindings carry their `@suluk` package.
+- `STACK_TEMPLATES`
+
+## Optional
+
+### Types
+
+- `Diagnostic`: `@suluk/cockpit` — the PURE cockpit core: the cycle model, the builder model, codegen, deploy planning, and
+the validate/audit/preview helpers.
+- `CycleModel`
+- `CycleLayer`
+- `CycleItem`
+- `LayerStatus`
+- `Principal`
+- `DocCheck`
+- `BuilderModel`
+- `BuilderNode`
+- `GeneratedFile`
+- `DeployPlan`
+- `DeployStep`: One ordered shell step the host (the vscode extension) runs in a terminal AFTER the user authenticates.
+- `DeployProvider`: A deployment target. Pure: it produces the plan; the host executes the steps (with the user's credentials).
+- `ContractDiff`
+- `ChangedOp`
+- `OpRef`
+- `ProviderDelta`
+- `ProviderChange`
+- `Viewer`: A viewer to project for.
+- `ViewerView`
+- `GatedOp`
+- `CrossCut`
+- `PreviewRole`: A principal you can preview the running app AS — derived from the contract, never hardcoded.
+- `ConvergeReport`
+- `ConvergeFinding`
+- `ConvergeCode`
+- `DiagramView`
+- `ComponentReport`
+- `Baseline`: The approved baseline — primitive key → its verified entry. Persist as JSON; commit it.
+- `Gate`
+- `GateStatus`
+- `AgentsView`
+- `AgentNodeView`
+- `AgentSkillView`
+- `AgentRouteView`
+- `AgentGovernedView`: The agent-declared vs operator-effective diff + the cost three-number (cap / estimate / actual). Read-only.
+- `CostSummary`
+- `SulukModule`
+- `InstallResult`
+- `ModuleEntry`
+- `ModuleRegistry`
+- `ModuleGrade`
+- `InstallPreview`
+- `ProviderImpl`: Provider SLOTS (M3) — "swap out a provider you chose.
+- `ProviderBinding`
+- `RegistrySource`: A configured remote registry (persisted by the host).
+- `ParsedRegistry`
+- `SignedEnvelope`: A signed registry payload: the registry value + a detached base64 signature over its canonical bytes.
+- `ComposeResult`
+- `CompositionPlan`
+- `StackTemplate`: A named set of modules that compose into a working platform (L2 — the non-developer flow).
+
+## @suluk/core
+
+### API
+
+- `parseDocument`: Parse a Suluk v4 document from YAML or JSON source text. (YAML is a superset; JSON parses as YAML too.)
+- `validateDocument`: Validate a document's STRUCTURE against the v4 meta-schema (SPEC §1, ADRs C003/C004/C009/C013).
+- `isValidDocument`: Type guard: a parsed doc that validates is treated as an OpenAPIv4Document.
+- `isReference`: Structural guard for an OpenAPI Reference Object (C019 §A.
+- `resolveRef`: Resolve a same-document OpenAPI reference "#/components/<type>/<name>" BY NAME (C019 §A.
+- `deref`: Resolve a value that may itself be a Reference (one hop). Returns the value unchanged if it is not a Reference.
+- `sourceIndex`: The DERIVED reverse index: source pointer → the operations projected from it.
+- `sourceCoverage`: Count of operations carrying a source pointer vs total — the provenance-coverage gauge.
+- `scrubSource`: Return a CLONE of the document with every `x-suluk-source` removed — for externally published projections, where
+a source pointer is internal-layou...
+- `sourceKey`: "<file>#<symbol>" — the canonical string key for a source pointer.
+- `rateLimitOf`: Read the declared rate-limit facet off an operation.
+- `rateLimitIndex`: The DERIVED index: every operation that declares a rate-limit budget + its config.
+- `rateLimitCoverage`: Coverage gauge: operations declaring a budget vs total — the rate-limit-coverage counterpart to `sourceCoverage`.
+- `retryAfterSeconds`: Retry-After seconds for a budget — `ceil(windowMs / 1000)`, ported from saastarter route-handler.
+- `isProblemDetails`: Structural guard — discriminates a Problem Details body (parallel to saastarter's `isApiError` and core's
+`isReference`).
+- `toProblemDetails`: Pure constructor: a tag (+ optional detail/instance/errors/type) → the canonical Problem Details body.
+- `compileTemplate`
+- `matchPath`: Reverse-parse: match a concrete URL path against the template.
+- `variableCount`: Number of variable segments (for concrete-over-variable precedence ranking).
+- `computeSignature`: Compute a request's canonical signature tuple + deterministic key string (C019 §A.2).
+- `collide`: Pairwise three-valued collision predicate (C003 detect-and-tolerate; NOT a gate).
+- `buildAda`: Build the ADA from a parsed document: index every request, compute signatures, detect collisions.
+- `matchRequest`: Match a concrete HTTP request (method + URL) to zero-or-one operation (CONFORMANCE §B.
+- `parseQuery`: Parse a raw query string into the form-style key→values map (C019 §A.3 default; repeated keys → array).
+- `RATELIMIT_EXT`: The vendor-extension key under which an operation declares its rate budget.
+- `PROBLEM_CONTENT_TYPE`: RFC-9457 media type for a Problem Details body.
+- `PROBLEM_STATUS_TABLE`: typed-throw → HTTP status, ported verbatim from saastarter route-handler.
+- `TITLE_BY_TAG`: Human-readable `title` per tag (RFC-9457 §3.
+- `PROBLEM_DETAILS_SCHEMA`: The canonical JSON Schema (2020-12) form of ProblemDetails — the `$ref` target @suluk/hono's emit
+injects into `components.
+
+## Optional
+
+### Types
+
+- `OpenAPIv4Document`: Top-level OpenAPI v4 document.
+- `Info`: `@suluk/core` — the foundation library for the OpenAPI v4.
+- `Server`: Server IDENTITY — a by-name shape primitive (C015 #55); environment URL config is a deployment concern.
+- `Tag`: `@suluk/core` — the foundation library for the OpenAPI v4.
+- `PathItem`: A pathItem, keyed in `paths` by its uriTemplate. Each request *is* an operation (SPEC §1.3/1.4).
+- `Shared`: Optional inheritance wrapper; its `parameterSchema` is allOf-composed into each request (C012 #116, @0.55).
+- `Request`: A Request *is* an operation (SPEC §1.
+- `HttpMethod`: `@suluk/core` — the foundation library for the OpenAPI v4.
+- `ParameterSchema`: Per-location typed parameter slots (C004 #20). Each slot is a JSON Schema 2020-12 over its instance.
+- `Response`: Named in its containing map. Precedence: request > pathResponses > apiResponses (C012 #17b).
+- `Callback`: A runtime-expression-keyed map of pathItem-shaped definitions (§14, C018).
+- `Components`: Reusable definitions; the referencing anchor (C013). Keyed by name (C009).
+- `SecurityRequirement`: Map of securityScheme name → array of scope strings (referenced BY NAME, C014 #69).
+- `SecurityScheme`: `@suluk/core` — the foundation library for the OpenAPI v4.
+- `Reference`: An OpenAPI Reference Object (C013 #49).
+- `Schema`: A JSON Schema 2020-12 object (or boolean).
+- `SchemaOrRef`: Either an inline Schema Object or an OpenAPI Reference Object.
+- `SulukSource`: A stable, symbolic pointer back to the authored source an element was projected from (advisory provenance).
+- `SulukRateLimit`: RATE-LIMIT facet shape (saastarter-parity Phase 0): the per-operation rate budget an operation DECLARES.
+- `SulukApproval`: HUMAN-IN-THE-LOOP APPROVAL facet (Stage 1.
+- `SchemaProperty`: The PROPERTY-LEVEL facet locus (saastarter-parity Phase 0).
+- `PropertyFacets`: A map of property name → its (optionally facet-bearing) subschema — the property-level facet locus.
+- `SulukJob`: A background job (C025) — non-HTTP work fired by a `scheduled` (cron) or `queue-consumed` trigger.
+- `SulukAgent`: A composition agent (C027) — an LLM-orchestrated unit.
+- `SulukSkillRef`: A SKILL within an agent — an instruction bundle (the LLM tier).
+- `SulukRouteRef`: A deterministic ROUTE within an agent — EXCLUSIVELY a by-name `operationRef` into an EXISTING
+paths[*]/webhooks/x-suluk-jobs operation (never an in...
+- `SulukAgentRef`: A by-name reference to a sub-agent within the same `x-suluk-agents` map (C009/C013; resolved at projection time, never by the matcher).
+- `SulukPolicy`: An OPERATOR governance policy (C028) — a member of the `x-suluk-policy` map, keyed by operator/fleet name.
+- `SulukResource`: A loadable RESOURCE (C036) — a member of the top-level `x-suluk-resources` catalog.
+- `SulukResourceRef`: A by-name reference to a loadable resource within the same `x-suluk-resources` catalog (C036; resolved at projection, never by the matcher; mirrors...
+- `SulukStore`: A REACTIVE-STORE declaration (C037) — the per-operation `x-suluk-store` facet.
+- `SulukNotifyPolicy`: The document-level `x-suluk-notify` policy (C037) — a status→severity map driving the `@suluk/sdk` callback layer.
+- `SulukNotifySeverity`: A status→severity entry value for SulukNotifyPolicy (C037) — how loudly the generated client surfaces a response.
+- `ValidationResult`
+- `ValidationIssue`
+- `SourceGroup`
+- `SourceRef`
+- `RateLimitGroup`
+- `ProblemDetails`: An RFC-9457 Problem Details object.
+- `ProblemStatus`: The HTTP statuses the error model can produce.
+- `ErrorTag`: The closed set of domain-error tags that map to an HTTP status (saastarter src/lib/effect/errors.ts).
+- `CompiledTemplate`
+- `PathSegment`: uriTemplate compile + match + reverse-parse — the RFC6570 parseable-profile tooling default (C005, C019 §A.
+- `SignatureTuple`: Canonical signature tuple (C019 §A.2). The ADA's identity of a request; the matcher/collision key.
+- `CollisionVerdict`
+- `Ada`: The Abstract Description API (SPEC §13, CONFORMANCE §B): the consumption surface computed from the DOM.
+- `Operation`: One operation in the ADA: a request resolved with its pathItem context, signature, and compiled template.
+- `Collision`
+- `MatchResult`
+
+## @suluk/cost
+
+### API
+
+- `formatMicroUsd`: Format micro-USD as a display string (we store raw integers; this is only for humans).
+- `settlementOf`: The settlement declared on an operation's cost.
+- `settlementAudit`: Audit that every PRICED operation names HOW it is settled, and that the named lever is coherent — the generic form of
+toolfactory's "cost names a l...
+- `impliedErrorStatuses`: The HTTP error statuses a request's FACETS imply (the generic form of toolfactory's errors-gate): a contract should
+declare these responses.
+- `settlementRollup`: A quick "how is this API monetized" tally — ops grouped by settlement method (+ priced-but-unsettled).
+- `annotateCosts`: Annotate a v4 document in place-safe (returns a new doc): set x-suluk-cost on each named operation (incl. webhooks).
+- `costOf`: Read the cost model declared on an operation (if any).
+- `costAudit`: Cost-coverage audit: which operations have NOT declared what they cost — plus (C024) the background-cost
+disciplines: a deferred cost that resolves...
+- `costTable`: The declared costs across the document (paths + webhooks + jobs), for display (the cockpit/admin show this raw).
+- `computeCost`: Compute the actual µ$ a request cost, from its declared model + the usage the handler reported.
+- `eachOperation`: Every named operation in the document — path requests AND C018 webhooks (which are Requests carrying facets) —
+as {path, name, req}.
+- `eachJob`: Every background JOB (C025) on the document, as {path, name, job} — non-HTTP cron/queue work.
+- `triggerOf`: The trigger an operation's cost declares (C024; default "synchronous").
+- `isDeferredCost`: Does this cost accrue on a BACKGROUND event (a non-synchronous trigger) rather than the declaring op's own run?
+- `costMeter`: Hono middleware: after the handler runs, record what the request cost (declared model + reported usage).
+- `recordUsage`: A handler calls this to report MEASURED third-party usage for the current request (e.g. tokens used).
+- `resolveEventExpression`: Resolve a C018 runtime-expression against a fired event.
+- `attributePrincipal`: Resolve the principal charged for a fired event per the model's attribution strategy.
+- `eventCostEvent`: Build the CostEvent for a FIRED background event — pure.
+- `recordEventCost`: Record a fired event's cost into a sink, deduped by its `dedupeKey` against `seen` (so at-least-once delivery
+can't double-charge).
+- `reconciledAmount`: Resolve the ACTUAL charged amount (in µ$) from the event when the model is `payload-reconciled` (C026), else
+undefined.
+- `summarize`
+- `principalCost`: What ONE principal cost you (the question that lets you price them) — and the trace by operation + action.
+- `MemoryCostSink`: A simple in-memory sink (for the demo / tests). Production swaps in D1, a queue, etc.
+- `UNATTRIBUTED`: The principal sentinel for a background cost that resolved to NO principal — billed to nobody, but never silent.
+- `COST_EXT`
+
+## Optional
+
+### Types
+
+- `CostBasis`: The cost model — what an operation declares it costs you, and what a single request actually cost.
+- `CostComponent`: `@suluk/cost` — cost as a contract facet + runtime metering.
+- `CostModel`: `@suluk/cost` — cost as a contract facet + runtime metering.
+- `UsageReport`: A measured usage report for one variable component during a request (e.g. {source:"openai", units: 1350}).
+- `CostEvent`: What a single request actually cost — the rawest record, attributed all the way down.
+- `CostTrigger`: WHEN/WHAT fires a cost (C024) — a STATIC, locally-decidable enum (the same KIND as CostBasis).
+- `CostAttribution`: WHO is charged when a third party fires the event with no live session (C024) — a declared STRATEGY the runtime
+resolves a concrete principal from,...
+- `ReconciliationBasis`: Whether a cost's amount is a declared guess or read from the event payload at runtime (C026).
+- `SettlementMethod`: HOW a declared cost is RECOVERED from the user (C044).
+- `CostSettlement`: `@suluk/cost` — cost as a contract facet + runtime metering.
+- `SettlementFinding`
+- `SettlementSeverity`
+- `SettlementRollup`
+- `CostFinding`
+- `CostRow`
+- `CostSink`
+- `EventCostInput`
+- `CostSummary`
+
+## @suluk/credits
+
+### API
+
+- `getBalance`: Current balance = sum of all ledger deltas for the user.
+- `record`: Append one ledger row (the single writer); returns the new row id. `delta` is + on grant/top-up, − on debit.
+- `recordKey`: Attribute a debit row to the API KEY that spent it (per-key usage + limit join).
+- `debitIfCovers`: ATOMIC metered debit — append `-amount` ONLY IF the balance still covers it, in ONE conditional INSERT (atomic on both
+bun:sqlite and D1), then bes...
+- `keySpend`: Total credits a key has spent — SUM(abs(delta)) over its attributed DEBITS (delta < 0). Drives the per-key cap + the
+ keys-page usage column.
+- `nonceFor`: The DETERMINISTIC ledger row id an idempotent operation maps to — exported so a caller can pre-check existence at the
+ SAME id debitOnceIfCovers wi...
+- `debitOnceIfCovers`: Idempotent atomic debit: debit `amount` ONLY if the balance covers it AND this exact logical operation (identified by
+`idemKey`) hasn't already bee...
+- `debitOnceAttributed`: Idempotent debit + per-key ATTRIBUTION — the money primitive a per-item bulk charge needs (debitOnceIfCovers
+itself does NOT attribute).
+- `ledgerRow`: The signed credit `delta` + recorded `amountCents` for ONE ledger row id, or null if absent.
+- `recordAmount`: Annotate a ledger row with the CASH that moved (signed). Idempotent (PK on txnId), best-effort (purely cosmetic). No-op on 0/null.
+- `listTransactions`: The user's recent ledger rows (grants + debits) with the cash that moved, newest first — the "recent transactions" +
+ the activity log.
+- `ledgerStats`: Aggregate ledger stats (granted vs spent, outstanding) — the generic part of an admin dashboard.
+- `grantOnce`: Idempotent money-IN grant — credit `amount` exactly once, keyed on the ledger row id `idemKey` (a STABLE per-payment
+anchor: `pi:<id>` / `inv:<id>`...
+- `addCredits`: Grant/top-up credits. Returns the new balance.
+- `debitCredits`: Debit credits if the balance covers it; throws InsufficientCreditsError otherwise.
+- `InsufficientCreditsError`: `@suluk/credits` — a metered credit ledger (C046, extracted verbatim).
+- `creditTransaction`
+- `creditAmount`
+- `creditKey`
+
+## Optional
+
+### Types
+
+- `CreditsDB`: The injected DB handle. Prod is drizzle/d1; tests bridge drizzle/bun-sqlite to this type (a runtime-identity narrow).
+- `DebitOutcome`: The outcome of an idempotent debit attempt (see debitOnceIfCovers).
+- `LedgerEntry`: One ledger row as a panel shows it (`createdAt` epoch-ms).
+- `LedgerStats`: `@suluk/credits` — a metered credit ledger (C046, extracted verbatim).
+
+## @suluk/deploy
+
+### API
+
+- `schemaToSql`: A full schema.sql for the app's entities.
+- `createTable`: CREATE TABLE for one entity (or a manual-define comment for a $ref/boolean schema).
+- `entityColumns`: The columns of an entity, in DDL order (id is a synthesized autoincrement PK when absent). [] for a $ref/boolean.
+- `columnDdl`: The DDL fragment for one column.
+- `tableName`: The SQLite table name for an entity.
+- `migrationSql`: The SQL to migrate from `prev` entities to `next` entities — additive only.
+- `secretPushPlan`: The steps to push the named secrets to a Worker.
+- `durableBindings`: The durable bindings a contract needs, derived from its facets: a rate-limit budget (x-suluk-ratelimit) needs a
+KV counter store; a declared cost (...
+- `r2Storage`: Cloudflare R2 storage (the reference StorageProvider). `publicBaseUrl` is the bucket's served domain.
+- `memoryStorage`: A DEV in-memory storage (per-process; not durable) — the swap default for local/tests, never production.
+- `providers`: The provider registry. Add new targets here; the interface is the contract.
+- `cloudflare`: The Cloudflare deployment provider.
+- `DEFAULT_COMPAT_DATE`
+
+## Optional
+
+### Types
+
+- `DeployProvider`: A deployment target. Pure: it produces the plan; the host executes the steps (with the user's credentials).
+- `DeployPlan`: `@suluk/deploy` — ship a Suluk app behind a SWAPPABLE target interface.
+- `DeployInput`: `@suluk/deploy` — ship a Suluk app behind a SWAPPABLE target interface.
+- `DeployEntity`: `@suluk/deploy` — ship a Suluk app behind a SWAPPABLE target interface.
+- `DeployFile`: A file the provider wants written into the project.
+- `DeployStep`: One ordered shell step the host (the vscode extension) runs in a terminal AFTER the user authenticates.
+- `DurableObjectBinding`: A Durable Object class to bind + migrate.
+- `ColumnDef`: One column, structured — shared by the full-schema emitter and the migration-delta.
+- `SecretPushPlan`
+- `BindingPlan`
+- `DurableBinding`
+- `StorageProvider`: The swappable storage binding (the builder `storage` slot). Other providers (S3/GCS) implement the same shape.
+- `StoredObject`: A stored object — its key + the public URL to reach it.
+- `R2BucketLike`: The minimal Workers R2 surface this binding calls — satisfied by the real `R2Bucket` and by a mock.
+
+## @suluk/docs
+
+### API
+
+- `harvest`: `@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+(package.
+- `harvestPackage`: `@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+(package.
+- `stripReadmeHeader`: Strip a README's leading branding/header chrome so it integrates under the site's own page title without a
+duplicate logo + H1.
+- `firstBlockComment`: Extract + clean the first JSDoc block comment.
+- `parseExports`: Collect the public symbol names a barrel re-exports.
+- `generateSite`
+- `renderIndex`
+- `renderPackage`
+- `renderMarkdownPage`
+- `mdToHtml`
+- `inline`: Inline spans: `code`, `![alt](url)` image, `[text](url)`, **bold**, *italic*. Escapes first, then injects safe tags.
+- `escapeHtml`
+- `rewriteRepoLinks`: Rewrite repo-RELATIVE markdown links (`](.
+- `packageGraphData`: The `@suluk` package dependency graph as pure data (each package → its drawn `@suluk` dependencies) — the input
+to the d3 renderer (build tooling),...
+- `architectureGraphData`: The `@suluk` graph enriched for the UML "Strata-of-Derivation" architecture diagram: each package carries its
+export count + a sample of export nam...
+- `packageGraphD2`
+- `krokiD2Url`
+- `STYLE`: The only hand-written CSS: typography for the rendered Markdown.
+
+## Optional
+
+### Types
+
+- `FrameworkDoc`: `@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+(package.
+- `PackageDoc`: `@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+(package.
+- `ModuleDoc`: `@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
+(package.
+- `SiteFile`
+- `PackageGraph`
+- `ArchitectureGraph`
+- `ArchNode`: A package node enriched for the UML architecture diagram (name, public-export count, a sample of exports).
+
+## @suluk/drizzle
+
+### API
+
+- `tableMetadata`: Read a drizzle table's metadata.
+- `pascalCase`: "user_accounts" / "users" → "UserAccounts" / "Users". The v4 component key (C009 by-name).
+- `tableComponentName`: A drizzle table's PascalCase component name, derived from its SQL name.
+- `tableSchemas`: Build the select / insert / update Zod schemas for a table.
+update = insert.partial() — the canonical PATCH body (any subset of writable columns).
+- `tableToV4`: Lift a table's three Zod schemas to v4 Schema Objects via zodToV4.
+- `tableToV4Warnings`: Same conversion as tableToV4 but also returns the enumerated lossy boundary (per-projection
+zodToV4 warnings).
+- `tableComponents`: Build a v4 components.
+- `tableComponentsAudit`: Like tableComponents but enumerates name collisions instead of dropping them silently.
+- `crudRoutes`: Generate the five conventional CRUD RouteContracts for a drizzle table:
+  - list   GET    {base}            → 200 array(select)
+  - get    GET    {...
+- `listQuerySchema`: The Zod query schema for a list route: page/perPage/sort/order/q (coerced from strings).
+- `parseListQuery`: Normalize a raw query object into a ListQuery — pure, validating against the table's real columns:
+page/perPage are clamped (≥1, ≤maxPerPage); `sor...
+- `softDeleteValues`: The patch a soft delete applies — sets the deletedAt column to `now` (default current time).
+- `anonymizeValues`: The patch an anonymize-on-delete applies — redacts each named column to `value` (null by default).
+- `touchTimestamps`: The patch server-managed timestamps apply on write — `updatedAt` always, `createdAt` only when `creating`.
+- `notSoftDeleted`: The implicit list filter for a soft-deleting table — exclude rows whose deletedAt is set (unless asked to include).
+- `tableDDL`: `CREATE TABLE` DDL for one drizzle table (or its already-read metadata).
+- `schemaDDL`: `CREATE TABLE` DDL for many tables, newline-joined — the dev-schema twin of the prod migrations.
+- `crudHandlers`: Build the five gated CRUD handlers for a drizzle table. The dev + worker callers differ ONLY in `opts.db`.
+- `rowsChanged`: The number of rows a write affected, normalized across drivers (0 when unknown).
+- `claimOnce`: Atomically CLAIM a transition: `UPDATE table SET set WHERE where`, returning true iff this call changed a row.
+- `claimRows`: Atomically CLAIM a SET of rows and RETURN them: `UPDATE table SET set WHERE where RETURNING *`.
+
+## Optional
+
+### Types
+
+- `AnyTable`: Any drizzle table object accepted by getTableColumns/getTableName.
+- `ColumnMeta`: One column's metadata, lifted from drizzle's column descriptor (verified against drizzle-orm 0.45).
+- `TableMeta`: `@suluk/drizzle` — the DATA floor of the Suluk cycle: a Drizzle ORM table is the system of record, and this
+package projects it into the v4 "Suluk"...
+- `TableZodSchemas`: The three Zod projections of a table.
+- `TableV4Schemas`: The three v4 Schema Objects, mirroring TableZodSchemas.
+- `ListQuery`
+- `CrudHandlers`
+- `CrudDb`: Structural drizzle handle — the chainable builder API both bun:sqlite and D1 expose (loosely typed, like the app twins).
+- `WriteResult`: A drizzle `.run()` result across drivers (bun:sqlite / D1 / better-sqlite3).
+- `ClaimDb`: Minimal drizzle handle for a conditional update (bun:sqlite sync or D1 async — both awaited).
+
+## @suluk/editor
+
+### API
+
+- `editorHtml`: Build the self-contained editor page.
+- `editorResponse`: The editor page as a text/html Response (Workers / Bun.serve / Hono).
+- `examples`
+- `defaultExample`
+
+## Optional
+
+### Types
+
+- `EditorExample`: Seed documents the editor can open with.
+
+## @suluk/email
+
+### API
+
+- `consoleProvider`: DEV provider — logs a summary instead of sending (saastarter resend.ts:21-32). Never touches the network.
+- `resendProvider`: Resend binding via the REST API (https://api.
+- `storeProvider`: DEV/mock provider — SAVES the message to a mailbox sink (sqlite/json) instead of sending.
+- `pickProvider`: Pick the provider the way saastarter's `isLocal` switch does: prod (a key + a from) ⇒ resend.
+- `renderEmailHtml`
+- `verifyEmail`: Email-verification (Better Auth sendVerificationEmail).
+- `resetPasswordEmail`: Password reset.
+- `changeEmailEmail`: Change-email confirmation.
+- `deleteAccountEmail`: Account-deletion confirmation (saastarter options.ts:100-125).
+- `orderConfirmationEmail`: Order confirmation — renders a line-item table + total (amounts formatted via Intl in the given locale), and an
+ optional "Shipping to" block when ...
+- `orderStatusEmail`: Order-status update.
+- `newsletterEmail`: Newsletter — a branded wrapper around app-supplied marketing HTML, with an unsubscribe footer link.
+- `consoleAudience`: DEV audience — logs, never calls the network.
+- `resendAudience`: Resend Audiences via the REST API (https://api.resend.com/audiences/{id}/contacts) over `fetch` — no SDK; never throws.
+- `syncNewsletter`: Reconcile the `Newsletter` rows to an email-provider audience: a `subscribed` row is upserted, an `unsubscribed`
+row is removed.
+- `DEFAULT_EMAIL_STRINGS`: English fallbacks for the chrome strings, so a render works before any catalog is authored.
+- `TEMPLATE_STRINGS`: English defaults for every template string, so the set is usable before any catalog is authored.
+
+## Optional
+
+### Types
+
+- `EmailProvider`: The swappable binding. An app picks one impl; the template set is provider-agnostic.
+- `EmailMessage`: A sendable message — a RenderedEmail plus addressing. The input to a provider.
+- `SendResult`: `@suluk/email` — the missing EmailProvider binding + a per-event/per-locale branded template set.
+- `MailboxSink`: A mailbox sink — where storeProvider SAVES instead of sending (a JSON file / sqlite in local dev).
+- `StoredEmail`: A stored (mocked) email — what a local mailbox sink persists INSTEAD of sending.
+- `EmailBrand`: The brand surface an email needs — defaults reproduce saastarter's terracotta look.
+- `RenderContext`
+- `TemplateContext`: Shared context for every template — the brand + the active-locale catalog (merged over English defaults).
+- `OrderLine`
+- `AudienceProvider`: The swappable audience binding — mirror contacts to an email-provider audience/list.
+- `AudienceContact`: Audience-sync (saastarter-parity Phase 3).
+- `AudienceResult`
+- `NewsletterRow`: One newsletter subscriber row (the shape of the MARKETING module's `Newsletter` entity).
+- `SyncResult`
+
+## @suluk/env
+
+### API
+
+- `keygen`: Generate an ML-KEM-768 keypair. Pass a 64-byte seed only for deterministic/test keygen.
+- `encrypt`: Seal a plaintext value to a public key → an `encrypted:mlkem768:…` token.
+- `decrypt`: Open an `encrypted:mlkem768:…` token with the private key. Throws if the key is wrong or the token is tampered.
+- `isEncrypted`: Is this value an `encrypted:…` token (vs plaintext)?
+- `publicFromPrivate`: Derive the public key string from a private key (so `set`/`encrypt` work given only the secret).
+- `parseEnv`: Parse .env content → an ordered { key, value } record (raw values; encrypted ones stay as tokens).
+- `resolveEnv`: Resolve .
+- `encryptContent`: Encrypt every plaintext value in the content to `publicKey`, leaving already-encrypted values + the key vars +
+comments untouched, and ensuring the...
+- `decryptContent`: Decrypt every encrypted value in the content with `privateKey` → plaintext file content (for inspection).
+- `loadEnv`: Resolve + inject. Returns the decrypted { KEY: value } record that was loaded.
+- `defineEnv`
+- `SCHEME`: The cipher/key scheme tag embedded in keys + tokens. Bump if the construction ever changes.
+- `PUBLIC_KEY_NAME`
+- `PRIVATE_KEY_NAME`
+
+## Optional
+
+### Types
+
+- `Keypair`: `@suluk/env` — config + secrets as a single source of truth, made post-quantum-safe.
+- `EnvSpec`
+- `VarSpec`
+- `Surface`
+- `DefinedEnv`
+- `ManifestEntry`
+- `HealthStatus`
+- `Parsed`
+- `EnvIssue`
+- `IssueSeverity`
+
+## @suluk/eslint
+
+### API
+
+- `analyzeComposition`: Collect every violation, then apply each metric's budget (report only the occurrences BEYOND the budget).
+- `compositionOnly`
+- `default`
+
+## Optional
+
+### Types
+
+- `Violation`
+- `Metric`: Pure detection core for the tier-composition rule — separated from the ESLint wrapper so it is unit-testable WITHOUT
+an ESLint / astro-parser harne...
+
+## @suluk/examples
+
+### API
+
+- `fieldOrigin`: Read a property's origin: explicit `x-suluk-origin` wins; else `readOnly` ⇒ `computed`; else default `input`.
+- `asSourceRef`: The structured source edge if `x-suluk-from` names an `op`; otherwise undefined (a free note is not wireable).
+- `describeInputs`: Describe the TOP-LEVEL fields of an object schema by origin — the surface a client / the @suluk/sdk generator uses to
+know what it may freely fill ...
+- `resolveSourced`: Resolve a `sourced` field's value from a scenario-scoped bag of captured operation results (keyed by `op.
+- `resolveExample`: Resolve a single example by precedence. `hint` (typically the field/op name) only steers SYNTHETIC string values; it
+never changes which tier wins.
+- `synthesize`: A deterministic, schema-shaped example value.
+- `ORIGIN_KEYWORD`
+- `FROM_KEYWORD`
+
+## Optional
+
+### Types
+
+- `JsonSchema`: A JSON Schema 2020-12 object (the v4 inner-schema shape). Opaque-ish; we read a known subset.
+- `ExampleTier`: Which source supplied the resolved value. `public` (highest) > `maintainer` > `synthetic` (lowest).
+- `ExampleSources`: The two human-authored tiers a caller may supply; the synthetic tier is derived from the schema.
+- `ResolvedExample`
+- `FieldOrigin`: `input` = the client is the authority (free, faker-able); `sourced` = retrieved elsewhere (wired); `computed` = server-derived.
+- `SourceRef`: A machine-wireable source edge for a `sourced` field: pull `select` (default "id") from operation `op`'s response.
+- `FieldSource`: `x-suluk-from` is EITHER a free human note (string, doc-only) OR a structured, wireable `SourceRef`.
+- `FieldDescriptor`
+- `SynthDirection`: Direction controls origin handling: a "request" example omits server-`computed` fields a client never sends; a
+ "response" example omits `writeOnly...
+
+## @suluk/harden
+
+### API
+
+- `auditDocument`: Audit the document's input surface → per-op grades + a deduped rollup + a severity breakdown.
+- `auditOperation`: Audit one request's INPUT surface (request body + typed parameter slots).
+- `assertGrade`: CI gate (the hard incentive): throw if the document's hardening grade is below `min`.
+- `grade`: `@suluk/harden` — schema hardening as a derived, scored contract facet.
+- `combineGrades`: Combine per-dimension letters into one contract grade (worst + average).
+- `assertCombinedGrade`: CI gate over a combined grade. Gates on the WORST dimension by default (safe); pass `mode: "average"` to soften.
+- `hardenSchema`: Recursively add baseline bounds to a JSON Schema. Idempotent — never overrides an author-set bound.
+- `hardenDocument`: Harden EVERY input schema in a built v4 document IN PLACE — request bodies + all parameter slots (incl.
+- `auditReadiness`: Audit the document's request bodies for client-sendability + example presence → findings + a readiness grade.
+
+## Optional
+
+### Types
+
+- `CombinedGrade`: `@suluk/harden` — schema hardening as a derived, scored contract facet.
+- `Audit`: `@suluk/harden` — schema hardening as a derived, scored contract facet.
+- `OpAudit`: `@suluk/harden` — schema hardening as a derived, scored contract facet.
+- `DocAudit`: `@suluk/harden` — schema hardening as a derived, scored contract facet.
+- `Finding`: `@suluk/harden` — schema hardening as a derived, scored contract facet.
+- `Severity`: `@suluk/harden` — schema hardening as a derived, scored contract facet.
+- `Grade`: `@suluk/harden` — schema hardening as a derived, scored contract facet.
+- `ReadinessAudit`
+
+## @suluk/hono
+
+### API
+
+- `contract`: Identity helper that preserves literal inference when authoring a contract array.
+- `contractDoc`: Stricter, OPT-IN variant of contract: identical runtime behavior + literal inference, but every route must be
+DOCUMENTED (a `summary` or `descripti...
+- `responseList`: Normalize responses (list or map) to a list.
+- `emitV4`: Project a list of route contracts into a v4 document for a given principal + time.
+- `audit`: Walk every operation and report documentation gaps.
+- `coverage`: A coarse coverage score in [0,1]: 1 = fully documented (no findings), lower = more gaps.
+- `autofill`: Fill obvious documentation gaps in-place-safe (returns a new doc): synthesize a summary from the
+operation name + method/path, and a description fo...
+- `contractChecks`: Build the full check suite for a set of route contracts.
+- `runContractChecks`: Run every check and summarize.
+- `validateSchema2020`
+- `mount`: Mount each contract's handler (with request validation derived from its Zod schemas) onto `app`.
+- `enforceAccess`: The facet-driven gate.
+- `createGuard`: Build explicit, hand-applied guards bound to one identity model (for fine-grained per-route gating).
+- `gate`: Decide whether a caller may run an op (per the rule), whether to scope the query to their own rows, and the honest
+deny status.
+- `policyFor`: The policy for an access mode (default: owned when an ownerCol is present, else public). `policies` overrides the preset.
+- `ruleToRequires`
+- `onError`: Build the Hono error handler. Every response carries `content-type: application/problem+json`.
+- `enforceRateLimit`: The facet-driven rate-limit gate.
+- `SulukHttpError`: A typed, throwable HTTP error.
+- `MemoryRateLimitStore`: DEV-ONLY fixed-window store — a single in-process Map, ported from saastarter rate-limit.
+- `DEFAULT_POLICIES`: The opt-in default mode→policy preset. Adopt by reference, or pass your own matrix to policyFor.
+- `HttpErrors`: Factory helpers mirroring saastarter's TaggedError set (errors.
+
+## Optional
+
+### Types
+
+- `RouteContract`: `@suluk/hono` — the derivation engine.
+- `DocumentedRoute`: A route that satisfies documentation coverage at the TYPE level: it MUST carry a `summary` or a `description`.
+- `RouteRequest`: `@suluk/hono` — the derivation engine.
+- `RouteResponse`: `@suluk/hono` — the derivation engine.
+- `Method`: `@suluk/hono` — the derivation engine.
+- `EmitContext`
+- `EmitResult`
+- `EmitDiagnostic`
+- `Finding`
+- `Check`
+- `CheckRun`
+- `SchemaCheck`
+- `Guard`
+- `AccessFacet`
+- `AccessRequires`
+- `Rule`: A CRUD operation's authorization rule.
+- `Policy`: The five CRUD operations' rules for one access mode.
+- `AccessMode`: The built-in access modes (a sensible SaaS/commerce default set; override via `policyFor`'s `policies` arg).
+- `GateIdentity`: The resolved caller identity a gate decision needs (compute from your Hono Context: isAdmin flag + principal id).
+- `GateDecision`: A gate decision: may the op run, scope the query to the owner, and — when denied — the honest status.
+- `SulukHttpErrorInit`
+- `RateLimitStore`: The swap point for a durable counter.
+- `RateLimitResult`
+
+## @suluk/i18n
+
+### API
+
+- `defineLocales`: Define an app's locale set.
+- `localeCodes`: All declared codes, in order.
+- `isSupportedLocale`: Is `code` a declared locale?
+- `dirOf`: The writing direction for a locale (default "ltr" — an unknown code is treated as ltr).
+- `resolveLocale`: Resolve a candidate (cookie value, query param, negotiated pick) to a supported locale, else the default.
+- `readCookie`: Read one cookie's value out of a Cookie header string (Workers-safe — no `next/headers`).
+- `localeFromCookie`: Resolve the locale from a `locale` cookie in a Cookie header (Workers-safe).
+- `negotiateLocale`: Negotiate the best supported locale from an `Accept-Language` header (q-weighted; exact then primary-subtag match).
+- `localeFromRequest`: Resolve the locale for a standard Request: the `locale` cookie wins; else negotiate from `Accept-Language`.
+- `t`: Interpolate `{token}` params into a message; an unknown key falls back to the key itself.
+Ported verbatim from saastarter i18n.ts:195-207.
+- `translator`: Bind a catalog so callers write `tt("key", { name })` instead of threading the catalog every call.
+- `loadMessages`: Load a namespace's catalog for a locale, falling back to the DEFAULT locale's chunk when the locale is missing
+(saastarter's `nsLoaders[locale] ?
+- `gradeCompleteness`: Grade a locale catalog against the default catalog — the runtime, harden-style completeness gauge that complements
+the compile-time key-parity types.
+- `formatNumber`: Format a number for a locale — honors its numberingSystem (e.g. "arab" → ٠١٢٣).
+- `formatCurrency`: Format a MONEY amount.
+- `formatDate`: Format a date/time for a locale (honors the numbering system for numeric date parts).
+
+## Optional
+
+### Types
+
+- `Direction`: The locale + direction model (saastarter-parity Phase 1).
+- `LocaleDef`: One locale in an app's set.
+- `LocaleCode`: The literal union of an app's locale codes (use with `as const` input): `LocaleCode<typeof MY_LOCALES>`.
+- `Catalog`: A flat catalog: message key → string.
+- `NamespaceLoaders`: Per-locale loaders for ONE namespace: locale code → a dynamic-import thunk returning `{ default: catalog }`.
+- `CompletenessGrade`
+- `KeyParity`: Compile-time key-parity helper: a locale catalog typed `KeyParity<typeof enCatalog>` must declare EXACTLY the
+default's keys (no missing, no extra).
+
+## @suluk/journeys
+
+### API
+
+- `generateVocabulary`: Project a v4 document into the deterministic step vocabulary.
+- `renderPhrasebook`: A foldable, entity-grouped phrasebook (Markdown) — the human surface an author picks step phrases from.
+- `vocabularyHash`: A deterministic content hash of the vocabulary (djb2 hex) — for drift detection / the build artifact.
+- `opHandle`: Stable by-name handle.
+- `parseFeature`
+- `buildScenarioOutlines`: Build the structured outlines for every operation that has a client-facing request body.
+- `renderScenarioOutlines`: Render the generated outlines as a `.
+- `extractPublicRows`: Every `@public`-tagged Examples block's first row (the tester's curated public example). Pure.
+- `buildExampleObject`: Build a concrete public example object from a row, coercing by the body schema's field types.
+- `promoteExampleIntoZod`: Promote `example` into the source of the Zod schema bound to `const <schemaVar> = …`.
+- `promoteFeatureExamples`: Orchestrate promotion for a whole feature set: for each `@public` Examples row, resolve its target (the consumer maps
+scenario → schemaVar + body s...
+- `bindFeatures`: Bind a parsed feature set against the vocabulary (applying the scaffolder's definitions) and produce the gap report.
+- `detectUndefined`: Detect every authored step that is not yet runnable — the scaffolder's worklist (Cucumber-style "undefined steps",
+here resolved by MAPPING, not by...
+- `renderGapReport`: Render the gap report as readable text (for a CLI / a download endpoint).
+- `renderScaffold`: Render the scaffolder worklist: what a non-technical author wrote that is not yet runnable, and how to resolve it.
+- `emitRunnableSuite`: Emit a runnable bun:test suite (a string) from a parsed, bound feature set, lowered to the real SDK client.
+- `compileDemos`: Compile a bound feature set into the demo IR: ordered requests per scenario, with sourced fields wired to captures.
+- `renderPostman`: Render the demos as a Postman Collection v2.1.0 (a single JSON string).
+- `renderBruno`: Render the demos as a Bruno collection — a map of relative file path → `.bru`/json content the consumer writes.
+- `buildDemoFiles`: Pure: a v4 document text + `.feature` texts → the demo collection file map. No filesystem.
+- `planPromotions`: Plan the promotions for every `@public` Examples row: build the public example (content-typed) and apply
+`promoteExampleIntoZod` to the target's (p...
+- `parseTargetSpec`: Parse `"<scenario>=<file>#<schemaVar>"`. The scenario may contain spaces/`=` only before the FIRST `=`.
+- `miniDiff`: A minimal context diff (the edit is localized to one schema statement). Lines: `  ` ctx, `- ` removed, `+ ` added.
+- `buildAudit`: Run all readiness dimensions over a contract (+ optional `.feature` texts) and fold them into one grade. Pure.
+- `coverageGrade`: Grade a gap report's contract→authored coverage (covered/total) and surface the uncovered ops.
+- `resolveExample`: Resolve a single example by precedence. `hint` (typically the field/op name) only steers SYNTHETIC string values; it
+never changes which tier wins.
+- `synthesize`: A deterministic, schema-shaped example value.
+- `fieldOrigin`: Read a property's origin: explicit `x-suluk-origin` wins; else `readOnly` ⇒ `computed`; else default `input`.
+- `describeInputs`: Describe the TOP-LEVEL fields of an object schema by origin — the surface a client / the @suluk/sdk generator uses to
+know what it may freely fill ...
+- `asSourceRef`: The structured source edge if `x-suluk-from` names an `op`; otherwise undefined (a free note is not wireable).
+- `resolveSourced`: Resolve a `sourced` field's value from a scenario-scoped bag of captured operation results (keyed by `op.
+- `ORIGIN_KEYWORD`
+- `FROM_KEYWORD`
+
+## Optional
+
+### Types
+
+- `Vocabulary`: `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+- `JourneyStep`: `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+- `VocabOperation`: `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+- `StepKind`: `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+- `Feature`
+- `Scenario`
+- `FeatureStep`
+- `ScenarioOutline`
+- `OutlineColumn`
+- `PublicExampleRow`
+- `PromoteResult`
+- `PromoteTarget`
+- `PromoteFeatureResult`
+- `GapReport`
+- `ScenarioResult`
+- `StepResult`
+- `BindState`
+- `CoverageHole`
+- `Definitions`: The SCAFFOLDER's mapping layer (author-owned data, no developer).
+- `UndefinedStep`
+- `DemoScenario`
+- `DemoRequest`
+- `DemoValue`: A request value: a concrete literal, or a `{{var}}` reference to a captured upstream response field.
+- `DemoCapture`: Capture `res.<from>` of this request into the collection variable `var` (for downstream chaining).
+- `DemoFormat`
+- `DemoFilesResult`
+- `PromoteTargetSpec`: A `--target "<scenario>=<file>#<schemaVar>"` mapping.
+- `PromotionPlan`
+- `PromotionRow`
+- `PromotionFileResult`
+- `AuditResult`
+- `DimensionAudit`
+- `CoverageGrade`
+- `JsonSchema`: A JSON Schema 2020-12 object (the v4 inner-schema shape). Opaque-ish; we read a known subset.
+- `ExampleTier`: Which source supplied the resolved value. `public` (highest) > `maintainer` > `synthetic` (lowest).
+- `ExampleSources`: The two human-authored tiers a caller may supply; the synthetic tier is derived from the schema.
+- `ResolvedExample`
+- `FieldOrigin`: `input` = the client is the authority (free, faker-able); `sourced` = retrieved elsewhere (wired); `computed` = server-derived.
+- `SourceRef`: A machine-wireable source edge for a `sourced` field: pull `select` (default "id") from operation `op`'s response.
+- `FieldSource`: `x-suluk-from` is EITHER a free human note (string, doc-only) OR a structured, wireable `SourceRef`.
+- `FieldDescriptor`
+- `SynthDirection`: Direction controls origin handling: a "request" example omits server-`computed` fields a client never sends; a
+ "response" example omits `writeOnly...
+
+## @suluk/keys
+
+### API
+
+- `effectiveCaps`: The caller's EFFECTIVE grant, derived by walking UP the chain.
+- `expiredAncestor`: TRUE when any ANCESTOR (a node other than the caller) has already expired — so the caller auto-expires the moment a
+ parent does.
+- `disabledAncestor`: TRUE when any ANCESTOR has been soft-disabled — so a child auto-dies the moment a parent is revoked, EVEN when the
+ revocation didn't cascade throu...
+- `pooledHeadroom`: The chain's POOLED credit headroom — the BINDING constraint a charge must clear: over every node that declares an own
+cap, the LEAST `cap − subtree...
+- `topCappedPath`: The topmost capped node in a chain (the shortest path) — whose subtree contains every other capped node's subtree, so
+ one query over it suffices f...
+- `clampChildGrant`: Clamp a requested CHILD grant to the parent's EFFECTIVE grant — a child can never out-scope or out-spend an ancestor.
+- `escapeLike`: Escape SQL-LIKE metacharacters (a keyId can contain `_`, a LIKE wildcard) so a path prefix matches LITERALLY — pair
+ with `ESCAPE '\'` in the query.
+- `subtreeLikePattern`: The `LIKE` pattern for "<path>'s strict descendants" — pair with `ESCAPE '\'`. (The node itself is matched by `= path`.)
+- `inSubtree`: TRUE when `candidate` is within `path`'s subtree: the node itself (exact) OR a descendant (a "/"-prefix).
+- `childPath`: A child's path = `parentPath/childId`, or the bare `childId` when the parent is a root (no path / a session caller).
+- `pathDepth`: Depth of a path: 0 = root, >0 = a delegated child.
+- `ancestorIdsOf`: The ancestor keyIds in a path (everything before self), root→parent order.
+- `pathAt`: The own-path of the ancestor at index `i` in a path's segments (the prefix up to and including it).
+- `parseScopes`: permissions JSON (`{resource:[actions]}`) → flat `["resource:action"]` scopes, defensively (a bad value → no scopes).
+- `parseKeyMeta`: metadata JSON → the per-key controls (each null when absent/invalid): the PAID credit cap + the rate-limit share %.
+- `subtreeOf`: The keyIds in a node's subtree (itself + every descendant) — for cascade revoke.
+- `parentPathOf`: A parent's materialized path (for building a child's path).
+- `insertLineage`: Record a freshly-minted child (or root, when parentKeyId is null) in the lineage tree. Idempotent on the keyId PK.
+- `chainHeadroom`: The chain's POOLED credit headroom — one grouped query over the TOPMOST capped node's subtree (joining the credit
+ledger via the `credit_key` sidec...
+- `revokeKeyTree`: Cascade-revoke a key's subtree: compute the api-key ids in `keyId`'s subtree (a keyed caller may revoke ONLY a STRICT
+descendant of itself — not it...
+- `MAX_KEY_DEPTH`: A delegation chain can be at most this deep (root..leaf) — bounds the path length + the per-request walk.
+- `keyLineage`: The delegation tree: each node's parent + a materialized `path` of keyIds (root→…→self).
+
+## Optional
+
+### Types
+
+- `ChainNode`: One node of a caller's chain — itself or an ancestor — with its OWN (pre-chain) grant + caps + its materialized path.
+- `EffectiveCaps`: `@suluk/keys` — the delegation-chain ALGEBRA for hierarchical API keys (C046, extracted from a real app).
+- `SpendRow`: One row of per-path spend (a positive amount), as the app's subtree query returns it.
+- `Headroom`: `@suluk/keys` — the delegation-chain ALGEBRA for hierarchical API keys (C046, extracted from a real app).
+- `KeysDB`: The injected DB handle (drizzle/d1 in prod; bun:sqlite bridged in tests).
+
+## @suluk/mcp
+
+### API
+
+- `toolsFrom`: `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server.
+- `handleRpc`: Dispatch one JSON-RPC message.
+- `buildRequest`: Build the same-origin Request for an operation call. `origin` is trusted; `args` values are caller-supplied.
+- `originExec`: Default executor — fetch the worker's own public origin.
+- `appExec`: In-process executor for when the MCP server is mounted on the SAME app as the store routes.
+- `mcpApp`
+- `DISCOVER_TOOL`: The synthetic meta-tool that reveals the cold-tail. It is NEVER routed to `exec` — handled in `tools/call`.
+- `LATEST_PROTOCOL`
+- `SUPPORTED_PROTOCOLS`
+
+## Optional
+
+### Types
+
+- `McpTool`: `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server.
+- `McpOp`: `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server.
+- `RpcRequest`
+- `RpcResponse`
+- `RpcContext`
+- `ToolExec`
+- `FetchApp`
+
+## @suluk/models
+
+### API
+
+- `selectModel`
+- `deriveRequirements`: Derive HardFilters from an agent/skill's declared needs + the analyzer's load (the C027 seam).
+- `applyBucketing`: Bucket a raw leaderboard score into a coarse tier per the committed rule. Null/absent/unknown-axis ⇒ `unknown`.
+- `normalizeOpenRouter`
+- `normalizeOpenRouterModel`: One OpenRouter model → its decidable fact cells (intel/gov tiers stay UNKNOWN; filled by the Class-B pass).
+- `catalogFrom`
+- `snapshotHash`: A content-addressed hash over the rows' load-bearing SELECTION inputs — facts AND intel tiers (a re-pick under a
+different catalog must differ; rep...
+- `fetchOpenRouterCatalog`: Fetch OpenRouter `/models` and normalize to the fact-cell catalog. NETWORK — run from a weekly script/CI, not tests.
+- `applyTierOverlay`: Overlay coarse tiers onto matching rows' intel cells, then re-hash (selection now depends on these tiers).
+- `OPENROUTER_CATALOG`
+- `SEED_CATALOG`: Illustrative seed — NOT the live catalog. Tiers reflect coarse public standing as of asOf; UNKNOWN is honest.
+- `PROFILES`
+- `BUCKETING_RULES`
+- `KNOWN_TIERS`: A SMALL, conservatively-CITED seed of coarse public standings for headline frontier models (the bootstrap until
+the full Class-B curation lands).
+
+## Optional
+
+### Types
+
+- `Tier`: `@suluk/models` — the catalog schema (council wf_729cde52-cc7).
+- `Cell`: One catalog value with provenance. `value: null` ⇒ UNKNOWN (and `source` is ""); never imputed.
+- `DataRetention`
+- `ModelRecord`
+- `ModelCatalog`
+- `HardFilters`: Hard requirements — these FILTER (can empty the set ⇒ fail-loud), never rank.
+- `Profile`
+- `Preferences`: Preference — RANKS the survivors. A named profile is the 90% case; the escape hatch is ≤4 small int weights.
+- `RankedModel`
+- `SelectResult`
+- `ResolvedProfile`
+- `AxisRule`
+- `ORModel`: The subset of an OpenRouter `/models` row we rely on (all public facts).
+- `IntelAxis`
+
+## @suluk/nano-stores
+
+### API
+
+- `buildUrl`: URL templating for the STATE corner.
+- `createApiStores`
+- `createCartStore`
+- `createDiscountStore`
+- `asyncHandler`: Wrap an async (or sync) handler with auto-disable + aria-busy + optional pending label + re-entry guard.
+- `bindAsyncButton`: Convenience: attach an auto-pending async handler to an element's event (default "click").
+- `createProgressBar`
+- `revealOnScroll`: Start revealing; returns a cleanup that disconnects the observer.
+- `createDrawer`
+- `markInvalid`: Mark a field invalid: aria-invalid="true" (the theme rings it red) + a brief shake.
+- `clearInvalid`: Clear a field's invalid state.
+- `clearInvalidOnInput`: Attach real-time clearing: editing a field clears its invalid state (so the red ring disappears as the user fixes
+ it, instead of lingering until t...
+- `SchemaViolationError`: A validation failure on either edge — carries the Zod issues so callers can surface what drifted.
+
+## Optional
+
+### Types
+
+- `ApiStores`
+- `FetcherFactory`: A bound fetcher store factory: call with the route's path params to get a cache-keyed store.
+- `MutatorInvoker`: A bound mutator store: `.mutate({ data, params })` runs the (validated) request and returns the validated body.
+- `MutatorInput`
+- `CartStore`
+- `CartLine`: One cart line.
+- `DiscountStore`
+- `AppliedDiscount`: A validated, applied discount. `type`/`value` mirror @suluk/stripe's Discount so the money core can consume it.
+- `ProgressBar`
+- `ProgressElement`
+- `Drawer`
+- `PanelEl`: createDrawer — the reusable open/close controller behind any slide-in panel (cart, mobile nav, a Sheet): toggles
+the panel + backdrop visibility an...
+- `FieldLike`: Form-error feedback primitives (saastarter parity: "invalid fields ring red + shake", "errors clear as you type").
+
+## @suluk/openapi-compat
+
+### API
+
+- `downgrade`: Project a v4 "Suluk" document to OpenAPI 3.
+- `upgrade`: Project an OpenAPI 3.1 document up to the v4 "Suluk" model.
+- `validate31`
+
+## Optional
+
+### Types
+
+- `DowngradeResult`: `@suluk/openapi-compat` — convert between the OpenAPI v4 "Suluk" candidate and OpenAPI 3.
+- `Diagnostic`: `@suluk/openapi-compat` — convert between the OpenAPI v4 "Suluk" candidate and OpenAPI 3.
+- `Validation31`
+
+## @suluk/panel
+
+### API
+
+- `fieldsOf`: Infer the ordered field set for an entity. `entities` is the set of entity names (for relationship detection).
+- `titleField`: The entity's best "title" field — for list columns + relationship option labels.
+- `humanize`: "coverImageUrl" → "Cover Image", "categoryId" → "Category".
+- `entityModels`
+- `renderInput`
+- `renderFieldRow`: One labelled field row (label · required mark · description · the input).
+- `renderList`
+- `renderForm`
+- `renderShell`
+- `richtextEditor`: The editor markup for one rich-text field. `name` is the form field; `value` is the initial markdown.
+- `richtextScript`: Client init for every `[data-rt]` on the page — toolbar inserts markdown around the selection; the Preview tab
+ renders the markdown with an inline...
+- `mediaEditor`
+- `mediaScript`: Client init for every `[data-media]`: live preview on URL change + (if window.
+- `panelApp`
+- `PANEL_CSS`
+- `RICHTEXT_CSS`
+- `MEDIA_CSS`
+
+## Optional
+
+### Types
+
+- `Field`: `@suluk/panel` — contract-first admin panels, in the spirit of Payload but projected from ONE OpenAPI v4 document.
+- `FieldType`: Field-type inference — the Payload-parity core, contract-first.
+- `EntityModel`
+- `NavGroup`
+- `NavItem`
+- `StatCard`: A KPI tile on the dashboard home.
+- `PanelSection`: A custom, non-CRUD page mounted at `${basePath}/s/<id>`, rendered inside the panel shell.
+- `PanelGroup`: Sidebar grouping: a titled section listing entity names and/or section ids, in order.
+
+## @suluk/payments
+
+### API
+
+- `paymentClient`: The Prism-style entry point: read the single processor named in `config.
+- `stripePost`
+- `stripeGet`
+- `toForm`: Stripe's bracket-nested `x-www-form-urlencoded` encoder: objects → `key[k]`, arrays → `key[i]`, scalars appended;
+ undefined/null are skipped.
+- `subtotal`: Subtotal in cents — integer, non-negative.
+- `computeDiscountAmount`: The cents a discount removes from `subtotalCents` — ROUNDED to a whole cent and CLAMPED to [0, subtotal] so a
+discount can never exceed the order o...
+- `validateDiscount`: Validate a discount against a subtotal, with a SPECIFIC rejection reason (PARITY: "specific discount-rejection
+reasons" — a shopper is told *why*, ...
+- `prorateDiscount`: Split `discountCents` across `lines` proportionally to each line's total, as whole cents that sum EXACTLY to
+`discountCents` (largest-remainder app...
+- `orderTotal`: Compose the authoritative order total from lines + an optional (already-validated) discount.
+- `composeTotal`: Fold every component into ONE authoritative total: subtotal − discount + shipping + tax, each a non-negative whole
+cent and the discount never exce...
+- `verifyAmount`: ANTI-TAMPERING: recompute the total from authoritative line prices + the discount and compare it to the amount
+the client claims (e.
+- `cartFingerprint`: A stable fingerprint of the priced cart (+ discount) — order-independent over lines.
+- `idempotencyKey`: A deterministic idempotency key for a checkout attempt.
+- `requiresStripe`: Does this total require a real Stripe charge, or can it complete as a free order?
+- `verifyStripeSignature`: Verify a Stripe `stripe-signature` header against the raw request body + the endpoint signing secret.
+- `timingSafeHexEqual`: Constant-time hex-string compare (no early-out) — guards the signature check against timing oracles.
+- `webhookRouter`: Build a router, optionally seeded with a `{ type → handler }` map.
+- `IntegrationError`: Request-phase: bad/missing config, a missing required field, a serialization failure. The caller's bug to fix.
+- `ConnectorError`: Response-phase: the processor returned an unexpected shape the connector couldn't transform.
+- `NetworkError`: Transport: timeout, connection refused, DNS failure — may recover on retry.
+- `PaymentLibError`: The error taxonomy (C048) — mirrors Prism's three hard-failure classes.
+- `Currency`: ISO-4217 currency. A curated set for `Currency.USD`-style access; open to any code a connector accepts.
+- `mockConnector`
+- `MOCK_DECLINE_CARD`: Well-known test PANs (Stripe-compatible values, for familiarity).
+- `MOCK_3DS_CARD`
+- `stripeConnector`
+- `STRIPE_MIN_CHARGE_CENTS`: Stripe's minimum chargeable amount (USD). Below it, a charge is impossible — the order must go the free path.
+- `STRIPE_EVENTS`: The common Stripe checkout/billing event types (for discoverability + typo-safe registration).
+
+## Optional
+
+### Types
+
+- `Secret`: A processor-side secret / PII value — wrapped so it's explicit at every call site and never accidentally logged.
+- `Currency`: ISO-4217 currency. A curated set for `Currency.USD`-style access; open to any code a connector accepts.
+- `MinorAmount`: An amount in the currency's minor unit (cents), the Prism convention (no floats in the money path).
+- `CardDetails`
+- `PaymentMethod`: The payment instrument.
+- `Address`
+- `OrderDetail`
+- `PaymentError`: A structured error the library surfaces (in-band on FAILURE, or on a thrown IntegrationError/ConnectorError).
+- `RedirectionData`: Where to send the customer for 3DS / redirect flows (present when status is AUTHENTICATION_PENDING).
+- `AuthorizeRequest`
+- `PaymentResponse`
+- `CaptureRequest`
+- `VoidRequest`
+- `RefundRequest`
+- `RefundResponse`
+- `SyncRequest`
+- `ClientSession`: A browser-confirmable session: the server creates the intent, the browser SDK confirms it with `clientSecret`, so raw
+card data never touches the s...
+- `CreatePaymentSessionRequest`: Create a PAYMENT session to confirm in-browser.
+- `CreateSetupSessionRequest`: Create a SETUP session to vault a card without charging ("add card").
+- `PaymentConnector`: A payment processor behind the unified schema.
+- `ConnectorAuth`: A connector's typed credentials (per processor). `Secret`-wrapped so keys aren't logged.
+- `ConnectorFactory`: Builds a connector from its typed auth + http options — what each processor module exports.
+- `ConnectorRegistry`: The connector registry: processor id → factory. The app composes it from the connector modules it ships.
+- `WebhookEvent`: A normalized webhook event (the unified shape a connector's handleWebhook produces).
+- `CartLine`: One cart line. `unitCents` is the authoritative price (from the server, not the client).
+- `Discount`: A discount's MATH shape (the structural part; app-side eligibility rules are separate).
+- `DiscountResult`
+- `DiscountRejection`
+- `OrderTotal`
+- `OrderTotalFull`: The full order total once shipping + tax (from the ./shipping + ./tax adapters) are known.
+- `AmountVerdict`
+- `StripeWebhookEvent`: A verified webhook event — only `type` is required (the router dispatches on it); `data` carries the payload.
+- `WebhookHandler`
+- `WebhookRouter`
+- `HandleResult`
+- `CaptureMethod`: Auto-capture on authorize, or authorize-then-capture-later.
+- `AuthenticationType`: 3-D Secure preference.
+- `PaymentStatus`: Payment status — INTEGER values mirroring Prism exactly (do NOT renumber; a real Prism backend + connector code depend
+on these).
+- `RefundStatus`: Refund status — a SEPARATE enum from PaymentStatus with overlapping integers (mirrors Prism).
+
+## @suluk/platform
+
+### API
+
+- `definePlatform`: Validate + return a platform.
+- `defineSystem`: Author a SYSTEM. `const T` captures the services tuple so `serviceOpts` types resolve per service id.
+- `defineBrand`: Author a BRAND.
+- `isPlatform`: Discriminate the C053 `{ system, brand }` shape from the legacy manifest.
+- `resolveNodeOpts`: Resolve the node quadrants of `{ system, brand }` into the `{ services, opts, vars }` a legacy manifest carries:
+ - `opts[id]` (→ entry): the globa...
+- `liftSystemBrand`: Lower a `{ system, brand }` platform to the legacy PlatformManifest the C051 generator renders.
+- `liftLegacy`: The MIGRATE direction — a legacy PlatformManifest → the C053 `{ system, brand }` split (the inverse of
+liftSystemBrand).
+- `serviceId`: A ServiceRef → its runtime id (a string ref is the id; a Service object contributes `.id`).
+- `resolveWiring`: Validate + compile the wires into per-producer hook fields + the imports they need.
+- `groupImports`: Group wire imports by module specifier → one `import { a, b } from "x";` per module (first-seen order).
+- `assertJsonSafe`: Reject non-JSON data (functions/symbols/bigint/undefined) + prototype-pollution keys anywhere in a wire's params.
+- `validateIdentifier`: Guard a code IDENTIFIER (a capability symbol / import symbol) — fail closed on anything that isn't a plain identifier.
+- `lit`: A schema-validated value → an inert JSON literal (never an identifier or call).
+- `defineService`: Author a service.
+- `optsType`: A TYPED opts marker for a service's `serviceOpts`/`brandOpts`.
+- `toCatalogEntry`: Project a Service onto the legacy CatalogEntry shape the C051 generator reads.
+- `orderServices`: app + auth always come first (the base + the user/apikey tables others reference); the rest keep manifest order.
+- `collectEnv`: The env vars the selected services need, de-duped by name (first declaration wins).
+- `resolveVersion`: Resolve a dep to its version: an @suluk/* package → "latest" (fixes flow via `bun update`); a known ecosystem dep →
+ its pinned range; anything els...
+- `mergeProvision`
+- `planPlatform`
+- `buildPackageJson`: The framework baseline package.
+- `mergePackageJson`: Merge the generated framework baseline package.
+- `mergeWranglerToml`: Preserve the operator's provisioned binding ids (keyed by `binding = "NAME"`) across a wrangler.toml regenerate.
+- `mergeGitignore`: Merge the generated .
+- `generatePlatform`
+- `CORE_SERVICES`: The core services keyed by id (key === `service.id`, guaranteed by construction).
+- `appService`: The 19 CORE services, expressed through the common interface (the dogfood).
+- `authService`
+- `contractService`
+- `mcpService`
+- `creditsService`
+- `keysService`
+- `billingService`
+- `costService`
+- `erasureService`
+- `emailService`
+- `webhooksService`
+- `rateLimitService`
+- `rateCreditService`
+- `i18nService`
+- `referenceService`
+- `adminService`
+- `logsService`
+- `journeysService`
+- `auditService`
+- `CATALOG`: The offerings, derived from the core service set. `app` is the base (no mount symbol, no fragment).
+- `BASE_DEPS`: The always-present framework deps (every generated app: the Effect services + Hono entry + the merged provision.
+- `ECOSYSTEM_VERSIONS`: Pinned ranges for the NON-@suluk ecosystem deps — the single place they're kept current for every generated app.
+- `DEV_DEPS`: The generated app's devDeps (the Workers + TS toolchain).
+
+## Optional
+
+### Types
+
+- `PlatformManifest`: The C051 legacy manifest — still valid, still the byte-identity anchor.
+- `SystemManifest`: A SYSTEM — the reusable, publishable template. Generic over the services tuple so `serviceOpts` is typed by service id.
+- `BrandManifest`: A BRAND — thin, swappable per deployment. Carries the app identity + the brand-facing opts (→ `[vars]`).
+- `Platform`: A bound platform = a system + a brand.
+- `ServiceRef`: A reference to a service: an imported Service object (fully typed) or a bare string id (resolved against the
+ catalog; opts typed as `unknown`).
+- `WireDecl`: An inter-service composition EDGE (Phase 3).
+- `Wiring`
+- `WireImport`
+- `Service`: THE COMMON INTERFACE.
+- `Port`: A typed PORT a service EXPOSES: a named hook others fill.
+- `Capability`: A typed CAPABILITY a service OFFERS to fill a port.
+- `CompositionSurface`: What a service brings to the composition graph: the ports it exposes + the capabilities it offers.
+- `Schema`: Standard-Schema v1 shape (zod v4 implements it).
+- `McpOAuthOpts`: The MCP OAuth authorization-server config (auth's `serviceOpts.mcp`) — the frontend OAuth pages + resource + scope set.
+- `AuthServiceOpts`: auth's serviceOpts: optionally activate the MCP OAuth server (Better Auth `mcp()` plugin).
+- `CatalogEntry`: The old catalog record — now a DERIVED VIEW of a Service (see toCatalogEntry); kept so `planPlatform`
+ and the C051 helpers read the same shape the...
+- `Mount`: How a module contributes to the generated `src/index.ts`. (Unchanged from C051.)
+- `EnvVar`: An env var a module (or the app's provisioning) needs — drives the generated `env.
+- `PlatformPlan`
+- `GenerateResult`
+
+## @suluk/provision
+
+### API
+
+- `defineProvision`: Validate + return a provision config.
+- `topoOrder`: Order `instances` so each comes after its binding producers.
+- `parseRef`: Parse a single value: a `@ref.key` string → its parts, else null (not a reference).
+- `depsOf`: Every instance ref a spec's params depend on (deduped) — the spec's in-edges in the DAG.
+- `resolveParams`: Resolve a spec's params against the accumulated outputs (ref → its output map).
+- `stableStringify`: A stable JSON string (recursively sorted keys) — order-independent so a fingerprint is reproducible.
+- `fingerprint`: The drift fingerprint of a desired instance = a stable hash of (name + plan + params).
+- `plan`: Diff `config` against `state`.
+- `apply`: Execute the plan for `config`. Idempotent end-to-end: re-running a settled config is all-noops, touches no provider.
+- `pollToDone`: Poll an async operation to a terminal state. Throws on "failed" or after `timeoutMs`.
+- `checkDrift`: Report whether live state matches the config (orphans counted only when pruning is the config default).
+- `assertNoDrift`: Fail-closed: throw when there's any drift (the CI gate).
+- `pull`: Fetch each journaled instance's live state via its broker (OSB fetch) → an external-drift report. Read-only.
+- `reconcile`: Fold a pull report into the journal: DROP externally-deleted instances (so the next `apply` re-creates them) + MERGE
+ live outputs over drifted one...
+- `discover`: Discover live instances (via `broker.
+- `teardown`: Deprovision the whole journal, consumers-first, honouring `protected`. Destructive — gate it behind confirmation.
+- `snapshot`: A snapshot of `config` at migration `idx`.
+- `diffSnapshots`: Diff the previous snapshot against the next (current) config → the ordered migration steps.
+- `migrationTag`: `NNNN_name` — the zero-padded migration tag.
+- `memoryMigrationStore`: An in-memory migration store (tests / dry-runs).
+- `fileMigrationStore`: A file-backed migration store rooted at `dir` (default `provision/`).
+- `generate`
+- `migrate`
+- `memoryStore`: A StateStore over an in-memory array (cloned on load/save so callers can't mutate the journal by reference).
+- `memorySink`: A BindingSink that records every (envVar → value) it lands — for assertions + a dry-run "what would be set" preview.
+- `fileStore`
+- `envSink`: A BindingSink that persists bindings into a `.env` via @suluk/env (encrypted by default; commit-safe).
+- `cloudflareD1`: D1 database.
+- `cloudflareKv`: Workers KV namespace. Provision is create-or-get. Output: `namespace_id`.
+- `cloudflareR2`: R2 bucket. Provision is create-or-get. Output: `bucket_name` (R2's id IS its name).
+- `cloudflareSecrets`: Worker secrets — the runtime-secret SINK as a broker (this is `sync-secrets.
+- `cloudflareToken`: A scoped, least-privilege Cloudflare API token (this is `mint-service-tokens.
+- `cloudflareWwwRedirect`: A www → apex 301 redirect (C058) on the zone of `params.
+- `cloudflarePagesDomain`
+- `defineProvisionApp`: Validate + return a provision app config (the CLI imports this as the config file's default export).
+- `runCli`
+- `EMPTY_SNAPSHOT`: The empty baseline — the "before the first migration" state, so the first `generate` diffs against nothing.
+- `SNAPSHOT_VERSION`
+
+## Optional
+
+### Types
+
+- `OperationState`: OSB last-operation state for an ASYNC provision/deprovision (a database that takes seconds, a cert that takes minutes).
+- `ServicePlan`: A plan tier within an offering (OSB Service Plan). Most infra has a single "standard" plan; `free` marks $0 tiers.
+- `ServiceOffering`: What a broker can provision (OSB Service Offering). `bindable` = provisioning yields credentials/config to bind.
+- `Catalog`: The set of offerings a broker advertises (OSB Catalog).
+- `InstanceSpec`: A declared instance the platform WANTS (the desired state — one entry in provision.config).
+- `InstanceState`: The live record of a provisioned instance (the journal `plan` diffs against — like drizzle's migration meta).
+- `ProvisionRequest`: The resolved request handed to a broker's `provision` (param refs already substituted).
+- `ProvisionResult`: A broker's provision outcome — sync (ready now) or async (poll `lastOperation` with `operation`).
+- `BindRequest`: The resolved request handed to a broker's `bind`.
+- `BindResult`: A broker's bind outcome — the credentials/config the platform + downstream instances consume.
+- `OperationRequest`: The request handed to `lastOperation` / `deprovision`.
+- `Broker`: The OSB-shaped broker every service implements.
+- `BindingSink`: Where bound credentials LAND.
+- `StateStore`: The persisted provision journal (desired-vs-live diffing). The default store is a JSON file; a test passes memory.
+- `ProvisionPlan`
+- `PlanStep`
+- `StepAction`
+- `ApplyResult`
+- `AppliedStep`
+- `DriftReport`
+- `PullReport`
+- `PullEntry`
+- `PullStatus`
+- `DiscoveredInstance`
+- `TeardownResult`
+- `Snapshot`
+- `Migration`
+- `MigrationStep`
+- `MigrationStore`
+- `MigrationJournal`
+- `MigrateResult`
+- `ProvisionApp`
+- `CliResult`
+
+## @suluk/reference
+
+### API
+
+- `referenceHtml`
+- `referenceResponse`
+- `referenceInsightsHtml`
+- `referenceInsightsResponse`
+- `normalize`: Project a v4 document into the normalized IR. Never throws; problems become diagnostics.
+- `escapeHtml`
+- `crossCut`: The reachability matrix: every operation × every viewer. The projection made explicit (the contract refracted).
+- `reachable`: Can a viewer reach an operation at all (full OR scoped)? Drives the View-as lens hide/show.
+- `reachState`: Three-valued reachability — `full` (●), `scoped` (◐, reachable but restricted to the caller's OWN rows), or
+`none` (·).
+- `costRollup`
+- `schemaHtml`: Render a schema compactly. `depth`/`seen` guard against $ref cycles + runaway nesting.
+- `sampleOf`: A representative sample VALUE for a schema (for request/response examples). Cycle/depth-guarded.
+- `constraintNotes`: Format JSON-Schema validation keywords (constraints) into compact chips. `format` is omitted here (it's in typeOf).
+- `codeSamples`
+- `costExplorer`
+- `adaPlayground`
+- `projectionMap`: The projection thesis as a compact map: this ONE contract becomes N layers. Contract-derivable counts only.
+- `hardeningPanel`: The Hardening incentive panel — the weakest operations + their concrete fixes, gamified toward the next grade.
+- `hardenBadge`
+- `facetsPanel`: Facet panels — the v4 OPERATIONAL facets a 3.
+- `portalHtml`
+- `portalResponse`
+- `auditDocument`: Audit the document's input surface → per-op grades + a deduped rollup + a severity breakdown.
+- `auditOperation`: Audit one request's INPUT surface (request body + typed parameter slots).
+- `assertGrade`: CI gate (the hard incentive): throw if the document's hardening grade is below `min`.
+- `DEFAULT_VIEWERS`
+
+## Optional
+
+### Types
+
+- `ReferencePlugin`
+- `RefDoc`
+- `NormalizedOperation`
+- `Viewer`: A viewer the reference can project the surface for.
+- `AccessFacet`: Access as a contract facet: who can REACH an operation. Annotated on each request as x-suluk-access.
+- `CostModel`: C024 — the cost facet may declare a non-synchronous trigger (the cost accrues on a background event).
+- `CrossCutRow`
+- `PortalEntry`
+- `DocAudit`
+- `OpAudit`
+- `Grade`
+
+## @suluk/scalar
+
+### API
+
+- `enrichFacetBadges`: Mutate a downgraded 3.
+- `enrichFacetDetail`: Append the v4 facet detail to each operation's description (progressive disclosure, complementing the badges).
+- `v4Intro`: Prepend a short "this is a Suluk v4 contract" note (+ a cost-coverage tally) to the doc intro Scalar shows up top.
+- `enrichedSpec`: Project a v4 document to the 3.
+- `enrichV4Facets`: Mutate a v4 document: stamp the facet badges + detail on each REQUEST (the v4 by-name operation) and prepend the
+ v4-contract intro — the same supe...
+- `enrichedV4`: Enrich a v4 document with the suluk facets (badges + detail + intro) WITHOUT downgrading — for the forked Scalar
+ that ingests v4 NATIVELY.
+- `scalarHtml`: Render a v4 document to a self-contained Scalar HTML page (+ downgrade diagnostics).
+- `scalarResponse`: Convenience for Bun.serve / Hono / fetch handlers: the Scalar page as a text/html Response.
+- `scalarV4Html`: The saasuluk-grade **v4 reference**: the self-hosted Scalar UI fed the v4 doc (faithful + facet-enriched), wrapped
+in a suluk toolbar that adds the...
+- `scalarV4Response`: The v4 Scalar reference as a text/html Response.
+- `SCALAR_VERSION`: We OWN this version (the fork's first act): pin instead of riding `@latest`, so the UI never drifts under us.
+- `SULUK_FORK_STANDALONE_VERSION`: The PINNED suluk-forked Scalar standalone (Scalar + the v4 patch-set), published as `@suluk/scalar-standalone` and
+served from jsdelivr-npm.
+- `SULUK_FORK_CDN`
+
+## Optional
+
+### Types
+
+- `RenderResult`
+
+## @suluk/sdk
+
+### API
+
+- `generateSdk`: `@suluk/sdk` — generate a complete, intuitive TypeScript SDK from a v4 "Suluk" contract.
+- `tsType`: A JSON schema → a TS type string (used for typed method inputs + response types).
+- `resolveOps`: walkOps + DETERMINISTIC method-name collision resolution — SHARED by generateSdk AND generateStores so the client
+accessor names (`client.
+- `clientAccessor`: The client accessor for an op — the dotted path AFTER `client.
+- `generateStores`: generateStores(doc) — project the C037 reactive facet (`x-suluk-store` + `x-suluk-notify`) into a typed Nano Stores
+reactive layer (states + mutati...
+
+## Optional
+
+### Types
+
+- `OpInfo`: `@suluk/sdk` — generate a complete, intuitive TypeScript SDK from a v4 "Suluk" contract.
+
+## @suluk/seo
+
+### API
+
+- `robotsTxt`: `@suluk/seo` — a complete, framework-agnostic SEO toolkit for a Suluk app, inspired by the Nuxt SEO suite but
+pure + Cloudflare-safe (no runtime de...
+- `sitemapXml`
+- `sitemapIndex`
+- `organization`
+- `website`
+- `breadcrumb`
+- `offer`
+- `aggregateRating`
+- `product`
+- `faqPage`
+- `article`
+- `itemList`
+- `graph`: Compose nodes into ONE `@graph` document — the recommended single-script form (de-duplicates `@context`).
+- `ld`: Wrap a single node with `@context` for a standalone <script type="application/ld+json">.
+- `seoTags`
+- `renderTags`: Render tag descriptors to an HTML string (for an SSR <head>).
+- `resolveTitle`
+- `llmsTxt`
+- `ogImageSvg`
+- `webManifest`
+- `deploymentMeta`: A <meta> stamping the build/deployment id into the page.
+- `skewGuardScript`: Inline client guard (drop into a <script>).
+- `DEPLOYMENT_HEADER`: Deploy skew-protection — pin a client to the deployment it loaded, and force a full reload after a new deploy
+ (so a long-lived tab never runs old ...
+
+## Optional
+
+### Types
+
+- `RobotsGroup`: robots.txt generation — user-agent groups with allow/disallow/crawl-delay, plus sitemap + host directives.
+- `SitemapUrl`
+- `SitemapImage`
+- `SitemapAlternate`
+- `ChangeFreq`
+- `OfferInput`
+- `ProductInput`
+- `ArticleInput`
+- `SeoTagsInput`
+- `Tag`
+- `Alternate`
+- `RobotsMeta`
+- `LlmsTxtInput`
+- `LlmsSection`
+- `LlmsLink`: llms.
+- `OgImageInput`
+- `WebManifestInput`
+- `ManifestIcon`: PWA web app manifest generation (W3C). Pure JSON-string builder with sane defaults.
+- `ManifestShortcut`
+
+## @suluk/shadcn
+
+### API
+
+- `formSpec`: Build a FormSpec from an object Schema Object.
+- `tableSpec`: Build a TableSpec.
+- `renderFormTsx`: Render a shadcn <Form> component from a FormSpec. Returns TSX source as a string.
+- `renderTableTsx`: Render a shadcn <Table> component from a TableSpec. Returns TSX source as a string.
+- `renderDetailTsx`: Render a read-only shadcn detail (show) view from a FormSpec. Returns TSX source as a string.
+- `renderFormSkeletonTsx`: A form skeleton — one label+control placeholder per field, plus a submit-button placeholder.
+- `renderTableSkeletonTsx`: A table skeleton — a header row of column placeholders + N body rows of cell placeholders.
+- `renderDetailSkeletonTsx`: A detail skeleton — one label+value placeholder row per field.
+- `renderShadcnTheme`: The full shadcn theme file set from a TokenSpec/ThemeSpec: the css path → globals.css + components.json.
+- `renderGlobalsCss`: The shadcn `globals.
+- `renderComponentsJson`: The shadcn `components.json` CLI config — `cssVariables: true`, so the generated tokens drive the components.
+
+## Optional
+
+### Types
+
+- `FieldWidget`: The shadcn form control we pick for a property. Drives which control the renderer emits.
+- `FieldSpec`: One form control, derived from a single object property.
+- `FormSpec`: `@suluk/shadcn` — the UI corner.
+- `ColumnSpec`: One table column, derived from a single object property.
+- `TableSpec`: `@suluk/shadcn` — the UI corner.
+
+## @suluk/stripe
+
+### API
+
+- `subtotal`: Subtotal in cents — integer, non-negative.
+- `computeDiscountAmount`: The cents a discount removes from `subtotalCents` — ROUNDED to a whole cent and CLAMPED to [0, subtotal] so a
+discount can never exceed the order o...
+- `validateDiscount`: Validate a discount against a subtotal, with a SPECIFIC rejection reason (PARITY: "specific discount-rejection
+reasons" — a shopper is told *why*, ...
+- `prorateDiscount`: Split `discountCents` across `lines` proportionally to each line's total, as whole cents that sum EXACTLY to
+`discountCents` (largest-remainder app...
+- `orderTotal`: Compose the authoritative order total from lines + an optional (already-validated) discount.
+- `composeTotal`: Fold every component into ONE authoritative total: subtotal − discount + shipping + tax, each a non-negative whole
+cent and the discount never exce...
+- `verifyAmount`: ANTI-TAMPERING: recompute the total from authoritative line prices + the discount and compare it to the amount
+the client claims (e.
+- `cartFingerprint`: A stable fingerprint of the priced cart (+ discount) — order-independent over lines.
+- `idempotencyKey`: A deterministic idempotency key for a checkout attempt.
+- `requiresStripe`: Does this total require a real Stripe charge, or can it complete as a free order?
+- `verifyStripeSignature`: Verify a Stripe `stripe-signature` header against the raw request body + the endpoint signing secret.
+- `timingSafeHexEqual`: Constant-time hex-string compare (no early-out) — guards the signature check against timing oracles.
+- `webhookRouter`: Build a router, optionally seeded with a `{ type → handler }` map.
+- `toForm`: Stripe's bracket-nested `x-www-form-urlencoded` encoder: objects → `key[k]`, arrays → `key[i]`, scalars appended;
+ undefined/null are skipped.
+- `stripePost`
+- `stripeGet`
+- `STRIPE_MIN_CHARGE_CENTS`: Stripe's minimum chargeable amount (USD). Below it, a charge is impossible — the order must go the free path.
+- `STRIPE_EVENTS`: The common Stripe checkout/billing event types (for discoverability + typo-safe registration).
+
+## Optional
+
+### Types
+
+- `CartLine`: One cart line. `unitCents` is the authoritative price (from the server, not the client).
+- `Discount`: A discount's MATH shape (the structural part; app-side eligibility rules are separate).
+- `DiscountResult`
+- `DiscountRejection`
+- `OrderTotal`
+- `OrderTotalFull`: The full order total once shipping + tax (from the ./shipping + ./tax adapters) are known.
+- `AmountVerdict`
+- `StripeWebhookEvent`: A verified webhook event — only `type` is required (the router dispatches on it); `data` carries the payload.
+- `WebhookHandler`
+- `WebhookRouter`
+- `HandleResult`
+
+## @suluk/stubgen
+
+### API
+
+- `stubSpec`: Resolve a gap to a renderable spec (inferring name/method/path/fields where not given).
+- `renderContract`: Render the CONTRACT half — a `@suluk/hono` RouteContract literal to paste into `contractDoc([...])`.
+- `generateStub`: Generate the contract + handler stub for one gap, lowered through a handler target.
+- `generateStubs`: Generate stubs for many gaps.
+- `honoEffectTarget`: The toolfactory idiom: an Effect program + the run() boundary + a contract-derived RouteError. The first adapter.
+- `honoTarget`: A framework-generic Hono fallback target.
+
+## Optional
+
+### Types
+
+- `StubField`: `@suluk/stubgen` — turn a NEEDS-CONTRACT gap (a tester pre-wrote a scenario the contract can't back yet) into
+honestly-provisional backend STUBS th...
+- `StubGap`: The input: a gap the contract cannot back, optionally with the Examples columns that hint the request shape.
+- `StubSpec`: The resolved, renderable stub.
+- `HandlerTarget`: The handler-emit adapter seam — a target renders the HANDLER half in its app's idiom.
+- `GeneratedStub`
+
+## @suluk/swagger
+
+### API
+
+- `swaggerHtml`: Render a v4 document to a self-contained Swagger UI HTML page (+ downgrade diagnostics).
+- `swaggerResponse`: Convenience for Bun.serve / Hono / fetch handlers: the Swagger UI page as a text/html Response.
+
+## Optional
+
+### Types
+
+- `RenderResult`
+
+## @suluk/testgen
+
+### API
+
+- `generateTests`: `@suluk/testgen` — generate a DETERMINISTIC conformance test suite from a v4 "Suluk" contract.
+- `generateMoneyTests`: Emit the money-correctness conformance suite as a self-contained test-file string.
+
+## @suluk/theme
+
+### API
+
+- `oklch`: Construct an OKLCH color (clamped to valid ranges).
+- `clampOklch`: Clamp to valid ranges: l∈[0,1], c≥0, h wrapped to [0,360), alpha∈[0,1]. Non-finite inputs collapse to 0.
+- `formatOklch`: Format as a CSS `oklch(L C H)` / `oklch(L C H / A)` string.
+- `parseOklch`: Parse a CSS `oklch(L C H)` / `oklch(L C H / A)` string. Percentages on L are normalized (50% → 0.5). Null on miss.
+- `withLightness`: A copy with a new lightness (kept in [0,1]).
+- `withAlpha`: A copy with a new alpha.
+- `cssVarName`: The CSS custom-property name for a color role (kebab-cased: primaryForeground → --primary-foreground).
+- `deriveDark`: Derive a dark TokenSpec from a light one (colors remapped; radius/fonts/scales carried through).
+- `themeFromLight`: Build a complete {light, dark} ThemeSpec, deriving dark when not supplied.
+- `parseShadcnCss`: Parse a shadcn/tweakcn theme CSS string into light + dark ColorTokens.
+- `toCssVars`: A scheme's CSS custom properties — the colors (OKLCH) + radius + any fonts/shadows/scales — under one selector.
+- `toThemeCss`: Both modes as CSS: light at :root, dark at the dark selector.
+- `toTailwindTheme`: The Tailwind v4 `@theme inline` block — maps each token to its utility variable (`--color-background`,
+`--radius-lg`, `--font-sans`, breakpoints) r...
+- `toShadcnTokens`: The shadcn token map: CSS-var name → OKLCH value (+ --radius). What a shadcn `components.json`/globals consumes.
+- `renderBaseCss`: The reusable design-system BASE layer — the accessibility + motion contract every builder inherits, independent
+of the scheme colors.
+- `COLOR_ROLES`: the color roles, in CSS-var order — the single list emit + derive iterate.
+- `graphite`: Neutral graphite (saastarter's default scheme name) — a chroma-free brand.
+- `terracotta`: Terracotta — saastarter's signature accent (globals.css oklch(0.6397 0.172 36.44)).
+- `ocean`: Ocean — a cool blue brand, to show a colored hue derives correctly.
+- `REFERENCE_SCHEMES`: The reference set, keyed by name.
+
+## Optional
+
+### Types
+
+- `Oklch`: The OKLCH value type (saastarter-parity Phase 1).
+- `ColorTokens`: The shadcn color-token roles (each a foreground/surface pair where applicable).
+- `FontTokens`
+- `TokenSpec`: One mode's tokens (light or dark).
+- `ThemeSpec`: A complete scheme: the light mode + its dark mode (authored, or derived via deriveDark).
+
+## @suluk/visual
+
+### API
+
+- `hash`: Stable, fast, non-cryptographic hash (djb2) of source text or raw bytes — for change detection only.
+- `checkConfidence`: Decide, WITHOUT rendering, whether a UI built from `used` primitives is pixel-confident given the baseline.
+- `pendingVerification`: Exactly the primitives that need a (one-time) pixel verification right now: the missing + the drifted.
+- `approve`: Record approvals into the baseline (the "verify once"): each capture marks its primitive verified-at-hash.
+- `confidenceCoverage`: Coverage = fraction of used primitives that are approved + unchanged. 1 ⇒ fully pixel-confident.
+- `formPrimitives`: The distinct primitives a generated FORM is composed of: its layout + each widget it uses.
+- `tablePrimitives`: The distinct primitives a generated TABLE is composed of: its layout + the cell primitive.
+- `renderPrimitiveHtml`: A self-contained HTML page that renders exactly one primitive — the thing you screenshot to approve it.
+- `knownWidgets`: The widget primitives this package knows how to render in isolation (for the verify-once gate).
+- `primitiveControl`: Just the control fragment (no surrounding page) — for an inline preview in a host UI (the cockpit webview).
+- `primitiveCss`: A small stylesheet for the control fragments above — so a host can render `primitiveControl` inline.
+- `contentHash`: Hash of the render-affecting source of a primitive (its component code, variant, tokens).
+- `snapshotHash`: Hash of an approved screenshot's bytes — the recorded identity of "what was verified".
+
+## Optional
+
+### Types
+
+- `Baseline`: The approved baseline — primitive key → its verified entry. Persist as JSON; commit it.
+- `BaselineEntry`: `@suluk/visual` — pixel-confidence by construction.
+- `UsedPrimitive`: A primitive USED by a generated UI: its key + the CURRENT content hash of its source.
+- `ConfidenceReport`: `@suluk/visual` — pixel-confidence by construction.
+- `Capture`: A capture from the verify-once gate: the primitive, its content hash, and its approved screenshot's hash.
+- `PrimitiveSources`
+
+## @suluk/zod
+
+### API
+
+- `zodToV4`: Convert a Zod schema to a v4 Schema Object.
+- `v4ToZod`: Convert a v4 Schema Object to a Zod schema.
+- `convert`: Core recursive conversion of one v4/JSON-Schema node to a Zod type.
+- `lexicalSchema`: The serialized Lexical editor state — `{ root: { children: [...] } }`. The storage shape of a richtext field.
+- `lexicalNodeSchema`: A single Lexical node — recursive + open (each node type carries its own extra fields; we keep the common ones).
+- `LEXICAL_V4_SCHEMA`: The v4 (JSON Schema 2020-12) projection of a Lexical state — recursive via a `$defs.
+
+## Optional
+
+### Types
+
+- `ZodToV4Result`: `@suluk/zod` — Zod ⇄ v4 "Suluk" Schema Object conversion.
+- `LexicalState`
+
+## Registry modules (own-the-code backends)
+
+Install with `pnpm dlx shadcn@latest add MahmoodKhalil57/suluk/<item>`. Each wires the @suluk packages above.
+
+- [admin](registry/admin/): An Effect-TS Admin service exposing GET /api/admin/stats — the admin-scoped ops/usage aggregate. Wraps @suluk/credits' ledgerStats (credits issued vs spent + outstanding balance stay upstream) + the module-owned credit_transaction row count. Admin-scope is enforced globally by the contract's enforceApiKeyScope on /api/admin, so the route does no gating. A stateless read: no schema, no provision (reads existing tables). Own the wiring, npm the aggregate.
+- [app](registry/app/): The base Hono app (error handling + health) plus the Effect-TS `Db` service every feature module depends on. The foundation feature services build on.
+- [audit](registry/audit/): Dev/CI tooling (no runtime mount): a single conformance script that consolidates @suluk/cockpit's lifecycle gates + @suluk/harden's input-hardening security grade + schema-fact readiness grade into one unified ship-readiness pass/fail. Loads your v4 contract and exits non-zero when a gate blocks or the combined grade falls below the floor — the one command your pipeline gates on.
+- [auth](registry/auth/): The auth foundation: buildAuth (drizzle adapter + openAPI/apiKey/passkey plugins, parametrized), mountAuthRoutes (the Hono handler), and a CurrentUser Effect service. Owns the user + apikey tables. The schema is reconciled against Better Auth v1.6.23 (canonical) — regenerate with `npx @better-auth/cli generate` if you change plugins/version. The signup hook (onUserCreated) wires to the `credits` module.
+- [billing](registry/billing/): An Effect-TS Billing service over @suluk/billing (which runs on @suluk/payments' agnostic connector + client-token surface): ensure-customer, Payment-Element + add-card sessions, saved cards, billing portal. The webhook dispatch + pricing matrix stay in your app (C046/C048).
+- [contract](registry/contract/): The keystone: declares the base API surface as @suluk/hono RouteContracts (with x-suluk-access scopes + zod request schemas) and DERIVES everything downstream consumes — apiDocument(principal?) (the per-principal v4 doc via emitV4), SCOPE_BY_OP + PUBLIC_OPS (the scope facets the scope gate / MCP read), the enforceApiKeyScope gate, the validateRequest body gate, and GET /api/openapi.json projected to the caller's scopes. Own the wiring, npm the derivation. Stateless — no schema, no provision.
+- [cost](registry/cost/): An Effect-TS Cost service over @suluk/cost (the storage-agnostic cost algebra: integer micro-USD, per-source breakdowns, background-event attribution + at-least-once dedup stay upstream). Persists live-request + fired-event costs into D1 and reads the raw ledger picture back (total, by principal/operation/action/source). This module owns the cost_event + cost_dedup tables; the projection logic is npm.
+- [credits](registry/credits/): An Effect-TS Credits service (Context.Tag + Layer) wrapping @suluk/credits (the atomic debit CAS + idempotent grant stay upstream), its Hono routes, schema re-export, and a provision fragment for the D1 tables. The hybrid pattern: own the service wiring, npm the money logic.
+- [email](registry/email/): An Effect-TS Email service over @suluk/email (the EmailProvider transport, the Resend/console impls, and the branded lifecycle templates stay upstream). Reads the provider config from env, picks console in dev / Resend in prod, and exposes send + verify + reset — wire verify/reset into Better Auth's sendVerificationEmail + sendResetPassword. A stateless binding: no schema, no provision fragment (C052).
+- [erasure](registry/erasure/): An Effect-TS Erasure service over @suluk/better-auth's beforeDeleteCascade (the fail-closed GDPR orchestrator — abort rather than half-erase — stays upstream). Runs an ordered delete/anonymize cascade across the core Suluk tables when a user is erased, wireable into Better Auth's deleteUser.beforeDelete hook, and writes an erasure_receipt audit row. You pick the posture (delete vs anonymize) and trim the cascade to the modules you installed.
+- [i18n](registry/i18n/): A locale/direction negotiation MIDDLEWARE over @suluk/i18n (the q-weighted Accept-Language matcher, the cookie parser, and the config/direction model stay upstream). Owns only the wiring: the app's default locale set + a Hono middleware that resolves each request's locale (?lang > cookie > Accept-Language) and stashes locale + dir on the context. mountI18n(app) applies it globally via app.use. A stateless binding — no schema, no provision (C052).
+- [journeys](registry/journeys/): Dev/CI tooling (no runtime mount): author plain-Gherkin user journeys against the step vocabulary @suluk/journeys projects from your v4 contract, then bind + grade coverage as a bun:test gate. The binder resolves each step exact-or-unbound and grades contract→authored coverage; unbound steps are your worklist. Ships a config, an example feature, and the coverage harness.
+- [keys](registry/keys/): An Effect-TS Keys service over @suluk/keys (the abuse-proof pooled-headroom cap + cascade revocation stay upstream): lineage subtree, cascade revoke, and the pooled headroom over a chain. Key creation is Better Auth's apikey plugin (the `auth` module); this manages the delegation tree.
+- [logs](registry/logs/): A fully-owned Effect-TS activity log over an append-only table: record an action, read a principal's recent activity. No @suluk logic package — the whole module is yours to extend.
+- [mcp](registry/mcp/): The API-as-MCP surface: mounts @suluk/mcp's mcpApp at /api/mcp with the contract's apiDocument(scopes) as the per-caller tool list (a caller only sees the tools its principal can call — the contract-first payoff), executes tools in-process via appExec, exposes the OAuth /.well-known discovery (Better Auth's mcp plugin, enabled in auth via opts.mcp), and manages MCP connections (list/update/revoke; session-only) over an owned mcp_connection table. Own the wiring, npm the protocol + OAuth server.
+- [rate-credit](registry/rate-credit/): A credit-backed free-tier rate limiter alongside the fixed-window rate-limit: a per-principal token bucket denominated in µ$ (the same unit as a route's COGS in cost). Each free-tier request debits a small fixed cost; 429 (RFC-9457 via @suluk/core) when the bucket is empty. C052: the µ$ bucket math is app-owned policy (ported here, not a package); only the RFC-9457 envelope is npm. State is one KV binding env.RATE_CREDIT_KV (a binding, not an owned D1 table — no provision fragment). Lazy epoch-ms regen (no cron), FAIL-OPEN on KV error or an unbound namespace. mountRateCredit(app) applies globally after identity resolves; keys by c.var.user?.id else cf-connecting-ip; skips /api/health + /api/webhooks.
+- [rate-limit](registry/rate-limit/): A principal-aware rate-limit MIDDLEWARE over @suluk/hono's enforceRateLimit (the fixed-window bucket math, the swappable RateLimitStore, MemoryRateLimitStore, and the 429 + Retry-After RFC-9457 envelope stay upstream). Owns only the wiring: a keyer that keys by the authenticated user id off the Hono context (else client IP) + the store choice (MemoryRateLimitStore in dev; swap a KV/DO-backed store for prod). mountRateLimit(app) applies it globally via app.use. A stateless binding — no schema, no provision (C052).
+- [reference](registry/reference/): An API reference PAGE rendered by @suluk/reference (the complete v4-native renderer: cost badges, access View-as projection, hardening, try-it) over apiDocument() — the SAME per-principal v4 document the contract keystone derives. GET /api/reference renders the full doc; GET /api/reference/:tool projects it to one operation (by its by-name handle). Own the wiring, npm the renderer. Derived + stateless — no schema, no provision.
+- [webhooks](registry/webhooks/): An Effect-TS Webhooks service over @suluk/payments' inbound Stripe surface (SDK-free HMAC-SHA256 signature verification + a typed event router stay upstream). Verifies the RAW request body against the stripe-signature header + the signing secret, dedups on the Stripe event id against an owned webhook_event table (Stripe is at-least-once, so redelivery is a no-op), then routes the verified event through webhookRouter. Ships a documented STUB handler set the app fills with fulfillment (e.g. credits.grant) — kept decoupled from @suluk/credits. Owns the webhook_event table; verification + routing is npm.
+
+## Platform assembly
+
+`@suluk/platform` (`definePlatform`) + `@suluk/provision` assemble the registry modules into a running backend. The modules platform composes:
+
+  - admin — An Effect-TS Admin service exposing GET /api/admin/stats — the admin-scoped ops/usage aggregate. Wraps @suluk/credits' ledgerStats (credits issued vs spent + outstanding balance stay upstream) + the module-owned credit_transaction row count. Admin-scope is enforced globally by the contract's enforceApiKeyScope on /api/admin, so the route does no gating. A stateless read: no schema, no provision (reads existing tables). Own the wiring, npm the aggregate.
+  - app — The base Hono app (error handling + health) plus the Effect-TS `Db` service every feature module depends on. The foundation feature services build on.
+  - audit — Dev/CI tooling (no runtime mount): a single conformance script that consolidates @suluk/cockpit's lifecycle gates + @suluk/harden's input-hardening security grade + schema-fact readiness grade into one unified ship-readiness pass/fail. Loads your v4 contract and exits non-zero when a gate blocks or the combined grade falls below the floor — the one command your pipeline gates on.
+  - auth — The auth foundation: buildAuth (drizzle adapter + openAPI/apiKey/passkey plugins, parametrized), mountAuthRoutes (the Hono handler), and a CurrentUser Effect service. Owns the user + apikey tables. The schema is reconciled against Better Auth v1.6.23 (canonical) — regenerate with `npx @better-auth/cli generate` if you change plugins/version. The signup hook (onUserCreated) wires to the `credits` module.
+  - billing — An Effect-TS Billing service over @suluk/billing (which runs on @suluk/payments' agnostic connector + client-token surface): ensure-customer, Payment-Element + add-card sessions, saved cards, billing portal. The webhook dispatch + pricing matrix stay in your app (C046/C048).
+  - contract — The keystone: declares the base API surface as @suluk/hono RouteContracts (with x-suluk-access scopes + zod request schemas) and DERIVES everything downstream consumes — apiDocument(principal?) (the per-principal v4 doc via emitV4), SCOPE_BY_OP + PUBLIC_OPS (the scope facets the scope gate / MCP read), the enforceApiKeyScope gate, the validateRequest body gate, and GET /api/openapi.json projected to the caller's scopes. Own the wiring, npm the derivation. Stateless — no schema, no provision.
+  - cost — An Effect-TS Cost service over @suluk/cost (the storage-agnostic cost algebra: integer micro-USD, per-source breakdowns, background-event attribution + at-least-once dedup stay upstream). Persists live-request + fired-event costs into D1 and reads the raw ledger picture back (total, by principal/operation/action/source). This module owns the cost_event + cost_dedup tables; the projection logic is npm.
+  - credits — An Effect-TS Credits service (Context.Tag + Layer) wrapping @suluk/credits (the atomic debit CAS + idempotent grant stay upstream), its Hono routes, schema re-export, and a provision fragment for the D1 tables. The hybrid pattern: own the service wiring, npm the money logic.
+  - email — An Effect-TS Email service over @suluk/email (the EmailProvider transport, the Resend/console impls, and the branded lifecycle templates stay upstream). Reads the provider config from env, picks console in dev / Resend in prod, and exposes send + verify + reset — wire verify/reset into Better Auth's sendVerificationEmail + sendResetPassword. A stateless binding: no schema, no provision fragment (C052).
+  - erasure — An Effect-TS Erasure service over @suluk/better-auth's beforeDeleteCascade (the fail-closed GDPR orchestrator — abort rather than half-erase — stays upstream). Runs an ordered delete/anonymize cascade across the core Suluk tables when a user is erased, wireable into Better Auth's deleteUser.beforeDelete hook, and writes an erasure_receipt audit row. You pick the posture (delete vs anonymize) and trim the cascade to the modules you installed.
+  - i18n — A locale/direction negotiation MIDDLEWARE over @suluk/i18n (the q-weighted Accept-Language matcher, the cookie parser, and the config/direction model stay upstream). Owns only the wiring: the app's default locale set + a Hono middleware that resolves each request's locale (?lang > cookie > Accept-Language) and stashes locale + dir on the context. mountI18n(app) applies it globally via app.use. A stateless binding — no schema, no provision (C052).
+  - journeys — Dev/CI tooling (no runtime mount): author plain-Gherkin user journeys against the step vocabulary @suluk/journeys projects from your v4 contract, then bind + grade coverage as a bun:test gate. The binder resolves each step exact-or-unbound and grades contract→authored coverage; unbound steps are your worklist. Ships a config, an example feature, and the coverage harness.
+  - keys — An Effect-TS Keys service over @suluk/keys (the abuse-proof pooled-headroom cap + cascade revocation stay upstream): lineage subtree, cascade revoke, and the pooled headroom over a chain. Key creation is Better Auth's apikey plugin (the `auth` module); this manages the delegation tree.
+  - logs — A fully-owned Effect-TS activity log over an append-only table: record an action, read a principal's recent activity. No @suluk logic package — the whole module is yours to extend.
+  - mcp — The API-as-MCP surface: mounts @suluk/mcp's mcpApp at /api/mcp with the contract's apiDocument(scopes) as the per-caller tool list (a caller only sees the tools its principal can call — the contract-first payoff), executes tools in-process via appExec, exposes the OAuth /.well-known discovery (Better Auth's mcp plugin, enabled in auth via opts.mcp), and manages MCP connections (list/update/revoke; session-only) over an owned mcp_connection table. Own the wiring, npm the protocol + OAuth server.
+  - rate-credit — A credit-backed free-tier rate limiter alongside the fixed-window rate-limit: a per-principal token bucket denominated in µ$ (the same unit as a route's COGS in cost). Each free-tier request debits a small fixed cost; 429 (RFC-9457 via @suluk/core) when the bucket is empty. C052: the µ$ bucket math is app-owned policy (ported here, not a package); only the RFC-9457 envelope is npm. State is one KV binding env.RATE_CREDIT_KV (a binding, not an owned D1 table — no provision fragment). Lazy epoch-ms regen (no cron), FAIL-OPEN on KV error or an unbound namespace. mountRateCredit(app) applies globally after identity resolves; keys by c.var.user?.id else cf-connecting-ip; skips /api/health + /api/webhooks.
+  - rate-limit — A principal-aware rate-limit MIDDLEWARE over @suluk/hono's enforceRateLimit (the fixed-window bucket math, the swappable RateLimitStore, MemoryRateLimitStore, and the 429 + Retry-After RFC-9457 envelope stay upstream). Owns only the wiring: a keyer that keys by the authenticated user id off the Hono context (else client IP) + the store choice (MemoryRateLimitStore in dev; swap a KV/DO-backed store for prod). mountRateLimit(app) applies it globally via app.use. A stateless binding — no schema, no provision (C052).
+  - reference — An API reference PAGE rendered by @suluk/reference (the complete v4-native renderer: cost badges, access View-as projection, hardening, try-it) over apiDocument() — the SAME per-principal v4 document the contract keystone derives. GET /api/reference renders the full doc; GET /api/reference/:tool projects it to one operation (by its by-name handle). Own the wiring, npm the renderer. Derived + stateless — no schema, no provision.
+  - webhooks — An Effect-TS Webhooks service over @suluk/payments' inbound Stripe surface (SDK-free HMAC-SHA256 signature verification + a typed event router stay upstream). Verifies the RAW request body against the stripe-signature header + the signing secret, dedups on the Stripe event id against an owned webhook_event table (Stripe is at-least-once, so redelivery is a no-op), then routes the verified event through webhookRouter. Ships a documented STUB handler set the app fills with fulfillment (e.g. credits.grant) — kept decoupled from @suluk/credits. Owns the webhook_event table; verification + routing is npm.

@@ -1,0 +1,160 @@
+# @suluk/examples
+
+> Example precedence + deterministic, origin-aware schema synthesis from a v4 'Suluk' contract. The shared, zero-dependency leaf both @suluk/journeys and @suluk/sdk read: resolveExample (public > maintainer > synthetic), a deterministic synthesizer, and the C041 field-origin discipline (x-suluk-origin input|sourced|computed + the wireable SourceRef). Pure, self-contained, faker-dep-free. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### fieldOrigin
+
+Read a property's origin: explicit `x-suluk-origin` wins; else `readOnly` ⇒ `computed`; else default `input`.
+
+```ts
+fieldOrigin(schema: JsonSchema | undefined): FieldOrigin
+```
+
+**Parameters:**
+- `schema: JsonSchema | undefined` — 
+
+**Returns:** `FieldOrigin`
+
+### asSourceRef
+
+The structured source edge if `x-suluk-from` names an `op`; otherwise undefined (a free note is not wireable).
+
+```ts
+asSourceRef(from: unknown): SourceRef | undefined
+```
+
+**Parameters:**
+- `from: unknown` — 
+
+**Returns:** `SourceRef | undefined`
+
+### describeInputs
+
+Describe the TOP-LEVEL fields of an object schema by origin — the surface a client / the @suluk/sdk generator uses to
+know what it may freely fill (`fakerable`), what is wired from elsewhere (`source`), and what is server-computed.
+
+```ts
+describeInputs(schema: JsonSchema | undefined): FieldDescriptor[]
+```
+
+**Parameters:**
+- `schema: JsonSchema | undefined` — 
+
+**Returns:** `FieldDescriptor[]`
+
+### resolveSourced
+
+Resolve a `sourced` field's value from a scenario-scoped bag of captured operation results (keyed by `op.name`). The
+shared primitive both the journeys emitter (carried-data across a journey) and an sdk chaining helper use. Pure.
+
+```ts
+resolveSourced(captured: Record<string, unknown>, ref: SourceRef): unknown
+```
+
+**Parameters:**
+- `captured: Record<string, unknown>` — 
+- `ref: SourceRef` — 
+
+**Returns:** `unknown`
+
+### resolveExample
+
+Resolve a single example by precedence. `hint` (typically the field/op name) only steers SYNTHETIC string values; it
+never changes which tier wins.
+
+```ts
+resolveExample(schema: JsonSchema | undefined, sources: ExampleSources, hint: string, opts: SynthOptions): ResolvedExample
+```
+
+**Parameters:**
+- `schema: JsonSchema | undefined` — 
+- `sources: ExampleSources` — 
+- `hint: string` — 
+- `opts: SynthOptions` — 
+
+**Returns:** `ResolvedExample`
+
+### synthesize
+
+A deterministic, schema-shaped example value. `const`/`enum`/`default`/explicit `examples` win (so a synthesized
+object's fields respect pinned values); otherwise a fixed representative is chosen per type. Object fields are
+filtered by origin/direction (see SynthOptions). A `sourced` field IS synthesized (a type-valid representative) — the
+wiring layer overrides it via describeInputs/resolveSourced; it is never laundered as free input.
+
+```ts
+synthesize(schema: JsonSchema, hint: string, opts: SynthOptions): unknown
+```
+
+**Parameters:**
+- `schema: JsonSchema` — 
+- `hint: string` — 
+- `opts: SynthOptions` — 
+
+**Returns:** `unknown`
+
+### JsonSchema
+
+A JSON Schema 2020-12 object (the v4 inner-schema shape). Opaque-ish; we read a known subset.
+
+```ts
+type JsonSchema = Record<string, unknown>
+```
+
+### ExampleTier
+
+Which source supplied the resolved value. `public` (highest) > `maintainer` > `synthetic` (lowest).
+
+```ts
+type ExampleTier = "public" | "maintainer" | "synthetic"
+```
+
+### ExampleSources
+
+The two human-authored tiers a caller may supply; the synthetic tier is derived from the schema.
+
+### ResolvedExample
+
+### FieldOrigin
+
+`input` = the client is the authority (free, faker-able); `sourced` = retrieved elsewhere (wired); `computed` = server-derived.
+
+```ts
+type FieldOrigin = "input" | "sourced" | "computed"
+```
+
+### SourceRef
+
+A machine-wireable source edge for a `sourced` field: pull `select` (default "id") from operation `op`'s response.
+
+### FieldSource
+
+`x-suluk-from` is EITHER a free human note (string, doc-only) OR a structured, wireable `SourceRef`.
+
+```ts
+type FieldSource = string | SourceRef
+```
+
+### FieldDescriptor
+
+### SynthDirection
+
+Direction controls origin handling: a "request" example omits server-`computed` fields a client never sends; a
+ "response" example omits `writeOnly` fields. Default "request".
+
+```ts
+type SynthDirection = "request" | "response"
+```
+
+### ORIGIN_KEYWORD
+
+```ts
+const ORIGIN_KEYWORD: "x-suluk-origin"
+```
+
+### FROM_KEYWORD
+
+```ts
+const FROM_KEYWORD: "x-suluk-from"
+```

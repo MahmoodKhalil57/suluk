@@ -6,7 +6,7 @@
 
 # Interface: DdlOptions
 
-Defined in: [ddl.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/ddl.ts#L29)
+Defined in: [ddl.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/drizzle/src/ddl.ts#L29)
 
 ## Properties
 
@@ -14,6 +14,6 @@ Defined in: [ddl.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa39
 
 > `optional` **ifNotExists?**: `boolean`
 
-Defined in: [ddl.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/ddl.ts#L31)
+Defined in: [ddl.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/drizzle/src/ddl.ts#L31)
 
 prefix with `IF NOT EXISTS` (default true).

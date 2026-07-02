@@ -6,7 +6,7 @@
 
 # Interface: Gate
 
-Defined in: [cockpit/src/lifecycle.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/lifecycle.ts#L16)
+Defined in: [cockpit/src/lifecycle.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/lifecycle.ts#L16)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/lifecycle.ts:16](https://github.com/MahmoodKhalil57/sul
 
 > `optional` **action?**: `string`
 
-Defined in: [cockpit/src/lifecycle.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/lifecycle.ts#L22)
+Defined in: [cockpit/src/lifecycle.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/lifecycle.ts#L22)
 
 the command to run to advance this gate (undefined ⇒ nothing to do)
 
@@ -24,7 +24,7 @@ the command to run to advance this gate (undefined ⇒ nothing to do)
 
 > **detail**: `string`
 
-Defined in: [cockpit/src/lifecycle.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/lifecycle.ts#L20)
+Defined in: [cockpit/src/lifecycle.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/lifecycle.ts#L20)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [cockpit/src/lifecycle.ts:20](https://github.com/MahmoodKhalil57/sul
 
 > **id**: `string`
 
-Defined in: [cockpit/src/lifecycle.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/lifecycle.ts#L17)
+Defined in: [cockpit/src/lifecycle.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/lifecycle.ts#L17)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [cockpit/src/lifecycle.ts:17](https://github.com/MahmoodKhalil57/sul
 
 > **status**: [`GateStatus`](../type-aliases/GateStatus.md)
 
-Defined in: [cockpit/src/lifecycle.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/lifecycle.ts#L19)
+Defined in: [cockpit/src/lifecycle.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/lifecycle.ts#L19)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [cockpit/src/lifecycle.ts:19](https://github.com/MahmoodKhalil57/sul
 
 > **title**: `string`
 
-Defined in: [cockpit/src/lifecycle.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/lifecycle.ts#L18)
+Defined in: [cockpit/src/lifecycle.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/lifecycle.ts#L18)

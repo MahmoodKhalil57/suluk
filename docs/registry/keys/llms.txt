@@ -1,0 +1,23 @@
+# keys (registry module)
+
+> An Effect-TS Keys service over @suluk/keys (the abuse-proof pooled-headroom cap + cascade revocation stay upstream): lineage subtree, cascade revoke, and the pooled headroom over a chain. Key creation is Better Auth's apikey plugin (the `auth` module); this manages the delegation tree.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `keysRoutes`
+- `DisableKeys`: Disable keys in your apikey table (Better Auth's apikey plugin) — `revokeKeyTree` calls it. Provided from `auth`.
+- `CreateKey`: MINT a real api key — provided from your auth layer (Better Auth's `auth.
+- `Keys`
+- `KeysLive`
+- `keyLineage`: The key-lineage schema (Suluk registry: `keys`) — re-exported from `@suluk/keys`, which owns the delegation-tree table
+(the materialized path that ...
+- `keysProvision`
+- `keysOps`
+
+## Optional
+
+### Types
+
+- `RequestedCaps`: The caps a caller REQUESTS for a new child (clamped to the parent's before minting).

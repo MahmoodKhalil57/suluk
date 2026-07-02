@@ -8,7 +8,7 @@
 
 > **downgrade**(`doc`): [`DowngradeResult`](../interfaces/DowngradeResult.md)
 
-Defined in: [downgrade.ts:283](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/compat/src/downgrade.ts#L283)
+Defined in: [downgrade.ts:283](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/compat/src/downgrade.ts#L283)
 
 Project a v4 "Suluk" document to OpenAPI 3.1. Returns the 3.1 document plus diagnostics for everything
 that could not be carried losslessly. Schema Objects are shared verbatim (identical dialect).

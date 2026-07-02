@@ -1,0 +1,458 @@
+# @suluk/cost
+
+> Cost as a contract facet: declare per-operation cost (incl. third-party usage), bubble it into the v4 doc/Scalar/tests, and meter the ACTUAL per-user cost at runtime (frontend action -> operation -> third-party). Display as-is. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### formatMicroUsd
+
+Format micro-USD as a display string (we store raw integers; this is only for humans).
+
+```ts
+formatMicroUsd(microUsd: number): string
+```
+
+**Parameters:**
+- `microUsd: number` — 
+
+**Returns:** `string`
+
+### settlementOf
+
+The settlement declared on an operation's cost.
+
+```ts
+settlementOf(req: Request): CostSettlement | undefined
+```
+
+**Parameters:**
+- `req: Request` — 
+
+**Returns:** `CostSettlement | undefined`
+
+### settlementAudit
+
+Audit that every PRICED operation names HOW it is settled, and that the named lever is coherent — the generic form of
+toolfactory's "cost names a lever" governance check.
+
+```ts
+settlementAudit(doc: OpenAPIv4Document): SettlementFinding[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `SettlementFinding[]`
+
+### impliedErrorStatuses
+
+The HTTP error statuses a request's FACETS imply (the generic form of toolfactory's errors-gate): a contract should
+declare these responses. credit→402 · authenticated/admin→401 · owner-scope→403 · rate-limit→429 · an upstream
+third-party call (a `per-request` cost component)→502. A pure function of the declared facets.
+
+```ts
+impliedErrorStatuses(req: Request): number[]
+```
+
+**Parameters:**
+- `req: Request` — 
+
+**Returns:** `number[]`
+
+### settlementRollup
+
+A quick "how is this API monetized" tally — ops grouped by settlement method (+ priced-but-unsettled).
+
+```ts
+settlementRollup(doc: OpenAPIv4Document): SettlementRollup
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `SettlementRollup`
+
+### annotateCosts
+
+Annotate a v4 document in place-safe (returns a new doc): set x-suluk-cost on each named operation (incl. webhooks).
+
+```ts
+annotateCosts(doc: OpenAPIv4Document, costs: Record<string, CostModel>): OpenAPIv4Document
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `costs: Record<string, CostModel>` — 
+
+**Returns:** `OpenAPIv4Document`
+
+### costOf
+
+Read the cost model declared on an operation (if any).
+
+```ts
+costOf(req: Request): CostModel | undefined
+```
+
+**Parameters:**
+- `req: Request` — 
+
+**Returns:** `CostModel | undefined`
+
+### costAudit
+
+Cost-coverage audit: which operations have NOT declared what they cost — plus (C024) the background-cost
+disciplines: a deferred cost that resolves no principal would bill to `@unattributed` (fail LOUD, never silent),
+and an attribution read off an UNVERIFIED event payload is attacker-controllable. Walks paths AND webhooks.
+
+```ts
+costAudit(doc: OpenAPIv4Document): CostFinding[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `CostFinding[]`
+
+### costTable
+
+The declared costs across the document (paths + webhooks + jobs), for display (the cockpit/admin show this raw).
+
+```ts
+costTable(doc: OpenAPIv4Document): CostRow[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `CostRow[]`
+
+### computeCost
+
+Compute the actual µ$ a request cost, from its declared model + the usage the handler reported. Fixed
+(per-call) components always count; variable components count their reported units × unit cost. Returns
+the per-source breakdown + total — raw, for the meter to record.
+
+```ts
+computeCost(model: CostModel | undefined, usage: UsageReport[]): { breakdown: { source: string; microUsd: number }[]; totalMicroUsd: number }
+```
+
+**Parameters:**
+- `model: CostModel | undefined` — 
+- `usage: UsageReport[]` — 
+
+**Returns:** `{ breakdown: { source: string; microUsd: number }[]; totalMicroUsd: number }`
+
+### eachOperation
+
+Every named operation in the document — path requests AND C018 webhooks (which are Requests carrying facets) —
+as {path, name, req}. Background-event cost lives on a webhook op, so every cost reader walks this, not just paths.
+
+```ts
+eachOperation(doc: OpenAPIv4Document): { path: string; name: string; req: Request }[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `{ path: string; name: string; req: Request }[]`
+
+### eachJob
+
+Every background JOB (C025) on the document, as {path, name, job} — non-HTTP cron/queue work.
+
+```ts
+eachJob(doc: OpenAPIv4Document): { path: string; name: string; job: SulukJob }[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `{ path: string; name: string; job: SulukJob }[]`
+
+### triggerOf
+
+The trigger an operation's cost declares (C024; default "synchronous").
+
+```ts
+triggerOf(model: CostModel | undefined): CostTrigger
+```
+
+**Parameters:**
+- `model: CostModel | undefined` — 
+
+**Returns:** `CostTrigger`
+
+### isDeferredCost
+
+Does this cost accrue on a BACKGROUND event (a non-synchronous trigger) rather than the declaring op's own run?
+
+```ts
+isDeferredCost(model: CostModel | undefined): boolean
+```
+
+**Parameters:**
+- `model: CostModel | undefined` — 
+
+**Returns:** `boolean`
+
+### costMeter
+
+Hono middleware: after the handler runs, record what the request cost (declared model + reported usage).
+
+```ts
+costMeter(opts: CostMeterOptions): MiddlewareHandler
+```
+
+**Parameters:**
+- `opts: CostMeterOptions` — 
+
+**Returns:** `MiddlewareHandler`
+
+### recordUsage
+
+A handler calls this to report MEASURED third-party usage for the current request (e.g. tokens used).
+
+```ts
+recordUsage(c: Context, source: string, units: number): void
+```
+
+**Parameters:**
+- `c: Context` — 
+- `source: string` — 
+- `units: number` — 
+
+### resolveEventExpression
+
+Resolve a C018 runtime-expression against a fired event. Supports `{$event.id}`, `{$event.<key>}`, and a
+JSON-Pointer tail `{$event.body#/customer}` / `{$event.body#/data/object/customer}`. Returns the stringified
+value, or undefined when it doesn't resolve. Pure; never throws (an unresolvable expression is undefined, not an error).
+
+```ts
+resolveEventExpression(expression: string, event: Record<string, unknown>): string | undefined
+```
+
+**Parameters:**
+- `expression: string` — 
+- `event: Record<string, unknown>` — 
+
+**Returns:** `string | undefined`
+
+### attributePrincipal
+
+Resolve the principal charged for a fired event per the model's attribution strategy. Returns the `@unattributed`
+sentinel (never silent) when nothing resolves: `session`/`job-stamped` use the supplied principal; `event-expression`
+reads it from the payload. NOTE: an `event-expression` with `trust !== "verified"` is attacker-controllable — the
+caller MUST gate it behind a verified webhook signature before trusting the result for billing.
+
+```ts
+attributePrincipal(model: CostModel, event: Record<string, unknown>, suppliedPrincipal?: string): string
+```
+
+**Parameters:**
+- `model: CostModel` — 
+- `event: Record<string, unknown>` — 
+- `suppliedPrincipal: string` (optional) — 
+
+**Returns:** `string`
+
+### eventCostEvent
+
+Build the CostEvent for a FIRED background event — pure. Stamps the trigger, resolves principal + dedupeKey,
+ and (C026) uses the payload-reconciled amount as the authoritative total when the model declares one.
+
+```ts
+eventCostEvent(input: EventCostInput): CostEvent
+```
+
+**Parameters:**
+- `input: EventCostInput` — 
+
+**Returns:** `CostEvent`
+
+### recordEventCost
+
+Record a fired event's cost into a sink, deduped by its `dedupeKey` against `seen` (so at-least-once delivery
+can't double-charge). Returns the recorded event, or null when it was a duplicate. `seen` is the app's dedup
+store (an in-memory Set for dev; a durable KV/DO for prod).
+
+```ts
+recordEventCost(sink: CostSink, input: EventCostInput, seen?: Set<string>): Promise<CostEvent | null>
+```
+
+**Parameters:**
+- `sink: CostSink` — 
+- `input: EventCostInput` — 
+- `seen: Set<string>` (optional) — 
+
+**Returns:** `Promise<CostEvent | null>`
+
+### reconciledAmount
+
+Resolve the ACTUAL charged amount (in µ$) from the event when the model is `payload-reconciled` (C026), else
+undefined. Reads the runtime amount-expression (e.g. the Stripe event amount) and converts from its declared unit
+— so the recorded cost is the third party's real invoice line, not the operator's declared estimate.
+
+```ts
+reconciledAmount(model: CostModel, event: Record<string, unknown>): number | undefined
+```
+
+**Parameters:**
+- `model: CostModel` — 
+- `event: Record<string, unknown>` — 
+
+**Returns:** `number | undefined`
+
+### summarize
+
+```ts
+summarize(events: CostEvent[]): CostSummary
+```
+
+**Parameters:**
+- `events: CostEvent[]` — 
+
+**Returns:** `CostSummary`
+
+### principalCost
+
+What ONE principal cost you (the question that lets you price them) — and the trace by operation + action.
+
+```ts
+principalCost(events: CostEvent[], principal: string): CostSummary
+```
+
+**Parameters:**
+- `events: CostEvent[]` — 
+- `principal: string` — 
+
+**Returns:** `CostSummary`
+
+### MemoryCostSink
+
+A simple in-memory sink (for the demo / tests). Production swaps in D1, a queue, etc.
+
+```ts
+constructor(): MemoryCostSink
+```
+
+**Methods:**
+- `record(e: CostEvent): void` — 
+- `events(): CostEvent[]` — 
+- `clear(): void` — 
+
+### CostBasis
+
+The cost model — what an operation declares it costs you, and what a single request actually cost.
+
+All money is integer **micro-USD** (1 USD = 1_000_000 µ$). Integers avoid float drift and are the rawest
+possible representation — we display the data AS IT IS and let consumers build pricing on top. A cost has
+COMPONENTS, each tied to a source (a third party, compute, egress, …) and a basis (per-call vs per-unit),
+so the actual cost of a request is the fixed components plus the metered usage of the variable ones.
+
+```ts
+type CostBasis = "per-call" | "per-unit" | "per-token" | "per-1k-tokens" | "per-second" | "per-request" | "per-mb"
+```
+
+### CostComponent
+
+`@suluk/cost` — cost as a contract facet + runtime metering. You can't price a user without knowing what
+they cost you. So: declare per-operation cost (incl. third-party usage) on the contract — it bubbles into
+the v4 doc, Scalar, and the audit; meter the ACTUAL cost per request at runtime, traced from the frontend
+action down to each third party; and read the raw per-user picture from the ledger. We display the data as
+it is and let you build pricing on top (Stripe via @suluk/stripe). CANDIDATE tooling — NOT official OAS.
+
+### CostModel
+
+`@suluk/cost` — cost as a contract facet + runtime metering. You can't price a user without knowing what
+they cost you. So: declare per-operation cost (incl. third-party usage) on the contract — it bubbles into
+the v4 doc, Scalar, and the audit; meter the ACTUAL cost per request at runtime, traced from the frontend
+action down to each third party; and read the raw per-user picture from the ledger. We display the data as
+it is and let you build pricing on top (Stripe via @suluk/stripe). CANDIDATE tooling — NOT official OAS.
+
+### UsageReport
+
+A measured usage report for one variable component during a request (e.g. {source:"openai", units: 1350}).
+
+### CostEvent
+
+What a single request actually cost — the rawest record, attributed all the way down.
+
+### CostTrigger
+
+WHEN/WHAT fires a cost (C024) — a STATIC, locally-decidable enum (the same KIND as CostBasis). Default
+"synchronous" ⇒ every existing declaration is unchanged (zero migration). Strictly DESCRIPTIVE: it names where the
+cost accrues, asserting NO event-channel / delivery-protocol semantics — the fence that keeps it orthogonal to
+C018's deliberately-deferred async scope. Three axes stay orthogonal: `basis` = HOW it meters, `trigger` = WHEN it
+fires, `attribution` = WHO pays.
+
+```ts
+type CostTrigger = "synchronous" | "webhook-received" | "scheduled" | "queue-consumed" | "callback-completed"
+```
+
+### CostAttribution
+
+WHO is charged when a third party fires the event with no live session (C024) — a declared STRATEGY the runtime
+resolves a concrete principal from, modeled on `SulukRateLimit.key`. The `expression` is RUNTIME-ONLY: a C018
+runtime-expression that NEVER enters the static matcher (D1-consistent, exactly as C018 walls its callback keys).
+
+### ReconciliationBasis
+
+Whether a cost's amount is a declared guess or read from the event payload at runtime (C026).
+
+```ts
+type ReconciliationBasis = "declared-estimate" | "payload-reconciled"
+```
+
+### SettlementMethod
+
+HOW a declared cost is RECOVERED from the user (C044). `rate-limited` ⇒ free to the user — the cost is "paid" by
+CAPPING usage, so the op's `x-suluk-ratelimit` IS the settlement (no money moves). `credit` ⇒ the user pays credits
+(a balance is debited). `free` ⇒ truly free (the operator absorbs any cost). A purely STATIC fact (an enum + an
+integer + names) — never a request value, so it rides the x-suluk-cost wall (matcher-invisible since C024).
+
+```ts
+type SettlementMethod = "credit" | "rate-limited" | "free"
+```
+
+### CostSettlement
+
+`@suluk/cost` — cost as a contract facet + runtime metering. You can't price a user without knowing what
+they cost you. So: declare per-operation cost (incl. third-party usage) on the contract — it bubbles into
+the v4 doc, Scalar, and the audit; meter the ACTUAL cost per request at runtime, traced from the frontend
+action down to each third party; and read the raw per-user picture from the ledger. We display the data as
+it is and let you build pricing on top (Stripe via @suluk/stripe). CANDIDATE tooling — NOT official OAS.
+
+### SettlementFinding
+
+### SettlementSeverity
+
+```ts
+type SettlementSeverity = "high" | "medium" | "low"
+```
+
+### SettlementRollup
+
+### CostFinding
+
+### CostRow
+
+### CostSink
+
+### EventCostInput
+
+### CostSummary
+
+### UNATTRIBUTED
+
+The principal sentinel for a background cost that resolved to NO principal — billed to nobody, but never silent.
+
+```ts
+const UNATTRIBUTED: "@unattributed"
+```
+
+### COST_EXT
+
+```ts
+const COST_EXT: "x-suluk-cost"
+```

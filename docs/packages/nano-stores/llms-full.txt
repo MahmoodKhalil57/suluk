@@ -1,0 +1,234 @@
+# @suluk/nano-stores
+
+> v4 'Suluk' contracts -> typed Nano Stores client: per-operation fetcher/mutator stores (@nanostores/query) with Zod-validated I/O. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### buildUrl
+
+URL templating for the STATE corner. A RouteContract.path is Hono-style ("/pet/:petId"); v4 uriTemplates
+are RFC-6570 ("pet/{petId}"). buildUrl accepts BOTH param syntaxes so the same helper works whether the
+caller hands us a raw contract path or an already-projected v4 template — we substitute ":name" and
+"{name}" segments from the params bag, then prepend an optional baseUrl.
+
+Honest-loss discipline (house pattern): a placeholder with no matching param is NOT silently emptied — it
+is left verbatim in the URL so the missing binding is visible in the request (and to any test asserting on
+the URL), rather than producing a plausible-but-wrong path. Callers that want strictness can diff the
+result against a "no `:`/`{` remains" check.
+
+```ts
+buildUrl(path: string, params?: Record<string, string | number>, baseUrl?: string): string
+```
+
+**Parameters:**
+- `path: string` — 
+- `params: Record<string, string | number>` (optional) — 
+- `baseUrl: string` (optional) — 
+
+**Returns:** `string`
+
+### createApiStores
+
+```ts
+createApiStores(routes: readonly RouteContract[], opts: CreateApiStoresOptions): ApiStores
+```
+
+**Parameters:**
+- `routes: readonly RouteContract[]` — 
+- `opts: CreateApiStoresOptions` — 
+
+**Returns:** `ApiStores`
+
+### createCartStore
+
+```ts
+createCartStore(opts: CartStoreOptions): CartStore
+```
+
+**Parameters:**
+- `opts: CartStoreOptions` — 
+
+**Returns:** `CartStore`
+
+### createDiscountStore
+
+```ts
+createDiscountStore(opts: DiscountStoreOptions): DiscountStore
+```
+
+**Parameters:**
+- `opts: DiscountStoreOptions` — 
+
+**Returns:** `DiscountStore`
+
+### asyncHandler
+
+Wrap an async (or sync) handler with auto-disable + aria-busy + optional pending label + re-entry guard. Returns
+ the wrapped handler — attach it yourself (composes with addEventListener / onClick).
+
+```ts
+asyncHandler<E>(el: ElementLike, handler: (e: E) => unknown, opts: AsyncBindOptions): (e: E) => Promise<void>
+```
+
+**Parameters:**
+- `el: ElementLike` — 
+- `handler: (e: E) => unknown` — 
+- `opts: AsyncBindOptions` — 
+
+**Returns:** `(e: E) => Promise<void>`
+
+### bindAsyncButton
+
+Convenience: attach an auto-pending async handler to an element's event (default "click").
+
+```ts
+bindAsyncButton<E>(el: ElementLike & { addEventListener: any }, handler: (e: E) => unknown, opts: AsyncBindOptions & { event?: string }): void
+```
+
+**Parameters:**
+- `el: ElementLike & { addEventListener: any }` — 
+- `handler: (e: E) => unknown` — 
+- `opts: AsyncBindOptions & { event?: string }` — 
+
+### createProgressBar
+
+```ts
+createProgressBar(opts: ProgressBarOptions): ProgressBar
+```
+
+**Parameters:**
+- `opts: ProgressBarOptions` — 
+
+**Returns:** `ProgressBar`
+
+### revealOnScroll
+
+Start revealing; returns a cleanup that disconnects the observer.
+
+```ts
+revealOnScroll(opts: RevealOptions): () => void
+```
+
+**Parameters:**
+- `opts: RevealOptions` — 
+
+**Returns:** `() => void`
+
+### createDrawer
+
+```ts
+createDrawer(opts: DrawerOptions): Drawer
+```
+
+**Parameters:**
+- `opts: DrawerOptions` — 
+
+**Returns:** `Drawer`
+
+### markInvalid
+
+Mark a field invalid: aria-invalid="true" (the theme rings it red) + a brief shake.
+
+```ts
+markInvalid(field: FieldLike, opts: { shake?: boolean; shakeMs?: number; setTimer?: (fn: () => void, ms: number) => void }): void
+```
+
+**Parameters:**
+- `field: FieldLike` — 
+- `opts: { shake?: boolean; shakeMs?: number; setTimer?: (fn: () => void, ms: number) => void }` — 
+
+### clearInvalid
+
+Clear a field's invalid state.
+
+```ts
+clearInvalid(field: FieldLike): void
+```
+
+**Parameters:**
+- `field: FieldLike` — 
+
+### clearInvalidOnInput
+
+Attach real-time clearing: editing a field clears its invalid state (so the red ring disappears as the user fixes
+ it, instead of lingering until the next submit). Returns a cleanup.
+
+```ts
+clearInvalidOnInput(form: { addEventListener: any; removeEventListener?: any }): () => void
+```
+
+**Parameters:**
+- `form: { addEventListener: any; removeEventListener?: any }` — 
+
+**Returns:** `() => void`
+
+### SchemaViolationError
+
+A validation failure on either edge — carries the Zod issues so callers can surface what drifted.
+
+```ts
+constructor(side: "request" | "response", route: string, issues: unknown): SchemaViolationError
+```
+
+**Properties:**
+- `side: "request" | "response"` — 
+- `route: string` — 
+- `issues: unknown` — 
+- `name: string` — 
+- `message: string` — 
+- `stack: string` — 
+- `cause: unknown` — 
+
+### ApiStores
+
+### FetcherFactory
+
+A bound fetcher store factory: call with the route's path params to get a cache-keyed store.
+
+```ts
+type FetcherFactory = (params?: Record<string, string | number>) => FetcherStore<unknown>
+```
+
+### MutatorInvoker
+
+A bound mutator store: `.mutate({ data, params })` runs the (validated) request and returns the validated body.
+
+```ts
+type MutatorInvoker = MutatorStore<MutatorInput, unknown>
+```
+
+### MutatorInput
+
+### CartStore
+
+### CartLine
+
+One cart line. The merge key is (`productId`, `variantId`) — two variants of one product are DISTINCT lines.
+ `priceCents` is the unit price at add-time; `image`/`variantLabel` let the drawer + checkout render richly.
+
+### DiscountStore
+
+### AppliedDiscount
+
+A validated, applied discount. `type`/`value` mirror @suluk/stripe's Discount so the money core can consume it.
+
+### ProgressBar
+
+### ProgressElement
+
+### Drawer
+
+### PanelEl
+
+createDrawer — the reusable open/close controller behind any slide-in panel (cart, mobile nav, a Sheet): toggles
+the panel + backdrop visibility and an `open` class (for the CSS transition), makes the page chrome `inert` while
+open (a real focus-trap + AT hide — honoring aria-modal), closes on Escape + backdrop click, and restores focus on
+close. Framework-agnostic; the look + the RTL-aware slide direction live in CSS. Timing is injectable so the
+open/close state machine is unit-testable without a real DOM.
+
+### FieldLike
+
+Form-error feedback primitives (saastarter parity: "invalid fields ring red + shake", "errors clear as you type").
+Framework-agnostic — they toggle the SEMANTIC contract (aria-invalid + the .shake class); the LOOK is `@suluk/theme`
+base CSS ([aria-invalid] destructive ring + `@keyframes` shake). So a hand-written form gets accessible, animated
+validation feedback without a component framework.

@@ -6,7 +6,7 @@
 
 # Interface: BaseCssOptions
 
-Defined in: [emit.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/emit.ts#L68)
+Defined in: [emit.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/emit.ts#L68)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [emit.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa3
 
 > `optional` **destructive?**: `string`
 
-Defined in: [emit.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/emit.ts#L73)
+Defined in: [emit.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/emit.ts#L73)
 
 CSS value for error / invalid states (default `var(--destructive)`).
 
@@ -24,7 +24,7 @@ CSS value for error / invalid states (default `var(--destructive)`).
 
 > `optional` **radius?**: `string`
 
-Defined in: [emit.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/emit.ts#L75)
+Defined in: [emit.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/emit.ts#L75)
 
 CSS value for the corner radius used on focus rings (default `var(--radius)`).
 
@@ -34,7 +34,7 @@ CSS value for the corner radius used on focus rings (default `var(--radius)`).
 
 > `optional` **ring?**: `string`
 
-Defined in: [emit.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/emit.ts#L71)
+Defined in: [emit.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/emit.ts#L71)
 
 CSS value for keyboard focus rings (default the theme's `var(--ring)`). Pass your own accent var if your app
  uses a different color vocabulary.

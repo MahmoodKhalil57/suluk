@@ -8,7 +8,7 @@
 
 > **composeTotal**(`parts`): [`OrderTotalFull`](../interfaces/OrderTotalFull.md)
 
-Defined in: [tooling/ts/packages/payments/src/pricing.ts:124](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L124)
+Defined in: [tooling/ts/packages/payments/src/pricing.ts:124](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L124)
 
 Fold every component into ONE authoritative total: subtotal − discount + shipping + tax, each a non-negative whole
 cent and the discount never exceeding the subtotal. The single place the order total is composed once shipping (a

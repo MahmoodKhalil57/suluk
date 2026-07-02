@@ -1,0 +1,928 @@
+# @suluk/builder
+
+> Tiered contract-narrowing DSL (components→blocks→sections→pages) bound to the Suluk cycle. A page composes sections; buildApp emits backend (routes+v4) AND frontend (page TSX) at once. Inspired by multivendorbuilder's DSL, rebuilt with the Suluk discipline. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### isBind
+
+`@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
+discipline (typed, tested, projected from live entities instead of hand-authored). The load-bearing idea is
+the contract: a document's `params` is EXACTLY and ONLY what the tier above may set — the narrowing is the
+safety surface, the same discipline as Suluk's per-viewer doc projection.
+
+The Suluk twist: a SECTION is a full-stack vertical slice (data → contract → docs → state → ui) and a PAGE
+composes sections — so buildApp emits the backend (routes + v4) AND the frontend (components + page TSX)
+from one spec. Each slice can also be packaged as a shadcn REGISTRY ITEM (toShadcnRegistry) bundling its
+frontend + backend files into one installable unit. CANDIDATE tooling — NOT official OAS.
+
+```ts
+isBind(v: unknown): v is BindRef
+```
+
+**Parameters:**
+- `v: unknown` — 
+
+**Returns:** `v is BindRef`
+
+### isEach
+
+`@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
+discipline (typed, tested, projected from live entities instead of hand-authored). The load-bearing idea is
+the contract: a document's `params` is EXACTLY and ONLY what the tier above may set — the narrowing is the
+safety surface, the same discipline as Suluk's per-viewer doc projection.
+
+The Suluk twist: a SECTION is a full-stack vertical slice (data → contract → docs → state → ui) and a PAGE
+composes sections — so buildApp emits the backend (routes + v4) AND the frontend (components + page TSX)
+from one spec. Each slice can also be packaged as a shadcn REGISTRY ITEM (toShadcnRegistry) bundling its
+frontend + backend files into one installable unit. CANDIDATE tooling — NOT official OAS.
+
+```ts
+isEach(c: unknown): c is EachRef
+```
+
+**Parameters:**
+- `c: unknown` — 
+
+**Returns:** `c is EachRef`
+
+### isSlot
+
+`@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
+discipline (typed, tested, projected from live entities instead of hand-authored). The load-bearing idea is
+the contract: a document's `params` is EXACTLY and ONLY what the tier above may set — the narrowing is the
+safety surface, the same discipline as Suluk's per-viewer doc projection.
+
+The Suluk twist: a SECTION is a full-stack vertical slice (data → contract → docs → state → ui) and a PAGE
+composes sections — so buildApp emits the backend (routes + v4) AND the frontend (components + page TSX)
+from one spec. Each slice can also be packaged as a shadcn REGISTRY ITEM (toShadcnRegistry) bundling its
+frontend + backend files into one installable unit. CANDIDATE tooling — NOT official OAS.
+
+```ts
+isSlot(c: unknown): c is SlotRef
+```
+
+**Parameters:**
+- `c: unknown` — 
+
+**Returns:** `c is SlotRef`
+
+### isListSpec
+
+`@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
+discipline (typed, tested, projected from live entities instead of hand-authored). The load-bearing idea is
+the contract: a document's `params` is EXACTLY and ONLY what the tier above may set — the narrowing is the
+safety surface, the same discipline as Suluk's per-viewer doc projection.
+
+The Suluk twist: a SECTION is a full-stack vertical slice (data → contract → docs → state → ui) and a PAGE
+composes sections — so buildApp emits the backend (routes + v4) AND the frontend (components + page TSX)
+from one spec. Each slice can also be packaged as a shadcn REGISTRY ITEM (toShadcnRegistry) bundling its
+frontend + backend files into one installable unit. CANDIDATE tooling — NOT official OAS.
+
+```ts
+isListSpec(s: ParamSpec): s is { type: "list"; options: string[]; controls: ListControl[]; default?: string[] }
+```
+
+**Parameters:**
+- `s: ParamSpec` — 
+
+**Returns:** `s is { type: "list"; options: string[]; controls: ListControl[]; default?: string[] }`
+
+### registry
+
+Build a registry from loose document lists + the set of leaf component names.
+
+```ts
+registry(opts: { components?: string[]; blocks?: DslDocument[]; sections?: DslDocument[]; pages?: DslDocument[] }): Registry
+```
+
+**Parameters:**
+- `opts: { components?: string[]; blocks?: DslDocument[]; sections?: DslDocument[]; pages?: DslDocument[] }` — 
+
+**Returns:** `Registry`
+
+### emptyRegistry
+
+```ts
+emptyRegistry(): Registry
+```
+
+**Returns:** `Registry`
+
+### findDoc
+
+```ts
+findDoc(r: Registry, type: string): DslDocument | undefined
+```
+
+**Parameters:**
+- `r: Registry` — 
+- `type: string` — 
+
+**Returns:** `DslDocument | undefined`
+
+### allowedTypes
+
+The type names a document of `tier` is allowed to reference (its children come from COMPOSES[tier]).
+
+```ts
+allowedTypes(r: Registry, tier: Tier): Set<string>
+```
+
+**Parameters:**
+- `r: Registry` — 
+- `tier: Tier` — 
+
+**Returns:** `Set<string>`
+
+### resolveParams
+
+Effective param values: defaults, then a variant preset, then consumer props (only keys in `params`).
+
+```ts
+resolveParams(doc: DslDocument, variant: string | undefined, props: Record<string, unknown> | undefined): Record<string, unknown>
+```
+
+**Parameters:**
+- `doc: DslDocument` — 
+- `variant: string | undefined` — 
+- `props: Record<string, unknown> | undefined` — 
+
+**Returns:** `Record<string, unknown>`
+
+### resolveList
+
+The effective ordered selection for a `list` param. The default is the spec default (or all options).
+A consumer selection is applied only as far as the controls allow:
+  include → may add options not in the default ; hide → may drop ; reorder → may change order ;
+  repeat  → may list an option more than once.
+Returns the resolved ordered list (catalog keys).
+
+```ts
+resolveList(spec: { type: "list"; options: string[]; controls: ListControl[]; default?: string[] }, selection: string[] | undefined): string[]
+```
+
+**Parameters:**
+- `spec: { type: "list"; options: string[]; controls: ListControl[]; default?: string[] }` — 
+- `selection: string[] | undefined` — 
+
+**Returns:** `string[]`
+
+### validateDocument
+
+Validate one document against the registry.
+
+```ts
+validateDocument(doc: DslDocument, reg: Registry): DslError[]
+```
+
+**Parameters:**
+- `doc: DslDocument` — 
+- `reg: Registry` — 
+
+**Returns:** `DslError[]`
+
+### validateAll
+
+Validate every page / section / block in the registry.
+
+```ts
+validateAll(reg: Registry): DslError[]
+```
+
+**Parameters:**
+- `reg: Registry` — 
+
+**Returns:** `DslError[]`
+
+### renderPageTsx
+
+```ts
+renderPageTsx(page: DslDocument, reg: Registry, opts: { baseUrl?: string }): string
+```
+
+**Parameters:**
+- `page: DslDocument` — 
+- `reg: Registry` — 
+- `opts: { baseUrl?: string }` — 
+
+**Returns:** `string`
+
+### resolveComponents
+
+Ordered component names a page resolves to (section list → each section's block list → block===component).
+
+```ts
+resolveComponents(page: DslDocument, reg: Registry): string[]
+```
+
+**Parameters:**
+- `page: DslDocument` — 
+- `reg: Registry` — 
+
+**Returns:** `string[]`
+
+### crudRoutesFromSchema
+
+Generate backend CRUD RouteContracts from an entity's v4 schema (schemas → Zod for the bodies).
+
+```ts
+crudRoutesFromSchema(name: string, schema: SchemaOrRef, defs?: Record<string, SchemaOrRef>): RouteContract[]
+```
+
+**Parameters:**
+- `name: string` — 
+- `schema: SchemaOrRef` — 
+- `defs: Record<string, SchemaOrRef>` (optional) — 
+
+**Returns:** `RouteContract[]`
+
+### formBlock
+
+A Form block for an entity. Its contract (`params`) exposes only tone + which fields — the field SET is fixed.
+
+```ts
+formBlock(entity: Entity, defs?: Record<string, SchemaOrRef>): DslDocument
+```
+
+**Parameters:**
+- `entity: Entity` — 
+- `defs: Record<string, SchemaOrRef>` (optional) — 
+
+**Returns:** `DslDocument`
+
+### tableBlock
+
+A Table block for an entity. Exposes tone + which columns.
+
+```ts
+tableBlock(entity: Entity, defs?: Record<string, SchemaOrRef>): DslDocument
+```
+
+**Parameters:**
+- `entity: Entity` — 
+- `defs: Record<string, SchemaOrRef>` (optional) — 
+
+**Returns:** `DslDocument`
+
+### crudSection
+
+A CRUD section composing the entity's Table + Form blocks. It HARDCODES the block field/column details and
+re-publishes only { tone, blocks } upward — so a page may reorder/hide the two blocks and set tone, but can
+NOT reach into the form's fields. The narrowing is the section's contract.
+
+```ts
+crudSection(entity: Entity): DslDocument
+```
+
+**Parameters:**
+- `entity: Entity` — 
+
+**Returns:** `DslDocument`
+
+### appPage
+
+A page composing the given sections. Forwards tone; exposes only { sections, tone } upward.
+
+```ts
+appPage(name: string, sectionNames: string[]): DslDocument
+```
+
+**Parameters:**
+- `name: string` — 
+- `sectionNames: string[]` — 
+
+**Returns:** `DslDocument`
+
+### buildApp
+
+Build the WHOLE app — backend (routes + v4) and frontend (components + pages) — from one declarative spec.
+
+```ts
+buildApp(spec: AppSpec): BuiltApp
+```
+
+**Parameters:**
+- `spec: AppSpec` — 
+
+**Returns:** `BuiltApp`
+
+### toShadcnRegistry
+
+Convert a BuiltApp into a shadcn registry: one "block" item per entity bundling its frontend components +
+backend routes module + its v4 schema, plus one "page" item per generated page.
+
+```ts
+toShadcnRegistry(app: BuiltApp, opts: { name?: string; homepage?: string }): ShadcnRegistry
+```
+
+**Parameters:**
+- `app: BuiltApp` — 
+- `opts: { name?: string; homepage?: string }` — 
+
+**Returns:** `ShadcnRegistry`
+
+### installModule
+
+Merge a module's contract fragment into the app document — REFUSING on any collision or unmet requirement.
+On refusal `doc` is the unchanged `base` and `conflicts` explains why; nothing is partially applied.
+
+```ts
+installModule(base: OpenAPIv4Document, mod: SulukModule): InstallResult
+```
+
+**Parameters:**
+- `base: OpenAPIv4Document` — 
+- `mod: SulukModule` — 
+
+**Returns:** `InstallResult`
+
+### namespaceModule
+
+Resolve a collision by NAMESPACING a module: prefix its OWNED entities, rewrite internal $refs that point to
+them, and remap auto-CRUD cost keys accordingly. `requires` refs (e.g. User) are left untouched so the module
+still composes with the host. The returned module installs cleanly alongside one that already owns the names.
+
+```ts
+namespaceModule(mod: SulukModule, prefix: string): SulukModule
+```
+
+**Parameters:**
+- `mod: SulukModule` — 
+- `prefix: string` — 
+
+**Returns:** `SulukModule`
+
+### crudV4Paths
+
+The v4 CRUD operations for one entity, with $ref-based schemas (so the entity lives in components.schemas).
+
+```ts
+crudV4Paths(entity: string): Record<string, PathItem>
+```
+
+**Parameters:**
+- `entity: string` — 
+
+**Returns:** `Record<string, PathItem>`
+
+### moduleOperations
+
+Every operation handle a module declares (auto-CRUD per provided entity + explicit ops).
+
+```ts
+moduleOperations(mod: SulukModule): string[]
+```
+
+**Parameters:**
+- `mod: SulukModule` — 
+
+**Returns:** `string[]`
+
+### gradeModule
+
+A conformance grade. The real, author-attributable signal is COST coverage (auto-CRUD ops carry a
+framework-injected summary, so @suluk/hono `coverage` is structurally ~1.0 and tells us nothing); we use it
+only as a documentation-WARNING penalty on authored ops. A module that contributes nothing grades C.
+
+```ts
+gradeModule(mod: SulukModule): ModuleGrade
+```
+
+**Parameters:**
+- `mod: SulukModule` — 
+
+**Returns:** `ModuleGrade`
+
+### previewInstall
+
+Preview an install WITHOUT committing — what it adds, what it requires, any conflicts, and its grade.
+
+```ts
+previewInstall(base: OpenAPIv4Document, mod: SulukModule): InstallPreview
+```
+
+**Parameters:**
+- `base: OpenAPIv4Document` — 
+- `mod: SulukModule` — 
+
+**Returns:** `InstallPreview`
+
+### schemaRefName
+
+The ROOT schema NAME a $ref targets, or null if it isn't a components/schemas reference. Parses the
+JSON-Pointer by tokens (RFC 6901, matching @suluk/core's resolveRef) so a DEEP ref (.../Order/properties/id)
+still resolves to its root "Order", and an escaped name (.../v2~1Order) unescapes to the real key "v2/Order"
+— a flat /(.+)/ regex would mis-capture the whole tail and false-flag a legitimate ref as dangling.
+
+```ts
+schemaRefName(ref: string): string | null
+```
+
+**Parameters:**
+- `ref: string` — 
+
+**Returns:** `string | null`
+
+### resolveTemplate
+
+Resolve a template's module names to actual modules from a registry — REPORTING any name that doesn't resolve
+ (a typo or a module missing from this registry) rather than silently dropping it.
+
+```ts
+resolveTemplate(t: StackTemplate, registry: ModuleRegistry): { modules: SulukModule[]; missing: string[] }
+```
+
+**Parameters:**
+- `t: StackTemplate` — 
+- `registry: ModuleRegistry` — 
+
+**Returns:** `{ modules: SulukModule[]; missing: string[] }`
+
+### buildMarketing
+
+Build the marketing landing — sections + blocks + a page — from one spec. Synchronous: no fetch, no runtime.
+
+```ts
+buildMarketing(spec: MarketingSpec): BuiltMarketing
+```
+
+**Parameters:**
+- `spec: MarketingSpec` — 
+
+**Returns:** `BuiltMarketing`
+
+### marketingPage
+
+A landing page composing the given marketing sections — mirrors appPage (exposes only { tone, sections }).
+
+```ts
+marketingPage(name: string, sectionNames: string[]): DslDocument
+```
+
+**Parameters:**
+- `name: string` — 
+- `sectionNames: string[]` — 
+
+**Returns:** `DslDocument`
+
+### seoMeta
+
+Resolve a seoMeta field-group: og* default to title/description, sensible card/type/locale defaults.
+
+```ts
+seoMeta(input: SeoMetaInput): SeoMeta
+```
+
+**Parameters:**
+- `input: SeoMetaInput` — 
+
+**Returns:** `SeoMeta`
+
+### jsonLd
+
+Emit a schema.org JSON-LD object for an entity/page — drop it into a <script type="application/ld+json">.
+
+```ts
+jsonLd(kind: JsonLdKind, data: Record<string, unknown>): Record<string, unknown>
+```
+
+**Parameters:**
+- `kind: JsonLdKind` — 
+- `data: Record<string, unknown>` — 
+
+**Returns:** `Record<string, unknown>`
+
+### planComposition
+
+Topologically order modules by `requires`/`provides`, modelling the collision invariants installModule enforces.
+
+```ts
+planComposition(base: OpenAPIv4Document, modules: SulukModule[]): CompositionPlan
+```
+
+**Parameters:**
+- `base: OpenAPIv4Document` — 
+- `modules: SulukModule[]` — 
+
+**Returns:** `CompositionPlan`
+
+### composeModules
+
+Install a set of modules in dependency order, returning the merged platform contract + a per-step trace.
+
+```ts
+composeModules(base: OpenAPIv4Document, modules: SulukModule[]): ComposeResult
+```
+
+**Parameters:**
+- `base: OpenAPIv4Document` — 
+- `modules: SulukModule[]` — 
+
+**Returns:** `ComposeResult`
+
+### providerFacets
+
+The facets the catalog knows about (payments, auth, email, storage).
+
+```ts
+providerFacets(): string[]
+```
+
+**Returns:** `string[]`
+
+### readProviders
+
+The active provider bindings recorded in the document (from installed modules' providerSlots).
+
+```ts
+readProviders(doc: unknown): ProviderBinding[]
+```
+
+**Parameters:**
+- `doc: unknown` — 
+
+**Returns:** `ProviderBinding[]`
+
+### swapProvider
+
+Rebind a facet's slot to another implementation of the same interface. Returns the unchanged doc on error.
+
+```ts
+swapProvider<T>(doc: T, facet: string, impl: string): SwapResult<T>
+```
+
+**Parameters:**
+- `doc: T` — 
+- `facet: string` — 
+- `impl: string` — 
+
+**Returns:** `SwapResult<T>`
+
+### parseRegistry
+
+Parse an UNTRUSTED registry payload (e.g. fetched JSON) into a ModuleRegistry, rejecting malformed entries.
+
+```ts
+parseRegistry(json: unknown): ParsedRegistry
+```
+
+**Parameters:**
+- `json: unknown` — 
+
+**Returns:** `ParsedRegistry`
+
+### validateModule
+
+Validate one UNTRUSTED module manifest, VALUE-shapes included. Returns the typed module or a human reason.
+
+```ts
+validateModule(m: unknown): { module?: SulukModule; error?: string }
+```
+
+**Parameters:**
+- `m: unknown` — 
+
+**Returns:** `{ module?: SulukModule; error?: string }`
+
+### signRegistry
+
+Sign a registry value with a private JWK → a base64 signature over its canonical bytes.
+
+```ts
+signRegistry(value: unknown, privateKeyJwk: JsonWebKey): Promise<string>
+```
+
+**Parameters:**
+- `value: unknown` — 
+- `privateKeyJwk: JsonWebKey` — 
+
+**Returns:** `Promise<string>`
+
+### verifyRegistrySignature
+
+Verify a registry value against a base64 signature + a pinned public JWK. Never throws — false on any error.
+
+```ts
+verifyRegistrySignature(value: unknown, signatureB64: string, publicKeyJwk: JsonWebKey): Promise<boolean>
+```
+
+**Parameters:**
+- `value: unknown` — 
+- `signatureB64: string` — 
+- `publicKeyJwk: JsonWebKey` — 
+
+**Returns:** `Promise<boolean>`
+
+### generateSigningKeypair
+
+Generate an ECDSA P-256 keypair as JWKs (for tooling / tests — a publisher keeps the private key).
+
+```ts
+generateSigningKeypair(): Promise<{ publicKey: JsonWebKey; privateKey: JsonWebKey }>
+```
+
+**Returns:** `Promise<{ publicKey: JsonWebKey; privateKey: JsonWebKey }>`
+
+### isSignedEnvelope
+
+```ts
+isSignedEnvelope(v: unknown): v is SignedEnvelope
+```
+
+**Parameters:**
+- `v: unknown` — 
+
+**Returns:** `v is SignedEnvelope`
+
+### Tier
+
+The composition DSL — the contract model.
+
+Ported from ~/apps/multivendorbuilder's DSL and rebuilt on the Suluk discipline. The tier rule
+(components → blocks → sections → pages) is secondary; the LOAD-BEARING idea is the contract:
+
+  A document's `params` is EXACTLY and ONLY what the tier above may set.
+
+Each tier consumes the full contract of the tier below, hardcodes most of it with literals, and
+re-publishes a deliberately narrower `params` upward. "The owner can't change the form's fields" is not
+a special rule — `fields` simply isn't in the section's `params`, so the validator rejects it like any
+unknown key. The narrowing IS the contract surface. This is the SAME discipline as Suluk's per-viewer doc
+projection (an operation you can't see isn't a rule — its scope just isn't in your principal), applied to
+composition rather than visibility.
+
+Bindings inside a document's `root` / `catalog`:
+  { $bind: "paramName" }  → forward this document's resolved param value (object form so a literal stays literal)
+  { $each: "listParam" }  → expand to the catalog entries the consumer selected (honouring the list controls)
+  { $slot: true }         → where consumer-passed children render
+
+```ts
+type Tier = "components" | "blocks" | "sections" | "pages"
+```
+
+### ListControl
+
+`@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
+discipline (typed, tested, projected from live entities instead of hand-authored). The load-bearing idea is
+the contract: a document's `params` is EXACTLY and ONLY what the tier above may set — the narrowing is the
+safety surface, the same discipline as Suluk's per-viewer doc projection.
+
+The Suluk twist: a SECTION is a full-stack vertical slice (data → contract → docs → state → ui) and a PAGE
+composes sections — so buildApp emits the backend (routes + v4) AND the frontend (components + page TSX)
+from one spec. Each slice can also be packaged as a shadcn REGISTRY ITEM (toShadcnRegistry) bundling its
+frontend + backend files into one installable unit. CANDIDATE tooling — NOT official OAS.
+
+```ts
+type ListControl = "include" | "hide" | "reorder" | "repeat"
+```
+
+### ParamSpec
+
+`@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
+discipline (typed, tested, projected from live entities instead of hand-authored). The load-bearing idea is
+the contract: a document's `params` is EXACTLY and ONLY what the tier above may set — the narrowing is the
+safety surface, the same discipline as Suluk's per-viewer doc projection.
+
+The Suluk twist: a SECTION is a full-stack vertical slice (data → contract → docs → state → ui) and a PAGE
+composes sections — so buildApp emits the backend (routes + v4) AND the frontend (components + page TSX)
+from one spec. Each slice can also be packaged as a shadcn REGISTRY ITEM (toShadcnRegistry) bundling its
+frontend + backend files into one installable unit. CANDIDATE tooling — NOT official OAS.
+
+```ts
+type ParamSpec = { type: "enum"; options: string[]; default?: string; required?: boolean } | { type: "text"; default?: string; required?: boolean } | { type: "number"; default?: number; required?: boolean } | { type: "boolean"; default?: boolean; required?: boolean } | { type: "list"; options: string[]; controls: ListControl[]; default?: string[] }
+```
+
+### DslNode
+
+`@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
+discipline (typed, tested, projected from live entities instead of hand-authored). The load-bearing idea is
+the contract: a document's `params` is EXACTLY and ONLY what the tier above may set — the narrowing is the
+safety surface, the same discipline as Suluk's per-viewer doc projection.
+
+The Suluk twist: a SECTION is a full-stack vertical slice (data → contract → docs → state → ui) and a PAGE
+composes sections — so buildApp emits the backend (routes + v4) AND the frontend (components + page TSX)
+from one spec. Each slice can also be packaged as a shadcn REGISTRY ITEM (toShadcnRegistry) bundling its
+frontend + backend files into one installable unit. CANDIDATE tooling — NOT official OAS.
+
+### DslDocument
+
+`@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
+discipline (typed, tested, projected from live entities instead of hand-authored). The load-bearing idea is
+the contract: a document's `params` is EXACTLY and ONLY what the tier above may set — the narrowing is the
+safety surface, the same discipline as Suluk's per-viewer doc projection.
+
+The Suluk twist: a SECTION is a full-stack vertical slice (data → contract → docs → state → ui) and a PAGE
+composes sections — so buildApp emits the backend (routes + v4) AND the frontend (components + page TSX)
+from one spec. Each slice can also be packaged as a shadcn REGISTRY ITEM (toShadcnRegistry) bundling its
+frontend + backend files into one installable unit. CANDIDATE tooling — NOT official OAS.
+
+### DslChild
+
+`@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
+Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk
+discipline (typed, tested, projected from live entities instead of hand-authored). The load-bearing idea is
+the contract: a document's `params` is EXACTLY and ONLY what the tier above may set — the narrowing is the
+safety surface, the same discipline as Suluk's per-viewer doc projection.
+
+The Suluk twist: a SECTION is a full-stack vertical slice (data → contract → docs → state → ui) and a PAGE
+composes sections — so buildApp emits the backend (routes + v4) AND the frontend (components + page TSX)
+from one spec. Each slice can also be packaged as a shadcn REGISTRY ITEM (toShadcnRegistry) bundling its
+frontend + backend files into one installable unit. CANDIDATE tooling — NOT official OAS.
+
+```ts
+type DslChild = string | number | DslNode | EachRef | SlotRef
+```
+
+### BindRef
+
+Forwards a resolved param of the current document.
+
+### EachRef
+
+Placeholder expanded to the consumer's catalog selection.
+
+### SlotRef
+
+Placeholder where a consumer's passed-in children render.
+
+### Registry
+
+### DslError
+
+### Entity
+
+### AppSpec
+
+### BuiltApp
+
+### RegistryItem
+
+### RegistryFile
+
+### SulukModule
+
+### InstallResult
+
+### ModuleCost
+
+A per-operation cost facet (mirrors @suluk/cost's CostModel; kept local so builder needn't depend on cost).
+
+### ModuleRegistry
+
+### ModuleEntry
+
+### ModuleGrade
+
+### InstallPreview
+
+### StackTemplate
+
+A named set of modules that compose into a working platform (L2 — the non-developer flow).
+
+### MarketingSpec
+
+### BuiltMarketing
+
+### PlanSpec
+
+A pricing plan — static config (no live Stripe matrix); `stripePriceId` is carried for the app to resolve.
+
+### ProjectionSource
+
+A declarative projection a data-driven section reads from — the app's renderer turns it into a query.
+
+### SeoMeta
+
+### SeoMetaInput
+
+### JsonLdKind
+
+```ts
+type JsonLdKind = "Organization" | "WebSite" | "Product" | "Review" | "FAQPage"
+```
+
+### CompositionPlan
+
+### ComposeResult
+
+### ComposeStep
+
+### ProviderImpl
+
+Provider SLOTS (M3) — "swap out a provider you chose." A module declares `providerSlots` (e.g.
+`{ payments: "stripe" }`); installModule records them into the document as `x-suluk-providers`. Each facet
+(payments / auth / email / storage) is a SLOT bound to one implementation of a duck-typed interface — exactly
+the pattern @suluk/stripe's `PaymentProvider` and @suluk/deploy's `DeployProvider` already prove. Swapping
+rebinds the slot to another implementation of the SAME interface; the contract (the operations, their cost)
+is unchanged — only the runtime binding differs. Pure (no host) → unit-tested.
+
+### ProviderBinding
+
+### SwapResult
+
+### RegistrySource
+
+A configured remote registry (persisted by the host).
+
+### ParsedRegistry
+
+### SignedEnvelope
+
+A signed registry payload: the registry value + a detached base64 signature over its canonical bytes.
+
+### COMPOSES
+
+What each tier may compose (its children come from this tier). `components` is the leaf (real UI).
+
+```ts
+const COMPOSES: Record<Exclude<Tier, "components">, Tier>
+```
+
+### LAYOUT
+
+Universal structural containers — valid at ANY tier; their children stay in the doc's composed tier. They
+ carry no param contract (the narrowing is about content refs, not layout), enabling multi-child sections/pages.
+
+```ts
+const LAYOUT: Set<string>
+```
+
+### AUTH
+
+```ts
+const AUTH: SulukModule
+```
+
+### ECOMMERCE
+
+```ts
+const ECOMMERCE: SulukModule
+```
+
+### CRM
+
+```ts
+const CRM: SulukModule
+```
+
+### BILLING
+
+```ts
+const BILLING: SulukModule
+```
+
+### MARKETING
+
+```ts
+const MARKETING: SulukModule
+```
+
+### PREVIEW
+
+```ts
+const PREVIEW: SulukModule
+```
+
+### PREVIEW_ONLY_MARKER
+
+The marker every preview-only operation carries; converge keys on it to surface the backdoor.
+
+```ts
+const PREVIEW_ONLY_MARKER: "x-suluk-preview-only"
+```
+
+### FIRST_PARTY_REGISTRY
+
+```ts
+const FIRST_PARTY_REGISTRY: ModuleRegistry
+```
+
+### STACK_TEMPLATES
+
+```ts
+const STACK_TEMPLATES: StackTemplate[]
+```
+
+### MARKETING_COMPONENTS
+
+The leaf marketing components (app-provided UI). Registered so a section's block may reference them.
+
+```ts
+const MARKETING_COMPONENTS: readonly ["MarketingHero", "MarketingFeatures", "MarketingPricing", "MarketingTestimonials", "MarketingFaq", "MarketingCta", "MarketingFooter"]
+```
+
+### PROVIDER_CATALOG
+
+The catalog of swappable implementations per facet. First-party bindings carry their `@suluk` package.
+
+```ts
+const PROVIDER_CATALOG: Record<string, ProviderImpl[]>
+```

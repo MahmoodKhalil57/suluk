@@ -1,0 +1,70 @@
+# keys (registry module)
+
+> An Effect-TS Keys service over @suluk/keys (the abuse-proof pooled-headroom cap + cascade revocation stay upstream): lineage subtree, cascade revoke, and the pooled headroom over a chain. Key creation is Better Auth's apikey plugin (the `auth` module); this manages the delegation tree.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### keysRoutes
+
+```ts
+keysRoutes(): any
+```
+
+**Returns:** `any`
+
+### DisableKeys
+
+Disable keys in your apikey table (Better Auth's apikey plugin) — `revokeKeyTree` calls it. Provided from `auth`.
+
+```ts
+constructor(): DisableKeys
+```
+
+### CreateKey
+
+MINT a real api key — provided from your auth layer (Better Auth's `auth.api.createApiKey`, which hashes + prefixes the
+key). The `keys` module can't mint a valid Better-Auth key itself (that logic is the auth plugin's), so `provision`
+injects this hook; the module owns only the HEADROOM CLAMP + the lineage record. Returns the new key id + the plaintext
+key (shown once).
+
+```ts
+constructor(): CreateKey
+```
+
+### Keys
+
+```ts
+constructor(): Keys
+```
+
+### RequestedCaps
+
+The caps a caller REQUESTS for a new child (clamped to the parent's before minting).
+
+### KeysLive
+
+```ts
+const KeysLive: any
+```
+
+### keyLineage
+
+The key-lineage schema (Suluk registry: `keys`) — re-exported from `@suluk/keys`, which owns the delegation-tree table
+(the materialized path that makes the pooled-headroom cap + cascade revoke work). The `apikey` table itself is Better
+Auth's (created by its apikey plugin in `auth`); this is only the lineage that hangs off it.
+
+```ts
+let keyLineage: any
+```
+
+### keysProvision
+
+```ts
+const keysProvision: keyLineage[]
+```
+
+### keysOps
+
+```ts
+const keysOps: ({ method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; responses: { status: number; description: string }[]; request?: undefined } | { method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; request: { json: ZodObject<{ userId: ZodString; parentKeyId: ZodOptional<ZodString>; parentCaps: ZodOptional<ZodObject<{ scopes: ZodArray<ZodString, "many">; creditLimit: ZodOptional<ZodNullable<(...)>>; rateLimitSharePct: ZodOptional<ZodNullable<(...)>>; expiresAt: ZodOptional<ZodNullable<(...)>> }, "strip", ZodTypeAny, { scopes: string[]; creditLimit?: number | null; rateLimitSharePct?: number | null; expiresAt?: number | null }, { scopes: string[]; creditLimit?: number | null; rateLimitSharePct?: number | null; expiresAt?: number | null }>>; requested: ZodObject<{ scopes: ZodArray<ZodString, "many">; creditLimit: ZodOptional<ZodNullable<ZodNumber>>; rateLimitSharePct: ZodOptional<ZodNullable<ZodNumber>>; expiresAt: ZodOptional<ZodNullable<ZodNumber>> }, "strip", ZodTypeAny, { scopes: string[]; creditLimit?: number | null; rateLimitSharePct?: number | null; expiresAt?: number | null }, { scopes: string[]; creditLimit?: number | null; rateLimitSharePct?: number | null; expiresAt?: number | null }> }, "strip", ZodTypeAny, { userId: string; requested: { scopes: string[]; creditLimit?: number | null; rateLimitSharePct?: number | null; expiresAt?: number | null }; parentKeyId?: string; parentCaps?: { scopes: string[]; creditLimit?: number | null; rateLimitSharePct?: number | null; expiresAt?: number | null } }, { userId: string; requested: { scopes: string[]; creditLimit?: number | null; rateLimitSharePct?: number | null; expiresAt?: number | null }; parentKeyId?: string; parentCaps?: { scopes: string[]; creditLimit?: number | null; rateLimitSharePct?: number | null; expiresAt?: number | null } }> }; responses: { status: number; description: string }[] })[]
+```

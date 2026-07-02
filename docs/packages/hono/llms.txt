@@ -1,0 +1,61 @@
+# @suluk/hono
+
+> The Suluk derivation engine: minimal Hono+Zod RouteContracts in; v4 doc (dynamic per principal+time), validation, contract tests, and doc-coverage audit out. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `contract`: Identity helper that preserves literal inference when authoring a contract array.
+- `contractDoc`: Stricter, OPT-IN variant of contract: identical runtime behavior + literal inference, but every route must be
+DOCUMENTED (a `summary` or `descripti...
+- `responseList`: Normalize responses (list or map) to a list.
+- `emitV4`: Project a list of route contracts into a v4 document for a given principal + time.
+- `audit`: Walk every operation and report documentation gaps.
+- `coverage`: A coarse coverage score in [0,1]: 1 = fully documented (no findings), lower = more gaps.
+- `autofill`: Fill obvious documentation gaps in-place-safe (returns a new doc): synthesize a summary from the
+operation name + method/path, and a description fo...
+- `contractChecks`: Build the full check suite for a set of route contracts.
+- `runContractChecks`: Run every check and summarize.
+- `validateSchema2020`
+- `mount`: Mount each contract's handler (with request validation derived from its Zod schemas) onto `app`.
+- `enforceAccess`: The facet-driven gate.
+- `createGuard`: Build explicit, hand-applied guards bound to one identity model (for fine-grained per-route gating).
+- `gate`: Decide whether a caller may run an op (per the rule), whether to scope the query to their own rows, and the honest
+deny status.
+- `policyFor`: The policy for an access mode (default: owned when an ownerCol is present, else public). `policies` overrides the preset.
+- `ruleToRequires`
+- `onError`: Build the Hono error handler. Every response carries `content-type: application/problem+json`.
+- `enforceRateLimit`: The facet-driven rate-limit gate.
+- `SulukHttpError`: A typed, throwable HTTP error.
+- `MemoryRateLimitStore`: DEV-ONLY fixed-window store — a single in-process Map, ported from saastarter rate-limit.
+- `DEFAULT_POLICIES`: The opt-in default mode→policy preset. Adopt by reference, or pass your own matrix to policyFor.
+- `HttpErrors`: Factory helpers mirroring saastarter's TaggedError set (errors.
+
+## Optional
+
+### Types
+
+- `RouteContract`: `@suluk/hono` — the derivation engine.
+- `DocumentedRoute`: A route that satisfies documentation coverage at the TYPE level: it MUST carry a `summary` or a `description`.
+- `RouteRequest`: `@suluk/hono` — the derivation engine.
+- `RouteResponse`: `@suluk/hono` — the derivation engine.
+- `Method`: `@suluk/hono` — the derivation engine.
+- `EmitContext`
+- `EmitResult`
+- `EmitDiagnostic`
+- `Finding`
+- `Check`
+- `CheckRun`
+- `SchemaCheck`
+- `Guard`
+- `AccessFacet`
+- `AccessRequires`
+- `Rule`: A CRUD operation's authorization rule.
+- `Policy`: The five CRUD operations' rules for one access mode.
+- `AccessMode`: The built-in access modes (a sensible SaaS/commerce default set; override via `policyFor`'s `policies` arg).
+- `GateIdentity`: The resolved caller identity a gate decision needs (compute from your Hono Context: isAdmin flag + principal id).
+- `GateDecision`: A gate decision: may the op run, scope the query to the owner, and — when denied — the honest status.
+- `SulukHttpErrorInit`
+- `RateLimitStore`: The swap point for a durable counter.
+- `RateLimitResult`

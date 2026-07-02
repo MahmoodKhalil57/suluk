@@ -8,7 +8,7 @@
 
 > **createSetupIntent**(`cfg`, `customerId`, `userId`): `Promise`\<`string`\>
 
-Defined in: [packages/billing/src/billing.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L23)
+Defined in: [packages/billing/src/billing.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/billing/src/billing.ts#L23)
 
 Create a $0 SetupIntent to vault a card without charging ("Add card"). Returns the client secret.
 

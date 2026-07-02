@@ -1,0 +1,88 @@
+# @suluk/payments
+
+> Provider-agnostic payments — a Workers-native TypeScript reimplementation of the Hyperswitch Prism connector interface. ONE unified request schema (authorize/capture/void/refund/sync + optional customer/tokenize/recurring/webhook); switch processor by config, not code. Prism's native FFI core can't run on the edge, so we adopt its interface + integer-exact status semantics and implement over fetch — zero native deps, light, swappable. The seam that supersedes @suluk/stripe. INTERFACE-first (C048); real connectors + the billing rewire follow. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `paymentClient`: The Prism-style entry point: read the single processor named in `config.
+- `stripePost`
+- `stripeGet`
+- `toForm`: Stripe's bracket-nested `x-www-form-urlencoded` encoder: objects → `key[k]`, arrays → `key[i]`, scalars appended;
+ undefined/null are skipped.
+- `subtotal`: Subtotal in cents — integer, non-negative.
+- `computeDiscountAmount`: The cents a discount removes from `subtotalCents` — ROUNDED to a whole cent and CLAMPED to [0, subtotal] so a
+discount can never exceed the order o...
+- `validateDiscount`: Validate a discount against a subtotal, with a SPECIFIC rejection reason (PARITY: "specific discount-rejection
+reasons" — a shopper is told *why*, ...
+- `prorateDiscount`: Split `discountCents` across `lines` proportionally to each line's total, as whole cents that sum EXACTLY to
+`discountCents` (largest-remainder app...
+- `orderTotal`: Compose the authoritative order total from lines + an optional (already-validated) discount.
+- `composeTotal`: Fold every component into ONE authoritative total: subtotal − discount + shipping + tax, each a non-negative whole
+cent and the discount never exce...
+- `verifyAmount`: ANTI-TAMPERING: recompute the total from authoritative line prices + the discount and compare it to the amount
+the client claims (e.
+- `cartFingerprint`: A stable fingerprint of the priced cart (+ discount) — order-independent over lines.
+- `idempotencyKey`: A deterministic idempotency key for a checkout attempt.
+- `requiresStripe`: Does this total require a real Stripe charge, or can it complete as a free order?
+- `verifyStripeSignature`: Verify a Stripe `stripe-signature` header against the raw request body + the endpoint signing secret.
+- `timingSafeHexEqual`: Constant-time hex-string compare (no early-out) — guards the signature check against timing oracles.
+- `webhookRouter`: Build a router, optionally seeded with a `{ type → handler }` map.
+- `IntegrationError`: Request-phase: bad/missing config, a missing required field, a serialization failure. The caller's bug to fix.
+- `ConnectorError`: Response-phase: the processor returned an unexpected shape the connector couldn't transform.
+- `NetworkError`: Transport: timeout, connection refused, DNS failure — may recover on retry.
+- `PaymentLibError`: The error taxonomy (C048) — mirrors Prism's three hard-failure classes.
+- `Currency`: ISO-4217 currency. A curated set for `Currency.USD`-style access; open to any code a connector accepts.
+- `mockConnector`
+- `MOCK_DECLINE_CARD`: Well-known test PANs (Stripe-compatible values, for familiarity).
+- `MOCK_3DS_CARD`
+- `stripeConnector`
+- `STRIPE_MIN_CHARGE_CENTS`: Stripe's minimum chargeable amount (USD). Below it, a charge is impossible — the order must go the free path.
+- `STRIPE_EVENTS`: The common Stripe checkout/billing event types (for discoverability + typo-safe registration).
+
+## Optional
+
+### Types
+
+- `Secret`: A processor-side secret / PII value — wrapped so it's explicit at every call site and never accidentally logged.
+- `Currency`: ISO-4217 currency. A curated set for `Currency.USD`-style access; open to any code a connector accepts.
+- `MinorAmount`: An amount in the currency's minor unit (cents), the Prism convention (no floats in the money path).
+- `CardDetails`
+- `PaymentMethod`: The payment instrument.
+- `Address`
+- `OrderDetail`
+- `PaymentError`: A structured error the library surfaces (in-band on FAILURE, or on a thrown IntegrationError/ConnectorError).
+- `RedirectionData`: Where to send the customer for 3DS / redirect flows (present when status is AUTHENTICATION_PENDING).
+- `AuthorizeRequest`
+- `PaymentResponse`
+- `CaptureRequest`
+- `VoidRequest`
+- `RefundRequest`
+- `RefundResponse`
+- `SyncRequest`
+- `ClientSession`: A browser-confirmable session: the server creates the intent, the browser SDK confirms it with `clientSecret`, so raw
+card data never touches the s...
+- `CreatePaymentSessionRequest`: Create a PAYMENT session to confirm in-browser.
+- `CreateSetupSessionRequest`: Create a SETUP session to vault a card without charging ("add card").
+- `PaymentConnector`: A payment processor behind the unified schema.
+- `ConnectorAuth`: A connector's typed credentials (per processor). `Secret`-wrapped so keys aren't logged.
+- `ConnectorFactory`: Builds a connector from its typed auth + http options — what each processor module exports.
+- `ConnectorRegistry`: The connector registry: processor id → factory. The app composes it from the connector modules it ships.
+- `WebhookEvent`: A normalized webhook event (the unified shape a connector's handleWebhook produces).
+- `CartLine`: One cart line. `unitCents` is the authoritative price (from the server, not the client).
+- `Discount`: A discount's MATH shape (the structural part; app-side eligibility rules are separate).
+- `DiscountResult`
+- `DiscountRejection`
+- `OrderTotal`
+- `OrderTotalFull`: The full order total once shipping + tax (from the ./shipping + ./tax adapters) are known.
+- `AmountVerdict`
+- `StripeWebhookEvent`: A verified webhook event — only `type` is required (the router dispatches on it); `data` carries the payload.
+- `WebhookHandler`
+- `WebhookRouter`
+- `HandleResult`
+- `CaptureMethod`: Auto-capture on authorize, or authorize-then-capture-later.
+- `AuthenticationType`: 3-D Secure preference.
+- `PaymentStatus`: Payment status — INTEGER values mirroring Prism exactly (do NOT renumber; a real Prism backend + connector code depend
+on these).
+- `RefundStatus`: Refund status — a SEPARATE enum from PaymentStatus with overlapping integers (mirrors Prism).

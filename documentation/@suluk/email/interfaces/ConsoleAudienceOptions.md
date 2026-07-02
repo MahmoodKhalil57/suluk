@@ -6,7 +6,7 @@
 
 # Interface: ConsoleAudienceOptions
 
-Defined in: [audience.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/audience.ts#L34)
+Defined in: [audience.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/email/src/audience.ts#L34)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [audience.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/aaf30
 
 > `optional` **log?**: (`line`) => `void`
 
-Defined in: [audience.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/audience.ts#L35)
+Defined in: [audience.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/email/src/audience.ts#L35)
 
 #### Parameters
 

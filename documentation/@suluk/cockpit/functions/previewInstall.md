@@ -8,7 +8,7 @@
 
 > **previewInstall**(`base`, `mod`): [`InstallPreview`](../interfaces/InstallPreview.md)
 
-Defined in: [builder/src/module.ts:328](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/module.ts#L328)
+Defined in: [builder/src/module.ts:328](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/module.ts#L328)
 
 Preview an install WITHOUT committing — what it adds, what it requires, any conflicts, and its grade.
 

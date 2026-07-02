@@ -1,0 +1,46 @@
+# @suluk/email
+
+> The missing EmailProvider binding + a pure renderEmailHtml(options)→HTML generator with a per-event/per-locale branded template set (verify/reset/change-email/delete/order-confirmation/order-status/newsletter). Emits content the app SENDS — never a hosted mailer: consoleProvider (dev) + a Workers-safe resendProvider (REST, no SDK) are swappable bindings. Consumes @suluk/i18n for strings. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `consoleProvider`: DEV provider — logs a summary instead of sending (saastarter resend.ts:21-32). Never touches the network.
+- `resendProvider`: Resend binding via the REST API (https://api.
+- `storeProvider`: DEV/mock provider — SAVES the message to a mailbox sink (sqlite/json) instead of sending.
+- `pickProvider`: Pick the provider the way saastarter's `isLocal` switch does: prod (a key + a from) ⇒ resend.
+- `renderEmailHtml`
+- `verifyEmail`: Email-verification (Better Auth sendVerificationEmail).
+- `resetPasswordEmail`: Password reset.
+- `changeEmailEmail`: Change-email confirmation.
+- `deleteAccountEmail`: Account-deletion confirmation (saastarter options.ts:100-125).
+- `orderConfirmationEmail`: Order confirmation — renders a line-item table + total (amounts formatted via Intl in the given locale), and an
+ optional "Shipping to" block when ...
+- `orderStatusEmail`: Order-status update.
+- `newsletterEmail`: Newsletter — a branded wrapper around app-supplied marketing HTML, with an unsubscribe footer link.
+- `consoleAudience`: DEV audience — logs, never calls the network.
+- `resendAudience`: Resend Audiences via the REST API (https://api.resend.com/audiences/{id}/contacts) over `fetch` — no SDK; never throws.
+- `syncNewsletter`: Reconcile the `Newsletter` rows to an email-provider audience: a `subscribed` row is upserted, an `unsubscribed`
+row is removed.
+- `DEFAULT_EMAIL_STRINGS`: English fallbacks for the chrome strings, so a render works before any catalog is authored.
+- `TEMPLATE_STRINGS`: English defaults for every template string, so the set is usable before any catalog is authored.
+
+## Optional
+
+### Types
+
+- `EmailProvider`: The swappable binding. An app picks one impl; the template set is provider-agnostic.
+- `EmailMessage`: A sendable message — a RenderedEmail plus addressing. The input to a provider.
+- `SendResult`: `@suluk/email` — the missing EmailProvider binding + a per-event/per-locale branded template set.
+- `MailboxSink`: A mailbox sink — where storeProvider SAVES instead of sending (a JSON file / sqlite in local dev).
+- `StoredEmail`: A stored (mocked) email — what a local mailbox sink persists INSTEAD of sending.
+- `EmailBrand`: The brand surface an email needs — defaults reproduce saastarter's terracotta look.
+- `RenderContext`
+- `TemplateContext`: Shared context for every template — the brand + the active-locale catalog (merged over English defaults).
+- `OrderLine`
+- `AudienceProvider`: The swappable audience binding — mirror contacts to an email-provider audience/list.
+- `AudienceContact`: Audience-sync (saastarter-parity Phase 3).
+- `AudienceResult`
+- `NewsletterRow`: One newsletter subscriber row (the shape of the MARKETING module's `Newsletter` entity).
+- `SyncResult`

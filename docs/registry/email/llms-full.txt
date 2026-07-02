@@ -1,0 +1,65 @@
+# email (registry module)
+
+> An Effect-TS Email service over @suluk/email (the EmailProvider transport, the Resend/console impls, and the branded lifecycle templates stay upstream). Reads the provider config from env, picks console in dev / Resend in prod, and exposes send + verify + reset — wire verify/reset into Better Auth's sendVerificationEmail + sendResetPassword. A stateless binding: no schema, no provision fragment (C052).
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### emailCfgFromEnv
+
+Build the config from env — console provider unless production AND a key AND a from-address are all present.
+
+```ts
+emailCfgFromEnv(env: EmailEnv): EmailConfig
+```
+
+**Parameters:**
+- `env: EmailEnv` — 
+
+**Returns:** `EmailConfig`
+
+### EmailCfgLive
+
+```ts
+EmailCfgLive(env: EmailEnv): Layer<EmailCfg>
+```
+
+**Parameters:**
+- `env: EmailEnv` — 
+
+**Returns:** `Layer<EmailCfg>`
+
+### emailRoutes
+
+```ts
+emailRoutes(): any
+```
+
+**Returns:** `any`
+
+### EmailCfg
+
+```ts
+constructor(): EmailCfg
+```
+
+### Email
+
+```ts
+constructor(): Email
+```
+
+### EmailEnv
+
+The env vars the provider binding needs (declare these in your `wrangler`/`.dev.vars`).
+
+### EmailLive
+
+```ts
+const EmailLive: any
+```
+
+### emailOps
+
+```ts
+const emailOps: { method: string; path: string; name: string; summary: string; tags: string[]; scopes: string[]; errors: number[]; responses: { status: number; description: string }[] }[]
+```

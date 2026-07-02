@@ -6,7 +6,7 @@
 
 # Interface: PromotionFileResult
 
-Defined in: [journeys/src/cli.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/cli.ts#L85)
+Defined in: [journeys/src/cli.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/journeys/src/cli.ts#L85)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/cli.ts:85](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **changed**: `boolean`
 
-Defined in: [journeys/src/cli.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/cli.ts#L89)
+Defined in: [journeys/src/cli.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/journeys/src/cli.ts#L89)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [journeys/src/cli.ts:89](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **file**: `string`
 
-Defined in: [journeys/src/cli.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/cli.ts#L86)
+Defined in: [journeys/src/cli.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/journeys/src/cli.ts#L86)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [journeys/src/cli.ts:86](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **original**: `string`
 
-Defined in: [journeys/src/cli.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/cli.ts#L87)
+Defined in: [journeys/src/cli.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/journeys/src/cli.ts#L87)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [journeys/src/cli.ts:87](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **updated**: `string`
 
-Defined in: [journeys/src/cli.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/cli.ts#L88)
+Defined in: [journeys/src/cli.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/journeys/src/cli.ts#L88)

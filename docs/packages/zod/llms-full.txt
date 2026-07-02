@@ -1,0 +1,89 @@
+# @suluk/zod
+
+> Lossless-where-representable conversion between Zod schemas and OpenAPI v4 'Suluk' Schema Objects (JSON Schema 2020-12). Zod is the source of truth; v4 is the interchange. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### zodToV4
+
+Convert a Zod schema to a v4 Schema Object. `io` picks the input vs output projection for schemas with
+defaults/transforms ("output" is the default — the shape after parsing).
+
+```ts
+zodToV4(schema: ZodType, opts: { io?: "input" | "output" }): ZodToV4Result
+```
+
+**Parameters:**
+- `schema: ZodType` — 
+- `opts: { io?: "input" | "output" }` — 
+
+**Returns:** `ZodToV4Result`
+
+### v4ToZod
+
+Convert a v4 Schema Object to a Zod schema.
+
+```ts
+v4ToZod(schema: JSchema, opts: V4ToZodOptions): ZodType
+```
+
+**Parameters:**
+- `schema: JSchema` — 
+- `opts: V4ToZodOptions` — 
+
+**Returns:** `ZodType`
+
+### convert
+
+Core recursive conversion of one v4/JSON-Schema node to a Zod type.
+
+```ts
+convert(node: JSchema, opts: V4ToZodOptions): ZodType
+```
+
+**Parameters:**
+- `node: JSchema` — 
+- `opts: V4ToZodOptions` — 
+
+**Returns:** `ZodType`
+
+### ZodToV4Result
+
+`@suluk/zod` — Zod ⇄ v4 "Suluk" Schema Object conversion.
+
+The user-facing chain is: Zod → v4 → (Scalar/Swagger render) → v4 → Zod. Zod is the source of truth and
+v4 (= JSON Schema 2020-12) is the interchange. zodToV4 emits a v4 Schema Object; v4ToZod rebuilds a Zod
+schema. The pair is LOSSLESS over the JSON-Schema-representable subset — proven by a fixpoint test
+(zodToV4∘v4ToZod∘zodToV4 == zodToV4). Zod runtime effects that JSON Schema cannot express (.transform,
+.refine) are reported by zodToV4().warnings rather than dropped silently. CANDIDATE tooling.
+
+### LexicalState
+
+```ts
+type LexicalState = z.infer<typeof lexicalSchema>
+```
+
+### lexicalSchema
+
+The serialized Lexical editor state — `{ root: { children: [...] } }`. The storage shape of a richtext field.
+
+```ts
+const lexicalSchema: ZodObject<{ root: ZodObject<{ type: ZodLiteral<"root">; children: ZodArray<ZodType<unknown, unknown, $ZodTypeInternals<unknown, unknown>>>; direction: ZodOptional<ZodUnion<readonly [ZodLiteral<"ltr">, ZodLiteral<"rtl">, ZodNull]>>; format: ZodOptional<ZodUnion<readonly [ZodString, ZodNumber]>>; indent: ZodOptional<ZodNumber>; version: ZodOptional<ZodNumber> }, $loose> }, $loose>
+```
+
+### lexicalNodeSchema
+
+A single Lexical node — recursive + open (each node type carries its own extra fields; we keep the common ones).
+
+```ts
+const lexicalNodeSchema: z.ZodType
+```
+
+### LEXICAL_V4_SCHEMA
+
+The v4 (JSON Schema 2020-12) projection of a Lexical state — recursive via a `$defs.lexicalNode` self-`$ref`.
+Drop it onto a property (or `$ref` it from components) to declare a richtext field in a contract. Frozen.
+
+```ts
+const LEXICAL_V4_SCHEMA: Readonly<{ type: "object"; title: "LexicalState"; description: "A serialized Lexical rich-text editor state."; x-suluk-widget: "richtext"; properties: { root: { type: string; properties: { type: { const: string }; children: { type: string; items: { $ref: string } }; direction: { type: string[]; enum: (string | null)[] }; format: { type: string[] }; indent: { type: string }; version: { type: string } }; required: string[] } }; required: string[]; $defs: { lexicalNode: { type: string; properties: { type: { type: string }; version: { type: string }; children: { type: string; items: { $ref: string } }; text: { type: string }; format: { type: string[] } }; required: string[] } } }>
+```

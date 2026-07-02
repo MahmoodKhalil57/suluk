@@ -6,7 +6,7 @@
 
 # Interface: Vocabulary
 
-Defined in: [journeys/src/vocabulary.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/vocabulary.ts#L40)
+Defined in: [journeys/src/vocabulary.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/journeys/src/vocabulary.ts#L40)
 
 `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
 
@@ -24,7 +24,7 @@ VALUES — so it stays on the safe side of the D1 wall; the @suluk/core matcher 
 
 > **operations**: [`VocabOperation`](VocabOperation.md)[]
 
-Defined in: [journeys/src/vocabulary.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/vocabulary.ts#L44)
+Defined in: [journeys/src/vocabulary.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/journeys/src/vocabulary.ts#L44)
 
 the operation table (for coverage + the phrasebook).
 
@@ -34,6 +34,6 @@ the operation table (for coverage + the phrasebook).
 
 > **steps**: [`JourneyStep`](JourneyStep.md)[]
 
-Defined in: [journeys/src/vocabulary.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/vocabulary.ts#L42)
+Defined in: [journeys/src/vocabulary.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/journeys/src/vocabulary.ts#L42)
 
 every generated step, sorted deterministically.

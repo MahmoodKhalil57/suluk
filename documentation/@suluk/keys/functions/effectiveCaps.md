@@ -8,7 +8,7 @@
 
 > **effectiveCaps**(`chain`): [`EffectiveCaps`](../interfaces/EffectiveCaps.md)
 
-Defined in: [packages/keys/src/chain.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/keys/src/chain.ts#L38)
+Defined in: [packages/keys/src/chain.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/keys/src/chain.ts#L38)
 
 The caller's EFFECTIVE grant, derived by walking UP the chain. Scopes = the intersection of every node's grant; the
  credit cap + rate share + expiry = the MIN (soonest) of the declared (non-null) ones. The depth-0 identity for a plain

@@ -8,7 +8,7 @@
 
 > **agentsSummary**(`view`): `string`
 
-Defined in: [cockpit/src/agents.ts:183](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/agents.ts#L183)
+Defined in: [cockpit/src/agents.ts:183](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/cockpit/src/agents.ts#L183)
 
 A one-line ship-readiness summary for the agent layer (mirrors the cockpit's other *Summary helpers).
 

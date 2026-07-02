@@ -6,7 +6,7 @@
 
 # Interface: TeardownOptions
 
-Defined in: [provision/src/teardown.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L11)
+Defined in: [provision/src/teardown.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/teardown.ts#L11)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/teardown.ts:11](https://github.com/MahmoodKhalil57/su
 
 > **brokers**: `Record`\<`string`, [`Broker`](Broker.md)\>
 
-Defined in: [provision/src/teardown.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L12)
+Defined in: [provision/src/teardown.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/teardown.ts#L12)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [provision/src/teardown.ts:12](https://github.com/MahmoodKhalil57/su
 
 > `optional` **dryRun?**: `boolean`
 
-Defined in: [provision/src/teardown.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L17)
+Defined in: [provision/src/teardown.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/teardown.ts#L17)
 
 preview only: compute the order + honour the rails, but call NO provider + don't save. The confirmation default.
 
@@ -32,7 +32,7 @@ preview only: compute the order + honour the rails, but call NO provider + don't
 
 > `optional` **force?**: `boolean`
 
-Defined in: [provision/src/teardown.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L15)
+Defined in: [provision/src/teardown.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/teardown.ts#L15)
 
 override the `protected` rail — required to destroy a protected instance.
 
@@ -42,7 +42,7 @@ override the `protected` rail — required to destroy a protected instance.
 
 > `optional` **log?**: (`msg`) => `void`
 
-Defined in: [provision/src/teardown.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L18)
+Defined in: [provision/src/teardown.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/teardown.ts#L18)
 
 #### Parameters
 
@@ -60,7 +60,7 @@ Defined in: [provision/src/teardown.ts:18](https://github.com/MahmoodKhalil57/su
 
 > `optional` **poll?**: [`PollOptions`](PollOptions.md)
 
-Defined in: [provision/src/teardown.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L19)
+Defined in: [provision/src/teardown.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/teardown.ts#L19)
 
 ***
 
@@ -68,4 +68,4 @@ Defined in: [provision/src/teardown.ts:19](https://github.com/MahmoodKhalil57/su
 
 > **store**: [`StateStore`](StateStore.md)
 
-Defined in: [provision/src/teardown.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L13)
+Defined in: [provision/src/teardown.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/provision/src/teardown.ts#L13)

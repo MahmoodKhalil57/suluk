@@ -8,7 +8,7 @@
 
 > **deriveRequirements**(`input`): [`HardFilters`](../interfaces/HardFilters.md)
 
-Defined in: [select.ts:128](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/models/src/select.ts#L128)
+Defined in: [select.ts:128](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/models/src/select.ts#L128)
 
 Derive HardFilters from an agent/skill's declared needs + the analyzer's load (the C027 seam).
 

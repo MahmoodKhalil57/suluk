@@ -1,0 +1,43 @@
+# @suluk/models
+
+> A weekly, PUBLIC-DATA-ONLY catalog of OpenRouter models + a selector: a suluk skill declares NEEDS (hard filters) + a small PREFERENCE (a named profile), and selectModel picks the best CURRENT model — never a hard-coded id. Decidable OpenRouter facts as numbers; noisy benchmarks as COARSE TIERS with {source, asOf}; no cross-axis composite (blending is the selector's job). CANDIDATE tooling — NOT official OAS.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `selectModel`
+- `deriveRequirements`: Derive HardFilters from an agent/skill's declared needs + the analyzer's load (the C027 seam).
+- `applyBucketing`: Bucket a raw leaderboard score into a coarse tier per the committed rule. Null/absent/unknown-axis ⇒ `unknown`.
+- `normalizeOpenRouter`
+- `normalizeOpenRouterModel`: One OpenRouter model → its decidable fact cells (intel/gov tiers stay UNKNOWN; filled by the Class-B pass).
+- `catalogFrom`
+- `snapshotHash`: A content-addressed hash over the rows' load-bearing SELECTION inputs — facts AND intel tiers (a re-pick under a
+different catalog must differ; rep...
+- `fetchOpenRouterCatalog`: Fetch OpenRouter `/models` and normalize to the fact-cell catalog. NETWORK — run from a weekly script/CI, not tests.
+- `applyTierOverlay`: Overlay coarse tiers onto matching rows' intel cells, then re-hash (selection now depends on these tiers).
+- `OPENROUTER_CATALOG`
+- `SEED_CATALOG`: Illustrative seed — NOT the live catalog. Tiers reflect coarse public standing as of asOf; UNKNOWN is honest.
+- `PROFILES`
+- `BUCKETING_RULES`
+- `KNOWN_TIERS`: A SMALL, conservatively-CITED seed of coarse public standings for headline frontier models (the bootstrap until
+the full Class-B curation lands).
+
+## Optional
+
+### Types
+
+- `Tier`: `@suluk/models` — the catalog schema (council wf_729cde52-cc7).
+- `Cell`: One catalog value with provenance. `value: null` ⇒ UNKNOWN (and `source` is ""); never imputed.
+- `DataRetention`
+- `ModelRecord`
+- `ModelCatalog`
+- `HardFilters`: Hard requirements — these FILTER (can empty the set ⇒ fail-loud), never rank.
+- `Profile`
+- `Preferences`: Preference — RANKS the survivors. A named profile is the 90% case; the escape hatch is ≤4 small int weights.
+- `RankedModel`
+- `SelectResult`
+- `ResolvedProfile`
+- `AxisRule`
+- `ORModel`: The subset of an OpenRouter `/models` row we rely on (all public facts).
+- `IntelAxis`

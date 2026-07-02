@@ -6,7 +6,7 @@
 
 # Interface: Address
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L87)
+Defined in: [tooling/ts/packages/payments/src/types.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L87)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:87](https://github.com/Ma
 
 > `optional` **city?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L90)
+Defined in: [tooling/ts/packages/payments/src/types.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L90)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:90](https://github.com/Ma
 
 > `optional` **country?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L93)
+Defined in: [tooling/ts/packages/payments/src/types.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L93)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:93](https://github.com/Ma
 
 > `optional` **line1?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L88)
+Defined in: [tooling/ts/packages/payments/src/types.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L88)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:88](https://github.com/Ma
 
 > `optional` **line2?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L89)
+Defined in: [tooling/ts/packages/payments/src/types.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L89)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:89](https://github.com/Ma
 
 > `optional` **postalCode?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L92)
+Defined in: [tooling/ts/packages/payments/src/types.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L92)
 
 ***
 
@@ -54,4 +54,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:92](https://github.com/Ma
 
 > `optional` **state?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L91)
+Defined in: [tooling/ts/packages/payments/src/types.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/types.ts#L91)

@@ -1,0 +1,987 @@
+# @suluk/cockpit
+
+> The pure cockpit core (cycle model · builder model · codegen · deploy planning · validate/audit/preview) shared by the vscode extension and the /superadmin web admin panel. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### validateSource
+
+Parse + meta-schema validate a document source. Parse failure → a single error diagnostic.
+
+```ts
+validateSource(text: string): { ok: boolean; diagnostics: Diagnostic[] }
+```
+
+**Parameters:**
+- `text: string` — 
+
+**Returns:** `{ ok: boolean; diagnostics: Diagnostic[] }`
+
+### auditSource
+
+Documentation-coverage audit (under-documented routes) via the @suluk/hono engine.
+
+```ts
+auditSource(text: string): { findings: Finding[]; diagnostics: Diagnostic[] }
+```
+
+**Parameters:**
+- `text: string` — 
+
+**Returns:** `{ findings: Finding[]; diagnostics: Diagnostic[] }`
+
+### previewHtml
+
+Build a self-contained preview page (Scalar or Swagger) for a v4 source. Returns html + downgrade diagnostics.
+
+```ts
+previewHtml(text: string, ui: "scalar" | "swagger"): { html: string; diagnostics: { message: string }[] }
+```
+
+**Parameters:**
+- `text: string` — 
+- `ui: "scalar" | "swagger"` — 
+
+**Returns:** `{ html: string; diagnostics: { message: string }[] }`
+
+### looksLikeV4
+
+True if a parsed document looks like a v4 "Suluk" document (so we only act on those).
+
+```ts
+looksLikeV4(doc: unknown): doc is OpenAPIv4Document
+```
+
+**Parameters:**
+- `doc: unknown` — 
+
+**Returns:** `doc is OpenAPIv4Document`
+
+### buildCycle
+
+Build the full cycle model from a v4 document, optionally projected for a principal (the "who").
+
+```ts
+buildCycle(doc: OpenAPIv4Document, opts: { principal?: Principal }): CycleModel
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `opts: { principal?: Principal }` — 
+
+**Returns:** `CycleModel`
+
+### docChecks
+
+Doc-level "contract checks" — the mistakes a finished v4 document can still encode.
+
+```ts
+docChecks(doc: OpenAPIv4Document): DocCheck[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `DocCheck[]`
+
+### cycleSummary
+
+A flat list for simple renderers / status lines.
+
+```ts
+cycleSummary(model: CycleModel): { layer: string; summary: string; status: LayerStatus }[]
+```
+
+**Parameters:**
+- `model: CycleModel` — 
+
+**Returns:** `{ layer: string; summary: string; status: LayerStatus }[]`
+
+### buildBuilderModel
+
+Build the full builder model from a v4 document (its schemas → entities → buildApp).
+
+```ts
+buildBuilderModel(doc: OpenAPIv4Document): BuilderModel
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `BuilderModel`
+
+### builderTree
+
+The full tier tree (pages → sections → blocks → components) with each tier's contract.
+
+```ts
+builderTree(app: BuiltApp): BuilderNode[]
+```
+
+**Parameters:**
+- `app: BuiltApp` — 
+
+**Returns:** `BuilderNode[]`
+
+### entitiesFromDoc
+
+Each components.schemas entry becomes a builder entity.
+
+```ts
+entitiesFromDoc(doc: OpenAPIv4Document): Entity[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `Entity[]`
+
+### generateAppFiles
+
+All files for the generated app: the v4 doc, the frontend components + pages, and the shadcn registry.
+
+```ts
+generateAppFiles(doc: OpenAPIv4Document): GeneratedFile[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `GeneratedFile[]`
+
+### generateRegistryJson
+
+The shadcn registry (index + items) as a pretty JSON string — the "Export shadcn registry" action.
+
+```ts
+generateRegistryJson(doc: OpenAPIv4Document): string
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `string`
+
+### entityNames
+
+Entity names available for codegen (components.schemas).
+
+```ts
+entityNames(doc: OpenAPIv4Document): string[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `string[]`
+
+### generateForm
+
+Generate a shadcn form component (TSX) for an entity.
+
+```ts
+generateForm(doc: OpenAPIv4Document, name: string): string
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `name: string` — 
+
+**Returns:** `string`
+
+### generateTable
+
+Generate a shadcn table component (TSX) for an entity.
+
+```ts
+generateTable(doc: OpenAPIv4Document, name: string): string
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `name: string` — 
+
+**Returns:** `string`
+
+### generateStoresModule
+
+Generate the Nano Stores client wiring. @suluk/nano-stores is a runtime helper (createApiStores(routes)),
+so the "codegen" is a thin, honest scaffold: it wires the user's RouteContracts to a typed store client and
+lists, in comments, the exact stores the cockpit derived from the current document.
+
+```ts
+generateStoresModule(doc: OpenAPIv4Document, opts: { baseUrl?: string }): string
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `opts: { baseUrl?: string }` — 
+
+**Returns:** `string`
+
+### exportV4Json
+
+Export the v4 document as pretty JSON (the canonical interchange artifact).
+
+```ts
+exportV4Json(source: string): string
+```
+
+**Parameters:**
+- `source: string` — 
+
+**Returns:** `string`
+
+### deployPlan
+
+Build the Cloudflare deploy plan from a v4 document (its schemas → entities).
+
+```ts
+deployPlan(doc: OpenAPIv4Document): DeployPlan
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `DeployPlan`
+
+### deployMarkdown
+
+Render the deploy plan as a DEPLOY.md the user can follow step by step.
+
+```ts
+deployMarkdown(plan: DeployPlan): string
+```
+
+**Parameters:**
+- `plan: DeployPlan` — 
+
+**Returns:** `string`
+
+### previewDeployPlan
+
+Build the PREVIEW deploy plan (charter-bounded role-preview): a `${slug}-preview` Worker with the two
+fail-closed locks + a seed.sql for the contract's roles. Terminal-gated identically to prod — Suluk holds no
+infra token; the USER runs wrangler. The seeded roles come from the contract (previewRoles), never hardcoded.
+
+```ts
+previewDeployPlan(doc: OpenAPIv4Document): DeployPlan
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `DeployPlan`
+
+### previewDeployMarkdown
+
+Render a PREVIEW deploy plan as a PREVIEW-DEPLOY.md — same steps, but headed with the role-preview safety.
+
+```ts
+previewDeployMarkdown(plan: DeployPlan): string
+```
+
+**Parameters:**
+- `plan: DeployPlan` — 
+
+**Returns:** `string`
+
+### diffContracts
+
+Compare a LOCAL v4 contract against a DEPLOYED one and report the drift between them.
+
+```ts
+diffContracts(local: OpenAPIv4Document, deployed: OpenAPIv4Document): ContractDiff
+```
+
+**Parameters:**
+- `local: OpenAPIv4Document` — 
+- `deployed: OpenAPIv4Document` — 
+
+**Returns:** `ContractDiff`
+
+### canonical
+
+Stable, key-order-independent JSON — reordering object keys is NOT drift. Cycle-safe (never overflows).
+
+```ts
+canonical(value: unknown): string
+```
+
+**Parameters:**
+- `value: unknown` — 
+
+**Returns:** `string`
+
+### crossCut
+
+Project the contract through every viewer and surface the gated operations.
+
+```ts
+crossCut(doc: OpenAPIv4Document, viewers: Viewer[]): CrossCut
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `viewers: Viewer[]` — 
+
+**Returns:** `CrossCut`
+
+### documentScopes
+
+Every scope referenced by any operation's security requirements (sorted, deduped).
+
+```ts
+documentScopes(doc: OpenAPIv4Document): string[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `string[]`
+
+### defaultViewers
+
+Sensible default viewers for a document: anonymous, one per declared scope, and the full operator view —
+so a single command shows the whole gated surface without the user hand-entering scope sets.
+
+```ts
+defaultViewers(doc: OpenAPIv4Document): Viewer[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `Viewer[]`
+
+### previewRoles
+
+```ts
+previewRoles(doc: OpenAPIv4Document): PreviewRole[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `PreviewRole[]`
+
+### previewAllowedRoles
+
+The roles a preview may be minted AS — the authenticated principals, EXCLUDING the login-less `anonymous`. This
+is the ONE source for the deployed gate's allow-list AND for which demo users seed.sql seeds; keeping them equal
+means a role can be previewed iff it is seeded iff the gate allows it (no allow-but-unseedable divergence).
+
+```ts
+previewAllowedRoles(doc: OpenAPIv4Document): string[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `string[]`
+
+### previewLaunchUrl
+
+Resolve the browser deep-link for previewing AS a role — the security-critical guard, made PURE so it is
+unit-testable (the extension package has no test harness). Hard-REFUSES any non-preview env BEFORE producing
+a URL (INV-08: role-preview can never target prod/local). anonymous ⇒ just the app; a role ⇒ the preview
+deploy's own gated /preview/login. The extension calls this, then openExternal — it never builds the URL itself.
+
+```ts
+previewLaunchUrl(env: { baseUrl: string; isPreview: boolean }, role: string): { refused: true; reason: string } | { refused: false; url: string }
+```
+
+**Parameters:**
+- `env: { baseUrl: string; isPreview: boolean }` — 
+- `role: string` — 
+
+**Returns:** `{ refused: true; reason: string } | { refused: false; url: string }`
+
+### convergeContract
+
+Audit a contract for coherence contradictions a clean merge can still leave behind.
+
+```ts
+convergeContract(doc: OpenAPIv4Document): ConvergeReport
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `ConvergeReport`
+
+### contractToD2
+
+Generate D2 diagram source for a view of the contract.
+
+```ts
+contractToD2(doc: OpenAPIv4Document, view: DiagramView): string
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `view: DiagramView` — 
+
+**Returns:** `string`
+
+### diagramViews
+
+```ts
+diagramViews(): { id: DiagramView; title: string; description: string }[]
+```
+
+**Returns:** `{ id: DiagramView; title: string; description: string }[]`
+
+### componentReport
+
+Decompose a contract's generated components into primitives and check their pixel-confidence vs a baseline.
+
+```ts
+componentReport(doc: OpenAPIv4Document, baseline: Baseline): ComponentReport
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `baseline: Baseline` — 
+
+**Returns:** `ComponentReport`
+
+### approveComponents
+
+The "verify once": approve every used primitive at its current content hash, returning the new baseline.
+
+```ts
+approveComponents(report: ComponentReport, baseline: Baseline, at: number): Baseline
+```
+
+**Parameters:**
+- `report: ComponentReport` — 
+- `baseline: Baseline` — 
+- `at: number` — 
+
+**Returns:** `Baseline`
+
+### primitiveCss
+
+A small stylesheet for the control fragments above — so a host can render `primitiveControl` inline.
+
+```ts
+primitiveCss(): string
+```
+
+**Returns:** `string`
+
+### contractGates
+
+The CONTRACT-level ship gates — everything decidable from the document itself (no host needed).
+
+```ts
+contractGates(doc: OpenAPIv4Document, baseline: Baseline): Gate[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `baseline: Baseline` — 
+
+**Returns:** `Gate[]`
+
+### shipSummary
+
+A one-line readiness summary over a set of gates (contract + host). "info" gates never count against ready.
+
+```ts
+shipSummary(gates: Gate[]): { ready: boolean; line: string }
+```
+
+**Parameters:**
+- `gates: Gate[]` — 
+
+**Returns:** `{ ready: boolean; line: string }`
+
+### conformanceGates
+
+The CONFORMANCE gates — the readiness dimensions, each composed from a shipped Suluk audit. No host needed.
+
+```ts
+conformanceGates(doc: OpenAPIv4Document): Gate[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `Gate[]`
+
+### assertConformance
+
+CI gate (the hard incentive): throw if any conformance gate is an `error` (a blocker). Returns the gates otherwise.
+
+```ts
+assertConformance(doc: OpenAPIv4Document): Gate[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `Gate[]`
+
+### agentsView
+
+Build the OBSERVE view-model for the agent layer of a document. Never throws; tolerates non-installable agents.
+
+```ts
+agentsView(doc: OpenAPIv4Document, opts: { catalog?: ModelCatalog }): AgentsView
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `opts: { catalog?: ModelCatalog }` — 
+
+**Returns:** `AgentsView`
+
+### agentsSummary
+
+A one-line ship-readiness summary for the agent layer (mirrors the cockpit's other *Summary helpers).
+
+```ts
+agentsSummary(view: AgentsView): string
+```
+
+**Parameters:**
+- `view: AgentsView` — 
+
+**Returns:** `string`
+
+### formatMicroUsd
+
+Format micro-USD as a display string (we store raw integers; this is only for humans).
+
+```ts
+formatMicroUsd(microUsd: number): string
+```
+
+**Parameters:**
+- `microUsd: number` — 
+
+**Returns:** `string`
+
+### summarize
+
+```ts
+summarize(events: CostEvent[]): CostSummary
+```
+
+**Parameters:**
+- `events: CostEvent[]` — 
+
+**Returns:** `CostSummary`
+
+### installModule
+
+Merge a module's contract fragment into the app document — REFUSING on any collision or unmet requirement.
+On refusal `doc` is the unchanged `base` and `conflicts` explains why; nothing is partially applied.
+
+```ts
+installModule(base: OpenAPIv4Document, mod: SulukModule): InstallResult
+```
+
+**Parameters:**
+- `base: OpenAPIv4Document` — 
+- `mod: SulukModule` — 
+
+**Returns:** `InstallResult`
+
+### namespaceModule
+
+Resolve a collision by NAMESPACING a module: prefix its OWNED entities, rewrite internal $refs that point to
+them, and remap auto-CRUD cost keys accordingly. `requires` refs (e.g. User) are left untouched so the module
+still composes with the host. The returned module installs cleanly alongside one that already owns the names.
+
+```ts
+namespaceModule(mod: SulukModule, prefix: string): SulukModule
+```
+
+**Parameters:**
+- `mod: SulukModule` — 
+- `prefix: string` — 
+
+**Returns:** `SulukModule`
+
+### previewInstall
+
+Preview an install WITHOUT committing — what it adds, what it requires, any conflicts, and its grade.
+
+```ts
+previewInstall(base: OpenAPIv4Document, mod: SulukModule): InstallPreview
+```
+
+**Parameters:**
+- `base: OpenAPIv4Document` — 
+- `mod: SulukModule` — 
+
+**Returns:** `InstallPreview`
+
+### gradeModule
+
+A conformance grade. The real, author-attributable signal is COST coverage (auto-CRUD ops carry a
+framework-injected summary, so @suluk/hono `coverage` is structurally ~1.0 and tells us nothing); we use it
+only as a documentation-WARNING penalty on authored ops. A module that contributes nothing grades C.
+
+```ts
+gradeModule(mod: SulukModule): ModuleGrade
+```
+
+**Parameters:**
+- `mod: SulukModule` — 
+
+**Returns:** `ModuleGrade`
+
+### providerFacets
+
+The facets the catalog knows about (payments, auth, email, storage).
+
+```ts
+providerFacets(): string[]
+```
+
+**Returns:** `string[]`
+
+### readProviders
+
+The active provider bindings recorded in the document (from installed modules' providerSlots).
+
+```ts
+readProviders(doc: unknown): ProviderBinding[]
+```
+
+**Parameters:**
+- `doc: unknown` — 
+
+**Returns:** `ProviderBinding[]`
+
+### swapProvider
+
+Rebind a facet's slot to another implementation of the same interface. Returns the unchanged doc on error.
+
+```ts
+swapProvider<T>(doc: T, facet: string, impl: string): SwapResult<T>
+```
+
+**Parameters:**
+- `doc: T` — 
+- `facet: string` — 
+- `impl: string` — 
+
+**Returns:** `SwapResult<T>`
+
+### parseRegistry
+
+Parse an UNTRUSTED registry payload (e.g. fetched JSON) into a ModuleRegistry, rejecting malformed entries.
+
+```ts
+parseRegistry(json: unknown): ParsedRegistry
+```
+
+**Parameters:**
+- `json: unknown` — 
+
+**Returns:** `ParsedRegistry`
+
+### validateModule
+
+Validate one UNTRUSTED module manifest, VALUE-shapes included. Returns the typed module or a human reason.
+
+```ts
+validateModule(m: unknown): { module?: SulukModule; error?: string }
+```
+
+**Parameters:**
+- `m: unknown` — 
+
+**Returns:** `{ module?: SulukModule; error?: string }`
+
+### signRegistry
+
+Sign a registry value with a private JWK → a base64 signature over its canonical bytes.
+
+```ts
+signRegistry(value: unknown, privateKeyJwk: JsonWebKey): Promise<string>
+```
+
+**Parameters:**
+- `value: unknown` — 
+- `privateKeyJwk: JsonWebKey` — 
+
+**Returns:** `Promise<string>`
+
+### verifyRegistrySignature
+
+Verify a registry value against a base64 signature + a pinned public JWK. Never throws — false on any error.
+
+```ts
+verifyRegistrySignature(value: unknown, signatureB64: string, publicKeyJwk: JsonWebKey): Promise<boolean>
+```
+
+**Parameters:**
+- `value: unknown` — 
+- `signatureB64: string` — 
+- `publicKeyJwk: JsonWebKey` — 
+
+**Returns:** `Promise<boolean>`
+
+### generateSigningKeypair
+
+Generate an ECDSA P-256 keypair as JWKs (for tooling / tests — a publisher keeps the private key).
+
+```ts
+generateSigningKeypair(): Promise<{ publicKey: JsonWebKey; privateKey: JsonWebKey }>
+```
+
+**Returns:** `Promise<{ publicKey: JsonWebKey; privateKey: JsonWebKey }>`
+
+### isSignedEnvelope
+
+```ts
+isSignedEnvelope(v: unknown): v is SignedEnvelope
+```
+
+**Parameters:**
+- `v: unknown` — 
+
+**Returns:** `v is SignedEnvelope`
+
+### composeModules
+
+Install a set of modules in dependency order, returning the merged platform contract + a per-step trace.
+
+```ts
+composeModules(base: OpenAPIv4Document, modules: SulukModule[]): ComposeResult
+```
+
+**Parameters:**
+- `base: OpenAPIv4Document` — 
+- `modules: SulukModule[]` — 
+
+**Returns:** `ComposeResult`
+
+### planComposition
+
+Topologically order modules by `requires`/`provides`, modelling the collision invariants installModule enforces.
+
+```ts
+planComposition(base: OpenAPIv4Document, modules: SulukModule[]): CompositionPlan
+```
+
+**Parameters:**
+- `base: OpenAPIv4Document` — 
+- `modules: SulukModule[]` — 
+
+**Returns:** `CompositionPlan`
+
+### resolveTemplate
+
+Resolve a template's module names to actual modules from a registry — REPORTING any name that doesn't resolve
+ (a typo or a module missing from this registry) rather than silently dropping it.
+
+```ts
+resolveTemplate(t: StackTemplate, registry: ModuleRegistry): { modules: SulukModule[]; missing: string[] }
+```
+
+**Parameters:**
+- `t: StackTemplate` — 
+- `registry: ModuleRegistry` — 
+
+**Returns:** `{ modules: SulukModule[]; missing: string[] }`
+
+### Diagnostic
+
+`@suluk/cockpit` — the PURE cockpit core: the cycle model, the builder model, codegen, deploy planning, and
+the validate/audit/preview helpers. No host API. Two shells consume this exact core: the vscode extension
+(suluk-vscode) and the web admin panel (@suluk/admin, served under /superadmin). One brain, two faces.
+CANDIDATE tooling — NOT official OAS.
+
+### CycleModel
+
+### CycleLayer
+
+### CycleItem
+
+### LayerStatus
+
+```ts
+type LayerStatus = "ok" | "warn" | "error" | "info"
+```
+
+### Principal
+
+### DocCheck
+
+### BuilderModel
+
+### BuilderNode
+
+### GeneratedFile
+
+### DeployPlan
+
+### DeployStep
+
+One ordered shell step the host (the vscode extension) runs in a terminal AFTER the user authenticates.
+
+### DeployProvider
+
+A deployment target. Pure: it produces the plan; the host executes the steps (with the user's credentials).
+
+### ContractDiff
+
+### ChangedOp
+
+### OpRef
+
+### ProviderDelta
+
+### ProviderChange
+
+### Viewer
+
+A viewer to project for. `scopes: undefined` ⇒ the full/operator view; `[]` ⇒ no scopes.
+ `authenticated` distinguishes a logged-in viewer from a truly anonymous one — an auth-only operation
+ (`security: [{ bearer: [] }]`, a requirement with zero scopes) is reachable by any AUTHENTICATED viewer but
+ NOT by anonymous. (This is more precise than the cockpit's single-principal "View as", which keys on scopes
+ alone; the cross-cut is the purpose-built security view.)
+
+### ViewerView
+
+### GatedOp
+
+### CrossCut
+
+### PreviewRole
+
+A principal you can preview the running app AS — derived from the contract, never hardcoded.
+
+### ConvergeReport
+
+### ConvergeFinding
+
+### ConvergeCode
+
+```ts
+type ConvergeCode = "dangling-ref" | "undeclared-scheme" | "orphan-scope" | "empty-path" | "unreferenced-entity" | "preview-op-exposed"
+```
+
+### DiagramView
+
+```ts
+type DiagramView = "erd" | "cycle" | "operations"
+```
+
+### ComponentReport
+
+### Baseline
+
+The approved baseline — primitive key → its verified entry. Persist as JSON; commit it.
+
+```ts
+type Baseline = Record<string, BaselineEntry>
+```
+
+### Gate
+
+### GateStatus
+
+```ts
+type GateStatus = "ok" | "warn" | "error" | "todo" | "info"
+```
+
+### AgentsView
+
+### AgentNodeView
+
+### AgentSkillView
+
+### AgentRouteView
+
+### AgentGovernedView
+
+The agent-declared vs operator-effective diff + the cost three-number (cap / estimate / actual). Read-only.
+
+### CostSummary
+
+### SulukModule
+
+### InstallResult
+
+### ModuleEntry
+
+### ModuleRegistry
+
+### ModuleGrade
+
+### InstallPreview
+
+### ProviderImpl
+
+Provider SLOTS (M3) — "swap out a provider you chose." A module declares `providerSlots` (e.g.
+`{ payments: "stripe" }`); installModule records them into the document as `x-suluk-providers`. Each facet
+(payments / auth / email / storage) is a SLOT bound to one implementation of a duck-typed interface — exactly
+the pattern @suluk/stripe's `PaymentProvider` and @suluk/deploy's `DeployProvider` already prove. Swapping
+rebinds the slot to another implementation of the SAME interface; the contract (the operations, their cost)
+is unchanged — only the runtime binding differs. Pure (no host) → unit-tested.
+
+### ProviderBinding
+
+### RegistrySource
+
+A configured remote registry (persisted by the host).
+
+### ParsedRegistry
+
+### SignedEnvelope
+
+A signed registry payload: the registry value + a detached base64 signature over its canonical bytes.
+
+### ComposeResult
+
+### CompositionPlan
+
+### StackTemplate
+
+A named set of modules that compose into a working platform (L2 — the non-developer flow).
+
+### ECOMMERCE
+
+```ts
+const ECOMMERCE: SulukModule
+```
+
+### CRM
+
+```ts
+const CRM: SulukModule
+```
+
+### BILLING
+
+```ts
+const BILLING: SulukModule
+```
+
+### FIRST_PARTY_REGISTRY
+
+```ts
+const FIRST_PARTY_REGISTRY: ModuleRegistry
+```
+
+### PROVIDER_CATALOG
+
+The catalog of swappable implementations per facet. First-party bindings carry their `@suluk` package.
+
+```ts
+const PROVIDER_CATALOG: Record<string, ProviderImpl[]>
+```
+
+### STACK_TEMPLATES
+
+```ts
+const STACK_TEMPLATES: StackTemplate[]
+```

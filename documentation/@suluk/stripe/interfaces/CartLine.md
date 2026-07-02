@@ -6,7 +6,7 @@
 
 # Interface: CartLine
 
-Defined in: [pricing.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L20)
+Defined in: [pricing.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L20)
 
 One cart line. `unitCents` is the authoritative price (from the server, not the client).
 
@@ -16,7 +16,7 @@ One cart line. `unitCents` is the authoritative price (from the server, not the 
 
 > `optional` **id?**: `string` \| `number`
 
-Defined in: [pricing.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L20)
+Defined in: [pricing.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L20)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [pricing.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **qty**: `number`
 
-Defined in: [pricing.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L20)
+Defined in: [pricing.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L20)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [pricing.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **unitCents**: `number`
 
-Defined in: [pricing.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L20)
+Defined in: [pricing.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/pricing.ts#L20)

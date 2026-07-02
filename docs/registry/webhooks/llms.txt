@@ -1,0 +1,24 @@
+# webhooks (registry module)
+
+> An Effect-TS Webhooks service over @suluk/payments' inbound Stripe surface (SDK-free HMAC-SHA256 signature verification + a typed event router stay upstream). Verifies the RAW request body against the stripe-signature header + the signing secret, dedups on the Stripe event id against an owned webhook_event table (Stripe is at-least-once, so redelivery is a no-op), then routes the verified event through webhookRouter. Ships a documented STUB handler set the app fills with fulfillment (e.g. credits.grant) — kept decoupled from @suluk/credits. Owns the webhook_event table; verification + routing is npm.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `webhookCfgFromEnv`
+- `WebhookCfgLive`
+- `webhooksRoutes`
+- `WebhookCfg`
+- `Webhooks`
+- `defaultHandlers`: The DEFAULT handler set — a documented STUB.
+- `WebhooksLive`
+- `webhookEvent`: The at-least-once dedup ledger — one row per PROCESSED Stripe event, so redelivery of the same `evt_…` is a no-op.
+- `webhooksProvision`
+- `webhooksOps`
+
+## Optional
+
+### Types
+
+- `WebhookEnv`: Build the config from env.

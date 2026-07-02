@@ -1,0 +1,27 @@
+# contract (registry module)
+
+> The keystone: declares the base API surface as @suluk/hono RouteContracts (with x-suluk-access scopes + zod request schemas) and DERIVES everything downstream consumes — apiDocument(principal?) (the per-principal v4 doc via emitV4), SCOPE_BY_OP + PUBLIC_OPS (the scope facets the scope gate / MCP read), the enforceApiKeyScope gate, the validateRequest body gate, and GET /api/openapi.json projected to the caller's scopes. Own the wiring, npm the derivation. Stateless — no schema, no provision.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `apiDocument`: Build the v4 OpenAPI document, projected for a principal (the WHO axis).
+- `apiDocumentWithAuth`: The FULL v4 document INCLUDING Better Auth's own surface (sign-in/up/out, get-session, social sign-in, …) — so
+BETTER-AUTH CLIENTS can discover + c...
+- `matchRoute`: TIER-1 route match — the exact declared op a request resolves to: the longest static-path-prefix + same-method match
+among the CONTRACT (a `GET /ap...
+- `scopeForRequest`
+- `mountContract`
+- `CONTRACT`: THE base operation surface = the system ops + every installed module's composed fragment.
+- `SCOPE_BY_OP`: op-name → its single required scope (the `x-suluk-access` facet).
+- `PUBLIC_OPS`: The set of PUBLIC op-names — those that declare NO scope (health, the pricing catalogs, the signature-verified Stripe
+webhook).
+- `enforceApiKeyScope`: SCOPE-GATE for KEYED callers (an `x-api-key` / MCP caller — a `keyId` is on the context).
+- `validateRequest`: CONTRACT-DERIVED request-body validation.
+
+## Optional
+
+### Types
+
+- `OpName`: The op-name type — the by-name handle each derivation keys on (C009).

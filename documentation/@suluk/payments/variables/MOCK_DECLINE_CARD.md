@@ -8,6 +8,6 @@
 
 > `const` **MOCK\_DECLINE\_CARD**: `"4000000000000002"` = `"4000000000000002"`
 
-Defined in: [tooling/ts/packages/payments/src/mock.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/mock.ts#L13)
+Defined in: [tooling/ts/packages/payments/src/mock.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/mock.ts#L13)
 
 Well-known test PANs (Stripe-compatible values, for familiarity).

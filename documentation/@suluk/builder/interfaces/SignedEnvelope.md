@@ -6,7 +6,7 @@
 
 # Interface: SignedEnvelope
 
-Defined in: [signing.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/signing.ts#L10)
+Defined in: [signing.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/signing.ts#L10)
 
 A signed registry payload: the registry value + a detached base64 signature over its canonical bytes.
 
@@ -16,7 +16,7 @@ A signed registry payload: the registry value + a detached base64 signature over
 
 > `optional` **publisher?**: `string`
 
-Defined in: [signing.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/signing.ts#L14)
+Defined in: [signing.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/signing.ts#L14)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [signing.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **registry**: `unknown`
 
-Defined in: [signing.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/signing.ts#L11)
+Defined in: [signing.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/signing.ts#L11)
 
 ***
 
@@ -32,6 +32,6 @@ Defined in: [signing.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **signature**: `string`
 
-Defined in: [signing.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/signing.ts#L13)
+Defined in: [signing.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/builder/src/signing.ts#L13)
 
 base64 ECDSA-P256/SHA-256 signature over canonicalBytes(registry)

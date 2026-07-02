@@ -6,7 +6,7 @@
 
 # Class: PaymentLibError
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/errors.ts#L7)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/errors.ts#L7)
 
 The error taxonomy (C048) — mirrors Prism's three hard-failure classes. A SOFT decline is NOT one of these: it comes
 back in-band as `status: FAILURE` on the response. These are thrown only for request-phase config/validation problems
@@ -29,7 +29,7 @@ caller can distinguish "the card was declined" (in-band, expected) from "the int
 
 > **new PaymentLibError**(`errorCode`, `message`): `PaymentLibError`
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/errors.ts#L8)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/errors.ts#L8)
 
 #### Parameters
 
@@ -69,7 +69,7 @@ The cause of the error.
 
 > `readonly` **errorCode**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/errors.ts#L9)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/payments/src/errors.ts#L9)
 
 ***
 

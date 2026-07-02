@@ -6,7 +6,7 @@
 
 # Interface: SulukStore
 
-Defined in: [types.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L110)
+Defined in: [types.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L110)
 
 A REACTIVE-STORE declaration (C037) — the per-operation `x-suluk-store` facet. The contract's statement of how the
 frontend should turn this operation into reactive state, so the `@suluk/sdk` generator can emit a ready-to-use
@@ -27,7 +27,7 @@ leak into a request selector (D1 safe; see plan/facts/0reactive.bn + test/store-
 
 > `optional` **invalidates?**: `string`[]
 
-Defined in: [types.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L120)
+Defined in: [types.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L120)
 
 MUTATION role: the store `key`s this operation invalidates on a successful (2xx) response → the generated client refetches them.
 
@@ -37,7 +37,7 @@ MUTATION role: the store `key`s this operation invalidates on a successful (2xx)
 
 > `optional` **key?**: `string`
 
-Defined in: [types.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L112)
+Defined in: [types.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L112)
 
 QUERY role: the stable store name the generator projects to a `$<key>` reactive store (C009 by-name identity).
 
@@ -47,7 +47,7 @@ QUERY role: the stable store name the generator projects to a `$<key>` reactive 
 
 > `optional` **onSuccess?**: `string`
 
-Defined in: [types.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L122)
+Defined in: [types.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L122)
 
 the success message the callback layer surfaces on a 2xx (advisory; the renderer is INJECTED, the text is DECLARED).
 
@@ -57,7 +57,7 @@ the success message the callback layer surfaces on a 2xx (advisory; the renderer
 
 > `optional` **params?**: `string`[]
 
-Defined in: [types.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L118)
+Defined in: [types.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L118)
 
 QUERY role: the path/query PARAM NAMES (never values) that key a parameterized store family — one store per distinct arg tuple.
 
@@ -67,7 +67,7 @@ QUERY role: the path/query PARAM NAMES (never values) that key a parameterized s
 
 > `optional` **revalidateOnFocus?**: `boolean`
 
-Defined in: [types.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L116)
+Defined in: [types.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L116)
 
 QUERY role: revalidate the store when the window/tab regains focus (default false).
 
@@ -77,6 +77,6 @@ QUERY role: revalidate the store when the window/tab regains focus (default fals
 
 > `optional` **ttl?**: `number`
 
-Defined in: [types.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L114)
+Defined in: [types.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/core/src/types.ts#L114)
 
 QUERY role: cache lifetime in SECONDS before the store revalidates (the generator's cacheLifetime hint).

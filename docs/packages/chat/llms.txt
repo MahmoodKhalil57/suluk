@@ -1,0 +1,30 @@
+# @suluk/chat
+
+> A contract-driven chat AGENT for any suluk app: an in-page floating assistant that can browse AND act, by running an OpenRouter tool-use loop over the SAME OpenAPI v4 operations (projected via @suluk/mcp, executed in-process via the store's own access gate) — with the model chosen by @suluk/models, never hardcoded. Ships the server loop (Hono-mountable SSE) + a theme-aware floating widget. CANDIDATE tooling — NOT official OAS.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `chatApp`: `@suluk/chat` — a contract-driven chat AGENT for any suluk app.
+- `sanitizeMessages`: Sanitize client-supplied history: ONLY user/assistant text turns survive — no client-forged system/tool turns or
+ tool_calls (which would be a prom...
+- `sanitizeClientTools`: Validate client-declared browser tools: well-formed names only, capped, and NEVER allowed to shadow a server
+ tool (a forged client tool with a ser...
+- `runAgent`
+- `streamCompletion`: One streamed chat completion.
+- `parseSSEStream`: Parse an OpenAI-style SSE completion stream: forward `delta.content`, accumulate `delta.tool_calls` by index.
+- `toolsToOpenAI`: Map @suluk/mcp tool descriptors to OpenAI/OpenRouter `tools` (function-calling) shape.
+- `chatWidget`
+- `DEFAULT_SYSTEM`: `@suluk/chat` — a contract-driven chat AGENT for any suluk app.
+
+## Optional
+
+### Types
+
+- `AgentEvent`
+- `ClientToolDef`: A browser-executed tool: the model can call it, but the WORKER never runs it — it streams a `client_tool` event
+ to the widget, which executes the ...
+- `ChatMessage`
+- `ToolCall`
+- `OpenAITool`

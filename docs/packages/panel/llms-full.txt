@@ -1,0 +1,236 @@
+# @suluk/panel
+
+> Contract-first admin panels, in the spirit of Payload but projected from one OpenAPI v4 document. Infers Payload-style field types from the contract, renders shadcn/theme-aware forms + data tables, and mounts a role-aware superadmin (and per-role dashboards) — no config DSL, no framework lock-in. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### fieldsOf
+
+Infer the ordered field set for an entity. `entities` is the set of entity names (for relationship detection).
+
+```ts
+fieldsOf(schema: Schema, entities: Set<string>, opts: FieldsOptions): Field[]
+```
+
+**Parameters:**
+- `schema: Schema` — 
+- `entities: Set<string>` — 
+- `opts: FieldsOptions` — 
+
+**Returns:** `Field[]`
+
+### titleField
+
+The entity's best "title" field — for list columns + relationship option labels.
+
+```ts
+titleField(fields: Field[]): string
+```
+
+**Parameters:**
+- `fields: Field[]` — 
+
+**Returns:** `string`
+
+### humanize
+
+"coverImageUrl" → "Cover Image", "categoryId" → "Category".
+
+```ts
+humanize(name: string): string
+```
+
+**Parameters:**
+- `name: string` — 
+
+**Returns:** `string`
+
+### entityModels
+
+```ts
+entityModels(doc: Doc, opts: FieldsOptions): EntityModel[]
+```
+
+**Parameters:**
+- `doc: Doc` — 
+- `opts: FieldsOptions` — 
+
+**Returns:** `EntityModel[]`
+
+### renderInput
+
+```ts
+renderInput(f: Field, value: unknown): string
+```
+
+**Parameters:**
+- `f: Field` — 
+- `value: unknown` — 
+
+**Returns:** `string`
+
+### renderFieldRow
+
+One labelled field row (label · required mark · description · the input).
+
+```ts
+renderFieldRow(f: Field, value: unknown): string
+```
+
+**Parameters:**
+- `f: Field` — 
+- `value: unknown` — 
+
+**Returns:** `string`
+
+### renderList
+
+```ts
+renderList(model: EntityModel, opts: ListOptions): string
+```
+
+**Parameters:**
+- `model: EntityModel` — 
+- `opts: ListOptions` — 
+
+**Returns:** `string`
+
+### renderForm
+
+```ts
+renderForm(model: EntityModel, opts: FormOptions): string
+```
+
+**Parameters:**
+- `model: EntityModel` — 
+- `opts: FormOptions` — 
+
+**Returns:** `string`
+
+### renderShell
+
+```ts
+renderShell(o: ShellOptions): string
+```
+
+**Parameters:**
+- `o: ShellOptions` — 
+
+**Returns:** `string`
+
+### richtextEditor
+
+The editor markup for one rich-text field. `name` is the form field; `value` is the initial markdown.
+
+```ts
+richtextEditor(name: string, value: unknown, attrs: string): string
+```
+
+**Parameters:**
+- `name: string` — 
+- `value: unknown` — 
+- `attrs: string` — 
+
+**Returns:** `string`
+
+### richtextScript
+
+Client init for every `[data-rt]` on the page — toolbar inserts markdown around the selection; the Preview tab
+ renders the markdown with an inline, escape-first (XSS-safe) renderer. Include once per page that has editors.
+
+```ts
+richtextScript(): string
+```
+
+**Returns:** `string`
+
+### mediaEditor
+
+```ts
+mediaEditor(name: string, value: unknown, attrs: string): string
+```
+
+**Parameters:**
+- `name: string` — 
+- `value: unknown` — 
+- `attrs: string` — 
+
+**Returns:** `string`
+
+### mediaScript
+
+Client init for every `[data-media]`: live preview on URL change + (if window.__pfUpload is set) upload on file
+ pick. Without an endpoint the Upload button hides and it's URL-only. Include once per page that has media fields.
+
+```ts
+mediaScript(): string
+```
+
+**Returns:** `string`
+
+### panelApp
+
+```ts
+panelApp(opts: PanelOptions): Hono
+```
+
+**Parameters:**
+- `opts: PanelOptions` — 
+
+**Returns:** `Hono`
+
+### Field
+
+`@suluk/panel` — contract-first admin panels, in the spirit of Payload but projected from ONE OpenAPI v4 document.
+Payload makes you configure collections in a framework-coupled DSL; @suluk/panel INFERS the same field types
+(text/textarea/richtext/number/boolean/select/date/email/url/json/relationship) straight from the contract's
+component schemas, renders shadcn/theme-aware forms + data tables, and mounts a role-aware admin — pass a
+per-role PROJECTED document and you get a per-role dashboard for free. No DB coupling (it drives the contract's
+REST), no config drift (the contract is the single source). CANDIDATE tooling.
+
+### FieldType
+
+Field-type inference — the Payload-parity core, contract-first. Given an entity's JSON-Schema (from the v4 doc's
+components.schemas), infer the Payload-style field set: the right widget per property (text/textarea/number/
+boolean/select/date/email/url/json/richtext/relationship), required/nullable, enum options, and relationships
+(a `<entity>Id` whose `<Entity>` is itself an entity). No config DSL — the contract IS the config.
+
+```ts
+type FieldType = "text" | "textarea" | "richtext" | "number" | "boolean" | "select" | "date" | "datetime" | "email" | "url" | "media" | "json" | "relationship"
+```
+
+### EntityModel
+
+### NavGroup
+
+### NavItem
+
+### StatCard
+
+A KPI tile on the dashboard home.
+
+### PanelSection
+
+A custom, non-CRUD page mounted at `${basePath}/s/<id>`, rendered inside the panel shell.
+
+### PanelGroup
+
+Sidebar grouping: a titled section listing entity names and/or section ids, in order.
+
+### PANEL_CSS
+
+```ts
+const PANEL_CSS: "\n  :root,html[data-theme=\"light\"]{color-scheme:light;--bg:#f6f7f9;--panel:#fff;--bg-soft:#f1f2f5;--line:#e6e7ec;--fg:#15171c;--muted:#6b7280;--accent:#6366f1;--on-accent:#fff;--danger:#e5484d;--ok:#16a34a;--shadow:0 1px 2px rgba(16,16,40,.05),0 10px 30px -16px rgba(16,16,40,.18)}\n  @media (prefers-color-scheme:dark){:root:not([data-theme]){color-scheme:dark;--bg:#0b0d12;--panel:#14161d;--bg-soft:#0f1117;--line:#242833;--fg:#e9eaef;--muted:#8b90a0;--accent:#818cf8;--on-accent:#0b0d12;--danger:#ef5350;--ok:#22c55e}}\n  html[data-theme=\"dark\"]{color-scheme:dark;--bg:#0b0d12;--panel:#14161d;--bg-soft:#0f1117;--line:#242833;--fg:#e9eaef;--muted:#8b90a0;--accent:#818cf8;--on-accent:#0b0d12;--danger:#ef5350;--ok:#22c55e}\n  *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14.5px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}\n  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}\n  .pf-app{display:grid;grid-template-columns:248px 1fr;min-height:100vh}\n  .pf-side{background:var(--panel);border-inline-end:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;overflow-y:auto}\n  .pf-brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:-.02em;font-size:16px;padding:6px 8px 14px}\n  .pf-brand .pf-dot{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--accent),color-mix(in oklab,var(--accent) 60%,#fff));display:grid;place-items:center;color:#fff;font-size:13px}\n  .pf-navhead{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:14px 8px 6px}\n  .pf-nav a{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:9px;color:var(--fg);font-weight:500;font-size:14px}\n  .pf-nav a:hover{background:var(--bg-soft);text-decoration:none}.pf-nav a.on{background:color-mix(in oklab,var(--accent) 14%,transparent);color:var(--accent)}\n  .pf-nav a .pf-badge{font-size:11px;color:var(--muted);background:var(--bg-soft);border-radius:999px;padding:0 7px}\n  .pf-main{min-width:0;display:flex;flex-direction:column}\n  .pf-top{padding:18px 28px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(8px);position:sticky;top:0;z-index:5}\n  .pf-crumbs{font-size:12.5px;color:var(--muted);display:flex;gap:7px}.pf-crumbs a{color:var(--muted)}\n  .pf-h1{font-size:23px;font-weight:800;letter-spacing:-.02em;margin:4px 0 0}\n  .pf-content{padding:24px 28px 60px;max-width:1080px;width:100%}\n  .pf-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}\n  .pf-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);display:block;color:var(--fg)}\n  .pf-card:hover{border-color:color-mix(in oklab,var(--accent) 45%,var(--line));text-decoration:none}.pf-card b{font-size:15px}.pf-card p{margin:4px 0 0;color:var(--muted);font-size:13px}\n  .pf-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:14px;margin-bottom:24px}\n  .pf-stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px 17px;box-shadow:var(--shadow);color:var(--fg);display:block}\n  a.pf-stat:hover{border-color:color-mix(in oklab,var(--accent) 45%,var(--line));text-decoration:none}\n  .pf-stat .pf-stat-l{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em;font-weight:600}\n  .pf-stat .pf-stat-v{font-size:27px;font-weight:800;letter-spacing:-.02em;margin-top:5px;line-height:1.1}\n  .pf-stat .pf-stat-h{color:var(--muted);font-size:12.5px;margin-top:3px}\n  .pf-group{margin-bottom:26px}.pf-group>.pf-navhead{padding-inline:2px}\n  .pf-section{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow);margin-bottom:18px}\n  .pf-section h2{font-size:16px;font-weight:700;margin:0 0 4px}.pf-section h2:not(:first-child){margin-top:8px}\n  .pf-section .pf-sub{color:var(--muted);font-size:13px;margin:0 0 16px}\n  .pf-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}.pf-row:last-child{border-bottom:0}\n  .pf-empty{text-align:center;color:var(--muted);padding:30px 16px;border:1px dashed var(--line);border-radius:12px}\n  .pf-listbar{display:flex;align-items:center;gap:12px;margin-bottom:14px}\n  .pf-tablewrap{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:auto;box-shadow:var(--shadow)}\n  .pf-table{width:100%;border-collapse:collapse;font-size:13.5px}\n  .pf-table th{text-align:start;font-weight:600;color:var(--muted);padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:12px;text-transform:uppercase;letter-spacing:.03em}\n  .pf-table td{padding:10px 14px;border-bottom:1px solid var(--line);max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n  .pf-table tr:last-child td{border-bottom:0}.pf-table tbody tr:hover{background:var(--bg-soft)}\n  .pf-rowact{text-align:end;white-space:nowrap}.pf-rowact a{margin-inline-end:8px}\n  .pf-thumb{width:34px;height:34px;border-radius:7px;object-fit:cover;vertical-align:middle;border:1px solid var(--line)}\n  .pf-pill{background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;padding:1px 9px;font-size:12px}\n  .pf-yes{color:var(--ok);font-weight:700}.pf-no{color:var(--muted)}.pf-muted{color:var(--muted)}\n  .pf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}\n  .pf-table th[data-col]:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}\n  .pf-btn:disabled{opacity:.45;cursor:not-allowed}\n  .pf-pager{display:flex;align-items:center;gap:12px;justify-content:flex-end;margin-top:12px}\n  .pf-form{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px 24px;box-shadow:var(--shadow)}\n  .pf-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px}\n  .pf-field{display:flex;flex-direction:column;gap:6px}.pf-field.pf-wide{grid-column:1/-1}\n  .pf-field.pf-inline{flex-direction:row;align-items:center;gap:12px}.pf-field.pf-inline label{order:2}\n  .pf-field label{font-size:13px;font-weight:600}.pf-req{color:var(--danger)}.pf-desc{color:var(--muted);font-size:12px}\n  .pf-input{font:inherit;font-size:14px;background:var(--bg-soft);color:var(--fg);border:1px solid var(--line);border-radius:9px;padding:9px 11px;width:100%}\n  .pf-input:focus{outline:2px solid color-mix(in oklab,var(--accent) 55%,transparent);outline-offset:1px;border-color:var(--accent)}\n  .pf-input[readonly],.pf-input:disabled{opacity:.6;cursor:not-allowed}.pf-mono{font-family:ui-monospace,SFMono-Regular,monospace;font-size:13px}\n  .pf-switch{position:relative;display:inline-flex;cursor:pointer}.pf-switch input{position:absolute;opacity:0}\n  .pf-track{width:42px;height:24px;border-radius:999px;background:var(--line);transition:background .15s;display:inline-block}\n  .pf-thumb{position:absolute;top:3px;inset-inline-start:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}\n  .pf-switch input:checked+.pf-track{background:var(--accent)}.pf-switch input:checked+.pf-track .pf-thumb{transform:translateX(18px)}\n  .pf-actions{display:flex;align-items:center;gap:10px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}\n  .pf-btn{font:inherit;font-size:14px;font-weight:600;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:9px;padding:8px 15px;cursor:pointer;display:inline-flex;align-items:center}\n  .pf-btn:hover{background:var(--bg-soft);text-decoration:none}.pf-primary{background:var(--accent);color:var(--on-accent);border-color:transparent}.pf-primary:hover{filter:brightness(1.06)}\n  .pf-danger{color:var(--danger);border-color:color-mix(in oklab,var(--danger) 40%,var(--line))}.pf-link-danger{background:none;border:0;color:var(--danger);cursor:pointer;font:inherit;padding:0}\n  .pf-msg{margin:12px 0 0;color:var(--muted);font-size:13px;min-height:18px}\n  @media (max-width:820px){.pf-app{grid-template-columns:1fr}.pf-side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;gap:6px}.pf-grid{grid-template-columns:1fr}}\n"
+```
+
+### RICHTEXT_CSS
+
+```ts
+const RICHTEXT_CSS: "\n  .pf-rt{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg-soft)}\n  .pf-rt-bar{display:flex;align-items:center;gap:2px;padding:6px 8px;border-bottom:1px solid var(--line);background:var(--panel)}\n  .pf-rt-btn,.pf-rt-tab{font:inherit;font-size:13px;background:none;border:0;border-radius:7px;padding:5px 9px;cursor:pointer;color:var(--fg);min-width:30px}\n  .pf-rt-btn:hover,.pf-rt-tab:hover{background:var(--bg-soft)}.pf-rt-tab.on{background:color-mix(in oklab,var(--accent) 16%,transparent);color:var(--accent);font-weight:600}\n  .pf-rt-ta{border:0;border-radius:0;background:var(--bg-soft);resize:vertical}.pf-rt-ta:focus{outline:0}\n  .pf-rt-prev{padding:14px 16px;min-height:120px}\n  .pf-rich h2{font-size:20px;margin:16px 0 8px}.pf-rich h3{font-size:17px;margin:14px 0 6px}.pf-rich p{margin:0 0 12px}\n  .pf-rich ul,.pf-rich ol{margin:0 0 12px;padding-inline-start:22px}.pf-rich blockquote{margin:0 0 12px;padding:2px 14px;border-inline-start:3px solid var(--accent);color:var(--muted)}\n  .pf-rich code{font-family:ui-monospace,monospace;font-size:.88em;background:var(--bg-soft);border:1px solid var(--line);border-radius:5px;padding:1px 5px}\n  .pf-rich pre{background:var(--bg-soft);border:1px solid var(--line);border-radius:9px;padding:12px 14px;overflow-x:auto}.pf-rich pre code{background:none;border:0;padding:0}\n  .pf-rich a{color:var(--accent)}\n"
+```
+
+### MEDIA_CSS
+
+```ts
+const MEDIA_CSS: "\n  .pf-media{display:flex;flex-direction:column;gap:8px}\n  .pf-media-prev{border:1px dashed var(--line);border-radius:10px;min-height:64px;display:flex;align-items:center;justify-content:center;padding:10px;background:var(--bg-soft);overflow:hidden}\n  .pf-media-prev img{max-height:140px;max-width:100%;border-radius:8px;display:block}\n  .pf-media-row{display:flex;gap:8px;align-items:center}.pf-media-row .pf-input{flex:1}\n  .pf-media-up{cursor:pointer;white-space:nowrap}.pf-media-msg{color:var(--muted);min-height:14px}\n"
+```

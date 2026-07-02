@@ -1,0 +1,653 @@
+# @suluk/journeys
+
+> Intuitive, runnable BDD over a v4 'Suluk' contract. Projects a deterministic Gherkin step VOCABULARY from the contract (Given from x-suluk-access, When from each operation, Then from declared statuses + x-suluk-store + x-suluk-cost), binds authored .feature stories EXACT-or-UNBOUND with outcome steps resolved relative to the scenario's When-subject, and emits a BIDIRECTIONAL tri-state gap report (PARAPHRASE / NEEDS-DEV-GLUE / NEEDS-CONTRACT) + contract->authored coverage holes. A pure function of the document. CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### generateVocabulary
+
+Project a v4 document into the deterministic step vocabulary.
+
+```ts
+generateVocabulary(doc: OpenAPIv4Document): Vocabulary
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `Vocabulary`
+
+### renderPhrasebook
+
+A foldable, entity-grouped phrasebook (Markdown) — the human surface an author picks step phrases from.
+
+```ts
+renderPhrasebook(vocab: Vocabulary): string
+```
+
+**Parameters:**
+- `vocab: Vocabulary` — 
+
+**Returns:** `string`
+
+### vocabularyHash
+
+A deterministic content hash of the vocabulary (djb2 hex) — for drift detection / the build artifact.
+
+```ts
+vocabularyHash(vocab: Vocabulary): string
+```
+
+**Parameters:**
+- `vocab: Vocabulary` — 
+
+**Returns:** `string`
+
+### opHandle
+
+Stable by-name handle.
+
+```ts
+opHandle(name: string, path: string): string
+```
+
+**Parameters:**
+- `name: string` — 
+- `path: string` — 
+
+**Returns:** `string`
+
+### parseFeature
+
+```ts
+parseFeature(src: string): Feature
+```
+
+**Parameters:**
+- `src: string` — 
+
+**Returns:** `Feature`
+
+### buildScenarioOutlines
+
+Build the structured outlines for every operation that has a client-facing request body.
+
+```ts
+buildScenarioOutlines(doc: OpenAPIv4Document): ScenarioOutline[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+
+**Returns:** `ScenarioOutline[]`
+
+### renderScenarioOutlines
+
+Render the generated outlines as a `.feature` SIDECAR a tester expands. A column-bearing op becomes a `Scenario
+Outline:` + a one-row `Examples:` table; a body-less op becomes a plain `Scenario:`.
+
+```ts
+renderScenarioOutlines(doc: OpenAPIv4Document, opts: OutlineRenderOptions): string
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `opts: OutlineRenderOptions` — 
+
+**Returns:** `string`
+
+### extractPublicRows
+
+Every `@public`-tagged Examples block's first row (the tester's curated public example). Pure.
+
+```ts
+extractPublicRows(features: Feature[]): PublicExampleRow[]
+```
+
+**Parameters:**
+- `features: Feature[]` — 
+
+**Returns:** `PublicExampleRow[]`
+
+### buildExampleObject
+
+Build a concrete public example object from a row, coercing by the body schema's field types. A WIRING TOKEN cell
+(`<op.select>`) is skipped — a public docs example holds concrete values, not a chaining instruction.
+
+```ts
+buildExampleObject(headers: string[], row: string[], bodySchema?: JsonSchema): Record<string, unknown>
+```
+
+**Parameters:**
+- `headers: string[]` — 
+- `row: string[]` — 
+- `bodySchema: JsonSchema` (optional) — 
+
+**Returns:** `Record<string, unknown>`
+
+### promoteExampleIntoZod
+
+Promote `example` into the source of the Zod schema bound to `const <schemaVar> = …`. Idempotent (re-promote replaces
+the marked block), marked, and refuses to clobber a hand-authored top-level `.meta({ examples })`.
+
+```ts
+promoteExampleIntoZod(source: string, schemaVar: string, example: unknown, provenance: string): PromoteResult
+```
+
+**Parameters:**
+- `source: string` — 
+- `schemaVar: string` — 
+- `example: unknown` — 
+- `provenance: string` — 
+
+**Returns:** `PromoteResult`
+
+### promoteFeatureExamples
+
+Orchestrate promotion for a whole feature set: for each `@public` Examples row, resolve its target (the consumer maps
+scenario → schemaVar + body schema — the app knows that wiring), build the example, and apply it. Adapter-seam shaped.
+
+```ts
+promoteFeatureExamples(source: string, features: Feature[], resolveTarget: (scenario: string) => PromoteTarget | null, provenancePrefix: string): PromoteFeatureResult
+```
+
+**Parameters:**
+- `source: string` — 
+- `features: Feature[]` — 
+- `resolveTarget: (scenario: string) => PromoteTarget | null` — 
+- `provenancePrefix: string` — 
+
+**Returns:** `PromoteFeatureResult`
+
+### bindFeatures
+
+Bind a parsed feature set against the vocabulary (applying the scaffolder's definitions) and produce the gap report.
+
+```ts
+bindFeatures(vocab: Vocabulary, features: Feature[], opts: BindOptions): GapReport
+```
+
+**Parameters:**
+- `vocab: Vocabulary` — 
+- `features: Feature[]` — 
+- `opts: BindOptions` — 
+
+**Returns:** `GapReport`
+
+### detectUndefined
+
+Detect every authored step that is not yet runnable — the scaffolder's worklist (Cucumber-style "undefined steps",
+here resolved by MAPPING, not by writing code). It SUGGESTS a target when there is a lexical signal and otherwise
+defers to the scaffolder; it never falsely claims a developer is required (absence of a word-match ≠ missing
+capability). Reports against the ORIGINAL prose, deduped.
+
+```ts
+detectUndefined(vocab: Vocabulary, features: Feature[], opts: BindOptions): UndefinedStep[]
+```
+
+**Parameters:**
+- `vocab: Vocabulary` — 
+- `features: Feature[]` — 
+- `opts: BindOptions` — 
+
+**Returns:** `UndefinedStep[]`
+
+### renderGapReport
+
+Render the gap report as readable text (for a CLI / a download endpoint).
+
+```ts
+renderGapReport(report: GapReport): string
+```
+
+**Parameters:**
+- `report: GapReport` — 
+
+**Returns:** `string`
+
+### renderScaffold
+
+Render the scaffolder worklist: what a non-technical author wrote that is not yet runnable, and how to resolve it.
+
+```ts
+renderScaffold(undefinedSteps: UndefinedStep[]): string
+```
+
+**Parameters:**
+- `undefinedSteps: UndefinedStep[]` — 
+
+**Returns:** `string`
+
+### emitRunnableSuite
+
+Emit a runnable bun:test suite (a string) from a parsed, bound feature set, lowered to the real SDK client.
+
+```ts
+emitRunnableSuite(doc: OpenAPIv4Document, vocab: Vocabulary, features: Feature[], opts: EmitOptions): string
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `vocab: Vocabulary` — 
+- `features: Feature[]` — 
+- `opts: EmitOptions` — 
+
+**Returns:** `string`
+
+### compileDemos
+
+Compile a bound feature set into the demo IR: ordered requests per scenario, with sourced fields wired to captures.
+
+```ts
+compileDemos(doc: OpenAPIv4Document, vocab: Vocabulary, features: Feature[], opts: CompileDemoOptions): DemoScenario[]
+```
+
+**Parameters:**
+- `doc: OpenAPIv4Document` — 
+- `vocab: Vocabulary` — 
+- `features: Feature[]` — 
+- `opts: CompileDemoOptions` — 
+
+**Returns:** `DemoScenario[]`
+
+### renderPostman
+
+Render the demos as a Postman Collection v2.1.0 (a single JSON string).
+
+```ts
+renderPostman(demos: DemoScenario[], opts: RenderOptions): string
+```
+
+**Parameters:**
+- `demos: DemoScenario[]` — 
+- `opts: RenderOptions` — 
+
+**Returns:** `string`
+
+### renderBruno
+
+Render the demos as a Bruno collection — a map of relative file path → `.bru`/json content the consumer writes.
+
+```ts
+renderBruno(demos: DemoScenario[], opts: RenderOptions): Record<string, string>
+```
+
+**Parameters:**
+- `demos: DemoScenario[]` — 
+- `opts: RenderOptions` — 
+
+**Returns:** `Record<string, string>`
+
+### buildDemoFiles
+
+Pure: a v4 document text + `.feature` texts → the demo collection file map. No filesystem.
+
+```ts
+buildDemoFiles(docText: string, featureTexts: string[], opts: BuildDemoFilesOptions): DemoFilesResult
+```
+
+**Parameters:**
+- `docText: string` — 
+- `featureTexts: string[]` — 
+- `opts: BuildDemoFilesOptions` — 
+
+**Returns:** `DemoFilesResult`
+
+### planPromotions
+
+Plan the promotions for every `@public` Examples row: build the public example (content-typed) and apply
+`promoteExampleIntoZod` to the target's (pre-read) source — accumulating multiple rows per file. Pure: returns the
+before/after source per file (the bin diffs + writes). The never-clobber refusals surface as skipped rows.
+
+```ts
+planPromotions(featureTexts: string[], targets: Map<string, PromoteTargetSpec>, sources: Record<string, string>, opts: { because?: string }): PromotionPlan
+```
+
+**Parameters:**
+- `featureTexts: string[]` — 
+- `targets: Map<string, PromoteTargetSpec>` — 
+- `sources: Record<string, string>` — 
+- `opts: { because?: string }` — 
+
+**Returns:** `PromotionPlan`
+
+### parseTargetSpec
+
+Parse `"<scenario>=<file>#<schemaVar>"`. The scenario may contain spaces/`=` only before the FIRST `=`.
+
+```ts
+parseTargetSpec(spec: string): { scenario: string; file: string; schemaVar: string } | null
+```
+
+**Parameters:**
+- `spec: string` — 
+
+**Returns:** `{ scenario: string; file: string; schemaVar: string } | null`
+
+### miniDiff
+
+A minimal context diff (the edit is localized to one schema statement). Lines: `  ` ctx, `- ` removed, `+ ` added.
+
+```ts
+miniDiff(oldText: string, newText: string, ctx: number): string
+```
+
+**Parameters:**
+- `oldText: string` — 
+- `newText: string` — 
+- `ctx: number` — 
+
+**Returns:** `string`
+
+### buildAudit
+
+Run all readiness dimensions over a contract (+ optional `.feature` texts) and fold them into one grade. Pure.
+
+```ts
+buildAudit(docText: string, featureTexts: string[]): AuditResult
+```
+
+**Parameters:**
+- `docText: string` — 
+- `featureTexts: string[]` — 
+
+**Returns:** `AuditResult`
+
+### coverageGrade
+
+Grade a gap report's contract→authored coverage (covered/total) and surface the uncovered ops.
+
+```ts
+coverageGrade(report: GapReport): CoverageGrade
+```
+
+**Parameters:**
+- `report: GapReport` — 
+
+**Returns:** `CoverageGrade`
+
+### resolveExample
+
+Resolve a single example by precedence. `hint` (typically the field/op name) only steers SYNTHETIC string values; it
+never changes which tier wins.
+
+```ts
+resolveExample(schema: JsonSchema | undefined, sources: ExampleSources, hint: string, opts: SynthOptions): ResolvedExample
+```
+
+**Parameters:**
+- `schema: JsonSchema | undefined` — 
+- `sources: ExampleSources` — 
+- `hint: string` — 
+- `opts: SynthOptions` — 
+
+**Returns:** `ResolvedExample`
+
+### synthesize
+
+A deterministic, schema-shaped example value. `const`/`enum`/`default`/explicit `examples` win (so a synthesized
+object's fields respect pinned values); otherwise a fixed representative is chosen per type. Object fields are
+filtered by origin/direction (see SynthOptions). A `sourced` field IS synthesized (a type-valid representative) — the
+wiring layer overrides it via describeInputs/resolveSourced; it is never laundered as free input.
+
+```ts
+synthesize(schema: JsonSchema, hint: string, opts: SynthOptions): unknown
+```
+
+**Parameters:**
+- `schema: JsonSchema` — 
+- `hint: string` — 
+- `opts: SynthOptions` — 
+
+**Returns:** `unknown`
+
+### fieldOrigin
+
+Read a property's origin: explicit `x-suluk-origin` wins; else `readOnly` ⇒ `computed`; else default `input`.
+
+```ts
+fieldOrigin(schema: JsonSchema | undefined): FieldOrigin
+```
+
+**Parameters:**
+- `schema: JsonSchema | undefined` — 
+
+**Returns:** `FieldOrigin`
+
+### describeInputs
+
+Describe the TOP-LEVEL fields of an object schema by origin — the surface a client / the @suluk/sdk generator uses to
+know what it may freely fill (`fakerable`), what is wired from elsewhere (`source`), and what is server-computed.
+
+```ts
+describeInputs(schema: JsonSchema | undefined): FieldDescriptor[]
+```
+
+**Parameters:**
+- `schema: JsonSchema | undefined` — 
+
+**Returns:** `FieldDescriptor[]`
+
+### asSourceRef
+
+The structured source edge if `x-suluk-from` names an `op`; otherwise undefined (a free note is not wireable).
+
+```ts
+asSourceRef(from: unknown): SourceRef | undefined
+```
+
+**Parameters:**
+- `from: unknown` — 
+
+**Returns:** `SourceRef | undefined`
+
+### resolveSourced
+
+Resolve a `sourced` field's value from a scenario-scoped bag of captured operation results (keyed by `op.name`). The
+shared primitive both the journeys emitter (carried-data across a journey) and an sdk chaining helper use. Pure.
+
+```ts
+resolveSourced(captured: Record<string, unknown>, ref: SourceRef): unknown
+```
+
+**Parameters:**
+- `captured: Record<string, unknown>` — 
+- `ref: SourceRef` — 
+
+**Returns:** `unknown`
+
+### Vocabulary
+
+`@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+
+A non-technical author (PM / BA / QA) writes Gherkin user-stories/journeys against a step VOCABULARY projected
+deterministically from the contract; the BINDER resolves each step EXACT-or-UNBOUND (outcomes relative to the
+scenario's When-subject) and emits a bidirectional TRI-STATE gap report; the EMITTER lowers bound scenarios to a
+runnable bun:test suite driven through @suluk/sdk's generated client. A pure function of the document. CANDIDATE tooling.
+
+The vocabulary names only contract facts (operations, params, statuses, store keys, access roles) — never request
+VALUES — so it stays on the safe side of the D1 wall; the @suluk/core matcher never imports this package.
+
+### JourneyStep
+
+`@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+
+A non-technical author (PM / BA / QA) writes Gherkin user-stories/journeys against a step VOCABULARY projected
+deterministically from the contract; the BINDER resolves each step EXACT-or-UNBOUND (outcomes relative to the
+scenario's When-subject) and emits a bidirectional TRI-STATE gap report; the EMITTER lowers bound scenarios to a
+runnable bun:test suite driven through @suluk/sdk's generated client. A pure function of the document. CANDIDATE tooling.
+
+The vocabulary names only contract facts (operations, params, statuses, store keys, access roles) — never request
+VALUES — so it stays on the safe side of the D1 wall; the @suluk/core matcher never imports this package.
+
+### VocabOperation
+
+`@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+
+A non-technical author (PM / BA / QA) writes Gherkin user-stories/journeys against a step VOCABULARY projected
+deterministically from the contract; the BINDER resolves each step EXACT-or-UNBOUND (outcomes relative to the
+scenario's When-subject) and emits a bidirectional TRI-STATE gap report; the EMITTER lowers bound scenarios to a
+runnable bun:test suite driven through @suluk/sdk's generated client. A pure function of the document. CANDIDATE tooling.
+
+The vocabulary names only contract facts (operations, params, statuses, store keys, access roles) — never request
+VALUES — so it stays on the safe side of the D1 wall; the @suluk/core matcher never imports this package.
+
+### StepKind
+
+`@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
+
+A non-technical author (PM / BA / QA) writes Gherkin user-stories/journeys against a step VOCABULARY projected
+deterministically from the contract; the BINDER resolves each step EXACT-or-UNBOUND (outcomes relative to the
+scenario's When-subject) and emits a bidirectional TRI-STATE gap report; the EMITTER lowers bound scenarios to a
+runnable bun:test suite driven through @suluk/sdk's generated client. A pure function of the document. CANDIDATE tooling.
+
+The vocabulary names only contract facts (operations, params, statuses, store keys, access roles) — never request
+VALUES — so it stays on the safe side of the D1 wall; the @suluk/core matcher never imports this package.
+
+```ts
+type StepKind = "given" | "when" | "then"
+```
+
+### Feature
+
+### Scenario
+
+### FeatureStep
+
+### ScenarioOutline
+
+### OutlineColumn
+
+### PublicExampleRow
+
+### PromoteResult
+
+### PromoteTarget
+
+### PromoteFeatureResult
+
+### GapReport
+
+### ScenarioResult
+
+### StepResult
+
+### BindState
+
+```ts
+type BindState = "BOUND" | "PARAPHRASE" | "NEEDS-DEV-GLUE" | "NEEDS-CONTRACT" | "AMBIGUOUS" | "UNDEFINED"
+```
+
+### CoverageHole
+
+### Definitions
+
+The SCAFFOLDER's mapping layer (author-owned data, no developer). Turns a non-technical author's free prose into
+runnable Gherkin without touching code.
+
+### UndefinedStep
+
+### DemoScenario
+
+### DemoRequest
+
+### DemoValue
+
+A request value: a concrete literal, or a `{{var}}` reference to a captured upstream response field.
+
+```ts
+type DemoValue = { kind: "literal"; value: unknown } | { kind: "var"; name: string }
+```
+
+### DemoCapture
+
+Capture `res.<from>` of this request into the collection variable `var` (for downstream chaining).
+
+### DemoFormat
+
+```ts
+type DemoFormat = "bruno" | "postman" | "both"
+```
+
+### DemoFilesResult
+
+### PromoteTargetSpec
+
+A `--target "<scenario>=<file>#<schemaVar>"` mapping.
+
+### PromotionPlan
+
+### PromotionRow
+
+### PromotionFileResult
+
+### AuditResult
+
+### DimensionAudit
+
+### CoverageGrade
+
+### JsonSchema
+
+A JSON Schema 2020-12 object (the v4 inner-schema shape). Opaque-ish; we read a known subset.
+
+```ts
+type JsonSchema = Record<string, unknown>
+```
+
+### ExampleTier
+
+Which source supplied the resolved value. `public` (highest) > `maintainer` > `synthetic` (lowest).
+
+```ts
+type ExampleTier = "public" | "maintainer" | "synthetic"
+```
+
+### ExampleSources
+
+The two human-authored tiers a caller may supply; the synthetic tier is derived from the schema.
+
+### ResolvedExample
+
+### FieldOrigin
+
+`input` = the client is the authority (free, faker-able); `sourced` = retrieved elsewhere (wired); `computed` = server-derived.
+
+```ts
+type FieldOrigin = "input" | "sourced" | "computed"
+```
+
+### SourceRef
+
+A machine-wireable source edge for a `sourced` field: pull `select` (default "id") from operation `op`'s response.
+
+### FieldSource
+
+`x-suluk-from` is EITHER a free human note (string, doc-only) OR a structured, wireable `SourceRef`.
+
+```ts
+type FieldSource = string | SourceRef
+```
+
+### FieldDescriptor
+
+### SynthDirection
+
+Direction controls origin handling: a "request" example omits server-`computed` fields a client never sends; a
+ "response" example omits `writeOnly` fields. Default "request".
+
+```ts
+type SynthDirection = "request" | "response"
+```
+
+### ORIGIN_KEYWORD
+
+```ts
+const ORIGIN_KEYWORD: "x-suluk-origin"
+```
+
+### FROM_KEYWORD
+
+```ts
+const FROM_KEYWORD: "x-suluk-from"
+```

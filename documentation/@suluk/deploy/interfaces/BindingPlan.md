@@ -6,7 +6,7 @@
 
 # Interface: BindingPlan
 
-Defined in: [secrets.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/secrets.ts#L55)
+Defined in: [secrets.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/deploy/src/secrets.ts#L55)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [secrets.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **bindings**: [`DurableBinding`](DurableBinding.md)[]
 
-Defined in: [secrets.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/secrets.ts#L56)
+Defined in: [secrets.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/deploy/src/secrets.ts#L56)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [secrets.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **notes**: `string`[]
 
-Defined in: [secrets.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/secrets.ts#L58)
+Defined in: [secrets.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/deploy/src/secrets.ts#L58)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [secrets.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/aaf30c
 
 > **steps**: [`DeployStep`](DeployStep.md)[]
 
-Defined in: [secrets.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/secrets.ts#L57)
+Defined in: [secrets.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/deploy/src/secrets.ts#L57)

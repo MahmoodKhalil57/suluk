@@ -1,0 +1,19 @@
+# @suluk/openapi-compat
+
+> Lossless-where-possible conversion between the OpenAPI v4 'Suluk' candidate and OpenAPI 3.1 (the dialect Scalar/Swagger consume). CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `downgrade`: Project a v4 "Suluk" document to OpenAPI 3.
+- `upgrade`: Project an OpenAPI 3.1 document up to the v4 "Suluk" model.
+- `validate31`
+
+## Optional
+
+### Types
+
+- `DowngradeResult`: `@suluk/openapi-compat` — convert between the OpenAPI v4 "Suluk" candidate and OpenAPI 3.
+- `Diagnostic`: `@suluk/openapi-compat` — convert between the OpenAPI v4 "Suluk" candidate and OpenAPI 3.
+- `Validation31`

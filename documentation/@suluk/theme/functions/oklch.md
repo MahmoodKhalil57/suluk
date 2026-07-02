@@ -8,7 +8,7 @@
 
 > **oklch**(`l`, `c`, `h`, `alpha?`): [`Oklch`](../interfaces/Oklch.md)
 
-Defined in: [oklch.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/oklch.ts#L25)
+Defined in: [oklch.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/472537fcba70c073d9cdb30b69f1e212ccaabf6a/tooling/ts/packages/theme/src/oklch.ts#L25)
 
 Construct an OKLCH color (clamped to valid ranges).
 

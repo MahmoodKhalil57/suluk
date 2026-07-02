@@ -1,0 +1,18 @@
+# admin (registry module)
+
+> An Effect-TS Admin service exposing GET /api/admin/stats — the admin-scoped ops/usage aggregate. Wraps @suluk/credits' ledgerStats (credits issued vs spent + outstanding balance stay upstream) + the module-owned credit_transaction row count. Admin-scope is enforced globally by the contract's enforceApiKeyScope on /api/admin, so the route does no gating. A stateless read: no schema, no provision (reads existing tables). Own the wiring, npm the aggregate.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `adminRoutes`
+- `Admin`
+- `AdminLive`
+- `adminOps`
+
+## Optional
+
+### Types
+
+- `AdminStats`: The admin dashboard aggregate: the generic ledger stats + the module-owned transaction count.

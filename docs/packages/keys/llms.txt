@@ -1,0 +1,47 @@
+# @suluk/keys
+
+> The delegation-chain ALGEBRA for hierarchical API keys: effective-caps (scope ∩, cap/expiry min up the chain), POOLED subtree headroom (a parent cap bounds parent+children TOTAL spend — abuse-proof), the cascade read-checks (expired/disabled ancestor), child-grant clamping, the materialized-path utilities, and the scope/metadata model. Pure + portable: the app supplies the chain rows + spend (its DB query is the seam); this owns the money/abuse-correctness logic. Extracted from a real app (C046). CANDIDATE tooling.
+
+> Reference tooling for the OpenAPI v4.0 Suluk candidate.
+
+### API
+
+- `effectiveCaps`: The caller's EFFECTIVE grant, derived by walking UP the chain.
+- `expiredAncestor`: TRUE when any ANCESTOR (a node other than the caller) has already expired — so the caller auto-expires the moment a
+ parent does.
+- `disabledAncestor`: TRUE when any ANCESTOR has been soft-disabled — so a child auto-dies the moment a parent is revoked, EVEN when the
+ revocation didn't cascade throu...
+- `pooledHeadroom`: The chain's POOLED credit headroom — the BINDING constraint a charge must clear: over every node that declares an own
+cap, the LEAST `cap − subtree...
+- `topCappedPath`: The topmost capped node in a chain (the shortest path) — whose subtree contains every other capped node's subtree, so
+ one query over it suffices f...
+- `clampChildGrant`: Clamp a requested CHILD grant to the parent's EFFECTIVE grant — a child can never out-scope or out-spend an ancestor.
+- `escapeLike`: Escape SQL-LIKE metacharacters (a keyId can contain `_`, a LIKE wildcard) so a path prefix matches LITERALLY — pair
+ with `ESCAPE '\'` in the query.
+- `subtreeLikePattern`: The `LIKE` pattern for "<path>'s strict descendants" — pair with `ESCAPE '\'`. (The node itself is matched by `= path`.)
+- `inSubtree`: TRUE when `candidate` is within `path`'s subtree: the node itself (exact) OR a descendant (a "/"-prefix).
+- `childPath`: A child's path = `parentPath/childId`, or the bare `childId` when the parent is a root (no path / a session caller).
+- `pathDepth`: Depth of a path: 0 = root, >0 = a delegated child.
+- `ancestorIdsOf`: The ancestor keyIds in a path (everything before self), root→parent order.
+- `pathAt`: The own-path of the ancestor at index `i` in a path's segments (the prefix up to and including it).
+- `parseScopes`: permissions JSON (`{resource:[actions]}`) → flat `["resource:action"]` scopes, defensively (a bad value → no scopes).
+- `parseKeyMeta`: metadata JSON → the per-key controls (each null when absent/invalid): the PAID credit cap + the rate-limit share %.
+- `subtreeOf`: The keyIds in a node's subtree (itself + every descendant) — for cascade revoke.
+- `parentPathOf`: A parent's materialized path (for building a child's path).
+- `insertLineage`: Record a freshly-minted child (or root, when parentKeyId is null) in the lineage tree. Idempotent on the keyId PK.
+- `chainHeadroom`: The chain's POOLED credit headroom — one grouped query over the TOPMOST capped node's subtree (joining the credit
+ledger via the `credit_key` sidec...
+- `revokeKeyTree`: Cascade-revoke a key's subtree: compute the api-key ids in `keyId`'s subtree (a keyed caller may revoke ONLY a STRICT
+descendant of itself — not it...
+- `MAX_KEY_DEPTH`: A delegation chain can be at most this deep (root..leaf) — bounds the path length + the per-request walk.
+- `keyLineage`: The delegation tree: each node's parent + a materialized `path` of keyIds (root→…→self).
+
+## Optional
+
+### Types
+
+- `ChainNode`: One node of a caller's chain — itself or an ancestor — with its OWN (pre-chain) grant + caps + its materialized path.
+- `EffectiveCaps`: `@suluk/keys` — the delegation-chain ALGEBRA for hierarchical API keys (C046, extracted from a real app).
+- `SpendRow`: One row of per-path spend (a positive amount), as the app's subtree query returns it.
+- `Headroom`: `@suluk/keys` — the delegation-chain ALGEBRA for hierarchical API keys (C046, extracted from a real app).
+- `KeysDB`: The injected DB handle (drizzle/d1 in prod; bun:sqlite bridged in tests).
