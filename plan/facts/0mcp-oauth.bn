@@ -1,0 +1,32 @@
+# C062 — MCP OAuth discovery WORKS (operator: "yes" — fix the C061-deferred MCP OAuth 500). The /.well-known/oauth-* routes
+# 500'd (auth.api.getMcpOAuthConfig undefined). The C061 adversarial critic's hypothesis (thread the mcp opts) was NECESSARY
+# but INSUFFICIENT — empirical boot-testing found a SECOND deeper root cause. Two coordinated fixes, verified end-to-end.
+# Extends C053 (composition engine) + C057 (mock dev) + C061.
+
+# (1) GENERATOR: the mcpAuthInstance capability rendered (env) => createAuth(env) with NO opts → the discovery instance lacked
+# the mcp() plugin. The composition engine now threads the capability-OWNER's resolved serviceOpts into build(): Capability.
+# build gains opts; resolveWiring passes opts?.[toSvc]; planPlatform passes manifest.opts → auth's mcpAuthInstance renders
+# (env) => createAuth(env, { mcp: {...} }). Legacy no-wire golden byte-identical; wire-adoption locks the new render.
+# (2) REGISTRY (registry/services/auth/auth.ts) = the REAL root cause: createAuth cached ONE instance per DB binding, but
+# identity/apiKeyAuth/mcpBearerAuth call createAuth(env) with NO opts on every /api/* request → the plugin-LESS instance won
+# the cache and starved the mcp OAuth surface (getMcpOAuthConfig, /api/auth/mcp/*, discovery) even when the discovery path
+# passed {mcp}. Order-dependent → non-deterministic 500s in prod. Cache now SPLIT per DB by mcp-presence ({base?, mcp?}).
+claim mcp_oauth_discovery_works_generator_threads_opts_plus_two_slot_auth_cache: Bool @>=0.85 = True
+falsified_when mcp_oauth_discovery_works_generator_threads_opts_plus_two_slot_auth_cache == False
+
+# PROVEN end-to-end (fresh app AND live ATF): /.well-known/oauth-authorization-server + /oauth-protected-resource → 200 with
+# real OAuth metadata (issuer/authorization_endpoint/token_endpoint), mock login still 200, tsc clean. Isolated via a direct
+# probe: createAuth(env,{mcp}).api.getMcpOAuthConfig is a function ONLY when a no-opts instance didn't cache first — the two-
+# slot cache makes it order-independent. Published @suluk/platform@0.12.0 + @suluk/provision@0.2.1; registry auth.ts pushed to
+# main; ATF regenerated (suluk be4c956c, atf 3c1195f). 148 platform + 37 provision tests pass, tsc clean.
+claim mcp_oauth_proven_200_fresh_and_atf_keyless_is_now_whole_not_just_most: Bool @>=0.85 = True
+falsified_when mcp_oauth_proven_200_fresh_and_atf_keyless_is_now_whole_not_just_most == False
+
+# ROBUSTNESS FIX (surfaced by the app's tsc): the C061 provision.config's `new CloudflareClient()` didn't match the brokers'
+# expected type because the app resolves @suluk/cloudflare@0.4.0 (dev server) but published @suluk/provision@0.2.0 pinned
+# ^0.3.1 (a NESTED copy) — two CloudflareClient identities. @suluk/provision now RE-EXPORTS CloudflareClient and the generated
+# provision.config imports it FROM @suluk/provision, so the client ALWAYS matches the brokers regardless of version skew — a
+# structural fix, not a version-chase. General lesson: when a consumer constructs a value to pass into a package's function,
+# import the type FROM that package (which re-exports it) so duplicate-install skew can't split the nominal type.
+claim provision_reexports_cloudflareclient_so_generated_config_type_matches_brokers: Bool @>=0.85 = True
+falsified_when provision_reexports_cloudflareclient_so_generated_config_type_matches_brokers == False
