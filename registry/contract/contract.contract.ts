@@ -275,6 +275,55 @@ export const CONTRACT = contractDoc([
     errors: [500],
     responses: [{ status: 200, description: "The erasure cascade completed." }],
   },
+
+  // ══ FULL-SURFACE DECLARATIONS ═══════════════════════════════════════════════════════════════════════════════════
+  // Every route the modules actually mount, declared so the v4 document + the scope gate cover the WHOLE surface (not just
+  // the base keystone). Scopes match each module's read/write convention — the same scope the tier-2 namespace fallback
+  // already applied, so declaring these DOCUMENTS the surface without changing who-can-call-what.
+
+  // ---- Credits (full) ----------------------------------------------------------------------------------------------
+  { method: "get", path: "/api/credits/balance/:userId", name: "getUserCredits", summary: "A specific user's credit balance (self/admin).", tags: ["Credits"], scopes: ["credits:read"], responses: [{ status: 200, description: "The user's credit balance." }] },
+
+  // ---- API keys (full) ---------------------------------------------------------------------------------------------
+  { method: "get", path: "/api/keys/:keyId/subtree", name: "getKeySubtree", summary: "The delegation subtree rooted at a key (its descendants + their caps/usage).", tags: ["API keys"], scopes: ["keys:read"], responses: [{ status: 200, description: "The key's delegation subtree." }] },
+
+  // ---- Cost (full) -------------------------------------------------------------------------------------------------
+  { method: "post", path: "/api/cost/event", name: "recordCostEvent", summary: "Record a per-request cost event (at-least-once; deduped on the idempotency key).", tags: ["Cost"], scopes: ["cost:read"], responses: [{ status: 200, description: "The cost event was recorded (or replayed)." }] },
+  { method: "post", path: "/api/cost/dedup", name: "recordCostDedup", summary: "Record a cost dedup marker (the at-least-once ledger for webhook-driven costs).", tags: ["Cost"], scopes: ["cost:read"], responses: [{ status: 200, description: "The dedup marker was recorded." }] },
+
+  // ---- Activity logs (full) ----------------------------------------------------------------------------------------
+  { method: "get", path: "/api/logs/query", name: "queryLogs", summary: "Filter the activity log by a parameterized DSL (action / principal / time window).", tags: ["Activity"], scopes: ["logs:read"], responses: [{ status: 200, description: "The filtered activity events." }] },
+
+  // ---- Reference (public docs) -------------------------------------------------------------------------------------
+  { method: "get", path: "/api/reference", name: "listReference", summary: "The API tool reference — every operation with its summary + scope. Public.", tags: ["Reference"], responses: [{ status: 200, description: "The tool reference index." }] },
+  { method: "get", path: "/api/reference/:tool", name: "getReference", summary: "The reference entry for one tool/operation. Public.", tags: ["Reference"], responses: [{ status: 200, description: "The tool reference entry." }] },
+
+  // ---- Admin -------------------------------------------------------------------------------------------------------
+  { method: "get", path: "/api/admin/stats", name: "getAdminStats", summary: "Platform-wide credit + usage stats. ADMIN-only.", tags: ["Admin"], scopes: ["admin"], responses: [{ status: 200, description: "The aggregate platform stats." }] },
+
+  // ---- Billing (full) ----------------------------------------------------------------------------------------------
+  { method: "get", path: "/api/billing/payment-config", name: "getPaymentConfig", summary: "The publishable payment config (publishable key + enabled methods) for the client SDK.", tags: ["Billing"], scopes: ["billing:read"], responses: [{ status: 200, description: "The client payment config." }] },
+  { method: "post", path: "/api/billing/payment-intent", name: "createPaymentIntent", summary: "Create a payment intent for a client-confirmed top-up; returns the client secret.", tags: ["Billing"], scopes: ["billing:write"], responses: [{ status: 200, description: "The payment intent (client secret)." }] },
+  { method: "get", path: "/api/billing/subscription", name: "getSubscription", summary: "The caller's current subscription (plan, status, period end, cancel-at-period-end).", tags: ["Billing"], scopes: ["billing:read"], responses: [{ status: 200, description: "The current subscription." }] },
+  { method: "post", path: "/api/billing/subscription", name: "cancelSubscription", summary: "Cancel (or schedule cancellation of) the caller's subscription.", tags: ["Billing"], scopes: ["billing:write"], responses: [{ status: 200, description: "The subscription was updated." }] },
+  { method: "post", path: "/api/billing/subscription-plan", name: "changeSubscriptionPlan", summary: "Switch the caller's subscription to a different plan (prorated).", tags: ["Billing"], scopes: ["billing:write"], responses: [{ status: 200, description: "The plan change was applied." }] },
+  { method: "get", path: "/api/billing/purchase-quote", name: "getPurchaseQuote", summary: "A server-authoritative quote (tax + total) for a credit-pack purchase before checkout.", tags: ["Billing"], scopes: ["billing:read"], responses: [{ status: 200, description: "The purchase quote." }] },
+  { method: "get", path: "/api/billing/refund-quote", name: "getRefundQuote", summary: "How much of a purchase is refundable (credits already spent are deducted).", tags: ["Billing"], scopes: ["billing:read"], responses: [{ status: 200, description: "The refund quote." }] },
+  { method: "post", path: "/api/billing/refund", name: "refund", summary: "Refund a purchase — DEBITS the granted credits before moving cash (partial-capped; re-credits any shortfall).", tags: ["Billing"], scopes: ["billing:write"], responses: [{ status: 200, description: "The refund was processed." }] },
+  { method: "get", path: "/api/billing/methods", name: "listMethods", summary: "The caller's saved payment methods (cards), the default flagged.", tags: ["Billing"], scopes: ["billing:read"], responses: [{ status: 200, description: "The saved payment methods." }] },
+  { method: "post", path: "/api/billing/methods/default", name: "setDefaultMethod", summary: "Set a saved card as the default for off-session charges.", tags: ["Billing"], scopes: ["billing:write"], responses: [{ status: 200, description: "The default payment method was set." }] },
+  { method: "post", path: "/api/billing/methods/delete", name: "deleteMethod", summary: "Detach a saved card from the caller's Stripe customer.", tags: ["Billing"], scopes: ["billing:write"], responses: [{ status: 200, description: "The payment method was detached." }] },
+  { method: "post", path: "/api/billing/customer", name: "ensureCustomer", summary: "Ensure the caller has a Stripe customer (idempotent) — used before saving a card.", tags: ["Billing"], scopes: ["billing:write"], responses: [{ status: 200, description: "The Stripe customer id." }] },
+  { method: "post", path: "/api/billing/payment-session", name: "createPaymentSession", summary: "Create a client payment session (Element auto-PM or one-click on the default card).", tags: ["Billing"], scopes: ["billing:write"], responses: [{ status: 200, description: "The client payment session." }] },
+  { method: "post", path: "/api/billing/setup-session", name: "createSetupSession", summary: "Create a setup session to save a card off-session (no charge).", tags: ["Billing"], scopes: ["billing:write"], responses: [{ status: 200, description: "The setup session (client secret)." }] },
+  { method: "get", path: "/api/billing/auto-topup", name: "getAutoTopup", summary: "The caller's auto-recharge config (threshold + pack, or disabled).", tags: ["Billing"], scopes: ["billing:read"], responses: [{ status: 200, description: "The auto-topup config." }] },
+  { method: "post", path: "/api/billing/auto-topup", name: "setAutoTopup", summary: "Enable/update/disable auto-recharge (top up when the balance falls below a threshold).", tags: ["Billing"], scopes: ["billing:write"], responses: [{ status: 200, description: "The auto-topup config was saved." }] },
+  { method: "get", path: "/api/billing/payment-health", name: "getPaymentHealth", summary: "Standing payment-health flags for the caller (failed charges, expiring cards, dunning).", tags: ["Billing"], scopes: ["billing:read"], responses: [{ status: 200, description: "The payment-health flags." }] },
+
+  // ---- MCP connections (session-only management) -------------------------------------------------------------------
+  { method: "get", path: "/api/mcp/connections", name: "listMcpConnections", summary: "The caller's MCP OAuth connections (per-client config). Session-only.", tags: ["MCP"], responses: [{ status: 200, description: "The MCP connections." }] },
+  { method: "post", path: "/api/mcp/connections/update", name: "updateMcpConnection", summary: "Update an MCP connection's config. Session-only.", tags: ["MCP"], responses: [{ status: 200, description: "The connection was updated." }] },
+  { method: "post", path: "/api/mcp/connections/revoke", name: "revokeMcpConnection", summary: "Revoke an MCP connection (drops its tokens). Session-only.", tags: ["MCP"], responses: [{ status: 200, description: "The connection was revoked." }] },
 ] satisfies readonly RouteContract[]);
 
 /** The op-name type — the by-name handle each derivation keys on (C009). */
