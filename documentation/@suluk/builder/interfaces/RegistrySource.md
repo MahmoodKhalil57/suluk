@@ -6,7 +6,7 @@
 
 # Interface: RegistrySource
 
-Defined in: [registry-remote.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/registry-remote.ts#L12)
+Defined in: [registry-remote.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/registry-remote.ts#L12)
 
 A configured remote registry (persisted by the host).
 
@@ -16,7 +16,7 @@ A configured remote registry (persisted by the host).
 
 > **name**: `string`
 
-Defined in: [registry-remote.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/registry-remote.ts#L13)
+Defined in: [registry-remote.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/registry-remote.ts#L13)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [registry-remote.ts:13](https://github.com/MahmoodKhalil57/suluk/blo
 
 > `optional` **publicKey?**: `JsonWebKey`
 
-Defined in: [registry-remote.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/registry-remote.ts#L16)
+Defined in: [registry-remote.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/registry-remote.ts#L16)
 
 optional pinned publisher public key (JWK) — when set, the registry's signature is verified on every fetch
 
@@ -34,4 +34,4 @@ optional pinned publisher public key (JWK) — when set, the registry's signatur
 
 > **url**: `string`
 
-Defined in: [registry-remote.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/registry-remote.ts#L14)
+Defined in: [registry-remote.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/registry-remote.ts#L14)

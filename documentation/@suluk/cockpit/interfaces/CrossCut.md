@@ -6,7 +6,7 @@
 
 # Interface: CrossCut
 
-Defined in: [cockpit/src/crosscut.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/crosscut.ts#L35)
+Defined in: [cockpit/src/crosscut.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/crosscut.ts#L35)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/crosscut.ts:35](https://github.com/MahmoodKhalil57/sulu
 
 > **gated**: [`GatedOp`](GatedOp.md)[]
 
-Defined in: [cockpit/src/crosscut.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/crosscut.ts#L39)
+Defined in: [cockpit/src/crosscut.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/crosscut.ts#L39)
 
 operations not visible to every viewer — the scope-gated surface
 
@@ -24,7 +24,7 @@ operations not visible to every viewer — the scope-gated surface
 
 > **operations**: `object`[]
 
-Defined in: [cockpit/src/crosscut.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/crosscut.ts#L36)
+Defined in: [cockpit/src/crosscut.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/crosscut.ts#L36)
 
 #### detail
 
@@ -40,4 +40,4 @@ Defined in: [cockpit/src/crosscut.ts:36](https://github.com/MahmoodKhalil57/sulu
 
 > **viewers**: [`ViewerView`](ViewerView.md)[]
 
-Defined in: [cockpit/src/crosscut.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/crosscut.ts#L37)
+Defined in: [cockpit/src/crosscut.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/crosscut.ts#L37)

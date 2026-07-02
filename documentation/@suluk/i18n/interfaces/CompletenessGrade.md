@@ -6,7 +6,7 @@
 
 # Interface: CompletenessGrade
 
-Defined in: [messages.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/i18n/src/messages.ts#L48)
+Defined in: [messages.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/i18n/src/messages.ts#L48)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [messages.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **extra**: `string`[]
 
-Defined in: [messages.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/i18n/src/messages.ts#L57)
+Defined in: [messages.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/i18n/src/messages.ts#L57)
 
 keys present here but not in the default (stale / typo'd).
 
@@ -24,7 +24,7 @@ keys present here but not in the default (stale / typo'd).
 
 > **grade**: `number`
 
-Defined in: [messages.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/i18n/src/messages.ts#L59)
+Defined in: [messages.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/i18n/src/messages.ts#L59)
 
 translated / total, in [0, 1] (1 when the default is empty).
 
@@ -34,7 +34,7 @@ translated / total, in [0, 1] (1 when the default is empty).
 
 > **locale**: `string`
 
-Defined in: [messages.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/i18n/src/messages.ts#L49)
+Defined in: [messages.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/i18n/src/messages.ts#L49)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [messages.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **missing**: `string`[]
 
-Defined in: [messages.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/i18n/src/messages.ts#L55)
+Defined in: [messages.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/i18n/src/messages.ts#L55)
 
 keys in the default catalog absent or empty here.
 
@@ -52,7 +52,7 @@ keys in the default catalog absent or empty here.
 
 > **total**: `number`
 
-Defined in: [messages.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/i18n/src/messages.ts#L51)
+Defined in: [messages.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/i18n/src/messages.ts#L51)
 
 keys in the default catalog (the target).
 
@@ -62,6 +62,6 @@ keys in the default catalog (the target).
 
 > **translated**: `number`
 
-Defined in: [messages.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/i18n/src/messages.ts#L53)
+Defined in: [messages.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/i18n/src/messages.ts#L53)
 
 keys present AND non-empty in this locale.

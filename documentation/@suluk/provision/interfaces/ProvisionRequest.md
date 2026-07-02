@@ -6,7 +6,7 @@
 
 # Interface: ProvisionRequest
 
-Defined in: [provision/src/types.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/types.ts#L76)
+Defined in: [provision/src/types.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/types.ts#L76)
 
 The resolved request handed to a broker's `provision` (param refs already substituted).
 
@@ -16,7 +16,7 @@ The resolved request handed to a broker's `provision` (param refs already substi
 
 > **name**: `string`
 
-Defined in: [provision/src/types.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/types.ts#L78)
+Defined in: [provision/src/types.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/types.ts#L78)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [provision/src/types.ts:78](https://github.com/MahmoodKhalil57/suluk
 
 > **params**: `Record`\<`string`, `unknown`\>
 
-Defined in: [provision/src/types.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/types.ts#L80)
+Defined in: [provision/src/types.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/types.ts#L80)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [provision/src/types.ts:80](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **plan?**: `string`
 
-Defined in: [provision/src/types.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/types.ts#L79)
+Defined in: [provision/src/types.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/types.ts#L79)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [provision/src/types.ts:79](https://github.com/MahmoodKhalil57/suluk
 
 > **ref**: `string`
 
-Defined in: [provision/src/types.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/types.ts#L77)
+Defined in: [provision/src/types.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/types.ts#L77)

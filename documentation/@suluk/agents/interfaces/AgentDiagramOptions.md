@@ -6,7 +6,7 @@
 
 # Interface: AgentDiagramOptions
 
-Defined in: [agents/src/diagram.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/diagram.ts#L103)
+Defined in: [agents/src/diagram.ts:103](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/diagram.ts#L103)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/diagram.ts:103](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **d3Src?**: `string`
 
-Defined in: [agents/src/diagram.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/diagram.ts#L106)
+Defined in: [agents/src/diagram.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/diagram.ts#L106)
 
 override the D3 source (default: jsDelivr CDN). Pass a vendored path for an offline/CSP-locked host.
 
@@ -24,4 +24,4 @@ override the D3 source (default: jsDelivr CDN). Pass a vendored path for an offl
 
 > `optional` **title?**: `string`
 
-Defined in: [agents/src/diagram.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/diagram.ts#L104)
+Defined in: [agents/src/diagram.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/diagram.ts#L104)

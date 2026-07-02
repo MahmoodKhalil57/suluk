@@ -6,7 +6,7 @@
 
 # Interface: RefundResponse
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:174](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L174)
+Defined in: [tooling/ts/packages/payments/src/types.ts:174](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L174)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:174](https://github.com/M
 
 > `optional` **connectorRefundId?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:176](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L176)
+Defined in: [tooling/ts/packages/payments/src/types.ts:176](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L176)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:176](https://github.com/M
 
 > `optional` **error?**: [`PaymentError`](PaymentError.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:177](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L177)
+Defined in: [tooling/ts/packages/payments/src/types.ts:177](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L177)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:177](https://github.com/M
 
 > **status**: [`RefundStatus`](../enumerations/RefundStatus.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:175](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L175)
+Defined in: [tooling/ts/packages/payments/src/types.ts:175](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L175)

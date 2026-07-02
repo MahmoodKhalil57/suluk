@@ -6,7 +6,7 @@
 
 # Interface: UsedPrimitive
 
-Defined in: [baseline.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/visual/src/baseline.ts#L39)
+Defined in: [baseline.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/baseline.ts#L39)
 
 A primitive USED by a generated UI: its key + the CURRENT content hash of its source.
 
@@ -16,7 +16,7 @@ A primitive USED by a generated UI: its key + the CURRENT content hash of its so
 
 > **contentHash**: `string`
 
-Defined in: [baseline.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/visual/src/baseline.ts#L41)
+Defined in: [baseline.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/baseline.ts#L41)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [baseline.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **key**: `string`
 
-Defined in: [baseline.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/visual/src/baseline.ts#L40)
+Defined in: [baseline.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/baseline.ts#L40)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [baseline.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `optional` **label?**: `string`
 
-Defined in: [baseline.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/visual/src/baseline.ts#L42)
+Defined in: [baseline.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/baseline.ts#L42)

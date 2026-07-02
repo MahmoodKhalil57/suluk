@@ -8,7 +8,7 @@
 
 > **chargeOffSession**(`cfg`, `customerId`, `pmId`, `amountCents`, `meta`): `Promise`\<\{ `authRequired`: `boolean`; `id`: `string` \| `null`; `status`: `string` \| `null`; \}\>
 
-Defined in: [packages/billing/src/payments.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/billing/src/payments.ts#L122)
+Defined in: [packages/billing/src/payments.ts:122](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/payments.ts#L122)
 
 An OFF-SESSION charge on a saved card (auto-top-up). Confirms immediately; metadata carries who + credits + `source`
  so the payment_intent.succeeded webhook credits idempotently on the SAME `pi:<id>` key. Returns the PaymentIntent id +

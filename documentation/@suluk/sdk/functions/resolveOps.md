@@ -8,7 +8,7 @@
 
 > **resolveOps**(`doc`): `object`
 
-Defined in: [generate.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L106)
+Defined in: [generate.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L106)
 
 walkOps + DETERMINISTIC method-name collision resolution — SHARED by generateSdk AND generateStores so the client
 accessor names (`client.<ns>.<member>`) can NEVER drift between the two projections. Mutates `op.member` in place;

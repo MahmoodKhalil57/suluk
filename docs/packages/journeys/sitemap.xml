@@ -2,342 +2,342 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/index.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/modules.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/hierarchy.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/types/JsonSchema.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/types/ExampleTier.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/ExampleSources.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/ResolvedExample.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/variables/ORIGIN_KEYWORD.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/variables/FROM_KEYWORD.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/types/FieldOrigin.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/SourceRef.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/types/FieldSource.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/FieldDescriptor.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/fieldOrigin.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/asSourceRef.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/describeInputs.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/resolveSourced.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/resolveExample.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/types/SynthDirection.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/SynthOptions.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/synthesize.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/types/BindState.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/Definitions.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/StepResult.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/ScenarioResult.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/CoverageHole.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/GapReport.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/BindOptions.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/bindFeatures.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/UndefinedStep.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/detectUndefined.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/renderScaffold.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/renderGapReport.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/types/DemoFormat.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/BuildDemoFilesOptions.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/DemoFilesResult.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/buildDemoFiles.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/PromoteTargetSpec.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/parseTargetSpec.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/PromotionRow.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/PromotionFileResult.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/PromotionPlan.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/planPromotions.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/DimensionAudit.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/AuditResult.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/buildAudit.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/miniDiff.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/CoverageGrade.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/coverageGrade.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/types/DemoValue.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/DemoCapture.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/DemoRequest.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/DemoScenario.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/CompileDemoOptions.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/compileDemos.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/RenderOptions.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/renderPostman.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/renderBruno.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/EmitOptions.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/emitRunnableSuite.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/FeatureStep.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/Scenario.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/Feature.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/parseFeature.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/OutlineColumn.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/ScenarioOutline.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/buildScenarioOutlines.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/OutlineRenderOptions.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/renderScenarioOutlines.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/PublicExampleRow.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/extractPublicRows.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/buildExampleObject.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/PromoteResult.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/promoteExampleIntoZod.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/PromoteTarget.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/PromoteFeatureResult.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/promoteFeatureExamples.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/types/StepKind.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/JourneyStep.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/VocabOperation.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/interfaces/Vocabulary.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/opHandle.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/generateVocabulary.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/renderPhrasebook.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/journeys/functions/vocabularyHash.html</loc>
-		<lastmod>2026-07-02T00:50:25.116Z</lastmod>
+		<lastmod>2026-07-02T01:32:43.495Z</lastmod>
 	</url>
 </urlset>

@@ -6,7 +6,7 @@
 
 # Interface: DeployStep
 
-Defined in: [types.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/types.ts#L76)
+Defined in: [types.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L76)
 
 One ordered shell step the host (the vscode extension) runs in a terminal AFTER the user authenticates.
 
@@ -16,7 +16,7 @@ One ordered shell step the host (the vscode extension) runs in a terminal AFTER 
 
 > **cmd**: `string`
 
-Defined in: [types.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/types.ts#L77)
+Defined in: [types.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L77)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [types.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **note**: `string`
 
-Defined in: [types.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/types.ts#L78)
+Defined in: [types.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L78)

@@ -8,7 +8,7 @@
 
 > **Grade** = `"A"` \| `"B"` \| `"C"` \| `"D"` \| `"F"`
 
-Defined in: [audit.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/harden/src/audit.ts#L16)
+Defined in: [audit.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L16)
 
 `@suluk/harden` — schema hardening as a derived, scored contract facet. Audit a v4 'Suluk' document's INPUT
 schemas for the validations that keep malformed/oversized input from breaking the system, grade them A–F,

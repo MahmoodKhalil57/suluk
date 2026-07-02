@@ -8,7 +8,7 @@
 
 > **assertServedSubsetGoverned**(`doc`, `agentName`, `servedToolNames`): [`ConformanceFinding`](../interfaces/ConformanceFinding.md)[]
 
-Defined in: [agents/src/conformance.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/conformance.ts#L106)
+Defined in: [agents/src/conformance.ts:106](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/conformance.ts#L106)
 
 POLICY-AWARE OVER-SERVE (C028): when an operator policy governs the agent, the served tools must be a subset of
 the POST-POLICY effective surface — a served tool the operator DENIED is a conformance failure (the operator cap

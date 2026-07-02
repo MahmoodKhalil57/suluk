@@ -6,7 +6,7 @@
 
 # Interface: ChainNode
 
-Defined in: [packages/keys/src/chain.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/keys/src/chain.ts#L14)
+Defined in: [packages/keys/src/chain.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L14)
 
 One node of a caller's chain — itself or an ancestor — with its OWN (pre-chain) grant + caps + its materialized path.
 
@@ -16,7 +16,7 @@ One node of a caller's chain — itself or an ancestor — with its OWN (pre-cha
 
 > `optional` **disabled?**: `boolean`
 
-Defined in: [packages/keys/src/chain.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/keys/src/chain.ts#L25)
+Defined in: [packages/keys/src/chain.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L25)
 
 an ancestor soft-disabled (enabled=false) — drives the auth-time revocation cascade.
 
@@ -26,7 +26,7 @@ an ancestor soft-disabled (enabled=false) — drives the auth-time revocation ca
 
 > **keyId**: `string`
 
-Defined in: [packages/keys/src/chain.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/keys/src/chain.ts#L15)
+Defined in: [packages/keys/src/chain.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L15)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [packages/keys/src/chain.ts:15](https://github.com/MahmoodKhalil57/s
 
 > **ownCreditLimit**: `number` \| `null`
 
-Defined in: [packages/keys/src/chain.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/keys/src/chain.ts#L20)
+Defined in: [packages/keys/src/chain.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L20)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [packages/keys/src/chain.ts:20](https://github.com/MahmoodKhalil57/s
 
 > **ownExpiresAt**: `number` \| `null`
 
-Defined in: [packages/keys/src/chain.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/keys/src/chain.ts#L23)
+Defined in: [packages/keys/src/chain.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L23)
 
 epoch ms — the node's own expiry; null = never.
 
@@ -52,7 +52,7 @@ epoch ms — the node's own expiry; null = never.
 
 > **ownRateSharePct**: `number` \| `null`
 
-Defined in: [packages/keys/src/chain.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/keys/src/chain.ts#L21)
+Defined in: [packages/keys/src/chain.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L21)
 
 ***
 
@@ -60,7 +60,7 @@ Defined in: [packages/keys/src/chain.ts:21](https://github.com/MahmoodKhalil57/s
 
 > **path**: `string`
 
-Defined in: [packages/keys/src/chain.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/keys/src/chain.ts#L17)
+Defined in: [packages/keys/src/chain.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L17)
 
 the node's own materialized path (a prefix of the caller's) — used to sum its subtree spend.
 
@@ -70,6 +70,6 @@ the node's own materialized path (a prefix of the caller's) — used to sum its 
 
 > **scopes**: `string`[]
 
-Defined in: [packages/keys/src/chain.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/keys/src/chain.ts#L19)
+Defined in: [packages/keys/src/chain.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L19)
 
 the node's OWN granted tool scopes (an unrestricted account-root never appears as a node).

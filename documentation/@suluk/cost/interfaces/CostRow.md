@@ -6,7 +6,7 @@
 
 # Interface: CostRow
 
-Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cost/src/contract.ts#L105)
+Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L105)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **estimateMicroUsd**: `number`
 
-Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cost/src/contract.ts#L105)
+Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L105)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **operation**: `string`
 
-Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cost/src/contract.ts#L105)
+Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L105)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **path**: `string`
 
-Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cost/src/contract.ts#L105)
+Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L105)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **sources**: `string`[]
 
-Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cost/src/contract.ts#L105)
+Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L105)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **trigger**: [`CostTrigger`](../type-aliases/CostTrigger.md)
 
-Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cost/src/contract.ts#L105)
+Defined in: [contract.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L105)

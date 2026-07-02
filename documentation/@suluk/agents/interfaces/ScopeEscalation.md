@@ -6,7 +6,7 @@
 
 # Interface: ScopeEscalation
 
-Defined in: [agents/src/scope.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/scope.ts#L17)
+Defined in: [agents/src/scope.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/scope.ts#L17)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/scope.ts:17](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **child**: `string`
 
-Defined in: [agents/src/scope.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/scope.ts#L23)
+Defined in: [agents/src/scope.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/scope.ts#L23)
 
 the resolved child agent key.
 
@@ -24,7 +24,7 @@ the resolved child agent key.
 
 > **childLocal**: `string`
 
-Defined in: [agents/src/scope.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/scope.ts#L21)
+Defined in: [agents/src/scope.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/scope.ts#L21)
 
 the local handle of the offending sub-agent.
 
@@ -34,7 +34,7 @@ the local handle of the offending sub-agent.
 
 > **parent**: `string`
 
-Defined in: [agents/src/scope.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/scope.ts#L19)
+Defined in: [agents/src/scope.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/scope.ts#L19)
 
 the agent whose declared grant is exceeded by a child.
 
@@ -44,6 +44,6 @@ the agent whose declared grant is exceeded by a child.
 
 > **perms**: `string`[]
 
-Defined in: [agents/src/scope.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/scope.ts#L25)
+Defined in: [agents/src/scope.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/scope.ts#L25)
 
 the permissions the child declares that the parent does NOT grant (silently dropped under intersection).

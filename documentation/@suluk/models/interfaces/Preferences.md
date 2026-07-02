@@ -6,7 +6,7 @@
 
 # Interface: Preferences
 
-Defined in: [types.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L96)
+Defined in: [types.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/models/src/types.ts#L96)
 
 Preference — RANKS the survivors. A named profile is the 90% case; the escape hatch is ≤4 small int weights.
 
@@ -16,7 +16,7 @@ Preference — RANKS the survivors. A named profile is the 90% case; the escape 
 
 > `optional` **prefer?**: `object`
 
-Defined in: [types.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L98)
+Defined in: [types.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/models/src/types.ts#L98)
 
 #### context?
 
@@ -40,7 +40,7 @@ Defined in: [types.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > `optional` **profile?**: [`Profile`](../type-aliases/Profile.md)
 
-Defined in: [types.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L97)
+Defined in: [types.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/models/src/types.ts#L97)
 
 ***
 
@@ -48,6 +48,6 @@ Defined in: [types.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > `optional` **taskShape?**: `"agentic"` \| `"coding"` \| `"reasoning"`
 
-Defined in: [types.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L100)
+Defined in: [types.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/models/src/types.ts#L100)
 
 routes the single "intelligence" knob to the ONE relevant INTEL sub-tier.

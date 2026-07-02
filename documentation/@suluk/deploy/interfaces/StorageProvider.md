@@ -6,7 +6,7 @@
 
 # Interface: StorageProvider
 
-Defined in: [storage.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/storage.ts#L20)
+Defined in: [storage.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/storage.ts#L20)
 
 The swappable storage binding (the builder `storage` slot). Other providers (S3/GCS) implement the same shape.
 
@@ -16,7 +16,7 @@ The swappable storage binding (the builder `storage` slot). Other providers (S3/
 
 > `readonly` **id**: `string`
 
-Defined in: [storage.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/storage.ts#L22)
+Defined in: [storage.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/storage.ts#L22)
 
 a stable id (matches the @suluk/builder storage-slot impl id, e.g. "r2").
 
@@ -26,7 +26,7 @@ a stable id (matches the @suluk/builder storage-slot impl id, e.g. "r2").
 
 > **delete**(`key`): `Promise`\<`void`\>
 
-Defined in: [storage.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/storage.ts#L28)
+Defined in: [storage.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/storage.ts#L28)
 
 remove an object — the GDPR erasure target for a user's media.
 
@@ -46,7 +46,7 @@ remove an object — the GDPR erasure target for a user's media.
 
 > **put**(`key`, `body`, `opts?`): `Promise`\<[`StoredObject`](StoredObject.md)\>
 
-Defined in: [storage.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/storage.ts#L24)
+Defined in: [storage.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/storage.ts#L24)
 
 store bytes server-side; returns the key + its public URL.
 
@@ -76,7 +76,7 @@ store bytes server-side; returns the key + its public URL.
 
 > **urlFor**(`key`): `string`
 
-Defined in: [storage.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/storage.ts#L26)
+Defined in: [storage.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/storage.ts#L26)
 
 the public/served URL for a key (no I/O).
 

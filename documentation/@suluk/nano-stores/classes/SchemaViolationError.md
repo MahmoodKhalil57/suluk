@@ -6,7 +6,7 @@
 
 # Class: SchemaViolationError
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/stores.ts#L55)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/nano-stores/src/stores.ts#L55)
 
 A validation failure on either edge — carries the Zod issues so callers can surface what drifted.
 
@@ -20,7 +20,7 @@ A validation failure on either edge — carries the Zod issues so callers can su
 
 > **new SchemaViolationError**(`side`, `route`, `issues`): `SchemaViolationError`
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/stores.ts#L56)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/nano-stores/src/stores.ts#L56)
 
 #### Parameters
 
@@ -64,7 +64,7 @@ The cause of the error.
 
 > `readonly` **issues**: `unknown`
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/stores.ts#L59)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/nano-stores/src/stores.ts#L59)
 
 ***
 
@@ -96,7 +96,7 @@ Defined in: tooling/ts/node\_modules/.bun/typescript@6.0.3/node\_modules/typescr
 
 > `readonly` **route**: `string`
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/stores.ts#L58)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/nano-stores/src/stores.ts#L58)
 
 ***
 
@@ -104,7 +104,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:58](https://github.co
 
 > `readonly` **side**: `"request"` \| `"response"`
 
-Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/stores.ts#L57)
+Defined in: [tooling/ts/packages/nano-stores/src/stores.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/nano-stores/src/stores.ts#L57)
 
 ***
 

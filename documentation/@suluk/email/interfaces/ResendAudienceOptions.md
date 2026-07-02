@@ -6,7 +6,7 @@
 
 # Interface: ResendAudienceOptions
 
-Defined in: [audience.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/audience.ts#L48)
+Defined in: [audience.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/audience.ts#L48)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [audience.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **apiKey**: `string`
 
-Defined in: [audience.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/audience.ts#L50)
+Defined in: [audience.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/audience.ts#L50)
 
 the Resend API key (the app pulls it from @suluk/env).
 
@@ -24,6 +24,6 @@ the Resend API key (the app pulls it from @suluk/env).
 
 > `optional` **fetch?**: *typeof* `fetch`
 
-Defined in: [audience.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/audience.ts#L52)
+Defined in: [audience.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/audience.ts#L52)
 
 inject a fetch (default: global fetch) — for testing / a custom transport.

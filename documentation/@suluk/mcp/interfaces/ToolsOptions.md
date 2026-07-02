@@ -6,7 +6,7 @@
 
 # Interface: ToolsOptions
 
-Defined in: [tools.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L32)
+Defined in: [tools.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L32)
 
 `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server. The same contract that drives
 the API, SDK, docs, admin, and panel now drives an agent-callable surface: every operation becomes an MCP tool
@@ -25,7 +25,7 @@ CANDIDATE tooling — NOT official OAS.
 
 > `optional` **hide?**: `string`[]
 
-Defined in: [tools.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L36)
+Defined in: [tools.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L36)
 
 Operation names to omit.
 
@@ -35,7 +35,7 @@ Operation names to omit.
 
 > `optional` **include?**: `"read"` \| `"all"`
 
-Defined in: [tools.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L34)
+Defined in: [tools.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L34)
 
 `"read"` (default) exposes only GET/HEAD operations; `"all"` also exposes mutations.
 
@@ -45,7 +45,7 @@ Defined in: [tools.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > `optional` **includeDeprecated?**: `boolean`
 
-Defined in: [tools.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L40)
+Defined in: [tools.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L40)
 
 Include `deprecated` operations (default: skip them).
 
@@ -55,6 +55,6 @@ Include `deprecated` operations (default: skip them).
 
 > `optional` **only?**: `string`[]
 
-Defined in: [tools.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L38)
+Defined in: [tools.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L38)
 
 If set, expose ONLY these operation names (after hide).

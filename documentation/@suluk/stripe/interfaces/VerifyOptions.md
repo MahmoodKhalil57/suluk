@@ -6,7 +6,7 @@
 
 # Interface: VerifyOptions
 
-Defined in: [stripe-webhook.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/stripe-webhook.ts#L18)
+Defined in: [stripe-webhook.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/stripe-webhook.ts#L18)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [stripe-webhook.ts:18](https://github.com/MahmoodKhalil57/suluk/blob
 
 > `optional` **now?**: () => `number`
 
-Defined in: [stripe-webhook.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/stripe-webhook.ts#L20)
+Defined in: [stripe-webhook.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/stripe-webhook.ts#L20)
 
 current unix seconds (default `Date.now()/1000`) — injectable for tests + replay-window tuning.
 
@@ -28,6 +28,6 @@ current unix seconds (default `Date.now()/1000`) — injectable for tests + repl
 
 > `optional` **toleranceSec?**: `number`
 
-Defined in: [stripe-webhook.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/stripe-webhook.ts#L22)
+Defined in: [stripe-webhook.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/stripe-webhook.ts#L22)
 
 reject events whose timestamp is older than this many seconds (default 300 — Stripe's window).

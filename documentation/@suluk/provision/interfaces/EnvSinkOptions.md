@@ -6,7 +6,7 @@
 
 # Interface: EnvSinkOptions
 
-Defined in: [provision/src/env-sink.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/env-sink.ts#L13)
+Defined in: [provision/src/env-sink.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/env-sink.ts#L13)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: [provision/src/env-sink.ts:13](https://github.com/MahmoodKhalil57/su
 
 > `optional` **envPath?**: `string`
 
-Defined in: [env/src/node.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/node.ts#L12)
+Defined in: [env/src/node.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/env/src/node.ts#L12)
 
 #### Inherited from
 
@@ -30,7 +30,7 @@ Defined in: [env/src/node.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/8
 
 > `optional` **keysPath?**: `string`
 
-Defined in: [env/src/node.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/node.ts#L12)
+Defined in: [env/src/node.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/env/src/node.ts#L12)
 
 #### Inherited from
 
@@ -42,7 +42,7 @@ Defined in: [env/src/node.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/8
 
 > `optional` **plain?**: (`envVar`) => `boolean`
 
-Defined in: [provision/src/env-sink.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/env-sink.ts#L15)
+Defined in: [provision/src/env-sink.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/env-sink.ts#L15)
 
 predicate: which env vars are written PLAINTEXT (non-secret). Default: none — every binding is encrypted.
 

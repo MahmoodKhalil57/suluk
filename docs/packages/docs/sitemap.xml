@@ -2,110 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/index.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/modules.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/hierarchy.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/interfaces/PackageGraph.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/packageGraphData.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/interfaces/ArchNode.html</loc>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/interfaces/ArchitectureGraph.html</loc>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
+	</url>
+	<url>
+		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/architectureGraphData.html</loc>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/packageGraphD2.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/krokiD2Url.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/interfaces/ModuleDoc.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/interfaces/PackageDoc.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/interfaces/FrameworkDoc.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/firstBlockComment.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/parseExports.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/stripReadmeHeader.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/harvestPackage.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/interfaces/HarvestOptions.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/harvest.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/escapeHtml.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/rewriteRepoLinks.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/inline.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/mdToHtml.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/renderIndex.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/renderPackage.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/renderMarkdownPage.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/variables/STYLE.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/interfaces/SiteFile.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/interfaces/SiteOptions.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/docs/functions/generateSite.html</loc>
-		<lastmod>2026-07-02T00:50:19.675Z</lastmod>
+		<lastmod>2026-07-02T01:32:38.689Z</lastmod>
 	</url>
 </urlset>

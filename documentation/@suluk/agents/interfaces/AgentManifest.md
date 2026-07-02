@@ -6,7 +6,7 @@
 
 # Interface: AgentManifest
 
-Defined in: [agents/src/manifest.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/manifest.ts#L59)
+Defined in: [agents/src/manifest.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L59)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/manifest.ts:59](https://github.com/MahmoodKhalil57/suluk
 
 > **agent**: `string`
 
-Defined in: [agents/src/manifest.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/manifest.ts#L61)
+Defined in: [agents/src/manifest.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L61)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [agents/src/manifest.ts:61](https://github.com/MahmoodKhalil57/suluk
 
 > **escalations**: [`ScopeEscalation`](ScopeEscalation.md)[]
 
-Defined in: [agents/src/manifest.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/manifest.ts#L67)
+Defined in: [agents/src/manifest.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L67)
 
 any per-edge scope escalations (an installable agent has none).
 
@@ -32,7 +32,7 @@ any per-edge scope escalations (an installable agent has none).
 
 > **manifestVersion**: `1`
 
-Defined in: [agents/src/manifest.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/manifest.ts#L60)
+Defined in: [agents/src/manifest.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L60)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [agents/src/manifest.ts:60](https://github.com/MahmoodKhalil57/suluk
 
 > **nodes**: [`AgentManifestNode`](AgentManifestNode.md)[]
 
-Defined in: [agents/src/manifest.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/manifest.ts#L63)
+Defined in: [agents/src/manifest.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L63)
 
 the root + every transitively-reachable sub-agent, sorted by name (canonical).
 
@@ -50,7 +50,7 @@ the root + every transitively-reachable sub-agent, sorted by name (canonical).
 
 > **reachable**: `object`
 
-Defined in: [agents/src/manifest.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/manifest.ts#L65)
+Defined in: [agents/src/manifest.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L65)
 
 the statically-enumerable worst-case reachable surface.
 

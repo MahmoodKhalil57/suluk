@@ -8,7 +8,7 @@
 
 > **buildDemoFiles**(`docText`, `featureTexts`, `opts?`): [`DemoFilesResult`](../interfaces/DemoFilesResult.md)
 
-Defined in: [journeys/src/cli.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/cli.ts#L38)
+Defined in: [journeys/src/cli.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/cli.ts#L38)
 
 Pure: a v4 document text + `.feature` texts → the demo collection file map. No filesystem.
 

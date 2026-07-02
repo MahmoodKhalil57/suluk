@@ -8,7 +8,7 @@
 
 > **pooledHeadroom**(`chain`, `spendRows`): [`Headroom`](../interfaces/Headroom.md) \| `null`
 
-Defined in: [packages/keys/src/chain.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/keys/src/chain.ts#L84)
+Defined in: [packages/keys/src/chain.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L84)
 
 The chain's POOLED credit headroom — the BINDING constraint a charge must clear: over every node that declares an own
 cap, the LEAST `cap − subtreeSpend(node)` (a node's subtree = itself ∪ descendants). Pooling is what makes a cap

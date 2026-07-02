@@ -6,7 +6,7 @@
 
 # Interface: DeployWorkerOptions
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L34)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L34)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:34](https://github.com
 
 > `optional` **assets?**: `object`
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L49)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L49)
 
 the static-assets completion JWT (from uploadAssets) + the binding name + assets config.
 
@@ -36,7 +36,7 @@ the static-assets completion JWT (from uploadAssets) + the binding name + assets
 
 > `optional` **bindings?**: [`WorkerBinding`](WorkerBinding.md)[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L43)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L43)
 
 typed bindings (d1, kv_namespace, r2_bucket, durable_object_namespace, …).
 
@@ -46,7 +46,7 @@ typed bindings (d1, kv_namespace, r2_bucket, durable_object_namespace, …).
 
 > **compatibilityDate**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L40)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L40)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:40](https://github.com
 
 > `optional` **compatibilityFlags?**: `string`[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L41)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L41)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:41](https://github.com
 
 > `optional` **keepBindings?**: `string`[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L53)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L53)
 
 preserve bindings of these types from the prior version (default keeps secrets across deploys).
 
@@ -72,7 +72,7 @@ preserve bindings of these types from the prior version (default keeps secrets a
 
 > `optional` **mainModule?**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L39)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L39)
 
 the module filename referenced as `main_module` (default "worker.js").
 
@@ -82,7 +82,7 @@ the module filename referenced as `main_module` (default "worker.js").
 
 > `optional` **migrations?**: [`WorkerMigration`](WorkerMigration.md)[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L45)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L45)
 
 Durable Object migrations — ride inline on THIS script upload (no separate call). Omit when there are none.
 
@@ -92,7 +92,7 @@ Durable Object migrations — ride inline on THIS script upload (no separate cal
 
 > **module**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L37)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L37)
 
 the bundled ES-module source.
 
@@ -102,7 +102,7 @@ the bundled ES-module source.
 
 > **name**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L35)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L35)
 
 ***
 
@@ -110,7 +110,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:35](https://github.com
 
 > `optional` **observability?**: `boolean`
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L51)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L51)
 
 enable Workers observability (logs/traces).
 
@@ -120,6 +120,6 @@ enable Workers observability (logs/traces).
 
 > `optional` **vars?**: `Record`\<`string`, `string`\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/worker.ts#L47)
+Defined in: [tooling/ts/packages/cloudflare/src/worker.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cloudflare/src/worker.ts#L47)
 
 plain-text vars → `plain_text` bindings.

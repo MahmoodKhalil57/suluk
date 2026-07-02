@@ -8,7 +8,7 @@
 
 > **auditReadiness**(`doc`, `opts?`): [`ReadinessAudit`](../interfaces/ReadinessAudit.md)
 
-Defined in: [readiness.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/harden/src/readiness.ts#L39)
+Defined in: [readiness.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/readiness.ts#L39)
 
 Audit the document's request bodies for client-sendability + example presence → findings + a readiness grade.
 

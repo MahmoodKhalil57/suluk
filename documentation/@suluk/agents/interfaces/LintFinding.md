@@ -6,7 +6,7 @@
 
 # Interface: LintFinding
 
-Defined in: [agents/src/lint.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/lint.ts#L13)
+Defined in: [agents/src/lint.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/lint.ts#L13)
 
 `@suluk/agents` — the Suluk Agent composition layer (C027). Lint + project an `x-suluk-agents` map (skills +
 deterministic routes + by-name sub-agents) into a Claude plugin AND an OpenRouter/OpenAI-compatible manifest:
@@ -23,7 +23,7 @@ test/core-boundary.test.ts enforces it as a maintained tripwire.
 
 > **agent**: `string`
 
-Defined in: [agents/src/lint.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/lint.ts#L17)
+Defined in: [agents/src/lint.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/lint.ts#L17)
 
 ***
 
@@ -31,7 +31,7 @@ Defined in: [agents/src/lint.ts:17](https://github.com/MahmoodKhalil57/suluk/blo
 
 > `optional` **at?**: `string`
 
-Defined in: [agents/src/lint.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/lint.ts#L20)
+Defined in: [agents/src/lint.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/lint.ts#L20)
 
 dotted locus within the agent, e.g. "routes.run_core_primitive.operationRef".
 
@@ -41,7 +41,7 @@ dotted locus within the agent, e.g. "routes.run_core_primitive.operationRef".
 
 > **code**: `string`
 
-Defined in: [agents/src/lint.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/lint.ts#L16)
+Defined in: [agents/src/lint.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/lint.ts#L16)
 
 machine code, e.g. "agent-cycle", "missing-max-depth", "dangling-operation-ref", "request-value-selector".
 
@@ -51,7 +51,7 @@ machine code, e.g. "agent-cycle", "missing-max-depth", "dangling-operation-ref",
 
 > **detail**: `string`
 
-Defined in: [agents/src/lint.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/lint.ts#L18)
+Defined in: [agents/src/lint.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/lint.ts#L18)
 
 ***
 
@@ -59,4 +59,4 @@ Defined in: [agents/src/lint.ts:18](https://github.com/MahmoodKhalil57/suluk/blo
 
 > **severity**: [`Severity`](../type-aliases/Severity.md)
 
-Defined in: [agents/src/lint.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/lint.ts#L14)
+Defined in: [agents/src/lint.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/lint.ts#L14)

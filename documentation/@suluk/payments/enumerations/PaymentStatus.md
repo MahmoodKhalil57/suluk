@@ -6,7 +6,7 @@
 
 # Enumeration: PaymentStatus
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L32)
+Defined in: [tooling/ts/packages/payments/src/types.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L32)
 
 Payment status — INTEGER values mirroring Prism exactly (do NOT renumber; a real Prism backend + connector code depend
 on these). A soft decline is `FAILURE` returned IN-BAND on the response (never thrown). Use with authorize/capture/void.
@@ -17,7 +17,7 @@ on these). A soft decline is `FAILURE` returned IN-BAND on the response (never t
 
 > **AUTHENTICATION\_FAILED**: `2`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L35)
+Defined in: [tooling/ts/packages/payments/src/types.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L35)
 
 ***
 
@@ -25,7 +25,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:35](https://github.com/Ma
 
 > **AUTHENTICATION\_PENDING**: `4`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L37)
+Defined in: [tooling/ts/packages/payments/src/types.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L37)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:37](https://github.com/Ma
 
 > **AUTHENTICATION\_SUCCESSFUL**: `5`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L38)
+Defined in: [tooling/ts/packages/payments/src/types.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L38)
 
 ***
 
@@ -41,7 +41,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:38](https://github.com/Ma
 
 > **AUTHORIZATION\_FAILED**: `7`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L40)
+Defined in: [tooling/ts/packages/payments/src/types.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L40)
 
 ***
 
@@ -49,7 +49,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:40](https://github.com/Ma
 
 > **AUTHORIZED**: `6`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L39)
+Defined in: [tooling/ts/packages/payments/src/types.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L39)
 
 ***
 
@@ -57,7 +57,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:39](https://github.com/Ma
 
 > **CAPTURE\_FAILED**: `14`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L45)
+Defined in: [tooling/ts/packages/payments/src/types.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L45)
 
 ***
 
@@ -65,7 +65,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:45](https://github.com/Ma
 
 > **CAPTURE\_INITIATED**: `13`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L44)
+Defined in: [tooling/ts/packages/payments/src/types.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L44)
 
 ***
 
@@ -73,7 +73,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:44](https://github.com/Ma
 
 > **CHARGED**: `8`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L41)
+Defined in: [tooling/ts/packages/payments/src/types.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L41)
 
 ***
 
@@ -81,7 +81,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:41](https://github.com/Ma
 
 > **EXPIRED**: `26`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L52)
+Defined in: [tooling/ts/packages/payments/src/types.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L52)
 
 ***
 
@@ -89,7 +89,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:52](https://github.com/Ma
 
 > **FAILURE**: `21`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L50)
+Defined in: [tooling/ts/packages/payments/src/types.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L50)
 
 ***
 
@@ -97,7 +97,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:50](https://github.com/Ma
 
 > **PARTIAL\_CHARGED**: `17`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L47)
+Defined in: [tooling/ts/packages/payments/src/types.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L47)
 
 ***
 
@@ -105,7 +105,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:47](https://github.com/Ma
 
 > **PARTIALLY\_AUTHORIZED**: `25`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L51)
+Defined in: [tooling/ts/packages/payments/src/types.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L51)
 
 ***
 
@@ -113,7 +113,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:51](https://github.com/Ma
 
 > **PENDING**: `20`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L49)
+Defined in: [tooling/ts/packages/payments/src/types.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L49)
 
 ***
 
@@ -121,7 +121,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:49](https://github.com/Ma
 
 > **ROUTER\_DECLINED**: `3`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L36)
+Defined in: [tooling/ts/packages/payments/src/types.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L36)
 
 ***
 
@@ -129,7 +129,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:36](https://github.com/Ma
 
 > **STARTED**: `1`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L34)
+Defined in: [tooling/ts/packages/payments/src/types.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L34)
 
 ***
 
@@ -137,7 +137,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:34](https://github.com/Ma
 
 > **UNRESOLVED**: `19`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L48)
+Defined in: [tooling/ts/packages/payments/src/types.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L48)
 
 ***
 
@@ -145,7 +145,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:48](https://github.com/Ma
 
 > **UNSPECIFIED**: `0`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L33)
+Defined in: [tooling/ts/packages/payments/src/types.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L33)
 
 ***
 
@@ -153,7 +153,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:33](https://github.com/Ma
 
 > **VOID\_FAILED**: `15`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L46)
+Defined in: [tooling/ts/packages/payments/src/types.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L46)
 
 ***
 
@@ -161,7 +161,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:46](https://github.com/Ma
 
 > **VOID\_INITIATED**: `12`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L43)
+Defined in: [tooling/ts/packages/payments/src/types.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L43)
 
 ***
 
@@ -169,4 +169,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:43](https://github.com/Ma
 
 > **VOIDED**: `11`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L42)
+Defined in: [tooling/ts/packages/payments/src/types.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L42)

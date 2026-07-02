@@ -8,6 +8,6 @@
 
 > `const` **MFA\_SCOPE**: `"mfa:verified"`
 
-Defined in: [principal.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/principal.ts#L31)
+Defined in: [principal.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/principal.ts#L31)
 
 The scope a route requires to be sure the caller cleared their second factor (twoFactor plugin).

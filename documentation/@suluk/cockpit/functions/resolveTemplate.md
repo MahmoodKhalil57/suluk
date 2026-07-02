@@ -8,7 +8,7 @@
 
 > **resolveTemplate**(`t`, `registry?`): `object`
 
-Defined in: [builder/src/modules/index.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/modules/index.ts#L47)
+Defined in: [builder/src/modules/index.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/modules/index.ts#L47)
 
 Resolve a template's module names to actual modules from a registry — REPORTING any name that doesn't resolve
  (a typo or a module missing from this registry) rather than silently dropping it.

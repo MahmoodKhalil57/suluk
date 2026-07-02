@@ -6,7 +6,7 @@
 
 # Interface: DocAudit
 
-Defined in: [audit.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/harden/src/audit.ts#L20)
+Defined in: [audit.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L20)
 
 `@suluk/harden` — schema hardening as a derived, scored contract facet. Audit a v4 'Suluk' document's INPUT
 schemas for the validations that keep malformed/oversized input from breaking the system, grade them A–F,
@@ -26,7 +26,7 @@ surface the grade to incentivise the author, and gate CI on a minimum.
 
 > **byOperation**: [`OpAudit`](OpAudit.md)[]
 
-Defined in: [audit.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/harden/src/audit.ts#L20)
+Defined in: [audit.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L20)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [audit.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **bySeverity**: `Record`\<[`Severity`](../type-aliases/Severity.md), `number`\>
 
-Defined in: [audit.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/harden/src/audit.ts#L20)
+Defined in: [audit.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L20)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [audit.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **clean**: `number`
 
-Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/harden/src/audit.ts#L18)
+Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L18)
 
 #### Inherited from
 
@@ -54,7 +54,7 @@ Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **findings**: [`Finding`](Finding.md)[]
 
-Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/harden/src/audit.ts#L18)
+Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L18)
 
 #### Inherited from
 
@@ -66,7 +66,7 @@ Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **grade**: [`Grade`](../type-aliases/Grade.md)
 
-Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/harden/src/audit.ts#L18)
+Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L18)
 
 #### Inherited from
 
@@ -78,7 +78,7 @@ Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **nodes**: `number`
 
-Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/harden/src/audit.ts#L18)
+Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L18)
 
 #### Inherited from
 
@@ -90,7 +90,7 @@ Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **score**: `number`
 
-Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/harden/src/audit.ts#L18)
+Defined in: [audit.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L18)
 
 #### Inherited from
 

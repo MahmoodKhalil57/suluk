@@ -6,7 +6,7 @@
 
 # Interface: CheckRun
 
-Defined in: [tooling/ts/packages/hono/src/checks.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/checks.ts#L82)
+Defined in: [tooling/ts/packages/hono/src/checks.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/checks.ts#L82)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/hono/src/checks.ts:82](https://github.com/Mahmo
 
 > **failures**: `object`[]
 
-Defined in: [tooling/ts/packages/hono/src/checks.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/checks.ts#L85)
+Defined in: [tooling/ts/packages/hono/src/checks.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/checks.ts#L85)
 
 #### message?
 
@@ -30,7 +30,7 @@ Defined in: [tooling/ts/packages/hono/src/checks.ts:85](https://github.com/Mahmo
 
 > **passed**: `number`
 
-Defined in: [tooling/ts/packages/hono/src/checks.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/checks.ts#L84)
+Defined in: [tooling/ts/packages/hono/src/checks.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/checks.ts#L84)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [tooling/ts/packages/hono/src/checks.ts:84](https://github.com/Mahmo
 
 > **total**: `number`
 
-Defined in: [tooling/ts/packages/hono/src/checks.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/checks.ts#L83)
+Defined in: [tooling/ts/packages/hono/src/checks.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/checks.ts#L83)

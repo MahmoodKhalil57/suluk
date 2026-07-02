@@ -6,7 +6,7 @@
 
 # Interface: VerifyApiKeyResult
 
-Defined in: [apikey.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/apikey.ts#L90)
+Defined in: [apikey.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/apikey.ts#L90)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [apikey.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **key?**: [`VerifiedKey`](VerifiedKey.md)
 
-Defined in: [apikey.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/apikey.ts#L96)
+Defined in: [apikey.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/apikey.ts#L96)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [apikey.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **ok**: `boolean`
 
-Defined in: [apikey.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/apikey.ts#L91)
+Defined in: [apikey.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/apikey.ts#L91)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [apikey.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **principal?**: [`Principal`](Principal.md)
 
-Defined in: [apikey.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/apikey.ts#L95)
+Defined in: [apikey.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/apikey.ts#L95)
 
 the `{ scopes }` Principal — the SAME shape principalFromSession returns, so enforceAccess works identically.
 
@@ -40,6 +40,6 @@ the `{ scopes }` Principal — the SAME shape principalFromSession returns, so e
 
 > `optional` **reason?**: [`VerifyReason`](../type-aliases/VerifyReason.md)
 
-Defined in: [apikey.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/apikey.ts#L93)
+Defined in: [apikey.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/apikey.ts#L93)
 
 why verification failed (absent on success).

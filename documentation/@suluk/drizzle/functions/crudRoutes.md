@@ -8,7 +8,7 @@
 
 > **crudRoutes**(`table`, `opts?`): [`RouteContract`](../../hono/interfaces/RouteContract.md)[]
 
-Defined in: [crud.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/crud.ts#L43)
+Defined in: [crud.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/crud.ts#L43)
 
 Generate the five conventional CRUD RouteContracts for a drizzle table:
   - list   GET    {base}            → 200 array(select)

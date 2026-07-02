@@ -6,7 +6,7 @@
 
 # Interface: BuiltMarketing
 
-Defined in: [marketing.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/marketing.ts#L95)
+Defined in: [marketing.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/marketing.ts#L95)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [marketing.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **blocks**: [`DslDocument`](DslDocument.md)[]
 
-Defined in: [marketing.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/marketing.ts#L97)
+Defined in: [marketing.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/marketing.ts#L97)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [marketing.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **errors**: [`DslError`](DslError.md)[]
 
-Defined in: [marketing.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/marketing.ts#L101)
+Defined in: [marketing.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/marketing.ts#L101)
 
 DSL contract violations (empty ⇒ the landing composition is sound).
 
@@ -32,7 +32,7 @@ DSL contract violations (empty ⇒ the landing composition is sound).
 
 > **page**: [`DslDocument`](DslDocument.md)
 
-Defined in: [marketing.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/marketing.ts#L99)
+Defined in: [marketing.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/marketing.ts#L99)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [marketing.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **registry**: [`Registry`](Registry.md)
 
-Defined in: [marketing.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/marketing.ts#L96)
+Defined in: [marketing.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/marketing.ts#L96)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [marketing.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **sections**: [`DslDocument`](DslDocument.md)[]
 
-Defined in: [marketing.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/marketing.ts#L98)
+Defined in: [marketing.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/marketing.ts#L98)

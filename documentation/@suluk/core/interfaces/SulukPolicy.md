@@ -6,7 +6,7 @@
 
 # Interface: SulukPolicy
 
-Defined in: [types.ts:280](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L280)
+Defined in: [types.ts:280](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L280)
 
 An OPERATOR governance policy (C028) — a member of the `x-suluk-policy` map, keyed by operator/fleet name. Every
 field is STATIC, locally decidable, and NARROW-ONLY: applying a policy can only REMOVE capability an agent
@@ -23,7 +23,7 @@ values (D1; the #20 tripwire is declined here too). `appliesTo` binds BY AGENT N
 
 > `optional` **agents?**: `object`
 
-Defined in: [types.ts:286](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L286)
+Defined in: [types.ts:286](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L286)
 
 deny/allow sub-agent keys (an allow-list, when present, is the only permitted set).
 
@@ -41,7 +41,7 @@ deny/allow sub-agent keys (an allow-list, when present, is the only permitted se
 
 > `optional` **appliesTo?**: `string`[]
 
-Defined in: [types.ts:282](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L282)
+Defined in: [types.ts:282](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L282)
 
 by-name refs into x-suluk-agents keys this policy governs (NEVER a request predicate). Empty/absent ⇒ all agents.
 
@@ -51,7 +51,7 @@ by-name refs into x-suluk-agents keys this policy governs (NEVER a request predi
 
 > `optional` **capTier?**: `"resident"` \| `"cold-tail"`
 
-Defined in: [types.ts:292](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L292)
+Defined in: [types.ts:292](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L292)
 
 pin the MAX tier — a cold-tail skill under `capTier: resident` is downgraded (and flagged).
 
@@ -61,7 +61,7 @@ pin the MAX tier — a cold-tail skill under `capTier: resident` is downgraded (
 
 > `optional` **costCeiling?**: `object`
 
-Defined in: [types.ts:305](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L305)
+Defined in: [types.ts:305](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L305)
 
 The operator's DECLARED cost cap — the third of cap/estimate/actual (estimate = the agent's own x-suluk-cost,
 actual = the C026 reconciled charge). The SCHEMA DECLARES this number; it does NOT enforce it — `enforcedBy`
@@ -90,7 +90,7 @@ enforcement (C026 PROVISIONAL honesty).
 
 > `optional` **forbidNesting?**: `boolean`
 
-Defined in: [types.ts:298](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L298)
+Defined in: [types.ts:298](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L298)
 
 forbid sub-agents entirely (⇒ effective maxDepth 0).
 
@@ -100,7 +100,7 @@ forbid sub-agents entirely (⇒ effective maxDepth 0).
 
 > `optional` **maxDepthCap?**: `number`
 
-Defined in: [types.ts:296](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L296)
+Defined in: [types.ts:296](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L296)
 
 an upper bound on recursion depth — effective maxDepth = min(agent.maxDepth, maxDepthCap).
 
@@ -110,7 +110,7 @@ an upper bound on recursion depth — effective maxDepth = min(agent.maxDepth, m
 
 > `optional` **modelAllowlist?**: `string`[]
 
-Defined in: [types.ts:294](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L294)
+Defined in: [types.ts:294](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L294)
 
 the only model ids permitted — effective skill model[] = INTERSECT(skill.model, modelAllowlist).
 
@@ -120,7 +120,7 @@ the only model ids permitted — effective skill model[] = INTERSECT(skill.model
 
 > `optional` **retrievalTools?**: `object`
 
-Defined in: [types.ts:290](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L290)
+Defined in: [types.ts:290](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L290)
 
 deny/allow the retrieval/untrusted tier's tools specifically (its non-deterministic blast radius).
 
@@ -138,7 +138,7 @@ deny/allow the retrieval/untrusted tier's tools specifically (its non-determinis
 
 > `optional` **scopeAllowlist?**: `string`[]
 
-Defined in: [types.ts:284](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L284)
+Defined in: [types.ts:284](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L284)
 
 operator's max scope ceiling — effective agent scope = INTERSECT(agent.scope, scopeAllowlist).
 
@@ -148,7 +148,7 @@ operator's max scope ceiling — effective agent scope = INTERSECT(agent.scope, 
 
 > `optional` **tools?**: `object`
 
-Defined in: [types.ts:288](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L288)
+Defined in: [types.ts:288](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L288)
 
 deny/allow route (tool) keys.
 

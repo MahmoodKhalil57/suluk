@@ -8,7 +8,7 @@
 
 > **contractChecks**(`routes`): [`Check`](../interfaces/Check.md)[]
 
-Defined in: [tooling/ts/packages/hono/src/checks.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/checks.ts#L44)
+Defined in: [tooling/ts/packages/hono/src/checks.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/checks.ts#L44)
 
 Build the full check suite for a set of route contracts.
 

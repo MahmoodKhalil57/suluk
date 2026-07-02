@@ -6,7 +6,7 @@
 
 # Interface: RenderResult
 
-Defined in: [index.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/swagger/src/index.ts#L22)
+Defined in: [index.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/swagger/src/index.ts#L22)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [index.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **diagnostics**: [`Diagnostic`](../../openapi-compat/interfaces/Diagnostic.md)[]
 
-Defined in: [index.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/swagger/src/index.ts#L24)
+Defined in: [index.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/swagger/src/index.ts#L24)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [index.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **html**: `string`
 
-Defined in: [index.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/swagger/src/index.ts#L23)
+Defined in: [index.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/swagger/src/index.ts#L23)

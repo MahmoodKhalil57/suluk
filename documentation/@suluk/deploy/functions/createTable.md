@@ -8,7 +8,7 @@
 
 > **createTable**(`entity`): `string`
 
-Defined in: [sql.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/sql.ts#L58)
+Defined in: [sql.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/sql.ts#L58)
 
 CREATE TABLE for one entity (or a manual-define comment for a $ref/boolean schema).
 

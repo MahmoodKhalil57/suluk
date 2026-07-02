@@ -6,7 +6,7 @@
 
 # Interface: ModuleEntry
 
-Defined in: [module.ts:259](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/module.ts#L259)
+Defined in: [module.ts:259](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/module.ts#L259)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [module.ts:259](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb
 
 > **description**: `string`
 
-Defined in: [module.ts:261](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/module.ts#L261)
+Defined in: [module.ts:261](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/module.ts#L261)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [module.ts:261](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb
 
 > **module**: [`SulukModule`](SulukModule.md)
 
-Defined in: [module.ts:262](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/module.ts#L262)
+Defined in: [module.ts:262](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/module.ts#L262)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [module.ts:262](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb
 
 > **title**: `string`
 
-Defined in: [module.ts:260](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/module.ts#L260)
+Defined in: [module.ts:260](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/module.ts#L260)

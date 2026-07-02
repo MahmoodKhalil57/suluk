@@ -6,7 +6,7 @@
 
 # Interface: Violation
 
-Defined in: analyze.ts:24
+Defined in: [analyze.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/eslint/src/analyze.ts#L24)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: analyze.ts:24
 
 > **data**: `object`
 
-Defined in: analyze.ts:30
+Defined in: [analyze.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/eslint/src/analyze.ts#L30)
 
 Message interpolation data: tag (native), attr (handler), or token (frontmatter).
 
@@ -36,7 +36,7 @@ Message interpolation data: tag (native), attr (handler), or token (frontmatter)
 
 > **index**: `number`
 
-Defined in: analyze.ts:27
+Defined in: [analyze.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/eslint/src/analyze.ts#L27)
 
 Char offset into the original source (for the ESLint wrapper's getLocFromIndex).
 
@@ -46,7 +46,7 @@ Char offset into the original source (for the ESLint wrapper's getLocFromIndex).
 
 > **length**: `number`
 
-Defined in: analyze.ts:28
+Defined in: [analyze.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/eslint/src/analyze.ts#L28)
 
 ***
 
@@ -54,4 +54,4 @@ Defined in: analyze.ts:28
 
 > **metric**: [`Metric`](../type-aliases/Metric.md)
 
-Defined in: analyze.ts:25
+Defined in: [analyze.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/eslint/src/analyze.ts#L25)

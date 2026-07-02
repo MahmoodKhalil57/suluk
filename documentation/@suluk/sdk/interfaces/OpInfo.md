@@ -6,7 +6,7 @@
 
 # Interface: OpInfo
 
-Defined in: [generate.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L57)
+Defined in: [generate.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L57)
 
 `@suluk/sdk` — generate a complete, intuitive TypeScript SDK from a v4 "Suluk" contract. ofetch-based,
 entity-grouped, fully typed, auth wired, and the v4 superpowers (declared cost + access) surfaced as typed
@@ -21,7 +21,7 @@ metadata on each method. A library a developer downloads and uses straight away 
 
 > `optional` **bid?**: `string`
 
-Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L63)
+Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L63)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `optional` **bodyRaw?**: `unknown`
 
-Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L59)
+Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L59)
 
 ***
 
@@ -37,7 +37,7 @@ Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `optional` **bodyTs?**: `string`
 
-Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L63)
+Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L63)
 
 ***
 
@@ -45,7 +45,7 @@ Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **cost**: `number` \| `null`
 
-Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L60)
+Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L60)
 
 ***
 
@@ -53,7 +53,7 @@ Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `optional` **fields?**: [`FieldDescriptor`](../../examples/interfaces/FieldDescriptor.md)[]
 
-Defined in: [generate.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L62)
+Defined in: [generate.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L62)
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: [generate.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **member**: `string`
 
-Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L58)
+Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L58)
 
 ***
 
@@ -69,7 +69,7 @@ Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **method**: `string`
 
-Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L58)
+Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L58)
 
 ***
 
@@ -77,7 +77,7 @@ Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **name**: `string`
 
-Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L58)
+Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L58)
 
 ***
 
@@ -85,7 +85,7 @@ Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **ns**: `string`[]
 
-Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L58)
+Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L58)
 
 ***
 
@@ -93,7 +93,7 @@ Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **pathParams**: `string`[]
 
-Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L59)
+Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L59)
 
 ***
 
@@ -101,7 +101,7 @@ Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `optional` **qid?**: `string`
 
-Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L63)
+Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L63)
 
 ***
 
@@ -109,7 +109,7 @@ Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `optional` **queryRaw?**: `unknown`
 
-Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L59)
+Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L59)
 
 ***
 
@@ -117,7 +117,7 @@ Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `optional` **queryTs?**: `string`
 
-Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L63)
+Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L63)
 
 ***
 
@@ -125,7 +125,7 @@ Defined in: [generate.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **requires**: `string`
 
-Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L60)
+Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L60)
 
 ***
 
@@ -133,7 +133,7 @@ Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **respType**: `string`
 
-Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L59)
+Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L59)
 
 ***
 
@@ -141,7 +141,7 @@ Defined in: [generate.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `optional` **scope?**: `string`
 
-Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L60)
+Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L60)
 
 ***
 
@@ -149,7 +149,7 @@ Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `optional` **store?**: [`SulukStore`](../../core/interfaces/SulukStore.md)
 
-Defined in: [generate.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L61)
+Defined in: [generate.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L61)
 
 ***
 
@@ -157,7 +157,7 @@ Defined in: [generate.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `optional` **summary?**: `string`
 
-Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L60)
+Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L60)
 
 ***
 
@@ -165,4 +165,4 @@ Defined in: [generate.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **uri**: `string`
 
-Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L58)
+Defined in: [generate.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate.ts#L58)

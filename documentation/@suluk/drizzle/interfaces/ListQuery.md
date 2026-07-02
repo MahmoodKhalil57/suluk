@@ -6,7 +6,7 @@
 
 # Interface: ListQuery
 
-Defined in: [query.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/query.ts#L39)
+Defined in: [query.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/query.ts#L39)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [query.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **filters**: `Record`\<`string`, `string`\>
 
-Defined in: [query.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/query.ts#L48)
+Defined in: [query.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/query.ts#L48)
 
 column → equality value.
 
@@ -24,7 +24,7 @@ column → equality value.
 
 > **limit**: `number`
 
-Defined in: [query.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/query.ts#L41)
+Defined in: [query.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/query.ts#L41)
 
 rows to return (= perPage).
 
@@ -34,7 +34,7 @@ rows to return (= perPage).
 
 > **offset**: `number`
 
-Defined in: [query.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/query.ts#L43)
+Defined in: [query.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/query.ts#L43)
 
 rows to skip (= (page-1)*perPage).
 
@@ -44,7 +44,7 @@ rows to skip (= (page-1)*perPage).
 
 > `optional` **orderBy?**: `object`
 
-Defined in: [query.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/query.ts#L44)
+Defined in: [query.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/query.ts#L44)
 
 #### column
 
@@ -60,7 +60,7 @@ Defined in: [query.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **page**: `number`
 
-Defined in: [query.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/query.ts#L49)
+Defined in: [query.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/query.ts#L49)
 
 ***
 
@@ -68,7 +68,7 @@ Defined in: [query.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **perPage**: `number`
 
-Defined in: [query.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/query.ts#L50)
+Defined in: [query.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/query.ts#L50)
 
 ***
 
@@ -76,6 +76,6 @@ Defined in: [query.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > `optional` **q?**: `string`
 
-Defined in: [query.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/query.ts#L46)
+Defined in: [query.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/query.ts#L46)
 
 free-text search term.

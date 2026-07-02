@@ -8,7 +8,7 @@
 
 > `const` **PROBLEM\_DETAILS\_SCHEMA**: `Readonly`\<\{ `description`: `"RFC-9457 Problem Details (application/problem+json)."`; `properties`: \{ `detail`: \{ `type`: `string`; \}; `error`: \{ `deprecated`: `boolean`; `type`: `string`; \}; `errors`: \{ `additionalProperties`: `boolean`; `type`: `string`; \}; `instance`: \{ `format`: `string`; `type`: `string`; \}; `status`: \{ `type`: `string`; \}; `title`: \{ `type`: `string`; \}; `type`: \{ `default`: `string`; `format`: `string`; `type`: `string`; \}; \}; `required`: `string`[]; `title`: `"ProblemDetails"`; `type`: `"object"`; \}\>
 
-Defined in: [errors.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/errors.ts#L87)
+Defined in: [errors.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/errors.ts#L87)
 
 The canonical JSON Schema (2020-12) form of [ProblemDetails](../interfaces/ProblemDetails.md) — the `$ref` target @suluk/hono's emit
 injects into `components.schemas.ProblemDetails`, so the SDK's `isApiError` typing and testgen's

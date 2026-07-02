@@ -6,7 +6,7 @@
 
 # Interface: StubField
 
-Defined in: [index.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/stubgen/src/index.ts#L17)
+Defined in: [index.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/stubgen/src/index.ts#L17)
 
 `@suluk/stubgen` — turn a NEEDS-CONTRACT gap (a tester pre-wrote a scenario the contract can't back yet) into
 honestly-provisional backend STUBS the maintainer then writes pragmatically.
@@ -28,7 +28,7 @@ Zero-dependency + pure (source-text out): @suluk/core never imports this; this i
 
 > **name**: `string`
 
-Defined in: [index.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/stubgen/src/index.ts#L18)
+Defined in: [index.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/stubgen/src/index.ts#L18)
 
 ***
 
@@ -36,7 +36,7 @@ Defined in: [index.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **tsType**: `string`
 
-Defined in: [index.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/stubgen/src/index.ts#L22)
+Defined in: [index.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/stubgen/src/index.ts#L22)
 
 the inferred TS type, e.g. `string`.
 
@@ -46,6 +46,6 @@ the inferred TS type, e.g. `string`.
 
 > **zod**: `string`
 
-Defined in: [index.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/stubgen/src/index.ts#L20)
+Defined in: [index.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/stubgen/src/index.ts#L20)
 
 the inferred Zod expression, e.g. `z.string()`.

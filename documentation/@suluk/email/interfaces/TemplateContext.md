@@ -6,7 +6,7 @@
 
 # Interface: TemplateContext
 
-Defined in: [templates.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/templates.ts#L13)
+Defined in: [templates.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/templates.ts#L13)
 
 Shared context for every template — the brand + the active-locale catalog (merged over English defaults).
 
@@ -16,7 +16,7 @@ Shared context for every template — the brand + the active-locale catalog (mer
 
 > **brand**: [`EmailBrand`](EmailBrand.md)
 
-Defined in: [templates.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/templates.ts#L14)
+Defined in: [templates.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/templates.ts#L14)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [templates.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > `optional` **dir?**: `"ltr"` \| `"rtl"`
 
-Defined in: [templates.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/templates.ts#L17)
+Defined in: [templates.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/templates.ts#L17)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [templates.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > `optional` **lang?**: `string`
 
-Defined in: [templates.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/templates.ts#L18)
+Defined in: [templates.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/templates.ts#L18)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [templates.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > `optional` **messages?**: [`Catalog`](../../i18n/type-aliases/Catalog.md)
 
-Defined in: [templates.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/templates.ts#L16)
+Defined in: [templates.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/templates.ts#L16)
 
 the email-namespace catalog for the active locale (@suluk/i18n).
 
@@ -50,4 +50,4 @@ the email-namespace catalog for the active locale (@suluk/i18n).
 
 > `optional` **year?**: `number`
 
-Defined in: [templates.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/templates.ts#L19)
+Defined in: [templates.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/templates.ts#L19)

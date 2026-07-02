@@ -8,7 +8,7 @@
 
 > **reconcile**(`state`, `report`): [`InstanceState`](../interfaces/InstanceState.md)[]
 
-Defined in: [provision/src/pull.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/pull.ts#L65)
+Defined in: [provision/src/pull.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/pull.ts#L65)
 
 Fold a pull report into the journal: DROP externally-deleted instances (so the next `apply` re-creates them) + MERGE
  live outputs over drifted ones (never dropping a bound value the provider doesn't know, e.g. a minted token). Pure —

@@ -8,7 +8,7 @@
 
 > **expiredAncestor**(`chain`, `callerKeyId`, `now`): `boolean`
 
-Defined in: [packages/keys/src/chain.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/keys/src/chain.ts#L54)
+Defined in: [packages/keys/src/chain.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L54)
 
 TRUE when any ANCESTOR (a node other than the caller) has already expired — so the caller auto-expires the moment a
  parent does. The caller's OWN expiry is enforced upstream (the token verify rejects it), so it's excluded.

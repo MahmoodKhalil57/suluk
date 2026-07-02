@@ -6,7 +6,7 @@
 
 # Interface: ThemeCssOptions
 
-Defined in: [emit.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/theme/src/emit.ts#L29)
+Defined in: [emit.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/emit.ts#L29)
 
 ## Properties
 
@@ -14,6 +14,6 @@ Defined in: [emit.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98b
 
 > `optional` **darkSelector?**: `string`
 
-Defined in: [emit.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/theme/src/emit.ts#L31)
+Defined in: [emit.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/emit.ts#L31)
 
 the selector under which the dark scheme's vars apply (default "[data-theme='dark']" — saastarter's convention).

@@ -6,7 +6,7 @@
 
 # Interface: CliResult
 
-Defined in: [provision/src/cli.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/cli.ts#L17)
+Defined in: [provision/src/cli.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/cli.ts#L17)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/cli.ts:17](https://github.com/MahmoodKhalil57/suluk/b
 
 > **exitCode**: `number`
 
-Defined in: [provision/src/cli.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/cli.ts#L19)
+Defined in: [provision/src/cli.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/cli.ts#L19)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [provision/src/cli.ts:19](https://github.com/MahmoodKhalil57/suluk/b
 
 > **output**: `string`
 
-Defined in: [provision/src/cli.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/cli.ts#L18)
+Defined in: [provision/src/cli.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/cli.ts#L18)

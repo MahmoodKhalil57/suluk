@@ -6,7 +6,7 @@
 
 # Interface: McpTool
 
-Defined in: [tools.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L25)
+Defined in: [tools.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L25)
 
 `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server. The same contract that drives
 the API, SDK, docs, admin, and panel now drives an agent-callable surface: every operation becomes an MCP tool
@@ -21,7 +21,7 @@ CANDIDATE tooling — NOT official OAS.
 
 > **description**: `string`
 
-Defined in: [tools.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L27)
+Defined in: [tools.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L27)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [tools.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **inputSchema**: `object`
 
-Defined in: [tools.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L28)
+Defined in: [tools.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L28)
 
 #### additionalProperties
 
@@ -53,7 +53,7 @@ Defined in: [tools.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **name**: `string`
 
-Defined in: [tools.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L26)
+Defined in: [tools.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L26)
 
 ***
 
@@ -61,4 +61,4 @@ Defined in: [tools.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98
 
 > **op**: [`McpOp`](McpOp.md)
 
-Defined in: [tools.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L29)
+Defined in: [tools.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L29)

@@ -6,7 +6,7 @@
 
 # Interface: ResolvedOperation
 
-Defined in: [agents/src/resolve.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/resolve.ts#L18)
+Defined in: [agents/src/resolve.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resolve.ts#L18)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/resolve.ts:18](https://github.com/MahmoodKhalil57/suluk/
 
 > **container**: `string`
 
-Defined in: [agents/src/resolve.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/resolve.ts#L21)
+Defined in: [agents/src/resolve.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resolve.ts#L21)
 
 the container key (path template / webhook name / job name).
 
@@ -24,7 +24,7 @@ the container key (path template / webhook name / job name).
 
 > **locus**: [`OperationLocus`](../type-aliases/OperationLocus.md)
 
-Defined in: [agents/src/resolve.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/resolve.ts#L19)
+Defined in: [agents/src/resolve.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resolve.ts#L19)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [agents/src/resolve.ts:19](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **request?**: [`Request`](../../core/interfaces/Request.md)
 
-Defined in: [agents/src/resolve.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/resolve.ts#L24)
+Defined in: [agents/src/resolve.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resolve.ts#L24)
 
 ***
 
@@ -40,6 +40,6 @@ Defined in: [agents/src/resolve.ts:24](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **requestName?**: `string`
 
-Defined in: [agents/src/resolve.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/resolve.ts#L23)
+Defined in: [agents/src/resolve.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resolve.ts#L23)
 
 the by-name request handle within a pathItem (paths only).

@@ -235,9 +235,12 @@ events into Stripe usage — one meter event per principal. You meter usage; the
   bindings are trivial.
 - **CANDIDATE labeling** stays on every artifact; nothing here is official OAS.
 
-## How the tools compose
+## The package architecture
 
-Each package derives one facet from the single v4 contract; here is how they depend on each other — every
-package pointing at its `@suluk/*` dependencies (rendered with [d3](https://d3js.org)).
+The 47 `@suluk/*` packages form a **derivation stack**: everything is projected from the single v4
+contract in `@suluk/core` (the keystone — 25 packages depend on it), up through six named strata from raw
+primitives to shipped apps. This is a **UML view** of that stack — every package is a class-box carrying its
+`«role»`, its public-export count, and a sample of its exports, and every dashed arrow is a `«use»` dependency
+pointing at the package it depends on. Read it top (apps) down to the foundation.
 
-![Suluk package dependency graph](https://cdn.jsdelivr.net/gh/MahmoodKhalil57/suluk@main/tooling/ts/docs-pages/architecture-pkggraph.svg)
+![Suluk architecture — a UML strata diagram of the @suluk packages](https://cdn.jsdelivr.net/gh/MahmoodKhalil57/suluk@main/tooling/ts/docs-pages/architecture-uml.svg)

@@ -8,7 +8,7 @@
 
 > **migrationSql**(`prev`, `next`): `string`
 
-Defined in: [migrate.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/migrate.ts#L12)
+Defined in: [migrate.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/migrate.ts#L12)
 
 The SQL to migrate from `prev` entities to `next` entities — additive only.
 

@@ -6,7 +6,7 @@
 
 # Interface: DemoCapture
 
-Defined in: [journeys/src/demos.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/demos.ts#L23)
+Defined in: [journeys/src/demos.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/demos.ts#L23)
 
 Capture `res.<from>` of this request into the collection variable `var` (for downstream chaining).
 
@@ -16,7 +16,7 @@ Capture `res.<from>` of this request into the collection variable `var` (for dow
 
 > **from**: `string`
 
-Defined in: [journeys/src/demos.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/demos.ts#L25)
+Defined in: [journeys/src/demos.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/demos.ts#L25)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [journeys/src/demos.ts:25](https://github.com/MahmoodKhalil57/suluk/
 
 > **var**: `string`
 
-Defined in: [journeys/src/demos.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/demos.ts#L24)
+Defined in: [journeys/src/demos.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/demos.ts#L24)

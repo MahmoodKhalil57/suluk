@@ -8,7 +8,7 @@
 
 > **eachJob**(`doc`): `object`[]
 
-Defined in: [contract.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cost/src/contract.ts#L13)
+Defined in: [contract.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L13)
 
 Every background JOB (C025) on the document, as {path, name, job} — non-HTTP cron/queue work.
 

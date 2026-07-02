@@ -8,7 +8,7 @@
 
 > **fieldOrigin**(`schema`): [`FieldOrigin`](../type-aliases/FieldOrigin.md)
 
-Defined in: [examples/src/index.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/examples/src/index.ts#L80)
+Defined in: [examples/src/index.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/examples/src/index.ts#L80)
 
 Read a property's origin: explicit `x-suluk-origin` wins; else `readOnly` ⇒ `computed`; else default `input`.
 

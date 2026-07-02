@@ -6,7 +6,7 @@
 
 # Interface: ManifestEntry
 
-Defined in: [schema.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L57)
+Defined in: [schema.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L57)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [schema.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **description?**: `string`
 
-Defined in: [schema.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L59)
+Defined in: [schema.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L59)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [schema.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **encrypted**: `boolean`
 
-Defined in: [schema.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L60)
+Defined in: [schema.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L60)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [schema.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **example?**: `string`
 
-Defined in: [schema.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L59)
+Defined in: [schema.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L59)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [schema.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **name**: `string`
 
-Defined in: [schema.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L58)
+Defined in: [schema.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L58)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [schema.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **present**: `boolean`
 
-Defined in: [schema.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L60)
+Defined in: [schema.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L60)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [schema.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **required**: `boolean`
 
-Defined in: [schema.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L58)
+Defined in: [schema.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L58)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [schema.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **secret**: `boolean`
 
-Defined in: [schema.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L58)
+Defined in: [schema.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L58)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [schema.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **status**: [`HealthStatus`](../type-aliases/HealthStatus.md)
 
-Defined in: [schema.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L60)
+Defined in: [schema.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L60)
 
 ***
 
@@ -78,4 +78,4 @@ Defined in: [schema.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **surfaces**: [`Surface`](../type-aliases/Surface.md)[]
 
-Defined in: [schema.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L58)
+Defined in: [schema.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L58)

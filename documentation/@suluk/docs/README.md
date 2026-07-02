@@ -141,6 +141,8 @@ Apache-2.0
 
 ## Interfaces
 
+- [ArchitectureGraph](interfaces/ArchitectureGraph.md)
+- [ArchNode](interfaces/ArchNode.md)
 - [FrameworkDoc](interfaces/FrameworkDoc.md)
 - [HarvestOptions](interfaces/HarvestOptions.md)
 - [ModuleDoc](interfaces/ModuleDoc.md)
@@ -155,6 +157,7 @@ Apache-2.0
 
 ## Functions
 
+- [architectureGraphData](functions/architectureGraphData.md)
 - [escapeHtml](functions/escapeHtml.md)
 - [firstBlockComment](functions/firstBlockComment.md)
 - [generateSite](functions/generateSite.md)

@@ -8,7 +8,7 @@
 
 > **validateModule**(`m`): `object`
 
-Defined in: [registry-remote.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/registry-remote.ts#L36)
+Defined in: [registry-remote.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/registry-remote.ts#L36)
 
 Validate one UNTRUSTED module manifest, VALUE-shapes included. Returns the typed module or a human reason.
 

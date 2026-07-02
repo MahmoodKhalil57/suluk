@@ -6,7 +6,7 @@
 
 # Interface: PatternAffordance
 
-Defined in: [agents/src/patterns.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/patterns.ts#L27)
+Defined in: [agents/src/patterns.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/patterns.ts#L27)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/patterns.ts:27](https://github.com/MahmoodKhalil57/suluk
 
 > **advisory**: `true`
 
-Defined in: [agents/src/patterns.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/patterns.ts#L32)
+Defined in: [agents/src/patterns.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/patterns.ts#L32)
 
 ALWAYS true — a structural capability, NEVER a claim the runtime executes the pattern (C029: trajectory is opaque).
 
@@ -24,7 +24,7 @@ ALWAYS true — a structural capability, NEVER a claim the runtime executes the 
 
 > **pattern**: [`AgenticPattern`](../type-aliases/AgenticPattern.md)
 
-Defined in: [agents/src/patterns.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/patterns.ts#L28)
+Defined in: [agents/src/patterns.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/patterns.ts#L28)
 
 ***
 
@@ -32,6 +32,6 @@ Defined in: [agents/src/patterns.ts:28](https://github.com/MahmoodKhalil57/suluk
 
 > **rationale**: `string`
 
-Defined in: [agents/src/patterns.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/patterns.ts#L30)
+Defined in: [agents/src/patterns.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/patterns.ts#L30)
 
 the STATIC signal in the composition that affords it.

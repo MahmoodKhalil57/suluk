@@ -6,7 +6,7 @@
 
 # Interface: CycleModel
 
-Defined in: [cockpit/src/cycle.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/cycle.ts#L41)
+Defined in: [cockpit/src/cycle.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/cycle.ts#L41)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/cycle.ts:41](https://github.com/MahmoodKhalil57/suluk/b
 
 > **coverage**: `number`
 
-Defined in: [cockpit/src/cycle.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/cycle.ts#L43)
+Defined in: [cockpit/src/cycle.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/cycle.ts#L43)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/cycle.ts:43](https://github.com/MahmoodKhalil57/suluk/b
 
 > **layers**: [`CycleLayer`](CycleLayer.md)[]
 
-Defined in: [cockpit/src/cycle.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/cycle.ts#L46)
+Defined in: [cockpit/src/cycle.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/cycle.ts#L46)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [cockpit/src/cycle.ts:46](https://github.com/MahmoodKhalil57/suluk/b
 
 > `optional` **principal?**: [`Principal`](Principal.md)
 
-Defined in: [cockpit/src/cycle.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/cycle.ts#L45)
+Defined in: [cockpit/src/cycle.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/cycle.ts#L45)
 
 The principal this view was projected for (undefined ⇒ the full/public view).
 
@@ -40,4 +40,4 @@ The principal this view was projected for (undefined ⇒ the full/public view).
 
 > **valid**: `boolean`
 
-Defined in: [cockpit/src/cycle.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/cycle.ts#L42)
+Defined in: [cockpit/src/cycle.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/cycle.ts#L42)

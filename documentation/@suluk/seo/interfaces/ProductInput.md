@@ -6,7 +6,7 @@
 
 # Interface: ProductInput
 
-Defined in: [schema.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/seo/src/schema.ts#L37)
+Defined in: [schema.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/schema.ts#L37)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [schema.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **brand?**: `string`
 
-Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/seo/src/schema.ts#L38)
+Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/schema.ts#L38)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **category?**: `string`
 
-Defined in: [schema.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/seo/src/schema.ts#L39)
+Defined in: [schema.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/schema.ts#L39)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [schema.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **description?**: `string`
 
-Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/seo/src/schema.ts#L38)
+Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/schema.ts#L38)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **image?**: `string` \| `string`[]
 
-Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/seo/src/schema.ts#L38)
+Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/schema.ts#L38)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **name**: `string`
 
-Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/seo/src/schema.ts#L38)
+Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/schema.ts#L38)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **offers?**: [`OfferInput`](OfferInput.md) \| [`OfferInput`](OfferInput.md)[]
 
-Defined in: [schema.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/seo/src/schema.ts#L39)
+Defined in: [schema.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/schema.ts#L39)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [schema.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **rating?**: `object`
 
-Defined in: [schema.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/seo/src/schema.ts#L39)
+Defined in: [schema.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/schema.ts#L39)
 
 #### ratingValue
 
@@ -78,7 +78,7 @@ Defined in: [schema.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **sku?**: `string`
 
-Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/seo/src/schema.ts#L38)
+Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/schema.ts#L38)
 
 ***
 
@@ -86,4 +86,4 @@ Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > `optional` **url?**: `string`
 
-Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/seo/src/schema.ts#L38)
+Defined in: [schema.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/schema.ts#L38)

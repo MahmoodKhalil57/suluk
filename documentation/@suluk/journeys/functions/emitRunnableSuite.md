@@ -8,7 +8,7 @@
 
 > **emitRunnableSuite**(`doc`, `vocab`, `features`, `opts?`): `string`
 
-Defined in: [journeys/src/emit.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/emit.ts#L69)
+Defined in: [journeys/src/emit.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/emit.ts#L69)
 
 Emit a runnable bun:test suite (a string) from a parsed, bound feature set, lowered to the real SDK client.
 

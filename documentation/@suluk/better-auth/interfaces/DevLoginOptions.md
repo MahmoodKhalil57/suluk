@@ -6,7 +6,7 @@
 
 # Interface: DevLoginOptions
 
-Defined in: [dev-login.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/dev-login.ts#L22)
+Defined in: [dev-login.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/dev-login.ts#L22)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [dev-login.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **armed**: `boolean`
 
-Defined in: [dev-login.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/dev-login.ts#L24)
+Defined in: [dev-login.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/dev-login.ts#L24)
 
 FAIL-CLOSED gate — MUST be `true` to arm the endpoint. The registry passes its dev-mock condition; prod passes false.
 
@@ -24,7 +24,7 @@ FAIL-CLOSED gate — MUST be `true` to arm the endpoint. The registry passes its
 
 > **auth**: [`DevLoginAuthLike`](DevLoginAuthLike.md)
 
-Defined in: [dev-login.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/dev-login.ts#L26)
+Defined in: [dev-login.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/dev-login.ts#L26)
 
 the Better Auth instance (its `api.signUpEmail`/`signInEmail`).
 
@@ -34,7 +34,7 @@ the Better Auth instance (its `api.signUpEmail`/`signInEmail`).
 
 > `optional` **devPassword?**: `string`
 
-Defined in: [dev-login.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/dev-login.ts#L30)
+Defined in: [dev-login.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/dev-login.ts#L30)
 
 override the fixed internal dev password (dev only; never surfaced).
 
@@ -44,6 +44,6 @@ override the fixed internal dev password (dev only; never surfaced).
 
 > **request**: `Request`
 
-Defined in: [dev-login.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/dev-login.ts#L28)
+Defined in: [dev-login.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/dev-login.ts#L28)
 
 the incoming request — a JSON body `{ email }`.

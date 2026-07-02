@@ -8,7 +8,7 @@
 
 > **matchRequest**(`ada`, `method`, `url`): [`MatchResult`](../interfaces/MatchResult.md) \| `null`
 
-Defined in: [ada.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/ada.ts#L69)
+Defined in: [ada.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/ada.ts#L69)
 
 Match a concrete HTTP request (method + URL) to zero-or-one operation (CONFORMANCE §B.3).
 Recognition direction: reverse-parse the path, filter by method; concrete-over-variable is a runtime

@@ -8,7 +8,7 @@
 
 > **richtextScript**(): `string`
 
-Defined in: [richtext.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/panel/src/richtext.ts#L45)
+Defined in: [richtext.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/richtext.ts#L45)
 
 Client init for every `[data-rt]` on the page — toolbar inserts markdown around the selection; the Preview tab
  renders the markdown with an inline, escape-first (XSS-safe) renderer. Include once per page that has editors.

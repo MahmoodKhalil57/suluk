@@ -8,7 +8,7 @@
 
 > **resendProvider**(`opts`): [`EmailProvider`](../interfaces/EmailProvider.md)
 
-Defined in: [provider.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L107)
+Defined in: [provider.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/provider.ts#L107)
 
 Resend binding via the REST API (https://api.resend.com/emails) over `fetch` — Workers-safe, no `resend` SDK.
 Returns `{ ok:false, error }` on a non-2xx or a transport error (the caller decides whether a send failure is

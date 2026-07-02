@@ -6,7 +6,7 @@
 
 # Interface: ComposeStep
 
-Defined in: [compose.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/compose.ts#L83)
+Defined in: [compose.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/compose.ts#L83)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [compose.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb
 
 > **added**: `object`
 
-Defined in: [compose.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/compose.ts#L87)
+Defined in: [compose.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/compose.ts#L87)
 
 #### operations
 
@@ -30,7 +30,7 @@ Defined in: [compose.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb
 
 > **conflicts**: `string`[]
 
-Defined in: [compose.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/compose.ts#L86)
+Defined in: [compose.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/compose.ts#L86)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [compose.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb
 
 > **installed**: `boolean`
 
-Defined in: [compose.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/compose.ts#L85)
+Defined in: [compose.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/compose.ts#L85)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [compose.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb
 
 > **module**: `string`
 
-Defined in: [compose.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/compose.ts#L84)
+Defined in: [compose.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/compose.ts#L84)

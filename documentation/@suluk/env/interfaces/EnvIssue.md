@@ -6,7 +6,7 @@
 
 # Interface: EnvIssue
 
-Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L42)
+Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L42)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **code**: `"missing"` \| `"too-short"` \| `"pattern"` \| `"forbidden-in-surface"`
 
-Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L42)
+Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L42)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **message**: `string`
 
-Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L42)
+Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L42)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **name**: `string`
 
-Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L42)
+Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L42)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb9
 
 > **severity**: [`IssueSeverity`](../type-aliases/IssueSeverity.md)
 
-Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L42)
+Defined in: [schema.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L42)

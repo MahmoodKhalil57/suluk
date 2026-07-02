@@ -6,7 +6,7 @@
 
 # Interface: AuthMethods
 
-Defined in: [security.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/security.ts#L11)
+Defined in: [security.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/security.ts#L11)
 
 `@suluk/better-auth` — official Better-Auth-on-Hono support for the Suluk derivation engine.
 
@@ -22,7 +22,7 @@ documented without re-typing; (3) maps a Better Auth session to a { scopes } pri
 
 > `optional` **apiKey?**: `boolean` \| \{ `header?`: `string`; \}
 
-Defined in: [security.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/security.ts#L17)
+Defined in: [security.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/security.ts#L17)
 
 API key (the apiKey plugin). `true` ⇒ default "x-api-key" header; or pass a custom header.
 
@@ -32,7 +32,7 @@ API key (the apiKey plugin). `true` ⇒ default "x-api-key" header; or pass a cu
 
 > `optional` **bearer?**: `boolean`
 
-Defined in: [security.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/security.ts#L15)
+Defined in: [security.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/security.ts#L15)
 
 Bearer token (the bearer plugin).
 
@@ -42,7 +42,7 @@ Bearer token (the bearer plugin).
 
 > `optional` **organization?**: `boolean`
 
-Defined in: [security.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/security.ts#L23)
+Defined in: [security.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/security.ts#L23)
 
 organization plugin — multi-tenancy via `org:<id>:<scope>` scopes (no new wire scheme).
 
@@ -52,7 +52,7 @@ organization plugin — multi-tenancy via `org:<id>:<scope>` scopes (no new wire
 
 > `optional` **passkey?**: `boolean`
 
-Defined in: [security.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/security.ts#L21)
+Defined in: [security.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/security.ts#L21)
 
 passkey (WebAuthn) plugin — a credential method that authenticates INTO a session (no new wire scheme).
 
@@ -62,7 +62,7 @@ passkey (WebAuthn) plugin — a credential method that authenticates INTO a sess
 
 > `optional` **session?**: `boolean` \| \{ `cookieName?`: `string`; \}
 
-Defined in: [security.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/security.ts#L13)
+Defined in: [security.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/security.ts#L13)
 
 Session cookie (default). `true` ⇒ default cookie name; or pass a custom cookie name.
 
@@ -72,6 +72,6 @@ Session cookie (default). `true` ⇒ default cookie name; or pass a custom cooki
 
 > `optional` **twoFactor?**: `boolean`
 
-Defined in: [security.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/security.ts#L19)
+Defined in: [security.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/security.ts#L19)
 
 twoFactor plugin — MFA on top of the session (no new wire scheme; gates via the `mfa:verified` scope).

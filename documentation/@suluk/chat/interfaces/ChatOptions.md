@@ -6,7 +6,7 @@
 
 # Interface: ChatOptions
 
-Defined in: [chat/src/app.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L25)
+Defined in: [chat/src/app.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L25)
 
 `@suluk/chat` — a contract-driven chat AGENT for any suluk app. The same OpenAPI v4 operations that drive the API,
 SDK, docs, admin, panel, and MCP server are projected (via @suluk/mcp) into tools an in-page assistant can call;
@@ -25,7 +25,7 @@ Ships the server loop (`chatApp`, Hono-mountable SSE) + a theme-aware floating `
 
 > `optional` **apiKey?**: `string` \| ((`c`) => `string` \| `undefined`)
 
-Defined in: [chat/src/app.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L30)
+Defined in: [chat/src/app.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L30)
 
 OpenRouter API key (or a per-request resolver, e.g. (c) => c.env.OPENROUTER_API_KEY). Absent → graceful 503.
 
@@ -35,7 +35,7 @@ OpenRouter API key (or a per-request resolver, e.g. (c) => c.env.OPENROUTER_API_
 
 > `optional` **authorize?**: (`c`) => `boolean` \| `Promise`\<`boolean`\>
 
-Defined in: [chat/src/app.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L50)
+Defined in: [chat/src/app.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L50)
 
 Gate the endpoint (default: open — anonymous users may chat; mutations are still gated by `exec`).
 
@@ -55,7 +55,7 @@ Gate the endpoint (default: open — anonymous users may chat; mutations are sti
 
 > `optional` **basePath?**: `string`
 
-Defined in: [chat/src/app.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L28)
+Defined in: [chat/src/app.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L28)
 
 ***
 
@@ -63,7 +63,7 @@ Defined in: [chat/src/app.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/8
 
 > `optional` **baseUrl?**: `string`
 
-Defined in: [chat/src/app.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L56)
+Defined in: [chat/src/app.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L56)
 
 ***
 
@@ -71,7 +71,7 @@ Defined in: [chat/src/app.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/8
 
 > `optional` **catalog?**: [`ModelCatalog`](../../agents/interfaces/ModelCatalog.md)
 
-Defined in: [chat/src/app.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L42)
+Defined in: [chat/src/app.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L42)
 
 The catalog the model is selected from when `model` is omitted. Defaults to the lean built-in `SEED_CATALOG` (a
 handful of strong, tool-reliable models) — which keeps this widget's edge-worker bundle small (the full 337-model
@@ -85,7 +85,7 @@ FRONTIER model — e.g. claude-sonnet-4.5 vs the seed's gemini-2.5-flash). Pass 
 
 > `optional` **clientTools?**: `false`
 
-Defined in: [chat/src/app.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L48)
+Defined in: [chat/src/app.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L48)
 
 Set `false` to ignore any browser-declared client tools / state snapshot from the request (default: accept,
  validated). Client tools are browser-executed and unprivileged; server tools always stay gated by `exec`.
@@ -96,7 +96,7 @@ Set `false` to ignore any browser-declared client tools / state snapshot from th
 
 > **document**: [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md) \| ((`c`) => [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md) \| `Promise`\<[`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md)\>)
 
-Defined in: [chat/src/app.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L27)
+Defined in: [chat/src/app.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L27)
 
 The v4 document, or a per-request function (e.g. (c) => projectDocument(doc, viewerOf(c))).
 
@@ -106,7 +106,7 @@ The v4 document, or a per-request function (e.g. (c) => projectDocument(doc, vie
 
 > **exec**: (`c`, `op`, `args`) => `Promise`\<`unknown`\>
 
-Defined in: [chat/src/app.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L44)
+Defined in: [chat/src/app.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L44)
 
 Execute a tool call against the store (e.g. appExec(app) bound per request).
 
@@ -134,7 +134,7 @@ Execute a tool call against the store (e.g. appExec(app) bound per request).
 
 > `optional` **greeting?**: `string`
 
-Defined in: [chat/src/app.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L58)
+Defined in: [chat/src/app.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L58)
 
 Shown by GET /info (e.g. the widget's opening line).
 
@@ -144,7 +144,7 @@ Shown by GET /info (e.g. the widget's opening line).
 
 > `optional` **hide?**: `string`[]
 
-Defined in: [mcp/src/tools.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L36)
+Defined in: [mcp/src/tools.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L36)
 
 Operation names to omit.
 
@@ -158,7 +158,7 @@ Operation names to omit.
 
 > `optional` **include?**: `"read"` \| `"all"`
 
-Defined in: [mcp/src/tools.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L34)
+Defined in: [mcp/src/tools.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L34)
 
 `"read"` (default) exposes only GET/HEAD operations; `"all"` also exposes mutations.
 
@@ -172,7 +172,7 @@ Defined in: [mcp/src/tools.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/
 
 > `optional` **maxSteps?**: `number`
 
-Defined in: [chat/src/app.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L51)
+Defined in: [chat/src/app.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L51)
 
 ***
 
@@ -180,7 +180,7 @@ Defined in: [chat/src/app.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/8
 
 > `optional` **model?**: `string`
 
-Defined in: [chat/src/app.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L32)
+Defined in: [chat/src/app.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L32)
 
 Explicit OpenRouter model id; omit to let @suluk/models pick one (default: tool-reliable).
 
@@ -190,7 +190,7 @@ Explicit OpenRouter model id; omit to let @suluk/models pick one (default: tool-
 
 > `optional` **only?**: `string`[]
 
-Defined in: [mcp/src/tools.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/mcp/src/tools.ts#L38)
+Defined in: [mcp/src/tools.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/mcp/src/tools.ts#L38)
 
 If set, expose ONLY these operation names (after hide).
 
@@ -204,7 +204,7 @@ If set, expose ONLY these operation names (after hide).
 
 > `optional` **referer?**: `string`
 
-Defined in: [chat/src/app.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L54)
+Defined in: [chat/src/app.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L54)
 
 OpenRouter attribution.
 
@@ -214,7 +214,7 @@ OpenRouter attribution.
 
 > `optional` **select?**: `object`
 
-Defined in: [chat/src/app.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L34)
+Defined in: [chat/src/app.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L34)
 
 Model-selection inputs when `model` is omitted.
 
@@ -232,7 +232,7 @@ Model-selection inputs when `model` is omitted.
 
 > `optional` **system?**: `string` \| ((`c`) => `string`)
 
-Defined in: [chat/src/app.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L45)
+Defined in: [chat/src/app.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L45)
 
 ***
 
@@ -240,7 +240,7 @@ Defined in: [chat/src/app.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/8
 
 > `optional` **temperature?**: `number`
 
-Defined in: [chat/src/app.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L52)
+Defined in: [chat/src/app.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L52)
 
 ***
 
@@ -248,4 +248,4 @@ Defined in: [chat/src/app.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/8
 
 > `optional` **title?**: `string`
 
-Defined in: [chat/src/app.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/chat/src/app.ts#L55)
+Defined in: [chat/src/app.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/app.ts#L55)

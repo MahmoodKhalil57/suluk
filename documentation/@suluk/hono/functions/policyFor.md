@@ -8,7 +8,7 @@
 
 > **policyFor**(`access`, `ownerCol?`, `policies?`): [`Policy`](../interfaces/Policy.md)
 
-Defined in: [tooling/ts/packages/hono/src/access.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/access.ts#L36)
+Defined in: [tooling/ts/packages/hono/src/access.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/access.ts#L36)
 
 The policy for an access mode (default: owned when an ownerCol is present, else public). `policies` overrides the preset.
 

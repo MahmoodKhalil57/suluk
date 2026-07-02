@@ -6,7 +6,7 @@
 
 # Class: IntegrationError
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/errors.ts#L18)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/errors.ts#L18)
 
 Request-phase: bad/missing config, a missing required field, a serialization failure. The caller's bug to fix.
 
@@ -20,7 +20,7 @@ Request-phase: bad/missing config, a missing required field, a serialization fai
 
 > **new IntegrationError**(`errorCode`, `message`): `IntegrationError`
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/errors.ts#L8)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/errors.ts#L8)
 
 #### Parameters
 
@@ -60,7 +60,7 @@ The cause of the error.
 
 > `readonly` **errorCode**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/errors.ts#L9)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/errors.ts#L9)
 
 #### Inherited from
 

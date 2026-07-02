@@ -8,7 +8,7 @@
 
 > **listTransactions**(`db`, `userId`, `limit?`): `Promise`\<[`LedgerEntry`](../interfaces/LedgerEntry.md)[]\>
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:163](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/credits/src/credits.ts#L163)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:163](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/credits/src/credits.ts#L163)
 
 The user's recent ledger rows (grants + debits) with the cash that moved, newest first — the "recent transactions" +
  the activity log. `limit` is generous (effectively "all" for a normal account).

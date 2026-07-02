@@ -6,7 +6,7 @@
 
 # Interface: CycleLayer
 
-Defined in: [cockpit/src/cycle.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/cycle.ts#L29)
+Defined in: [cockpit/src/cycle.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/cycle.ts#L29)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/cycle.ts:29](https://github.com/MahmoodKhalil57/suluk/b
 
 > **id**: `"data"` \| `"contract"` \| `"auth"` \| `"document"` \| `"cost"` \| `"docs"` \| `"state"` \| `"ui"` \| `"providers"` \| `"tests"`
 
-Defined in: [cockpit/src/cycle.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/cycle.ts#L30)
+Defined in: [cockpit/src/cycle.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/cycle.ts#L30)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/cycle.ts:30](https://github.com/MahmoodKhalil57/suluk/b
 
 > **items**: [`CycleItem`](CycleItem.md)[]
 
-Defined in: [cockpit/src/cycle.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/cycle.ts#L34)
+Defined in: [cockpit/src/cycle.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/cycle.ts#L34)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [cockpit/src/cycle.ts:34](https://github.com/MahmoodKhalil57/suluk/b
 
 > **status**: [`LayerStatus`](../type-aliases/LayerStatus.md)
 
-Defined in: [cockpit/src/cycle.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/cycle.ts#L32)
+Defined in: [cockpit/src/cycle.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/cycle.ts#L32)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [cockpit/src/cycle.ts:32](https://github.com/MahmoodKhalil57/suluk/b
 
 > **summary**: `string`
 
-Defined in: [cockpit/src/cycle.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/cycle.ts#L33)
+Defined in: [cockpit/src/cycle.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/cycle.ts#L33)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [cockpit/src/cycle.ts:33](https://github.com/MahmoodKhalil57/suluk/b
 
 > **title**: `string`
 
-Defined in: [cockpit/src/cycle.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/cycle.ts#L31)
+Defined in: [cockpit/src/cycle.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/cycle.ts#L31)

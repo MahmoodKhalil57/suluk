@@ -6,7 +6,7 @@
 
 # Interface: Service\<SO, BO\>
 
-Defined in: [service.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L107)
+Defined in: [service.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L107)
 
 THE COMMON INTERFACE. `SO` = the service-opts value type, `BO` = the brand-opts value type (both Phase 2). A core service
 and a community service instantiate the exact same shape via [defineService](../functions/defineService.md).
@@ -27,7 +27,7 @@ and a community service instantiate the exact same shape via [defineService](../
 
 > `readonly` `optional` **brandOpts?**: [`Schema`](Schema.md)\<`BO`\>
 
-Defined in: [service.ts:115](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L115)
+Defined in: [service.ts:115](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L115)
 
 ***
 
@@ -35,7 +35,7 @@ Defined in: [service.ts:115](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `readonly` `optional` **compose?**: [`CompositionSurface`](CompositionSurface.md)
 
-Defined in: [service.ts:117](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L117)
+Defined in: [service.ts:117](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L117)
 
 ***
 
@@ -43,7 +43,7 @@ Defined in: [service.ts:117](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `readonly` `optional` **deps?**: `string`[]
 
-Defined in: [service.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L112)
+Defined in: [service.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L112)
 
 ***
 
@@ -51,7 +51,7 @@ Defined in: [service.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `readonly` `optional` **env?**: [`EnvVar`](EnvVar.md)[]
 
-Defined in: [service.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L113)
+Defined in: [service.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L113)
 
 ***
 
@@ -59,7 +59,7 @@ Defined in: [service.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `readonly` **id**: `string`
 
-Defined in: [service.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L108)
+Defined in: [service.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L108)
 
 ***
 
@@ -67,7 +67,7 @@ Defined in: [service.ts:108](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `readonly` **mount**: [`Mount`](../type-aliases/Mount.md)
 
-Defined in: [service.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L110)
+Defined in: [service.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L110)
 
 ***
 
@@ -75,7 +75,7 @@ Defined in: [service.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `readonly` `optional` **provision?**: `object`
 
-Defined in: [service.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L111)
+Defined in: [service.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L111)
 
 #### from
 
@@ -91,7 +91,7 @@ Defined in: [service.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `readonly` `optional` **reads?**: `object`
 
-Defined in: [service.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L116)
+Defined in: [service.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L116)
 
 #### globalBrand?
 
@@ -107,7 +107,7 @@ Defined in: [service.ts:116](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `readonly` `optional` **registry?**: `string`
 
-Defined in: [service.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L109)
+Defined in: [service.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L109)
 
 ***
 
@@ -115,4 +115,4 @@ Defined in: [service.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > `readonly` `optional` **serviceOpts?**: [`Schema`](Schema.md)\<`SO`\>
 
-Defined in: [service.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L114)
+Defined in: [service.ts:114](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L114)

@@ -6,7 +6,7 @@
 
 # Interface: AxisRule
 
-Defined in: [bucketing.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/bucketing.ts#L12)
+Defined in: [bucketing.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/models/src/bucketing.ts#L12)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [bucketing.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **boundaries**: `object`
 
-Defined in: [bucketing.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/bucketing.ts#L18)
+Defined in: [bucketing.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/models/src/bucketing.ts#L18)
 
 score >= frontier ⇒ frontier; >= strong ⇒ strong; >= mid ⇒ mid; else basic.
 
@@ -36,7 +36,7 @@ score >= frontier ⇒ frontier; >= strong ⇒ strong; >= mid ⇒ mid; else basic
 
 > **metric**: `string`
 
-Defined in: [bucketing.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/bucketing.ts#L16)
+Defined in: [bucketing.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/models/src/bucketing.ts#L16)
 
 what the score means (so a reviewer can reproduce the bucketing).
 
@@ -46,6 +46,6 @@ what the score means (so a reviewer can reproduce the bucketing).
 
 > **source**: `string`
 
-Defined in: [bucketing.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/bucketing.ts#L14)
+Defined in: [bucketing.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/models/src/bucketing.ts#L14)
 
 the public leaderboard(s) this axis is bucketed from (cited in every cell's `source`).

@@ -6,7 +6,7 @@
 
 # Interface: PromoteTarget
 
-Defined in: [journeys/src/promote.ts:184](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/promote.ts#L184)
+Defined in: [journeys/src/promote.ts:184](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/promote.ts#L184)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/promote.ts:184](https://github.com/MahmoodKhalil57/sul
 
 > `optional` **bodySchema?**: [`JsonSchema`](../type-aliases/JsonSchema.md)
 
-Defined in: [journeys/src/promote.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/promote.ts#L188)
+Defined in: [journeys/src/promote.ts:188](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/promote.ts#L188)
 
 the op's request body schema (for typed cell coercion); optional.
 
@@ -24,6 +24,6 @@ the op's request body schema (for typed cell coercion); optional.
 
 > **schemaVar**: `string`
 
-Defined in: [journeys/src/promote.ts:186](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/promote.ts#L186)
+Defined in: [journeys/src/promote.ts:186](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/promote.ts#L186)
 
 the Zod `const` name to edit.

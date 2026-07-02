@@ -6,7 +6,7 @@
 
 # Class: NetworkError
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/errors.ts#L24)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/errors.ts#L24)
 
 Transport: timeout, connection refused, DNS failure — may recover on retry.
 
@@ -20,7 +20,7 @@ Transport: timeout, connection refused, DNS failure — may recover on retry.
 
 > **new NetworkError**(`errorCode`, `message`): `NetworkError`
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/errors.ts#L8)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/errors.ts#L8)
 
 #### Parameters
 
@@ -60,7 +60,7 @@ The cause of the error.
 
 > `readonly` **errorCode**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/errors.ts#L9)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/errors.ts#L9)
 
 #### Inherited from
 

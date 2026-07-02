@@ -8,7 +8,7 @@
 
 > **orderConfirmationEmail**(`params`, `ctx`): `RenderedEmail`
 
-Defined in: [templates.ts:131](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/templates.ts#L131)
+Defined in: [templates.ts:131](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/templates.ts#L131)
 
 Order confirmation — renders a line-item table + total (amounts formatted via Intl in the given locale), and an
  optional "Shipping to" block when the order ships a physical good. `shippingAddress` is one display line per array

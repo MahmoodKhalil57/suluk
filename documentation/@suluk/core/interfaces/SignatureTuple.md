@@ -6,7 +6,7 @@
 
 # Interface: SignatureTuple
 
-Defined in: [signature.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/signature.ts#L6)
+Defined in: [signature.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/signature.ts#L6)
 
 Canonical signature tuple (C019 §A.2). The ADA's identity of a request; the matcher/collision key.
 
@@ -16,7 +16,7 @@ Canonical signature tuple (C019 §A.2). The ADA's identity of a request; the mat
 
 > **body**: `string`
 
-Defined in: [signature.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/signature.ts#L17)
+Defined in: [signature.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/signature.ts#L17)
 
 Stable id of the request-body schema: its $ref, the "#inline" SENTINEL (inline shape stays OUT of the key — D1/§A.2), or "*".
 
@@ -26,7 +26,7 @@ Stable id of the request-body schema: its $ref, the "#inline" SENTINEL (inline s
 
 > **contentType**: `string`
 
-Defined in: [signature.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/signature.ts#L13)
+Defined in: [signature.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/signature.ts#L13)
 
 Canonical media type, or "*" if absent (does-not-participate).
 
@@ -36,7 +36,7 @@ Canonical media type, or "*" if absent (does-not-participate).
 
 > **headers**: `string`[]
 
-Defined in: [signature.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/signature.ts#L15)
+Defined in: [signature.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/signature.ts#L15)
 
 Participating header names (lowercased, sorted); "*" sentinel if none (best-effort, #108).
 
@@ -46,7 +46,7 @@ Participating header names (lowercased, sorted); "*" sentinel if none (best-effo
 
 > **method**: `string`
 
-Defined in: [signature.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/signature.ts#L7)
+Defined in: [signature.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/signature.ts#L7)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [signature.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/84f6c
 
 > **path**: `string`
 
-Defined in: [signature.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/signature.ts#L9)
+Defined in: [signature.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/signature.ts#L9)
 
 Path shape: literals kept, variables erased to `{}` (keys on shape, not on var spelling).
 
@@ -64,6 +64,6 @@ Path shape: literals kept, variables erased to `{}` (keys on shape, not on var s
 
 > **query**: `string`[]
 
-Defined in: [signature.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/signature.ts#L11)
+Defined in: [signature.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/signature.ts#L11)
 
 Sorted query key-set (order/repetition-insensitive).

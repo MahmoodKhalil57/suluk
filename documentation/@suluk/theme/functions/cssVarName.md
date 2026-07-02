@@ -8,7 +8,7 @@
 
 > **cssVarName**(`role`): `string`
 
-Defined in: [tokens.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/theme/src/tokens.ts#L70)
+Defined in: [tokens.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L70)
 
 The CSS custom-property name for a color role (kebab-cased: primaryForeground → --primary-foreground).
 

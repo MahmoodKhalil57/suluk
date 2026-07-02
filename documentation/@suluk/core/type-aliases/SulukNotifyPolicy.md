@@ -8,7 +8,7 @@
 
 > **SulukNotifyPolicy** = `Record`\<`string`, [`SulukNotifySeverity`](SulukNotifySeverity.md)\>
 
-Defined in: [types.ts:135](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L135)
+Defined in: [types.ts:135](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L135)
 
 The document-level `x-suluk-notify` policy (C037) — a status→severity map driving the `@suluk/sdk` callback layer.
 Keys are an HTTP status (`"402"`), a status CLASS (`"2xx"` | `"4xx"` | `"5xx"`), or `"network"` (no response). The

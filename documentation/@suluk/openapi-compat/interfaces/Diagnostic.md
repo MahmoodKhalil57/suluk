@@ -6,7 +6,7 @@
 
 # Interface: Diagnostic
 
-Defined in: [downgrade.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/compat/src/downgrade.ts#L24)
+Defined in: [downgrade.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/compat/src/downgrade.ts#L24)
 
 `@suluk/openapi-compat` — convert between the OpenAPI v4 "Suluk" candidate and OpenAPI 3.1.
 
@@ -21,7 +21,7 @@ losing it silently. Schema Objects are shared verbatim (both are JSON Schema 202
 
 > **kind**: `"collision"` \| `"remap"` \| `"drop"`
 
-Defined in: [downgrade.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/compat/src/downgrade.ts#L26)
+Defined in: [downgrade.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/compat/src/downgrade.ts#L26)
 
 "collision" (same-method v4 requests merged into one 3.1 operation — non-lossy) | "remap" (ref/feature rewritten) | "drop" (unrepresentable).
 
@@ -31,7 +31,7 @@ Defined in: [downgrade.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **message**: `string`
 
-Defined in: [downgrade.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/compat/src/downgrade.ts#L28)
+Defined in: [downgrade.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/compat/src/downgrade.ts#L28)
 
 ***
 
@@ -39,4 +39,4 @@ Defined in: [downgrade.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6
 
 > **path**: `string`
 
-Defined in: [downgrade.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/compat/src/downgrade.ts#L27)
+Defined in: [downgrade.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/compat/src/downgrade.ts#L27)
