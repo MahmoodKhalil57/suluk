@@ -35,6 +35,7 @@ const PLUGINS = [
   join(TS, "scripts", "typedoc-vscode-icons.mjs"),
   join(TS, "scripts", "typedoc-branding-head.mjs"),
   join(TS, "packages", "typedoc-umlclass", "src", "index.js"), // d3 per-package UML class diagram on each module index
+  "typedoc-plugin-skillit", // autogenerates SKILL.md + llms.txt (AI-agent skill) per root — configured per render below
 ];
 
 // Shared render options. No entryPointStrategy:"packages" here — each root is a single-entry "resolve" render.
@@ -54,6 +55,10 @@ const BASE = {
     "ini", "toml", "diff", "sql", "text",
   ],
   plugin: PLUGINS,
+  // skillit defaults: the per-render skillsOutDir / llmsTxt / llmsTxtOutDir are set below; keep the audit quiet
+  // (its per-symbol JSDoc-gap log would flood a 60-root build; skillsAuditFailOnError is false by default anyway).
+  skillsAudit: false,
+  skillsMaxTokens: 6000,
 };
 
 // Rewrite a doc's repo-relative markdown links to absolute GitHub URLs so umbrella / per-package renders carry no
@@ -72,6 +77,28 @@ function absolutizeRepoLinks(md: string, relDir: string): string {
     const kind = /\.[a-z0-9]+$/i.test(resolved.split("/").pop() ?? "") ? "blob" : "tree";
     return `${open}${base}/${kind}/main/${resolved}${anchor}${close}`;
   });
+}
+
+/** Reverse map: each @suluk package name → the registry items that wire it (from registry.json dependencies). */
+function registryConsumers(): Map<string, RegistryItem[]> {
+  const m = new Map<string, RegistryItem[]>();
+  for (const it of documentedRegistry()) {
+    for (const dep of it.sulukDeps) {
+      if (!m.has(dep)) m.set(dep, []);
+      m.get(dep)!.push(it);
+    }
+  }
+  return m;
+}
+
+/** skillit titles llms.txt from the cwd package.json (suluk-tooling); rewrite the H1 + blockquote. No-op if absent. */
+function retitleLlms(outDir: string, title: string, description: string): void {
+  for (const f of ["llms.txt", "llms-full.txt"]) {
+    const p = join(outDir, f);
+    if (!existsSync(p)) continue;
+    const md = readFileSync(p, "utf8").replace(/^#[^\n]*\n(>[^\n]*\n)?/, `# ${title}\n\n> ${description}\n`);
+    writeFileSync(p, md);
+  }
 }
 
 // ── The Specification section (Suluk-the-OpenAPI-v4-candidate). Sourced from specification/ + the Rust core;
@@ -262,10 +289,17 @@ export async function buildDocs(): Promise<DocPackage[]> {
     // vision; Guides/Packages/Registry in that order); folder children follow their `children:` list regardless.
     sort: ["source-order"],
     groupOrder: [CANDIDATE_GROUP, ECOSYSTEM_GROUP],
-    navigationLinks: { GitHub: REPO_URL },
+    // The whole-Suluk AI-agent surface (written by buildMarkdown/composeWholeSuluk) + the source.
+    navigationLinks: {
+      SKILL: `${UMBRELLA_URL}SKILL.md`,
+      "llms.txt": `${UMBRELLA_URL}llms.txt`,
+      GitHub: REPO_URL,
+    },
   });
 
-  // 2. PER-PACKAGE roots into docs/packages/<slug>/ (written after the umbrella clean, so they survive).
+  // 2. PER-PACKAGE roots into docs/packages/<slug>/ (written after the umbrella clean, so they survive). Each root
+  //    also gets skillit's SKILL.md + llms.txt (AI-agent surface) + a "used by these registry modules" projection.
+  const consumers = registryConsumers();
   for (const p of pkgs) {
     const perDocs = join(p.dir, "docs-pages");
     const projectDocuments = existsSync(perDocs)
@@ -274,6 +308,19 @@ export async function buildDocs(): Promise<DocPackage[]> {
           .sort()
           .map((f) => join(perDocs, f))
       : [];
+    // Registry projection: the shadcn modules that wire THIS package (own-the-code backends built on it).
+    const usedBy = consumers.get(p.name) ?? [];
+    if (usedBy.length) {
+      const rows = usedBy
+        .map((it) => `- <a href="${UMBRELLA_URL}registry/${it.name}/"><code>${it.name}</code></a> — ${it.description || it.title}`)
+        .join("\n");
+      const projDoc = join(tmp, `used-by-${p.slug}.md`);
+      writeFileSync(
+        projDoc,
+        `---\ntitle: Used by (registry)\ngroup: Documents\n---\n\n# Registry modules built on \`${p.name}\`\n\nThese [shadcn-registry](${UMBRELLA_URL}documents/Registry.html) modules wire \`${p.name}\` — own-the-code backends that build on this package (${usedBy.length}):\n\n${rows}\n`,
+      );
+      projectDocuments.push(projDoc);
+    }
     let readme = "none";
     if (p.hasReadme) {
       const relDir = relative(REPO, p.dir).split(sep).join("/"); // e.g. tooling/ts/packages/hono
@@ -281,22 +328,31 @@ export async function buildDocs(): Promise<DocPackage[]> {
       readme = join(tmp, `${p.slug}.md`);
       writeFileSync(readme, rewritten);
     }
+    const out = join(DOCS, "packages", p.slug);
+    const skillDir = `suluk-${p.slug}`; // skillit slugifies @suluk/<x> → suluk-<x>
     await render(p.name, {
       ...BASE,
       name: p.name,
       entryPoints: [join(p.dir, "src", "index.ts")],
       readme,
       projectDocuments,
-      out: join(DOCS, "packages", p.slug),
+      out,
       hostedBaseUrl: `${UMBRELLA_URL}packages/${p.slug}/`,
       sort: ["source-order"],
-      // Absolute back-link (robust at any page depth) + a link to the package's source on GitHub.
+      // skillit → docs/packages/<slug>/skills/suluk-<slug>/SKILL.md + docs/packages/<slug>/llms.txt
+      skillsOutDir: join(out, "skills"),
+      llmsTxt: true,
+      llmsTxtOutDir: out,
+      // Absolute back-link + the AI-agent artifacts + the package's source on GitHub.
       navigationLinks: {
         "↑ Suluk": UMBRELLA_URL,
+        SKILL: `${UMBRELLA_URL}packages/${p.slug}/skills/${skillDir}/SKILL.md`,
+        "llms.txt": `${UMBRELLA_URL}packages/${p.slug}/llms.txt`,
         GitHub: `${REPO_URL}/tree/main/tooling/ts/packages/${p.dir.split("/").pop()}`,
       },
     });
-    console.log(`  ✓ ${p.name} → docs/packages/${p.slug}/`);
+    retitleLlms(out, p.name, p.description || "");
+    console.log(`  ✓ ${p.name} → docs/packages/${p.slug}/ (+ SKILL.md + llms.txt)`);
   }
 
   // 3. PER-REGISTRY-ITEM roots into docs/registry/<name>/ (README + TS surface + UML), the registry analogue of
@@ -322,21 +378,29 @@ export async function buildDocs(): Promise<DocPackage[]> {
         readme = join(tmp, `regroot-${it.name}.md`);
         writeFileSync(readme, rewritten);
       }
+      const out = join(DOCS, "registry", it.name);
+      const skillDir = `suluk-registry-${it.name}`; // skillit slugifies the render name → suluk-registry-<name>
       await render(`registry/${it.name}`, {
         ...BASE,
-        name: `${it.name} (registry)`,
+        name: `@suluk/registry-${it.name}`, // skillit reads the render name for the skill slug/frontmatter
         tsconfig: regTsconfig,
         entryPoints: it.files,
         readme,
-        out: join(DOCS, "registry", it.name),
+        out,
         hostedBaseUrl: `${UMBRELLA_URL}registry/${it.name}/`,
         sort: ["source-order"],
+        skillsOutDir: join(out, "skills"),
+        llmsTxt: true,
+        llmsTxtOutDir: out,
         navigationLinks: {
           "↑ Suluk": UMBRELLA_URL,
+          SKILL: `${UMBRELLA_URL}registry/${it.name}/skills/${skillDir}/SKILL.md`,
+          "llms.txt": `${UMBRELLA_URL}registry/${it.name}/llms.txt`,
           GitHub: `${REPO_URL}/tree/main/registry/${it.name}`,
         },
       });
-      console.log(`  ✓ registry/${it.name} → docs/registry/${it.name}/`);
+      retitleLlms(out, `${it.name} (registry module)`, it.description || it.title);
+      console.log(`  ✓ registry/${it.name} → docs/registry/${it.name}/ (+ SKILL.md + llms.txt)`);
     }
   }
 
@@ -361,7 +425,7 @@ export async function buildMarkdown(): Promise<void> {
 
   console.log("• markdown → documentation/ …");
   await render("markdown", {
-    plugin: ["typedoc-plugin-markdown"],
+    plugin: ["typedoc-plugin-markdown", "typedoc-plugin-skillit"],
     entryPointStrategy: "packages",
     entryPoints: pkgs.map((p) => p.dir),
     packageOptions: { entryPoints: ["src/index.ts"], readme: "README.md", skipErrorChecking: true, excludeInternal: true, excludePrivate: true, includeVersion: true },
@@ -375,9 +439,84 @@ export async function buildMarkdown(): Promise<void> {
     // packages-mode reports internal-type refs (notExported) and the READMEs' ../sibling links (invalidPath) that
     // the HTML multi-root doesn't; they're build-noise, not user-facing (the links resolve within the md tree).
     validation: { notExported: false, invalidPath: false, invalidLink: true },
+    // skillit over ALL packages at once → docs/skills/<pkg>/SKILL.md for each + docs/llms.txt for Suluk-as-a-whole.
+    skillsAudit: false,
+    skillsMaxTokens: 6000,
+    skillsOutDir: join(DOCS, "skills"),
+    llmsTxt: true,
+    llmsTxtOutDir: DOCS,
   });
   rmSync(tmp, { recursive: true, force: true });
-  console.log(`Built markdown mirror → ${out} (${pkgs.length} packages)`);
+  // Whole-Suluk: retitle the project llms.txt + weave in the registry modules (on their own + under platform),
+  // and compose the top-level SKILL.md agent skill that indexes every package + registry module.
+  composeWholeSuluk(pkgs);
+  console.log(`Built markdown mirror → ${out} (${pkgs.length} packages) + docs/llms.txt + docs/SKILL.md`);
+}
+
+/**
+ * Compose the WHOLE-Suluk AI-agent surface at the docs site root: fix the skillit project llms.txt title, weave in
+ * the shadcn registry modules (listed on their OWN + again UNDER @suluk/platform, which assembles them), and write
+ * docs/SKILL.md — a single agent skill indexing every package + registry module + their per-root SKILL.md files.
+ */
+function composeWholeSuluk(pkgs: DocPackage[]): void {
+  const reg = documentedRegistry();
+  const SUMMARY = "Suluk = an OpenAPI v4.0 candidate spec + a contracts-in/everything-derived TypeScript framework: the @suluk/* packages (the npm logic) and a shadcn registry of own-the-code backend modules (the app-owned wiring).";
+  const regOwn = reg.map((it) => `- [${it.name}](registry/${it.name}/): ${it.description || it.title}`).join("\n");
+  const regUnderPlatform = reg.map((it) => `  - ${it.name} — ${it.description || it.title}`).join("\n");
+
+  // ── augment the plugin's project llms.txt (+ llms-full.txt): retitle, then append the registry sections. ──
+  retitleLlms(DOCS, "Suluk", SUMMARY);
+  const regBlock = `\n## Registry modules (own-the-code backends)\n\nInstall with \`pnpm dlx shadcn@latest add MahmoodKhalil57/suluk/<item>\`. Each wires the @suluk packages above.\n\n${regOwn}\n\n## Platform assembly\n\n\`@suluk/platform\` (\`definePlatform\`) + \`@suluk/provision\` assemble the registry modules into a running backend. The modules platform composes:\n\n${regUnderPlatform}\n`;
+  for (const f of ["llms.txt", "llms-full.txt"]) {
+    const p = join(DOCS, f);
+    if (existsSync(p)) writeFileSync(p, readFileSync(p, "utf8").trimEnd() + "\n" + regBlock);
+  }
+
+  // ── the whole-Suluk SKILL.md (agent skill) — an index over the autogenerated per-root skills. ──
+  const pkgRows = pkgs
+    .map((p) => `- **${p.name}** \`v${p.version}\` — ${p.description || "—"} · [docs](packages/${p.slug}/) · [SKILL](packages/${p.slug}/skills/suluk-${p.slug}/SKILL.md)`)
+    .join("\n");
+  const regRows = reg
+    .map((it) => `- **${it.name}** — ${it.description || it.title} · [docs](registry/${it.name}/)${it.files.length ? ` · [SKILL](registry/${it.name}/skills/suluk-registry-${it.name}/SKILL.md)` : ""}`)
+    .join("\n");
+  const skill = `---
+name: suluk
+description: ${JSON.stringify(SUMMARY)}
+---
+
+# Suluk
+
+${SUMMARY}
+
+Two layers, one source: the v4 **contract** is authored once; the API, typed client, UI, tests, admin panel and deploy plan are all **projections** of it. The \`@suluk/*\` packages hold the reusable logic; the registry modules are the own-the-code wiring you copy into an app.
+
+## Packages (${pkgs.length}) — the npm logic
+
+Each package is its own documentation site with an autogenerated SKILL.md + llms.txt.
+
+${pkgRows}
+
+## Registry modules (${reg.length}) — the app-owned wiring
+
+Own-the-code backend modules distributed via a [shadcn registry](registry/), wired over the \`@suluk/*\` packages. Install any item:
+
+\`\`\`bash
+pnpm dlx shadcn@latest add MahmoodKhalil57/suluk/<item>
+\`\`\`
+
+${regRows}
+
+## Platform assembly
+
+\`@suluk/platform\` (\`definePlatform\`) + \`@suluk/provision\` assemble the registry modules above into a running backend — one manifest declares the services, and the registry modules are the wiring that manifest provisions. See the [registry architecture graph](documents/Registry.html) for how the modules build on each other (\`app\` is the foundation).
+
+## Machine-readable index
+
+- Whole-Suluk: [llms.txt](llms.txt) · [llms-full.txt](llms-full.txt)
+- Per package: \`packages/<name>/llms.txt\` + \`packages/<name>/skills/suluk-<name>/SKILL.md\`
+- Per registry module: \`registry/<name>/llms.txt\` + \`registry/<name>/skills/suluk-registry-<name>/SKILL.md\`
+`;
+  writeFileSync(join(DOCS, "SKILL.md"), skill);
 }
 
 if (import.meta.main) {
