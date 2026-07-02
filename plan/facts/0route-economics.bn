@@ -1,0 +1,26 @@
+# C064 — per-route HARDENING report + full ROUTE ECONOMICS in the Scalar docs, declared INLINE (operator two turns: "add a
+# native collapsible hardening report per route" + "show cost per route, how it's paid (credit/rate-limit/etc), associated
+# cost-bearing events it triggers, dynamic cost by file-size/stress/model/tokens — backend devs in the shadcn registries must
+# consider all this pragmatically to display useful info in Scalar + reports"). The rich cost DATA MODEL already existed in
+# @suluk/cost (CostModel: components/basis/settlement/trigger/attribution); the gap was RENDERING + ergonomic declaration.
+
+# @suluk/scalar 0.9.0 (+@suluk/harden dep) renders, per op, both v4-native + 3.1 paths: (1) a native collapsible <details>
+# HARDENING report (@suluk/harden A-F grade + score + findings [severity·path·message·fix]; HTML so the disclosure works
+# regardless of the markdown processor; hardening:false opts out). (2) ROUTE ECONOMICS — the CostFacet was a per-call-only
+# shadow; now the FULL model: per-call floor PLUS every DYNAMIC/metered component with rate+unit+description (per-token/
+# per-1k-tokens/per-mb/per-second/per-request — AI tokens/model, file size, compute), a ＋ marker on the cost badge;
+# SETTLEMENT (C044) as a badge + line (credit N debited / rate-limited free-within-cap / free operator-absorbed); the
+# triggered cost-bearing EVENTS (reverse index of x-suluk-cost.triggerRef) + a non-sync cost's accrual + attribution.
+claim scalar_renders_hardening_report_and_full_route_economics_per_op: Bool @>=0.85 = True
+falsified_when scalar_renders_hardening_report_and_full_route_economics_per_op == False
+
+# @suluk/hono 0.2.0 (+@suluk/cost dep, NO cycle — cost's runtime source imports only @suluk/core) adds RouteContract.cost?:
+# CostModel so a backend dev declares the economics INLINE with the route (next to scopes/errors/rateLimit); emitV4 stamps
+# x-suluk-cost (mirroring the x-suluk-ratelimit stamp). This is the "pragmatic, while writing the code" enabler. Adopted in
+# the registry email module: sendEmail declares an inline cost (external per-request Resend cost, settled free/operator-
+# absorbed). VERIFIED fresh + ATF: 35 scalar + 57 hono + 43 cost tests pass, tsc clean (incl dependents sdk/testgen/harden);
+# ATF /api/reference 200 with the hardening <details> on every op (49) + settlement badges (17) + sendEmail rendering
+# 💰 400µ$＋ / 🎁 free badges + the Cost/Settlement/hardening detail. Published hono@0.2.0 + scalar@0.9.0 (suluk 218a7122,
+# atf 52b9c94). Data model UNCHANGED — display + inline declaration only.
+claim routecontract_cost_inline_declaration_stamped_and_rendered_end_to_end: Bool @>=0.85 = True
+falsified_when routecontract_cost_inline_declaration_stamped_and_rendered_end_to_end == False
