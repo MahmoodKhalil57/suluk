@@ -30,6 +30,11 @@ export interface PrincipalOptions {
 /** The scope a route requires to be sure the caller cleared their second factor (twoFactor plugin). */
 export const MFA_SCOPE = "mfa:verified" as const;
 
+/** The attributed-spend identity of an MCP bearer caller — `mcp:<userId>:<clientId>`. The SINGLE source shared by auth's
+ *  `mcpBearerAuth` (which stamps it as the request `keyId`) and the `mcp` connection store, so they never drift + so `mcp`
+ *  needs no `../auth` import. */
+export const mcpConnectionKeyId = (userId: string, clientId: string): string => `mcp:${userId}:${clientId}`;
+
 /** Build the org-namespaced scope `org:<orgId>:<action>` (the tenancy encoding). */
 export function orgScope(orgId: string, action: string): string {
   return `org:${orgId}:${action}`;

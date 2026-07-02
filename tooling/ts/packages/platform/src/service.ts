@@ -79,6 +79,9 @@ export interface Port<P = unknown> {
   readonly param?: Schema<P>;
   readonly hookOptKey: string;
   readonly render: (consumerExprs: string[]) => string;
+  /** documents a FAN-IN port (several capabilities aggregate into one hook, e.g. erasure's cascade). No engine branch —
+   *  fan-in already works (the engine groups by port-owner + `render` takes the full `string[]`); this marks intent. */
+  readonly fanIn?: boolean;
 }
 
 /**
@@ -114,6 +117,10 @@ export interface Service<SO = {}, BO = {}> {
   /** the module's CONTRACT fragment — its `RouteContract[]` (ops), composed into `src/contract.ops.ts` (mirrors `provision`). */
   readonly contract?: { symbol: string; from: string };
   readonly deps?: string[];
+  /** MOUNT peers this module needs at RUNTIME (distinct from npm `deps`): e.g. a route that reads `c.get("user")`/scopes
+   *  set by `mountAuthRoutes` declares `requires: ["auth"]`. The generator ERRORS if a selected service's requires aren't
+   *  also selected — turning a silently-unauthenticated subset into a build failure, without force-adding auth everywhere. */
+  readonly requires?: string[];
   readonly env?: EnvVar[];
   readonly serviceOpts?: Schema<SO>; // how THIS service works       → the ENTRY (mount 2nd arg)      [Phase 2]
   readonly brandOpts?: Schema<BO>; // THIS service's brand-facing   → [vars]/env by default            [Phase 2]
@@ -129,6 +136,19 @@ export function defineService<const S extends Service<any, any>>(s: S): S {
   if (!s.id) throw new Error("defineService: `id` is required");
   return s;
 }
+
+/**
+ * The composition-EXPRESSION for a data module's GDPR erase-step: delete its user-keyed rows over the `db` the erasure
+ * `cascade` port supplies (same raw-SQL shape the old central `sulukCascade` used — safe: the table name is a trusted
+ * constant + `sql.identifier` quotes it). SINGLE-QUOTED so the inner `sql`/`${}` stay literal in the emitted expr. */
+const eraseStepExpr = (table: string): string =>
+  'deleteStep("' + table + '", async (u) => { await db.run(sql`DELETE FROM ${sql.identifier("' + table + '")} WHERE ${sql.identifier("userId")} = ${u.id}`); })';
+/** the capability a data module OFFERS to erasure's `cascade` fan-in port. */
+const eraseStepCapability = (table: string): Capability => ({
+  kind: "capability", symbol: "deleteStep", from: "@suluk/better-auth",
+  imports: [{ symbol: "deleteStep", from: "@suluk/better-auth" }, { symbol: "sql", from: "drizzle-orm" }],
+  build: () => eraseStepExpr(table),
+});
 
 /**
  * A TYPED opts marker for a service's `serviceOpts`/`brandOpts`. Phase 2 uses it purely for TYPES — the manifest author
@@ -214,11 +234,21 @@ export const authService = defineService({
       // databaseHook callback (env is already in buildAuth's closure), so a consumer expr can build its Effect layers.
       onUserCreated: { kind: "port", hookOptKey: "onUserCreated", render: (exprs) => `async (userId, env) => { ${exprs.join("; ")}; }` },
     },
+    offers: {
+      // the Better-Auth API factory the contract's /api/openapi.json merge consumes (cuts contract → ../auth).
+      provideAuthApi: { kind: "capability", symbol: "createAuth", from: "./auth", imports: [{ symbol: "createAuth", from: "./auth" }], build: () => `(env) => createAuth(env).api` },
+      // the Better-Auth INSTANCE the mcp OAuth discovery consumes (cuts mcp → ../auth).
+      mcpAuthInstance: { kind: "capability", symbol: "createAuth", from: "./auth", imports: [{ symbol: "createAuth", from: "./auth" }], build: () => `(env) => createAuth(env)` },
+    },
   },
 });
 
-export const contractService = defineService({ id: "contract", mount: { kind: "middleware", symbol: "mountContract", from: "./routes/contract" }, deps: ["@suluk/hono", "zod"] });
-export const mcpService = defineService({ id: "mcp", mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" }, contract: { symbol: "mcpOps", from: "./contract/mcp" }, deps: ["@suluk/mcp", "better-auth"] });
+export const contractService = defineService({ id: "contract", mount: { kind: "middleware", symbol: "mountContract", from: "./routes/contract" }, deps: ["@suluk/hono", "zod"],
+  // EXPOSES the optional auth-doc-merge seam: auth wires its api in (single-value port); absent → the base doc (graceful).
+  compose: { exposes: { authApi: { kind: "port", hookOptKey: "authApi", render: (e) => e[0] ?? "undefined" } } } });
+export const mcpService = defineService({ id: "mcp", mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" }, contract: { symbol: "mcpOps", from: "./contract/mcp" }, deps: ["@suluk/mcp", "@suluk/better-auth", "better-auth"],
+  requires: ["contract", "auth"], // mcp IS the contract doc projected + reads the auth-set principal — hard runtime peers
+  compose: { exposes: { mcpAuthInstance: { kind: "port", hookOptKey: "mcpAuthInstance", render: (e) => e[0] ?? "undefined" } } } });
 
 export const creditsService = defineService({
   id: "credits",
@@ -247,11 +277,16 @@ export const creditsService = defineService({
           return `await Effect.runPromise(Effect.flatMap(Credits, (s) => s.grant(userId, ${JSON.stringify(amount)}, "signup:" + userId, "signup grant")).pipe(Effect.provide(CreditsLive), Effect.provide(DbLive(env))))`;
         },
       },
+      // GDPR: erase this module's user-keyed rows — composed into erasure's cascade fan-in (never a central table list).
+      eraseStep: eraseStepCapability("credit_transaction"),
     },
   },
 });
 
-export const keysService = defineService({ id: "keys", mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" }, contract: { symbol: "keysOps", from: "./contract/keys" }, deps: ["@suluk/keys"] });
+export const keysService = defineService({ id: "keys", mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" }, contract: { symbol: "keysOps", from: "./contract/keys" }, deps: ["@suluk/keys"], requires: ["auth"],
+  // keys is ALREADY import-decoupled (it mints via an injected CreateKey Effect layer, not a ../auth import). It only OFFERS
+  // its GDPR erase-step; a future `createKey` port could wire auth's mint in (deferred — the caps→permissions map needs care).
+  compose: { offers: { eraseStep: eraseStepCapability("key_lineage") } } });
 
 export const billingService = defineService({
   id: "billing",
@@ -263,10 +298,12 @@ export const billingService = defineService({
     { name: "STRIPE_SECRET_KEY", required: true, secret: true, hint: "your Stripe secret key" },
     { name: "STRIPE_PUBLISHABLE_KEY", hint: "returned by GET /api/billing/payment-config" },
   ],
+  compose: { offers: { eraseStep: eraseStepCapability("billing_account") } },
 });
 
-export const costService = defineService({ id: "cost", mount: { kind: "route", path: "/api/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" }, contract: { symbol: "costOps", from: "./contract/cost" }, deps: ["@suluk/cost"] });
-export const erasureService = defineService({ id: "erasure", mount: { kind: "route", path: "/api/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" }, contract: { symbol: "erasureOps", from: "./contract/erasure" }, deps: ["@suluk/better-auth"] });
+export const costService = defineService({ id: "cost", mount: { kind: "route", path: "/api/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" }, contract: { symbol: "costOps", from: "./contract/cost" }, deps: ["@suluk/cost"], compose: { offers: { eraseStep: eraseStepCapability("cost_event") } } });
+export const erasureService = defineService({ id: "erasure", mount: { kind: "route", path: "/api/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" }, contract: { symbol: "erasureOps", from: "./contract/erasure" }, deps: ["@suluk/better-auth"],
+  compose: { exposes: { cascade: { kind: "port", fanIn: true, hookOptKey: "extraSteps", render: (exprs) => `(db) => [ ${exprs.join(", ")} ]` } } } });
 
 export const emailService = defineService({
   id: "email",
@@ -294,9 +331,9 @@ export const webhooksService = defineService({
 export const rateLimitService = defineService({ id: "rate-limit", mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" }, deps: ["@suluk/hono"] });
 export const rateCreditService = defineService({ id: "rate-credit", mount: { kind: "middleware", symbol: "mountRateCredit", from: "./services/rate-credit" } }); // credit-backed free-tier bucket (KV binding)
 export const i18nService = defineService({ id: "i18n", mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" }, deps: ["@suluk/i18n"] });
-export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, contract: { symbol: "referenceOps", from: "./contract/reference" }, deps: ["@suluk/reference"] }); // derived — no provision
+export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, contract: { symbol: "referenceOps", from: "./contract/reference" }, deps: ["@suluk/reference"], requires: ["contract"] }); // derived — no provision
 export const adminService = defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, contract: { symbol: "adminOps", from: "./contract/admin" }, deps: ["@suluk/credits"], env: [{ name: "SUPERADMIN_EMAILS", secret: true, hint: "comma/space-separated admin emails → the admin scope (secret-surfaced so they stay out of git plaintext)" }] }); // reads existing tables — no provision
-export const logsService = defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" }, contract: { symbol: "logsOps", from: "./contract/logs" } });
+export const logsService = defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" }, contract: { symbol: "logsOps", from: "./contract/logs" }, compose: { offers: { eraseStep: eraseStepCapability("activity_log") } } });
 export const journeysService = defineService({ id: "journeys", mount: { kind: "dev" }, deps: ["@suluk/journeys"] });
 export const auditService = defineService({ id: "audit", mount: { kind: "dev" }, deps: ["@suluk/cockpit", "@suluk/harden"] });
 

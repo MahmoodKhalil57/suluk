@@ -55,6 +55,9 @@ export interface WireDecl {
   from: string;
   to: string;
   with?: Record<string, unknown>;
+  /** PRUNE this edge (skip + warn) instead of throwing when an endpoint service isn't selected — so ONE full config is
+   *  valid across every subset. A cross-cutting/optional link (erasure fan-in, contract↔auth) should set this. */
+  optional?: boolean;
 }
 
 /** A SYSTEM — the reusable, publishable template. Generic over the services tuple so `serviceOpts` is typed by service id. */

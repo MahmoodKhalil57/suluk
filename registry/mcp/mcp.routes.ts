@@ -22,24 +22,30 @@ import type { Context, Hono } from "hono";
 import { mcpApp, appExec, type FetchApp } from "@suluk/mcp";
 import { oAuthDiscoveryMetadata, oAuthProtectedResourceMetadata } from "better-auth/plugins";
 import type { Bindings } from "../app";
-import { createAuth, type AuthEnv } from "../auth";
 import { apiDocument } from "../contract";
 import { mcpConnectionsRoutes } from "./mcp-connections";
+// NO `../auth` import — DECOUPLED. The Better-Auth INSTANCE for the OAuth discovery docs arrives via the optional
+// `mcpAuthInstance` mount-opt, which platform.config.ts wires from auth (gated on `auth.mcpScopes` being set — the mcp()
+// plugin must be enabled). Absent → no /.well-known/* (a subset with no mcp OAuth). So `mcp` needs no `../auth` import.
 
 const BASE_PATH = "/api/mcp";
 
-export function mountMcp<T extends Hono<{ Bindings: Bindings }>>(app: T): T {
+export interface MountMcpOptions {
+  /** wired from auth: a factory returning the Better-Auth INSTANCE (with the mcp() plugin) for the OAuth discovery docs. */
+  mcpAuthInstance?: (env: Bindings) => unknown;
+}
+
+export function mountMcp<T extends Hono<{ Bindings: Bindings }>>(app: T, opts?: MountMcpOptions): T {
   // (3) connections management — registered BEFORE mcpApp so `/api/mcp/connections*` isn't swallowed by the JSON-RPC route.
   app.route(BASE_PATH, mcpConnectionsRoutes());
 
-  // (2) OAuth discovery at the ROOT origin (where MCP clients probe). Both plugin helpers take the auth instance and
-  //     return a `(Request) => Promise<Response>`; feed them the raw request. Requires `auth`'s mcp plugin enabled.
-  app.get("/.well-known/oauth-authorization-server", (c) =>
-    oAuthDiscoveryMetadata(createAuth(c.env as unknown as AuthEnv))(c.req.raw),
-  );
-  app.get("/.well-known/oauth-protected-resource", (c) =>
-    oAuthProtectedResourceMetadata(createAuth(c.env as unknown as AuthEnv))(c.req.raw),
-  );
+  // (2) OAuth discovery at the ROOT origin (where MCP clients probe) — ONLY when auth's mcp() plugin is wired in via
+  //     `mcpAuthInstance`. Both plugin helpers take the auth instance + return a `(Request) => Promise<Response>`.
+  const authInstance = opts?.mcpAuthInstance;
+  if (authInstance) {
+    app.get("/.well-known/oauth-authorization-server", (c) => oAuthDiscoveryMetadata(authInstance(c.env) as Parameters<typeof oAuthDiscoveryMetadata>[0])(c.req.raw));
+    app.get("/.well-known/oauth-protected-resource", (c) => oAuthProtectedResourceMetadata(authInstance(c.env) as Parameters<typeof oAuthProtectedResourceMetadata>[0])(c.req.raw));
+  }
 
   // An UNAUTHENTICATED POST to /api/mcp gets a 401 + RFC-9728 WWW-Authenticate pointing at the protected-resource
   // metadata, so the MCP client knows to start the OAuth flow. A resolved caller (`user` set upstream by auth's

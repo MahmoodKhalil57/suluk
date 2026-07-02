@@ -7,12 +7,18 @@
 import { Hono } from "hono";
 import { Effect } from "effect";
 import { DbLive, type Bindings } from "../app";
-import { Erasure, ErasureLive } from "../services/erasure";
+import { Erasure, ErasureLive, type ExtraSteps } from "../services/erasure";
 
-export function erasureRoutes() {
+export interface MountErasureOptions {
+  /** wired from platform.config.ts: the COMPOSED per-module erase-steps (`erasure.cascade → <module>.eraseStep`, fan-in).
+   *  Omit → the empty cascade (a subset with no installed data modules, or a manual/hand-written cascade). */
+  extraSteps?: ExtraSteps;
+}
+
+export function erasureRoutes(opts?: MountErasureOptions) {
   const r = new Hono<{ Bindings: Bindings }>();
   const run = <A>(env: Bindings, program: Effect.Effect<A, never, Erasure>): Promise<A> =>
-    program.pipe(Effect.provide(ErasureLive), Effect.provide(DbLive(env)), Effect.runPromise);
+    program.pipe(Effect.provide(ErasureLive(opts?.extraSteps)), Effect.provide(DbLive(env)), Effect.runPromise);
 
   // POST /erasure/:userId — run the GDPR erasure cascade for a user (ADMIN-GATE in production).
   r.post("/:userId", async (c) => {

@@ -13,7 +13,7 @@
 import { Context, Effect, Layer } from "effect";
 import { and, desc, eq } from "drizzle-orm";
 import { mcpConnection } from "../db/mcp";
-import { mcpConnectionKeyId } from "../auth";
+import { mcpConnectionKeyId } from "@suluk/better-auth";
 import { Db } from "../app";
 
 /** A connection's knob-row as returned to the owner. */

@@ -16,8 +16,16 @@ const mk = (id: string): Service => ({
 describe("resolveWiring — validation", () => {
   const cat = { a: mk("a"), b: mk("b") };
 
-  test("throws when an endpoint service is not selected", () => {
-    expect(() => resolveWiring(["a"], [{ from: "a.p", to: "b.c" }], cat)).toThrow(/consumer service "b" is not selected/);
+  test("throws when a NON-optional endpoint service is not selected", () => {
+    expect(() => resolveWiring(["a"], [{ from: "a.p", to: "b.c" }], cat)).toThrow(/"b" not selected — mark \{ optional: true \}/);
+  });
+  test("PRUNES an optional edge when an endpoint is not selected (subset-robust); a typo throws even if optional", () => {
+    const w = resolveWiring(["a"], [{ from: "a.p", to: "b.c", optional: true }], cat);
+    expect(w.pruned).toEqual(['a.p → b.c ("b" not selected)']);
+    expect(w.hooksByService).toEqual({}); // no mount-opt injected for the pruned edge
+    expect(w.imports).toEqual([]); // no import injected for the pruned edge
+    // typo-guard: an endpoint UNKNOWN to the catalog is a fat-finger — throw even with optional:true
+    expect(() => resolveWiring(["a"], [{ from: "a.p", to: "zzz.c", optional: true }], cat)).toThrow(/unknown service "zzz" \(typo\?\)/);
   });
   test("throws when the port or capability does not exist", () => {
     expect(() => resolveWiring(["a", "b"], [{ from: "a.nope", to: "b.c" }], cat)).toThrow(/exposes no port "nope"/);

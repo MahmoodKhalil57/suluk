@@ -13,7 +13,7 @@ import { passkey } from "@better-auth/passkey";
 import { drizzle } from "drizzle-orm/d1";
 import { Context, Effect, Layer } from "effect";
 import type { Hono, MiddlewareHandler } from "hono";
-import { principalFromSession, verifyApiKey, devLoginHandler, type ApiKeyVerifierLike, type SessionLike } from "@suluk/better-auth";
+import { principalFromSession, verifyApiKey, devLoginHandler, mcpConnectionKeyId, type ApiKeyVerifierLike, type SessionLike } from "@suluk/better-auth";
 import * as schema from "./db/auth";
 
 export interface AuthEnv {
@@ -147,7 +147,6 @@ export const apiKeyAuth: MiddlewareHandler<AppCtx> = async (c, next) => {
 
 /** The scoped-caller id for an MCP connection — `mcp:<userId>:<clientId>`, NOT the bare clientId (which is shared across
  *  every user who authorized the same OAuth app), so per-connection attribution + caps are correctly per-(user,connection). */
-export const mcpConnectionKeyId = (userId: string, clientId: string): string => `mcp:${userId}:${clientId}`;
 
 /** Reach the mcp plugin's `getMcpSession` (added at runtime by `mcp()`, not on the inferred api type) — via a type guard. */
 interface McpSessionApi {

@@ -48,7 +48,7 @@ describe("deriveHosts — the two-host manifest derives every URL var (no boiler
   const TWO_HOST = definePlatform({
     system: {
       registry: "MahmoodKhalil57/suluk",
-      services: ["auth", "billing", "email", "mcp"],
+      services: ["auth", "contract", "billing", "email", "mcp"], // mcp requires contract (+auth) — the decoupling requires-guard
       globalServiceOpts: { ENVIRONMENT: "production" },
       serviceOpts: { auth: { mcpScopes: ["credits:read", "logs:read"] } },
     },

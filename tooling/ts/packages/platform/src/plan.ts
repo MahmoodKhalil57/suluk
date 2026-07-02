@@ -80,9 +80,33 @@ export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
   const services = orderServices(manifest.services);
   const unknown = services.filter((s) => !catalog[s]);
   if (unknown.length) throw new Error(`platform: unknown service(s) [${unknown.join(", ")}] — not in the catalog`);
+  // REQUIRES-VALIDATION (decoupling): a selected service's MOUNT peers must also be selected (the runtime contract — a route
+  // reading the auth-set principal needs `auth`; mcp needs `contract`). A missing peer is a BUILD ERROR — never a silent
+  // unauthenticated/ungated subset — WITHOUT force-adding auth to every app.
+  for (const s of services)
+    for (const req of catalog[s].requires ?? [])
+      if (!services.includes(req)) throw new Error(`platform: service "${s}" requires "${req}" (the c.get("user")/scope-gate runtime contract) — add "${req}" to services[], or drop "${s}"`);
   const env = collectEnv(services, catalog);
   // resolve the wires (a `{system,brand}` platform may carry `wire`; a legacy manifest never does → no wiring → byte-identical).
-  const wiring = resolveWiring(services, isPlatform(input) ? input.system.wire ?? [] : [], catalog);
+  // mcp-discovery gate: the OAuth /.well-known/* routes need auth's mcp() plugin, enabled only when `auth.mcp` (derived from
+  // `mcpScopes`) is set — so drop the `mcp.mcpAuthInstance` edge otherwise (a mcp+auth subset without mcp OAuth mustn't wire it).
+  const rawWires = isPlatform(input) ? input.system.wire ?? [] : [];
+  const wires = manifest.opts?.auth?.mcp ? rawWires : rawWires.filter((w) => w.from !== "mcp.mcpAuthInstance");
+  const wiring = resolveWiring(services, wires, catalog);
+  // diagnostics (never affect the emitted bytes): report pruned optional edges + the scope-gate-absent subset choice.
+  if (wiring.pruned.length) console.warn(`[platform] pruned ${wiring.pruned.length} optional wire(s):\n  ${wiring.pruned.join("\n  ")}`);
+  if ((services.includes("keys") || services.includes("mcp")) && !services.includes("contract"))
+    console.warn('[platform] scope gate absent — x-api-key callers to keys/mcp are UNGATED (add "contract" to enforce per-op scopes)');
+  // GDPR build-guard (fan-in completeness): with `erasure` installed, every installed data module that OFFERS an `eraseStep`
+  // MUST be wired into `erasure.cascade` — else that module's user-keyed rows SURVIVE an account erasure (silent under-deletion,
+  // a real compliance gap the distributed cascade otherwise hides). WARN (not throw) so a deliberate omission stays possible,
+  // but is never silent. The legacy manifest carries no wires → this fires there too, flagging the fan-in each app must adopt.
+  if (services.includes("erasure")) {
+    const wiredErasers = new Set(wires.filter((w) => w.from === "erasure.cascade").map((w) => w.to));
+    const unwired = services.filter((s) => catalog[s]?.compose?.offers?.eraseStep && !wiredErasers.has(`${s}.eraseStep`));
+    if (unwired.length)
+      console.warn(`[platform] GDPR: erasure is installed but these data modules are NOT wired into its cascade (their user rows survive account erasure): ${unwired.join(", ")} — add { from: "erasure.cascade", to: "<module>.eraseStep", optional: true } for each`);
+  }
   // the MOCK-PROVIDER dev runtime is OPT-IN (`local: true`); off → every output below is byte-for-byte the C051 golden.
   const local = manifest.local === true;
   return {

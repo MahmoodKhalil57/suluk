@@ -19,25 +19,26 @@ export type ErasureUser = { id: string };
 // re-export the step constructors so your app composes its own cascade without a second @suluk/better-auth import.
 export { step, deleteStep, anonymizeStep, type CascadeStep, type CascadeOptions };
 
+/** A factory that, given the request `db`, builds the per-module erase-steps — COMPOSED by the generator from each installed
+ *  data module's `eraseStep` capability (platform.config.ts wires `erasure.cascade → <module>.eraseStep`, leaf-first). */
+export type ExtraSteps = (db: DrizzleD1Database) => CascadeStep<ErasureUser>[];
+
 /**
- * The default hard-DELETE cascade over the core Suluk tables — EDIT to match the modules you installed + your posture.
- * Every core table keys on `userId`. Swap a `del(...)` for an `anonymizeStep` where an FK must survive. Ordered
- * leaf-first (logs/cost before the money rows) so a partial failure aborts before the load-bearing rows are touched.
+ * The default cascade is now EMPTY — the steps are DISTRIBUTED: each installed data module OWNS its own `eraseStep` (over
+ * ITS table) and the generator composes only the installed ones into `extraSteps` (no central table list → a subset never
+ * DELETEs a table it didn't install, and a GDPR build-guard warns if an installed module isn't wired). Kept for a manual/
+ * community cascade an author writes by hand (`step`/`deleteStep`/`anonymizeStep` are re-exported above).
  */
-export function sulukCascade(db: DrizzleD1Database): CascadeStep<ErasureUser>[] {
-  const del = (table: string) =>
-    deleteStep<ErasureUser>(table, async (u) => {
-      await db.run(sql`DELETE FROM ${sql.identifier(table)} WHERE ${sql.identifier("userId")} = ${u.id}`);
-    });
-  return [del("activity_log"), del("cost_event"), del("billing_account"), del("key_lineage"), del("credit_transaction")];
+export function sulukCascade(_db: DrizzleD1Database): CascadeStep<ErasureUser>[] {
+  return [];
 }
 
 /**
  * The Better Auth `user.deleteUser.beforeDelete` hook — pass it to `buildAuth`'s `deleteUser.beforeDelete` so the cascade
- * fires whenever a user is deleted THROUGH auth (the proper integration). The service's `erase` is the manual/admin path.
+ * fires whenever a user is deleted THROUGH auth. Thread the COMPOSED `extraSteps` (the same the admin route uses).
  */
-export function erasureHook(db: DrizzleD1Database, opts?: CascadeOptions): (user: ErasureUser) => Promise<void> {
-  return beforeDeleteCascade(sulukCascade(db), opts);
+export function erasureHook(db: DrizzleD1Database, opts?: CascadeOptions, extraSteps?: ExtraSteps): (user: ErasureUser) => Promise<void> {
+  return beforeDeleteCascade(extraSteps?.(db) ?? sulukCascade(db), opts);
 }
 
 export class Erasure extends Context.Tag("Erasure")<
@@ -48,14 +49,16 @@ export class Erasure extends Context.Tag("Erasure")<
   }
 >() {}
 
-export const ErasureLive = Layer.effect(
+/** ErasureLive is a FACTORY — pass the COMPOSED `extraSteps` (the generator wires them from each installed data module's
+ *  `eraseStep`). Omit → the empty cascade (a manual author supplies steps directly, or a subset erases nothing extra). */
+export const ErasureLive = (extraSteps?: ExtraSteps) => Layer.effect(
   Erasure,
   Effect.gen(function* () {
     const db = yield* Db;
     return {
       erase: (userId, opts) =>
         Effect.promise(async () => {
-          const steps = sulukCascade(db);
+          const steps = extraSteps?.(db) ?? sulukCascade(db);
           await beforeDeleteCascade(steps, opts)({ id: userId }); // throws (no receipt) if any step fails — fail-closed
           await db.insert(erasureReceipt).values({
             id: crypto.randomUUID(),

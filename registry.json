@@ -64,8 +64,7 @@
       "title": "Contract keystone \u2014 derived v4 OpenAPI + scope facets",
       "description": "The keystone: declares the base API surface as @suluk/hono RouteContracts (with x-suluk-access scopes + zod request schemas) and DERIVES everything downstream consumes \u2014 apiDocument(principal?) (the per-principal v4 doc via emitV4), SCOPE_BY_OP + PUBLIC_OPS (the scope facets the scope gate / MCP read), the enforceApiKeyScope gate, the validateRequest body gate, and GET /api/openapi.json projected to the caller's scopes. Own the wiring, npm the derivation. Stateless \u2014 no schema, no provision.",
       "registryDependencies": [
-        "MahmoodKhalil57/suluk/app",
-        "MahmoodKhalil57/suluk/auth"
+        "MahmoodKhalil57/suluk/app"
       ],
       "dependencies": [
         "@suluk/hono",
@@ -136,9 +135,7 @@
       "title": "Hierarchical API keys \u2014 pooled headroom + cascade revoke",
       "description": "An Effect-TS Keys service over @suluk/keys (the abuse-proof pooled-headroom cap + cascade revocation stay upstream): lineage subtree, cascade revoke, and the pooled headroom over a chain. Key creation is Better Auth's apikey plugin (the `auth` module); this manages the delegation tree.",
       "registryDependencies": [
-        "MahmoodKhalil57/suluk/app",
-        "MahmoodKhalil57/suluk/auth",
-        "MahmoodKhalil57/suluk/credits"
+        "MahmoodKhalil57/suluk/app"
       ],
       "dependencies": [
         "@suluk/keys",
@@ -512,7 +509,6 @@
       "description": "The API-as-MCP surface: mounts @suluk/mcp's mcpApp at /api/mcp with the contract's apiDocument(scopes) as the per-caller tool list (a caller only sees the tools its principal can call \u2014 the contract-first payoff), executes tools in-process via appExec, exposes the OAuth /.well-known discovery (Better Auth's mcp plugin, enabled in auth via opts.mcp), and manages MCP connections (list/update/revoke; session-only) over an owned mcp_connection table. Own the wiring, npm the protocol + OAuth server.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app",
-        "MahmoodKhalil57/suluk/auth",
         "MahmoodKhalil57/suluk/contract"
       ],
       "dependencies": [
@@ -521,7 +517,8 @@
         "better-auth",
         "effect",
         "drizzle-orm",
-        "hono"
+        "hono",
+        "@suluk/better-auth"
       ],
       "files": [
         {

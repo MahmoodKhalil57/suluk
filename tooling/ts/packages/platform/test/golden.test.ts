@@ -14,7 +14,10 @@ import { definePlatform, planPlatform } from "../src/index";
  * change, run `UPDATE_GOLDEN=1 bun test golden` and review the fixture diff before committing.
  */
 
-// A byte-for-byte copy of ~/apps/autotoolfactory/platform.config.ts (the 18-service parity manifest). Keep in lockstep.
+// The FROZEN legacy C051 baseline (18-service parity, NO cross-module wires) — the byte-lock proves the un-wired path stays
+// byte-identical to the C051 one-shot as the composition engine grows. The LIVE ~/apps/autotoolfactory/platform.config.ts
+// has since ADOPTED the decoupling wires (contract↔auth doc-merge, mcp OAuth, erasure fan-in); that wired output is locked
+// separately in wire-adoption.test.ts. Do NOT add wires here — this fixture's job is to pin the wire-free bytes.
 export const AUTOTOOLFACTORY = definePlatform({
   name: "autotoolfactory",
   registry: "MahmoodKhalil57/suluk",
