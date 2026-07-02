@@ -14,7 +14,7 @@
  */
 import { downgrade, type Diagnostic } from "@suluk/openapi-compat";
 import type { OpenAPIv4Document } from "@suluk/core";
-import { auditDocument, type OpAudit } from "@suluk/harden";
+import { auditDocument, auditReadiness, auditCost, combineGrades, type OpAudit, type Finding } from "@suluk/harden";
 
 /** We OWN this version (the fork's first act): pin instead of riding `@latest`, so the UI never drifts under us. */
 export const SCALAR_VERSION = "1.59.0";
@@ -42,6 +42,9 @@ export interface ScalarOptions {
   hardening?: boolean;
   /** Override the injected suluk theme CSS. */
   customCss?: string;
+  /** The live merged weight table (@suluk/cloudflare `weightTable()` + provider weights) used to weigh each route's `infra`
+   *  to a µ$ figure. Omit to use {@link DEFAULT_WEIGHTS} (a snapshot) — pass it for exact, always-current numbers. */
+  weights?: WeightTable;
   /** Extra Scalar configuration merged into createApiReference (theme, layout, hideModels, …). */
   configuration?: Record<string, unknown>;
 }
@@ -62,6 +65,9 @@ interface CostSettlement { method?: "credit" | "rate-limited" | "free" | "subscr
 interface CostFacet {
   estimateMicroUsd?: number;
   components?: CostComponent[];
+  /** STATIC infra MULTIPLIERS (meter → units/call) — weighed against the pricing to a µ$ floor. Most routes cost via THIS
+   *  (not a declared estimate), so a renderer that ignores it shows ~0; `costTotal` weighs it (see DEFAULT_WEIGHTS). */
+  infra?: Record<string, number | undefined>;
   /** HOW the operator RECOVERS the cost (C044): credit · rate-limited · free. */
   settlement?: CostSettlement;
   /** WHEN the cost fires (C024): synchronous (default) · webhook-received · scheduled · queue-consumed · callback-completed. */
@@ -83,19 +89,46 @@ const SETTLE_LABEL: Record<string, string> = { credit: "💳 credits", "rate-lim
 // defaults to the paid color, never green — so an unmapped method never reads as "free to the user".
 const SETTLE_COLOR: Record<string, string> = { credit: "var(--scalar-color-purple)", subscription: "var(--scalar-color-purple)", trust: "var(--scalar-color-purple)", "rate-limited": "var(--scalar-color-orange)", free: "var(--scalar-color-green)", lead: "var(--scalar-color-green)" };
 
-/** The FIXED per-call total (µ$): the declared estimate if given, else the sum of the per-call components. VARIABLE
- *  (metered) components are excluded — their amount is reported at runtime, so the badge/estimate shows the floor. */
-function costTotal(cost: CostFacet): number {
-  return cost.estimateMicroUsd ?? (cost.components ?? []).filter(isFixed).reduce((s, c) => s + (c.microUsd ?? 0), 0);
+/** meter → µ$/unit. For EXACT figures, pass your app's live merged table (@suluk/cloudflare `weightTable()` + provider
+ *  weights) via `ScalarOptions.weights`; absent that, {@link DEFAULT_WEIGHTS} keeps the displayed numbers usable, not ~0. */
+export type WeightTable = Record<string, number>;
+
+/** A pricing SNAPSHOT so routes show usable µ$ out of the box (most cost is `infra`, which needs weighing). Override with
+ *  the app's live weights for exactness — this drifts if Cloudflare/provider pricing changes until the package is bumped. */
+export const DEFAULT_WEIGHTS: WeightTable = {
+  "worker.request": 0.3, "worker.cpu_ms": 0.02,
+  "d1.read": 0.001, "d1.write": 1, "d1.storage_gb_month": 750000,
+  "kv.read": 0.2, "kv.write": 1, "kv.storage_gb_month": 200000,
+  "r2.class_a": 4.5, "r2.class_b": 0.36, "r2.storage_gb_month": 15000,
+  "queue.operation": 0.4,
+  "stripe.charge": 300000, "resend.email": 400, "google.oauth": 0,
+};
+
+/** Weigh a cost's `infra` map (meter → units) to µ$ via the weight table — the STATIC infra floor the badge/estimate shows. */
+function weighInfra(cost: CostFacet, weights: WeightTable): number {
+  let sum = 0;
+  for (const [meter, units] of Object.entries(cost.infra ?? {})) {
+    const w = weights[meter];
+    if (w == null || typeof units !== "number" || !Number.isFinite(units)) continue;
+    sum += units * w;
+  }
+  return sum;
+}
+
+/** The FIXED per-call total (µ$): a declared estimate (or the sum of per-call components) PLUS the weighed infra floor.
+ *  VARIABLE (metered) components are excluded — their amount is reported at runtime, so the badge shows the static floor. */
+function costTotal(cost: CostFacet, weights: WeightTable = DEFAULT_WEIGHTS): number {
+  const declared = cost.estimateMicroUsd ?? (cost.components ?? []).filter(isFixed).reduce((s, c) => s + (c.microUsd ?? 0), 0);
+  return declared + weighInfra(cost, weights);
 }
 const hasVariable = (cost: CostFacet): boolean => (cost.components ?? []).some((c) => !isFixed(c) && (c.microUsd ?? 0) > 0);
-const fmtCost = (micro: number): string => (micro >= 10000 ? "$" + (micro / 1_000_000).toFixed(4) : micro + "µ$");
+const fmtCost = (micro: number): string => (micro >= 10000 ? "$" + (micro / 1_000_000).toFixed(4) : (micro < 1 ? micro.toFixed(3) : micro.toFixed(2)).replace(/\.?0+$/, "") + "µ$");
 const accessText = (acc: AccessFacet): string =>
   ({ admin: "Admin only", authenticated: "Signed-in users", anyone: "Public (no auth)" }[acc.requires ?? "anyone"] ?? "Public") + (acc.scope === "owner" ? " · owner-scoped (you only see your own rows)" : "");
 
-function costBadge(cost: CostFacet | undefined): { name: string; color: string } | null {
+function costBadge(cost: CostFacet | undefined, weights: WeightTable = DEFAULT_WEIGHTS): { name: string; color: string } | null {
   if (!cost) return null;
-  const total = costTotal(cost);
+  const total = costTotal(cost, weights);
   const variable = hasVariable(cost);
   if (!total && !variable) return null;
   // `＋` marks a DYNAMIC cost on top of the fixed floor (metered by tokens/MB/…); a purely-metered op reads "💰 metered".
@@ -128,7 +161,7 @@ function accessBadge(acc: AccessFacet | undefined): { name: string; color: strin
 
 /** Mutate a downgraded 3.1 spec: attach Scalar `x-badges` derived from the carried-through v4 facets, so cost +
  *  access show up right on each operation in Scalar's UI (which has no native concept of them). */
-export function enrichFacetBadges(spec: { paths?: Record<string, Record<string, unknown>> }): void {
+export function enrichFacetBadges(spec: { paths?: Record<string, Record<string, unknown>> }, weights: WeightTable = DEFAULT_WEIGHTS): void {
   for (const pi of Object.values(spec.paths ?? {})) {
     if (!pi || typeof pi !== "object") continue;
     for (const m of HTTP_METHODS) {
@@ -136,7 +169,7 @@ export function enrichFacetBadges(spec: { paths?: Record<string, Record<string, 
       if (!op || typeof op !== "object") continue;
       const badges: { name: string; position: "after"; color: string }[] = [];
       const ab = accessBadge(op["x-suluk-access"] as AccessFacet | undefined); if (ab) badges.push({ position: "after", ...ab });
-      const cb = costBadge(op["x-suluk-cost"] as CostFacet | undefined); if (cb) badges.push({ position: "after", ...cb });
+      const cb = costBadge(op["x-suluk-cost"] as CostFacet | undefined, weights); if (cb) badges.push({ position: "after", ...cb });
       const sb = settlementBadge(op["x-suluk-cost"] as CostFacet | undefined); if (sb) badges.push({ position: "after", ...sb });
       const ib = internalBadge(op); if (ib) badges.push({ position: "after", ...ib });
       if (badges.length) op["x-badges"] = badges;
@@ -167,16 +200,23 @@ function triggerIndex(paths: Record<string, { requests?: Record<string, Record<s
  *  in Scalar reveals the ROUTE ECONOMICS: access · cost (the fixed floor + each DYNAMIC/metered component with its rate +
  *  unit) · how it's SETTLED (credit/rate-limited/free) · when its cost ACCRUES (a non-sync trigger + who pays) · and the
  *  downstream cost-bearing EVENTS it triggers — not just the collapsed badge. `triggered` = this op's reverse-index entry. */
-function facetDetail(op: Record<string, unknown>, triggered?: TriggeredCost[]): string {
+function facetDetail(op: Record<string, unknown>, triggered?: TriggeredCost[], weights: WeightTable = DEFAULT_WEIGHTS): string {
   const lines: string[] = [];
   const acc = op["x-suluk-access"] as AccessFacet | undefined;
   if (acc?.requires) lines.push(`**Access** — ${accessText(acc)}`);
   const cost = op["x-suluk-cost"] as CostFacet | undefined;
   if (cost) {
     // the FIXED floor + its per-call breakdown.
-    const total = costTotal(cost);
+    const total = costTotal(cost, weights);
     const fixed = (cost.components ?? []).filter((c) => isFixed(c) && c.microUsd).map((c) => `${c.source ?? "?"} ${c.microUsd}µ$`).join(" · ");
     lines.push(`**Cost** — ~${fmtCost(total)} per call${fixed ? ` _(${fixed})_` : ""}`);
+    // the STATIC infra multipliers, each weighed against the live pricing (worker/d1/kv/r2/provider meters) — where most
+    // of the per-call floor actually comes from, so the number isn't a mystery.
+    const infra = Object.entries(cost.infra ?? {}).filter(([, u]) => typeof u === "number" && u);
+    if (infra.length) {
+      const parts = infra.map(([m, u]) => `${u}× \`${m}\` = ${fmtCost((u as number) * (weights[m] ?? 0))}`).join(" · ");
+      lines.push(`&nbsp;&nbsp;↳ infra: ${parts}`);
+    }
     // the DYNAMIC / metered components — cost that scales with tokens / file MB / compute seconds / upstream calls, etc.
     for (const c of (cost.components ?? []).filter((c) => !isFixed(c) && c.microUsd)) {
       lines.push(`&nbsp;&nbsp;↳ **+ ${c.microUsd}µ$ / ${BASIS_LABEL[c.basis ?? ""] ?? c.basis}** — ${c.source ?? "?"}${c.description ? ` _(${c.description})_` : ""}`);
@@ -228,16 +268,38 @@ function hardeningDetail(audit: OpAudit | undefined): string {
   return `\n\n<details><summary>${escapeHtml(summary)}</summary>${body}</details>`;
 }
 
+/** A GLOBAL hardening report for the WHOLE document — the combined @suluk/harden grade across all three dimensions
+ *  (security · readiness · cost coverage) + EVERY finding, grouped by dimension, as one collapsible `<details>` for the top
+ *  of the doc. Collapsed by default (the grade shows in the summary); expand for the full issue list. */
+function globalHardenDetail(doc: OpenAPIv4Document): string {
+  const sec = auditDocument(doc);
+  const rd = auditReadiness(doc);
+  const cost = auditCost(doc);
+  const combined = combineGrades([sec.grade, rd.grade, cost.grade]);
+  const dims: { label: string; grade: string; findings: Finding[] }[] = [
+    { label: "Security (input hardening)", grade: sec.grade, findings: sec.findings },
+    { label: "Readiness", grade: rd.grade, findings: rd.findings },
+    { label: "Cost coverage", grade: cost.grade, findings: cost.findings },
+  ];
+  const total = dims.reduce((s, d) => s + d.findings.length, 0);
+  const summary = `🛡 Contract hardening — overall grade ${combined.worst}  ·  security ${sec.grade} · readiness ${rd.grade} · cost ${cost.grade}  ·  ${total === 0 ? "no issues" : `${total} issue${total === 1 ? "" : "s"}`}`;
+  const li = (f: Finding) => `<li>${SEV_ICON[f.severity] ?? "•"} <strong>${escapeHtml(f.severity)}</strong> <code>${escapeHtml(f.path)}</code> — ${escapeHtml(f.message)} <em>(fix: ${escapeHtml(f.fix)})</em></li>`;
+  const body = dims
+    .map((d) => `<p><strong>${escapeHtml(d.label)}</strong> — grade ${d.grade}${d.findings.length === 0 ? " ✓ clean" : `</p><ul>${d.findings.map(li).join("")}</ul>`}${d.findings.length === 0 ? "</p>" : ""}`)
+    .join("");
+  return `<details><summary>${escapeHtml(summary)}</summary>${body}</details>`;
+}
+
 /** Append the v4 facet detail to each operation's description (progressive disclosure, complementing the badges). `tIdx`
  *  (the reverse trigger index, keyed by op NAME = the 3.1 `operationId`) drives the "Triggers" line — pass it from the
  *  original v4 doc (the downgraded spec has no `requests` to build it from). */
-export function enrichFacetDetail(spec: { paths?: Record<string, Record<string, unknown>> }, tIdx?: Map<string, TriggeredCost[]>): void {
+export function enrichFacetDetail(spec: { paths?: Record<string, Record<string, unknown>> }, tIdx?: Map<string, TriggeredCost[]>, weights: WeightTable = DEFAULT_WEIGHTS): void {
   for (const pi of Object.values(spec.paths ?? {})) {
     if (!pi || typeof pi !== "object") continue;
     for (const m of HTTP_METHODS) {
       const op = pi[m] as Record<string, unknown> | undefined;
       if (!op || typeof op !== "object") continue;
-      const detail = facetDetail(op, tIdx?.get(op.operationId as string));
+      const detail = facetDetail(op, tIdx?.get(op.operationId as string), weights);
       if (detail) op.description = (typeof op.description === "string" ? op.description : "") + detail;
     }
   }
@@ -271,19 +333,25 @@ function escapeHtml(s: string): string {
 
 /** Project a v4 document to the 3.1 spec Scalar consumes, ENRICHED with the v4 facets (cost/access → badges + detail
  *  + intro). The standalone (+ the /reference composite's view-as endpoint) both serve this. Never mutates `doc`. */
-export function enrichedSpec(doc: OpenAPIv4Document, opts: { facetBadges?: boolean; hardening?: boolean } = {}): { spec: Record<string, unknown>; diagnostics: Diagnostic[] } {
+export function enrichedSpec(doc: OpenAPIv4Document, opts: { facetBadges?: boolean; hardening?: boolean; weights?: WeightTable } = {}): { spec: Record<string, unknown>; diagnostics: Diagnostic[] } {
   const { document: raw, diagnostics } = downgrade(doc);
   // Clone before enriching: `downgrade` shares sub-objects (info/operations) with the input by reference, so mutating
   // them in place would corrupt the caller's document (and accumulate across calls). The spec is JSON-safe.
   const spec = JSON.parse(JSON.stringify(raw));
+  const weights = opts.weights ?? DEFAULT_WEIGHTS;
   if (opts.facetBadges !== false) {
-    enrichFacetBadges(spec);
+    enrichFacetBadges(spec, weights);
     // the reverse trigger index is built off the ORIGINAL v4 doc (`requests` by name) — the downgraded spec has none.
-    enrichFacetDetail(spec, triggerIndex(doc.paths as unknown as Parameters<typeof triggerIndex>[0]));
+    enrichFacetDetail(spec, triggerIndex(doc.paths as unknown as Parameters<typeof triggerIndex>[0]), weights);
     v4Intro(spec);
     // the per-op hardening report — audit the ORIGINAL v4 doc (it reads `requests`), map by method+path onto the
     // downgraded ops, and append the collapsible `<details>` to each op's description.
-    if (opts.hardening !== false) enrichHardening3x(spec, doc);
+    if (opts.hardening !== false) {
+      enrichHardening3x(spec, doc);
+      // the GLOBAL hardening report — the whole-doc grade + every finding, prepended to the intro at the top.
+      const info = ((spec as { info?: Record<string, unknown> }).info ??= {});
+      info.description = globalHardenDetail(doc) + (typeof info.description === "string" && info.description ? `\n\n${info.description}` : "");
+    }
   }
   return { spec, diagnostics };
 }
@@ -310,7 +378,8 @@ function enrichHardening3x(spec: { paths?: Record<string, Record<string, unknown
  *  natively (projects requests→ops internally) and carries `x-badges` / `x-suluk-*` through, so cost + access render
  *  on each operation AND the version badge reads 4.0.0-candidate (no downgrade). Reuses the 3.1 badge helpers since a
  *  v4 request carries `x-suluk-cost` / `x-suluk-access` directly. */
-export function enrichV4Facets(doc: { paths?: Record<string, { requests?: Record<string, Record<string, unknown>> }>; info?: Record<string, unknown> }, opts: { hardening?: boolean } = {}): void {
+export function enrichV4Facets(doc: { paths?: Record<string, { requests?: Record<string, Record<string, unknown>> }>; info?: Record<string, unknown> }, opts: { hardening?: boolean; weights?: WeightTable } = {}): void {
+  const weights = opts.weights ?? DEFAULT_WEIGHTS;
   // the per-op input-hardening audit (@suluk/harden), keyed by the v4 request NAME — appended as a collapsible per route.
   const audit = opts.hardening === false ? null : auditDocument(doc as unknown as OpenAPIv4Document);
   const hardenByName = audit ? new Map(audit.byOperation.map((o) => [o.operation, o])) : null;
@@ -324,24 +393,25 @@ export function enrichV4Facets(doc: { paths?: Record<string, { requests?: Record
       if (req["x-suluk-cost"]) priced++;
       const badges: { name: string; position: "after"; color: string }[] = [];
       const ab = accessBadge(req["x-suluk-access"] as AccessFacet | undefined); if (ab) badges.push({ position: "after", ...ab });
-      const cb = costBadge(req["x-suluk-cost"] as CostFacet | undefined); if (cb) badges.push({ position: "after", ...cb });
+      const cb = costBadge(req["x-suluk-cost"] as CostFacet | undefined, weights); if (cb) badges.push({ position: "after", ...cb });
       const sb = settlementBadge(req["x-suluk-cost"] as CostFacet | undefined); if (sb) badges.push({ position: "after", ...sb });
       const ib = internalBadge(req); if (ib) badges.push({ position: "after", ...ib });
       if (badges.length) req["x-badges"] = badges;
-      const detail = facetDetail(req, tIdx.get(name)) + (hardenByName ? hardeningDetail(hardenByName.get(name)) : "");
+      const detail = facetDetail(req, tIdx.get(name), weights) + (hardenByName ? hardeningDetail(hardenByName.get(name)) : "");
       if (detail) req.description = (typeof req.description === "string" ? req.description : "") + detail;
     }
   }
   if (!total) return;
-  const hardenNote = audit ? ` The input-hardening grade is **${audit.grade}** (${audit.score}/100) — expand any operation for its per-route hardening report.` : "";
-  const note = `> **Suluk v4 contract.** Every operation is **cost-metered** (micro-USD) and **access-scoped** — the badges show each op's access + per-call cost, and expanding an operation reveals the cost breakdown by source.${hardenNote} ${priced} of ${total} operations carry a declared cost.`;
+  // the GLOBAL hardening report — the whole-doc combined grade + every finding, as a collapsible <details> at the very top.
+  const globalReport = opts.hardening === false ? "" : globalHardenDetail(doc as unknown as OpenAPIv4Document);
+  const note = `> **Suluk v4 contract.** Every operation is **cost-metered** (micro-USD) and **access-scoped** — the badges show each op's access + per-call cost, and expanding an operation reveals the cost breakdown by source. ${priced} of ${total} operations carry a declared cost.`;
   const info = (doc.info ??= {});
-  info.description = note + (typeof info.description === "string" && info.description ? `\n\n${info.description}` : "");
+  info.description = [globalReport, note, typeof info.description === "string" && info.description ? info.description : ""].filter(Boolean).join("\n\n");
 }
 
 /** Enrich a v4 document with the suluk facets (badges + detail + intro) WITHOUT downgrading — for the forked Scalar
  *  that ingests v4 NATIVELY. Never mutates `doc` (JSON-clone first). The output is fed to Scalar's `content` as-is. */
-export function enrichedV4(doc: OpenAPIv4Document, opts: { facetBadges?: boolean; hardening?: boolean } = {}): { spec: Record<string, unknown> } {
+export function enrichedV4(doc: OpenAPIv4Document, opts: { facetBadges?: boolean; hardening?: boolean; weights?: WeightTable } = {}): { spec: Record<string, unknown> } {
   const spec = JSON.parse(JSON.stringify(doc)) as Record<string, unknown>;
   if (opts.facetBadges !== false) enrichV4Facets(spec as Parameters<typeof enrichV4Facets>[0], opts);
   return { spec };

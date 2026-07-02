@@ -165,6 +165,29 @@ describe("route economics — cost · settlement · dynamic components · trigge
     expect(detail()).toContain("**Settlement** — 💳 credits · 3 credits debited per call");
   });
 
+  test("an INFRA-ONLY route shows a real weighed µ$ (not 0/metered) — the badge + the infra breakdown", () => {
+    // most routes cost via `infra` (symbolic multipliers), not a declared estimate — scalar must WEIGH them or show ~0.
+    const mk = { openapi: "4.0.0-candidate", info: { title: "I", version: "1" }, paths: { p: { requests: { read: {
+      method: "GET", responses: { ok: { status: "200", description: "OK" } },
+      "x-suluk-cost": { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "rate-limited" } },
+    } } } } } as never;
+    const op = (enrichedV4(mk).spec as any).paths.p.requests.read;
+    const costBadge = (op["x-badges"] as { name: string }[]).find((b) => b.name.startsWith("💰"));
+    expect(costBadge).toBeDefined();
+    expect(costBadge!.name).not.toContain("metered"); // it has a real number now
+    expect(costBadge!.name).toMatch(/💰 0\.32µ\$/); // 1×0.3 (worker) + 20×0.001 (d1.read) = 0.32 µ$
+    expect(op.description).toContain("infra:"); // the weighed breakdown line
+    expect(op.description).toContain("worker.request");
+  });
+
+  test("passing live `weights` overrides the default snapshot", () => {
+    const mk = { openapi: "4.0.0-candidate", info: { title: "I", version: "1" }, paths: { p: { requests: { r: {
+      method: "GET", responses: { ok: { status: "200", description: "OK" } }, "x-suluk-cost": { components: [], infra: { "worker.request": 2 } },
+    } } } } } as never;
+    const op = (enrichedV4(mk, { weights: { "worker.request": 5 } }).spec as any).paths.p.requests.r;
+    expect((op["x-badges"] as { name: string }[]).find((b) => b.name.startsWith("💰"))!.name).toMatch(/10µ\$/); // 2 × 5
+  });
+
   test("the C067 payment methods render HONESTLY — subscription/trust are user-paid, not 'operator absorbs'", () => {
     const mk = (method: string) => ({
       openapi: "4.0.0-candidate", info: { title: "S", version: "1" },
@@ -266,9 +289,13 @@ describe("per-route hardening report (@suluk/harden → a native collapsible <de
     expect(create.description ?? "").not.toContain("🛡 Hardening");
   });
 
-  test("the intro carries the doc-level hardening grade", () => {
+  test("the intro carries the GLOBAL doc-level hardening report (combined grade + every dimension)", () => {
     const info = (enrichedV4(doc).spec as any).info;
-    expect(info.description).toContain("input-hardening grade");
+    expect(info.description).toContain("Contract hardening"); // the collapsible global report
+    expect(info.description).toMatch(/overall grade [A-F]/);
+    expect(info.description).toContain("security"); // the security · readiness · cost breakdown
+    expect(info.description).toContain("Cost coverage");
+    expect(info.description).toContain("<details>"); // collapsible
   });
 });
 
