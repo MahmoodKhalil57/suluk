@@ -8,7 +8,7 @@
 
 > **renderScenarioOutlines**(`doc`, `opts?`): `string`
 
-Defined in: [journeys/src/outline.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/outline.ts#L90)
+Defined in: [journeys/src/outline.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/outline.ts#L90)
 
 Render the generated outlines as a `.feature` SIDECAR a tester expands. A column-bearing op becomes a `Scenario
 Outline:` + a one-row `Examples:` table; a body-less op becomes a plain `Scenario:`.

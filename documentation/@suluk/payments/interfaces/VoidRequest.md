@@ -6,7 +6,7 @@
 
 # Interface: VoidRequest
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:157](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L157)
+Defined in: [tooling/ts/packages/payments/src/types.ts:157](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L157)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:157](https://github.com/M
 
 > `optional` **cancellationReason?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:160](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L160)
+Defined in: [tooling/ts/packages/payments/src/types.ts:160](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L160)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:160](https://github.com/M
 
 > **connectorTransactionId**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:159](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L159)
+Defined in: [tooling/ts/packages/payments/src/types.ts:159](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L159)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:159](https://github.com/M
 
 > **merchantVoidId**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:158](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L158)
+Defined in: [tooling/ts/packages/payments/src/types.ts:158](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L158)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:158](https://github.com/M
 
 > `optional` **testMode?**: `boolean`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:161](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L161)
+Defined in: [tooling/ts/packages/payments/src/types.ts:161](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L161)

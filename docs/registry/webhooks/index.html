@@ -14,7 +14,7 @@ module — code you own, wired over the <code>@suluk/*</code> npm packages.</p>
 <pre><code class="sh"><span class="hl-9">pnpm</span><span class="hl-1"> </span><span class="hl-5">dlx</span><span class="hl-1"> </span><span class="hl-5">shadcn@latest</span><span class="hl-1"> </span><span class="hl-5">add</span><span class="hl-1"> </span><span class="hl-5">MahmoodKhalil57/suluk/webhooks</span><br/><span class="hl-4"># or:  npx shadcn@latest add MahmoodKhalil57/suluk/webhooks</span><br/><span class="hl-4"># pin to a ref:  MahmoodKhalil57/suluk/webhooks#main</span>
 </code><button type="button">Copy</button></pre>
 
-<p><code>registryDependencies</code> pull in the base <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/app" target="_blank" class="external"><code>app</code></a> module automatically (the shared Hono app + the
+<p><code>registryDependencies</code> pull in the base <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/services/app" target="_blank" class="external"><code>app</code></a> module automatically (the shared Hono app + the
 Effect <code>Db</code> service). The module drops four files into your app and installs its npm deps.</p>
 <h2 id="what-you-get" class="tsd-anchor-link">What you get<a href="#what-you-get" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <table>
@@ -76,7 +76,7 @@ auditing. The provision fragment adds its migration (<code>0005_webhooks</code>)
 <ul>
 <li><strong>npm (<code>dependencies</code>):</strong> <code>@suluk/payments</code> (the inbound Stripe surface — verification + routing),
 <code>@suluk/provision</code> (the <code>InstanceSpec</code> type for the fragment), <code>effect</code>, <code>drizzle-orm</code>, <code>hono</code>.</li>
-<li><strong>registry (<code>registryDependencies</code>):</strong> <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/app" target="_blank" class="external"><code>MahmoodKhalil57/suluk/app</code></a> — the base Hono app + the
+<li><strong>registry (<code>registryDependencies</code>):</strong> <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/services/app" target="_blank" class="external"><code>MahmoodKhalil57/suluk/app</code></a> — the base Hono app + the
 Effect <code>Db</code> service this module injects.</li>
 </ul>
 <h2 id="own-the-wiring-npm-the-logic" class="tsd-anchor-link">Own the wiring, npm the logic<a href="#own-the-wiring-npm-the-logic" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>

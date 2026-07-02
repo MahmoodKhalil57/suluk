@@ -6,7 +6,7 @@
 
 # Interface: ProgressElement
 
-Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/progress.ts#L10)
+Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/progress.ts#L10)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:10](https://github.
 
 > **classList**: `object`
 
-Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/progress.ts#L12)
+Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/progress.ts#L12)
 
 #### toggle()
 
@@ -40,7 +40,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:12](https://github.
 
 > **style**: `object`
 
-Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/progress.ts#L11)
+Defined in: [tooling/ts/packages/nano-stores/src/progress.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/progress.ts#L11)
 
 #### width
 

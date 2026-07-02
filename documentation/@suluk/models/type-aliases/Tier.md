@@ -8,7 +8,7 @@
 
 > **Tier** = `"frontier"` \| `"strong"` \| `"mid"` \| `"basic"` \| `"unknown"`
 
-Defined in: [types.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/models/src/types.ts#L16)
+Defined in: [types.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/models/src/types.ts#L16)
 
 `@suluk/models` — the catalog schema (council wf_729cde52-cc7). A row is keyed BY MODEL (id, capabilities, benchmark
 tiers, context window — all per-model). Per-ENDPOINT axes (price/region/data-retention/latency, which differ across

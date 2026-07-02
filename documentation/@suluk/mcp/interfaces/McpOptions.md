@@ -6,7 +6,7 @@
 
 # Interface: McpOptions
 
-Defined in: [app.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/app.ts#L17)
+Defined in: [app.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/app.ts#L17)
 
 `@suluk/mcp` — project ONE OpenAPI v4 document into a Model Context Protocol server. The same contract that drives
 the API, SDK, docs, admin, and panel now drives an agent-callable surface: every operation becomes an MCP tool
@@ -25,7 +25,7 @@ CANDIDATE tooling — NOT official OAS.
 
 > `optional` **authorize?**: (`c`) => `boolean` \| `Promise`\<`boolean`\>
 
-Defined in: [app.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/app.ts#L27)
+Defined in: [app.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/app.ts#L27)
 
 Gate the whole endpoint — return true to allow. Default: open (read-only catalog browsing).
 
@@ -45,7 +45,7 @@ Gate the whole endpoint — return true to allow. Default: open (read-only catal
 
 > `optional` **basePath?**: `string`
 
-Defined in: [app.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/app.ts#L20)
+Defined in: [app.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/app.ts#L20)
 
 ***
 
@@ -53,7 +53,7 @@ Defined in: [app.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5d
 
 > `optional` **cors?**: `boolean`
 
-Defined in: [app.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/app.ts#L31)
+Defined in: [app.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/app.ts#L31)
 
 Send permissive CORS so browser-based MCP clients can reach a public read-only server (default: true).
 
@@ -63,7 +63,7 @@ Send permissive CORS so browser-based MCP clients can reach a public read-only s
 
 > **document**: [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md) \| ((`c`) => [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md) \| `Promise`\<[`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md)\>)
 
-Defined in: [app.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/app.ts#L19)
+Defined in: [app.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/app.ts#L19)
 
 The v4 document — a value, or a per-request function (e.g. return projectDocument(doc, roleOf(c))).
 
@@ -73,7 +73,7 @@ The v4 document — a value, or a per-request function (e.g. return projectDocum
 
 > `optional` **exec?**: (`c`, `op`, `args`) => `Promise`\<`unknown`\>
 
-Defined in: [app.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/app.ts#L29)
+Defined in: [app.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/app.ts#L29)
 
 Override how a tool call is executed (default: same-origin fetch via [originExec](../functions/originExec.md)).
 
@@ -101,7 +101,7 @@ Override how a tool call is executed (default: same-origin fetch via [originExec
 
 > `optional` **hide?**: `string`[]
 
-Defined in: [tools.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/tools.ts#L36)
+Defined in: [tools.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/tools.ts#L36)
 
 Operation names to omit.
 
@@ -115,7 +115,7 @@ Operation names to omit.
 
 > `optional` **include?**: `"read"` \| `"all"`
 
-Defined in: [tools.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/tools.ts#L34)
+Defined in: [tools.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/tools.ts#L34)
 
 `"read"` (default) exposes only GET/HEAD operations; `"all"` also exposes mutations.
 
@@ -129,7 +129,7 @@ Defined in: [tools.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a
 
 > `optional` **includeDeprecated?**: `boolean`
 
-Defined in: [tools.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/tools.ts#L40)
+Defined in: [tools.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/tools.ts#L40)
 
 Include `deprecated` operations (default: skip them).
 
@@ -143,7 +143,7 @@ Include `deprecated` operations (default: skip them).
 
 > `optional` **instructions?**: `string`
 
-Defined in: [app.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/app.ts#L25)
+Defined in: [app.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/app.ts#L25)
 
 Free-text guidance surfaced to the model on `initialize`.
 
@@ -153,7 +153,7 @@ Free-text guidance surfaced to the model on `initialize`.
 
 > `optional` **name?**: `string`
 
-Defined in: [app.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/app.ts#L22)
+Defined in: [app.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/app.ts#L22)
 
 Advertised server identity.
 
@@ -163,7 +163,7 @@ Advertised server identity.
 
 > `optional` **only?**: `string`[]
 
-Defined in: [tools.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/tools.ts#L38)
+Defined in: [tools.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/tools.ts#L38)
 
 If set, expose ONLY these operation names (after hide).
 
@@ -177,7 +177,7 @@ If set, expose ONLY these operation names (after hide).
 
 > `optional` **resident?**: `string`[] \| ((`c`) => `string`[] \| `Promise`\<`string`[] \| `undefined`\> \| `undefined`)
 
-Defined in: [app.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/app.ts#L38)
+Defined in: [app.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/app.ts#L38)
 
 TIER-TRIM serving (C027): the names of the RESIDENT tools (a value or a per-request resolver). When provided,
 `tools/list` serves only these + a `discover_tools` meta-tool, withholding the cold-tail from the default surface
@@ -190,4 +190,4 @@ agent's route tiers, e.g. `@suluk/agents` `residentToolNames(doc, agentName)`. A
 
 > `optional` **version?**: `string`
 
-Defined in: [app.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/app.ts#L23)
+Defined in: [app.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/app.ts#L23)

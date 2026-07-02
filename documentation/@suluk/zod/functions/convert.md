@@ -8,7 +8,7 @@
 
 > **convert**(`node`, `opts?`): `ZodType`
 
-Defined in: [to-zod.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/zod/src/to-zod.ts#L113)
+Defined in: [to-zod.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/zod/src/to-zod.ts#L113)
 
 Core recursive conversion of one v4/JSON-Schema node to a Zod type.
 

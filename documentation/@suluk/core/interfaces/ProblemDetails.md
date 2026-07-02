@@ -6,7 +6,7 @@
 
 # Interface: ProblemDetails
 
-Defined in: [errors.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/errors.ts#L69)
+Defined in: [errors.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/errors.ts#L69)
 
 An RFC-9457 Problem Details object. `type` is the machine identifier (a URI reference; default `"about:blank"`),
 `title` is human-readable, `status` is the HTTP status. `detail` is the human explanation; `errors` carries
@@ -23,7 +23,7 @@ for Phase 0 (the existing SDK + the @suluk/hono `deny()` body read it) — depre
 
 > `optional` **detail?**: `string`
 
-Defined in: [errors.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/errors.ts#L73)
+Defined in: [errors.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/errors.ts#L73)
 
 ***
 
@@ -31,7 +31,7 @@ Defined in: [errors.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > `optional` **error?**: `string`
 
-Defined in: [errors.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/errors.ts#L78)
+Defined in: [errors.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/errors.ts#L78)
 
 #### Deprecated
 
@@ -43,7 +43,7 @@ legacy machine code (Phase-0 bridge); prefer `type`/`detail`.
 
 > `optional` **errors?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [errors.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/errors.ts#L76)
+Defined in: [errors.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/errors.ts#L76)
 
 structured validation errors (saastarter's `details`).
 
@@ -53,7 +53,7 @@ structured validation errors (saastarter's `details`).
 
 > `optional` **instance?**: `string`
 
-Defined in: [errors.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/errors.ts#L74)
+Defined in: [errors.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/errors.ts#L74)
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: [errors.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > **status**: [`ProblemStatus`](../type-aliases/ProblemStatus.md)
 
-Defined in: [errors.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/errors.ts#L72)
+Defined in: [errors.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/errors.ts#L72)
 
 ***
 
@@ -69,7 +69,7 @@ Defined in: [errors.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > **title**: `string`
 
-Defined in: [errors.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/errors.ts#L71)
+Defined in: [errors.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/errors.ts#L71)
 
 ***
 
@@ -77,4 +77,4 @@ Defined in: [errors.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > **type**: `string`
 
-Defined in: [errors.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/errors.ts#L70)
+Defined in: [errors.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/errors.ts#L70)

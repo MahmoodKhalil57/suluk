@@ -8,7 +8,7 @@
 
 > **lintAgents**(`doc`): [`LintFinding`](../interfaces/LintFinding.md)[]
 
-Defined in: [agents/src/lint.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/lint.ts#L29)
+Defined in: [agents/src/lint.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/lint.ts#L29)
 
 `@suluk/agents` — the Suluk Agent composition layer (C027). Lint + project an `x-suluk-agents` map (skills +
 deterministic routes + by-name sub-agents) into a Claude plugin AND an OpenRouter/OpenAI-compatible manifest:

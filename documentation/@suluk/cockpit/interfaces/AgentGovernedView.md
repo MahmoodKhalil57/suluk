@@ -6,7 +6,7 @@
 
 # Interface: AgentGovernedView
 
-Defined in: [cockpit/src/agents.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L56)
+Defined in: [cockpit/src/agents.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/agents.ts#L56)
 
 The agent-declared vs operator-effective diff + the cost three-number (cap / estimate / actual). Read-only.
 
@@ -16,7 +16,7 @@ The agent-declared vs operator-effective diff + the cost three-number (cap / est
 
 > **cost**: `object`
 
-Defined in: [cockpit/src/agents.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L64)
+Defined in: [cockpit/src/agents.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/agents.ts#L64)
 
 the three distinct owners: cap (operator x-suluk-policy, enforced-by-adapter) / estimate (author) / actual (C026 runtime).
 
@@ -38,7 +38,7 @@ the three distinct owners: cap (operator x-suluk-policy, enforced-by-adapter) / 
 
 > **deniedSubAgents**: `string`[]
 
-Defined in: [cockpit/src/agents.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L61)
+Defined in: [cockpit/src/agents.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/agents.ts#L61)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [cockpit/src/agents.ts:61](https://github.com/MahmoodKhalil57/suluk/
 
 > **deniedTools**: `string`[]
 
-Defined in: [cockpit/src/agents.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L60)
+Defined in: [cockpit/src/agents.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/agents.ts#L60)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [cockpit/src/agents.ts:60](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **effectiveMaxDepth?**: `number`
 
-Defined in: [cockpit/src/agents.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L58)
+Defined in: [cockpit/src/agents.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/agents.ts#L58)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [cockpit/src/agents.ts:58](https://github.com/MahmoodKhalil57/suluk/
 
 > **effectiveScope**: [`Scope`](../../agents/type-aliases/Scope.md)
 
-Defined in: [cockpit/src/agents.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L57)
+Defined in: [cockpit/src/agents.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/agents.ts#L57)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [cockpit/src/agents.ts:57](https://github.com/MahmoodKhalil57/suluk/
 
 > **narrowings**: `object`[]
 
-Defined in: [cockpit/src/agents.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L62)
+Defined in: [cockpit/src/agents.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/agents.ts#L62)
 
 #### axis
 
@@ -86,4 +86,4 @@ Defined in: [cockpit/src/agents.ts:62](https://github.com/MahmoodKhalil57/suluk/
 
 > **nestingForbidden**: `boolean`
 
-Defined in: [cockpit/src/agents.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/agents.ts#L59)
+Defined in: [cockpit/src/agents.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/agents.ts#L59)

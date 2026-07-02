@@ -8,7 +8,7 @@
 
 > **appPage**(`name`, `sectionNames`): [`DslDocument`](../interfaces/DslDocument.md)
 
-Defined in: [fullstack.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/fullstack.ts#L90)
+Defined in: [fullstack.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/fullstack.ts#L90)
 
 A page composing the given sections. Forwards tone; exposes only { sections, tone } upward.
 

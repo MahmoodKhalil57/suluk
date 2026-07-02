@@ -8,7 +8,7 @@
 
 > **effectiveUnderPolicies**(`doc`, `agentName`): [`PolicyConstrainResult`](../interfaces/PolicyConstrainResult.md)
 
-Defined in: [agents/src/policy.ts:128](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/policy.ts#L128)
+Defined in: [agents/src/policy.ts:128](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/policy.ts#L128)
 
 Apply ALL governing policies to an agent (MEET is associative/commutative — compose left-to-right).
 

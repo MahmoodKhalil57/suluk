@@ -6,7 +6,7 @@
 
 # Interface: HonoLike
 
-Defined in: [mount.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/better-auth/src/mount.ts#L11)
+Defined in: [mount.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/mount.ts#L11)
 
 ## Methods
 
@@ -14,7 +14,7 @@ Defined in: [mount.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a
 
 > **on**(`methods`, `path`, `handler`): `unknown`
 
-Defined in: [mount.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/better-auth/src/mount.ts#L12)
+Defined in: [mount.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/mount.ts#L12)
 
 #### Parameters
 

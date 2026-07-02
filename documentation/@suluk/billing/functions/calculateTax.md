@@ -8,7 +8,7 @@
 
 > **calculateTax**(`cfg`, `customerId`, `subtotalCents`, `loc`): `Promise`\<[`TaxResult`](../interfaces/TaxResult.md)\>
 
-Defined in: [packages/billing/src/tax.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/tax.ts#L47)
+Defined in: [packages/billing/src/tax.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/tax.ts#L47)
 
 Sales-tax / VAT for an on-site or auto top-up. The taxable base is the credits `subtotalCents` (tax_behavior=exclusive →
 tax added on top); the processing service fee is a pass-through, not part of the taxable sale. Located by the saved

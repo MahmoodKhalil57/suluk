@@ -8,7 +8,7 @@
 
 > **mount**\<`T`\>(`app`, `routes`): `T`
 
-Defined in: [tooling/ts/packages/hono/src/mount.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/mount.ts#L13)
+Defined in: [tooling/ts/packages/hono/src/mount.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/mount.ts#L13)
 
 Mount each contract's handler (with request validation derived from its Zod schemas) onto `app`.
 

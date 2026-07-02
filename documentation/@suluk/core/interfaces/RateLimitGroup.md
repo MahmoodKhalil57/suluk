@@ -6,7 +6,7 @@
 
 # Interface: RateLimitGroup
 
-Defined in: [ratelimit.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ratelimit.ts#L29)
+Defined in: [ratelimit.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ratelimit.ts#L29)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [ratelimit.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/686a
 
 > **key**: `"ip"` \| `"principal"` \| `"api-key"` \| `"global"`
 
-Defined in: [ratelimit.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ratelimit.ts#L35)
+Defined in: [ratelimit.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ratelimit.ts#L35)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [ratelimit.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/686a
 
 > **maxRequests**: `number`
 
-Defined in: [ratelimit.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ratelimit.ts#L34)
+Defined in: [ratelimit.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ratelimit.ts#L34)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [ratelimit.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/686a
 
 > **method**: `string`
 
-Defined in: [ratelimit.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ratelimit.ts#L32)
+Defined in: [ratelimit.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ratelimit.ts#L32)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [ratelimit.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/686a
 
 > **operation**: `string`
 
-Defined in: [ratelimit.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ratelimit.ts#L31)
+Defined in: [ratelimit.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ratelimit.ts#L31)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [ratelimit.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/686a
 
 > **path**: `string`
 
-Defined in: [ratelimit.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ratelimit.ts#L30)
+Defined in: [ratelimit.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ratelimit.ts#L30)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [ratelimit.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a
 
 > `optional` **scope?**: `string`
 
-Defined in: [ratelimit.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ratelimit.ts#L36)
+Defined in: [ratelimit.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ratelimit.ts#L36)
 
 ***
 
@@ -62,4 +62,4 @@ Defined in: [ratelimit.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/686a
 
 > **windowMs**: `number`
 
-Defined in: [ratelimit.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ratelimit.ts#L33)
+Defined in: [ratelimit.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ratelimit.ts#L33)

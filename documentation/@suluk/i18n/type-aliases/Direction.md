@@ -8,7 +8,7 @@
 
 > **Direction** = `"ltr"` \| `"rtl"`
 
-Defined in: [locale.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/i18n/src/locale.ts#L9)
+Defined in: [locale.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/i18n/src/locale.ts#L9)
 
 The locale + direction model (saastarter-parity Phase 1). saastarter hardcodes its locale set
 (`SupportedLocale = "en" | "ar" | "es"`, locale.ts:3) and reads the cookie via `next/headers` (locale.ts:1,9) —

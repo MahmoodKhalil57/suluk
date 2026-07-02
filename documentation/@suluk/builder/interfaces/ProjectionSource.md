@@ -6,7 +6,7 @@
 
 # Interface: ProjectionSource
 
-Defined in: [marketing.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L40)
+Defined in: [marketing.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/marketing.ts#L40)
 
 A declarative projection a data-driven section reads from — the app's renderer turns it into a query.
 
@@ -16,7 +16,7 @@ A declarative projection a data-driven section reads from — the app's renderer
 
 > **entity**: `string`
 
-Defined in: [marketing.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L41)
+Defined in: [marketing.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/marketing.ts#L41)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [marketing.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/686a
 
 > `optional` **limit?**: `number`
 
-Defined in: [marketing.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L44)
+Defined in: [marketing.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/marketing.ts#L44)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [marketing.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/686a
 
 > `optional` **sort?**: `string`
 
-Defined in: [marketing.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L43)
+Defined in: [marketing.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/marketing.ts#L43)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [marketing.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/686a
 
 > `optional` **where?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [marketing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/marketing.ts#L42)
+Defined in: [marketing.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/marketing.ts#L42)

@@ -6,7 +6,7 @@
 
 # Interface: ComposeResult
 
-Defined in: [compose.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/compose.ts#L89)
+Defined in: [compose.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/compose.ts#L89)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [compose.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > **doc**: [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md)
 
-Defined in: [compose.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/compose.ts#L90)
+Defined in: [compose.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/compose.ts#L90)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [compose.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > **ok**: `boolean`
 
-Defined in: [compose.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/compose.ts#L94)
+Defined in: [compose.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/compose.ts#L94)
 
 true ⇒ the plan was complete AND every step installed cleanly
 
@@ -32,7 +32,7 @@ true ⇒ the plan was complete AND every step installed cleanly
 
 > **plan**: [`CompositionPlan`](CompositionPlan.md)
 
-Defined in: [compose.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/compose.ts#L92)
+Defined in: [compose.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/compose.ts#L92)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [compose.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > **steps**: [`ComposeStep`](ComposeStep.md)[]
 
-Defined in: [compose.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/compose.ts#L91)
+Defined in: [compose.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/compose.ts#L91)

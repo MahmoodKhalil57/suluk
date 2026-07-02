@@ -8,7 +8,7 @@
 
 > **resolveParams**(`doc`, `variant`, `props`): `Record`\<`string`, `unknown`\>
 
-Defined in: [resolve.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/resolve.ts#L9)
+Defined in: [resolve.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/resolve.ts#L9)
 
 Effective param values: defaults, then a variant preset, then consumer props (only keys in `params`).
 

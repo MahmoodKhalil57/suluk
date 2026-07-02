@@ -6,7 +6,7 @@
 
 # Interface: CostModel
 
-Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/facets.ts#L20)
+Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/facets.ts#L20)
 
 C024 — the cost facet may declare a non-synchronous trigger (the cost accrues on a background event).
 
@@ -16,7 +16,7 @@ C024 — the cost facet may declare a non-synchronous trigger (the cost accrues 
 
 > `optional` **attribution?**: `object`
 
-Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/facets.ts#L20)
+Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/facets.ts#L20)
 
 #### expression?
 
@@ -32,7 +32,7 @@ Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **components?**: `CostComponent`[]
 
-Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/facets.ts#L20)
+Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/facets.ts#L20)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **estimateMicroUsd?**: `number`
 
-Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/facets.ts#L20)
+Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/facets.ts#L20)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **trigger?**: `string`
 
-Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/facets.ts#L20)
+Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/facets.ts#L20)
 
 ***
 
@@ -56,4 +56,4 @@ Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **triggerRef?**: `string`
 
-Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/facets.ts#L20)
+Defined in: [reference/src/facets.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/facets.ts#L20)

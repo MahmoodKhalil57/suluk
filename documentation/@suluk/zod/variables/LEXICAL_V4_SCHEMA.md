@@ -8,7 +8,7 @@
 
 > `const` **LEXICAL\_V4\_SCHEMA**: `Readonly`\<\{ `$defs`: \{ `lexicalNode`: \{ `properties`: \{ `children`: \{ `items`: \{ `$ref`: `string`; \}; `type`: `string`; \}; `format`: \{ `type`: `string`[]; \}; `text`: \{ `type`: `string`; \}; `type`: \{ `type`: `string`; \}; `version`: \{ `type`: `string`; \}; \}; `required`: `string`[]; `type`: `string`; \}; \}; `description`: `"A serialized Lexical rich-text editor state."`; `properties`: \{ `root`: \{ `properties`: \{ `children`: \{ `items`: \{ `$ref`: `string`; \}; `type`: `string`; \}; `direction`: \{ `enum`: (`string` \| `null`)[]; `type`: `string`[]; \}; `format`: \{ `type`: `string`[]; \}; `indent`: \{ `type`: `string`; \}; `type`: \{ `const`: `string`; \}; `version`: \{ `type`: `string`; \}; \}; `required`: `string`[]; `type`: `string`; \}; \}; `required`: `string`[]; `title`: `"LexicalState"`; `type`: `"object"`; `x-suluk-widget`: `"richtext"`; \}\>
 
-Defined in: [lexical.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/zod/src/lexical.ts#L45)
+Defined in: [lexical.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/zod/src/lexical.ts#L45)
 
 The v4 (JSON Schema 2020-12) projection of a Lexical state — recursive via a `$defs.lexicalNode` self-`$ref`.
 Drop it onto a property (or `$ref` it from components) to declare a richtext field in a contract. Frozen.

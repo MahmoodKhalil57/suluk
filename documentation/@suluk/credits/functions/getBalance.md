@@ -8,7 +8,7 @@
 
 > **getBalance**(`db`, `userId`): `Promise`\<`number`\>
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/credits/src/credits.ts#L27)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/credits/src/credits.ts#L27)
 
 Current balance = sum of all ledger deltas for the user.
 

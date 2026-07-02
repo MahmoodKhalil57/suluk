@@ -6,7 +6,7 @@
 
 # Interface: ConnectorConfig
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/connector.ts#L68)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/connector.ts#L68)
 
 The Prism-shaped config: exactly ONE processor named under `connectorConfig`.
 
@@ -16,4 +16,4 @@ The Prism-shaped config: exactly ONE processor named under `connectorConfig`.
 
 > **connectorConfig**: `Record`\<`string`, [`ConnectorAuth`](../type-aliases/ConnectorAuth.md)\>
 
-Defined in: [tooling/ts/packages/payments/src/connector.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/connector.ts#L69)
+Defined in: [tooling/ts/packages/payments/src/connector.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/connector.ts#L69)

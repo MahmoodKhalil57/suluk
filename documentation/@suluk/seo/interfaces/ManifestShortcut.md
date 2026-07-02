@@ -6,7 +6,7 @@
 
 # Interface: ManifestShortcut
 
-Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/manifest.ts#L4)
+Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/manifest.ts#L4)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > `optional` **description?**: `string`
 
-Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/manifest.ts#L4)
+Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/manifest.ts#L4)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > `optional` **icons?**: [`ManifestIcon`](ManifestIcon.md)[]
 
-Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/manifest.ts#L4)
+Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/manifest.ts#L4)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > **name**: `string`
 
-Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/manifest.ts#L4)
+Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/manifest.ts#L4)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > **url**: `string`
 
-Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/manifest.ts#L4)
+Defined in: [manifest.ts:4](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/manifest.ts#L4)

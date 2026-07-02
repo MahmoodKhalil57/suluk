@@ -6,7 +6,7 @@
 
 # Interface: CloudflareAgentOptions
 
-Defined in: [agents/src/cloudflare.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/cloudflare.ts#L26)
+Defined in: [agents/src/cloudflare.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/cloudflare.ts#L26)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/cloudflare.ts:26](https://github.com/MahmoodKhalil57/sul
 
 > `optional` **className?**: `string`
 
-Defined in: [agents/src/cloudflare.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/cloudflare.ts#L28)
+Defined in: [agents/src/cloudflare.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/cloudflare.ts#L28)
 
 the Durable Object class + binding name (default: PascalCase of the agent name).
 
@@ -24,7 +24,7 @@ the Durable Object class + binding name (default: PascalCase of the agent name).
 
 > `optional` **instructions?**: `Record`\<`string`, `string`\>
 
-Defined in: [agents/src/cloudflare.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/cloudflare.ts#L30)
+Defined in: [agents/src/cloudflare.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/cloudflare.ts#L30)
 
 pinned snapshots keyed `"<agent>/<skill>"` (preferred) or bare `"<skill>"`; the primary skill's text is inlined as the system prompt.
 
@@ -34,6 +34,6 @@ pinned snapshots keyed `"<agent>/<skill>"` (preferred) or bare `"<skill>"`; the 
 
 > `optional` **mcpUrl?**: `string`
 
-Defined in: [agents/src/cloudflare.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/cloudflare.ts#L32)
+Defined in: [agents/src/cloudflare.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/cloudflare.ts#L32)
 
 an MCP endpoint the tool `execute` stubs can dispatch to — referenced in a comment, never embedded as a credential.

@@ -8,7 +8,7 @@
 
 > **previewDeployPlan**(`doc`): [`DeployPlan`](../interfaces/DeployPlan.md)
 
-Defined in: [cockpit/src/deploy.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/deploy.ts#L27)
+Defined in: [cockpit/src/deploy.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/deploy.ts#L27)
 
 Build the PREVIEW deploy plan (charter-bounded role-preview): a `${slug}-preview` Worker with the two
 fail-closed locks + a seed.sql for the contract's roles. Terminal-gated identically to prod — Suluk holds no

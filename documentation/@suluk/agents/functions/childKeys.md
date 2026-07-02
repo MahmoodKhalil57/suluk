@@ -8,7 +8,7 @@
 
 > **childKeys**(`agent`): `object`[]
 
-Defined in: [agents/src/resolve.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/resolve.ts#L63)
+Defined in: [agents/src/resolve.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/resolve.ts#L63)
 
 Direct sub-agent keys of an agent (decoded; may include dangling keys — the caller lint-checks existence).
 

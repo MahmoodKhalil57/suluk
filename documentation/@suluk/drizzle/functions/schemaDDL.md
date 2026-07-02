@@ -8,7 +8,7 @@
 
 > **schemaDDL**(`tables`, `opts?`): `string`
 
-Defined in: [ddl.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/drizzle/src/ddl.ts#L48)
+Defined in: [ddl.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/ddl.ts#L48)
 
 `CREATE TABLE` DDL for many tables, newline-joined — the dev-schema twin of the prod migrations.
 

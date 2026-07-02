@@ -8,7 +8,7 @@
 
 > **toCatalogEntry**(`s`): [`CatalogEntry`](../interfaces/CatalogEntry.md)
 
-Defined in: [service.ts:189](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L189)
+Defined in: [service.ts:189](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L189)
 
 Project a Service onto the legacy [CatalogEntry](../interfaces/CatalogEntry.md) shape the C051 generator reads. Field-for-field — so a derived
  CATALOG is behaviourally identical to the old hardcoded one (proven by the Phase-0 golden lock).

@@ -6,7 +6,7 @@
 
 # Interface: ChangePlanResult
 
-Defined in: [packages/billing/src/subscriptions.ts:154](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/subscriptions.ts#L154)
+Defined in: [packages/billing/src/subscriptions.ts:154](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L154)
 
 Change the subscriber's plan IN PLACE against the cycle's PAID CEILING (see [ceilingFor](../functions/ceilingFor.md)). ABOVE the ceiling = an
  upgrade: immediate + prorated for the difference ABOVE THE CEILING, charged off-session; the matching prorated credits
@@ -20,7 +20,7 @@ Change the subscriber's plan IN PLACE against the cycle's PAID CEILING (see [cei
 
 > **clientSecret**: `string` \| `null`
 
-Defined in: [packages/billing/src/subscriptions.ts:156](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/subscriptions.ts#L156)
+Defined in: [packages/billing/src/subscriptions.ts:156](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L156)
 
 ***
 
@@ -28,7 +28,7 @@ Defined in: [packages/billing/src/subscriptions.ts:156](https://github.com/Mahmo
 
 > **currentPeriodEnd**: `number`
 
-Defined in: [packages/billing/src/subscriptions.ts:157](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/subscriptions.ts#L157)
+Defined in: [packages/billing/src/subscriptions.ts:157](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L157)
 
 ***
 
@@ -36,4 +36,4 @@ Defined in: [packages/billing/src/subscriptions.ts:157](https://github.com/Mahmo
 
 > **kind**: `"upgrade"` \| `"downgrade"`
 
-Defined in: [packages/billing/src/subscriptions.ts:155](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/subscriptions.ts#L155)
+Defined in: [packages/billing/src/subscriptions.ts:155](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/subscriptions.ts#L155)

@@ -6,7 +6,7 @@
 
 # Interface: DimensionAudit
 
-Defined in: [journeys/src/cli.ts:130](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/cli.ts#L130)
+Defined in: [journeys/src/cli.ts:130](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L130)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/cli.ts:130](https://github.com/MahmoodKhalil57/suluk/b
 
 > **findings**: [`Finding`](../../harden/interfaces/Finding.md)[]
 
-Defined in: [journeys/src/cli.ts:133](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/cli.ts#L133)
+Defined in: [journeys/src/cli.ts:133](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L133)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [journeys/src/cli.ts:133](https://github.com/MahmoodKhalil57/suluk/b
 
 > **grade**: [`Grade`](../../harden/type-aliases/Grade.md)
 
-Defined in: [journeys/src/cli.ts:131](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/cli.ts#L131)
+Defined in: [journeys/src/cli.ts:131](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L131)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [journeys/src/cli.ts:131](https://github.com/MahmoodKhalil57/suluk/b
 
 > **score**: `number`
 
-Defined in: [journeys/src/cli.ts:132](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/cli.ts#L132)
+Defined in: [journeys/src/cli.ts:132](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/cli.ts#L132)

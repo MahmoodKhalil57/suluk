@@ -6,7 +6,7 @@
 
 # Interface: SignedEnvelope
 
-Defined in: [builder/src/signing.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/signing.ts#L10)
+Defined in: [builder/src/signing.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/signing.ts#L10)
 
 A signed registry payload: the registry value + a detached base64 signature over its canonical bytes.
 
@@ -16,7 +16,7 @@ A signed registry payload: the registry value + a detached base64 signature over
 
 > `optional` **publisher?**: `string`
 
-Defined in: [builder/src/signing.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/signing.ts#L14)
+Defined in: [builder/src/signing.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/signing.ts#L14)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [builder/src/signing.ts:14](https://github.com/MahmoodKhalil57/suluk
 
 > **registry**: `unknown`
 
-Defined in: [builder/src/signing.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/signing.ts#L11)
+Defined in: [builder/src/signing.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/signing.ts#L11)
 
 ***
 
@@ -32,6 +32,6 @@ Defined in: [builder/src/signing.ts:11](https://github.com/MahmoodKhalil57/suluk
 
 > **signature**: `string`
 
-Defined in: [builder/src/signing.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/signing.ts#L13)
+Defined in: [builder/src/signing.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/signing.ts#L13)
 
 base64 ECDSA-P256/SHA-256 signature over canonicalBytes(registry)

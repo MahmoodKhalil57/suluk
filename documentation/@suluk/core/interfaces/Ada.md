@@ -6,7 +6,7 @@
 
 # Interface: Ada
 
-Defined in: [ada.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ada.ts#L23)
+Defined in: [ada.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L23)
 
 The Abstract Description API (SPEC §13, CONFORMANCE §B): the consumption surface computed from the DOM.
 
@@ -16,7 +16,7 @@ The Abstract Description API (SPEC §13, CONFORMANCE §B): the consumption surfa
 
 > **bySignature**: `Map`\<`string`, [`Operation`](Operation.md)[]\>
 
-Defined in: [ada.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ada.ts#L25)
+Defined in: [ada.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L25)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [ada.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5d
 
 > **collisions**: [`Collision`](Collision.md)[]
 
-Defined in: [ada.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ada.ts#L27)
+Defined in: [ada.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L27)
 
 Best-effort static collision verdicts among operations (detect-and-tolerate, never a gate; C003).
 
@@ -34,4 +34,4 @@ Best-effort static collision verdicts among operations (detect-and-tolerate, nev
 
 > **operations**: [`Operation`](Operation.md)[]
 
-Defined in: [ada.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ada.ts#L24)
+Defined in: [ada.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ada.ts#L24)

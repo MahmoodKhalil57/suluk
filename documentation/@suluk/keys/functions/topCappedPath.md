@@ -8,7 +8,7 @@
 
 > **topCappedPath**(`chain`): `string` \| `null`
 
-Defined in: [packages/keys/src/chain.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/keys/src/chain.ts#L99)
+Defined in: [packages/keys/src/chain.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/keys/src/chain.ts#L99)
 
 The topmost capped node in a chain (the shortest path) — whose subtree contains every other capped node's subtree, so
  one query over it suffices for [pooledHeadroom](pooledHeadroom.md). Null when no node declares a cap.

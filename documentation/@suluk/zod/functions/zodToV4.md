@@ -8,7 +8,7 @@
 
 > **zodToV4**(`schema`, `opts?`): [`ZodToV4Result`](../interfaces/ZodToV4Result.md)
 
-Defined in: [to-v4.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/zod/src/to-v4.ts#L28)
+Defined in: [to-v4.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/zod/src/to-v4.ts#L28)
 
 Convert a Zod schema to a v4 Schema Object. `io` picks the input vs output projection for schemas with
 defaults/transforms ("output" is the default — the shape after parsing).

@@ -6,7 +6,7 @@
 
 # Interface: AdminOptions
 
-Defined in: [app.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/app.ts#L16)
+Defined in: [app.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/app.ts#L16)
 
 `@suluk/admin` — the /superadmin web admin panel. The SAME cockpit as the vscode extension (@suluk/cockpit
 core), rendered as Hono-served web pages and gated to superadmins. One brain, two faces. Mount it on your
@@ -18,7 +18,7 @@ app: `app.route("/", adminApp({ document, authorize }))`. CANDIDATE tooling — 
 
 > `optional` **authorize?**: (`c`) => `boolean` \| `Promise`\<`boolean`\>
 
-Defined in: [app.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/app.ts#L22)
+Defined in: [app.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/app.ts#L22)
 
 Gate: return true to allow. Wire to your auth (superadmin only). DEFAULT: deny everything.
 
@@ -38,7 +38,7 @@ Gate: return true to allow. Wire to your auth (superadmin only). DEFAULT: deny e
 
 > `optional` **basePath?**: `string`
 
-Defined in: [app.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/app.ts#L20)
+Defined in: [app.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/app.ts#L20)
 
 Mount path (default "/superadmin").
 
@@ -48,7 +48,7 @@ Mount path (default "/superadmin").
 
 > **document**: [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md) \| ((`c`) => [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md) \| `Promise`\<[`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md)\>)
 
-Defined in: [app.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/app.ts#L18)
+Defined in: [app.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/app.ts#L18)
 
 The hub v4 document — a value, or a function (so the panel reflects live state per request).
 
@@ -58,7 +58,7 @@ The hub v4 document — a value, or a function (so the panel reflects live state
 
 > `optional` **headHtml?**: `string` \| ((`c`) => `string`)
 
-Defined in: [app.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/app.ts#L27)
+Defined in: [app.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/app.ts#L27)
 
 Extra HTML injected into <head> AFTER the default theme — link a stylesheet (e.g. a color-scheme sheet) and a
  no-flash theme stamper so the panel obeys the host app's light/dark + color scheme instead of the built-in.
@@ -69,6 +69,6 @@ Extra HTML injected into <head> AFTER the default theme — link a stylesheet (e
 
 > `optional` **title?**: `string`
 
-Defined in: [app.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/app.ts#L24)
+Defined in: [app.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/app.ts#L24)
 
 Page title.

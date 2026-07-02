@@ -6,7 +6,7 @@
 
 # Interface: CreatePaymentSessionRequest
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:201](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L201)
+Defined in: [tooling/ts/packages/payments/src/types.ts:201](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L201)
 
 Create a PAYMENT session to confirm in-browser. Omit `paymentMethod` for a Payment-Element flow (the browser collects
  the card); pass a saved `paymentMethod` token for a one-click charge on a saved card.
@@ -17,7 +17,7 @@ Create a PAYMENT session to confirm in-browser. Omit `paymentMethod` for a Payme
 
 > **amount**: [`MinorAmount`](MinorAmount.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:202](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L202)
+Defined in: [tooling/ts/packages/payments/src/types.ts:202](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L202)
 
 ***
 
@@ -25,7 +25,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:202](https://github.com/M
 
 > `optional` **captureMethod?**: [`CaptureMethod`](../enumerations/CaptureMethod.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:206](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L206)
+Defined in: [tooling/ts/packages/payments/src/types.ts:206](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L206)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:206](https://github.com/M
 
 > `optional` **customerId?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:203](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L203)
+Defined in: [tooling/ts/packages/payments/src/types.ts:203](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L203)
 
 ***
 
@@ -41,7 +41,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:203](https://github.com/M
 
 > `optional` **metadata?**: `Record`\<`string`, `string`\>
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:209](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L209)
+Defined in: [tooling/ts/packages/payments/src/types.ts:209](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L209)
 
 ***
 
@@ -49,7 +49,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:209](https://github.com/M
 
 > `optional` **paymentMethod?**: [`Secret`](../type-aliases/Secret.md)\<`string`\>
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:205](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L205)
+Defined in: [tooling/ts/packages/payments/src/types.ts:205](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L205)
 
 pin the charge to a saved instrument (one-click); omit to let the browser collect one (Payment Element).
 
@@ -59,6 +59,6 @@ pin the charge to a saved instrument (one-click); omit to let the browser collec
 
 > `optional` **setupFutureUsage?**: `boolean`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:208](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/types.ts#L208)
+Defined in: [tooling/ts/packages/payments/src/types.ts:208](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/types.ts#L208)
 
 save the collected card for later off-session use.

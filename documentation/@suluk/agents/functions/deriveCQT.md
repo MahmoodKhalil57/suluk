@@ -8,7 +8,7 @@
 
 > **deriveCQT**(`skill`): `number`
 
-Defined in: [agents/src/model-select.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/model-select.ts#L45)
+Defined in: [agents/src/model-select.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/model-select.ts#L45)
 
 cost_quality_tradeoff 0..10 (0=quality, 10=cost) — mechanical from the profile's cost-vs-intelligence weights
 (set explicitly; do NOT inherit OpenRouter's cost-leaning default of 7).

@@ -8,7 +8,7 @@
 
 > **rateLimitOf**(`req`): [`SulukRateLimit`](../interfaces/SulukRateLimit.md) \| `undefined`
 
-Defined in: [ratelimit.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/ratelimit.ts#L16)
+Defined in: [ratelimit.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/ratelimit.ts#L16)
 
 Read the declared rate-limit facet off an operation.
 

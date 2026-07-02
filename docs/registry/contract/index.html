@@ -4,8 +4,8 @@ gate, and the scope facets every downstream module reads are all DERIVED — so 
 <blockquote>
 <p><strong>CANDIDATE tooling — not official OpenAPI.</strong> Suluk is a single-contributor candidate for OpenAPI
 Specification v4.0 (&quot;Moonwalk&quot;), unaffiliated with the OpenAPI Initiative and unable to ratify
-anything on the SIG's behalf. This is an <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/registry/README.md" target="_blank" class="external">own-the-code registry module</a>, wired over
-the <code>@suluk/*</code> npm packages (the HYBRID pattern, <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/doc/architecture/decisions/C050-registry-distributed-framework.md" target="_blank" class="external">C050</a>/<a href="https://github.com/MahmoodKhalil57/suluk/blob/main/doc/architecture/decisions/C052-npm-vs-registry-boundary.md" target="_blank" class="external">C052</a>).</p>
+anything on the SIG's behalf. This is an <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/registry/derivation/README.md" target="_blank" class="external">own-the-code registry module</a>, wired over
+the <code>@suluk/*</code> npm packages (the HYBRID pattern, <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/registry/doc/architecture/decisions/C050-registry-distributed-framework.md" target="_blank" class="external">C050</a>/<a href="https://github.com/MahmoodKhalil57/suluk/blob/main/registry/doc/architecture/decisions/C052-npm-vs-registry-boundary.md" target="_blank" class="external">C052</a>).</p>
 </blockquote>
 <h2 id="install" class="tsd-anchor-link">Install<a href="#install" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <pre><code class="sh"><span class="hl-9">pnpm</span><span class="hl-1"> </span><span class="hl-5">dlx</span><span class="hl-1"> </span><span class="hl-5">shadcn@latest</span><span class="hl-1"> </span><span class="hl-5">add</span><span class="hl-1"> </span><span class="hl-5">MahmoodKhalil57/suluk/contract</span><br/><span class="hl-4"># or:  npx shadcn@latest add MahmoodKhalil57/suluk/contract</span>
@@ -40,16 +40,16 @@ without a declared schema pass through, so it only ever tightens declared ops.</
 and serves <strong><code>GET /api/openapi.json</code></strong> — the v4 document projected to the caller's own scopes (anonymous
 → the public surface).</li>
 </ul>
-<p><strong>Stateless — no schema, no provision fragment</strong> (<a href="https://github.com/MahmoodKhalil57/suluk/blob/main/doc/architecture/decisions/C052-npm-vs-registry-boundary.md" target="_blank" class="external">C052</a>). The contract is pure data + derivations.</p>
+<p><strong>Stateless — no schema, no provision fragment</strong> (<a href="https://github.com/MahmoodKhalil57/suluk/blob/main/registry/doc/architecture/decisions/C052-npm-vs-registry-boundary.md" target="_blank" class="external">C052</a>). The contract is pure data + derivations.</p>
 <p>Editing a route in <code>CONTRACT</code> re-projects the doc, the scope map, the two gates, and (downstream) the
 <code>reference</code> page and the <code>mcp</code> tool list together — the contract-first payoff.</p>
 <h2 id="dependencies" class="tsd-anchor-link">Dependencies<a href="#dependencies" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <ul>
 <li><strong>npm (<code>dependencies</code>):</strong> <code>@suluk/hono</code> (<code>contractDoc</code>, <code>emitV4</code>, <code>RouteContract</code> — the derivation
 engine), <code>@suluk/core</code> (<code>toProblemDetails</code>, <code>PROBLEM_CONTENT_TYPE</code>, <code>OpenAPIv4Document</code>), <code>zod</code>, <code>hono</code>.</li>
-<li><strong>registry (<code>registryDependencies</code>):</strong> <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/app" target="_blank" class="external"><code>app</code></a> — the base Hono app the mount attaches to.</li>
+<li><strong>registry (<code>registryDependencies</code>):</strong> <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/derivation/app" target="_blank" class="external"><code>app</code></a> — the base Hono app the mount attaches to.</li>
 </ul>
-<p>Downstream, <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/reference" target="_blank" class="external"><code>reference</code></a> and <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/mcp" target="_blank" class="external"><code>mcp</code></a> list <code>contract</code> as a <code>registryDependency</code>: both
+<p>Downstream, <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/derivation/reference" target="_blank" class="external"><code>reference</code></a> and <a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/derivation/mcp" target="_blank" class="external"><code>mcp</code></a> list <code>contract</code> as a <code>registryDependency</code>: both
 render/serve over the same <code>apiDocument()</code> this module derives.</p>
 <h2 id="own-the-wiring-npm-the-logic" class="tsd-anchor-link">Own the wiring, npm the logic<a href="#own-the-wiring-npm-the-logic" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p>You <strong>own</strong> the wiring: the <code>CONTRACT</code> route list (its ops, scopes, and Zod schemas), the two gates'

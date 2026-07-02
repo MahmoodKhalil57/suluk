@@ -2,402 +2,402 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/index.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/modules.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/hierarchy.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/CompositionPlan.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/planComposition.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/ComposeStep.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/ComposeResult.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/composeModules.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/types/Tier.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/COMPOSES.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/types/ListControl.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/types/ParamSpec.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/BindRef.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/EachRef.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/SlotRef.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/types/DslChild.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/DslNode.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/DslDocument.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/isBind.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/isEach.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/isSlot.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/isListSpec.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/Entity.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/crudRoutesFromSchema.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/formBlock.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/tableBlock.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/crudSection.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/appPage.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/AppSpec.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/BuiltApp.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/buildApp.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/MARKETING_COMPONENTS.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/PlanSpec.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/ProjectionSource.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/marketingPage.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/MarketingSpec.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/BuiltMarketing.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/buildMarketing.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/SeoMetaInput.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/SeoMeta.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/seoMeta.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/types/JsonLdKind.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/jsonLd.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/ModuleCost.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/SulukModule.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/InstallResult.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/crudV4Paths.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/schemaRefName.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/installModule.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/namespaceModule.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/ModuleEntry.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/ModuleRegistry.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/ModuleGrade.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/InstallPreview.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/moduleOperations.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/gradeModule.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/previewInstall.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/AUTH.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/BILLING.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/CRM.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/ECOMMERCE.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/FIRST_PARTY_REGISTRY.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/StackTemplate.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/STACK_TEMPLATES.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/resolveTemplate.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/MARKETING.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/PREVIEW_ONLY_MARKER.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/PREVIEW.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/ProviderImpl.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/PROVIDER_CATALOG.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/providerFacets.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/ProviderBinding.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/readProviders.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/SwapResult.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/swapProvider.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/RegistrySource.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/ParsedRegistry.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/validateModule.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/parseRegistry.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/RegistryFile.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/RegistryItem.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/toShadcnRegistry.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/Registry.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/emptyRegistry.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/registry.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/findDoc.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/allowedTypes.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/resolveComponents.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/renderPageTsx.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/resolveParams.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/resolveList.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/SignedEnvelope.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/isSignedEnvelope.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/generateSigningKeypair.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/signRegistry.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/verifyRegistrySignature.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/interfaces/DslError.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/variables/LAYOUT.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/validateDocument.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/builder/functions/validateAll.html</loc>
-		<lastmod>2026-07-02T12:44:15.798Z</lastmod>
+		<lastmod>2026-07-02T14:13:24.779Z</lastmod>
 	</url>
 </urlset>

@@ -6,7 +6,7 @@
 
 # Interface: RobotsMeta
 
-Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/meta.ts#L6)
+Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/meta.ts#L6)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5d
 
 > `optional` **follow?**: `boolean`
 
-Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/meta.ts#L6)
+Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/meta.ts#L6)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5d
 
 > `optional` **index?**: `boolean`
 
-Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/meta.ts#L6)
+Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/meta.ts#L6)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5d
 
 > `optional` **maxImagePreview?**: `"none"` \| `"standard"` \| `"large"`
 
-Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/meta.ts#L6)
+Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/meta.ts#L6)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5d
 
 > `optional` **maxSnippet?**: `number`
 
-Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/meta.ts#L6)
+Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/meta.ts#L6)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5d
 
 > `optional` **noarchive?**: `boolean`
 
-Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/meta.ts#L6)
+Defined in: [meta.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/meta.ts#L6)

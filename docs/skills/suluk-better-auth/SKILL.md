@@ -31,7 +31,7 @@ const document = mergeAuth(appDocument, authV4, { securitySchemes });
 
 ## Quick Reference
 
-42 exports (24 functions, 16 types, 2 constants) — see references/ for full API.
+43 exports (24 functions, 17 types, 2 constants) — see references/ for full API.
 
 ## References
 

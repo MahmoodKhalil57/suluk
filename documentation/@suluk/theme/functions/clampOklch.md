@@ -8,7 +8,7 @@
 
 > **clampOklch**(`color`): [`Oklch`](../interfaces/Oklch.md)
 
-Defined in: [oklch.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/theme/src/oklch.ts#L30)
+Defined in: [oklch.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/theme/src/oklch.ts#L30)
 
 Clamp to valid ranges: l∈[0,1], c≥0, h wrapped to [0,360), alpha∈[0,1]. Non-finite inputs collapse to 0.
 

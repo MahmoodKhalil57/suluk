@@ -4,6 +4,8 @@
 
 ### `referenceRoutes`
 ```ts
-referenceRoutes(): any
+referenceRoutes(opts: MountReferenceOptions): any
 ```
+**Parameters:**
+- `opts: MountReferenceOptions`
 **Returns:** `any`

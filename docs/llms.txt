@@ -215,6 +215,7 @@ landed, per the C034 follow-up).
 - `AuthSecurity`: `@suluk/better-auth` — official Better-Auth-on-Hono support for the Suluk derivation engine.
 - `Principal`: The principal extractor — the loop-closer for per-viewer docs.
 - `SessionLike`: A minimal view of a Better Auth session (duck-typed; works with the real Session shape).
+- `AppVars`: The Hono context Variables the auth middleware POPULATES per `/api/*` request — the resolved caller (`c.
 - `AuthHandlerLike`: mountAuth — the thin Hono adapter for Better Auth (the documented integration:
 app.
 - `HonoLike`

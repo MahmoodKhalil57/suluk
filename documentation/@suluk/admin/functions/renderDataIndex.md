@@ -8,7 +8,7 @@
 
 > **renderDataIndex**(`doc`, `base`): `string`
 
-Defined in: [render-data.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L109)
+Defined in: [render-data.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/render-data.ts#L109)
 
 The data-admin index: every CRUD-managed entity + its access scopes, linking to its per-entity page.
 

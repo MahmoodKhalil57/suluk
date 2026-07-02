@@ -8,7 +8,7 @@
 
 > **assertGrade**(`doc`, `min`, `opts?`): [`DocAudit`](../interfaces/DocAudit.md)
 
-Defined in: [audit.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/harden/src/audit.ts#L120)
+Defined in: [audit.ts:120](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/harden/src/audit.ts#L120)
 
 CI gate (the hard incentive): throw if the document's hardening grade is below `min`.
 

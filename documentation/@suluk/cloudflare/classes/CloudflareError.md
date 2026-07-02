@@ -6,7 +6,7 @@
 
 # Class: CloudflareError
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/client.ts#L11)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/client.ts#L11)
 
 `@suluk/cloudflare` — API-driven provisioning + deployment for a Suluk app on Cloudflare, no wrangler CLI. A typed
 REST client, idempotent provisioners (D1 / KV / R2 / secrets), the Workers module-script + static-assets upload
@@ -23,7 +23,7 @@ itself — readable, testable, and the same contract-first discipline as the res
 
 > **new CloudflareError**(`status`, `errors`, `path`): `CloudflareError`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/client.ts#L12)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/client.ts#L12)
 
 #### Parameters
 
@@ -67,7 +67,7 @@ The cause of the error.
 
 > `readonly` **errors**: `CloudflareError_t`[]
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/client.ts#L14)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/client.ts#L14)
 
 ***
 
@@ -99,7 +99,7 @@ Defined in: tooling/ts/node\_modules/.bun/typescript@6.0.3/node\_modules/typescr
 
 > `readonly` **path**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/client.ts#L15)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/client.ts#L15)
 
 ***
 
@@ -119,7 +119,7 @@ Defined in: tooling/ts/node\_modules/.bun/typescript@6.0.3/node\_modules/typescr
 
 > `readonly` **status**: `number`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/client.ts#L13)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/client.ts#L13)
 
 ***
 

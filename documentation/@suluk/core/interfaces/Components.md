@@ -6,7 +6,7 @@
 
 # Interface: Components
 
-Defined in: [types.ts:477](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L477)
+Defined in: [types.ts:477](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L477)
 
 Reusable definitions; the referencing anchor (C013). Keyed by name (C009).
 
@@ -16,7 +16,7 @@ Reusable definitions; the referencing anchor (C013). Keyed by name (C009).
 
 > `optional` **examples?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [types.ts:483](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L483)
+Defined in: [types.ts:483](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L483)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [types.ts:483](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > `optional` **links?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [types.ts:482](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L482)
+Defined in: [types.ts:482](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L482)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [types.ts:482](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > `optional` **requests?**: `Record`\<`string`, [`Request`](Request.md)\>
 
-Defined in: [types.ts:479](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L479)
+Defined in: [types.ts:479](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L479)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [types.ts:479](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > `optional` **responses?**: `Record`\<`string`, [`Response`](Response.md)\>
 
-Defined in: [types.ts:480](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L480)
+Defined in: [types.ts:480](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L480)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [types.ts:480](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > `optional` **schemas?**: `Record`\<`string`, [`Schema`](../type-aliases/Schema.md)\>
 
-Defined in: [types.ts:478](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L478)
+Defined in: [types.ts:478](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L478)
 
 ***
 
@@ -56,4 +56,4 @@ Defined in: [types.ts:478](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > `optional` **securitySchemes?**: `Record`\<`string`, [`SecurityScheme`](SecurityScheme.md)\>
 
-Defined in: [types.ts:481](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/types.ts#L481)
+Defined in: [types.ts:481](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/types.ts#L481)

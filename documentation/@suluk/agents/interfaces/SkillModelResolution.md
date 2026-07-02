@@ -6,7 +6,7 @@
 
 # Interface: SkillModelResolution
 
-Defined in: [agents/src/model-select.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/model-select.ts#L24)
+Defined in: [agents/src/model-select.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/model-select.ts#L24)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/model-select.ts:24](https://github.com/MahmoodKhalil57/s
 
 > **from**: `"declared"` \| `"selected"`
 
-Defined in: [agents/src/model-select.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/model-select.ts#L26)
+Defined in: [agents/src/model-select.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/model-select.ts#L26)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [agents/src/model-select.ts:26](https://github.com/MahmoodKhalil57/s
 
 > **ids**: `string`[]
 
-Defined in: [agents/src/model-select.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/model-select.ts#L25)
+Defined in: [agents/src/model-select.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/model-select.ts#L25)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [agents/src/model-select.ts:25](https://github.com/MahmoodKhalil57/s
 
 > **pickPinned**: `boolean`
 
-Defined in: [agents/src/model-select.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/model-select.ts#L34)
+Defined in: [agents/src/model-select.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/model-select.ts#L34)
 
 true ⇒ the SERVED model id is reproducible (pinned). false ⇒ set-pinned but pick-NOT-pinned (router/latest).
 
@@ -40,7 +40,7 @@ true ⇒ the SERVED model id is reproducible (pinned). false ⇒ set-pinned but 
 
 > `optional` **selection?**: [`SelectResult`](SelectResult.md)
 
-Defined in: [agents/src/model-select.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/model-select.ts#L28)
+Defined in: [agents/src/model-select.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/model-select.ts#L28)
 
 the selector result (filter trace + per-axis why + coverage gaps) when `from === "selected"`.
 
@@ -50,7 +50,7 @@ the selector result (filter trace + per-axis why + coverage gaps) when `from ===
 
 > **snapshotHash**: `string` \| `null`
 
-Defined in: [agents/src/model-select.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/model-select.ts#L30)
+Defined in: [agents/src/model-select.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/model-select.ts#L30)
 
 the catalog snapshot the SURVIVOR SET was pinned against (null when declared).
 
@@ -60,6 +60,6 @@ the catalog snapshot the SURVIVOR SET was pinned against (null when declared).
 
 > **target**: [`ResolvedTarget`](../type-aliases/ResolvedTarget.md)
 
-Defined in: [agents/src/model-select.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/model-select.ts#L32)
+Defined in: [agents/src/model-select.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/model-select.ts#L32)
 
 the resolved runtime target (pin / router / latest).

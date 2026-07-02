@@ -8,7 +8,7 @@
 
 > **responseList**(`r`): [`RouteResponse`](../interfaces/RouteResponse.md)[]
 
-Defined in: [tooling/ts/packages/hono/src/contract.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/hono/src/contract.ts#L94)
+Defined in: [tooling/ts/packages/hono/src/contract.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/hono/src/contract.ts#L94)
 
 Normalize responses (list or map) to a list.
 

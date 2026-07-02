@@ -8,6 +8,6 @@
 
 > **Mount** = \{ `kind`: `"base"`; \} \| \{ `from`: `string`; `kind`: `"middleware"`; `symbol`: `string`; \} \| \{ `from`: `string`; `kind`: `"route"`; `path`: `string`; `symbol`: `string`; \} \| \{ `kind`: `"dev"`; \}
 
-Defined in: [service.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L13)
+Defined in: [service.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L13)
 
 How a module contributes to the generated `src/index.ts`. (Unchanged from C051.)

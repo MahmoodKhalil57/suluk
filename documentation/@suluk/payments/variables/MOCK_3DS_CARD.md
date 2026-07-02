@@ -8,4 +8,4 @@
 
 > `const` **MOCK\_3DS\_CARD**: `"4000000000003220"` = `"4000000000003220"`
 
-Defined in: [tooling/ts/packages/payments/src/mock.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/payments/src/mock.ts#L14)
+Defined in: [tooling/ts/packages/payments/src/mock.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/payments/src/mock.ts#L14)

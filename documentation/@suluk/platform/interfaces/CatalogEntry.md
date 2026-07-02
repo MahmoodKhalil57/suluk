@@ -6,7 +6,7 @@
 
 # Interface: CatalogEntry
 
-Defined in: [service.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L50)
+Defined in: [service.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L50)
 
 The old catalog record — now a DERIVED VIEW of a [Service](Service.md) (see [toCatalogEntry](../functions/toCatalogEntry.md)); kept so `planPlatform`
  and the C051 helpers read the same shape they always did.
@@ -17,7 +17,7 @@ The old catalog record — now a DERIVED VIEW of a [Service](Service.md) (see [t
 
 > `optional` **contract?**: `object`
 
-Defined in: [service.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L54)
+Defined in: [service.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L54)
 
 the module's CONTRACT fragment — its `RouteContract[]` (ops), composed into `src/contract.ops.ts` (mirrors `provision`).
 
@@ -35,7 +35,7 @@ the module's CONTRACT fragment — its `RouteContract[]` (ops), composed into `s
 
 > `optional` **deps?**: `string`[]
 
-Defined in: [service.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L55)
+Defined in: [service.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L55)
 
 ***
 
@@ -43,7 +43,7 @@ Defined in: [service.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > `optional` **env?**: [`EnvVar`](EnvVar.md)[]
 
-Defined in: [service.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L56)
+Defined in: [service.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L56)
 
 ***
 
@@ -51,7 +51,7 @@ Defined in: [service.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > **mount**: [`Mount`](../type-aliases/Mount.md)
 
-Defined in: [service.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L51)
+Defined in: [service.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L51)
 
 ***
 
@@ -59,7 +59,7 @@ Defined in: [service.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > `optional` **provision?**: `object`
 
-Defined in: [service.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L52)
+Defined in: [service.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L52)
 
 #### from
 

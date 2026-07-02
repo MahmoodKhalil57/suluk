@@ -8,7 +8,7 @@
 
 > **offer**(`i`): `Node`
 
-Defined in: [schema.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/schema.ts#L26)
+Defined in: [schema.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/schema.ts#L26)
 
 ## Parameters
 

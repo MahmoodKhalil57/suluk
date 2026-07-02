@@ -6,7 +6,7 @@
 
 # Interface: Migration
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/resources.ts#L110)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/resources.ts#L110)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:110](https://github
 
 > **name**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/resources.ts#L112)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:112](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/resources.ts#L112)
 
 a stable identifier (e.g. the file name) — recorded in the ledger so it runs at most once.
 
@@ -24,4 +24,4 @@ a stable identifier (e.g. the file name) — recorded in the ledger so it runs a
 
 > **sql**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/resources.ts#L113)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:113](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/resources.ts#L113)

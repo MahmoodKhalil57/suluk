@@ -6,7 +6,7 @@
 
 # Interface: PlatformManifest
 
-Defined in: [manifest.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L14)
+Defined in: [manifest.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L14)
 
 The C051 legacy manifest — still valid, still the byte-identity anchor.
 
@@ -16,7 +16,7 @@ The C051 legacy manifest — still valid, still the byte-identity anchor.
 
 > `optional` **\_\_localHost?**: `string`
 
-Defined in: [manifest.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L29)
+Defined in: [manifest.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L29)
 
 C058 (INTERNAL, dev-only) — the raw local host (e.g. `localhost:8787`), so `src/dev.ts` can re-splice the actual PORT.
 
@@ -26,7 +26,7 @@ C058 (INTERNAL, dev-only) — the raw local host (e.g. `localhost:8787`), so `sr
 
 > `optional` **local?**: `boolean`
 
-Defined in: [manifest.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L33)
+Defined in: [manifest.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L33)
 
 emit the MOCK-PROVIDER dev runtime: a `src/dev.ts` that runs the app under bun with a bun:sqlite DB + JSON-file KV +
  mocked providers when their keys are absent (mock-until-keyed), and the `dev` script pointed at it. Default false →
@@ -38,7 +38,7 @@ emit the MOCK-PROVIDER dev runtime: a `src/dev.ts` that runs the app under bun w
 
 > `optional` **localVars?**: `Record`\<`string`, `string`\>
 
-Defined in: [manifest.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L27)
+Defined in: [manifest.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L27)
 
 C058 (INTERNAL, dev-only) — the LOCAL-runtime derived URL vars (BASE_URL/BETTER_AUTH_URL/TRUSTED_ORIGINS/EMAIL_FROM),
  computed by `deriveHosts` from `LOCAL_BASE_URL`. Spread into `src/dev.ts`'s env; NEVER emitted to `[vars]`.
@@ -49,7 +49,7 @@ C058 (INTERNAL, dev-only) — the LOCAL-runtime derived URL vars (BASE_URL/BETTE
 
 > **name**: `string`
 
-Defined in: [manifest.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L16)
+Defined in: [manifest.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L16)
 
 the app/repo name (used in the generated scaffold).
 
@@ -59,7 +59,7 @@ the app/repo name (used in the generated scaffold).
 
 > `optional` **opts?**: `Record`\<`string`, `Record`\<`string`, `unknown`\>\>
 
-Defined in: [manifest.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L22)
+Defined in: [manifest.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L22)
 
 per-service static OPTIONS passed to that service's mount in the generated entry (JSON-serializable).
 
@@ -69,7 +69,7 @@ per-service static OPTIONS passed to that service's mount in the generated entry
 
 > **registry**: `string`
 
-Defined in: [manifest.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L18)
+Defined in: [manifest.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L18)
 
 the shadcn registry, e.g. "MahmoodKhalil57/suluk".
 
@@ -79,7 +79,7 @@ the shadcn registry, e.g. "MahmoodKhalil57/suluk".
 
 > **services**: `string`[]
 
-Defined in: [manifest.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L20)
+Defined in: [manifest.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L20)
 
 the services to include, in mount order — resolved against the catalog. `app` + `auth` are implied if any is listed.
 
@@ -89,6 +89,6 @@ the services to include, in mount order — resolved against the catalog. `app` 
 
 > `optional` **vars?**: `Record`\<`string`, `string`\>
 
-Defined in: [manifest.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L24)
+Defined in: [manifest.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L24)
 
 NON-SECRET config values → generated into `wrangler.toml` `[vars]`. SECRETS never go here (they live in `.env`).

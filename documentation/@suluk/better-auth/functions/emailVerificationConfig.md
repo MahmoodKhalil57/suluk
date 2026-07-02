@@ -8,7 +8,7 @@
 
 > **emailVerificationConfig**(`opts`): `object`
 
-Defined in: [auth-flow.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/better-auth/src/auth-flow.ts#L41)
+Defined in: [auth-flow.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/auth-flow.ts#L41)
 
 A Better Auth `emailVerification` block with frictionless-activation defaults. Spread into
  `betterAuth({ emailVerification: emailVerificationConfig({ sendVerificationEmail }) })`.

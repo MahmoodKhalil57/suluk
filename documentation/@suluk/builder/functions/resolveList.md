@@ -8,7 +8,7 @@
 
 > **resolveList**(`spec`, `selection`): `string`[]
 
-Defined in: [resolve.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/resolve.ts#L34)
+Defined in: [resolve.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/resolve.ts#L34)
 
 The effective ordered selection for a `list` param. The default is the spec default (or all options).
 A consumer selection is applied only as far as the controls allow:

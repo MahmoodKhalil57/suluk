@@ -6,7 +6,7 @@
 
 # Interface: PrincipalOptions
 
-Defined in: [principal.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/better-auth/src/principal.ts#L23)
+Defined in: [principal.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L33)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [principal.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/686a
 
 > `optional` **orgRoleScopes?**: `Record`\<`string`, `string`[]\>
 
-Defined in: [principal.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/better-auth/src/principal.ts#L27)
+Defined in: [principal.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L37)
 
 Map an ORG role → the scopes it grants WITHIN an org (each namespaced to `org:<id>:<scope>`).
 
@@ -24,6 +24,6 @@ Map an ORG role → the scopes it grants WITHIN an org (each namespaced to `org:
 
 > `optional` **roleScopes?**: `Record`\<`string`, `string`[]\>
 
-Defined in: [principal.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/better-auth/src/principal.ts#L25)
+Defined in: [principal.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L35)
 
 Map a role name → the scopes it grants (e.g. { admin: ["read:*","write:*"], user: ["read:self"] }).

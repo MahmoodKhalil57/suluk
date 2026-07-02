@@ -8,7 +8,7 @@
 
 > `const` **LAYOUT**: `Set`\<`string`\>
 
-Defined in: [validate.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/builder/src/validate.ts#L23)
+Defined in: [validate.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/builder/src/validate.ts#L23)
 
 Universal structural containers — valid at ANY tier; their children stay in the doc's composed tier. They
  carry no param contract (the narrowing is about content refs, not layout), enabling multi-child sections/pages.

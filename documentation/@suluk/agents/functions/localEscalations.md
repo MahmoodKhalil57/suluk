@@ -8,7 +8,7 @@
 
 > **localEscalations**(`doc`, `agentName`): [`ScopeEscalation`](../interfaces/ScopeEscalation.md)[]
 
-Defined in: [agents/src/scope.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/scope.ts#L65)
+Defined in: [agents/src/scope.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/scope.ts#L65)
 
 A LOCAL author-time escalation check for one agent's direct children: a child may not DECLARE a permission its
 immediate parent does not grant (under intersection it would be silently dropped — flag the author's confusion /

@@ -8,7 +8,7 @@
 
 > **agentMap**(`doc`): `Record`\<`string`, [`SulukAgent`](../../core/interfaces/SulukAgent.md)\>
 
-Defined in: [agents/src/resolve.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/resolve.ts#L54)
+Defined in: [agents/src/resolve.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/resolve.ts#L54)
 
 The agent map, or an empty record.
 

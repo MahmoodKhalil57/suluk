@@ -6,7 +6,7 @@
 
 # Interface: Capability\<A\>
 
-Defined in: [service.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L93)
+Defined in: [service.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L93)
 
 A typed CAPABILITY a service OFFERS to fill a port. `build` produces the consumer EXPRESSION rendered into the producer's
 hook closure — it may reference the closure's fixed params `userId` and `env` (the seam threads env), plus the symbols it
@@ -25,7 +25,7 @@ schema-validated params (JSON data only). (Consumed in Phase 3.)
 
 > `readonly` **build**: (`ctx`) => `string`
 
-Defined in: [service.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L99)
+Defined in: [service.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L99)
 
 #### Parameters
 
@@ -45,7 +45,7 @@ Defined in: [service.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > `readonly` **from**: `string`
 
-Defined in: [service.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L97)
+Defined in: [service.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L97)
 
 ***
 
@@ -53,7 +53,7 @@ Defined in: [service.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > `readonly` `optional` **imports?**: `object`[]
 
-Defined in: [service.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L98)
+Defined in: [service.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L98)
 
 #### from
 
@@ -69,7 +69,7 @@ Defined in: [service.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > `readonly` **kind**: `"capability"`
 
-Defined in: [service.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L94)
+Defined in: [service.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L94)
 
 ***
 
@@ -77,7 +77,7 @@ Defined in: [service.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > `readonly` `optional` **param?**: [`Schema`](Schema.md)\<`A`\>
 
-Defined in: [service.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L95)
+Defined in: [service.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L95)
 
 ***
 
@@ -85,4 +85,4 @@ Defined in: [service.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/686a9e
 
 > `readonly` **symbol**: `string`
 
-Defined in: [service.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L96)
+Defined in: [service.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L96)

@@ -8,7 +8,7 @@
 
 > **claimRows**\<`T`\>(`db`, `table`, `where`, `set`): `Promise`\<`T`[]\>
 
-Defined in: [cas.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/drizzle/src/cas.ts#L40)
+Defined in: [cas.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/cas.ts#L40)
 
 Atomically CLAIM a SET of rows and RETURN them: `UPDATE table SET set WHERE where RETURNING *`. The claim-then-act
 variant of [claimOnce](claimOnce.md) — for a batch sweep (mark a waitlist notified / a cart-recovery emailed) where each

@@ -6,7 +6,7 @@
 
 # Interface: CloudflareClientOptions
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/client.ts#L22)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/client.ts#L22)
 
 `@suluk/cloudflare` — API-driven provisioning + deployment for a Suluk app on Cloudflare, no wrangler CLI. A typed
 REST client, idempotent provisioners (D1 / KV / R2 / secrets), the Workers module-script + static-assets upload
@@ -19,7 +19,7 @@ itself — readable, testable, and the same contract-first discipline as the res
 
 > `optional` **accountId?**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/client.ts#L26)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/client.ts#L26)
 
 the account id; resolved from the token's first account when omitted.
 
@@ -29,7 +29,7 @@ the account id; resolved from the token's first account when omitted.
 
 > **apiToken**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/client.ts#L24)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/client.ts#L24)
 
 an API token (Bearer). Account-scoped: Workers Scripts + D1 (+ KV/R2) Edit, Account Settings Read.
 
@@ -39,7 +39,7 @@ an API token (Bearer). Account-scoped: Workers Scripts + D1 (+ KV/R2) Edit, Acco
 
 > `optional` **baseUrl?**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/client.ts#L30)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/client.ts#L30)
 
 API base (default the public Cloudflare API).
 
@@ -49,6 +49,6 @@ API base (default the public Cloudflare API).
 
 > `optional` **fetch?**: *typeof* `fetch`
 
-Defined in: [tooling/ts/packages/cloudflare/src/client.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/client.ts#L28)
+Defined in: [tooling/ts/packages/cloudflare/src/client.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/client.ts#L28)
 
 injected fetch (tests pass a recorder); defaults to the global.

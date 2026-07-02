@@ -103,15 +103,19 @@ constructor(): CurrentUser
 
 ### AuthEnv
 
+### AppCtx
+
+### SessionUser
+
 ### AppVars
 
 Request-scoped identity, set by identity (session) or apiKeyAuth (an `x-api-key`). `user` is the resolved
 principal (rate-limit + routes read `c.get("user")`); `scopes` are its granted scopes; `keyId`/`keyName` are set ONLY for
 a KEYED caller — their presence is how the scope gate tells a key call from a session call. Extend with `keyChain` etc.
 
-### AppCtx
-
-### SessionUser
+```ts
+type AppVars = any
+```
 
 ### apiKeyAuth
 
@@ -120,7 +124,7 @@ OWNER + scopes + key id on the SAME slots a session sets, so a key caller reache
 The verification (`verifyApiKey`) + permission→scope mapping stay in `@suluk/better-auth`; this is the wiring.
 
 ```ts
-const apiKeyAuth: MiddlewareHandler<AppCtx>
+const apiKeyAuth: AppVars<AppCtx>
 ```
 
 ### mcpBearerAuth
@@ -132,7 +136,7 @@ by the EXACT same machinery (`enforceApiKeyScope`). The connection's id flows th
 Only enabled behavior when `opts.mcp` was passed to `buildAuth` (else `getMcpSession` is absent → a no-op).
 
 ```ts
-const mcpBearerAuth: MiddlewareHandler<AppCtx>
+const mcpBearerAuth: AppVars<AppCtx>
 ```
 
 ### user
@@ -192,5 +196,5 @@ const oauthConsent: any
 ### authProvision
 
 ```ts
-const authProvision: InstanceSpec[]
+const authProvision: AppVars[]
 ```

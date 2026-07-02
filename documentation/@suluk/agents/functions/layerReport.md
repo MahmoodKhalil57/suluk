@@ -8,7 +8,7 @@
 
 > **layerReport**(`doc`, `opts?`): [`LayerReport`](../interfaces/LayerReport.md)
 
-Defined in: [agents/src/pyramid.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/pyramid.ts#L84)
+Defined in: [agents/src/pyramid.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/pyramid.ts#L84)
 
 Build the whole-document pyramid view. Folds, for every agent: its static LEVEL + composition counts, plus the
 three observability signals the operator asked for — hardening (`gradeAgent`), token-budget and context-waste

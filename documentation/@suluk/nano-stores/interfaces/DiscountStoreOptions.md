@@ -6,7 +6,7 @@
 
 # Interface: DiscountStoreOptions
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/discount.ts#L19)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/discount.ts#L19)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:19](https://github.
 
 > `optional` **changeEvent?**: `string`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/discount.ts#L27)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/discount.ts#L27)
 
 same-tab change-event name (default "discount-changed").
 
@@ -24,7 +24,7 @@ same-tab change-event name (default "discount-changed").
 
 > `optional` **events?**: `Pick`\<`EventTarget`, `"addEventListener"` \| `"removeEventListener"` \| `"dispatchEvent"`\> \| `null`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/discount.ts#L25)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/discount.ts#L25)
 
 sync event target (default globalThis; null disables).
 
@@ -34,7 +34,7 @@ sync event target (default globalThis; null disables).
 
 > `optional` **storage?**: `Pick`\<`Storage`, `"getItem"` \| `"setItem"` \| `"removeItem"`\> \| `null`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/discount.ts#L23)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/discount.ts#L23)
 
 persistence backend (default globalThis.localStorage, else in-memory; null → in-memory).
 
@@ -44,6 +44,6 @@ persistence backend (default globalThis.localStorage, else in-memory; null → i
 
 > `optional` **storageKey?**: `string`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/discount.ts#L21)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/discount.ts#L21)
 
 localStorage key (default "discount").

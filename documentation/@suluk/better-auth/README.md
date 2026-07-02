@@ -226,6 +226,7 @@ Apache-2.0
 
 - [ApiKeyMetadata](interfaces/ApiKeyMetadata.md)
 - [ApiKeyVerifierLike](interfaces/ApiKeyVerifierLike.md)
+- [AppVars](interfaces/AppVars.md)
 - [AuthHandlerLike](interfaces/AuthHandlerLike.md)
 - [AuthMethods](interfaces/AuthMethods.md)
 - [AuthSecurity](interfaces/AuthSecurity.md)

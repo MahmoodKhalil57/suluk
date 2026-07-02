@@ -34,6 +34,6 @@ OWNER + scopes + key id o...
 ### Types
 
 - `AuthEnv`
-- `AppVars`: Request-scoped identity, set by identity (session) or apiKeyAuth (an `x-api-key`).
 - `AppCtx`
 - `SessionUser`
+- `AppVars`: Request-scoped identity, set by identity (session) or apiKeyAuth (an `x-api-key`).

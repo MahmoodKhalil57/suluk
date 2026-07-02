@@ -8,7 +8,7 @@
 
 > **debitIfCovers**(`db`, `userId`, `amount`, `reason`, `keyId?`): `Promise`\<`boolean`\>
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/credits/src/credits.ts#L60)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/credits/src/credits.ts#L60)
 
 ATOMIC metered debit — append `-amount` ONLY IF the balance still covers it, in ONE conditional INSERT (atomic on both
 bun:sqlite and D1), then best-effort attribute it. Returns true when debited, false when the balance raced below the

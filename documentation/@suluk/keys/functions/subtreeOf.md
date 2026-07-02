@@ -8,7 +8,7 @@
 
 > **subtreeOf**(`db`, `keyId`): `Promise`\<`string`[]\>
 
-Defined in: [packages/keys/src/lineage.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/keys/src/lineage.ts#L33)
+Defined in: [packages/keys/src/lineage.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/keys/src/lineage.ts#L33)
 
 The keyIds in a node's subtree (itself + every descendant) — for cascade revoke. Falls back to `[keyId]` for a
  legacy caller with no lineage row (a childless root).

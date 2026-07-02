@@ -8,7 +8,7 @@
 
 > **debitCredits**(`db`, `userId`, `amount`, `reason`): `Promise`\<`number`\>
 
-Defined in: [tooling/ts/packages/credits/src/credits.ts:238](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/credits/src/credits.ts#L238)
+Defined in: [tooling/ts/packages/credits/src/credits.ts:238](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/credits/src/credits.ts#L238)
 
 Debit credits if the balance covers it; throws InsufficientCreditsError otherwise. Returns the new balance.
 NOTE: read-then-write — fine at low concurrency; use [debitIfCovers](debitIfCovers.md) for the concurrency-safe atomic path.

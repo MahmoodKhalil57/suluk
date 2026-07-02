@@ -8,7 +8,7 @@
 
 > `const` **logsService**: `object`
 
-Defined in: [service.ts:336](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L336)
+Defined in: [service.ts:350](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L350)
 
 ## Type Declaration
 

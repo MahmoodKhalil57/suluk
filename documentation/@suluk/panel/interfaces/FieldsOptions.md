@@ -6,7 +6,7 @@
 
 # Interface: FieldsOptions
 
-Defined in: [fields.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/panel/src/fields.ts#L79)
+Defined in: [fields.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/fields.ts#L79)
 
 `@suluk/panel` — contract-first admin panels, in the spirit of Payload but projected from ONE OpenAPI v4 document.
 Payload makes you configure collections in a framework-coupled DSL; @suluk/panel INFERS the same field types
@@ -21,7 +21,7 @@ REST), no config drift (the contract is the single source). CANDIDATE tooling.
 
 > `optional` **hide?**: `string`[]
 
-Defined in: [fields.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/panel/src/fields.ts#L79)
+Defined in: [fields.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/fields.ts#L79)
 
 ***
 
@@ -29,4 +29,4 @@ Defined in: [fields.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > `optional` **readOnly?**: `string`[]
 
-Defined in: [fields.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/panel/src/fields.ts#L79)
+Defined in: [fields.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/fields.ts#L79)

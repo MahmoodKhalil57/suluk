@@ -49,6 +49,16 @@ A minimal view of a Better Auth session (duck-typed; works with the real Session
 - `twoFactorVerified: boolean` (optional) — twoFactor plugin: the session has cleared its second factor ⇒ the `mfa:verified` scope (Phase 1).
 - `organizations: { id: string; role?: string; scopes?: string[] }[]` (optional) — organization plugin: memberships → `org:<id>:<scope>` scopes (Phase 1, tenancy via scope-encoding).
 
+### `AppVars`
+The Hono context Variables the auth middleware POPULATES per `/api/*` request — the resolved caller (`c.get("user")`,
+ `c.var.scopes`, and the api-key id/name for a keyed caller). A module that READS the auth-set principal (e.g. `mcp`)
+ types its context off THIS shared shape instead of importing the app's `../auth` — so it needs no sibling import.
+**Properties:**
+- `user: { id: string; email?: string }` (optional)
+- `scopes: string[]` (optional)
+- `keyId: string` (optional)
+- `keyName: string` (optional)
+
 ## mount
 
 ### `AuthHandlerLike`

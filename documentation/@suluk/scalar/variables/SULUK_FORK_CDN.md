@@ -8,4 +8,4 @@
 
 > `const` **SULUK\_FORK\_CDN**: `"https://cdn.jsdelivr.net/npm/@suluk/scalar-standalone@0.1.0/dist/standalone-suluk.js"`
 
-Defined in: [index.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/scalar/src/index.ts#L30)
+Defined in: [index.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/scalar/src/index.ts#L30)

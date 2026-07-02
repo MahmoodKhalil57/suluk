@@ -6,7 +6,7 @@
 
 # Interface: FetchApp
 
-Defined in: [exec.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/exec.ts#L56)
+Defined in: [exec.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/exec.ts#L56)
 
 ## Methods
 
@@ -14,7 +14,7 @@ Defined in: [exec.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5
 
 > **fetch**(`req`, `env?`, `ctx?`): `Response` \| `Promise`\<`Response`\>
 
-Defined in: [exec.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/mcp/src/exec.ts#L56)
+Defined in: [exec.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/mcp/src/exec.ts#L56)
 
 #### Parameters
 

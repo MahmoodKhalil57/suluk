@@ -6,7 +6,7 @@
 
 # Interface: TaxAddress
 
-Defined in: [packages/billing/src/billing.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/billing.ts#L43)
+Defined in: [packages/billing/src/billing.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/billing.ts#L43)
 
 A buyer's tax location (from a saved card's billing address).
 
@@ -16,7 +16,7 @@ A buyer's tax location (from a saved card's billing address).
 
 > **city**: `string` \| `null`
 
-Defined in: [packages/billing/src/billing.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/billing.ts#L47)
+Defined in: [packages/billing/src/billing.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/billing.ts#L47)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [packages/billing/src/billing.ts:47](https://github.com/MahmoodKhali
 
 > **country**: `string`
 
-Defined in: [packages/billing/src/billing.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/billing.ts#L44)
+Defined in: [packages/billing/src/billing.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/billing.ts#L44)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [packages/billing/src/billing.ts:44](https://github.com/MahmoodKhali
 
 > **line1**: `string` \| `null`
 
-Defined in: [packages/billing/src/billing.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/billing.ts#L48)
+Defined in: [packages/billing/src/billing.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/billing.ts#L48)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [packages/billing/src/billing.ts:48](https://github.com/MahmoodKhali
 
 > **postalCode**: `string` \| `null`
 
-Defined in: [packages/billing/src/billing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/billing.ts#L46)
+Defined in: [packages/billing/src/billing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/billing.ts#L46)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [packages/billing/src/billing.ts:46](https://github.com/MahmoodKhali
 
 > **state**: `string` \| `null`
 
-Defined in: [packages/billing/src/billing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/billing.ts#L45)
+Defined in: [packages/billing/src/billing.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/billing.ts#L45)

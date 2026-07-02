@@ -8,7 +8,7 @@
 
 > **schemaHtml**(`doc`, `schema`, `depth?`, `seen?`): `string`
 
-Defined in: [reference/src/schema.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/reference/src/schema.ts#L49)
+Defined in: [reference/src/schema.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/reference/src/schema.ts#L49)
 
 Render a schema compactly. `depth`/`seen` guard against $ref cycles + runaway nesting.
 

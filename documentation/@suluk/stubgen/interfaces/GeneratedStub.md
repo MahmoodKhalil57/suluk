@@ -6,7 +6,7 @@
 
 # Interface: GeneratedStub
 
-Defined in: [index.ts:145](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/stubgen/src/index.ts#L145)
+Defined in: [index.ts:145](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L145)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [index.ts:145](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > **contract**: `string`
 
-Defined in: [index.ts:148](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/stubgen/src/index.ts#L148)
+Defined in: [index.ts:148](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L148)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [index.ts:148](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > **handler**: `string`
 
-Defined in: [index.ts:149](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/stubgen/src/index.ts#L149)
+Defined in: [index.ts:149](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L149)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [index.ts:149](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > **name**: `string`
 
-Defined in: [index.ts:146](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/stubgen/src/index.ts#L146)
+Defined in: [index.ts:146](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L146)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [index.ts:146](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > **spec**: [`StubSpec`](StubSpec.md)
 
-Defined in: [index.ts:147](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/stubgen/src/index.ts#L147)
+Defined in: [index.ts:147](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L147)

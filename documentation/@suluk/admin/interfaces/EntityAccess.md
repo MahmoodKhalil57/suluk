@@ -6,7 +6,7 @@
 
 # Interface: EntityAccess
 
-Defined in: [render-data.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L19)
+Defined in: [render-data.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/render-data.ts#L19)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [render-data.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/68
 
 > `optional` **create?**: `string`
 
-Defined in: [render-data.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L22)
+Defined in: [render-data.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/render-data.ts#L22)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [render-data.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/68
 
 > `optional` **delete?**: `string`
 
-Defined in: [render-data.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L24)
+Defined in: [render-data.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/render-data.ts#L24)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [render-data.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/68
 
 > `optional` **get?**: `string`
 
-Defined in: [render-data.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L21)
+Defined in: [render-data.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/render-data.ts#L21)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [render-data.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/68
 
 > `optional` **list?**: `string`
 
-Defined in: [render-data.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L20)
+Defined in: [render-data.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/render-data.ts#L20)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [render-data.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/68
 
 > `optional` **update?**: `string`
 
-Defined in: [render-data.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/admin/src/render-data.ts#L23)
+Defined in: [render-data.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/admin/src/render-data.ts#L23)

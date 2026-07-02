@@ -8,4 +8,4 @@
 
 > `const` **ORIGIN\_KEYWORD**: `"x-suluk-origin"` = `"x-suluk-origin"`
 
-Defined in: [examples/src/index.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/examples/src/index.ts#L50)
+Defined in: [examples/src/index.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L50)

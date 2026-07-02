@@ -8,6 +8,6 @@
 
 > `const` **CORE\_SERVICES**: `Record`\<`string`, [`Service`](../interfaces/Service.md)\>
 
-Defined in: [service.ts:347](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L347)
+Defined in: [service.ts:361](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L361)
 
 The core services keyed by id (key === `service.id`, guaranteed by construction).

@@ -2,306 +2,306 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/index.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/modules.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/hierarchy.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/documents/Used_by_(registry).html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/modules/index.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.HttpOptions.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.PaymentConnector.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.WebhookEvent.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/types/index.ConnectorAuth.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.ConnectorConfig.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/types/index.ConnectorFactory.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/types/index.ConnectorRegistry.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.paymentClient.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/variables/index.stripeConnector.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/classes/index.PaymentLibError.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/classes/index.IntegrationError.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/classes/index.ConnectorError.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/classes/index.NetworkError.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/variables/index.MOCK_DECLINE_CARD.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/variables/index.MOCK_3DS_CARD.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/variables/index.mockConnector.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.CartLine.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.Discount.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/variables/index.STRIPE_MIN_CHARGE_CENTS.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.requiresStripe.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.DiscountResult.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/types/index.DiscountRejection.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.OrderTotal.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.AmountVerdict.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.subtotal.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.computeDiscountAmount.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.validateDiscount.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.prorateDiscount.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.orderTotal.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.OrderTotalFull.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.composeTotal.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.verifyAmount.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.cartFingerprint.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.idempotencyKey.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.StripeConfig.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.stripePost.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.stripeGet.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.toForm.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.timingSafeHexEqual.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.VerifyOptions.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.verifyStripeSignature.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.StripeWebhookEvent.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/types/index.WebhookHandler.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.HandleResult.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.WebhookRouter.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/functions/index.webhookRouter.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/variables/index.STRIPE_EVENTS.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/types/index.Secret.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/variables/index.Currency.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/types/index.Currency.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/enums/index.CaptureMethod.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/enums/index.AuthenticationType.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/enums/index.PaymentStatus.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/enums/index.RefundStatus.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.MinorAmount.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.CardDetails.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.PaymentMethod.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.Address.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.OrderDetail.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.PaymentError.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.RedirectionData.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.AuthorizeRequest.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.PaymentResponse.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.CaptureRequest.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.VoidRequest.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.RefundRequest.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.RefundResponse.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.SyncRequest.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.ClientSession.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.CreatePaymentSessionRequest.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/payments/interfaces/index.CreateSetupSessionRequest.html</loc>
-		<lastmod>2026-07-02T12:44:29.509Z</lastmod>
+		<lastmod>2026-07-02T14:13:37.941Z</lastmod>
 	</url>
 </urlset>

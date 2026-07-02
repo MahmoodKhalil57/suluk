@@ -8,7 +8,7 @@
 
 > **projectClaudePlugin**(`doc`, `agentName`, `opts`): [`ClaudePluginArtifacts`](../interfaces/ClaudePluginArtifacts.md)
 
-Defined in: [agents/src/project.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/project.ts#L42)
+Defined in: [agents/src/project.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/project.ts#L42)
 
 ## Parameters
 

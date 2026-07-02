@@ -8,7 +8,7 @@
 
 > **createPaymentIntentOnDefaultCard**(`cfg`, `customerId`, `amountCents`, `meta`): `Promise`\<`string` \| `null`\>
 
-Defined in: [packages/billing/src/payments.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/payments.ts#L104)
+Defined in: [packages/billing/src/payments.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/payments.ts#L104)
 
 Create a PaymentIntent on the customer's SAVED DEFAULT card — the one-click top-up path. The server resolves the
  default payment method (client can't inject one), pins the PI to it, and returns the client secret; the browser

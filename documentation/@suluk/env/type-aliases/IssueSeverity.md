@@ -8,4 +8,4 @@
 
 > **IssueSeverity** = `"error"` \| `"warning"`
 
-Defined in: [schema.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/env/src/schema.ts#L41)
+Defined in: [schema.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/env/src/schema.ts#L41)

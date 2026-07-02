@@ -6,7 +6,7 @@
 
 # Interface: SystemManifest\<T\>
 
-Defined in: [manifest.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L64)
+Defined in: [manifest.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L64)
 
 A SYSTEM — the reusable, publishable template. Generic over the services tuple so `serviceOpts` is typed by service id.
 
@@ -22,7 +22,7 @@ A SYSTEM — the reusable, publishable template. Generic over the services tuple
 
 > `optional` **globalServiceOpts?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [manifest.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L72)
+Defined in: [manifest.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L72)
 
 system-wide behaviour shared by services; a service receives the keys it names in `reads.globalService` (else inert).
 
@@ -32,7 +32,7 @@ system-wide behaviour shared by services; a service receives the keys it names i
 
 > `optional` **local?**: `boolean`
 
-Defined in: [manifest.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L79)
+Defined in: [manifest.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L79)
 
 emit the MOCK-PROVIDER dev runtime (a `src/dev.ts` bun server with a bun:sqlite DB + JSON KV + mocked providers when
  keys are absent). A SYSTEM-level property (the app structure), swappable per brand only if a brand overrides it.
@@ -43,7 +43,7 @@ emit the MOCK-PROVIDER dev runtime (a `src/dev.ts` bun server with a bun:sqlite 
 
 > `optional` **registries?**: `Record`\<`string`, `string`\>
 
-Defined in: [manifest.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L68)
+Defined in: [manifest.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L68)
 
 alias → registry map for multi-registry systems (Phase 4). `registries.core` is the default when `registry` is unset.
 
@@ -53,7 +53,7 @@ alias → registry map for multi-registry systems (Phase 4). `registries.core` i
 
 > `optional` **registry?**: `string`
 
-Defined in: [manifest.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L66)
+Defined in: [manifest.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L66)
 
 the single core registry, e.g. "MahmoodKhalil57/suluk". (Multi-registry alias map: `registries`, Phase 4.)
 
@@ -63,7 +63,7 @@ the single core registry, e.g. "MahmoodKhalil57/suluk". (Multi-registry alias ma
 
 > `optional` **serviceOpts?**: `Partial`\<`{ [K in ServiceRef as IdOf<K>]: SoOf<K> }`\>
 
-Defined in: [manifest.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L74)
+Defined in: [manifest.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L74)
 
 per-service serviceOpts — TYPED by service id off the imported service objects.
 
@@ -73,7 +73,7 @@ per-service serviceOpts — TYPED by service id off the imported service objects
 
 > **services**: `T`
 
-Defined in: [manifest.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L70)
+Defined in: [manifest.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L70)
 
 the services, in mount order — imported [Service](Service.md) objects (typed) and/or string ids.
 
@@ -83,6 +83,6 @@ the services, in mount order — imported [Service](Service.md) objects (typed) 
 
 > `optional` **wire?**: [`WireDecl`](WireDecl.md)[]
 
-Defined in: [manifest.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/manifest.ts#L76)
+Defined in: [manifest.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/manifest.ts#L76)
 
 inter-service composition edges (Phase 3).

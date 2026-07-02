@@ -6,7 +6,7 @@
 
 # Interface: CrudDb
 
-Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/drizzle/src/handlers.ts#L20)
+Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/handlers.ts#L20)
 
 Structural drizzle handle — the chainable builder API both bun:sqlite and D1 expose (loosely typed, like the app twins).
 
@@ -16,7 +16,7 @@ Structural drizzle handle — the chainable builder API both bun:sqlite and D1 e
 
 > **delete**: (...`a`) => `any`
 
-Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/drizzle/src/handlers.ts#L20)
+Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/handlers.ts#L20)
 
 #### Parameters
 
@@ -34,7 +34,7 @@ Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9
 
 > **insert**: (...`a`) => `any`
 
-Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/drizzle/src/handlers.ts#L20)
+Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/handlers.ts#L20)
 
 #### Parameters
 
@@ -52,7 +52,7 @@ Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9
 
 > **select**: (...`a`) => `any`
 
-Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/drizzle/src/handlers.ts#L20)
+Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/handlers.ts#L20)
 
 #### Parameters
 
@@ -70,7 +70,7 @@ Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9
 
 > **update**: (...`a`) => `any`
 
-Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/drizzle/src/handlers.ts#L20)
+Defined in: [handlers.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/drizzle/src/handlers.ts#L20)
 
 #### Parameters
 

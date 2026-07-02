@@ -8,7 +8,7 @@
 
 > **StepKind** = `"given"` \| `"when"` \| `"then"`
 
-Defined in: [journeys/src/vocabulary.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/vocabulary.ts#L17)
+Defined in: [journeys/src/vocabulary.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/vocabulary.ts#L17)
 
 `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
 

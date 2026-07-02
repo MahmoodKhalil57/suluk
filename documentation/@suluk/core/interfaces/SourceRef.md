@@ -6,7 +6,7 @@
 
 # Interface: SourceRef
 
-Defined in: [source.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/source.ts#L14)
+Defined in: [source.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/source.ts#L14)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [source.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > **method**: `string`
 
-Defined in: [source.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/source.ts#L14)
+Defined in: [source.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/source.ts#L14)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [source.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > **name**: `string`
 
-Defined in: [source.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/source.ts#L14)
+Defined in: [source.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/source.ts#L14)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [source.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1
 
 > **path**: `string`
 
-Defined in: [source.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/core/src/source.ts#L14)
+Defined in: [source.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/core/src/source.ts#L14)

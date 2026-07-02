@@ -8,7 +8,7 @@
 
 > **swaggerResponse**(`doc`, `opts?`): `Response`
 
-Defined in: [index.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/swagger/src/index.ts#L71)
+Defined in: [index.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/swagger/src/index.ts#L71)
 
 Convenience for Bun.serve / Hono / fetch handlers: the Swagger UI page as a text/html Response.
 

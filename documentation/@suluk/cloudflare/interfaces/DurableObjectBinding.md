@@ -6,7 +6,7 @@
 
 # Interface: DurableObjectBinding
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/deploy.ts#L14)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/deploy.ts#L14)
 
 A Durable Object class to bind + (for same-script classes) create via an inline script migration. Mirrors
  `@suluk/deploy`'s `DurableObjectBinding` so the CLI plan and the no-wrangler REST deploy describe DO agents alike.
@@ -17,7 +17,7 @@ A Durable Object class to bind + (for same-script classes) create via an inline 
 
 > **binding**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/deploy.ts#L16)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/deploy.ts#L16)
 
 the binding name exposed as `env.<binding>`.
 
@@ -27,7 +27,7 @@ the binding name exposed as `env.<binding>`.
 
 > **className**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/deploy.ts#L18)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/deploy.ts#L18)
 
 the exported Agent/DO class name.
 
@@ -37,7 +37,7 @@ the exported Agent/DO class name.
 
 > `optional` **scriptName?**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/deploy.ts#L22)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/deploy.ts#L22)
 
 cross-script DO: the script that DEFINES the class. Omit for a same-script class (the only kind we migrate).
 
@@ -47,6 +47,6 @@ cross-script DO: the script that DEFINES the class. Omit for a same-script class
 
 > `optional` **sqlite?**: `boolean`
 
-Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/deploy.ts#L20)
+Defined in: [tooling/ts/packages/cloudflare/src/deploy.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/deploy.ts#L20)
 
 SQLite-backed storage — REQUIRED by the Agents SDK + the free plan. Default true ⇒ `new_sqlite_classes`.

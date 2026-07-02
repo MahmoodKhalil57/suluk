@@ -8,7 +8,7 @@
 
 > **intersectScope**(`a`, `b`): [`Scope`](../type-aliases/Scope.md)
 
-Defined in: [agents/src/scope.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/scope.ts#L14)
+Defined in: [agents/src/scope.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/scope.ts#L14)
 
 INTERSECTION with null-as-unconstrained: ∩(null, X)=X, ∩(X, null)=X, ∩(X, Y)=X∩Y.
 

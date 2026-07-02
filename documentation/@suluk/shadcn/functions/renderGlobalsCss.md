@@ -8,7 +8,7 @@
 
 > **renderGlobalsCss**(`theme`, `opts?`): `string`
 
-Defined in: [theme.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/shadcn/src/theme.ts#L31)
+Defined in: [theme.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/shadcn/src/theme.ts#L31)
 
 The shadcn `globals.css`: the Tailwind import + the `dark` custom-variant + the token vars (light at `:root`,
 dark at the dark selector) + the `@theme inline` mapping + a base layer applying border/bg/text tokens.

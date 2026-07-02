@@ -8,7 +8,7 @@
 
 > **revokeKeyTree**(`db`, `opts`, `disableKeys`): `Promise`\<\{ `revoked`: `number`; \}\>
 
-Defined in: [packages/keys/src/lineage.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/keys/src/lineage.ts#L80)
+Defined in: [packages/keys/src/lineage.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/keys/src/lineage.ts#L80)
 
 Cascade-revoke a key's subtree: compute the api-key ids in `keyId`'s subtree (a keyed caller may revoke ONLY a STRICT
 descendant of itself — not itself, an ancestor, or another branch) and soft-disable them via the injected `disableKeys`

@@ -7,7 +7,7 @@ Programmatic auth via an `x-api-key` header (the api-key plugin) — when there 
 OWNER + scopes + key id on the SAME slots a session sets, so a key caller reaches the metered API exactly like a user.
 The verification (`verifyApiKey`) + permission→scope mapping stay in `@suluk/better-auth`; this is the wiring.
 ```ts
-const apiKeyAuth: MiddlewareHandler<AppCtx>
+const apiKeyAuth: AppVars<AppCtx>
 ```
 
 ### `mcpBearerAuth`
@@ -17,7 +17,7 @@ granted scopes) and stash the owner + scopes on the SAME slots an api key sets �
 by the EXACT same machinery (`enforceApiKeyScope`). The connection's id flows through `keyId` as `mcp:<userId>:<clientId>`.
 Only enabled behavior when `opts.mcp` was passed to `buildAuth` (else `getMcpSession` is absent → a no-op).
 ```ts
-const mcpBearerAuth: MiddlewareHandler<AppCtx>
+const mcpBearerAuth: AppVars<AppCtx>
 ```
 
 ## auth.schema
@@ -71,5 +71,5 @@ const oauthConsent: any
 
 ### `authProvision`
 ```ts
-const authProvision: InstanceSpec[]
+const authProvision: AppVars[]
 ```

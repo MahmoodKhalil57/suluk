@@ -8,7 +8,7 @@
 
 > `const` **contractService**: `object`
 
-Defined in: [service.ts:246](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/platform/src/service.ts#L246)
+Defined in: [service.ts:246](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/platform/src/service.ts#L246)
 
 ## Type Declaration
 
@@ -45,6 +45,38 @@ Defined in: [service.ts:246](https://github.com/MahmoodKhalil57/suluk/blob/686a9
 ##### Returns
 
 `string`
+
+#### compose.offers
+
+> `readonly` **offers**: `object`
+
+#### compose.offers.provideApiDocument
+
+> `readonly` **provideApiDocument**: `object`
+
+#### compose.offers.provideApiDocument.build
+
+> `readonly` **build**: () => `string`
+
+##### Returns
+
+`string`
+
+#### compose.offers.provideApiDocument.from
+
+> `readonly` **from**: `"./contract"` = `"./contract"`
+
+#### compose.offers.provideApiDocument.imports
+
+> `readonly` **imports**: \[\{ `from`: `"./contract"`; `symbol`: `"apiDocument"`; \}\]
+
+#### compose.offers.provideApiDocument.kind
+
+> `readonly` **kind**: `"capability"` = `"capability"`
+
+#### compose.offers.provideApiDocument.symbol
+
+> `readonly` **symbol**: `"apiDocument"` = `"apiDocument"`
 
 ### deps
 

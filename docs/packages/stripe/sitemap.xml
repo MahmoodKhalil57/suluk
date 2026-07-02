@@ -2,138 +2,138 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/index.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/modules.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/hierarchy.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/interfaces/CartLine.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/interfaces/Discount.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/variables/STRIPE_MIN_CHARGE_CENTS.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/requiresStripe.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/interfaces/DiscountResult.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/types/DiscountRejection.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/interfaces/OrderTotal.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/interfaces/AmountVerdict.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/subtotal.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/computeDiscountAmount.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/validateDiscount.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/prorateDiscount.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/orderTotal.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/interfaces/OrderTotalFull.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/composeTotal.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/verifyAmount.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/cartFingerprint.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/idempotencyKey.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/interfaces/StripeConfig.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/stripePost.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/stripeGet.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/toForm.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/timingSafeHexEqual.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/interfaces/VerifyOptions.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/verifyStripeSignature.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/interfaces/StripeWebhookEvent.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/types/WebhookHandler.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/interfaces/HandleResult.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/interfaces/WebhookRouter.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/functions/webhookRouter.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/stripe/variables/STRIPE_EVENTS.html</loc>
-		<lastmod>2026-07-02T12:44:33.064Z</lastmod>
+		<lastmod>2026-07-02T14:13:41.307Z</lastmod>
 	</url>
 </urlset>

@@ -8,7 +8,7 @@
 
 > **ingestAuthOpenAPI**(`schema30`, `opts?`): [`OpenAPIv4Document`](../../core/interfaces/OpenAPIv4Document.md)
 
-Defined in: [ingest.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/better-auth/src/ingest.ts#L44)
+Defined in: [ingest.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/ingest.ts#L44)
 
 Normalize + upgrade Better Auth's OpenAPI 3.0 schema to a v4 document (the auth surface).
 

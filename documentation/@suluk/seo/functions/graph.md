@@ -8,7 +8,7 @@
 
 > **graph**(...`nodes`): `Node`
 
-Defined in: [schema.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/seo/src/schema.ts#L68)
+Defined in: [schema.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/seo/src/schema.ts#L68)
 
 Compose nodes into ONE `@graph` document — the recommended single-script form (de-duplicates `@context`).
 

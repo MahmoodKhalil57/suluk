@@ -8,7 +8,7 @@
 
 > **extractPublicRows**(`features`): [`PublicExampleRow`](../interfaces/PublicExampleRow.md)[]
 
-Defined in: [journeys/src/promote.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/promote.ts#L25)
+Defined in: [journeys/src/promote.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/promote.ts#L25)
 
 Every `@public`-tagged Examples block's first row (the tester's curated public example). Pure.
 

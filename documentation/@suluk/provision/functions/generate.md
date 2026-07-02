@@ -8,7 +8,7 @@
 
 > **generate**(`config`, `store`, `name?`): `Promise`\<[`Migration`](../interfaces/Migration.md) \| `null`\>
 
-Defined in: [provision/src/generate.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/provision/src/generate.ts#L12)
+Defined in: [provision/src/generate.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/provision/src/generate.ts#L12)
 
 ## Parameters
 

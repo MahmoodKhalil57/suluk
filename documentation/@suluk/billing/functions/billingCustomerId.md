@@ -8,7 +8,7 @@
 
 > **billingCustomerId**(`db`, `userId`): `Promise`\<`string` \| `null`\>
 
-Defined in: [packages/billing/src/account.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/billing/src/account.ts#L26)
+Defined in: [packages/billing/src/account.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/billing/src/account.ts#L26)
 
 The user's Stripe customer id, or null when they have no billing account yet.
 

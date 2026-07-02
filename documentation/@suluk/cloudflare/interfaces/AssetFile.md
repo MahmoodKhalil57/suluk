@@ -6,7 +6,7 @@
 
 # Interface: AssetFile
 
-Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/assets.ts#L10)
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/assets.ts#L10)
 
 One asset: its server path (e.g. "/index.html"), bytes, and content type.
 
@@ -16,7 +16,7 @@ One asset: its server path (e.g. "/index.html"), bytes, and content type.
 
 > **bytes**: `Uint8Array`
 
-Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/assets.ts#L12)
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/assets.ts#L12)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:12](https://github.com
 
 > **contentType**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/assets.ts#L13)
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/assets.ts#L13)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:13](https://github.com
 
 > **path**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/assets.ts#L11)
+Defined in: [tooling/ts/packages/cloudflare/src/assets.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/assets.ts#L11)

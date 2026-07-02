@@ -24,12 +24,12 @@ const authService: { id: "auth"; mount: { kind: "middleware"; symbol: "mountAuth
 
 ### `contractService`
 ```ts
-const contractService: { id: "contract"; mount: { kind: "middleware"; symbol: "mountContract"; from: "./routes/contract" }; deps: ["@suluk/hono", "zod"]; compose: { exposes: { authApi: { kind: "port"; hookOptKey: "authApi"; render: (e: string[]) => string } } } }
+const contractService: { id: "contract"; mount: { kind: "middleware"; symbol: "mountContract"; from: "./routes/contract" }; deps: ["@suluk/hono", "zod"]; compose: { exposes: { authApi: { kind: "port"; hookOptKey: "authApi"; render: (e: string[]) => string } }; offers: { provideApiDocument: { kind: "capability"; symbol: "apiDocument"; from: "./contract"; imports: [{ symbol: "apiDocument"; from: "./contract" }]; build: () => string } } } }
 ```
 
 ### `mcpService`
 ```ts
-const mcpService: { id: "mcp"; mount: { kind: "middleware"; symbol: "mountMcp"; from: "./routes/mcp" }; provision: { symbol: "mcpProvision"; from: "./src/provision/mcp" }; contract: { symbol: "mcpOps"; from: "./contract/mcp" }; deps: ["@suluk/mcp", "@suluk/better-auth", "better-auth"]; requires: ["contract", "auth"]; compose: { exposes: { mcpAuthInstance: { kind: "port"; hookOptKey: "mcpAuthInstance"; render: (e: string[]) => string } } } }
+const mcpService: { id: "mcp"; mount: { kind: "middleware"; symbol: "mountMcp"; from: "./routes/mcp" }; provision: { symbol: "mcpProvision"; from: "./src/provision/mcp" }; contract: { symbol: "mcpOps"; from: "./contract/mcp" }; deps: ["@suluk/mcp", "@suluk/better-auth", "better-auth"]; requires: ["contract", "auth"]; compose: { exposes: { mcpAuthInstance: { kind: "port"; hookOptKey: "mcpAuthInstance"; render: (e: string[]) => string }; apiDocument: { kind: "port"; hookOptKey: "apiDocument"; render: (e: string[]) => string } } } }
 ```
 
 ### `creditsService`
@@ -84,7 +84,7 @@ const i18nService: { id: "i18n"; mount: { kind: "middleware"; symbol: "mountI18n
 
 ### `referenceService`
 ```ts
-const referenceService: { id: "reference"; mount: { kind: "route"; path: "/api/reference"; symbol: "referenceRoutes"; from: "./routes/reference" }; contract: { symbol: "referenceOps"; from: "./contract/reference" }; deps: ["@suluk/reference"]; requires: ["contract"] }
+const referenceService: { id: "reference"; mount: { kind: "route"; path: "/api/reference"; symbol: "referenceRoutes"; from: "./routes/reference" }; contract: { symbol: "referenceOps"; from: "./contract/reference" }; deps: ["@suluk/reference"]; requires: ["contract"]; compose: { exposes: { apiDocument: { kind: "port"; hookOptKey: "apiDocument"; render: (e: string[]) => string } } } }
 ```
 
 ### `adminService`

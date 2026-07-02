@@ -6,7 +6,7 @@
 
 # Interface: FieldDescriptor
 
-Defined in: [examples/src/index.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/examples/src/index.ts#L67)
+Defined in: [examples/src/index.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L67)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [examples/src/index.ts:67](https://github.com/MahmoodKhalil57/suluk/
 
 > **fakerable**: `boolean`
 
-Defined in: [examples/src/index.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/examples/src/index.ts#L75)
+Defined in: [examples/src/index.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L75)
 
 true IFF a client may freely synthesize/fill it (origin === "input").
 
@@ -24,7 +24,7 @@ true IFF a client may freely synthesize/fill it (origin === "input").
 
 > `optional` **from?**: `string`
 
-Defined in: [examples/src/index.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/examples/src/index.ts#L71)
+Defined in: [examples/src/index.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L71)
 
 the raw `x-suluk-from` when it is a human note (string).
 
@@ -34,7 +34,7 @@ the raw `x-suluk-from` when it is a human note (string).
 
 > **name**: `string`
 
-Defined in: [examples/src/index.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/examples/src/index.ts#L68)
+Defined in: [examples/src/index.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L68)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [examples/src/index.ts:68](https://github.com/MahmoodKhalil57/suluk/
 
 > **origin**: [`FieldOrigin`](../type-aliases/FieldOrigin.md)
 
-Defined in: [examples/src/index.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/examples/src/index.ts#L69)
+Defined in: [examples/src/index.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L69)
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: [examples/src/index.ts:69](https://github.com/MahmoodKhalil57/suluk/
 
 > **required**: `boolean`
 
-Defined in: [examples/src/index.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/examples/src/index.ts#L76)
+Defined in: [examples/src/index.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L76)
 
 ***
 
@@ -58,6 +58,6 @@ Defined in: [examples/src/index.ts:76](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **source?**: [`SourceRef`](SourceRef.md)
 
-Defined in: [examples/src/index.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/examples/src/index.ts#L73)
+Defined in: [examples/src/index.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/examples/src/index.ts#L73)
 
 the machine-wireable edge when `x-suluk-from` is structured `{ op, select? }`.

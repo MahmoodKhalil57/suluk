@@ -6,7 +6,7 @@
 
 # Interface: Principal
 
-Defined in: [principal.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/better-auth/src/principal.ts#L7)
+Defined in: [principal.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L7)
 
 The principal extractor — the loop-closer for per-viewer docs. A Better Auth session (its user role,
 granted permissions, or an apiKey's scopes) is mapped to a { scopes } principal that @suluk/hono's
@@ -18,4 +18,4 @@ emitV4(routes, { principal }) uses to project the doc each viewer is allowed to 
 
 > **scopes**: `string`[]
 
-Defined in: [principal.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/better-auth/src/principal.ts#L8)
+Defined in: [principal.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/principal.ts#L8)

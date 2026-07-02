@@ -6,7 +6,7 @@
 
 # Interface: KvLike
 
-Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/ratelimit.ts#L16)
+Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/ratelimit.ts#L16)
 
 The slice of the Workers KV API this needs (get/put with TTL).
 
@@ -16,7 +16,7 @@ The slice of the Workers KV API this needs (get/put with TTL).
 
 > **get**(`key`): `Promise`\<`string` \| `null`\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/ratelimit.ts#L16)
+Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/ratelimit.ts#L16)
 
 #### Parameters
 
@@ -34,7 +34,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:16](https://github.
 
 > **put**(`key`, `value`, `opts?`): `Promise`\<`void`\>
 
-Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/ratelimit.ts#L16)
+Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/ratelimit.ts#L16)
 
 #### Parameters
 

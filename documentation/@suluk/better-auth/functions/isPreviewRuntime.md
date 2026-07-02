@@ -8,7 +8,7 @@
 
 > **isPreviewRuntime**(`env`): `boolean`
 
-Defined in: [preview.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/better-auth/src/preview.ts#L52)
+Defined in: [preview.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/better-auth/src/preview.ts#L52)
 
 True iff BOTH independent locks say "preview". Exported so callers/tests can assert the gate in isolation.
 

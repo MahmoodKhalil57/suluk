@@ -6,7 +6,7 @@
 
 # Interface: ConsumeOptions
 
-Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/ratelimit.ts#L11)
+Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/ratelimit.ts#L11)
 
 A KV-backed RateLimitStore — the production durable counter @suluk/hono's `enforceRateLimit` needs (its
 MemoryRateLimitStore is DEV-only; it doesn't coordinate across Workers isolates). Fixed-window counter in a
@@ -22,7 +22,7 @@ the binding isn't available at module-init — capture it on first request.
 
 > **maxRequests**: `number`
 
-Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/ratelimit.ts#L11)
+Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/ratelimit.ts#L11)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:11](https://github.
 
 > **now**: `number`
 
-Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/ratelimit.ts#L11)
+Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/ratelimit.ts#L11)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:11](https://github.
 
 > **windowMs**: `number`
 
-Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cloudflare/src/ratelimit.ts#L11)
+Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cloudflare/src/ratelimit.ts#L11)

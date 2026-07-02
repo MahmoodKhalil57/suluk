@@ -8,7 +8,7 @@
 
 > **r2Storage**(`bucket`, `opts`): [`StorageProvider`](../interfaces/StorageProvider.md)
 
-Defined in: [storage.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/deploy/src/storage.ts#L40)
+Defined in: [storage.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/deploy/src/storage.ts#L40)
 
 Cloudflare R2 storage (the reference StorageProvider). `publicBaseUrl` is the bucket's served domain.
 

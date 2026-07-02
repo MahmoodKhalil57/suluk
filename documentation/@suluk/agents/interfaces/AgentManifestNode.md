@@ -6,7 +6,7 @@
 
 # Interface: AgentManifestNode
 
-Defined in: [agents/src/manifest.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/manifest.ts#L44)
+Defined in: [agents/src/manifest.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L44)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/manifest.ts:44](https://github.com/MahmoodKhalil57/suluk
 
 > **description**: `string`
 
-Defined in: [agents/src/manifest.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/manifest.ts#L46)
+Defined in: [agents/src/manifest.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L46)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [agents/src/manifest.ts:46](https://github.com/MahmoodKhalil57/suluk
 
 > **effectiveScope**: [`Scope`](../type-aliases/Scope.md)
 
-Defined in: [agents/src/manifest.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/manifest.ts#L48)
+Defined in: [agents/src/manifest.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L48)
 
 effective scope after intersection along the reaching path (null = unconstrained).
 
@@ -32,7 +32,7 @@ effective scope after intersection along the reaching path (null = unconstrained
 
 > `optional` **governed?**: [`AgentManifestGoverned`](AgentManifestGoverned.md)
 
-Defined in: [agents/src/manifest.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/manifest.ts#L53)
+Defined in: [agents/src/manifest.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L53)
 
 operator-effective surface after x-suluk-policy (C028) — so the C021 signature covers the operator's caps.
 
@@ -42,7 +42,7 @@ operator-effective surface after x-suluk-policy (C028) — so the C021 signature
 
 > `optional` **modelSelection?**: `object`[]
 
-Defined in: [agents/src/manifest.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/manifest.ts#L57)
+Defined in: [agents/src/manifest.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L57)
 
 catalog-pinned model selection per skill (present only when agentManifest is given a catalog) — reproducible: the
 snapshotHash is signed (the SURVIVOR SET), so a re-pick week-over-week with no author edit is auditable. `resolve`
@@ -78,7 +78,7 @@ is the C030 mode; `pickPinned` false ⇒ set-pinned but the served id is NOT rep
 
 > **name**: `string`
 
-Defined in: [agents/src/manifest.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/manifest.ts#L45)
+Defined in: [agents/src/manifest.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L45)
 
 ***
 
@@ -86,7 +86,7 @@ Defined in: [agents/src/manifest.ts:45](https://github.com/MahmoodKhalil57/suluk
 
 > **routes**: [`AgentManifestRoute`](AgentManifestRoute.md)[]
 
-Defined in: [agents/src/manifest.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/manifest.ts#L50)
+Defined in: [agents/src/manifest.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L50)
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: [agents/src/manifest.ts:50](https://github.com/MahmoodKhalil57/suluk
 
 > **skills**: [`AgentManifestSkill`](AgentManifestSkill.md)[]
 
-Defined in: [agents/src/manifest.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/manifest.ts#L49)
+Defined in: [agents/src/manifest.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L49)
 
 ***
 
@@ -102,4 +102,4 @@ Defined in: [agents/src/manifest.ts:49](https://github.com/MahmoodKhalil57/suluk
 
 > **subAgents**: `string`[]
 
-Defined in: [agents/src/manifest.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/agents/src/manifest.ts#L51)
+Defined in: [agents/src/manifest.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/agents/src/manifest.ts#L51)

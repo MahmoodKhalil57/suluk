@@ -6,7 +6,7 @@
 
 # Interface: StubGap
 
-Defined in: [index.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/stubgen/src/index.ts#L26)
+Defined in: [index.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L26)
 
 The input: a gap the contract cannot back, optionally with the Examples columns that hint the request shape.
 
@@ -16,7 +16,7 @@ The input: a gap the contract cannot back, optionally with the Examples columns 
 
 > `optional` **fields?**: `object`[]
 
-Defined in: [index.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/stubgen/src/index.ts#L30)
+Defined in: [index.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L30)
 
 the Examples columns (request field names) + an optional sample cell for type inference.
 
@@ -34,7 +34,7 @@ the Examples columns (request field names) + an optional sample cell for type in
 
 > **intent**: `string`
 
-Defined in: [index.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/stubgen/src/index.ts#L28)
+Defined in: [index.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L28)
 
 the authored intent — the When step text, e.g. "I refund a charge".
 
@@ -44,7 +44,7 @@ the authored intent — the When step text, e.g. "I refund a charge".
 
 > `optional` **method?**: `string`
 
-Defined in: [index.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/stubgen/src/index.ts#L33)
+Defined in: [index.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L33)
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: [index.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a
 
 > `optional` **name?**: `string`
 
-Defined in: [index.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/stubgen/src/index.ts#L32)
+Defined in: [index.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L32)
 
 explicit overrides (else inferred from `intent`).
 
@@ -62,4 +62,4 @@ explicit overrides (else inferred from `intent`).
 
 > `optional` **path?**: `string`
 
-Defined in: [index.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/stubgen/src/index.ts#L34)
+Defined in: [index.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/stubgen/src/index.ts#L34)

@@ -9,7 +9,7 @@ Reference tooling for the OpenAPI v4.0 Suluk candidate.
 
 ## Configuration
 
-**MountMcpOptions** (1 options — see references/config.md)
+**MountMcpOptions** (2 options — see references/config.md)
 
 ## Quick Reference
 

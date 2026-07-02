@@ -28,15 +28,15 @@ to ratify anything on the SIG's behalf.</p>
 <h2 id="dependencies" class="tsd-anchor-link">Dependencies<a href="#dependencies" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
 <p><strong>npm (<code>dependencies</code>):</strong></p>
 <ul>
-<li><a href="https://github.com/MahmoodKhalil57/suluk/tree/main/tooling/ts/packages/credits" target="_blank" class="external"><code>@suluk/credits</code></a> — the ledger logic (see below)</li>
-<li><a href="https://github.com/MahmoodKhalil57/suluk/tree/main/tooling/ts/packages/provision" target="_blank" class="external"><code>@suluk/provision</code></a> — the <code>InstanceSpec</code> type + <code>plan</code>/<code>apply</code></li>
+<li><a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/tooling/ts/packages/credits" target="_blank" class="external"><code>@suluk/credits</code></a> — the ledger logic (see below)</li>
+<li><a href="https://github.com/MahmoodKhalil57/suluk/tree/main/registry/tooling/ts/packages/provision" target="_blank" class="external"><code>@suluk/provision</code></a> — the <code>InstanceSpec</code> type + <code>plan</code>/<code>apply</code></li>
 <li><code>effect</code> — the service/<code>Layer</code> runtime</li>
 <li><code>drizzle-orm</code> — the schema + queries</li>
 <li><code>hono</code> — the router</li>
 </ul>
 <p><strong>Registry (<code>registryDependencies</code>):</strong> <code>MahmoodKhalil57/suluk/app</code> — the base Hono app and the Effect <code>Db</code> service the routes and layer depend on.</p>
 <h2 id="own-the-wiring-npm-the-logic" class="tsd-anchor-link">Own the wiring, npm the logic<a href="#own-the-wiring-npm-the-logic" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h2>
-<p>This is the HYBRID pattern (ADR <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/doc/architecture/decisions/C050-registry-distributed-framework.md" target="_blank" class="external">C050</a>/<a href="https://github.com/MahmoodKhalil57/suluk/blob/main/doc/architecture/decisions/C052-npm-vs-registry-boundary.md" target="_blank" class="external">C052</a>): you <strong>own</strong> the seam, and <strong>npm</strong> the money.</p>
+<p>This is the HYBRID pattern (ADR <a href="https://github.com/MahmoodKhalil57/suluk/blob/main/registry/doc/architecture/decisions/C050-registry-distributed-framework.md" target="_blank" class="external">C050</a>/<a href="https://github.com/MahmoodKhalil57/suluk/blob/main/registry/doc/architecture/decisions/C052-npm-vs-registry-boundary.md" target="_blank" class="external">C052</a>): you <strong>own</strong> the seam, and <strong>npm</strong> the money.</p>
 <ul>
 <li><strong>You own</strong> the Effect service, the routes, the schema re-export, and the provision fragment. Edit them freely — add routes, change the mount path, wire the FK cascade, adjust the migration.</li>
 <li><strong><code>@suluk/credits</code> owns</strong> the money-correctness core, so its fixes flow to you via npm instead of forking into your app:

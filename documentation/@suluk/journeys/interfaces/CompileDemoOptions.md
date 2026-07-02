@@ -6,7 +6,7 @@
 
 # Interface: CompileDemoOptions
 
-Defined in: [journeys/src/demos.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/demos.ts#L99)
+Defined in: [journeys/src/demos.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/demos.ts#L99)
 
 ## Extends
 
@@ -18,7 +18,7 @@ Defined in: [journeys/src/demos.ts:99](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **aliases?**: `Record`\<`string`, `string`\>
 
-Defined in: [journeys/src/bind.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/bind.ts#L82)
+Defined in: [journeys/src/bind.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/bind.ts#L82)
 
 shorthand for `definitions.steps` with 1:1 string values — an author-owned synonym map. Merged into definitions.
 
@@ -32,7 +32,7 @@ shorthand for `definitions.steps` with 1:1 string values — an author-owned syn
 
 > `optional` **definitions?**: [`Definitions`](Definitions.md)
 
-Defined in: [journeys/src/bind.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/bind.ts#L84)
+Defined in: [journeys/src/bind.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/bind.ts#L84)
 
 the scaffolder's full mapping layer (aliases + decompositions + named journeys).
 
@@ -46,7 +46,7 @@ the scaffolder's full mapping layer (aliases + decompositions + named journeys).
 
 > `optional` **maxHoles?**: `number`
 
-Defined in: [journeys/src/bind.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/journeys/src/bind.ts#L86)
+Defined in: [journeys/src/bind.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/journeys/src/bind.ts#L86)
 
 how many coverage-hole stubs to emit (default: all).
 

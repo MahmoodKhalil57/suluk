@@ -6,7 +6,7 @@
 
 # Interface: ComponentReport
 
-Defined in: [cockpit/src/visual.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/visual.ts#L36)
+Defined in: [cockpit/src/visual.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/visual.ts#L36)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/visual.ts:36](https://github.com/MahmoodKhalil57/suluk/
 
 > **confidence**: [`ConfidenceReport`](../../visual/interfaces/ConfidenceReport.md)
 
-Defined in: [cockpit/src/visual.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/visual.ts#L39)
+Defined in: [cockpit/src/visual.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/visual.ts#L39)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/visual.ts:39](https://github.com/MahmoodKhalil57/suluk/
 
 > **coverage**: `number`
 
-Defined in: [cockpit/src/visual.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/visual.ts#L41)
+Defined in: [cockpit/src/visual.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/visual.ts#L41)
 
 0..1 — fraction of used primitives that are approved + unchanged
 
@@ -32,7 +32,7 @@ Defined in: [cockpit/src/visual.ts:41](https://github.com/MahmoodKhalil57/suluk/
 
 > **entities**: `object`[]
 
-Defined in: [cockpit/src/visual.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/visual.ts#L45)
+Defined in: [cockpit/src/visual.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/visual.ts#L45)
 
 which primitives each entity's form/table is built from
 
@@ -54,7 +54,7 @@ which primitives each entity's form/table is built from
 
 > **preview**: `Record`\<`string`, `string`\>
 
-Defined in: [cockpit/src/visual.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/visual.ts#L43)
+Defined in: [cockpit/src/visual.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/visual.ts#L43)
 
 primitive key → inline control HTML (widget primitives only — for the preview)
 
@@ -64,6 +64,6 @@ primitive key → inline control HTML (widget primitives only — for the previe
 
 > **used**: [`UsedPrimitive`](../../visual/interfaces/UsedPrimitive.md)[]
 
-Defined in: [cockpit/src/visual.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/cockpit/src/visual.ts#L38)
+Defined in: [cockpit/src/visual.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/cockpit/src/visual.ts#L38)
 
 the distinct primitives every generated form/table is composed of (deduped across entities)

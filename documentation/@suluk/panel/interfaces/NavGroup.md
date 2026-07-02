@@ -6,7 +6,7 @@
 
 # Interface: NavGroup
 
-Defined in: [shell.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/panel/src/shell.ts#L9)
+Defined in: [shell.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/shell.ts#L9)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [shell.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5
 
 > **items**: [`NavItem`](NavItem.md)[]
 
-Defined in: [shell.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/panel/src/shell.ts#L9)
+Defined in: [shell.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/shell.ts#L9)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [shell.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5
 
 > **title**: `string`
 
-Defined in: [shell.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/panel/src/shell.ts#L9)
+Defined in: [shell.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/panel/src/shell.ts#L9)

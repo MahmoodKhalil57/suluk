@@ -6,7 +6,7 @@
 
 # Interface: FieldLike
 
-Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/validation.ts#L7)
+Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/validation.ts#L7)
 
 Form-error feedback primitives (saastarter parity: "invalid fields ring red + shake", "errors clear as you type").
 Framework-agnostic — they toggle the SEMANTIC contract (aria-invalid + the .shake class); the LOOK is `@suluk/theme`
@@ -19,7 +19,7 @@ validation feedback without a component framework.
 
 > `optional` **classList?**: `object`
 
-Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/validation.ts#L10)
+Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/validation.ts#L10)
 
 #### add()
 
@@ -55,7 +55,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:10](https://githu
 
 > **removeAttribute**(`name`): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/validation.ts#L9)
+Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/validation.ts#L9)
 
 #### Parameters
 
@@ -73,7 +73,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:9](https://github
 
 > **setAttribute**(`name`, `value`): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/686a9e1a5deb9fd975e16addda8eab9635242992/tooling/ts/packages/nano-stores/src/validation.ts#L8)
+Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/0d44883ee3fb031bfb991981eb925e438e45c79f/tooling/ts/packages/nano-stores/src/validation.ts#L8)
 
 #### Parameters
 
