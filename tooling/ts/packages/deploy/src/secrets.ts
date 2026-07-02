@@ -1,46 +1,13 @@
 /**
- * Secret-push + durable-binding provisioning (saastarter-parity Phase 2). Both stay on the right side of the L3
- * line: they emit the wrangler STEPS + binding config the host runs — they never hold or transmit a secret value,
- * never execute. `wrangler secret put` prompts interactively, so the secret never lands on a command line or in a
- * generated file. Durable bindings are DERIVED from the contract's advisory facets (a rate-limit budget needs a
- * counter store; a declared cost needs a sink), so the infra a Suluk app needs falls out of the contract.
+ * Contract-DERIVED durable bindings. The infra a Suluk app needs falls out of the contract's advisory facets — a
+ * rate-limit budget needs a counter store, a declared cost needs a sink, a bound storage provider needs an R2 bucket.
+ * PURE: it returns the binding LIST; the caller (the generated `scripts/deploy.ts`) feeds it into the `@suluk/cloudflare`
+ * deploy, which PROVISIONS each binding over the REST API (no `wrangler kv namespace create`, no ambient auth).
+ * (Secrets are pushed by the deploy itself via `@suluk/cloudflare`'s `putSecrets` from the decrypted `.env` — there is
+ * no longer a `wrangler secret put` step plan.)
  */
 import { rateLimitCoverage } from "@suluk/core";
 import type { OpenAPIv4Document } from "@suluk/core";
-import type { DeployStep } from "./types";
-
-export interface SecretPushPlan {
-  steps: DeployStep[];
-  notes: string[];
-}
-
-/**
- * The steps to push the named secrets to a Worker. Default: one interactive `wrangler secret put NAME` per secret
- * (the value is typed at the prompt — never on the command line). `bulk` instead emits a single
- * `wrangler secret bulk` step + a note to generate the JSON from the DECRYPTED env (@suluk/env decrypt-from-PQC).
- */
-export function secretPushPlan(
-  secretNames: string[],
-  opts: { workerName: string; bulk?: boolean } = { workerName: "app" },
-): SecretPushPlan {
-  const worker = opts.workerName;
-  const names = [...new Set(secretNames)].filter(Boolean);
-  if (names.length === 0) return { steps: [], notes: ["No secrets declared — nothing to push."] };
-
-  if (opts.bulk) {
-    return {
-      steps: [{ cmd: `wrangler secret bulk .dev.vars.json --name ${worker}`, note: `Push ${names.length} secrets in bulk: ${names.join(", ")}` }],
-      notes: [
-        "Generate `.dev.vars.json` from your DECRYPTED env (e.g. @suluk/env decryptContent) — never commit it.",
-        "wrangler reads the values from the file; they never touch this generated plan.",
-      ],
-    };
-  }
-  return {
-    steps: names.map((name) => ({ cmd: `wrangler secret put ${name} --name ${worker}`, note: `Set the ${name} secret (you'll be prompted for the value).` })),
-    notes: ["Each `secret put` prompts for the value interactively — secrets never appear on a command line or in a file."],
-  };
-}
 
 export interface DurableBinding {
   kind: "kv" | "do" | "r2" | "queue";
@@ -54,7 +21,6 @@ export interface DurableBinding {
 
 export interface BindingPlan {
   bindings: DurableBinding[];
-  steps: DeployStep[];
   notes: string[];
 }
 
@@ -69,8 +35,8 @@ function hasCostFacet(doc: OpenAPIv4Document): boolean {
 
 /**
  * The durable bindings a contract needs, derived from its facets: a rate-limit budget (x-suluk-ratelimit) needs a
- * KV counter store; a declared cost (x-suluk-cost) needs a KV sink. Emits the binding list + the
- * `wrangler kv namespace create` steps (the host runs them, then fills the ids into wrangler.jsonc).
+ * KV counter store; a declared cost (x-suluk-cost) needs a KV sink; a bound storage provider needs an R2 bucket. The
+ * deploy PROVISIONS each over the API — this only says WHICH bindings the contract implies.
  */
 export function durableBindings(doc: OpenAPIv4Document, appName = "app"): BindingPlan {
   const bindings: DurableBinding[] = [];
@@ -85,12 +51,8 @@ export function durableBindings(doc: OpenAPIv4Document, appName = "app"): Bindin
   if (providers?.storage) {
     bindings.push({ kind: "r2", binding: "MEDIA", resource: `${appName}-media`, reason: `the ${providers.storage} storage provider needs an R2 bucket (memoryStorage is dev-only).` });
   }
-  const steps: DeployStep[] = bindings.map((b) =>
-    b.kind === "r2"
-      ? { cmd: `wrangler r2 bucket create ${b.resource}`, note: `Create the ${b.binding} R2 bucket, then bind it in wrangler.jsonc under r2_buckets.` }
-      : { cmd: `wrangler kv namespace create ${b.resource}`, note: `Create the ${b.binding} KV namespace, then put its id in wrangler.jsonc.` });
   const notes = bindings.length
-    ? ["Add each binding to wrangler.jsonc (kv_namespaces for KV, r2_buckets for R2) — binding name → resource from the create step."]
+    ? ["These bindings are provisioned by the API deploy (@suluk/cloudflare) — no wrangler create steps."]
     : ["No durable bindings required by the contract's facets."];
-  return { bindings, steps, notes };
+  return { bindings, notes };
 }

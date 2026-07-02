@@ -60,6 +60,7 @@ const OUTPUTS: Record<string, string> = {
   gitignore: "gitignore",
   envCheck: "env-check.ts",
   envTs: "src_env.ts",
+  deployScript: "scripts_deploy.ts",
   syncSecrets: "sync-secrets.ts",
   linkKey: "link-key.ts",
   envTemp: "env.temp",
@@ -116,15 +117,19 @@ describe("GOLDEN — autotoolfactory `local: true` mock-provider variant", () =>
     });
   }
 
-  test("local mode exports the wired app + emits src/dev.ts; non-local emits neither", () => {
+  test("every app gets the local-dev scaffold by default: export const app + src/dev.ts + dev=bun / dev:cf / deploy=API", () => {
     expect(plan.entry).toContain("export const app = createApp();");
     expect(plan.devEntry).toContain('import { app } from "./index";');
     expect(plan.devEntry).toContain("d1FromSqlite");
-    expect(JSON.parse(plan.packageJson).scripts.dev).toBe("bun run --hot src/dev.ts");
-    expect(JSON.parse(plan.packageJson).scripts.predev).toBeUndefined();
-    const nonLocal = planPlatform(AUTOTOOLFACTORY) as unknown as Record<string, string>;
-    expect(nonLocal.entry).toContain("const app = createApp();");
-    expect(nonLocal.entry).not.toContain("export const app");
-    expect(nonLocal.devEntry).toBeUndefined();
+    const scripts = JSON.parse(plan.packageJson).scripts;
+    expect(scripts.dev).toBe("bun run --hot src/dev.ts");
+    expect(scripts["dev:cf"]).toBe("wrangler dev");
+    expect(scripts.deploy).toBe("bun run scripts/deploy.ts"); // NOT wrangler deploy
+    expect(scripts.predev).toBeUndefined();
+    // the BASE manifest (no `local` field) now gets the SAME local-dev default — the flag no longer gates anything.
+    const base = planPlatform(AUTOTOOLFACTORY) as unknown as Record<string, string>;
+    expect(base.entry).toContain("export const app = createApp();");
+    expect(base.devEntry).toContain("d1FromSqlite");
+    expect(JSON.parse(base.packageJson).scripts.deploy).toBe("bun run scripts/deploy.ts");
   });
 });

@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test";
-import { migrationSql, secretPushPlan, durableBindings, schemaToSql } from "../src/index";
+import { migrationSql, durableBindings, schemaToSql } from "../src/index";
 import type { DeployEntity } from "../src/index";
 import type { OpenAPIv4Document } from "@suluk/core";
 
@@ -43,38 +43,16 @@ describe("contract-delta → additive migration SQL", () => {
   });
 });
 
-describe("secret-push plan (never holds a value)", () => {
-  test("interactive: one `secret put` per secret, value prompted (never on the command line)", () => {
-    const plan = secretPushPlan(["RESEND_API_KEY", "STRIPE_SECRET_KEY"], { workerName: "shop" });
-    expect(plan.steps.map((s) => s.cmd)).toEqual([
-      "wrangler secret put RESEND_API_KEY --name shop",
-      "wrangler secret put STRIPE_SECRET_KEY --name shop",
-    ]);
-    expect(plan.notes.join(" ")).toContain("prompts for the value");
-  });
-
-  test("bulk: a single step + a decrypt-from-env note; no secret value emitted", () => {
-    const plan = secretPushPlan(["A", "B"], { workerName: "shop", bulk: true });
-    expect(plan.steps).toHaveLength(1);
-    expect(plan.steps[0].cmd).toContain("wrangler secret bulk");
-    expect(plan.notes.join(" ")).toContain("DECRYPTED env");
-  });
-
-  test("no secrets → no steps", () => {
-    expect(secretPushPlan([], { workerName: "x" }).steps).toHaveLength(0);
-  });
-});
-
 describe("durable bindings derived from the contract's facets", () => {
   const docWith = (extra: Record<string, unknown>): OpenAPIv4Document => ({
     openapi: "4.0.0-candidate", info: { title: "t", version: "1" },
     paths: { thing: { requests: { doThing: { method: "post", responses: {}, ...extra } } } },
   } as unknown as OpenAPIv4Document);
 
-  test("an x-suluk-ratelimit op → a RATE_LIMIT KV binding + a create step", () => {
+  test("an x-suluk-ratelimit op → a RATE_LIMIT KV binding (provisioned by the API deploy, no wrangler step)", () => {
     const plan = durableBindings(docWith({ "x-suluk-ratelimit": { windowMs: 60000, maxRequests: 10, key: "ip" } }), "shop");
     expect(plan.bindings.find((b) => b.binding === "RATE_LIMIT")).toMatchObject({ kind: "kv", resource: "shop-ratelimit" });
-    expect(plan.steps[0].cmd).toBe("wrangler kv namespace create shop-ratelimit");
+    expect(plan.notes.join(" ")).toContain("provisioned by the API deploy");
   });
 
   test("an x-suluk-cost op → a COST_SINK KV binding; a plain contract → none", () => {

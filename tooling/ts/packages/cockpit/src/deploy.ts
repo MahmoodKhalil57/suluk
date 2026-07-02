@@ -1,53 +1,85 @@
 /**
- * The cockpit's DEPLOY surface (pure logic). Turns the hub document into a Cloudflare deploy plan via
- * `@suluk/deploy` (the swappable provider), and renders a DEPLOY.md the user follows. The extension writes the
- * files + opens a terminal; it never runs wrangler for you — deploys are consequential, and auth (`wrangler
- * login`, OAuth) happens in your terminal so credentials never touch Suluk.
+ * The cockpit's DEPLOY surface (pure logic). Produces a DEPLOY.md the user follows to ship the app — now the
+ * API-DRIVEN flow: the generated app carries `scripts/deploy.ts` (which uses `@suluk/deploy`'s executor over
+ * `@suluk/cloudflare`), so deploying is one `bun run deploy` with credentials read from the `@suluk/env`-decrypted
+ * `.env` — no `wrangler login`, no ambient OAuth, no wrangler CLI. The extension writes DEPLOY.md; the operator runs
+ * the command. The plan SHAPE (provider/files/steps/notes) is kept so the extension + admin renderers are unchanged.
  */
 import type { OpenAPIv4Document } from "@suluk/core";
-import { cloudflare, type DeployPlan } from "@suluk/deploy";
-import { entitiesFromDoc } from "./builder";
 import { previewAllowedRoles } from "./crosscut";
 
-/** Build the Cloudflare deploy plan from a v4 document (its schemas → entities). */
+/** One command the operator runs (was a wrangler shell step; now the single `bun run deploy`). */
+export interface DeployStep {
+  cmd: string;
+  note: string;
+}
+/** A file the deploy references (kept for renderer compatibility; the generator already ships scripts/deploy.ts). */
+export interface DeployFile {
+  path: string;
+  content: string;
+}
+export interface DeployPlan {
+  provider: string;
+  files: DeployFile[];
+  steps: DeployStep[];
+  notes: string[];
+}
+
+const TOKEN_NOTE =
+  "Credentials come from your `@suluk/env`-decrypted `.env` — set `CLOUDFLARE_API_TOKEN` (an Account token with Workers Scripts: Edit, D1: Edit, Workers KV: Edit, and Account Settings: Read) and optionally `CLOUDFLARE_ACCOUNT_ID`. Never `wrangler login`, never the ambient system.";
+
+function baseNotes(appName: string): string[] {
+  return [
+    `\`bun run deploy\` ships \`${appName}\` over the Cloudflare REST API (@suluk/deploy → @suluk/cloudflare): it provisions D1/KV, applies migrations, uploads the bundled Worker, and pushes secrets — no wrangler CLI.`,
+    TOKEN_NOTE,
+    "Secrets are read from the decrypted `.env` and pushed to the Worker by the deploy itself (the `SULUK_PRIVATE_KEY` decrypts the committed `.env` at runtime).",
+    "The deployment target is swappable: this is the `cloudflare` provider (the `DeployProvider` interface is the contract).",
+  ];
+}
+
+/** Build the Cloudflare deploy plan from a v4 document — the API `bun run deploy` flow. */
 export function deployPlan(doc: OpenAPIv4Document): DeployPlan {
-  return cloudflare.generate({
-    name: doc.info?.title ?? "suluk-app",
-    entities: entitiesFromDoc(doc),
-    appModule: "./src/app",
-    assetsDir: "./dist/client",
-  });
+  const appName = doc.info?.title ?? "suluk-app";
+  return {
+    provider: "cloudflare",
+    files: [],
+    steps: [{ cmd: "bun run deploy", note: `Deploy ${appName} to Cloudflare over the API (credentials from the decrypted .env).` }],
+    notes: baseNotes(appName),
+  };
 }
 
 /**
- * Build the PREVIEW deploy plan (charter-bounded role-preview): a `${slug}-preview` Worker with the two
- * fail-closed locks + a seed.sql for the contract's roles. Terminal-gated identically to prod — Suluk holds no
- * infra token; the USER runs wrangler. The seeded roles come from the contract (previewRoles), never hardcoded.
+ * The PREVIEW deploy plan (charter-bounded role-preview): a `${slug}-preview` Worker with the two fail-closed locks
+ * (a `SULUK_PREVIEW="1"` var + a `PREVIEW_DB` binding) + a seeded throwaway user per role. Same one-command API flow;
+ * the seeded roles come from the contract (never hardcoded). Ephemeral — tear it down when done.
  */
 export function previewDeployPlan(doc: OpenAPIv4Document): DeployPlan {
-  return cloudflare.generate({
-    name: doc.info?.title ?? "suluk-app",
-    entities: entitiesFromDoc(doc),
-    appModule: "./src/app",
-    assetsDir: "./dist/client",
-    preview: true,
-    previewRoles: previewAllowedRoles(doc), // the seedable, non-anonymous set — equals the gate's allow-list
-  });
+  const appName = doc.info?.title ?? "suluk-app";
+  const roles = previewAllowedRoles(doc);
+  return {
+    provider: "cloudflare",
+    files: [],
+    steps: [{ cmd: "bun run deploy:preview", note: `Deploy an EPHEMERAL preview of ${appName} (a \`${appName}-preview\` Worker, isolated DB, seeded demo users).` }],
+    notes: [
+      `PREVIEW deployment — role-preview only. It mounts \`/preview/login?role=…\` (a seeded demo user per role: ${roles.length ? roles.join(", ") : "none — no non-anonymous roles"}) ONLY because two independent locks both say preview: the \`SULUK_PREVIEW="1"\` var AND the \`PREVIEW_DB\` binding. A production deploy sets neither, so the backdoor is inert there.`,
+      "The preview DB is ISOLATED (`" + appName + "-preview`) and seeded with THROWAWAY demo users (never real rows). EPHEMERAL — tear it down when finished.",
+      TOKEN_NOTE,
+      "Same API flow (@suluk/deploy → @suluk/cloudflare) — no wrangler.",
+    ],
+  };
 }
 
-/** Render the deploy plan as a DEPLOY.md the user can follow step by step. */
+/** Render the deploy plan as a DEPLOY.md the operator can follow. */
 export function deployMarkdown(plan: DeployPlan): string {
   const steps = plan.steps.map((s, i) => `${i + 1}. \`${s.cmd}\`\n   - ${s.note}`).join("\n");
   const notes = plan.notes.map((n) => `- ${n}`).join("\n");
-  const files = plan.files.map((f) => `- \`${f.path}\``).join("\n");
   return `# Deploy to Cloudflare — CANDIDATE (generated by Suluk)
 
-Your stack is Cloudflare-native: the Hono app is the Worker, the data floor (sqlite-core) is D1, and the
-built frontend is served as static assets. These files were generated for you:
+Your stack is Cloudflare-native: the Hono app is the Worker, the data floor (sqlite-core) is D1, and the built
+frontend is served as static assets. Deploying is **API-driven** — one command, credentials from your decrypted \`.env\`,
+**no wrangler**.
 
-${files}
-
-## Steps (run them in the integrated terminal)
+## Deploy
 
 ${steps}
 
@@ -55,20 +87,19 @@ ${steps}
 
 ${notes}
 
-> Suluk never runs these for you — \`wrangler login\` opens an OAuth flow in your browser, and deploys are
-> consequential. The deployment target is swappable: this is the \`cloudflare\` provider.
+> The deploy runs over the Cloudflare REST API (\`@suluk/deploy\` → \`@suluk/cloudflare\`) — credentials come from the
+> \`@suluk/env\`-decrypted \`.env\`, never \`wrangler login\`. The deployment target is swappable: this is the \`cloudflare\` provider.
 `;
 }
 
-/** Render a PREVIEW deploy plan as a PREVIEW-DEPLOY.md — same steps, but headed with the role-preview safety. */
+/** Render a PREVIEW deploy plan as a PREVIEW-DEPLOY.md — same flow, headed with the role-preview safety. */
 export function previewDeployMarkdown(plan: DeployPlan): string {
-  const body = deployMarkdown(plan).replace(
+  return deployMarkdown(plan).replace(
     "# Deploy to Cloudflare — CANDIDATE (generated by Suluk)",
     "# Deploy a PREVIEW (role-preview) — CANDIDATE (generated by Suluk)\n\n" +
       "> This is an EPHEMERAL preview deployment. It mounts a `/preview/login?role=…` backdoor that logs you in\n" +
       "> as a seeded demo user — gated, fail-closed, behind TWO independent locks (the `SULUK_PREVIEW` var AND the\n" +
       "> `PREVIEW_DB` binding). A production deploy sets neither, so the backdoor is inert there. **Tear the preview\n" +
-      "> down when finished** (`wrangler delete`) — a standing preview is a live credentialed surface.",
+      "> down when finished** — a standing preview is a live credentialed surface.",
   );
-  return body;
 }

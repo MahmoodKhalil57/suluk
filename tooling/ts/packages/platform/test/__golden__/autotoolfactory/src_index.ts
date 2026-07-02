@@ -21,7 +21,7 @@ import { referenceRoutes } from "./routes/reference";
 import { adminRoutes } from "./routes/admin";
 import { apiDocument } from "./contract";
 
-const app = createApp();
+export const app = createApp();
 mountAuthRoutes(app, {"mcp":{"loginPage":"https://autotoolfactory.example/oauth/sign-in","consentPage":"https://autotoolfactory.example/oauth/consent","resource":"https://autotoolfactory.example/api/mcp","scopes":["credits:read","credits:write","keys:read","keys:write","billing:read","billing:write","cost:read","logs:read"]}});
 mountContract(app);
 mountMcp(app, { "apiDocument": apiDocument });

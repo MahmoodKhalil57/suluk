@@ -1,93 +1,44 @@
 /**
- * The deployment abstraction — SWAPPABLE by design. A provider turns a Suluk app into the files + the ordered
- * steps that ship it. Cloudflare is the first provider; the interface is the contract every future target
- * (Vercel, Fly, a self-hosted Node box) implements. The user's CLAUDE-stated wish — "good standards we can
- * swap out in the future" — is exactly this interface.
+ * The deployment abstraction — SWAPPABLE by design. A provider turns a Suluk app (its bundled worker + bindings +
+ * secrets) into a live deployment by EXECUTING over the target's API with credentials the caller loads from the
+ * `@suluk/env`-decrypted `.env` — never `wrangler login` / the ambient system. Cloudflare is the first provider; the
+ * interface is the contract every future target (Vercel, Fly, a self-hosted Node box) implements. Was a pure "emit
+ * wrangler steps" planner; now an executor (the credential + spawn hygiene the operator asked for).
  */
+import type { DeployPlan as CloudflareDeployPlan, DeployResult, DeployLog } from "@suluk/cloudflare";
 import type { SchemaOrRef } from "@suluk/core";
 
+export type { DeployResult, DeployLog } from "@suluk/cloudflare";
+/** A Durable Object class to bind + migrate (Agents SDK). Re-exported from `@suluk/cloudflare` (identical shape). */
+export type { DurableObjectBinding } from "@suluk/cloudflare";
+
+/** A data entity (name + schema) — the input to `schemaToSql`/`migrationSql` (D1 DDL derivation). */
 export interface DeployEntity {
   name: string;
   schema: SchemaOrRef;
 }
 
+/** Cloudflare API credentials — loaded by the CALLER from the DECRYPTED `.env` (`CLOUDFLARE_API_TOKEN` +
+ *  optional `CLOUDFLARE_ACCOUNT_ID`). They never come from `wrangler login`, `~/.wrangler`, or ambient guesswork. */
+export interface CloudflareCreds {
+  apiToken: string;
+  accountId?: string;
+}
+
 /**
- * A Durable Object class to bind + migrate. The Cloudflare Agents SDK runs each agent as a SQLite-backed Durable
- * Object, so a deploy that ships agents must emit BOTH a `durable_objects.bindings` entry AND a `migrations` entry
- * that creates the class. `@suluk/deploy` stays decoupled from the agent contract: the CALLER (the cockpit, or
- * `@suluk/agents`' future `projectCloudflareAgent`) computes which agents are Durable Objects and passes them here.
+ * The concrete deploy: the BUNDLED worker module + its bindings/vars/secrets. The generated `scripts/deploy.ts`
+ * assembles this from `wrangler.toml` (bindings/vars) + `Bun.build` (the module) + the decrypted `.env` (secrets).
+ * It is `@suluk/cloudflare`'s `DeployPlan` with the Suluk-defaulted fields made optional (see `toCloudflarePlan`).
  */
-export interface DurableObjectBinding {
-  /** the binding name exposed as `env.<binding>` (e.g. "WeatherAssistant"). */
-  binding: string;
-  /** the exported Agent/DO class name (`class WeatherAssistant extends Agent {…}`). */
-  className: string;
-  /** SQLite-backed storage — REQUIRED by the Agents SDK and the Workers free plan. Default true ⇒ `new_sqlite_classes`. */
-  sqlite?: boolean;
-  /** cross-script DO: the script that DEFINES the class. Omit for a same-script class (the only kind we migrate). */
-  scriptName?: string;
-}
-
-export interface DeployInput {
-  /** App name (slugified by the provider for resource names). */
-  name: string;
-  /** The data entities (for the database schema). */
-  entities: DeployEntity[];
-  /** Path, in the user's project, to the module exporting the Hono `app` (default "./src/app"). */
-  appModule?: string;
-  /** Built frontend assets directory served as static files (default "./dist/client"). */
-  assetsDir?: string;
-  /** Worker runtime compatibility date (default DEFAULT_COMPAT_DATE). Pass today's date in production. */
+export type CloudflareDeploySpec = Omit<CloudflareDeployPlan, "compatibilityDate" | "compatibilityFlags" | "observability"> & {
   compatibilityDate?: string;
-  /** Emit a PREVIEW deployment variant (charter-bounded role-preview): a `${slug}-preview` Worker with the
-   *  two fail-closed locks — a `SULUK_PREVIEW="1"` var + a `PREVIEW_DB` D1 binding on an isolated
-   *  `${slug}-preview-db` — plus a seed.sql with one throwaway demo user per role. Prod plans never set these. */
-  preview?: boolean;
-  /** The roles to seed for a preview deployment (from the contract's User.role enum; cockpit threads them in). */
-  previewRoles?: string[];
-  /**
-   * Durable Object classes to bind + migrate (the Cloudflare Agents SDK runtime surface). When present, the
-   * generated wrangler.jsonc gains a `durable_objects.bindings` block and an additive `migrations` entry that
-   * creates the SQLite-backed classes. Same-script classes only are migrated; a cross-script class (with
-   * `scriptName`) is bound but migrated by its OWNING script. Empty/absent ⇒ no DO output (unchanged plan).
-   */
-  durableObjects?: DurableObjectBinding[];
-  /**
-   * The previously-deployed DO class set. When given, the generated `migrations` become an ADDITIVE 2-step history
-   * (recreate prev under `prevDurableObjectMigrationTag`, then create only the classes added since under the new tag)
-   * instead of a from-scratch first-deploy entry; a removed class is flagged in `notes` (never auto-dropped), and a
-   * class that changed storage backend (sqlite↔legacy) throws. Omit on a first deploy. NB this reconstructs at most a
-   * 2-step history — beyond one evolution the user owns the append-only `migrations` array.
-   */
-  prevDurableObjects?: DurableObjectBinding[];
-  /** the migration tag for the DO classes above. Default "v1" on first deploy, "v2" when `prevDurableObjects` is given. */
-  durableObjectMigrationTag?: string;
-  /** the tag the `prevDurableObjects` set was created under (default "v1") — the first step of the reconstructed history. */
-  prevDurableObjectMigrationTag?: string;
-}
+  compatibilityFlags?: string[];
+  observability?: boolean;
+};
 
-/** A file the provider wants written into the project. */
-export interface DeployFile {
-  path: string;
-  content: string;
-}
-
-/** One ordered shell step the host (the vscode extension) runs in a terminal AFTER the user authenticates. */
-export interface DeployStep {
-  cmd: string;
-  note: string;
-}
-
-export interface DeployPlan {
-  provider: string;
-  files: DeployFile[];
-  steps: DeployStep[];
-  /** Human-facing notes (auth, manual fill-ins, caveats). */
-  notes: string[];
-}
-
-/** A deployment target. Pure: it produces the plan; the host executes the steps (with the user's credentials). */
+/** A deployment target. `toPlan` is the pure spec→plan mapping; `deploy` EXECUTES it over the provider's API. */
 export interface DeployProvider {
   name: string;
-  generate(input: DeployInput): DeployPlan;
+  toPlan(spec: CloudflareDeploySpec): CloudflareDeployPlan;
+  deploy(creds: CloudflareCreds, spec: CloudflareDeploySpec, log?: DeployLog): Promise<DeployResult>;
 }

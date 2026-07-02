@@ -6,6 +6,24 @@ import type { InstanceSpec } from "@suluk/provision";
  *  generate orchestration (with recorders). */
 const manifest = definePlatform({ name: "autotoolfactory", registry: "acme/reg", services: ["auth", "credits", "keys", "billing", "logs"] });
 
+// A mock registry so the generate-orchestration tests never touch the network (the fetcher's `fetch` is injectable).
+// `app` is a registryDependency of every service — the fetcher must resolve + write it exactly ONCE.
+const FAKE_REGISTRY = {
+  items: [
+    { name: "app", files: [{ path: "registry/foundation/app/app.ts", target: "src/app.ts" }] },
+    { name: "auth", registryDependencies: ["acme/reg/app"], dependencies: ["@suluk/better-auth"], files: [{ path: "registry/services/auth/auth.ts", target: "src/auth.ts" }] },
+    { name: "credits", registryDependencies: ["acme/reg/app"], files: [{ path: "registry/services/credits/credits.routes.ts", target: "src/routes/credits.ts" }] },
+    { name: "keys", registryDependencies: ["acme/reg/app"], files: [{ path: "registry/services/keys/keys.routes.ts", target: "src/routes/keys.ts" }] },
+    { name: "billing", registryDependencies: ["acme/reg/app"], files: [{ path: "registry/services/billing/billing.routes.ts", target: "src/routes/billing.ts" }] },
+    { name: "logs", registryDependencies: ["acme/reg/app"], files: [{ path: "registry/services/logs/logs.routes.ts", target: "src/routes/logs.ts" }] },
+  ],
+};
+const mockFetch = (async (url: string | URL) => {
+  const u = String(url);
+  if (u.endsWith("registry.json")) return new Response(JSON.stringify(FAKE_REGISTRY));
+  return new Response("// fetched " + u.split("/main/")[1]);
+}) as unknown as typeof fetch;
+
 describe("planPlatform — manifest → shadcn adds + entry + provision.config", () => {
   const plan = planPlatform(manifest);
 
@@ -155,19 +173,27 @@ describe("mergeProvision — combine same-ref instances, union migrations in ord
 });
 
 describe("generatePlatform — the orchestration (with recorders)", () => {
-  test("writes the scaffold config FIRST, then a shadcn add per service, then the glue", async () => {
+  test("writes the scaffold config FIRST, then FETCHES each module (no shadcn spawn), then the glue + ONE bun install", async () => {
     const ran: string[] = [];
     const wrote: string[] = [];
     const res = await generatePlatform(manifest, {
       run: async (cmd, args) => void ran.push(`${cmd} ${args.join(" ")}`),
       write: async (path) => void wrote.push(path),
       read: async () => null, // a fresh app — no existing config
+      fetch: mockFetch,
     });
-    expect(ran).toEqual(plannedAdds()); // exactly the planned adds, in order
-    expect(ran.length).toBe(6); // app+auth+credits+keys+billing+logs
-    // config is written BEFORE the shadcn adds; the glue after. env-example + env-check + wrangler + gitignore included.
-    expect(wrote).toEqual(["package.json", "wrangler.toml", ".gitignore", "tsconfig.json", "components.json", ".env.example", "scripts/env-check.ts", "src/env.ts", "scripts/sync-secrets.ts", "scripts/link-key.ts", "scripts/provision.ts", "scripts/mint-tokens.ts", ".env.temp", ".env", "src/index.ts", "provision.config.ts"]);
-    expect(res.added.length).toBe(6);
+    expect(ran).toEqual(["bun install"]); // the ONLY subprocess — the package manager. No `bunx shadcn add`.
+    // the SCAFFOLD CONFIG is written first (before any fetch); the glue (src/index.ts …) last. Local-dev is the default →
+    // src/dev.ts + purge + the API deploy script are always emitted.
+    expect(wrote.slice(0, 14)).toEqual(["package.json", "wrangler.toml", ".gitignore", "tsconfig.json", "components.json", ".env.example", "scripts/env-check.ts", "src/env.ts", "scripts/deploy.ts", "scripts/sync-secrets.ts", "scripts/link-key.ts", "scripts/provision.ts", "scripts/mint-tokens.ts", ".env.temp"]);
+    // the FETCHED module files land between the config + the glue; `app` (a dep of every service) is written EXACTLY once.
+    expect(wrote).toContain("src/app.ts");
+    expect(wrote.filter((p) => p === "src/app.ts").length).toBe(1);
+    expect(wrote).toContain("src/auth.ts");
+    expect(wrote).toContain("src/routes/credits.ts");
+    expect(wrote.indexOf("src/app.ts")).toBeGreaterThan(wrote.indexOf("src/env.ts")); // fetched AFTER config
+    expect(wrote.indexOf("src/index.ts")).toBeGreaterThan(wrote.indexOf("src/app.ts")); // glue AFTER the fetch
+    expect(res.added).toEqual(["app", "auth", "credits", "keys", "billing", "logs"]); // dep-first, deduped
   });
 
   test("leaves an existing tsconfig/components.json untouched; always (re)writes package.json/.gitignore/.env.example", async () => {
@@ -176,6 +202,7 @@ describe("generatePlatform — the orchestration (with recorders)", () => {
       run: async () => {},
       write: async (path) => void wrote.push(path),
       read: async (p) => (p === "package.json" ? '{"name":"x","dependencies":{"my-lib":"^1.0.0"}}' : "existing"),
+      fetch: mockFetch,
     });
     expect(wrote).toContain("package.json"); // merged + rewritten
     expect(wrote).toContain(".gitignore"); // MERGED (never skip — must ensure .env is ignored)
@@ -249,7 +276,9 @@ describe("env — secrets in .env (temp lifecycle), non-secrets in the manifest 
     expect(p.entry).toContain('import { loadEnv } from "@suluk/env";');
     expect(p.entry).toContain("privateKey: env.SULUK_PRIVATE_KEY");
     expect(p.syncSecrets).toContain('forSurface("cloudflare")');
-    expect(p.syncSecrets).toContain("wrangler");
+    expect(p.syncSecrets).toContain("putSecrets"); // pushed over the CF REST API — NOT `wrangler secret put`
+    expect(p.syncSecrets).not.toContain("Bun.spawn"); // no subprocess
+    expect(p.syncSecrets).not.toContain("wrangler secret"); // no wrangler CLI
     // link-key registers the private key into the central ~/.suluk/settings.json store (the @suluk/env default).
     expect(p.linkKey).toContain(".suluk");
     expect(p.linkKey).toContain("settings.json");
@@ -279,13 +308,14 @@ describe("env — secrets in .env (temp lifecycle), non-secrets in the manifest 
     expect(p.provisionScript).toContain("randomBytes(32).toString");
     expect(p.provisionScript).toContain('EPHEMERAL = ["CLOUDFLARE_API_TOKEN"]');
     expect(p.provisionScript).toContain('rmSync(".env.temp"');
-    expect(p.provisionScript).toContain("suluk-provision");
+    expect(p.provisionScript).toContain('from "@suluk/provision"'); // IMPORTS runCli — no `bunx suluk-provision apply` spawn
+    expect(p.provisionScript).toContain("runCli(provisionApp");
     expect(p.provisionScript).toContain("REVOKE the master CF token");
     // mint-tokens: scoped least-privilege tokens from the master.
     expect(p.mintTokens).toContain("CLOUDFLARE_D1_TOKEN");
     expect(p.mintTokens).toContain("permission_groups");
-    // sync-secrets pushes the DECRYPTION key to the Worker; .gitignore ignores .env.temp; scripts wired.
-    expect(p.syncSecrets).toContain('put("SULUK_PRIVATE_KEY"');
+    // sync-secrets pushes the DECRYPTION key to the Worker (via putSecrets); .gitignore ignores .env.temp; scripts wired.
+    expect(p.syncSecrets).toContain("SULUK_PRIVATE_KEY");
     expect(p.gitignore).toContain(".env.temp");
     const pkg = JSON.parse(p.packageJson);
     expect(pkg.scripts.provision).toBe("bun run scripts/provision.ts");
@@ -323,6 +353,3 @@ describe("package.json generation — the manifest is the only surface", () => {
   });
 });
 
-function plannedAdds() {
-  return planPlatform(manifest).adds.map((a) => `bunx shadcn@latest add ${a} --yes`);
-}

@@ -94,9 +94,16 @@ describe("render-into-mount-opt — the auth.onUserCreated ← credits.grantOnSi
   test("generatePlatform (the CLI path) renders the wire too — not just planPlatform", async () => {
     const written: Record<string, string> = {};
     const { generatePlatform } = await import("../src/generate");
+    // a mock registry so the fetcher never touches the network (app is a shared dep of auth + credits).
+    const REG = { items: [
+      { name: "app", files: [{ path: "registry/foundation/app/app.ts", target: "src/app.ts" }] },
+      { name: "auth", registryDependencies: ["acme/reg/app"], files: [{ path: "registry/services/auth/auth.ts", target: "src/auth.ts" }] },
+      { name: "credits", registryDependencies: ["acme/reg/app"], files: [{ path: "registry/services/credits/credits.routes.ts", target: "src/routes/credits.ts" }] },
+    ] };
+    const mockFetch = (async (url: string | URL) => new Response(String(url).endsWith("registry.json") ? JSON.stringify(REG) : "// file")) as unknown as typeof fetch;
     await generatePlatform(
       definePlatform({ system: defineSystem({ registry: "acme/reg", services: [authService, creditsService], wire: [{ from: "auth.onUserCreated", to: "credits.grantOnSignup", with: { amount: 100 } }] }), brand: defineBrand({ name: "g" }) }),
-      { run: async () => {}, write: async (p, c) => void (written[p] = c), read: async () => null },
+      { run: async () => {}, write: async (p, c) => void (written[p] = c), read: async () => null, fetch: mockFetch },
     );
     // regression: generatePlatform must pass the ORIGINAL platform to planPlatform (not a lowered manifest that drops wire).
     expect(written["src/index.ts"]).toContain('"onUserCreated": async (userId, env) => {');

@@ -17,6 +17,8 @@
     "platform.config.ts"
   ],
   "exclude": [
-    "src/**/*.test.ts"
+    "src/**/*.test.ts",
+    "src/dev.ts",
+    "scripts/purge-state.ts"
   ]
 }

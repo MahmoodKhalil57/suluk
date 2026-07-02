@@ -4,7 +4,7 @@ import { installModule, PREVIEW } from "@suluk/builder";
 import { previewRoles, previewAllowedRoles, previewLaunchUrl } from "../src/crosscut";
 import { convergeContract } from "../src/converge";
 import { contractGates, shipSummary } from "../src/lifecycle";
-import { previewDeployPlan, deployPlan } from "../src/deploy";
+import { previewDeployPlan, deployPlan, previewDeployMarkdown } from "../src/deploy";
 
 const docWithRoles = (): OpenAPIv4Document => ({
   openapi: "4.0.0-candidate",
@@ -99,37 +99,38 @@ describe("ship gate — a contract carrying the backdoor is NOT 'ready to ship' 
   });
 });
 
-describe("previewDeployPlan — the two locks + the seed, terminal-gated", () => {
+describe("previewDeployPlan — the two locks + the seed, documented (API flow)", () => {
   const plan = previewDeployPlan(docWithRoles());
-  const wrangler = plan.files.find((f) => f.path === "wrangler.jsonc")!.content;
-  test("names a -preview Worker with BOTH locks: the SULUK_PREVIEW var and a PREVIEW_DB binding", () => {
-    expect(wrangler).toContain("-preview");
-    expect(wrangler).toContain('"SULUK_PREVIEW": "1"');
-    expect(wrangler).toContain('"binding": "PREVIEW_DB"');
+  const notes = plan.notes.join(" ");
+  test("is the one-command preview deploy and documents BOTH locks: the SULUK_PREVIEW var + the PREVIEW_DB binding", () => {
+    expect(plan.steps[0].cmd).toBe("bun run deploy:preview");
+    expect(notes).toContain('SULUK_PREVIEW="1"');
+    expect(notes).toContain("PREVIEW_DB");
+    expect(notes).toContain("ISOLATED");
   });
-  test("seeds one throwaway demo user per non-anonymous role", () => {
-    const seed = plan.files.find((f) => f.path === "seed.sql")!.content;
-    expect(seed).toContain("preview-admin");
-    expect(seed).toContain("preview-superadmin");
-    expect(seed).not.toContain("preview-anonymous"); // anonymous is never seeded
+  test("lists one throwaway demo user per non-anonymous role (from previewAllowedRoles)", () => {
+    expect(notes).toContain("admin");
+    expect(notes).toContain("superadmin");
+    expect(notes).not.toContain("anonymous,"); // anonymous is never in the seedable/allow-list
   });
-  test("includes a teardown step (a standing preview is a live credentialed surface)", () => {
-    expect(plan.steps.some((s) => s.cmd.includes("wrangler delete"))).toBe(true);
+  test("flags the ephemeral teardown (a standing preview is a live credentialed surface)", () => {
+    expect(notes).toContain("tear it down");
+    expect(previewDeployMarkdown(plan)).toContain("Tear the preview");
   });
-  test("a hostile role enum value never reaches seed.sql (filtered at previewAllowedRoles — no SQL injection)", () => {
+  test("a hostile role enum value never reaches the plan (filtered at previewAllowedRoles — no injection)", () => {
     const evil: OpenAPIv4Document = {
       openapi: "4.0.0-candidate", info: { title: "Evil", version: "1.0.0" }, paths: {},
       components: { schemas: { User: { type: "object", properties: { role: { type: "string", enum: ["admin", "x'); DROP TABLE user;--"] } } } } },
     };
-    const seed = previewDeployPlan(evil).files.find((f) => f.path === "seed.sql")!.content;
-    expect(seed).toContain("preview-admin");          // the safe role is seeded
-    expect(seed).not.toContain("DROP TABLE");          // the hostile role is filtered out upstream, never emitted
+    const evilNotes = previewDeployPlan(evil).notes.join(" ");
+    expect(evilNotes).toContain("admin"); // the safe role appears
+    expect(evilNotes).not.toContain("DROP TABLE"); // the hostile role is filtered out upstream, never emitted
   });
   test("the PROD plan sets NO preview flag — the backdoor is inert there", () => {
     const prod = deployPlan(docWithRoles());
-    const prodWrangler = prod.files.find((f) => f.path === "wrangler.jsonc")!.content;
-    expect(prodWrangler).not.toContain("SULUK_PREVIEW");
-    expect(prodWrangler).not.toContain("PREVIEW_DB");
-    expect(prod.files.some((f) => f.path === "seed.sql")).toBe(false);
+    const prodNotes = prod.notes.join(" ");
+    expect(prodNotes).not.toContain("SULUK_PREVIEW");
+    expect(prodNotes).not.toContain("PREVIEW_DB");
+    expect(prod.steps[0].cmd).toBe("bun run deploy");
   });
 });

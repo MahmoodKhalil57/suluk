@@ -1,205 +1,68 @@
 import { test, expect, describe } from "bun:test";
 import * as z from "zod";
 import { zodToV4 } from "@suluk/zod";
-import { cloudflare, providers, schemaToSql, type DeployInput } from "../src/index";
+import { cloudflare, providers, deployCloudflare, toCloudflarePlan, slug, DEFAULT_COMPAT_DATE, schemaToSql, type DeployEntity } from "../src/index";
 
-const input: DeployInput = {
-  name: "My Petshop!",
-  appModule: "./src/app",
-  assetsDir: "./dist/client",
-  entities: [
+describe("cloudflare executor — spec → @suluk/cloudflare DeployPlan mapping (pure, no network)", () => {
+  test("toCloudflarePlan fills the Suluk defaults (compat date, nodejs_compat, observability) + passes bindings through", () => {
+    const plan = toCloudflarePlan({
+      scriptName: "app",
+      module: "export default {};",
+      d1: { binding: "DB", databaseName: "app-db" },
+      kv: [{ binding: "RATE_LIMIT_KV", title: "app-ratelimit" }],
+      vars: { BASE_URL: "https://app.example" },
+      secrets: { BETTER_AUTH_SECRET: "s" },
+    });
+    expect(plan.compatibilityDate).toBe(DEFAULT_COMPAT_DATE);
+    expect(plan.compatibilityFlags).toEqual(["nodejs_compat"]);
+    expect(plan.observability).toBe(true);
+    expect(plan.d1?.binding).toBe("DB");
+    expect(plan.kv?.[0].title).toBe("app-ratelimit");
+    expect(plan.vars).toEqual({ BASE_URL: "https://app.example" });
+    expect(plan.secrets).toEqual({ BETTER_AUTH_SECRET: "s" });
+  });
+
+  test("caller-supplied compat/flags/observability win; nodejs_compat is present exactly once (de-duped)", () => {
+    const plan = toCloudflarePlan({ scriptName: "app", module: "x", compatibilityDate: "2026-01-01", compatibilityFlags: ["nodejs_compat", "streams_enable_constructors"], observability: false });
+    expect(plan.compatibilityDate).toBe("2026-01-01");
+    expect(plan.compatibilityFlags).toEqual(["nodejs_compat", "streams_enable_constructors"]);
+    expect(plan.observability).toBe(false);
+  });
+
+  test("the provider registry exposes the cloudflare executor (name + deploy + toPlan)", () => {
+    expect(providers.cloudflare).toBe(cloudflare);
+    expect(cloudflare.name).toBe("cloudflare");
+    expect(typeof cloudflare.deploy).toBe("function");
+    expect(cloudflare.toPlan({ scriptName: "app", module: "x" }).compatibilityFlags).toContain("nodejs_compat");
+  });
+});
+
+describe("slug — Cloudflare resource name", () => {
+  test("slugifies to [a-z0-9-]; empty → suluk-app", () => {
+    expect(slug("My Petshop!")).toBe("my-petshop");
+    expect(slug("  Café Déjà ")).toBe("caf-d-j"); // non-ascii collapse (safe charset only)
+    expect(slug("")).toBe("suluk-app");
+  });
+});
+
+describe("deployCloudflare — credential hygiene", () => {
+  test("throws a clear error without an API token (no wrangler / ambient fallback)", async () => {
+    await expect(deployCloudflare({ apiToken: "" }, { scriptName: "app", module: "export default {};" })).rejects.toThrow(/CLOUDFLARE_API_TOKEN/);
+  });
+});
+
+describe("schemaToSql — D1 DDL from entities (unchanged helper)", () => {
+  const entities: DeployEntity[] = [
     { name: "Pet", schema: zodToV4(z.object({ id: z.number().int().optional(), name: z.string(), status: z.enum(["available", "sold"]), price: z.number() })).schema },
     { name: "Category", schema: zodToV4(z.object({ id: z.number().int().optional(), name: z.string() })).schema },
-  ],
-};
-
-describe("cloudflare provider — generate the deploy plan", () => {
-  const plan = cloudflare.generate(input);
-
-  test("emits wrangler.jsonc, worker.ts, schema.sql", () => {
-    expect(plan.files.map((f) => f.path).sort()).toEqual(["schema.sql", "worker.ts", "wrangler.jsonc"]);
-  });
-
-  test("wrangler.jsonc is valid JSON with a slug name, D1 binding, assets, observability", () => {
-    const cfg = JSON.parse(plan.files.find((f) => f.path === "wrangler.jsonc")!.content);
-    expect(cfg.name).toBe("my-petshop"); // slugified (the '!' and space gone)
-    expect(cfg.main).toBe("worker.ts");
-    expect(cfg.compatibility_flags).toContain("nodejs_compat");
-    expect(cfg.d1_databases[0].binding).toBe("DB");
-    expect(cfg.d1_databases[0].database_name).toBe("my-petshop-db");
-    expect(cfg.assets.directory).toBe("./dist/client");
-    expect(cfg.assets.not_found_handling).toBe("single-page-application");
-    expect(cfg.observability.enabled).toBe(true);
-  });
-
-  test("worker.ts exports the Hono app as the Worker default", () => {
-    const worker = plan.files.find((f) => f.path === "worker.ts")!.content;
-    expect(worker).toContain('import { app } from "./src/app"');
-    expect(worker).toContain("export default app");
-  });
-
-  test("schema.sql has a CREATE TABLE per entity with a sane SQLite column mapping", () => {
-    const sql = plan.files.find((f) => f.path === "schema.sql")!.content;
+  ];
+  test("a CREATE TABLE per entity with a sane SQLite column mapping", () => {
+    const sql = schemaToSql(entities);
     expect(sql).toContain("CREATE TABLE IF NOT EXISTS pet");
     expect(sql).toContain("CREATE TABLE IF NOT EXISTS category");
     expect(sql).toContain("id INTEGER PRIMARY KEY AUTOINCREMENT");
     expect(sql).toContain("name TEXT NOT NULL"); // required string → TEXT NOT NULL
-    expect(sql).toContain("price REAL");          // number → REAL
-    expect(sql).toContain("status TEXT");         // enum → TEXT
-  });
-
-  test("the steps are ordered: login → d1 create → apply schema → deploy", () => {
-    expect(plan.steps.map((s) => s.cmd)).toEqual([
-      "wrangler login",
-      "wrangler d1 create my-petshop-db",
-      "wrangler d1 execute my-petshop-db --file=./schema.sql --remote",
-      "wrangler deploy",
-    ]);
-  });
-
-  test("notes flag auth-in-terminal, the database_id fill-in, and the swappable design", () => {
-    const notes = plan.notes.join(" ");
-    expect(notes).toContain("wrangler login");
-    expect(notes).toContain("database_id");
-    expect(notes.toLowerCase()).toContain("swappable");
-  });
-});
-
-describe("cloudflare provider — Durable Object agents (Cloudflare Agents SDK runtime)", () => {
-  const doInput: DeployInput = {
-    ...input,
-    durableObjects: [
-      { binding: "WeatherAssistant", className: "WeatherAssistant" },                 // same-script, sqlite default
-      { binding: "Coordinator", className: "Coordinator", sqlite: false },             // same-script, legacy KV-backed
-      { binding: "Shared", className: "SharedAgent", scriptName: "other-worker" },     // cross-script: bound, NOT migrated
-    ],
-  };
-  const cfg = JSON.parse(cloudflare.generate(doInput).files.find((f) => f.path === "wrangler.jsonc")!.content);
-
-  test("emits a durable_objects.bindings entry per class (with script_name only when cross-script)", () => {
-    expect(cfg.durable_objects.bindings).toEqual([
-      { name: "WeatherAssistant", class_name: "WeatherAssistant" },
-      { name: "Coordinator", class_name: "Coordinator" },
-      { name: "Shared", class_name: "SharedAgent", script_name: "other-worker" },
-    ]);
-  });
-
-  test("emits ONE additive migration: SQLite classes in new_sqlite_classes, legacy in new_classes, cross-script excluded", () => {
-    expect(cfg.migrations).toEqual([
-      { tag: "v1", new_sqlite_classes: ["WeatherAssistant"], new_classes: ["Coordinator"] },
-    ]);
-  });
-
-  test("nodejs_compat stays on (the Agents SDK requires it)", () => {
-    expect(cfg.compatibility_flags).toContain("nodejs_compat");
-  });
-
-  test("the migration tag is overridable (for additive class additions later)", () => {
-    const v2 = JSON.parse(cloudflare.generate({ ...doInput, durableObjectMigrationTag: "v2" }).files.find((f) => f.path === "wrangler.jsonc")!.content);
-    expect(v2.migrations[0].tag).toBe("v2");
-  });
-
-  test("a DO note flags the additive-only / data-losing-delete discipline", () => {
-    const notes = cloudflare.generate(doInput).notes.join(" ");
-    expect(notes).toContain("Durable Object agents");
-    expect(notes.toLowerCase()).toContain("additive");
-  });
-
-  test("omits migrations entirely when EVERY class is cross-script (migrated by its owning script)", () => {
-    const crossOnly = JSON.parse(
-      cloudflare.generate({ ...input, durableObjects: [{ binding: "Shared", className: "SharedAgent", scriptName: "other-worker" }] })
-        .files.find((f) => f.path === "wrangler.jsonc")!.content,
-    );
-    expect(crossOnly.durable_objects.bindings.length).toBe(1);
-    expect(crossOnly.migrations).toBeUndefined();
-  });
-
-  test("a non-agent deploy is byte-identical to before (no durable_objects / migrations keys)", () => {
-    const cfgNoDo = JSON.parse(cloudflare.generate(input).files.find((f) => f.path === "wrangler.jsonc")!.content);
-    expect(cfgNoDo.durable_objects).toBeUndefined();
-    expect(cfgNoDo.migrations).toBeUndefined();
-  });
-});
-
-describe("cloudflare provider — additive Durable Object EVOLUTION (prevDurableObjects)", () => {
-  const wrangler = (i: DeployInput) => JSON.parse(cloudflare.generate(i).files.find((f) => f.path === "wrangler.jsonc")!.content);
-  const A = { binding: "A", className: "A" } as const;
-  const B = { binding: "B", className: "B" } as const;
-
-  test("adding a class → an additive 2-step history: recreate the kept class (v1), create ONLY the added one (v2)", () => {
-    const cfg = wrangler({ ...input, prevDurableObjects: [A], durableObjects: [A, B] });
-    expect(cfg.migrations).toEqual([
-      { tag: "v1", new_sqlite_classes: ["A"] },
-      { tag: "v2", new_sqlite_classes: ["B"] },
-    ]);
-  });
-
-  test("a REMOVED class is NOT re-listed and NOT dropped — it's flagged in notes (orphaned state, manual decision)", () => {
-    const i: DeployInput = { ...input, prevDurableObjects: [A, B], durableObjects: [A] };
-    const cfg = wrangler(i);
-    // only the kept class A is created; B (removed) appears in NO migration entry and is NOT bound
-    expect(cfg.migrations).toEqual([{ tag: "v1", new_sqlite_classes: ["A"] }]);
-    expect(cfg.durable_objects.bindings.map((b: { class_name: string }) => b.class_name)).toEqual(["A"]);
-    expect(cloudflare.generate(i).notes.join(" ")).toContain("class(es) B were REMOVED");
-  });
-
-  test("a class that CHANGED storage backend (sqlite ↔ legacy) THROWS — Cloudflare can't re-back an existing class", () => {
-    expect(() => cloudflare.generate({ ...input, prevDurableObjects: [A], durableObjects: [{ binding: "A", className: "A", sqlite: false }] }))
-      .toThrow(/changed storage backend/);
-  });
-
-  test("no net change (prev === next) → just recreates the current set, no spurious v2 entry", () => {
-    const cfg = wrangler({ ...input, prevDurableObjects: [A], durableObjects: [A] });
-    expect(cfg.migrations).toEqual([{ tag: "v1", new_sqlite_classes: ["A"] }]);
-  });
-
-  test("removing ALL classes (durableObjects: []) still flags the orphans in notes (no silent gap)", () => {
-    const i: DeployInput = { ...input, prevDurableObjects: [A, B], durableObjects: [] };
-    const cfg = wrangler(i);
-    expect(cfg.durable_objects).toBeUndefined(); // nothing bound
-    expect(cfg.migrations).toBeUndefined();      // nothing created
-    expect(cloudflare.generate(i).notes.join(" ")).toContain("class(es) A, B were REMOVED");
-  });
-
-  test("a colliding tag (durableObjectMigrationTag === prevTag while evolving) THROWS — wrangler history tags must be distinct", () => {
-    expect(() => cloudflare.generate({ ...input, prevDurableObjects: [A], durableObjects: [A, B], durableObjectMigrationTag: "v1" }))
-      .toThrow(/migration tag "v1" collides/);
-  });
-});
-
-describe("schemaToSql + the provider registry", () => {
-  test("schemaToSql is exported standalone", () => {
-    expect(schemaToSql(input.entities)).toContain("CREATE TABLE IF NOT EXISTS pet");
-  });
-  test("cloudflare is registered as a provider (the swappable point)", () => {
-    expect(providers.cloudflare).toBe(cloudflare);
-    expect(providers.cloudflare.name).toBe("cloudflare");
-  });
-});
-
-describe("cloudflare provider — PREVIEW variant (the two locks + a safe seed)", () => {
-  const plan = cloudflare.generate({ ...input, preview: true, previewRoles: ["admin", "super-admin", "x'); DROP TABLE user;--"] });
-  const wrangler = plan.files.find((f) => f.path === "wrangler.jsonc")!.content;
-  const seed = plan.files.find((f) => f.path === "seed.sql")!.content;
-  test("names a -preview Worker with BOTH locks (SULUK_PREVIEW var + PREVIEW_DB binding)", () => {
-    const cfg = JSON.parse(wrangler);
-    expect(cfg.name).toContain("-preview");
-    expect(cfg.vars.SULUK_PREVIEW).toBe("1");
-    expect(cfg.d1_databases.some((d: { binding: string }) => d.binding === "PREVIEW_DB")).toBe(true);
-    expect(cfg.d1_databases.some((d: { binding: string }) => d.binding === "DB")).toBe(true);
-  });
-  test("seedSql sanitizes role names — a hostile role is SKIPPED, never interpolated into SQL", () => {
-    expect(seed).toContain("preview-admin");
-    expect(seed).toContain("preview-super-admin"); // hyphen is safe
-    expect(seed).not.toContain("DROP TABLE");      // the injection payload is rejected
-    expect(seed).toContain("SKIPPED 1 role");      // seedSql's own defense-in-depth filter surfaces it
-  });
-  test("a teardown step is included (a standing preview is a live credentialed surface)", () => {
-    expect(plan.steps.some((s) => s.cmd.includes("wrangler delete"))).toBe(true);
-  });
-  test("the PROD plan sets none of it", () => {
-    const prod = cloudflare.generate(input).files.find((f) => f.path === "wrangler.jsonc")!.content;
-    expect(prod).not.toContain("SULUK_PREVIEW");
-    expect(prod).not.toContain("PREVIEW_DB");
+    expect(sql).toContain("price REAL"); // number → REAL
+    expect(sql).toContain("status TEXT"); // enum → TEXT
   });
 });

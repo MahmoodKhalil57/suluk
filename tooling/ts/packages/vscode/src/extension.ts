@@ -814,11 +814,11 @@ export function activate(context: vscode.ExtensionContext): void {
     const md = vscode.Uri.joinPath(root, "DEPLOY.md");
     await vscode.workspace.fs.writeFile(md, new TextEncoder().encode(deployMarkdown(plan)));
     await vscode.window.showTextDocument(await vscode.workspace.openTextDocument(md), vscode.ViewColumn.Beside);
-    // open a terminal at the deploy dir so the user runs the steps themselves (OAuth login happens here)
-    const term = vscode.window.createTerminal({ name: "Suluk · Cloudflare", cwd: root.fsPath });
+    // open a terminal at the APP ROOT so the user runs the API deploy themselves (credentials from the decrypted .env)
+    const term = vscode.window.createTerminal({ name: "Suluk · Cloudflare", cwd: folder.uri.fsPath });
     term.show();
-    term.sendText("# Suluk: run the steps from DEPLOY.md. First: wrangler login", false);
-    void vscode.window.showInformationMessage(`Suluk: deploy files written to suluk-deploy/ — follow DEPLOY.md (${plan.steps.length} steps). Suluk won't run wrangler for you; log in in the terminal.`);
+    term.sendText("# Suluk: deploy with `bun run deploy` — Cloudflare REST API, credentials from your @suluk/env-decrypted .env (no wrangler).", false);
+    void vscode.window.showInformationMessage("Suluk: DEPLOY.md written to suluk-deploy/ — deploy with `bun run deploy` (API-driven; credentials from your decrypted .env, no wrangler login).");
   });
 
   // deploy a PREVIEW variant (role-preview) — terminal-gated IDENTICALLY to prod; Suluk runs no wrangler.
@@ -835,9 +835,9 @@ export function activate(context: vscode.ExtensionContext): void {
     const md = vscode.Uri.joinPath(root, "PREVIEW-DEPLOY.md");
     await vscode.workspace.fs.writeFile(md, new TextEncoder().encode(previewDeployMarkdown(plan)));
     await vscode.window.showTextDocument(await vscode.workspace.openTextDocument(md), vscode.ViewColumn.Beside);
-    const term = vscode.window.createTerminal({ name: "Suluk · Preview", cwd: root.fsPath });
+    const term = vscode.window.createTerminal({ name: "Suluk · Preview", cwd: folder.uri.fsPath });
     term.show();
-    term.sendText("# Suluk: run the steps from PREVIEW-DEPLOY.md. First: wrangler login. Tear the preview down when done.", false);
+    term.sendText("# Suluk: deploy the preview with `bun run deploy:preview` — API-driven, credentials from your decrypted .env. Tear it down when done.", false);
     void vscode.window.showInformationMessage(`Suluk: PREVIEW deploy files written to suluk-preview-deploy/ — follow PREVIEW-DEPLOY.md. After deploying, add the env as kind:Preview, then "Preview as role". Tear it down when finished.`);
   });
 

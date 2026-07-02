@@ -15,3 +15,4 @@ export { CATALOG, orderServices, collectEnv, resolveVersion, BASE_DEPS, ECOSYSTE
 export { mergeProvision } from "./merge";
 export { planPlatform, buildPackageJson, mergePackageJson, mergeWranglerToml, mergeGitignore, type PlatformPlan } from "./plan";
 export { generatePlatform, type GenerateOptions, type GenerateResult } from "./generate";
+export { fetchRegistry, type FetchRegistryOptions, type FetchRegistryResult } from "./registry-fetch";

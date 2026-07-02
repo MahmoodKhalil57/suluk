@@ -1,14 +1,15 @@
 /**
- * The generator (C051) — the impure shell over {@link planPlatform}: run the `shadcn add`s (which fetch each module's
- * owned code + install its npm deps + resolve registryDependencies), then write the generated entry + provision.config.
- * `run` + `write` are INJECTED (the CLI provides a real spawn + fs; a test provides recorders), so the orchestration is
- * testable. Stops short of `provision apply` — that's a live infra op the operator triggers.
+ * The generator (C051) — the impure shell over {@link planPlatform}: fetch each module's owned code via the importable
+ * {@link fetchRegistry} (NO `shadcn`/`bunx` spawn — it resolves `registryDependencies` + writes files over HTTPS), then
+ * write the generated entry + provision.config, then ONE `bun install`. `run` + `write` are INJECTED (the CLI provides a
+ * real spawn + fs; a test provides recorders), so the orchestration is testable. Stops short of `provision apply`.
  */
 import { type PlatformManifest, type Platform, isPlatform } from "./manifest";
 import { planPlatform, mergePackageJson, mergeWranglerToml, mergeGitignore, type PlatformPlan } from "./plan";
+import { fetchRegistry } from "./registry-fetch";
 
 export interface GenerateOptions {
-  /** run a command — the CLI spawns `bunx shadcn add <ref>`; a test records. */
+  /** run a command — the CLI spawns ONE `bun install` (the package manager); a test records. */
   run: (cmd: string, args: string[]) => Promise<void>;
   /** write a file (path relative to the target cwd). */
   write: (path: string, content: string) => Promise<void>;
@@ -17,6 +18,8 @@ export interface GenerateOptions {
    *  the config files are written as the fresh baseline. */
   read?: (path: string) => Promise<string | null>;
   log?: (msg: string) => void;
+  /** injectable fetch for the registry-fetcher (tests provide a mock so no network is hit). Defaults to global fetch. */
+  fetch?: typeof fetch;
 }
 
 export interface GenerateResult {
@@ -34,7 +37,7 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
   const plan = planPlatform(input);
   const written: string[] = [];
 
-  // 1) the scaffold CONFIG first — so `shadcn add` has a package.json to install into + a components.json to resolve
+  // 1) the scaffold CONFIG first — so the `bun install` (after the fetch) has a package.json + a components.json to resolve
   //    targets against. package.json MERGES with any existing (app deps/scripts survive; @suluk/* stay "latest"). An
   //    existing tsconfig/components.json is left as-is (an app may have customized them).
   const existingPkg = await read("package.json");
@@ -57,7 +60,8 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
     [".env.example", plan.envExample, true], // a checked-in keys checklist (no values)
     ["scripts/env-check.ts", plan.envCheck, true], // the encrypted-env preflight
     ["src/env.ts", plan.envTs, true], // the @suluk/env declare-once (derived from the manifest's secrets)
-    ["scripts/sync-secrets.ts", plan.syncSecrets, true], // the deploy-time secret push (derived)
+    ["scripts/deploy.ts", plan.deployScript, true], // the API-driven Cloudflare deploy (bundle → @suluk/deploy; no wrangler)
+    ["scripts/sync-secrets.ts", plan.syncSecrets, true], // the deploy-time secret re-push (API putSecrets; no wrangler)
     ["scripts/link-key.ts", plan.linkKey, true], // register the private key into ~/.suluk/settings.json (the central store)
     ["scripts/provision.ts", plan.provisionScript, true], // the credential lifecycle (source .env.temp/.env → provision → seal)
     ["scripts/mint-tokens.ts", plan.mintTokens, true], // mint scoped least-privilege CF tokens from the master
@@ -71,13 +75,12 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
     }
   }
 
-  // 2) the module code — shadcn add pulls each module's files + resolves registryDependencies (deps already in package.json).
-  const added: string[] = [];
-  for (const add of plan.adds) {
-    log(`▸ shadcn add ${add}`);
-    await opts.run("bunx", ["shadcn@latest", "add", add, "--yes"]);
-    added.push(add);
-  }
+  // 2) the module code — the importable fetcher pulls each module's files from the registry (resolving registryDependencies)
+  //    and writes them to their targets. NO `shadcn`/`bunx` spawn; the npm deps are already in the generated package.json.
+  const { added } = await fetchRegistry(plan.adds, { write: opts.write, log, fetch: opts.fetch });
+  // ONE `bun install` for the package.json deps (the single remaining subprocess — the package manager).
+  log("▸ bun install");
+  await opts.run("bun", ["install"]);
 
   // 3) the generated glue.
   log("▸ writing src/index.ts");

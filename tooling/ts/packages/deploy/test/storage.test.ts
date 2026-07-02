@@ -35,11 +35,10 @@ describe("durableBindings provisions an R2 bucket when the storage slot is bound
     ...(providers ? { "x-suluk-providers": providers } : {}),
   } as unknown as OpenAPIv4Document);
 
-  test("a bound storage provider → an R2 MEDIA binding + a `wrangler r2 bucket create` step", () => {
+  test("a bound storage provider → an R2 MEDIA binding (provisioned by the API deploy)", () => {
     const plan = durableBindings(docWithStorage({ storage: "r2" }), "shop");
     const media = plan.bindings.find((b) => b.binding === "MEDIA");
     expect(media).toMatchObject({ kind: "r2", resource: "shop-media" });
-    expect(plan.steps.some((s) => s.cmd === "wrangler r2 bucket create shop-media")).toBe(true);
   });
 
   test("no storage slot → no R2 binding", () => {

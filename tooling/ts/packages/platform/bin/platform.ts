@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 /**
- * The @suluk/platform CLI (C051) — load `platform.config.ts`, run `shadcn add` per service, write the wired entry +
+ * The @suluk/platform CLI (C051) — load `platform.config.ts`, FETCH each module from the registry (the importable
+ * fetcher — no `shadcn`/`bunx` spawn), write the wired entry +
  * provision.config. Then `bun install && suluk-provision apply`.
  *
  *   suluk-platform            generate from ./platform.config.ts (legacy manifest OR a { system, brand } platform)

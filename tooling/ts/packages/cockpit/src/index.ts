@@ -9,7 +9,7 @@ export { buildCycle, docChecks, cycleSummary, type CycleModel, type CycleLayer, 
 export { buildBuilderModel, builderTree, entitiesFromDoc, generateAppFiles, generateRegistryJson, type BuilderModel, type BuilderNode, type GeneratedFile } from "./builder";
 export { entityNames, generateForm, generateTable, generateStoresModule, exportV4Json } from "./codegen";
 export { deployPlan, deployMarkdown, previewDeployPlan, previewDeployMarkdown } from "./deploy";
-export type { DeployPlan, DeployStep, DeployProvider } from "@suluk/deploy";
+export type { DeployPlan, DeployStep, DeployFile } from "./deploy";
 // drift (OBSERVE): compare a LOCAL contract against a DEPLOYED one — the "what's drifted in prod" view (C020).
 export { diffContracts, canonical, type ContractDiff, type ChangedOp, type OpRef, type ProviderDelta, type ProviderChange } from "./drift";
 // cross-cut (M1): one contract refracted through every viewer — the scope-gated surface, the moat.
