@@ -6,7 +6,7 @@
 
 # Interface: KvNamespace
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/resources.ts#L97)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:145](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/resources.ts#L145)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:97](https://github.
 
 > **id**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/resources.ts#L98)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:146](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/resources.ts#L146)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:98](https://github.
 
 > **title**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/resources.ts#L99)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:147](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/resources.ts#L147)

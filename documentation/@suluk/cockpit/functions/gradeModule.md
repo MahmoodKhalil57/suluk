@@ -8,7 +8,7 @@
 
 > **gradeModule**(`mod`): [`ModuleGrade`](../interfaces/ModuleGrade.md)
 
-Defined in: [builder/src/module.ts:313](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/module.ts#L313)
+Defined in: [builder/src/module.ts:313](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/module.ts#L313)
 
 A conformance grade. The real, author-attributable signal is COST coverage (auto-CRUD ops carry a
 framework-injected summary, so @suluk/hono `coverage` is structurally ~1.0 and tells us nothing); we use it

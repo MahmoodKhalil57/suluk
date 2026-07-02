@@ -6,7 +6,7 @@
 
 # Interface: SulukSource
 
-Defined in: [types.ts:443](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L443)
+Defined in: [types.ts:443](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L443)
 
 A stable, symbolic pointer back to the authored source an element was projected from (advisory provenance).
 
@@ -16,7 +16,7 @@ A stable, symbolic pointer back to the authored source an element was projected 
 
 > **file**: `string`
 
-Defined in: [types.ts:445](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L445)
+Defined in: [types.ts:445](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L445)
 
 repo-relative path to the authoring file (e.g. "src/server/schema.ts"). NOT a line number.
 
@@ -26,7 +26,7 @@ repo-relative path to the authoring file (e.g. "src/server/schema.ts"). NOT a li
 
 > `optional` **kind?**: `string`
 
-Defined in: [types.ts:449](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L449)
+Defined in: [types.ts:449](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L449)
 
 what kind of authored thing it is — "drizzle-table" | "operation" | "better-auth" | … (advisory label).
 
@@ -36,6 +36,6 @@ what kind of authored thing it is — "drizzle-table" | "operation" | "better-au
 
 > **symbol**: `string`
 
-Defined in: [types.ts:447](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L447)
+Defined in: [types.ts:447](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L447)
 
 the exported symbol within that file (e.g. a Drizzle table export, or the operation's name).

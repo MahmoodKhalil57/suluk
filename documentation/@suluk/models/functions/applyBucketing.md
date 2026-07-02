@@ -8,7 +8,7 @@
 
 > **applyBucketing**(`axis`, `score`): [`Tier`](../type-aliases/Tier.md)
 
-Defined in: [bucketing.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/bucketing.ts#L32)
+Defined in: [bucketing.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/bucketing.ts#L32)
 
 Bucket a raw leaderboard score into a coarse tier per the committed rule. Null/absent/unknown-axis ⇒ `unknown`.
 

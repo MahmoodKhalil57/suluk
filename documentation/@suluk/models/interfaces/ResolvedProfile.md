@@ -6,7 +6,7 @@
 
 # Interface: ResolvedProfile
 
-Defined in: [profiles.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/profiles.ts#L9)
+Defined in: [profiles.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/profiles.ts#L9)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [profiles.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775
 
 > **impliedFilters**: `Partial`\<[`HardFilters`](HardFilters.md)\>
 
-Defined in: [profiles.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/profiles.ts#L13)
+Defined in: [profiles.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/profiles.ts#L13)
 
 filters the profile auto-wires (an author choosing "tool-reliable" implicitly requires tool-calling).
 
@@ -24,7 +24,7 @@ filters the profile auto-wires (an author choosing "tool-reliable" implicitly re
 
 > **prefer**: `object`
 
-Defined in: [profiles.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/profiles.ts#L10)
+Defined in: [profiles.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/profiles.ts#L10)
 
 #### context
 
@@ -48,4 +48,4 @@ Defined in: [profiles.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > `optional` **taskShape?**: `"agentic"` \| `"coding"` \| `"reasoning"`
 
-Defined in: [profiles.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/profiles.ts#L11)
+Defined in: [profiles.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/profiles.ts#L11)

@@ -6,7 +6,7 @@
 
 # Interface: StepResult
 
-Defined in: [journeys/src/bind.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/bind.ts#L40)
+Defined in: [journeys/src/bind.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/bind.ts#L40)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/bind.ts:40](https://github.com/MahmoodKhalil57/suluk/b
 
 > `optional` **canonical?**: `string`
 
-Defined in: [journeys/src/bind.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/bind.ts#L52)
+Defined in: [journeys/src/bind.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/bind.ts#L52)
 
 the canonical step phrase this UNBOUND step most likely maps to (drives the scaffolder's alias stub).
 
@@ -24,7 +24,7 @@ the canonical step phrase this UNBOUND step most likely maps to (drives the scaf
 
 > `optional` **expandedFrom?**: `object`
 
-Defined in: [journeys/src/bind.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/bind.ts#L50)
+Defined in: [journeys/src/bind.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/bind.ts#L50)
 
 when this resolved step came from an alias/decomposition/journey expansion: the original authored prose it expanded from.
 
@@ -42,7 +42,7 @@ when this resolved step came from an alias/decomposition/journey expansion: the 
 
 > **handle**: `string`
 
-Defined in: [journeys/src/bind.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/bind.ts#L44)
+Defined in: [journeys/src/bind.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/bind.ts#L44)
 
 the bound (or suggested) handle, when there is one.
 
@@ -52,7 +52,7 @@ the bound (or suggested) handle, when there is one.
 
 > **state**: [`BindState`](../type-aliases/BindState.md)
 
-Defined in: [journeys/src/bind.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/bind.ts#L42)
+Defined in: [journeys/src/bind.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/bind.ts#L42)
 
 ***
 
@@ -60,7 +60,7 @@ Defined in: [journeys/src/bind.ts:42](https://github.com/MahmoodKhalil57/suluk/b
 
 > **step**: [`FeatureStep`](FeatureStep.md)
 
-Defined in: [journeys/src/bind.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/bind.ts#L41)
+Defined in: [journeys/src/bind.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/bind.ts#L41)
 
 ***
 
@@ -68,7 +68,7 @@ Defined in: [journeys/src/bind.ts:41](https://github.com/MahmoodKhalil57/suluk/b
 
 > **suggest**: `string`
 
-Defined in: [journeys/src/bind.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/bind.ts#L48)
+Defined in: [journeys/src/bind.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/bind.ts#L48)
 
 a human next-action for a non-BOUND step.
 
@@ -78,6 +78,6 @@ a human next-action for a non-BOUND step.
 
 > **via**: `string`
 
-Defined in: [journeys/src/bind.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/bind.ts#L46)
+Defined in: [journeys/src/bind.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/bind.ts#L46)
 
 provenance of a BOUND step.

@@ -6,7 +6,7 @@
 
 # Interface: StripeConfig
 
-Defined in: [packages/payments/src/stripe-transport.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/stripe-transport.ts#L8)
+Defined in: [packages/payments/src/stripe-transport.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/stripe-transport.ts#L8)
 
 The low-level Stripe HTTP transport (C048) — the fetch-based Stripe client the stripeConnector rides, exported
 so an app's Stripe-PLATFORM operations (hosted Checkout, subscriptions, saved-card management, Tax — the things the
@@ -20,7 +20,7 @@ transport — one Stripe roof, no accidental second path. Workers-native (fetch 
 
 > `optional` **fetch?**: *typeof* `fetch`
 
-Defined in: [packages/payments/src/stripe-transport.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/stripe-transport.ts#L11)
+Defined in: [packages/payments/src/stripe-transport.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/stripe-transport.ts#L11)
 
 the HTTP transport — a mock in tests; defaults to the global `fetch` in prod.
 
@@ -30,4 +30,4 @@ the HTTP transport — a mock in tests; defaults to the global `fetch` in prod.
 
 > **secretKey**: `string`
 
-Defined in: [packages/payments/src/stripe-transport.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/stripe-transport.ts#L9)
+Defined in: [packages/payments/src/stripe-transport.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/stripe-transport.ts#L9)

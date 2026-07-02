@@ -6,7 +6,7 @@
 
 # Interface: GenerateOptions
 
-Defined in: [generate.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/generate.ts#L10)
+Defined in: [generate.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/generate.ts#L10)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [generate.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > `optional` **log?**: (`msg`) => `void`
 
-Defined in: [generate.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/generate.ts#L19)
+Defined in: [generate.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/generate.ts#L19)
 
 #### Parameters
 
@@ -32,7 +32,7 @@ Defined in: [generate.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > `optional` **read?**: (`path`) => `Promise`\<`string` \| `null`\>
 
-Defined in: [generate.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/generate.ts#L18)
+Defined in: [generate.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/generate.ts#L18)
 
 read a file (null when absent) — used to MERGE the generated package.json with the app's existing one (so app-added
  deps/scripts survive a regenerate) and to leave an existing tsconfig/components.json untouched. Optional: without it,
@@ -54,7 +54,7 @@ read a file (null when absent) — used to MERGE the generated package.json with
 
 > **run**: (`cmd`, `args`) => `Promise`\<`void`\>
 
-Defined in: [generate.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/generate.ts#L12)
+Defined in: [generate.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/generate.ts#L12)
 
 run a command — the CLI spawns `bunx shadcn add <ref>`; a test records.
 
@@ -78,7 +78,7 @@ run a command — the CLI spawns `bunx shadcn add <ref>`; a test records.
 
 > **write**: (`path`, `content`) => `Promise`\<`void`\>
 
-Defined in: [generate.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/generate.ts#L14)
+Defined in: [generate.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/generate.ts#L14)
 
 write a file (path relative to the target cwd).
 

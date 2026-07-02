@@ -6,7 +6,7 @@
 
 # Interface: SulukResourceRef
 
-Defined in: [types.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L95)
+Defined in: [types.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L95)
 
 A by-name reference to a loadable resource within the same `x-suluk-resources` catalog (C036; resolved at projection, never by the matcher; mirrors SulukAgentRef).
 
@@ -16,6 +16,6 @@ A by-name reference to a loadable resource within the same `x-suluk-resources` c
 
 > **ref**: `string`
 
-Defined in: [types.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L97)
+Defined in: [types.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L97)
 
 a by-name `$ref` like `#/x-suluk-resources/<key>` (never an inline resource).

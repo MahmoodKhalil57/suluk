@@ -6,7 +6,7 @@
 
 # Interface: EmailBrand
 
-Defined in: [render.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L11)
+Defined in: [render.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L11)
 
 The brand surface an email needs — defaults reproduce saastarter's terracotta look.
 
@@ -16,7 +16,7 @@ The brand surface an email needs — defaults reproduce saastarter's terracotta 
 
 > `optional` **accentFrom?**: `string`
 
-Defined in: [render.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L15)
+Defined in: [render.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L15)
 
 banner gradient start + CTA fill (default "#d4722a").
 
@@ -26,7 +26,7 @@ banner gradient start + CTA fill (default "#d4722a").
 
 > `optional` **accentTo?**: `string`
 
-Defined in: [render.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L17)
+Defined in: [render.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L17)
 
 banner gradient end (default "#e8944d").
 
@@ -36,7 +36,7 @@ banner gradient end (default "#e8944d").
 
 > **baseUrl**: `string`
 
-Defined in: [render.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L13)
+Defined in: [render.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L13)
 
 ***
 
@@ -44,7 +44,7 @@ Defined in: [render.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/3b47751
 
 > **brandName**: `string`
 
-Defined in: [render.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L12)
+Defined in: [render.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L12)
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: [render.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/3b47751
 
 > `optional` **cardBg?**: `string`
 
-Defined in: [render.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L21)
+Defined in: [render.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L21)
 
 card background (default "#ffffff").
 
@@ -62,7 +62,7 @@ card background (default "#ffffff").
 
 > `optional` **logoUrl?**: `string`
 
-Defined in: [render.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L23)
+Defined in: [render.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L23)
 
 an <img> logo URL; when omitted the brandName renders as a serif wordmark (saastarter behavior).
 
@@ -72,6 +72,6 @@ an <img> logo URL; when omitted the brandName renders as a serif wordmark (saast
 
 > `optional` **pageBg?**: `string`
 
-Defined in: [render.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L19)
+Defined in: [render.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L19)
 
 page background (default "#f5f3f0").

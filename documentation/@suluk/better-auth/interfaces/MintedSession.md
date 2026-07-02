@@ -6,7 +6,7 @@
 
 # Interface: MintedSession
 
-Defined in: [preview.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/better-auth/src/preview.ts#L36)
+Defined in: [preview.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/preview.ts#L36)
 
 What a successful mint returns: the headers to set on the redirect (e.g. the session Set-Cookie).
 
@@ -16,4 +16,4 @@ What a successful mint returns: the headers to set on the redirect (e.g. the ses
 
 > **setCookie**: `string`
 
-Defined in: [preview.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/better-auth/src/preview.ts#L37)
+Defined in: [preview.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/preview.ts#L37)

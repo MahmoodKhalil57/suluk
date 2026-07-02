@@ -8,7 +8,7 @@
 
 > **suggestUnflatten**(`load`, `target?`): [`UnflattenSuggestion`](../interfaces/UnflattenSuggestion.md) \| `null`
 
-Defined in: [agents/src/context.ts:239](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/context.ts#L239)
+Defined in: [agents/src/context.ts:239](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/context.ts#L239)
 
 When an agent is over its target, the cheapest decomposition: which resident tools to push to cold-tail.
 

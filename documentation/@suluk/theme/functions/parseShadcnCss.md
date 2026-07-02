@@ -8,7 +8,7 @@
 
 > **parseShadcnCss**(`css`, `name?`): \{ `dark`: [`ColorTokens`](../interfaces/ColorTokens.md); `light`: [`ColorTokens`](../interfaces/ColorTokens.md); `name`: `string`; \} \| `null`
 
-Defined in: [parse-css.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/theme/src/parse-css.ts#L55)
+Defined in: [parse-css.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/theme/src/parse-css.ts#L55)
 
 Parse a shadcn/tweakcn theme CSS string into light + dark ColorTokens. Dark is read from a `.dark` /
  `html[data-theme="dark"]` block when present, otherwise deterministically derived from light. Returns null when

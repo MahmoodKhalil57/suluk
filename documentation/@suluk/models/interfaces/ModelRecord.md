@@ -6,7 +6,7 @@
 
 # Interface: ModelRecord
 
-Defined in: [types.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L23)
+Defined in: [types.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L23)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [types.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b477513
 
 > **caps**: `object`
 
-Defined in: [types.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L44)
+Defined in: [types.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L44)
 
 capabilities are DECLARED-not-verified (provider self-report; we do not self-test).
 
@@ -52,7 +52,7 @@ capabilities are DECLARED-not-verified (provider self-report; we do not self-tes
 
 > **context**: `object`
 
-Defined in: [types.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L35)
+Defined in: [types.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L35)
 
 #### longCtxFidelity
 
@@ -74,7 +74,7 @@ RULER/needle — does the big window actually hold quality? sparse public data �
 
 > **cost**: `object`
 
-Defined in: [types.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L29)
+Defined in: [types.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L29)
 
 #### cachedInputPerMtok
 
@@ -98,7 +98,7 @@ Defined in: [types.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b477513
 
 > **family**: `string`
 
-Defined in: [types.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L27)
+Defined in: [types.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L27)
 
 ***
 
@@ -106,7 +106,7 @@ Defined in: [types.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b477513
 
 > **gov**: `object`
 
-Defined in: [types.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L63)
+Defined in: [types.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L63)
 
 #### dataRetention
 
@@ -126,7 +126,7 @@ Defined in: [types.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/3b477513
 
 > **id**: `string`
 
-Defined in: [types.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L25)
+Defined in: [types.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L25)
 
 the OpenRouter id the selector compiles against (stable wire id).
 
@@ -136,7 +136,7 @@ the OpenRouter id the selector compiles against (stable wire id).
 
 > **intel**: `object`
 
-Defined in: [types.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L54)
+Defined in: [types.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L54)
 
 "intelligence" split into 6 orthogonal-ish, source-separated dimensions (ranked by relevance to tool-using agents).
 
@@ -174,7 +174,7 @@ Defined in: [types.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/3b477513
 
 > **ops**: `object`
 
-Defined in: [types.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L64)
+Defined in: [types.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L64)
 
 #### popularityRank
 
@@ -198,7 +198,7 @@ Defined in: [types.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/3b477513
 
 > **provider**: `string`
 
-Defined in: [types.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L26)
+Defined in: [types.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L26)
 
 ***
 
@@ -206,7 +206,7 @@ Defined in: [types.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b477513
 
 > **speed**: `object`
 
-Defined in: [types.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L42)
+Defined in: [types.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L42)
 
 Artificial-Analysis single-vendor, provider/route/load-dependent — their measurement, not a guarantee.
 
@@ -224,4 +224,4 @@ Artificial-Analysis single-vendor, provider/route/load-dependent — their measu
 
 > **status**: `"active"` \| `"deprecated"` \| `"sunset"` \| `"preview"`
 
-Defined in: [types.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/types.ts#L28)
+Defined in: [types.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/types.ts#L28)

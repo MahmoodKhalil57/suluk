@@ -8,7 +8,7 @@
 
 > **depsOf**(`spec`): `string`[]
 
-Defined in: [provision/src/refs.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/refs.ts#L19)
+Defined in: [provision/src/refs.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/refs.ts#L19)
 
 Every instance ref a spec's params depend on (deduped) — the spec's in-edges in the DAG.
 

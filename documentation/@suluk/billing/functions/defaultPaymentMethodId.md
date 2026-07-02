@@ -8,7 +8,7 @@
 
 > **defaultPaymentMethodId**(`cfg`, `customerId`): `Promise`\<`string` \| `null`\>
 
-Defined in: [packages/billing/src/billing.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/billing/src/billing.ts#L118)
+Defined in: [packages/billing/src/billing.ts:118](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/billing/src/billing.ts#L118)
 
 The customer's default payment-method id (to charge off-session), or null.
 

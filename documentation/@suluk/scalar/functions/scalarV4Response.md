@@ -8,7 +8,7 @@
 
 > **scalarV4Response**(`doc`, `opts?`): `Response`
 
-Defined in: [index.ts:302](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/scalar/src/index.ts#L302)
+Defined in: [index.ts:302](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/scalar/src/index.ts#L302)
 
 The v4 Scalar reference as a text/html Response.
 

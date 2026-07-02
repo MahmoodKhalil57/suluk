@@ -6,7 +6,7 @@
 
 # Interface: FontTokens
 
-Defined in: [tokens.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/theme/src/tokens.ts#L39)
+Defined in: [tokens.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/theme/src/tokens.ts#L39)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tokens.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/3b47751
 
 > `optional` **mono?**: `string`
 
-Defined in: [tokens.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/theme/src/tokens.ts#L42)
+Defined in: [tokens.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/theme/src/tokens.ts#L42)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [tokens.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/3b47751
 
 > `optional` **sans?**: `string`
 
-Defined in: [tokens.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/theme/src/tokens.ts#L40)
+Defined in: [tokens.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/theme/src/tokens.ts#L40)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [tokens.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/3b47751
 
 > `optional` **serif?**: `string`
 
-Defined in: [tokens.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/theme/src/tokens.ts#L41)
+Defined in: [tokens.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/theme/src/tokens.ts#L41)

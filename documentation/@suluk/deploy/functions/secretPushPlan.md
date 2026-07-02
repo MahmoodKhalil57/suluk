@@ -8,7 +8,7 @@
 
 > **secretPushPlan**(`secretNames`, `opts?`): [`SecretPushPlan`](../interfaces/SecretPushPlan.md)
 
-Defined in: [secrets.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/secrets.ts#L22)
+Defined in: [secrets.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/secrets.ts#L22)
 
 The steps to push the named secrets to a Worker. Default: one interactive `wrangler secret put NAME` per secret
 (the value is typed at the prompt — never on the command line). `bulk` instead emits a single

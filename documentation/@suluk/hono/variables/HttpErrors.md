@@ -8,7 +8,7 @@
 
 > `const` **HttpErrors**: `object`
 
-Defined in: [tooling/ts/packages/hono/src/errors.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/errors.ts#L82)
+Defined in: [tooling/ts/packages/hono/src/errors.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/errors.ts#L82)
 
 Factory helpers mirroring saastarter's TaggedError set (errors.ts) with the SAME field semantics the route-handler
 rendered (route-handler.ts:24-86). `externalService`/`internal` keep their detail GENERIC on the wire and stash

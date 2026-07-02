@@ -8,7 +8,7 @@
 
 > **durableBindings**(`doc`, `appName?`): [`BindingPlan`](../interfaces/BindingPlan.md)
 
-Defined in: [secrets.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/secrets.ts#L75)
+Defined in: [secrets.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/secrets.ts#L75)
 
 The durable bindings a contract needs, derived from its facets: a rate-limit budget (x-suluk-ratelimit) needs a
 KV counter store; a declared cost (x-suluk-cost) needs a KV sink. Emits the binding list + the

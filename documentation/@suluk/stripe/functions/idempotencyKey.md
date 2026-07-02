@@ -8,7 +8,7 @@
 
 > **idempotencyKey**(`scope`, `lines`, `discount?`): `string`
 
-Defined in: [pricing.ts:165](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/pricing.ts#L165)
+Defined in: [pricing.ts:165](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/pricing.ts#L165)
 
 A deterministic idempotency key for a checkout attempt. The SAME cart under the same scope (principal) yields
 the SAME key, so a retried "create payment intent" REUSES the existing intent instead of charging twice; a

@@ -8,7 +8,7 @@
 
 > **isProblemDetails**(`body`): `body is ProblemDetails`
 
-Defined in: [errors.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/errors.ts#L107)
+Defined in: [errors.ts:107](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/errors.ts#L107)
 
 Structural guard — discriminates a Problem Details body (parallel to saastarter's `isApiError` and core's
 `isReference`). Checks the two always-present RFC-9457 members `title` (string) + `status` (number).

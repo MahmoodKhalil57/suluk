@@ -8,7 +8,7 @@
 
 > **normalizeOpenRouterModel**(`m`, `asOf`): [`ModelRecord`](../interfaces/ModelRecord.md)
 
-Defined in: [normalize.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/models/src/normalize.ts#L28)
+Defined in: [normalize.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/models/src/normalize.ts#L28)
 
 One OpenRouter model → its decidable fact cells (intel/gov tiers stay UNKNOWN; filled by the Class-B pass).
 

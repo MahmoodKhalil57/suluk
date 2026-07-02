@@ -8,7 +8,7 @@
 
 > **kvRateLimitStore**(`kv`, `opts?`): [`RateLimitStore`](../interfaces/RateLimitStore.md)
 
-Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/ratelimit.ts#L37)
+Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/ratelimit.ts#L37)
 
 Build a KV-backed RateLimitStore. `kv` is the namespace, or a getter (lazy — capture the binding on first request).
 Falls open to `opts.fallback` (default a per-instance memory store) when KV is absent or errors.

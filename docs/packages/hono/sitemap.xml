@@ -2,214 +2,214 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/index.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/modules.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/hierarchy.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/types/Rule.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/Policy.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/types/AccessMode.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/variables/DEFAULT_POLICIES.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/policyFor.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/GateIdentity.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/GateDecision.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/gate.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/ruleToRequires.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/Finding.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/audit.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/coverage.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/autofill.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/Check.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/contractChecks.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/CheckRun.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/runContractChecks.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/types/Method.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/RouteRequest.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/RouteResponse.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/RouteContract.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/contract.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/types/DocumentedRoute.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/contractDoc.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/responseList.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/EmitContext.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/EmitDiagnostic.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/EmitResult.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/emitV4.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/types/AccessRequires.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/AccessFacet.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/IdentityConfig.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/EnforceAccessConfig.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/enforceAccess.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/Guard.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/createGuard.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/SulukHttpErrorInit.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/classes/SulukHttpError.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/variables/HttpErrors.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/mount.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/OnErrorOptions.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/onError.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/RateLimitConsumeOptions.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/RateLimitResult.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/RateLimitStore.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/classes/MemoryRateLimitStore.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/EnforceRateLimitConfig.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/enforceRateLimit.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/interfaces/SchemaCheck.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/hono/functions/validateSchema2020.html</loc>
-		<lastmod>2026-07-02T00:04:36.953Z</lastmod>
+		<lastmod>2026-07-02T00:50:24.081Z</lastmod>
 	</url>
 </urlset>

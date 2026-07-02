@@ -8,7 +8,7 @@
 
 > **linkBillingCustomer**(`db`, `userId`, `customerId`): `Promise`\<`void`\>
 
-Defined in: [packages/billing/src/account.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/billing/src/account.ts#L39)
+Defined in: [packages/billing/src/account.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/billing/src/account.ts#L39)
 
 Persist the user's Stripe customer id WITHOUT touching subscriptionId — so a one-time top-up never clears a
  subscriber's `subscriptionId` (unlike [upsertBillingAccount](upsertBillingAccount.md), which sets it). Idempotent on the userId PK.

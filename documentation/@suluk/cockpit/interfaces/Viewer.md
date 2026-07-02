@@ -6,7 +6,7 @@
 
 # Interface: Viewer
 
-Defined in: [cockpit/src/crosscut.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/crosscut.ts#L15)
+Defined in: [cockpit/src/crosscut.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/crosscut.ts#L15)
 
 A viewer to project for. `scopes: undefined` ⇒ the full/operator view; `[]` ⇒ no scopes.
  `authenticated` distinguishes a logged-in viewer from a truly anonymous one — an auth-only operation
@@ -20,7 +20,7 @@ A viewer to project for. `scopes: undefined` ⇒ the full/operator view; `[]` �
 
 > `optional` **authenticated?**: `boolean`
 
-Defined in: [cockpit/src/crosscut.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/crosscut.ts#L19)
+Defined in: [cockpit/src/crosscut.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/crosscut.ts#L19)
 
 does this viewer hold a credential? defaults to "holds at least one scope".
 
@@ -30,7 +30,7 @@ does this viewer hold a credential? defaults to "holds at least one scope".
 
 > **label**: `string`
 
-Defined in: [cockpit/src/crosscut.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/crosscut.ts#L16)
+Defined in: [cockpit/src/crosscut.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/crosscut.ts#L16)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [cockpit/src/crosscut.ts:16](https://github.com/MahmoodKhalil57/sulu
 
 > **scopes**: `string`[] \| `undefined`
 
-Defined in: [cockpit/src/crosscut.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/crosscut.ts#L17)
+Defined in: [cockpit/src/crosscut.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/crosscut.ts#L17)

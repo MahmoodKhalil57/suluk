@@ -8,7 +8,7 @@
 
 > **chainHeadroom**(`db`, `chain`): `Promise`\<[`Headroom`](../interfaces/Headroom.md) \| `null`\>
 
-Defined in: [packages/keys/src/lineage.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/keys/src/lineage.ts#L61)
+Defined in: [packages/keys/src/lineage.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/keys/src/lineage.ts#L61)
 
 The chain's POOLED credit headroom — one grouped query over the TOPMOST capped node's subtree (joining the credit
 ledger via the `credit_key` sidecar), then [pooledHeadroom](pooledHeadroom.md). This is where the abuse-proof cap becomes real: a

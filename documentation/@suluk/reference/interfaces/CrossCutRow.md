@@ -6,7 +6,7 @@
 
 # Interface: CrossCutRow
 
-Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/facets.ts#L91)
+Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/facets.ts#L91)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/sulu
 
 > **method**: `string`
 
-Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/facets.ts#L91)
+Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/facets.ts#L91)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/sulu
 
 > **name**: `string`
 
-Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/facets.ts#L91)
+Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/facets.ts#L91)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/sulu
 
 > **path**: `string`
 
-Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/facets.ts#L91)
+Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/facets.ts#L91)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/sulu
 
 > **reach**: `Record`\<`string`, `ReachState`\>
 
-Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/facets.ts#L91)
+Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/facets.ts#L91)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/sulu
 
 > **requires**: `string`
 
-Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/facets.ts#L91)
+Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/facets.ts#L91)
 
 ***
 
@@ -54,4 +54,4 @@ Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **scope?**: `string`
 
-Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/facets.ts#L91)
+Defined in: [reference/src/facets.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/facets.ts#L91)

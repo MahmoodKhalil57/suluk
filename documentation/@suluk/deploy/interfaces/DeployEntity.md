@@ -6,7 +6,7 @@
 
 # Interface: DeployEntity
 
-Defined in: [types.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/types.ts#L9)
+Defined in: [types.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/types.ts#L9)
 
 `@suluk/deploy` — ship a Suluk app behind a SWAPPABLE target interface. A DeployProvider turns the app into
 the files + ordered steps that deploy it; the host (the vscode extension) runs the steps in a terminal
@@ -19,7 +19,7 @@ since the stack is already Cloudflare-native (Hono=Workers, sqlite-core=D1, fron
 
 > **name**: `string`
 
-Defined in: [types.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/types.ts#L10)
+Defined in: [types.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/types.ts#L10)
 
 ***
 
@@ -27,4 +27,4 @@ Defined in: [types.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b477513
 
 > **schema**: [`SchemaOrRef`](../../core/type-aliases/SchemaOrRef.md)
 
-Defined in: [types.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/deploy/src/types.ts#L11)
+Defined in: [types.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/deploy/src/types.ts#L11)

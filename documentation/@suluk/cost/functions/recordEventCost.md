@@ -8,7 +8,7 @@
 
 > **recordEventCost**(`sink`, `input`, `seen?`): `Promise`\<[`CostEvent`](../interfaces/CostEvent.md) \| `null`\>
 
-Defined in: [event.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/event.ts#L104)
+Defined in: [event.ts:104](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cost/src/event.ts#L104)
 
 Record a fired event's cost into a sink, deduped by its `dedupeKey` against `seen` (so at-least-once delivery
 can't double-charge). Returns the recorded event, or null when it was a duplicate. `seen` is the app's dedup

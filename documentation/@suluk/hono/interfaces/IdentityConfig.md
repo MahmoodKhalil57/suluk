@@ -6,7 +6,7 @@
 
 # Interface: IdentityConfig
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L28)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/enforce.ts#L28)
 
 Read identity from a request — the app supplies these (it owns its principal/scope model).
 
@@ -20,7 +20,7 @@ Read identity from a request — the app supplies these (it owns its principal/s
 
 > `optional` **isAdmin?**: (`c`) => `boolean`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L32)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/enforce.ts#L32)
 
 fast-path admin check (verified). If omitted, the literal "admin" scope is used.
 
@@ -40,7 +40,7 @@ fast-path admin check (verified). If omitted, the literal "admin" scope is used.
 
 > **principal**: (`c`) => `string` \| `null` \| `undefined`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L30)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/enforce.ts#L30)
 
 the caller's verified principal id, or null/undefined for anonymous.
 
@@ -60,7 +60,7 @@ the caller's verified principal id, or null/undefined for anonymous.
 
 > `optional` **scopes?**: (`c`) => `string`[] \| `undefined`
 
-Defined in: [tooling/ts/packages/hono/src/enforce.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/enforce.ts#L34)
+Defined in: [tooling/ts/packages/hono/src/enforce.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/enforce.ts#L34)
 
 the caller's granted scopes (e.g. ["admin"], ["org:1:read"]). Default: none.
 

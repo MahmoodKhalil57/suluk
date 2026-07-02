@@ -8,7 +8,7 @@
 
 > **resourceCatalog**(`doc`, `agentName`): [`CatalogEntry`](../interfaces/CatalogEntry.md)[]
 
-Defined in: [agents/src/resources.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/resources.ts#L40)
+Defined in: [agents/src/resources.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/resources.ts#L40)
 
 The agent's reachable loadable-resource catalog — its DIRECT `resources` refs resolved against the top-level map
 (each sub-agent owns its own catalog, so this is not transitive), sorted by key. Dangling refs are skipped here

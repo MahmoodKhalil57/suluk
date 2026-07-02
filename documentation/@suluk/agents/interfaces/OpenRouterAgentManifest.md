@@ -6,7 +6,7 @@
 
 # Interface: OpenRouterAgentManifest
 
-Defined in: [agents/src/project.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/project.ts#L87)
+Defined in: [agents/src/project.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/project.ts#L87)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/project.ts:87](https://github.com/MahmoodKhalil57/suluk/
 
 > **discoverable**: [`OpenRouterFunctionTool`](OpenRouterFunctionTool.md)[]
 
-Defined in: [agents/src/project.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/project.ts#L100)
+Defined in: [agents/src/project.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/project.ts#L100)
 
 COLD-TAIL routes — NOT in the default surface; revealed on demand via `discover_tools`.
 
@@ -24,7 +24,7 @@ COLD-TAIL routes — NOT in the default surface; revealed on demand via `discove
 
 > **instructions**: `object`
 
-Defined in: [agents/src/project.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/project.ts#L93)
+Defined in: [agents/src/project.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/project.ts#L93)
 
 a POINTER to the served instructions + the pinned hash — never inlined creds, never the full text by default.
 
@@ -46,7 +46,7 @@ a POINTER to the served instructions + the pinned hash — never inlined creds, 
 
 > **model**: `string`[]
 
-Defined in: [agents/src/project.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/project.ts#L90)
+Defined in: [agents/src/project.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/project.ts#L90)
 
 model preference list (cheap→capable) from the primary skill; the OpenRouter ids to try in order.
 
@@ -56,7 +56,7 @@ model preference list (cheap→capable) from the primary skill; the OpenRouter i
 
 > **name**: `string`
 
-Defined in: [agents/src/project.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/project.ts#L88)
+Defined in: [agents/src/project.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/project.ts#L88)
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: [agents/src/project.ts:88](https://github.com/MahmoodKhalil57/suluk/
 
 > **subAgents**: `object`[]
 
-Defined in: [agents/src/project.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/project.ts#L102)
+Defined in: [agents/src/project.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/project.ts#L102)
 
 sub-agents → one front-door tool each (dispatched as a NEW completion at the child's tier).
 
@@ -82,7 +82,7 @@ sub-agents → one front-door tool each (dispatched as a NEW completion at the c
 
 > `optional` **tier?**: `"resident"` \| `"cold-tail"`
 
-Defined in: [agents/src/project.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/project.ts#L91)
+Defined in: [agents/src/project.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/project.ts#L91)
 
 ***
 
@@ -90,7 +90,7 @@ Defined in: [agents/src/project.ts:91](https://github.com/MahmoodKhalil57/suluk/
 
 > **tools**: [`OpenRouterFunctionTool`](OpenRouterFunctionTool.md)[]
 
-Defined in: [agents/src/project.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/project.ts#L98)
+Defined in: [agents/src/project.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/project.ts#L98)
 
 The DEFAULT tool surface — RESIDENT routes only, plus a synthetic `discover_tools` when cold-tail routes exist.
 This is the tier-trim: the cheap/lower tier carries a SMALLER tool surface (the conditional context reduction).

@@ -6,7 +6,7 @@
 
 # Interface: BrandedEmailOptions
 
-Defined in: [render.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L26)
+Defined in: [render.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L26)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [render.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b47751
 
 > **body**: `string`
 
-Defined in: [render.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L32)
+Defined in: [render.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L32)
 
 the inner body HTML (placed inside the card).
 
@@ -24,7 +24,7 @@ the inner body HTML (placed inside the card).
 
 > `optional` **ctaLabel?**: `string`
 
-Defined in: [render.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L33)
+Defined in: [render.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L33)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [render.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/3b47751
 
 > `optional` **ctaUrl?**: `string`
 
-Defined in: [render.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L34)
+Defined in: [render.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L34)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [render.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/3b47751
 
 > **heading**: `string`
 
-Defined in: [render.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L29)
+Defined in: [render.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L29)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [render.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/3b47751
 
 > **icon**: `string`
 
-Defined in: [render.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L28)
+Defined in: [render.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L28)
 
 header-banner icon (emoji or HTML entity).
 
@@ -58,7 +58,7 @@ header-banner icon (emoji or HTML entity).
 
 > `optional` **preheader?**: `string`
 
-Defined in: [render.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L36)
+Defined in: [render.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L36)
 
 preview text (shown in the client's preview line, hidden in the body).
 
@@ -68,4 +68,4 @@ preview text (shown in the client's preview line, hidden in the body).
 
 > `optional` **subheading?**: `string`
 
-Defined in: [render.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/render.ts#L30)
+Defined in: [render.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/render.ts#L30)

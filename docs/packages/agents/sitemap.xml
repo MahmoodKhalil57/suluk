@@ -2,522 +2,522 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/index.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/modules.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/hierarchy.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/CloudflareAgentOptions.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/CloudflareAgentArtifacts.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/projectCloudflareAgent.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/ConformanceFinding.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/conformanceOk.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/reachableSurface.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/assertServedSubset.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/residentSurface.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/residentToolNames.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/assertDefaultServedResident.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/assertServedSubsetGoverned.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/verifySkillFreshness.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/ToolContextCost.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/ModelFit.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentContextLoad.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/UnflattenSuggestion.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/FlattenSuggestion.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/ContextReport.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/ContextOptions.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/contextReport.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/suggestUnflatten.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/types/DiagramKind.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/DiagramNode.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/agentDiagram.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentDiagramOptions.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/agentDiagramHtml.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/types/AgentGrade.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/types/GradeDimension.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/types/GradeSeverity.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentGradeFinding.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentGradeReport.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentGradeOptions.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/gradeOf.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/gradeAgent.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/gradeAgents.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/agentGradeOk.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/assertAgentGrade.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/types/Severity.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/LintFinding.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/lintAgents.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/lintOk.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/assertAgentInstallable.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentManifestSkill.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentManifestRoute.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentManifestGoverned.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentManifestNode.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentManifest.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/agentManifest.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/verifyAgentFreshness.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/types/ResolvedTarget.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/SkillModelResolution.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/deriveCQT.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/resolveSkillModels.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/skillModels.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/NodeAgentOptions.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/NodeAgentArtifacts.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/projectNodeAgent.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/types/AgenticPattern.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/PatternAffordance.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/agenticPatterns.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/affordedPatterns.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/EffectiveSkill.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/EffectiveAgent.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/PolicyNarrowing.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/PolicyConstrainResult.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/policyAppliesTo.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/policiesFor.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/policyConstrain.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/effectiveUnderPolicies.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/lintPolicy.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/policyOk.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/ClaudePluginOptions.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/ClaudePluginArtifacts.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/projectClaudePlugin.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/OpenRouterFunctionTool.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/OpenRouterAgentManifest.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/OpenRouterOptions.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/projectOpenRouter.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/variables/FLOOR_LEVEL.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/agentLevel.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentLayer.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/LayerReport.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/layerReport.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/parsePointer.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/types/OperationLocus.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/ResolvedOperation.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/resolveOperationRef.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/agentMap.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/subAgentKey.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/childKeys.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/findCycle.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/subtreeDepth.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/deepStrings.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/resolveInstruction.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/resourceMap.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/resourceKey.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/CatalogEntry.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/resourceCatalog.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/ResourceFinding.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/lintResources.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/resourcesOk.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/PaidToolPrice.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/paidToolPrice.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/RouteToolDef.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/routeToolDef.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/types/RuntimeDeployHint.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentRuntimeArtifacts.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/AgentRuntimeProvider.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/variables/cloudflareRuntime.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/variables/nodeRuntime.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/variables/runtimeProviders.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/types/Scope.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/intersectScope.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/ScopeEscalation.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/analyzeScopes.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/localEscalations.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/contentHash.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/SkillRenderInput.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/renderSkillMd.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/variables/SEED_CATALOG.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/variables/PROFILES.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/selectModel.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/functions/deriveRequirements.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/ModelCatalog.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/HardFilters.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/Preferences.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 	<url>
 		<loc>https://mahmoodkhalil57.github.io/suluk/packages/agents/interfaces/SelectResult.html</loc>
-		<lastmod>2026-07-02T00:04:24.008Z</lastmod>
+		<lastmod>2026-07-02T00:50:10.032Z</lastmod>
 	</url>
 </urlset>

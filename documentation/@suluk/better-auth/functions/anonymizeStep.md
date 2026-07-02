@@ -8,7 +8,7 @@
 
 > **anonymizeStep**\<`U`\>(`name`, `run`): [`CascadeStep`](../interfaces/CascadeStep.md)\<`U`\>
 
-Defined in: [erasure.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/better-auth/src/erasure.ts#L35)
+Defined in: [erasure.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/erasure.ts#L35)
 
 An ANONYMIZE step — keep the row, scrub its PII (the FK-safe posture; recommended default).
 

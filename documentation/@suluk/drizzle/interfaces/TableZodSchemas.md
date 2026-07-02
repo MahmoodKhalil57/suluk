@@ -6,7 +6,7 @@
 
 # Interface: TableZodSchemas
 
-Defined in: [schemas.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/schemas.ts#L15)
+Defined in: [schemas.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/schemas.ts#L15)
 
 The three Zod projections of a table.
 
@@ -16,7 +16,7 @@ The three Zod projections of a table.
 
 > **insert**: `ZodType`
 
-Defined in: [schemas.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/schemas.ts#L19)
+Defined in: [schemas.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/schemas.ts#L19)
 
 Write shape — notNull-AND-no-default columns required; PK/defaulted/nullable relaxed (createInsertSchema).
 
@@ -26,7 +26,7 @@ Write shape — notNull-AND-no-default columns required; PK/defaulted/nullable r
 
 > **select**: `ZodType`
 
-Defined in: [schemas.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/schemas.ts#L17)
+Defined in: [schemas.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/schemas.ts#L17)
 
 Full row shape — every column required (createSelectSchema).
 
@@ -36,6 +36,6 @@ Full row shape — every column required (createSelectSchema).
 
 > **update**: `ZodType`
 
-Defined in: [schemas.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/schemas.ts#L21)
+Defined in: [schemas.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/schemas.ts#L21)
 
 Partial write shape — every insert field optional (insert.partial()), for PATCH.

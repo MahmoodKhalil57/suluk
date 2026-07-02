@@ -8,7 +8,7 @@
 
 > **projectCloudflareAgent**(`doc`, `agentName`, `opts?`): [`CloudflareAgentArtifacts`](../interfaces/CloudflareAgentArtifacts.md)
 
-Defined in: [agents/src/cloudflare.ts:119](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/cloudflare.ts#L119)
+Defined in: [agents/src/cloudflare.ts:119](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/cloudflare.ts#L119)
 
 Project an agent → an owned Cloudflare Agents-SDK scaffold + the Durable Object descriptors. Pure, fail-loud.
 Scaffolds the named agent AND every reachable sub-agent (each its own DO class file); the worker binds them all.

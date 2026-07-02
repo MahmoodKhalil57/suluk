@@ -8,7 +8,7 @@
 
 > **entitiesFromDoc**(`doc`): [`Entity`](../../builder/interfaces/Entity.md)[]
 
-Defined in: [cockpit/src/builder.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/builder.ts#L22)
+Defined in: [cockpit/src/builder.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/builder.ts#L22)
 
 Each components.schemas entry becomes a builder entity.
 

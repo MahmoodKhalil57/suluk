@@ -6,7 +6,7 @@
 
 # Interface: PromoteResult
 
-Defined in: [journeys/src/promote.ts:141](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/promote.ts#L141)
+Defined in: [journeys/src/promote.ts:141](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/promote.ts#L141)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/promote.ts:141](https://github.com/MahmoodKhalil57/sul
 
 > **changed**: `boolean`
 
-Defined in: [journeys/src/promote.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/promote.ts#L143)
+Defined in: [journeys/src/promote.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/promote.ts#L143)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [journeys/src/promote.ts:143](https://github.com/MahmoodKhalil57/sul
 
 > **reason**: `string`
 
-Defined in: [journeys/src/promote.ts:144](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/promote.ts#L144)
+Defined in: [journeys/src/promote.ts:144](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/promote.ts#L144)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [journeys/src/promote.ts:144](https://github.com/MahmoodKhalil57/sul
 
 > **source**: `string`
 
-Defined in: [journeys/src/promote.ts:142](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/journeys/src/promote.ts#L142)
+Defined in: [journeys/src/promote.ts:142](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/journeys/src/promote.ts#L142)

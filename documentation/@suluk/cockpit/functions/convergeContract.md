@@ -8,7 +8,7 @@
 
 > **convergeContract**(`doc`): [`ConvergeReport`](../interfaces/ConvergeReport.md)
 
-Defined in: [cockpit/src/converge.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/converge.ts#L59)
+Defined in: [cockpit/src/converge.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/converge.ts#L59)
 
 Audit a contract for coherence contradictions a clean merge can still leave behind.
 

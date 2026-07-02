@@ -8,7 +8,7 @@
 
 > **assertDefaultServedResident**(`doc`, `agentName`, `defaultServedToolNames`): [`ConformanceFinding`](../interfaces/ConformanceFinding.md)[]
 
-Defined in: [agents/src/conformance.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/conformance.ts#L92)
+Defined in: [agents/src/conformance.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/conformance.ts#L92)
 
 TIER-TRIM CONFORMANCE: the DEFAULT served tool set must contain NO cold-tail tool (those belong behind
 `discover_tools`). A cold-tail tool in the default list is a silent no-op of the tier label — the reduction the

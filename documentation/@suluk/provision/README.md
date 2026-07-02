@@ -187,6 +187,7 @@ Apache-2.0
 - [cloudflareR2](functions/cloudflareR2.md)
 - [cloudflareSecrets](functions/cloudflareSecrets.md)
 - [cloudflareToken](functions/cloudflareToken.md)
+- [cloudflareWwwRedirect](functions/cloudflareWwwRedirect.md)
 - [defineProvision](functions/defineProvision.md)
 - [defineProvisionApp](functions/defineProvisionApp.md)
 - [depsOf](functions/depsOf.md)

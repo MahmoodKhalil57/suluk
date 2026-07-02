@@ -8,7 +8,7 @@
 
 > **memoryRateLimitStore**(): [`RateLimitStore`](../interfaces/RateLimitStore.md)
 
-Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/ratelimit.ts#L19)
+Defined in: [tooling/ts/packages/cloudflare/src/ratelimit.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/ratelimit.ts#L19)
 
 A per-instance in-memory fixed-window store — the fail-open fallback (DEV only / KV-blip; not cross-isolate).
 

@@ -6,7 +6,7 @@
 
 # Interface: DriftReport
 
-Defined in: [provision/src/check.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/check.ts#L10)
+Defined in: [provision/src/check.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/check.ts#L10)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/check.ts:10](https://github.com/MahmoodKhalil57/suluk
 
 > **clean**: `boolean`
 
-Defined in: [provision/src/check.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/check.ts#L11)
+Defined in: [provision/src/check.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/check.ts#L11)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [provision/src/check.ts:11](https://github.com/MahmoodKhalil57/suluk
 
 > **drift**: [`PlanStep`](PlanStep.md)[]
 
-Defined in: [provision/src/check.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/check.ts#L13)
+Defined in: [provision/src/check.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/check.ts#L13)
 
 the steps that would change something (create/update/deprovision) — empty when in sync.
 
@@ -32,4 +32,4 @@ the steps that would change something (create/update/deprovision) — empty when
 
 > **orphans**: `string`[]
 
-Defined in: [provision/src/check.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/check.ts#L14)
+Defined in: [provision/src/check.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/check.ts#L14)

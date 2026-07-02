@@ -6,7 +6,7 @@
 
 # Enumeration: AuthenticationType
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L23)
+Defined in: [tooling/ts/packages/payments/src/types.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L23)
 
 3-D Secure preference.
 
@@ -16,7 +16,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:23](https://github.com/Ma
 
 > **NO\_THREE\_DS**: `"NO_THREE_DS"`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L24)
+Defined in: [tooling/ts/packages/payments/src/types.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L24)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:24](https://github.com/Ma
 
 > **THREE\_DS**: `"THREE_DS"`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L25)
+Defined in: [tooling/ts/packages/payments/src/types.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L25)

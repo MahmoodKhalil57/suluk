@@ -8,7 +8,7 @@
 
 > `const` **TITLE\_BY\_TAG**: `Readonly`\<`Record`\<[`ErrorTag`](../type-aliases/ErrorTag.md), `string`\>\>
 
-Defined in: [errors.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/errors.ts#L49)
+Defined in: [errors.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/errors.ts#L49)
 
 Human-readable `title` per tag (RFC-9457 §3.1.1: `title` is human, `type` is the machine id). The STATIC
 saastarter strings are ported verbatim where one exists; the rest derive a sensible title (saastarter built

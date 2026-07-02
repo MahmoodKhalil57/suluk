@@ -8,7 +8,7 @@
 
 > **generateSdk**(`doc`, `opts?`): `string`
 
-Defined in: [generate.ts:155](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/sdk/src/generate.ts#L155)
+Defined in: [generate.ts:155](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/sdk/src/generate.ts#L155)
 
 `@suluk/sdk` — generate a complete, intuitive TypeScript SDK from a v4 "Suluk" contract. ofetch-based,
 entity-grouped, fully typed, auth wired, and the v4 superpowers (declared cost + access) surfaced as typed

@@ -6,7 +6,7 @@
 
 # Interface: Entity
 
-Defined in: [fullstack.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/fullstack.ts#L21)
+Defined in: [fullstack.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/fullstack.ts#L21)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [fullstack.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b47
 
 > **name**: `string`
 
-Defined in: [fullstack.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/fullstack.ts#L22)
+Defined in: [fullstack.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/fullstack.ts#L22)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [fullstack.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/3b47
 
 > **schema**: [`SchemaOrRef`](../../core/type-aliases/SchemaOrRef.md)
 
-Defined in: [fullstack.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/fullstack.ts#L23)
+Defined in: [fullstack.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/fullstack.ts#L23)

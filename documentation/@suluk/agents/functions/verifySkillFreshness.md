@@ -8,7 +8,7 @@
 
 > **verifySkillFreshness**(`declaredHash`, `currentSnapshot`): [`ConformanceFinding`](../interfaces/ConformanceFinding.md)[]
 
-Defined in: [agents/src/conformance.ts:121](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/conformance.ts#L121)
+Defined in: [agents/src/conformance.ts:121](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/conformance.ts#L121)
 
 SKILL-FRESHNESS: a skill's declared `provenance.contentHash` must match the hash of the CURRENT served snapshot.
 A mismatch means the served preprompt drifted after the contentHash was minted — an unsigned change in production

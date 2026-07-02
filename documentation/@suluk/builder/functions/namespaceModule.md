@@ -8,7 +8,7 @@
 
 > **namespaceModule**(`mod`, `prefix`): [`SulukModule`](../interfaces/SulukModule.md)
 
-Defined in: [module.ts:208](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/module.ts#L208)
+Defined in: [module.ts:208](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/module.ts#L208)
 
 Resolve a collision by NAMESPACING a module: prefix its OWNED entities, rewrite internal $refs that point to
 them, and remap auto-CRUD cost keys accordingly. `requires` refs (e.g. User) are left untouched so the module

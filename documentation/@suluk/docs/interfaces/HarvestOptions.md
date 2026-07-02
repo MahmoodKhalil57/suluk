@@ -6,7 +6,7 @@
 
 # Interface: HarvestOptions
 
-Defined in: [harvest.ts:129](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/docs/src/harvest.ts#L129)
+Defined in: [harvest.ts:129](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/docs/src/harvest.ts#L129)
 
 `@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
 (package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one
@@ -18,7 +18,7 @@ stylesheet, deployable to GitHub Pages with zero build. Suluk documents itself w
 
 > `optional` **architecturePath?**: `string`
 
-Defined in: [harvest.ts:135](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/docs/src/harvest.ts#L135)
+Defined in: [harvest.ts:135](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/docs/src/harvest.ts#L135)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [harvest.ts:135](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > **description**: `string`
 
-Defined in: [harvest.ts:133](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/docs/src/harvest.ts#L133)
+Defined in: [harvest.ts:133](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/docs/src/harvest.ts#L133)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [harvest.ts:133](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > `optional` **excludePrivate?**: `boolean`
 
-Defined in: [harvest.ts:139](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/docs/src/harvest.ts#L139)
+Defined in: [harvest.ts:139](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/docs/src/harvest.ts#L139)
 
 Exclude private/example packages from the public docs (default false — include them, flagged).
 
@@ -44,7 +44,7 @@ Exclude private/example packages from the public docs (default false — include
 
 > **packagesDir**: `string`
 
-Defined in: [harvest.ts:130](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/docs/src/harvest.ts#L130)
+Defined in: [harvest.ts:130](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/docs/src/harvest.ts#L130)
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: [harvest.ts:130](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > `optional` **repoRoot?**: `string`
 
-Defined in: [harvest.ts:137](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/docs/src/harvest.ts#L137)
+Defined in: [harvest.ts:137](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/docs/src/harvest.ts#L137)
 
 Repo root — when given, each package's README links resolve against its path from here (→ GitHub blob URLs).
 
@@ -62,7 +62,7 @@ Repo root — when given, each package's README links resolve against its path f
 
 > **repoUrl**: `string`
 
-Defined in: [harvest.ts:134](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/docs/src/harvest.ts#L134)
+Defined in: [harvest.ts:134](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/docs/src/harvest.ts#L134)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [harvest.ts:134](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > **tagline**: `string`
 
-Defined in: [harvest.ts:132](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/docs/src/harvest.ts#L132)
+Defined in: [harvest.ts:132](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/docs/src/harvest.ts#L132)
 
 ***
 
@@ -78,4 +78,4 @@ Defined in: [harvest.ts:132](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > **title**: `string`
 
-Defined in: [harvest.ts:131](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/docs/src/harvest.ts#L131)
+Defined in: [harvest.ts:131](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/docs/src/harvest.ts#L131)

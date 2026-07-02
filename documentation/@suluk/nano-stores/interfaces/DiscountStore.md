@@ -6,7 +6,7 @@
 
 # Interface: DiscountStore
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/discount.ts#L30)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/discount.ts#L30)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:30](https://github.
 
 > **$discount**: `ReadableAtom`\<[`AppliedDiscount`](AppliedDiscount.md) \| `null`\>
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/discount.ts#L31)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/discount.ts#L31)
 
 ## Methods
 
@@ -22,7 +22,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:31](https://github.
 
 > **apply**(`d`): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/discount.ts#L34)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/discount.ts#L34)
 
 set the applied discount (after the app validated it).
 
@@ -42,7 +42,7 @@ set the applied discount (after the app validated it).
 
 > **clear**(): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/discount.ts#L36)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/discount.ts#L36)
 
 remove the applied discount.
 
@@ -56,7 +56,7 @@ remove the applied discount.
 
 > **destroy**(): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/discount.ts#L40)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/discount.ts#L40)
 
 detach sync listeners.
 
@@ -70,7 +70,7 @@ detach sync listeners.
 
 > **get**(): [`AppliedDiscount`](AppliedDiscount.md) \| `null`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/discount.ts#L32)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/discount.ts#L32)
 
 #### Returns
 
@@ -82,7 +82,7 @@ Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:32](https://github.
 
 > **reload**(): `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/nano-stores/src/discount.ts#L38)
+Defined in: [tooling/ts/packages/nano-stores/src/discount.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/nano-stores/src/discount.ts#L38)
 
 re-read from storage.
 

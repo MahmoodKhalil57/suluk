@@ -8,7 +8,7 @@
 
 > **enforceRateLimit**(`cfg`): `MiddlewareHandler`
 
-Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/hono/src/ratelimit.ts#L110)
+Defined in: [tooling/ts/packages/hono/src/ratelimit.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/hono/src/ratelimit.ts#L110)
 
 The facet-driven rate-limit gate. Apply once (typically after identity, alongside enforceAccess): every operation
 that DECLARES an `x-suluk-ratelimit` budget is metered; the rest pass untouched. On overflow → 429 + Retry-After.

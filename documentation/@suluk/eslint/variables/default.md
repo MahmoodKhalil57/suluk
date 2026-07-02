@@ -8,7 +8,7 @@
 
 > `const` **default**: `object`
 
-Defined in: [index.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/eslint/src/index.ts#L17)
+Defined in: index.ts:17
 
 ## Type Declaration
 

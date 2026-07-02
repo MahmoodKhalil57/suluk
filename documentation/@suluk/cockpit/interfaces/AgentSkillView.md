@@ -6,7 +6,7 @@
 
 # Interface: AgentSkillView
 
-Defined in: [cockpit/src/agents.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/agents.ts#L15)
+Defined in: [cockpit/src/agents.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/agents.ts#L15)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/agents.ts:15](https://github.com/MahmoodKhalil57/suluk/
 
 > **model**: `string`[]
 
-Defined in: [cockpit/src/agents.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/agents.ts#L17)
+Defined in: [cockpit/src/agents.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/agents.ts#L17)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/agents.ts:17](https://github.com/MahmoodKhalil57/suluk/
 
 > **name**: `string`
 
-Defined in: [cockpit/src/agents.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/agents.ts#L16)
+Defined in: [cockpit/src/agents.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/agents.ts#L16)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [cockpit/src/agents.ts:16](https://github.com/MahmoodKhalil57/suluk/
 
 > **pinned**: `boolean`
 
-Defined in: [cockpit/src/agents.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/agents.ts#L20)
+Defined in: [cockpit/src/agents.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/agents.ts#L20)
 
 has a provenance.contentHash ⇒ drift is detectable (the staleness binding).
 
@@ -40,7 +40,7 @@ has a provenance.contentHash ⇒ drift is detectable (the staleness binding).
 
 > `optional` **source?**: `string`
 
-Defined in: [cockpit/src/agents.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/agents.ts#L21)
+Defined in: [cockpit/src/agents.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/agents.ts#L21)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [cockpit/src/agents.ts:21](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **tier?**: `"resident"` \| `"cold-tail"`
 
-Defined in: [cockpit/src/agents.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/agents.ts#L18)
+Defined in: [cockpit/src/agents.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/agents.ts#L18)

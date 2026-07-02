@@ -6,7 +6,7 @@
 
 # Interface: AuthServiceOpts
 
-Defined in: [service.ts:146](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/service.ts#L146)
+Defined in: [service.ts:146](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L146)
 
 auth's serviceOpts: optionally activate the MCP OAuth server (Better Auth `mcp()` plugin).
 
@@ -16,4 +16,17 @@ auth's serviceOpts: optionally activate the MCP OAuth server (Better Auth `mcp()
 
 > `optional` **mcp?**: [`McpOAuthOpts`](McpOAuthOpts.md)
 
-Defined in: [service.ts:147](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/service.ts#L147)
+Defined in: [service.ts:151](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L151)
+
+LEGACY: the full MCP OAuth URL block. Prefer `mcpScopes` (URLs derived). Kept for back-compat with hand-authored URLs.
+
+***
+
+### mcpScopes?
+
+> `optional` **mcpScopes?**: `string`[]
+
+Defined in: [service.ts:149](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/service.ts#L149)
+
+C058: activate the MCP OAuth server by declaring its SCOPE SET — the loginPage/consentPage/resource URLs are DERIVED
+ from `LIVE_BASE_URL` (no host boilerplate). This is the single-source authoring path.

@@ -8,7 +8,7 @@
 
 > **CostBasis** = `"per-call"` \| `"per-unit"` \| `"per-token"` \| `"per-1k-tokens"` \| `"per-second"` \| `"per-request"` \| `"per-mb"`
 
-Defined in: [types.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cost/src/types.ts#L10)
+Defined in: [types.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cost/src/types.ts#L10)
 
 The cost model — what an operation declares it costs you, and what a single request actually cost.
 

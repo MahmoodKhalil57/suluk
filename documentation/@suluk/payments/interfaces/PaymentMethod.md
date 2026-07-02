@@ -6,7 +6,7 @@
 
 # Interface: PaymentMethod
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L82)
+Defined in: [tooling/ts/packages/payments/src/types.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L82)
 
 The payment instrument. Extend with wallet / bank-transfer as connectors gain coverage; card + token are the core.
  `token` is a saved/vaulted instrument id (the app's or the processor's vault — the library stores nothing).
@@ -17,7 +17,7 @@ The payment instrument. Extend with wallet / bank-transfer as connectors gain co
 
 > `optional` **card?**: [`CardDetails`](CardDetails.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L83)
+Defined in: [tooling/ts/packages/payments/src/types.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L83)
 
 ***
 
@@ -25,4 +25,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:83](https://github.com/Ma
 
 > `optional` **token?**: [`Secret`](../type-aliases/Secret.md)\<`string`\>
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/types.ts#L84)
+Defined in: [tooling/ts/packages/payments/src/types.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/types.ts#L84)

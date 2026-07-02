@@ -6,7 +6,7 @@
 
 # Interface: ColumnSpec
 
-Defined in: [spec.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/spec.ts#L55)
+Defined in: [spec.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/shadcn/src/spec.ts#L55)
 
 One table column, derived from a single object property.
 
@@ -16,7 +16,7 @@ One table column, derived from a single object property.
 
 > **header**: `string`
 
-Defined in: [spec.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/spec.ts#L59)
+Defined in: [spec.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/shadcn/src/spec.ts#L59)
 
 Column header (title if present, else the humanised key).
 
@@ -26,7 +26,7 @@ Column header (title if present, else the humanised key).
 
 > **key**: `string`
 
-Defined in: [spec.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/spec.ts#L57)
+Defined in: [spec.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/shadcn/src/spec.ts#L57)
 
 Property name = row accessor key.
 
@@ -36,6 +36,6 @@ Property name = row accessor key.
 
 > **type**: `string`
 
-Defined in: [spec.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/shadcn/src/spec.ts#L61)
+Defined in: [spec.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/shadcn/src/spec.ts#L61)
 
 The JSON Schema `type` of the property ("string"/"number"/… or "unknown").

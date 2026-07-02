@@ -6,7 +6,7 @@
 
 # Interface: EmailMessage
 
-Defined in: [provider.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L20)
+Defined in: [provider.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L20)
 
 A sendable message — a RenderedEmail plus addressing. The input to a provider.
 
@@ -24,7 +24,7 @@ A sendable message — a RenderedEmail plus addressing. The input to a provider.
 
 > `optional` **from?**: `string`
 
-Defined in: [provider.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L23)
+Defined in: [provider.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L23)
 
 override the provider's default From.
 
@@ -34,7 +34,7 @@ override the provider's default From.
 
 > **html**: `string`
 
-Defined in: [provider.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L15)
+Defined in: [provider.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L15)
 
 #### Inherited from
 
@@ -46,7 +46,7 @@ Defined in: [provider.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > `optional` **replyTo?**: `string`
 
-Defined in: [provider.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L24)
+Defined in: [provider.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L24)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [provider.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > **subject**: `string`
 
-Defined in: [provider.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L14)
+Defined in: [provider.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L14)
 
 #### Inherited from
 
@@ -66,7 +66,7 @@ Defined in: [provider.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > `optional` **text?**: `string`
 
-Defined in: [provider.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L16)
+Defined in: [provider.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L16)
 
 #### Inherited from
 
@@ -78,4 +78,4 @@ Defined in: [provider.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > **to**: `string` \| `string`[]
 
-Defined in: [provider.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L21)
+Defined in: [provider.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L21)

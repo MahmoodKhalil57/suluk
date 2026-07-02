@@ -6,7 +6,7 @@
 
 # Interface: SulukApproval
 
-Defined in: [types.ts:411](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L411)
+Defined in: [types.ts:411](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L411)
 
 HUMAN-IN-THE-LOOP APPROVAL facet (Stage 1.4). Like x-suluk-cost/access/ratelimit it is an ADVISORY vendor extension
 in the `x-suluk-*` namespace — the facet DECLARES the gate; a runtime adapter ENFORCES it (e.g. @suluk/agents'
@@ -20,7 +20,7 @@ never be pressured into a dynamic dispatch decision; the gate is "this action, a
 
 > `optional` **reason?**: `string`
 
-Defined in: [types.ts:415](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L415)
+Defined in: [types.ts:415](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L415)
 
 why approval is needed — shown to the human approver and in docs.
 
@@ -30,6 +30,6 @@ why approval is needed — shown to the human approver and in docs.
 
 > **required**: `boolean`
 
-Defined in: [types.ts:413](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/core/src/types.ts#L413)
+Defined in: [types.ts:413](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/core/src/types.ts#L413)
 
 require human approval before this operation runs as an agent tool.

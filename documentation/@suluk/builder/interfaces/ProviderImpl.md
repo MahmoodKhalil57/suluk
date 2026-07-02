@@ -6,7 +6,7 @@
 
 # Interface: ProviderImpl
 
-Defined in: [providers.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/providers.ts#L9)
+Defined in: [providers.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/providers.ts#L9)
 
 Provider SLOTS (M3) — "swap out a provider you chose." A module declares `providerSlots` (e.g.
 `{ payments: "stripe" }`); installModule records them into the document as `x-suluk-providers`. Each facet
@@ -21,7 +21,7 @@ is unchanged — only the runtime binding differs. Pure (no host) → unit-teste
 
 > **description**: `string`
 
-Defined in: [providers.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/providers.ts#L15)
+Defined in: [providers.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/providers.ts#L15)
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: [providers.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b47
 
 > **facet**: `string`
 
-Defined in: [providers.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/providers.ts#L11)
+Defined in: [providers.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/providers.ts#L11)
 
 ***
 
@@ -37,7 +37,7 @@ Defined in: [providers.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/3b47
 
 > **id**: `string`
 
-Defined in: [providers.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/providers.ts#L10)
+Defined in: [providers.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/providers.ts#L10)
 
 ***
 
@@ -45,7 +45,7 @@ Defined in: [providers.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/3b47
 
 > `optional` **pkg?**: `string`
 
-Defined in: [providers.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/providers.ts#L14)
+Defined in: [providers.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/providers.ts#L14)
 
 the `@suluk` package (or ecosystem source) that implements this binding, if any
 
@@ -55,4 +55,4 @@ the `@suluk` package (or ecosystem source) that implements this binding, if any
 
 > **title**: `string`
 
-Defined in: [providers.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/providers.ts#L12)
+Defined in: [providers.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/providers.ts#L12)

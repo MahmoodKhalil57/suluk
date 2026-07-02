@@ -6,7 +6,7 @@
 
 # Interface: PanelGroup
 
-Defined in: [app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/panel/src/app.ts#L26)
+Defined in: [app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/panel/src/app.ts#L26)
 
 Sidebar grouping: a titled section listing entity names and/or section ids, in order.
 
@@ -16,7 +16,7 @@ Sidebar grouping: a titled section listing entity names and/or section ids, in o
 
 > `optional` **entities?**: `string`[]
 
-Defined in: [app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/panel/src/app.ts#L26)
+Defined in: [app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/panel/src/app.ts#L26)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136a
 
 > `optional` **sections?**: `string`[]
 
-Defined in: [app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/panel/src/app.ts#L26)
+Defined in: [app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/panel/src/app.ts#L26)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136a
 
 > **title**: `string`
 
-Defined in: [app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/panel/src/app.ts#L26)
+Defined in: [app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/panel/src/app.ts#L26)

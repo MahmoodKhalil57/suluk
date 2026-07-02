@@ -8,7 +8,7 @@
 
 > **computeDiscountAmount**(`subtotalCents`, `d`): `number`
 
-Defined in: [pricing.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/payments/src/pricing.ts#L63)
+Defined in: [pricing.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/payments/src/pricing.ts#L63)
 
 The cents a discount removes from `subtotalCents` — ROUNDED to a whole cent and CLAMPED to [0, subtotal] so a
 discount can never exceed the order or go negative. Validation (eligibility) is `validateDiscount`; this is the

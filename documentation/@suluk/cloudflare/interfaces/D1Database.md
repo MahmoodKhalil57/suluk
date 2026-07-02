@@ -6,7 +6,7 @@
 
 # Interface: D1Database
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/resources.ts#L7)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/resources.ts#L7)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:7](https://github.c
 
 > **name**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/resources.ts#L9)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/resources.ts#L9)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:9](https://github.c
 
 > **uuid**: `string`
 
-Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cloudflare/src/resources.ts#L8)
+Defined in: [tooling/ts/packages/cloudflare/src/resources.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cloudflare/src/resources.ts#L8)

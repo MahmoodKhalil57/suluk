@@ -8,7 +8,7 @@
 
 > **layout**(`title`, `base`, `active`, `body`, `headHtml?`): `string`
 
-Defined in: [render.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/admin/src/render.ts#L17)
+Defined in: [render.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/admin/src/render.ts#L17)
 
 ## Parameters
 

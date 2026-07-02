@@ -6,7 +6,7 @@
 
 # Interface: OrderLine
 
-Defined in: [templates.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/templates.ts#L126)
+Defined in: [templates.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/templates.ts#L126)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [templates.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/3b4
 
 > **name**: `string`
 
-Defined in: [templates.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/templates.ts#L126)
+Defined in: [templates.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/templates.ts#L126)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [templates.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/3b4
 
 > **qty**: `number`
 
-Defined in: [templates.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/templates.ts#L126)
+Defined in: [templates.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/templates.ts#L126)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [templates.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/3b4
 
 > **totalCents**: `number`
 
-Defined in: [templates.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/templates.ts#L126)
+Defined in: [templates.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/templates.ts#L126)

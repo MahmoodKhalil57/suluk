@@ -6,7 +6,7 @@
 
 # Interface: PortalEntry
 
-Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/portal.ts#L9)
+Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/portal.ts#L9)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **badge?**: `string`
 
-Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/portal.ts#L9)
+Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/portal.ts#L9)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **description?**: `string`
 
-Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/portal.ts#L9)
+Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/portal.ts#L9)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk
 
 > **href**: `string`
 
-Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/portal.ts#L9)
+Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/portal.ts#L9)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk
 
 > **name**: `string`
 
-Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/portal.ts#L9)
+Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/portal.ts#L9)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk
 
 > **title**: `string`
 
-Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/portal.ts#L9)
+Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/portal.ts#L9)
 
 ***
 
@@ -54,4 +54,4 @@ Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **version?**: `string`
 
-Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/reference/src/portal.ts#L9)
+Defined in: [reference/src/portal.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/reference/src/portal.ts#L9)

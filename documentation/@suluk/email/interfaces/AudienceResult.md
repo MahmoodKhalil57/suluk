@@ -6,7 +6,7 @@
 
 # Interface: AudienceResult
 
-Defined in: [audience.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/audience.ts#L17)
+Defined in: [audience.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/audience.ts#L17)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [audience.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > `optional` **error?**: `string`
 
-Defined in: [audience.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/audience.ts#L21)
+Defined in: [audience.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/audience.ts#L21)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [audience.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > `optional` **id?**: `string`
 
-Defined in: [audience.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/audience.ts#L20)
+Defined in: [audience.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/audience.ts#L20)
 
 the provider's contact id, when upserted.
 
@@ -32,4 +32,4 @@ the provider's contact id, when upserted.
 
 > **ok**: `boolean`
 
-Defined in: [audience.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/audience.ts#L18)
+Defined in: [audience.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/audience.ts#L18)

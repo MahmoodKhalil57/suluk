@@ -8,7 +8,7 @@
 
 > **scopesToPermissions**(`scopes`): `Record`\<`string`, `string`[]\>
 
-Defined in: [apikey.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/better-auth/src/apikey.ts#L44)
+Defined in: [apikey.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/apikey.ts#L44)
 
 Flat scopes → Better Auth permissions. `["cart:read","cart:write"]` → `{ cart: ["read","write"] }`.
 Ported from saastarter scopes.ts:150-161 — `split(":")` destructures only the first two segments, so a malformed

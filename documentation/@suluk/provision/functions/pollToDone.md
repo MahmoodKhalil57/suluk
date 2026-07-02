@@ -8,7 +8,7 @@
 
 > **pollToDone**(`broker`, `req`, `poll`, `log`): `Promise`\<`void`\>
 
-Defined in: [provision/src/poll.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/poll.ts#L17)
+Defined in: [provision/src/poll.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/poll.ts#L17)
 
 Poll an async operation to a terminal state. Throws on "failed" or after `timeoutMs`.
 

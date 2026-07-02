@@ -8,7 +8,7 @@
 
 > **defineProvisionApp**(`app`): [`ProvisionApp`](../interfaces/ProvisionApp.md)
 
-Defined in: [provision/src/app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/app.ts#L26)
+Defined in: [provision/src/app.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/app.ts#L26)
 
 Validate + return a provision app config (the CLI imports this as the config file's default export).
 

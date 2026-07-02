@@ -6,7 +6,7 @@
 
 # Interface: AgentGradeOptions
 
-Defined in: [agents/src/grade.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/grade.ts#L63)
+Defined in: [agents/src/grade.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/grade.ts#L63)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/grade.ts:63](https://github.com/MahmoodKhalil57/suluk/bl
 
 > `optional` **catalog?**: [`ModelCatalog`](ModelCatalog.md)
 
-Defined in: [agents/src/grade.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/grade.ts#L67)
+Defined in: [agents/src/grade.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/grade.ts#L67)
 
 the @suluk/models catalog — enables the model-fit dimension (window vs estimated peak load).
 
@@ -24,7 +24,7 @@ the @suluk/models catalog — enables the model-fit dimension (window vs estimat
 
 > `optional` **instructions?**: `Record`\<`string`, `string`\>
 
-Defined in: [agents/src/grade.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/grade.ts#L65)
+Defined in: [agents/src/grade.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/grade.ts#L65)
 
 instruction snapshots keyed `"<agent>/<skill>"` — lets the context analyzer MEASURE instruction load (else lower-bound).
 
@@ -34,7 +34,7 @@ instruction snapshots keyed `"<agent>/<skill>"` — lets the context analyzer ME
 
 > `optional` **modelWindows?**: `Record`\<`string`, `number`\>
 
-Defined in: [agents/src/grade.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/grade.ts#L69)
+Defined in: [agents/src/grade.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/grade.ts#L69)
 
 per-id context-window overrides (tests/pins; takes precedence over the catalog).
 
@@ -44,7 +44,7 @@ per-id context-window overrides (tests/pins; takes precedence over the catalog).
 
 > `optional` **served?**: `string`[]
 
-Defined in: [agents/src/grade.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/grade.ts#L71)
+Defined in: [agents/src/grade.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/grade.ts#L71)
 
 the tools a server actually advertises by default — folds in the over-serve + cold-tail-in-default conformance checks.
 
@@ -54,6 +54,6 @@ the tools a server actually advertises by default — folds in the over-serve + 
 
 > `optional` **snapshots?**: `Record`\<`string`, `string`\>
 
-Defined in: [agents/src/grade.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/grade.ts#L73)
+Defined in: [agents/src/grade.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/grade.ts#L73)
 
 the CURRENT served instruction snapshot, keyed qualified `"<agent>/<skill>"` (wins) OR bare `"<skill>"` (back-compat) — same dual-accept as `instructions` + `verifyAgentFreshness`; folds in the skill-freshness (drift) check.

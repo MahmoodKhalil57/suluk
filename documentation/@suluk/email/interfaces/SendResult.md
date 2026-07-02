@@ -6,7 +6,7 @@
 
 # Interface: SendResult
 
-Defined in: [provider.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L27)
+Defined in: [provider.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L27)
 
 `@suluk/email` — the missing EmailProvider binding + a per-event/per-locale branded template set. The app RENDERS
 a message (pure, branded, localized via @suluk/i18n) and SENDS it through a swappable provider (consoleProvider in
@@ -19,7 +19,7 @@ dev; a Workers-safe resendProvider in prod). Never a hosted mailer — the provi
 
 > `optional` **costMicroUsd?**: `number`
 
-Defined in: [provider.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L33)
+Defined in: [provider.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L33)
 
 the third-party send cost in µ$, for @suluk/cost metering (advisory).
 
@@ -29,7 +29,7 @@ the third-party send cost in µ$, for @suluk/cost metering (advisory).
 
 > `optional` **error?**: `string`
 
-Defined in: [provider.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L31)
+Defined in: [provider.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L31)
 
 ***
 
@@ -37,7 +37,7 @@ Defined in: [provider.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/3b477
 
 > `optional` **id?**: `string`
 
-Defined in: [provider.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L30)
+Defined in: [provider.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L30)
 
 the provider's message id, when sent.
 
@@ -47,4 +47,4 @@ the provider's message id, when sent.
 
 > **ok**: `boolean`
 
-Defined in: [provider.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/email/src/provider.ts#L28)
+Defined in: [provider.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/email/src/provider.ts#L28)

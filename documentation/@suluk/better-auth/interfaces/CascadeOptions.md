@@ -6,7 +6,7 @@
 
 # Interface: CascadeOptions
 
-Defined in: [erasure.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/better-auth/src/erasure.ts#L21)
+Defined in: [erasure.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/erasure.ts#L21)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [erasure.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/3b4775
 
 > `optional` **continueOnError?**: `boolean`
 
-Defined in: [erasure.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/better-auth/src/erasure.ts#L24)
+Defined in: [erasure.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/erasure.ts#L24)
 
 if a step throws: log + continue (true), or ABORT the whole cascade (false — the fail-closed default, so a
  failed cleanup never silently half-erases and then deletes the user).
@@ -25,7 +25,7 @@ if a step throws: log + continue (true), or ABORT the whole cascade (false — t
 
 > `optional` **log?**: (`step`, `error`) => `void`
 
-Defined in: [erasure.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/better-auth/src/erasure.ts#L26)
+Defined in: [erasure.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/better-auth/src/erasure.ts#L26)
 
 diagnostics sink (default console.error).
 

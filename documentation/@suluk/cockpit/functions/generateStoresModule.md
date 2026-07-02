@@ -8,7 +8,7 @@
 
 > **generateStoresModule**(`doc`, `opts?`): `string`
 
-Defined in: [cockpit/src/codegen.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/cockpit/src/codegen.ts#L40)
+Defined in: [cockpit/src/codegen.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/cockpit/src/codegen.ts#L40)
 
 Generate the Nano Stores client wiring. @suluk/nano-stores is a runtime helper (createApiStores(routes)),
 so the "codegen" is a thin, honest scaffold: it wires the user's RouteContracts to a typed store client and

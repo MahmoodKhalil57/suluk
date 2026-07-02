@@ -8,7 +8,7 @@
 
 > **rowsChanged**(`result`): `number`
 
-Defined in: [cas.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/cas.ts#L15)
+Defined in: [cas.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/cas.ts#L15)
 
 The number of rows a write affected, normalized across drivers (0 when unknown).
 

@@ -8,7 +8,7 @@
 
 > **negotiateLocale**(`config`, `acceptLanguage`): `string`
 
-Defined in: [locale.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/i18n/src/locale.ts#L84)
+Defined in: [locale.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/i18n/src/locale.ts#L84)
 
 Negotiate the best supported locale from an `Accept-Language` header (q-weighted; exact then primary-subtag match).
 Returns the default when nothing matches. Used as a fallback when no `locale` cookie is set.

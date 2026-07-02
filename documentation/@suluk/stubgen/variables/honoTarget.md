@@ -8,6 +8,6 @@
 
 > `const` **honoTarget**: [`HandlerTarget`](../interfaces/HandlerTarget.md)
 
-Defined in: [index.ts:132](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/stubgen/src/index.ts#L132)
+Defined in: [index.ts:132](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/stubgen/src/index.ts#L132)
 
 A framework-generic Hono fallback target.

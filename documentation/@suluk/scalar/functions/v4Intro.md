@@ -8,7 +8,7 @@
 
 > **v4Intro**(`spec`): `void`
 
-Defined in: [index.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/scalar/src/index.ts#L126)
+Defined in: [index.ts:126](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/scalar/src/index.ts#L126)
 
 Prepend a short "this is a Suluk v4 contract" note (+ a cost-coverage tally) to the doc intro Scalar shows up top.
 

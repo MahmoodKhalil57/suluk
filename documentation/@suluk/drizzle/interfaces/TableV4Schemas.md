@@ -6,7 +6,7 @@
 
 # Interface: TableV4Schemas
 
-Defined in: [schemas.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/schemas.ts#L25)
+Defined in: [schemas.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/schemas.ts#L25)
 
 The three v4 Schema Objects, mirroring [TableZodSchemas](TableZodSchemas.md).
 
@@ -16,7 +16,7 @@ The three v4 Schema Objects, mirroring [TableZodSchemas](TableZodSchemas.md).
 
 > **insert**: [`Schema`](../../core/type-aliases/Schema.md)
 
-Defined in: [schemas.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/schemas.ts#L27)
+Defined in: [schemas.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/schemas.ts#L27)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [schemas.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/3b4775
 
 > **select**: [`Schema`](../../core/type-aliases/Schema.md)
 
-Defined in: [schemas.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/schemas.ts#L26)
+Defined in: [schemas.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/schemas.ts#L26)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [schemas.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/3b4775
 
 > **update**: [`Schema`](../../core/type-aliases/Schema.md)
 
-Defined in: [schemas.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/drizzle/src/schemas.ts#L28)
+Defined in: [schemas.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/drizzle/src/schemas.ts#L28)

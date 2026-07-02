@@ -6,7 +6,7 @@
 
 # Interface: AssertOptions
 
-Defined in: [schema.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/env/src/schema.ts#L43)
+Defined in: [schema.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L43)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [schema.ts:43](https://github.com/MahmoodKhalil57/suluk/blob/3b47751
 
 > `optional` **allow?**: `string`[]
 
-Defined in: [schema.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/env/src/schema.ts#L47)
+Defined in: [schema.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L47)
 
 var names whose ERRORS are downgraded to allowed (an explicit, auditable override).
 
@@ -24,7 +24,7 @@ var names whose ERRORS are downgraded to allowed (an explicit, auditable overrid
 
 > `optional` **onWarn?**: (`issue`) => `void`
 
-Defined in: [schema.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/env/src/schema.ts#L49)
+Defined in: [schema.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L49)
 
 called once per warning (e.g. console.warn) — assertEnv never throws on warnings.
 
@@ -44,6 +44,6 @@ called once per warning (e.g. console.warn) — assertEnv never throws on warnin
 
 > `optional` **surface?**: [`Surface`](../type-aliases/Surface.md)
 
-Defined in: [schema.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/env/src/schema.ts#L45)
+Defined in: [schema.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/env/src/schema.ts#L45)
 
 the surface being validated (gates requiredInSurface + forbidInSurface).

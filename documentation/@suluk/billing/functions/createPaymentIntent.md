@@ -8,7 +8,7 @@
 
 > **createPaymentIntent**(`cfg`, `customerId`, `amountCents`, `meta`): `Promise`\<`string`\>
 
-Defined in: [packages/billing/src/billing.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/billing/src/billing.ts#L30)
+Defined in: [packages/billing/src/billing.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/billing/src/billing.ts#L30)
 
 Create a PaymentIntent for an on-site one-time top-up (saves the card; the webhook credits it). Returns the client secret.
 

@@ -8,7 +8,7 @@
 
 > **toShadcnRegistry**(`app`, `opts?`): `ShadcnRegistry`
 
-Defined in: [registry-shadcn.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/builder/src/registry-shadcn.ts#L79)
+Defined in: [registry-shadcn.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/builder/src/registry-shadcn.ts#L79)
 
 Convert a BuiltApp into a shadcn registry: one "block" item per entity bundling its frontend components +
 backend routes module + its v4 schema, plus one "page" item per generated page.

@@ -6,7 +6,7 @@
 
 # Interface: BrandManifest
 
-Defined in: [manifest.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/manifest.ts#L75)
+Defined in: [manifest.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/manifest.ts#L80)
 
 A BRAND — thin, swappable per deployment. Carries the app identity + the brand-facing opts (→ `[vars]`).
 
@@ -16,7 +16,7 @@ A BRAND — thin, swappable per deployment. Carries the app identity + the brand
 
 > `optional` **brandOpts?**: `Record`\<`string`, `Record`\<`string`, `unknown`\>\>
 
-Defined in: [manifest.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/manifest.ts#L81)
+Defined in: [manifest.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/manifest.ts#L86)
 
 per-service brand-facing opts → `[vars]`.
 
@@ -26,7 +26,7 @@ per-service brand-facing opts → `[vars]`.
 
 > `optional` **globalBrandOpts?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [manifest.ts:79](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/manifest.ts#L79)
+Defined in: [manifest.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/manifest.ts#L84)
 
 brand identity shared by every service (BRAND_NAME, baseUrl, emailFrom, …) → `[vars]`.
 
@@ -36,7 +36,7 @@ brand identity shared by every service (BRAND_NAME, baseUrl, emailFrom, …) →
 
 > **name**: `string`
 
-Defined in: [manifest.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/manifest.ts#L77)
+Defined in: [manifest.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/manifest.ts#L82)
 
 the deployment/app name (the wrangler + package name). Differs per brand of the same system.
 
@@ -46,6 +46,6 @@ the deployment/app name (the wrangler + package name). Differs per brand of the 
 
 > `optional` **wireBrandOpts?**: `Record`\<`string`, `Record`\<`string`, `unknown`\>\>
 
-Defined in: [manifest.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/platform/src/manifest.ts#L83)
+Defined in: [manifest.ts:88](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/platform/src/manifest.ts#L88)
 
 brand-tunable EDGE params keyed by `wire.id` (Phase 3).

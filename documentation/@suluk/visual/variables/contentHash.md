@@ -8,7 +8,7 @@
 
 > `const` **contentHash**: (`input`) => `string` = `hash`
 
-Defined in: [baseline.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/visual/src/baseline.ts#L20)
+Defined in: [baseline.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/visual/src/baseline.ts#L20)
 
 Hash of the render-affecting source of a primitive (its component code, variant, tokens).
 

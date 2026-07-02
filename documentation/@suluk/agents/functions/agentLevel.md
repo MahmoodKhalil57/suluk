@@ -8,7 +8,7 @@
 
 > **agentLevel**(`doc`, `name`): `number`
 
-Defined in: [agents/src/pyramid.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/pyramid.ts#L33)
+Defined in: [agents/src/pyramid.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/pyramid.ts#L33)
 
 An agent's pyramid LEVEL: its composition height above the deterministic route-floor. A leaf agent (skills/routes
 only, no sub-agents) is **1** (it composes only the floor). An agent that composes sub-agents is **1 + max(child

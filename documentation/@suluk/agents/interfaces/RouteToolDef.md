@@ -6,7 +6,7 @@
 
 # Interface: RouteToolDef
 
-Defined in: [agents/src/runtime-shared.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/runtime-shared.ts#L60)
+Defined in: [agents/src/runtime-shared.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/runtime-shared.ts#L60)
 
 A tool DERIVED from a route's operation — the runtime-agnostic shape every adapter renders its own way.
 
@@ -16,7 +16,7 @@ A tool DERIVED from a route's operation — the runtime-agnostic shape every ada
 
 > `optional` **approval?**: `object`
 
-Defined in: [agents/src/runtime-shared.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/runtime-shared.ts#L68)
+Defined in: [agents/src/runtime-shared.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/runtime-shared.ts#L68)
 
 the HITL gate from x-suluk-approval, when required (projects to e.g. the Agents SDK `needsApproval`).
 
@@ -34,7 +34,7 @@ the HITL gate from x-suluk-approval, when required (projects to e.g. the Agents 
 
 > **description**: `string`
 
-Defined in: [agents/src/runtime-shared.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/runtime-shared.ts#L64)
+Defined in: [agents/src/runtime-shared.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/runtime-shared.ts#L64)
 
 the LLM-facing description (the operation's summary/description; falls through an empty summary).
 
@@ -44,7 +44,7 @@ the LLM-facing description (the operation's summary/description; falls through a
 
 > **key**: `string`
 
-Defined in: [agents/src/runtime-shared.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/runtime-shared.ts#L62)
+Defined in: [agents/src/runtime-shared.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/runtime-shared.ts#L62)
 
 the wire-level tool id (the route key).
 
@@ -54,7 +54,7 @@ the wire-level tool id (the route key).
 
 > **operationRef**: `string`
 
-Defined in: [agents/src/runtime-shared.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/runtime-shared.ts#L72)
+Defined in: [agents/src/runtime-shared.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/runtime-shared.ts#L72)
 
 the by-name operationRef the tool dispatches to (used in the execute stub).
 
@@ -64,7 +64,7 @@ the by-name operationRef the tool dispatches to (used in the execute stub).
 
 > `optional` **price?**: [`PaidToolPrice`](PaidToolPrice.md)
 
-Defined in: [agents/src/runtime-shared.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/runtime-shared.ts#L70)
+Defined in: [agents/src/runtime-shared.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/runtime-shared.ts#L70)
 
 the x402 paidTool price from x-suluk-cost, when a chargeable cost is declared (DECLARED, never enforced — C026).
 
@@ -74,6 +74,6 @@ the x402 paidTool price from x-suluk-cost, when a chargeable cost is declared (D
 
 > **schema**: [`SchemaOrRef`](../../core/type-aliases/SchemaOrRef.md)
 
-Defined in: [agents/src/runtime-shared.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/agents/src/runtime-shared.ts#L66)
+Defined in: [agents/src/runtime-shared.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/agents/src/runtime-shared.ts#L66)
 
 the input JSON Schema (the operation's body), fed verbatim to the runtime's tool factory.

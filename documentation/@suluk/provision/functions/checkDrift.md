@@ -8,7 +8,7 @@
 
 > **checkDrift**(`config`, `state`): [`DriftReport`](../interfaces/DriftReport.md)
 
-Defined in: [provision/src/check.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/3b4775136ad954f568d9664f2104b2703bb7a4fa/tooling/ts/packages/provision/src/check.ts#L18)
+Defined in: [provision/src/check.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/84f6cb98bf3145a19eb32e3dedc636cf3a1a9d0b/tooling/ts/packages/provision/src/check.ts#L18)
 
 Report whether live state matches the config (orphans counted only when pruning is the config default).
 
