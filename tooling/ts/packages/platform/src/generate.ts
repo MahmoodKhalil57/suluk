@@ -85,6 +85,12 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
   log("▸ writing provision.config.ts");
   await opts.write("provision.config.ts", plan.provisionConfig);
   written.push("src/index.ts", "provision.config.ts");
+  // the composed contract surface (one fragment per module) — only when the `contract` service is installed.
+  if (plan.contractOps) {
+    log("▸ writing src/contract.ops.ts");
+    await opts.write("src/contract.ops.ts", plan.contractOps);
+    written.push("src/contract.ops.ts");
+  }
   // the bun MOCK-PROVIDER dev server + the state-purge helper — only when the manifest sets `local: true`.
   if (plan.devEntry) {
     log("▸ writing src/dev.ts");

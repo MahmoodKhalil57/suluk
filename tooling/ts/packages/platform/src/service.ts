@@ -50,6 +50,8 @@ export interface EnvVar {
 export interface CatalogEntry {
   mount: Mount;
   provision?: { symbol: string; from: string };
+  /** the module's CONTRACT fragment — its `RouteContract[]` (ops), composed into `src/contract.ops.ts` (mirrors `provision`). */
+  contract?: { symbol: string; from: string };
   deps?: string[];
   env?: EnvVar[];
 }
@@ -109,6 +111,8 @@ export interface Service<SO = {}, BO = {}> {
   readonly registry?: string; // owning registry (multi-registry, Phase 4); default = the manifest's core alias
   readonly mount: Mount;
   readonly provision?: { symbol: string; from: string };
+  /** the module's CONTRACT fragment — its `RouteContract[]` (ops), composed into `src/contract.ops.ts` (mirrors `provision`). */
+  readonly contract?: { symbol: string; from: string };
   readonly deps?: string[];
   readonly env?: EnvVar[];
   readonly serviceOpts?: Schema<SO>; // how THIS service works       → the ENTRY (mount 2nd arg)      [Phase 2]
@@ -163,7 +167,7 @@ export interface CoreServiceOptsMap {
 /** Project a Service onto the legacy {@link CatalogEntry} shape the C051 generator reads. Field-for-field — so a derived
  *  CATALOG is behaviourally identical to the old hardcoded one (proven by the Phase-0 golden lock). */
 export function toCatalogEntry(s: Service): CatalogEntry {
-  return { mount: s.mount, provision: s.provision, deps: s.deps, env: s.env };
+  return { mount: s.mount, provision: s.provision, contract: s.contract, deps: s.deps, env: s.env };
 }
 
 /**
@@ -214,12 +218,13 @@ export const authService = defineService({
 });
 
 export const contractService = defineService({ id: "contract", mount: { kind: "middleware", symbol: "mountContract", from: "./routes/contract" }, deps: ["@suluk/hono", "zod"] });
-export const mcpService = defineService({ id: "mcp", mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" }, deps: ["@suluk/mcp", "better-auth"] });
+export const mcpService = defineService({ id: "mcp", mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" }, contract: { symbol: "mcpOps", from: "./contract/mcp" }, deps: ["@suluk/mcp", "better-auth"] });
 
 export const creditsService = defineService({
   id: "credits",
   mount: { kind: "route", path: "/api/credits", symbol: "creditsRoutes", from: "./routes/credits" },
   provision: { symbol: "creditsProvision", from: "./src/provision/credits" },
+  contract: { symbol: "creditsOps", from: "./contract/credits" },
   deps: ["@suluk/credits"],
   compose: {
     offers: {
@@ -246,12 +251,13 @@ export const creditsService = defineService({
   },
 });
 
-export const keysService = defineService({ id: "keys", mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" }, deps: ["@suluk/keys"] });
+export const keysService = defineService({ id: "keys", mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" }, contract: { symbol: "keysOps", from: "./contract/keys" }, deps: ["@suluk/keys"] });
 
 export const billingService = defineService({
   id: "billing",
   mount: { kind: "route", path: "/api/billing", symbol: "billingRoutes", from: "./routes/billing" },
   provision: { symbol: "billingProvision", from: "./src/provision/billing" },
+  contract: { symbol: "billingOps", from: "./contract/billing" },
   deps: ["@suluk/billing", "@suluk/payments", "@suluk/credits"],
   env: [
     { name: "STRIPE_SECRET_KEY", required: true, secret: true, hint: "your Stripe secret key" },
@@ -259,12 +265,13 @@ export const billingService = defineService({
   ],
 });
 
-export const costService = defineService({ id: "cost", mount: { kind: "route", path: "/api/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" }, deps: ["@suluk/cost"] });
-export const erasureService = defineService({ id: "erasure", mount: { kind: "route", path: "/api/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" }, deps: ["@suluk/better-auth"] });
+export const costService = defineService({ id: "cost", mount: { kind: "route", path: "/api/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" }, contract: { symbol: "costOps", from: "./contract/cost" }, deps: ["@suluk/cost"] });
+export const erasureService = defineService({ id: "erasure", mount: { kind: "route", path: "/api/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" }, contract: { symbol: "erasureOps", from: "./contract/erasure" }, deps: ["@suluk/better-auth"] });
 
 export const emailService = defineService({
   id: "email",
-  mount: { kind: "route", path: "/api/email", symbol: "emailRoutes", from: "./routes/email" }, // stateless binding — no provision fragment (C052)
+  mount: { kind: "route", path: "/api/email", symbol: "emailRoutes", from: "./routes/email" }, // stateless binding — no provision fragment (C052) // stateless binding — no provision fragment (C052)
+  contract: { symbol: "emailOps", from: "./contract/email" },
   deps: ["@suluk/email"],
   env: [
     { name: "RESEND_API_KEY", secret: true, hint: "omit → the console provider (dev)" },
@@ -279,6 +286,7 @@ export const webhooksService = defineService({
   id: "webhooks",
   mount: { kind: "route", path: "/api/webhooks", symbol: "webhooksRoutes", from: "./routes/webhooks" },
   provision: { symbol: "webhooksProvision", from: "./src/provision/webhooks" },
+  contract: { symbol: "webhooksOps", from: "./contract/webhooks" },
   deps: ["@suluk/payments"],
   env: [{ name: "STRIPE_WEBHOOK_SECRET", required: true, secret: true, hint: "verifies inbound Stripe events (POST /api/webhooks/stripe)" }],
 });
@@ -286,9 +294,9 @@ export const webhooksService = defineService({
 export const rateLimitService = defineService({ id: "rate-limit", mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" }, deps: ["@suluk/hono"] });
 export const rateCreditService = defineService({ id: "rate-credit", mount: { kind: "middleware", symbol: "mountRateCredit", from: "./services/rate-credit" } }); // credit-backed free-tier bucket (KV binding)
 export const i18nService = defineService({ id: "i18n", mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" }, deps: ["@suluk/i18n"] });
-export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, deps: ["@suluk/reference"] }); // derived — no provision
-export const adminService = defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, deps: ["@suluk/credits"], env: [{ name: "SUPERADMIN_EMAILS", secret: true, hint: "comma/space-separated admin emails → the admin scope (secret-surfaced so they stay out of git plaintext)" }] }); // reads existing tables — no provision
-export const logsService = defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" } });
+export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, contract: { symbol: "referenceOps", from: "./contract/reference" }, deps: ["@suluk/reference"] }); // derived — no provision
+export const adminService = defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, contract: { symbol: "adminOps", from: "./contract/admin" }, deps: ["@suluk/credits"], env: [{ name: "SUPERADMIN_EMAILS", secret: true, hint: "comma/space-separated admin emails → the admin scope (secret-surfaced so they stay out of git plaintext)" }] }); // reads existing tables — no provision
+export const logsService = defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" }, contract: { symbol: "logsOps", from: "./contract/logs" } });
 export const journeysService = defineService({ id: "journeys", mount: { kind: "dev" }, deps: ["@suluk/journeys"] });
 export const auditService = defineService({ id: "audit", mount: { kind: "dev" }, deps: ["@suluk/cockpit", "@suluk/harden"] });
 

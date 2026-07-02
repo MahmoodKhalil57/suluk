@@ -46,6 +46,7 @@ const UPDATE = process.env.UPDATE_GOLDEN === "1";
 const OUTPUTS: Record<string, string> = {
   entry: "src_index.ts",
   provisionConfig: "provision.config.ts",
+  contractOps: "src_contract.ops.ts",
   packageJson: "package.json",
   tsconfig: "tsconfig.json",
   componentsJson: "components.json",
