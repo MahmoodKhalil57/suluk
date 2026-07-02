@@ -1,0 +1,35 @@
+# C061 — `bun dev` runs KEYLESS on mocks out of the box (operator: "run dev with mock services to try out MOST of the
+# platform locally without adding a single key"). The mock-until-keyed promise (C057/C058/C059) was NOT actually deliverable:
+# `bun dev` died at a predev gate, and the misdirected `bun run provision` crashed. Four generator bugs, all fixed in
+# @suluk/platform 0.11.0, adversarially reviewed (5-agent workflow → GO-WITH-FIXES). Extends C057/C059.
+
+# THE FOUR ROOT CAUSES + fixes: (1) env-check (a DEPLOY/PROVISION readiness gate needing a keypair + encrypted secrets) was
+# wired as `predev` → BLOCKED bun dev; the current generator emits no predev but mergePackageJson let a STALE one survive a
+# regen → now pruned SURGICALLY (only when the value is the env-check invocation, so a legit app predev survives). (2) dev.ts
+# opened .suluk/dev.sqlite BEFORE the dir existed → SQLiteError on a fresh app → now mkdirSync(dirname(DB_PATH)) first; dev.ts
+# also forces ENVIRONMENT="development" so the mock providers arm (deployed Worker untouched — reads wrangler [vars]). (3)
+# provision.config.ts exported a bare defineProvision({instances}) but runCli needs a full ProvisionApp → opts.store.load
+# TypeError → now defineProvisionApp({config, brokers, store: fileStore(), sink: envSink(), migrations}); CloudflareClient uses
+# a non-empty fallback so construction never throws (read-only plan/status/check keyless; real apply fails clearly at the CF
+# API); provision.ts dynamic-imports the config AFTER loadEnvFile so brokers get decrypted creds. (4) the operator's stale .env
+# stored placeholder guidance as quoted VALUES (GOOGLE_CLIENT_ID="# optional…") → loadEnvFile read them as real keys →
+# disarmed every mock (the actual cause of the dev-login 404); current scaffold is header-only; the app is regenerated clean.
+claim keyless_bun_dev_on_mocks_out_of_the_box_four_generator_bugs_fixed: Bool @>=0.85 = True
+falsified_when keyless_bun_dev_on_mocks_out_of_the_box_four_generator_bugs_fixed == False
+
+# PROVEN on a fresh app AND the live ATF: bun dev boots on mocks (22 sqlite tables, .suluk/ created by the mkdir fix), the mock
+# any-email dev-login → 200 + a REAL session that resolves, MOST modules answer 200 keyless (credits/cost/logs/reference/admin/
+# email-inbox/openapi); suluk-provision plan works keyless; provision reaches the CF boundary instead of crashing. Published
+# @suluk/platform@0.11.0; ATF regenerated + adopted (suluk f0cfd05e, atf f298368). 148 platform tests pass, tsc clean.
+claim keyless_dev_proven_fresh_app_and_live_atf_most_modules_200_keyless: Bool @>=0.85 = True
+falsified_when keyless_dev_proven_fresh_app_and_live_atf_most_modules_200_keyless == False
+
+# HONEST BOUNDARY (the adversarial critic's finding, recorded not buried): keyless dev = MOST of the platform, NOT the WHOLE.
+# The MCP OAuth DISCOVERY routes (/.well-known/oauth-authorization-server + /oauth-protected-resource) 500 because
+# service.ts:241 renders the mcpAuthInstance capability as (env) => createAuth(env) WITHOUT the mcp() plugin. PRE-EXISTING (not
+# a regression from the four fixes), gated behind opt-in MCP OAuth (ATF enables mcpScopes so it IS live there), does NOT block
+# the MOST goal (MCP JSON-RPC works). The correct fix threads the auth mcp opts into the discovery instance — a composition-
+# engine change (build() gets only ctx.with, not the producer's resolved opts) needing golden re-verification, so it is a
+# DEFERRED follow-up, not grafted onto this publish. bcmea: "MOST" is bounded-true; "WHOLE" would be a bcmea-violation.
+claim mcp_oauth_discovery_500_pre_existing_deferred_keyless_is_most_not_whole: Bool @>=0.85 = True
+falsified_when mcp_oauth_discovery_500_pre_existing_deferred_keyless_is_most_not_whole == False
