@@ -1,0 +1,23 @@
+# C063 — the `reference` surface module renders via @suluk/scalar (operator: "remove registry/surfaces/reference and replace
+# it with one that uses @suluk/scalar, our v4-enhanced Scalar docs with extra features"). Swapped the RENDERER only
+# (@suluk/reference -> @suluk/scalar@0.8.0); the mount signature referenceRoutes({apiDocument}) is UNCHANGED, so the generator
+# wiring is byte-identical — minimal blast radius. Governed by C052 (own the wiring, npm the renderer). Extends C050 registry.
+
+# THE v4-ENHANCED EXPERIENCE (@suluk/scalar scalarV4Response): the pinned suluk-forked Scalar standalone renders v4
+# requests->operations NATIVELY (vanilla Scalar shows only Models); x-suluk-cost + x-suluk-access surface as badges; a "View
+# as" role projector (Anonymous / Full access) re-mounts Scalar with the chosen role's projection from a NEW GET
+# /api/reference/spec endpoint (enrichedSpec of apiDocument(principal); ?view=anon -> {scopes:[]} the public surface). GET
+# /api/reference/:tool still focuses on one op (owned focusOn). Delivery = registry files + registry.json pushed to main
+# (fetchRegistry pulls them) + catalog referenceService.deps -> @suluk/scalar so the generated package.json installs it;
+# @suluk/platform 0.12.0 -> 0.13.0 published; goldens re-cut.
+claim reference_module_renders_via_suluk_scalar_v4_enhanced_mount_signature_unchanged: Bool @>=0.85 = True
+falsified_when reference_module_renders_via_suluk_scalar_v4_enhanced_mount_signature_unchanged == False
+
+# VERIFIED end-to-end (fresh generated app AND live ATF): app tsc clean; GET /api/reference -> 200 HTML with the Scalar page
+# (standalone-suluk fork bundle + x-suluk-views View-as projector); GET /api/reference/spec?view=anon -> 200 enriched 3.1 JSON
+# (public projection); GET /api/reference/:tool -> 200 focused page. Suluk 78efab38, atf 9d0c01a. platform 148 tests pass, tsc
+# clean. Note: a FRESH app deps only @suluk/scalar; an EXISTING app that regenerates keeps a harmless stale @suluk/reference
+# dep (mergePackageJson unions deps + @suluk/reference is a legit package an app could use directly, so NOT auto-pruned) —
+# removed by hand from the ATF oracle. The docs site reflects it on the next operator deploy:docs.
+claim scalar_reference_proven_200_fresh_and_atf_stale_reference_dep_not_autopruned: Bool @>=0.85 = True
+falsified_when scalar_reference_proven_200_fresh_and_atf_stale_reference_dep_not_autopruned == False
