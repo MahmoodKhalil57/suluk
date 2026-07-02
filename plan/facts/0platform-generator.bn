@@ -267,3 +267,34 @@ falsified_when platform_c056_provisioning_env_completeness_ephemeral_master_life
 # Google/Stripe/Resend DO work locally post-provision via decrypted .env).
 claim platform_c057_mock_provider_local_dev_autodetect_built_proven_published_adopted: Bool @>=0.8 = True
 falsified_when platform_c057_mock_provider_local_dev_autodetect_built_proven_published_adopted == False
+
+# C058 — SINGLE-SOURCE URLs + SINGLE-ENVIRONMENT LIVE-ATTACH (2026-07-02, operator across 3 turns: "two urls BASE_URL +
+# LIVE_BASE_URL defined in one place without protocol; add protocol when needed + provision the www redirect; everywhere
+# else consumes that, no boilerplate" -> "enforce single environment that runs from local machine OR live workers on the SAME
+# services; later a high-level copy-paste for a production env; local CAN connect to live services, live workers CANT connect
+# to local mocks, that's fine" -> "mock oauth/payment/email must work in a live env connected to db+kv too; recommend purging
+# db+kv+state (R2 if added) on any mock<->real key swap or provision migration"). Settled via a 15-agent map+judge-panel
+# workflow (5 map lenses -> 3 stances -> judge+adversarial each -> synth). NAMING FIX (operator chose): LOCAL_BASE_URL +
+# LIVE_BASE_URL (NOT reusing BASE_URL, which is the DERIVED protocol-bearing var consumers read). AUTH-ON-LIVE (operator
+# override of the panel's prod-lockdown): KEEP the any-email dev-login working even on live services (dev data disposable) +
+# recommend purge. BUILT + PROVEN E2E + PUBLISHED + ADOPTED. PART 1: a PURE generator helper src/urls.ts (isLocal hostname-
+# only, withProtocol default-port-stripping, deriveUrls, apex) + resolve.ts deriveHosts bakes the LIVE-derived {BETTER_AUTH_URL,
+# BASE_URL, TRUSTED_ORIGINS[apex+www], EMAIL_FROM, mcp trio} into wrangler [vars] + the entry mcp mount, and the LOCAL-derived
+# set into src/dev.ts (localVars, PORT-rebased). GATED on LIVE_BASE_URL present AND no hand-authored BETTER_AUTH_URL -> the
+# legacy full-URL golden regenerates byte-identical (a new companion golden locks the two-host variant). 7 hand-authored URLs
+# across 3 sites collapse to 2 hosts; serviceOpts.auth.mcpScopes (typed) replaces the full mcp URL block. PART 2: @suluk/
+# cloudflare/live (new sqlite-free subpath) d1FromHttp (D1Database over queryD1 HTTP) + httpKvStore (KVNamespace over
+# kvGet/kvPut) — src/dev.ts attaches to the SAME live D1+KV as the Worker once provisioned (CF token+account + binding ids
+# parsed from wrangler.toml), else the C057 mock. BOTH-OR-NEITHER for state; auth/payment/email each mock-by-their-own-key
+# INDEPENDENTLY (mock providers work against LIVE state). scripts/purge-state.ts (+ startup/recommendation) clears local mock
+# state always + (with --yes) DROPs live D1 tables + clears KV; discoverTableNames added to /local. www->apex 301 via a new
+# cloudflareWwwRedirect broker (@suluk/provision) + resolveZoneId/ensureWwwRedirect/removeWwwRedirect (@suluk/cloudflare, first
+# zone-scoped capability). C052: ZERO new packages (@suluk/platform +urls.ts, @suluk/cloudflare +/live +zone helpers,
+# @suluk/provision +1 broker). Published cloudflare@0.4.0 provision@0.2.0 platform@0.6.0; autotoolfactory adopted (two-host
+# manifest, tsc clean bar the pre-existing openapi-compat nit). PROVEN: derived [vars]+mcp, dev boots (22 tables), dev-login
+# mints a real session on the DERIVED LOCAL url (http://localhost:PORT), PORT-rebase, purge clears local. CEILING 0.72 not
+# higher: the LIVE-ATTACH (local->real D1/KV over HTTP) + the www-redirect broker are UNIT-TESTED (stubbed client) but NOT run
+# end-to-end against a real Cloudflare account/zone (operator-gated, like C056's provision-apply) — the D1-over-HTTP is
+# auto-commit-per-call (batch non-atomic; documented) + raw()/db.values() maps by object-key order.
+claim platform_c058_single_source_urls_and_single_env_live_attach_built_proven_published_adopted: Bool @>=0.72 = True
+falsified_when platform_c058_single_source_urls_and_single_env_live_attach_built_proven_published_adopted == False
