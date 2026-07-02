@@ -13,6 +13,7 @@
 import type { PlatformManifest } from "./manifest";
 import type { Platform, SystemManifest, BrandManifest } from "./manifest";
 import { CORE_SERVICES } from "./service";
+import { deriveUrls } from "./urls";
 
 const isPlainObject = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
 const isScalar = (v: unknown): v is string | number | boolean => typeof v === "string" || typeof v === "number" || typeof v === "boolean";
@@ -71,6 +72,46 @@ export function resolveNodeOpts(system: SystemManifest, brand: BrandManifest): {
 
 /** env-shaped globalServiceOpts (system behaviour delivered as a runtime env var) — the rest of `vars` is brand identity. */
 const SYSTEM_VAR_NAMES = new Set(["TRUSTED_ORIGINS", "ENVIRONMENT"]);
+
+/**
+ * C058 — the single-source URL derivation, applied to a normalized {@link PlatformManifest} (BOTH authoring surfaces
+ * converge here). If the manifest declares `LIVE_BASE_URL` (a bare host) AND has NOT hand-authored `BETTER_AUTH_URL`
+ * (back-compat/golden-lock gate), derive every URL var: the WORKER `[vars]` from the LIVE host, the bun-dev env
+ * (`manifest.localVars`) from the LOCAL host, and — when `opts.auth.mcpScopes` is present — the mcp OAuth trio from LIVE.
+ * The two bare hosts + `EMAIL_DOMAIN`/`EXTRA_TRUSTED_ORIGINS` are DELETED from `vars` (pure inputs, never `[vars]`).
+ * Mutates the manifest in place; a no-op when the gate is off (a legacy full-URL manifest regenerates byte-for-byte).
+ */
+export function deriveHosts(manifest: PlatformManifest): void {
+  const vars = manifest.vars;
+  if (!vars) return;
+  const liveHost = vars.LIVE_BASE_URL;
+  if (!liveHost || vars.BETTER_AUTH_URL) return; // gate: opt-in via LIVE_BASE_URL + never override a hand-authored URL
+
+  const localHost = vars.LOCAL_BASE_URL ?? liveHost;
+  const scopes = (manifest.opts?.auth?.mcpScopes as string[] | undefined) ?? undefined;
+  const opts = { scopes, emailDomain: vars.EMAIL_DOMAIN, extraOrigins: (vars.EXTRA_TRUSTED_ORIGINS ?? "").split(",").map((s) => s.trim()).filter(Boolean) };
+
+  const live = deriveUrls(liveHost, liveHost, opts); // the deployed Worker: BASE_URL === the live URL
+  vars.BETTER_AUTH_URL = live.BETTER_AUTH_URL;
+  vars.BASE_URL = live.BASE_URL;
+  vars.TRUSTED_ORIGINS = live.TRUSTED_ORIGINS;
+  vars.EMAIL_FROM = live.EMAIL_FROM;
+  // mcp OAuth is opt-in via `mcpScopes` (an app without it stays non-MCP). Derive the URL trio; drop the raw scope input.
+  if (scopes?.length) {
+    manifest.opts = { ...(manifest.opts ?? {}), auth: { ...(manifest.opts?.auth ?? {}), mcp: live.mcp } };
+    delete (manifest.opts.auth as Record<string, unknown>).mcpScopes;
+  }
+
+  const local = deriveUrls(localHost, liveHost, opts); // the local bun-dev runtime: BASE_URL === the local URL
+  manifest.localVars = { BASE_URL: local.BASE_URL, BETTER_AUTH_URL: local.BETTER_AUTH_URL, TRUSTED_ORIGINS: local.TRUSTED_ORIGINS, EMAIL_FROM: local.EMAIL_FROM };
+  manifest.__localHost = localHost;
+
+  // the bare hosts + override knobs are derivation INPUTS — never emit them as `[vars]`.
+  delete vars.LIVE_BASE_URL;
+  delete vars.LOCAL_BASE_URL;
+  delete vars.EMAIL_DOMAIN;
+  delete vars.EXTRA_TRUSTED_ORIGINS;
+}
 
 /**
  * The MIGRATE direction — a legacy {@link PlatformManifest} → the C053 `{ system, brand }` split (the inverse of

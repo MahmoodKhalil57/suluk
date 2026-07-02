@@ -4,7 +4,7 @@
  * character.
  */
 import { type PlatformManifest, type Platform, isPlatform } from "./manifest";
-import { liftSystemBrand } from "./resolve";
+import { liftSystemBrand, deriveHosts } from "./resolve";
 import { resolveWiring, groupImports, type Wiring } from "./wire";
 import { CATALOG, CORE_SERVICES, orderServices, collectEnv, BASE_DEPS, DEV_DEPS, resolveVersion, type EnvVar, type Service } from "./catalog";
 
@@ -52,12 +52,23 @@ export interface PlatformPlan {
   /** the generated `src/dev.ts` — the bun MOCK-PROVIDER dev server (bun:sqlite DB + JSON KV + mocked providers when keys
    *  absent). Present ONLY when the manifest sets `local: true`; undefined otherwise (so the golden path is unchanged). */
   devEntry?: string;
+  /** the generated `scripts/purge-state.ts` — clears dev/live state (recommended on a mock↔real swap or a provision
+   *  migration). Present ONLY when `local: true`. */
+  purgeScript?: string;
 }
 
 export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
   // C053: a `{ system, brand }` platform lowers to the legacy manifest first, then the UNCHANGED lowering runs — so the
   // legacy path is byte-for-byte identical and the new surface is sugar over it.
-  const manifest = isPlatform(input) ? liftSystemBrand(input) : input;
+  const normalized = isPlatform(input) ? liftSystemBrand(input) : input;
+  // C058: the single-source URL derivation, on a PRIVATE copy so planPlatform never mutates the caller's manifest (the
+  // legacy full-URL manifest is a no-op — byte-identical). vars/opts are cloned; localVars/__localHost land on `manifest`.
+  const manifest: PlatformManifest = {
+    ...normalized,
+    ...(normalized.vars ? { vars: { ...normalized.vars } } : {}),
+    ...(normalized.opts ? { opts: structuredClone(normalized.opts) } : {}),
+  };
+  deriveHosts(manifest);
   // the EFFECTIVE catalog = core services + any inline (community) Service objects a `{system,brand}` platform carries. It
   // threads through EVERY emitter (mounts, provision, deps, env, wiring), so a community service contributes end-to-end. For
   // the legacy path and an all-core `{system,brand}` it === CORE_SERVICES → the Phase-0 golden lock still holds byte-for-byte.
@@ -91,7 +102,7 @@ export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
     provisionScript: buildProvisionScript(env),
     mintTokens: buildMintTokens(env),
     envScaffold: buildEnvScaffold(env),
-    ...(local ? { devEntry: buildDevEntry(services) } : {}),
+    ...(local ? { devEntry: buildDevEntry(services, manifest.localVars, manifest.__localHost), purgeScript: buildPurgeScript(services) } : {}),
   };
 }
 
@@ -524,6 +535,8 @@ process.exit(0);
 export function buildPackageJson(name: string, services: string[], catalog: Record<string, Service> = CORE_SERVICES, local = false): string {
   const deps = new Set<string>(BASE_DEPS);
   for (const s of services) for (const d of catalog[s]?.deps ?? []) deps.add(d);
+  // local mode's src/dev.ts imports @suluk/cloudflare (/local + /live facades + CloudflareClient) at runtime (dedup-safe).
+  if (local) deps.add("@suluk/cloudflare");
   const dependencies: Record<string, string> = {};
   for (const d of [...deps].sort()) dependencies[d] = resolveVersion(d);
   const pkg = {
@@ -536,7 +549,7 @@ export function buildPackageJson(name: string, services: string[], catalog: Reco
       // local mode: `dev` runs the bun mock-provider server (no keys needed → no env-check predev); `dev:cf` keeps wrangler.
       ...(local ? {} : { predev: "bun run scripts/env-check.ts" }), // (non-local) runs automatically before `dev`
       dev: local ? "bun run --hot src/dev.ts" : "wrangler dev",
-      ...(local ? { "dev:cf": "wrangler dev" } : {}),
+      ...(local ? { "dev:cf": "wrangler dev", purge: "bun run scripts/purge-state.ts" } : {}),
       deploy: "wrangler deploy",
       "env:keygen": "suluk-env keygen", // create the @suluk/env keypair (SULUK_PUBLIC_KEY → .env; private → .env.keys)
       "link-key": "bun run scripts/link-key.ts", // register the private key in ~/.suluk/settings.json (the central store)
@@ -592,9 +605,9 @@ function buildTsconfig(local = false): string {
       {
         compilerOptions: { module: "ESNext", target: "ESNext", moduleResolution: "bundler", types: ["node", "@cloudflare/workers-types"], skipLibCheck: true, strict: true, noEmit: true },
         include: ["src", "provision.config.ts", "platform.config.ts"],
-        // src/dev.ts is a bun-only runtime file (bun:sqlite + Bun globals), NOT Worker code — exclude it from the Worker
-        // typecheck (it pulls @suluk/cloudflare/local, which the workers-types config can't type); it's boot-tested instead.
-        exclude: ["src/**/*.test.ts", ...(local ? ["src/dev.ts"] : [])], // the bun:test journeys harness runs under `bun test`, not the Worker build
+        // src/dev.ts + scripts/purge-state.ts are bun-only (bun:sqlite + Bun globals + @suluk/cloudflare/local), NOT Worker
+        // code — exclude them from the Worker typecheck (the workers-types config can't type them); they're boot-tested instead.
+        exclude: ["src/**/*.test.ts", ...(local ? ["src/dev.ts", "scripts/purge-state.ts"] : [])], // the bun:test journeys harness runs under `bun test`, not the Worker build
       },
       null,
       2,
@@ -694,56 +707,142 @@ function buildEntry(services: string[], opts?: Record<string, Record<string, unk
  * no wrangler. Mock-until-keyed: it decrypts the committed `.env` if the app has been provisioned (real HTTP providers), else
  * every provider falls to its module's mock. The deployed Worker (`src/index.ts`) imports NONE of this — bun:sqlite stays out.
  */
-function buildDevEntry(services: string[]): string {
+function buildDevEntry(services: string[], localVars?: Record<string, string>, localHost?: string): string {
   const usesKv = services.includes("rate-credit");
   const usesEmail = services.includes("email");
+  // C058: the local-runtime URL vars (derived from LOCAL_BASE_URL) + the default PORT (from the local host, so BASE_URL's
+  // port matches what we serve on). `rebase` re-points any localhost URL at the actual PORT if the operator overrides it.
+  const localPort = (localHost ?? "").match(/:(\d+)$/)?.[1] ?? "8787";
+  const localVarsSetup = localVars && Object.keys(localVars).length
+    ? `\n// C058 — the LOCAL-runtime URL vars (BASE_URL/BETTER_AUTH_URL/TRUSTED_ORIGINS derived from LOCAL_BASE_URL), re-pointed at the actual PORT.\nconst LOCAL_VARS = ${JSON.stringify(localVars)};\nconst urls = Object.fromEntries(Object.entries(LOCAL_VARS).map(([k, v]) => [k, v.replace(/(localhost:)\\d+/g, \`$1\${PORT}\`)]));`
+    : "";
+  const localVarsBind = localVarsSetup ? "\n  ...urls," : "";
   const usesBilling = services.includes("billing");
   const localImports = ["d1FromSqlite", ...(usesKv ? ["jsonFileKvStore"] : []), ...(usesEmail ? ["jsonFileMailbox"] : []), "applyLocalSchema"];
+  const liveImports = ["d1FromHttp", ...(usesKv ? ["httpKvStore"] : [])];
   const billingImport = usesBilling ? '\nimport { mockStripeFetch } from "@suluk/billing";' : "";
-  const kvBind = usesKv ? "\n  RATE_CREDIT_KV: jsonFileKvStore(KV_PATH)," : "";
   const mailboxBind = usesEmail ? "\n  SULUK_MAILBOX_SINK: mailbox," : "";
-  // mock-until-keyed: only inject the Stripe fake when there is no real key (a provisioned app hits real Stripe).
+  // mock-until-keyed: only inject the Stripe fake when there is no real key (a provisioned app hits real Stripe). ORTHOGONAL
+  // to the state layer — a mock Stripe works against LIVE D1/KV too.
   const stripeInject = usesBilling
     ? '\nif (!env.STRIPE_SECRET_KEY) { env.STRIPE_SECRET_KEY = "sk_mock_local"; env.STRIPE_FETCH = mockStripeFetch(); }'
     : "";
   const mailboxRoute = usesEmail
     ? '\n// a dev-only inbox view of the emails the mock provider captured (never mounted on the deployed Worker).\napp.get("/api/email/dev/mailbox", async (c) => c.json(await mailbox.list()));\n'
     : "";
-  return `// AUTO-GENERATED by @suluk/platform — the bun MOCK-PROVIDER dev server. Runs the wired app under bun with a
-// bun:sqlite DB + JSON-file KV, so \`bun run dev\` works with ZERO Cloudflare account and no wrangler. A provider goes REAL
-// the moment its key is present (mock-until-keyed): add real keys to .env.temp + \`bun run provision\` and this file uses
-// them. NOTE: src/index.ts (the deployed Worker) imports NONE of these mocks — bun:sqlite never enters the Worker bundle.
+  const kvIdParse = usesKv ? '\nconst kvId = wrangler.match(/\\[\\[kv_namespaces\\]\\][\\s\\S]*?\\bid\\s*=\\s*"([^"]+)"/)?.[1];' : "";
+  const liveAttachCond = usesKv ? "cfToken && cfAccount && d1Id && kvId" : "cfToken && cfAccount && d1Id";
+  const kvDecl = usesKv ? "\nlet RATE_CREDIT_KV: unknown;" : "";
+  const liveKvAssign = usesKv ? "\n  RATE_CREDIT_KV = httpKvStore(new CloudflareClient({ apiToken: (S.CLOUDFLARE_KV_TOKEN ?? cfToken) as string, accountId: cfAccount! }), kvId!);" : "";
+  const mockKvAssign = usesKv ? "\n  RATE_CREDIT_KV = jsonFileKvStore(KV_PATH);" : "";
+  const kvEnvBind = usesKv ? "\n  RATE_CREDIT_KV," : "";
+  return `// AUTO-GENERATED by @suluk/platform — the bun dev server. Runs the wired app under bun so \`bun run dev\` works with
+// ZERO Cloudflare account and no wrangler. SINGLE ENVIRONMENT, MOCK-UNTIL-KEYED, per-layer + per-provider:
+//  • STATE (D1+KV): once PROVISIONED (CF token + account + binding ids) it attaches to the SAME LIVE services as the Worker
+//    over the Cloudflare HTTP API; a fresh app uses a local bun:sqlite + JSON-file mock. Both-or-neither (never split state).
+//  • PROVIDERS (Google/Stripe/Resend): each real when ITS key is present, else its module's mock — INDEPENDENT of the state
+//    layer, so a mock login/payment/email works against LIVE D1/KV too. RECOMMEND \`bun run purge\` when you swap a mock for a
+//    real key (or vice-versa) or migrate the provision — the old state's shape may not match.
+// NOTE: src/index.ts (the deployed Worker) imports NONE of this — bun:sqlite/mocks never enter the Worker bundle.
 import { app } from "./index";
 import { Database } from "bun:sqlite";
-import { ${localImports.join(", ")} } from "@suluk/cloudflare/local";${billingImport}
+import { ${localImports.join(", ")} } from "@suluk/cloudflare/local";
+import { ${liveImports.join(", ")} } from "@suluk/cloudflare/live";
+import { CloudflareClient } from "@suluk/cloudflare";${billingImport}
 import { loadEnvFile } from "@suluk/env/node";
 
 const DB_PATH = process.env.SULUK_DB_PATH ?? ".suluk/dev.sqlite";${usesKv ? '\nconst KV_PATH = process.env.SULUK_KV_PATH ?? ".suluk/dev-kv.json";' : ""}${usesEmail ? '\nconst MAILBOX_PATH = process.env.SULUK_MAILBOX_PATH ?? ".suluk/dev-mailbox.json";' : ""}
-const PORT = Number(process.env.PORT ?? 8787);
-
-const sqlite = new Database(DB_PATH, { create: true });
-const tables = await applyLocalSchema(sqlite); // discover src/db/*.ts + create the tables from the drizzle schema
-console.log(\`[suluk dev] sqlite \${DB_PATH} — \${tables.length} tables\`);
+const PORT = Number(process.env.PORT ?? ${localPort});${localVarsSetup}
 ${usesEmail ? "const mailbox = jsonFileMailbox(MAILBOX_PATH); // a local inbox the mock email provider saves to\n" : ""}
 // Real secrets (if this app has been provisioned): decrypt the committed .env with the local private key. Fresh app / no
 // key → {} → every provider mocks. Best-effort: a decryption failure never blocks the mock path.
 let secrets: Record<string, string> = {};
 try { secrets = await loadEnvFile(); } catch {}
+const S = { ...process.env, ...secrets } as Record<string, string | undefined>; // resolved config (env + decrypted secrets)
 
-// The request env: process.env < decrypted secrets < the mock bindings. DB/KV are always local (a bun process can't bind a
-// remote D1/KV); the HTTP providers (Google/Stripe/Resend) use their real key when present, else their module's mock.
+// STATE layer: attach LIVE (same D1${usesKv ? "+KV" : ""} as the Worker, over the CF HTTP API) once the minted token + account + the
+// provisioned binding id(s) are present; else the local mock. Both-or-neither.
+const cfToken = S.CLOUDFLARE_D1_TOKEN ?? S.CLOUDFLARE_API_TOKEN;
+const cfAccount = S.CLOUDFLARE_ACCOUNT_ID;
+const wrangler = await Bun.file("wrangler.toml").text().catch(() => "");
+const d1Id = wrangler.match(/database_id\\s*=\\s*"([^"]+)"/)?.[1];${kvIdParse}
+const liveAttach = !!(${liveAttachCond});
+
+let DB: unknown;${kvDecl}
+if (liveAttach) {
+  const cf = new CloudflareClient({ apiToken: cfToken!, accountId: cfAccount! });
+  DB = d1FromHttp(cf, d1Id!);${liveKvAssign}
+  console.log(\`[suluk dev] LIVE-ATTACHED — same D1${usesKv ? "+KV" : ""} as the Worker (\${d1Id}); local changes hit production state.\`);
+} else {
+  const sqlite = new Database(DB_PATH, { create: true });
+  const tables = await applyLocalSchema(sqlite); // discover src/db/*.ts + create the tables from the drizzle schema
+  DB = d1FromSqlite(sqlite);${mockKvAssign}
+  console.log(\`[suluk dev] mock state — sqlite \${DB_PATH} (\${tables.length} tables)\`);
+}
+
 const env: Record<string, unknown> = {
-  ...process.env,
-  ...secrets,
-  DB: d1FromSqlite(sqlite),${kvBind}${mailboxBind}
+  ...S,${localVarsBind}
+  DB,${kvEnvBind}${mailboxBind}
 };
 
 const mocked = ["GOOGLE_CLIENT_ID", "STRIPE_SECRET_KEY", "RESEND_API_KEY"].filter((k) => !env[k]);
-if (mocked.length) console.log(\`[suluk dev] mocked (no key): \${mocked.join(", ")}\`);${stripeInject}
+if (mocked.length) console.log(\`[suluk dev] mocked providers (no key): \${mocked.join(", ")}\${liveAttach ? " — against LIVE state; run \\\`bun run purge\\\` after swapping a mock for real keys" : ""}\`);${stripeInject}
 ${mailboxRoute}
 const ctx = { waitUntil() {}, passThroughOnException() {} } as unknown as ExecutionContext;
 Bun.serve({ port: PORT, idleTimeout: 120, fetch: (req) => app.fetch(req, env as Parameters<typeof app.fetch>[1], ctx) });
 console.log(\`[suluk dev] → http://localhost:\${PORT}  (mock-until-keyed; provision to go live)\`);
+`;
+}
+
+/**
+ * `scripts/purge-state.ts` (emitted only when `local: true`) — reset STATE. The single environment is mock-until-keyed, so
+ * when you swap a mock provider for real keys (or vice-versa), or migrate the provision (a new service ⇒ new tables / KV /
+ * R2), the OLD state's shape may not match — this clears it. Always purges the LOCAL mock state (`.suluk/*`, recreated on
+ * next `bun run dev`); with `--yes` it ALSO drops the LIVE D1 tables + clears the live KV (then re-run `bun run provision`).
+ */
+function buildPurgeScript(services: string[]): string {
+  const usesKv = services.includes("rate-credit");
+  const kvIdParse = usesKv ? '\nconst kvId = wrangler.match(/\\[\\[kv_namespaces\\]\\][\\s\\S]*?\\bid\\s*=\\s*"([^"]+)"/)?.[1];' : "";
+  const kvPurge = usesKv
+    ? `\n    if (kvId) {
+      const kvCf = new CloudflareClient({ apiToken: (S.CLOUDFLARE_KV_TOKEN ?? token) as string, accountId: account });
+      const keys = await kvList(kvCf, kvId);
+      for (const k of keys) await kvDelete(kvCf, kvId, k);
+      console.log(\`  cleared \${keys.length} live KV keys\`);
+    }`
+    : "";
+  const localFiles = ['.suluk/dev.sqlite', '.suluk/dev.sqlite-wal', '.suluk/dev.sqlite-shm', ...(usesKv ? ['.suluk/dev-kv.json'] : []), ...(services.includes("email") ? ['.suluk/dev-mailbox.json'] : [])];
+  return `// AUTO-GENERATED by @suluk/platform — purge STATE. RECOMMENDED whenever you swap a mock provider for real keys (or
+// vice-versa) or migrate the provision (a new service ⇒ new tables/KV/R2): the single environment is mock-until-keyed, so
+// the old state's shape may not match the new one. Always clears LOCAL mock state; \`--yes\` also purges LIVE D1 + KV.
+import { rmSync } from "node:fs";
+import { discoverTableNames } from "@suluk/cloudflare/local";
+import { loadEnvFile } from "@suluk/env/node";
+import { CloudflareClient, queryD1${usesKv ? ", kvList, kvDelete" : ""} } from "@suluk/cloudflare";
+
+const yes = process.argv.includes("--yes");
+
+// 1) LOCAL mock state — dev-only files; recreated on the next \`bun run dev\`. Always safe.
+for (const f of ${JSON.stringify(localFiles)}) { try { rmSync(f, { force: true }); } catch {} }
+console.log("✓ purged local mock state (.suluk/*)");
+
+// 2) LIVE state (if provisioned): DROP the app's D1 tables${usesKv ? " + clear the KV namespace" : ""}. DESTRUCTIVE — needs \`--yes\`.
+let S: Record<string, string | undefined> = { ...process.env };
+try { S = { ...process.env, ...(await loadEnvFile()) }; } catch {}
+const token = S.CLOUDFLARE_D1_TOKEN ?? S.CLOUDFLARE_API_TOKEN;
+const account = S.CLOUDFLARE_ACCOUNT_ID;
+const wrangler = await Bun.file("wrangler.toml").text().catch(() => "");
+const d1Id = wrangler.match(/database_id\\s*=\\s*"([^"]+)"/)?.[1];${kvIdParse}
+
+if (token && account && d1Id) {
+  if (!yes) {
+    console.log(\`\\n⚠ LIVE state detected (D1 \${d1Id}${usesKv ? '\${kvId ? " + KV " + kvId : ""}' : ""}). Re-run \\\`bun run purge -- --yes\\\` to DROP all app tables${usesKv ? " + clear KV" : ""}, then \\\`bun run provision\\\` to recreate the schema.\`);
+  } else {
+    const cf = new CloudflareClient({ apiToken: token, accountId: account });
+    for (const t of await discoverTableNames()) { await queryD1(cf, d1Id, \`DROP TABLE IF EXISTS "\${t}"\`); console.log(\`  dropped \${t}\`); }${kvPurge}
+    console.log("✓ purged LIVE state — run \`bun run provision\` to recreate the schema. (R2 objects, if any, purge via the CF dashboard.)");
+  }
+}
 `;
 }
 

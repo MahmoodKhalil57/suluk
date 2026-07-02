@@ -92,7 +92,7 @@ describe("GOLDEN — autotoolfactory byte-identity lock (the C053 guardrail)", (
 // byte-identical to non-local). Freezes the bun dev entry + the `export const app` entry + the `dev`-script package.json.
 const LOCAL = definePlatform({ ...AUTOTOOLFACTORY, local: true });
 const LOCAL_DIR = join(import.meta.dir, "__golden__", "autotoolfactory-local");
-const LOCAL_OUTPUTS: Record<string, string> = { entry: "src_index.ts", devEntry: "src_dev.ts", packageJson: "package.json", gitignore: "gitignore", tsconfig: "tsconfig.json" };
+const LOCAL_OUTPUTS: Record<string, string> = { entry: "src_index.ts", devEntry: "src_dev.ts", purgeScript: "scripts_purge-state.ts", packageJson: "package.json", gitignore: "gitignore", tsconfig: "tsconfig.json" };
 
 describe("GOLDEN — autotoolfactory `local: true` mock-provider variant", () => {
   const plan = planPlatform(LOCAL) as unknown as Record<string, string>;

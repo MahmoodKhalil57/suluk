@@ -59,6 +59,54 @@ export async function kvList(cf: CloudflareClient, namespaceId: string, prefix?:
   return (keys ?? []).map((k) => k.name);
 }
 
+// ---- Zone-scoped: the www → apex 301 redirect (C058). First zone-scoped capability; the client is generic. The token
+//      needs Zone:Read + Zone WAF/Dynamic-Redirect:Edit. ----
+
+/** Resolve a zone id from its apex host (e.g. `example.com`). Throws when the token can't see the zone. */
+export async function resolveZoneId(cf: CloudflareClient, apexHost: string): Promise<string> {
+  const zones = await cf.request<{ id: string; name: string }[]>("GET", "/zones", { query: { name: apexHost } });
+  const z = (zones ?? [])[0];
+  if (!z) throw new Error(`@suluk/cloudflare: no zone for "${apexHost}" (token needs Zone:Read + Dynamic Redirect:Edit)`);
+  return z.id;
+}
+
+const WWW_REDIRECT_PHASE = "http_request_dynamic_redirect";
+const wwwRuleDesc = (apexHost: string) => `suluk: www.${apexHost} → ${apexHost} (301)`;
+
+/** The entrypoint ruleset's existing rules for the dynamic-redirect phase (null when the zone has no ruleset yet). */
+async function redirectRules(cf: CloudflareClient, zoneId: string): Promise<{ description?: string }[] | null> {
+  try {
+    const rs = await cf.request<{ rules?: { description?: string }[] }>("GET", `/zones/${zoneId}/rulesets/phases/${WWW_REDIRECT_PHASE}/entrypoint`);
+    return rs?.rules ?? [];
+  } catch {
+    return null; // 404 — no dynamic-redirect ruleset on this zone yet
+  }
+}
+
+/** Ensure a www→apex 301 redirect (path + query preserved) on the zone. Idempotent (dedup by rule description). */
+export async function ensureWwwRedirect(cf: CloudflareClient, zoneId: string, apexHost: string): Promise<{ added: boolean }> {
+  const desc = wwwRuleDesc(apexHost);
+  const rule = {
+    action: "redirect",
+    action_parameters: { from_value: { status_code: 301, target_url: { expression: `concat("https://${apexHost}", http.request.uri.path)` }, preserve_query_string: true } },
+    expression: `(http.host eq "www.${apexHost}")`,
+    description: desc,
+    enabled: true,
+  };
+  const rules = (await redirectRules(cf, zoneId)) ?? [];
+  if (rules.some((r) => r.description === desc)) return { added: false }; // already present
+  await cf.request("PUT", `/zones/${zoneId}/rulesets/phases/${WWW_REDIRECT_PHASE}/entrypoint`, { json: { rules: [...rules, rule] } });
+  return { added: true };
+}
+
+/** Remove the suluk www→apex redirect rule from the zone (leaves any other redirect rules intact). */
+export async function removeWwwRedirect(cf: CloudflareClient, zoneId: string, apexHost: string): Promise<void> {
+  const desc = wwwRuleDesc(apexHost);
+  const rules = await redirectRules(cf, zoneId);
+  if (!rules) return;
+  await cf.request("PUT", `/zones/${zoneId}/rulesets/phases/${WWW_REDIRECT_PHASE}/entrypoint`, { json: { rules: rules.filter((r) => r.description !== desc) } });
+}
+
 export interface Migration {
   /** a stable identifier (e.g. the file name) — recorded in the ledger so it runs at most once. */
   name: string;

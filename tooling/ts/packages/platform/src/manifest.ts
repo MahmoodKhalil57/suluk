@@ -22,6 +22,11 @@ export interface PlatformManifest {
   opts?: Record<string, Record<string, unknown>>;
   /** NON-SECRET config values → generated into `wrangler.toml` `[vars]`. SECRETS never go here (they live in `.env`). */
   vars?: Record<string, string>;
+  /** C058 (INTERNAL, dev-only) — the LOCAL-runtime derived URL vars (BASE_URL/BETTER_AUTH_URL/TRUSTED_ORIGINS/EMAIL_FROM),
+   *  computed by `deriveHosts` from `LOCAL_BASE_URL`. Spread into `src/dev.ts`'s env; NEVER emitted to `[vars]`. */
+  localVars?: Record<string, string>;
+  /** C058 (INTERNAL, dev-only) — the raw local host (e.g. `localhost:8787`), so `src/dev.ts` can re-splice the actual PORT. */
+  __localHost?: string;
   /** emit the MOCK-PROVIDER dev runtime: a `src/dev.ts` that runs the app under bun with a bun:sqlite DB + JSON-file KV +
    *  mocked providers when their keys are absent (mock-until-keyed), and the `dev` script pointed at it. Default false →
    *  the scaffold is byte-for-byte the C051 golden. */

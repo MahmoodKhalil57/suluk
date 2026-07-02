@@ -85,11 +85,16 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
   log("▸ writing provision.config.ts");
   await opts.write("provision.config.ts", plan.provisionConfig);
   written.push("src/index.ts", "provision.config.ts");
-  // the bun MOCK-PROVIDER dev server — only when the manifest sets `local: true` (else undefined → not written).
+  // the bun MOCK-PROVIDER dev server + the state-purge helper — only when the manifest sets `local: true`.
   if (plan.devEntry) {
     log("▸ writing src/dev.ts");
     await opts.write("src/dev.ts", plan.devEntry);
     written.push("src/dev.ts");
+  }
+  if (plan.purgeScript) {
+    log("▸ writing scripts/purge-state.ts");
+    await opts.write("scripts/purge-state.ts", plan.purgeScript);
+    written.push("scripts/purge-state.ts");
   }
 
   log(`✓ generated ${name}: ${plan.services.length} services. Next: bun install && suluk-provision apply`);

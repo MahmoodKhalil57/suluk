@@ -185,14 +185,23 @@ export function collectTables(modules: Record<string, unknown>[]): SQLiteTable[]
  * Discover the app's schema (every `sqliteTable` exported under `dir`, default `src/db`) and apply its DDL to `db`. Runs
  * at bun-dev boot so a fresh sqlite file has the full schema. Returns the created table names. Idempotent (`IF NOT EXISTS`).
  */
-export async function applyLocalSchema(db: Database, opts: { dir?: string; extra?: SQLiteTable[] } = {}): Promise<string[]> {
-  const dir = opts.dir ?? "src/db";
+/** Discover the app's drizzle SQLite tables under `dir` (default `src/db`) — globs + dynamically imports each schema file. */
+export async function discoverTables(dir = "src/db"): Promise<SQLiteTable[]> {
   const modules: Record<string, unknown>[] = [];
   // Bun.Glob — resolve each schema file to an absolute path so the dynamic import works regardless of cwd nesting.
   const glob = new Bun.Glob("*.ts");
   const cwd = process.cwd();
   for await (const file of glob.scan({ cwd: `${cwd}/${dir}`, absolute: true })) modules.push(await import(file));
-  const tables = [...collectTables(modules), ...(opts.extra ?? [])];
+  return collectTables(modules);
+}
+
+/** The app's table NAMES (for a state purge / introspection) — discovered from the drizzle schema, no DB needed. */
+export async function discoverTableNames(dir = "src/db"): Promise<string[]> {
+  return (await discoverTables(dir)).map((t) => getTableConfig(t).name);
+}
+
+export async function applyLocalSchema(db: Database, opts: { dir?: string; extra?: SQLiteTable[] } = {}): Promise<string[]> {
+  const tables = [...(await discoverTables(opts.dir ?? "src/db")), ...(opts.extra ?? [])];
   db.exec("PRAGMA foreign_keys = OFF;");
   const names: string[] = [];
   for (const t of tables) {

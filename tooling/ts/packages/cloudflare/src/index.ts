@@ -5,7 +5,7 @@
  * itself — readable, testable, and the same contract-first discipline as the rest of the suite. CANDIDATE tooling.
  */
 export { CloudflareClient, CloudflareError, type CloudflareClientOptions, type RequestOptions } from "./client";
-export { provisionD1, queryD1, d1Rows, kvGet, kvPut, kvDelete, kvList, applyMigrations, provisionKvNamespace, provisionR2Bucket, putSecret, putSecrets, type D1Database, type KvNamespace, type Migration } from "./resources";
+export { provisionD1, queryD1, d1Rows, kvGet, kvPut, kvDelete, kvList, applyMigrations, provisionKvNamespace, provisionR2Bucket, putSecret, putSecrets, resolveZoneId, ensureWwwRedirect, removeWwwRedirect, type D1Database, type KvNamespace, type Migration } from "./resources";
 export { uploadAssets, assetHash, extractAssetRuleFiles, type AssetFile, type UploadSession, type AssetRuleFiles } from "./assets";
 export { deployWorker, putCronTriggers, type DeployWorkerOptions, type WorkerBinding, type WorkerMigration } from "./worker";
 export { deploy, deployWith, type DeployPlan, type DeployResult, type DeployLog, type DurableObjectBinding } from "./deploy";

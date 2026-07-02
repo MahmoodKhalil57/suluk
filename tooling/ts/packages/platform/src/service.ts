@@ -144,6 +144,10 @@ export interface McpOAuthOpts {
 }
 /** auth's serviceOpts: optionally activate the MCP OAuth server (Better Auth `mcp()` plugin). */
 export interface AuthServiceOpts {
+  /** C058: activate the MCP OAuth server by declaring its SCOPE SET — the loginPage/consentPage/resource URLs are DERIVED
+   *  from `LIVE_BASE_URL` (no host boilerplate). This is the single-source authoring path. */
+  mcpScopes?: string[];
+  /** LEGACY: the full MCP OAuth URL block. Prefer `mcpScopes` (URLs derived). Kept for back-compat with hand-authored URLs. */
   mcp?: McpOAuthOpts;
 }
 

@@ -6,7 +6,7 @@
  * them. Construct each with a configured `CloudflareClient` (the credentials seam).
  */
 import type { CloudflareClient } from "@suluk/cloudflare";
-import { provisionD1, provisionKvNamespace, provisionR2Bucket, applyMigrations, putSecrets, type Migration } from "@suluk/cloudflare";
+import { provisionD1, provisionKvNamespace, provisionR2Bucket, applyMigrations, putSecrets, resolveZoneId, ensureWwwRedirect, removeWwwRedirect, type Migration } from "@suluk/cloudflare";
 import type { Broker, Catalog, OperationState } from "../types";
 
 const onePlan = (id: string, name: string, description: string, bindable: boolean): Catalog => ({
@@ -59,6 +59,28 @@ export function cloudflareKv(cf: CloudflareClient): Broker {
       return { state: "succeeded", instanceId: ns.id, outputs: { namespace_id: ns.id } };
     },
     deprovision: (req) => del(cf, `/storage/kv/namespaces/${req.instanceId}`),
+  };
+}
+
+/** A www → apex 301 redirect (C058) on the zone of `params.apexHost` — provisions the `www` canonicalization the URL
+ *  single-source assumes. Idempotent (dedup by rule description). `deprovision` removes just the suluk rule. Zone-scoped:
+ *  the broker's token needs Zone:Read + Dynamic-Redirect:Edit (NOT the account-scoped D1/KV tokens). Output: `zone_id`. */
+export function cloudflareWwwRedirect(cf: CloudflareClient): Broker {
+  return {
+    catalog: () => onePlan("cloudflare-www-redirect", "Cloudflare www Redirect", "A www→apex 301 dynamic redirect", false),
+    async provision(req) {
+      const apexHost = req.params.apexHost as string;
+      if (!apexHost) throw new Error(`provision: cloudflare-www-redirect ${req.ref} needs params.apexHost`);
+      const zoneId = await resolveZoneId(cf, apexHost);
+      const { added } = await ensureWwwRedirect(cf, zoneId, apexHost);
+      // encode zone + apex in the instanceId so deprovision (OperationRequest — no params) can remove just our rule.
+      return { state: "succeeded", instanceId: `${zoneId}:${apexHost}`, outputs: { zone_id: zoneId, redirect_added: String(added) } };
+    },
+    async deprovision(req) {
+      const [zoneId, apexHost] = (req.instanceId ?? "").split(":");
+      if (zoneId && apexHost) await removeWwwRedirect(cf, zoneId, apexHost);
+      return { state: "succeeded" };
+    },
   };
 }
 
