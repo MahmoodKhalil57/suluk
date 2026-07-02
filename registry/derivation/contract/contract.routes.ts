@@ -7,8 +7,9 @@
  * Wired into the generated entry as `mountContract(app)`. Own the wiring; @suluk/hono derives the doc + facets.
  */
 import type { Hono, MiddlewareHandler } from "hono";
+import { enforceInternal } from "@suluk/hono";
 import type { Bindings } from "../app";
-import { apiDocumentWithAuth, enforceApiKeyScope, validateRequest } from "../contract";
+import { apiDocumentWithAuth, enforceApiKeyScope, validateRequest, matchRoute } from "../contract";
 // NO `../auth` import — DECOUPLED. The Better-Auth api for the doc-merge arrives via the OPTIONAL `authApi` mount-opt, which
 // platform.config.ts wires from `auth` (`{ from: "contract.authApi", to: "auth.provideAuthApi", optional: true }`). Absent →
 // apiDocumentWithAuth serves the app-only doc. So `contract` builds + runs in a subset that has no `auth`.
@@ -19,6 +20,10 @@ export interface MountContractOptions {
 }
 
 export function mountContract<T extends Hono<{ Bindings: Bindings }>>(app: T, opts?: MountContractOptions): T {
+  // INTERNAL guard FIRST — an op the contract marks `internal: true` (ops/admin surface) 404s over the wire in dev AND live
+  // (so it can't be accidentally hosted); tests reach it in-process via @suluk/hono's `internalFetch`. Resolves the op the
+  // same way the other gates do (matchRoute), so it can never disagree on WHICH op a request hits.
+  app.use("/api/*", enforceInternal((m, p) => matchRoute(m, p)?.internal === true) as MiddlewareHandler);
   // the scope gate on every /api/* request (after auth's caller-resolution middleware set keyId/scopes).
   app.use("/api/*", enforceApiKeyScope as MiddlewareHandler);
   // the contract-derived body gate — validate a write op's JSON body against its declared request.json schema. AFTER the

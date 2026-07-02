@@ -109,6 +109,12 @@ function settlementBadge(cost: CostFacet | undefined): { name: string; color: st
   return { name: SETTLE_LABEL[m] ?? m, color };
 }
 
+/** An INTERNAL op (x-suluk-internal) badge — the op is documented + grouped under "Internal" but NOT reachable over the
+ *  wire (the contract's enforceInternal guard 404s it in dev/live); it runs only via @suluk/hono's internalFetch in tests. */
+function internalBadge(op: Record<string, unknown>): { name: string; color: string } | null {
+  return op["x-suluk-internal"] === true ? { name: "🔒 Internal", color: "var(--scalar-color-red)" } : null;
+}
+
 function accessBadge(acc: AccessFacet | undefined): { name: string; color: string } | null {
   if (!acc?.requires) return null; // only badge when the access facet is actually declared on the op
   const m = { admin: { n: "🔒 Admin", c: "var(--scalar-color-red)" }, authenticated: { n: "👤 Signed-in", c: "var(--scalar-color-orange)" }, anyone: { n: "🌐 Public", c: "var(--scalar-color-green)" } }[acc.requires];
@@ -128,6 +134,7 @@ export function enrichFacetBadges(spec: { paths?: Record<string, Record<string, 
       const ab = accessBadge(op["x-suluk-access"] as AccessFacet | undefined); if (ab) badges.push({ position: "after", ...ab });
       const cb = costBadge(op["x-suluk-cost"] as CostFacet | undefined); if (cb) badges.push({ position: "after", ...cb });
       const sb = settlementBadge(op["x-suluk-cost"] as CostFacet | undefined); if (sb) badges.push({ position: "after", ...sb });
+      const ib = internalBadge(op); if (ib) badges.push({ position: "after", ...ib });
       if (badges.length) op["x-badges"] = badges;
     }
   }
@@ -309,6 +316,7 @@ export function enrichV4Facets(doc: { paths?: Record<string, { requests?: Record
       const ab = accessBadge(req["x-suluk-access"] as AccessFacet | undefined); if (ab) badges.push({ position: "after", ...ab });
       const cb = costBadge(req["x-suluk-cost"] as CostFacet | undefined); if (cb) badges.push({ position: "after", ...cb });
       const sb = settlementBadge(req["x-suluk-cost"] as CostFacet | undefined); if (sb) badges.push({ position: "after", ...sb });
+      const ib = internalBadge(req); if (ib) badges.push({ position: "after", ...ib });
       if (badges.length) req["x-badges"] = badges;
       const detail = facetDetail(req, tIdx.get(name)) + (hardenByName ? hardeningDetail(hardenByName.get(name)) : "");
       if (detail) req.description = (typeof req.description === "string" ? req.description : "") + detail;

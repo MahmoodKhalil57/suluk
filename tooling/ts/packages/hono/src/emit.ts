@@ -93,8 +93,9 @@ function toMs(d: string | Date): number {
   return (typeof d === "string" ? new Date(d) : d).getTime();
 }
 
-/** Build one v4 Request from a route contract. */
-function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContext): Request {
+/** Build one v4 Request from a route contract. `segments` are the URI-template segments (a path param is `{name}` /
+ *  `{+name}`) — used to AUTO-DERIVE path parameters even when `request.params` isn't declared. */
+function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContext, segments: string[] = []): Request {
   const req: Request = { method: route.method, responses: {} };
   if (route.summary) req.summary = route.summary;
   if (route.description) req.description = route.description;
@@ -110,6 +111,20 @@ function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContex
   const q = zParam(route.request?.query); if (q) ps.query = q;
   const p = zParam(route.request?.params); if (p) ps.path = p;
   const h = zParam(route.request?.header); if (h) ps.header = h;
+  // AUTO-DERIVE path parameters from the URI template: every `:name` segment MUST be a path parameter (a templated path
+  // with no parameter definition is a malformed operation — Scalar/Swagger render nothing for it). A declared
+  // `request.params` schema wins for a param; an UNDECLARED one gets a default `string`. Path params are always required.
+  const pathNames = segments.filter((s) => s.startsWith("{")).map((s) => s.slice(1, -1).replace(/^\+/, ""));
+  if (pathNames.length) {
+    const cur = (ps.path && typeof ps.path === "object" ? ps.path : {}) as { properties?: Record<string, unknown>; required?: string[] };
+    const properties: Record<string, unknown> = { ...(cur.properties ?? {}) };
+    const required = new Set(cur.required ?? []);
+    for (const n of pathNames) {
+      if (!properties[n]) properties[n] = { type: "string" };
+      required.add(n);
+    }
+    ps.path = { type: "object", properties, required: [...required], additionalProperties: false };
+  }
   if (Object.keys(ps).length) req.parameterSchema = ps;
 
   const responses: Record<string, Response> = {};
@@ -141,6 +156,11 @@ function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContex
   // stamp the declared route ECONOMICS (cost/settlement/triggers/dynamic) so @suluk/cost audits + @suluk/scalar renders it.
   // x-suluk-cost is a passthrough facet (@suluk/cost owns the type + reads it via the same cast) — not a declared Request key.
   if (route.cost) (req as Request & Record<string, unknown>)["x-suluk-cost"] = route.cost;
+  // INTERNAL ops: stamp the facet (@suluk/scalar badges it) + group under the "Internal" tag (Scalar's sidebar sections it).
+  if (route.internal) {
+    (req as Request & Record<string, unknown>)["x-suluk-internal"] = true;
+    req.tags = [...new Set([...(req.tags ?? []), "Internal"])];
+  }
 
   // security: explicit wins; else synthesize from scopes if a scheme name is configured.
   const security: SecurityRequirement[] | undefined =
@@ -184,9 +204,9 @@ export function emitV4(routes: readonly RouteContract[], ctx: EmitContext = {}):
     const pi = (paths[template] ??= { requests: {} });
     if (pi.requests[name]) {
       diagnostics.push({ kind: "collision", operation: name, message: `duplicate operation name '${name}' at '${template}'` });
-      pi.requests[`${name}_${route.method}`] = buildRequest(route, deprecated, ctx);
+      pi.requests[`${name}_${route.method}`] = buildRequest(route, deprecated, ctx, segments);
     } else {
-      pi.requests[name] = buildRequest(route, deprecated, ctx);
+      pi.requests[name] = buildRequest(route, deprecated, ctx, segments);
     }
   }
 

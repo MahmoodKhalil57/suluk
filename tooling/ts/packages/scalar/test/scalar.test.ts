@@ -186,6 +186,25 @@ describe("route economics — cost · settlement · dynamic components · trigge
   });
 });
 
+describe("internal routes — the 🔒 Internal badge + Internal group", () => {
+  const doc = {
+    openapi: "4.0.0-candidate", info: { title: "I", version: "1" },
+    paths: { "email/send": { requests: { sendEmail: { method: "POST", tags: ["Internal", "Email"], "x-suluk-internal": true, responses: { ok: { status: "200", description: "OK" } } } } } },
+  } as never;
+
+  test("an x-suluk-internal op gets the 🔒 Internal badge (v4 + 3.1)", () => {
+    const v4 = (enrichedV4(doc).spec as any).paths["email/send"].requests.sendEmail;
+    expect((v4["x-badges"] as { name: string }[]).some((b) => b.name === "🔒 Internal")).toBe(true);
+    const op31 = (enrichedSpec(doc).spec as any).paths["/email/send"].post;
+    expect((op31["x-badges"] as { name: string }[]).some((b) => b.name === "🔒 Internal")).toBe(true);
+  });
+
+  test("the Internal tag rides through so Scalar's sidebar sections it under 'Internal'", () => {
+    const op31 = (enrichedSpec(doc).spec as any).paths["/email/send"].post;
+    expect(op31.tags).toContain("Internal");
+  });
+});
+
 describe("per-route hardening report (@suluk/harden → a native collapsible <details> per op)", () => {
   // createThing takes an UNBOUNDED body (`contentSchema: true` = permits ANY) → a high-severity finding, low grade.
   // listThing takes no input → clean (grade A, no findings).

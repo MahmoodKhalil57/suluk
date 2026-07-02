@@ -9,6 +9,7 @@ export { audit, coverage, autofill, type Finding } from "./audit";
 export { contractChecks, runContractChecks, type Check, type CheckRun } from "./checks";
 export { validateSchema2020, type SchemaCheck } from "./schema-check";
 export { mount } from "./mount";
+export { enforceInternal, internalFetch, INTERNAL_HEADER } from "./internal";
 export { enforceAccess, createGuard, type EnforceAccessConfig, type IdentityConfig, type Guard, type AccessFacet, type AccessRequires } from "./enforce";
 // the row-level CRUD authorization engine (mode→policy→rule→decision + owner-scoping) that pairs with enforceAccess.
 export { gate, policyFor, ruleToRequires, DEFAULT_POLICIES, type Rule, type Policy, type AccessMode, type GateIdentity, type GateDecision } from "./access";

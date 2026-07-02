@@ -70,6 +70,13 @@ export interface RouteContract {
    * @suluk/scalar renders it (badges + the cost/settlement/triggers detail), @suluk/cost audits + records it. Advisory.
    */
   cost?: CostModel;
+  /**
+   * Mark this op INTERNAL (ops/admin surface — e.g. a raw email-send). It is DOCUMENTED (grouped under "Internal" in the
+   * docs, stamped `x-suluk-internal`) but NOT reachable over the wire: the contract's `enforceInternal` guard 404s it in dev
+   * AND live, so it can't be accidentally hosted. Invoke it in tests via {@link internalFetch} — a clean in-process path
+   * keyed on a per-process nonce that never enters the document or the wire.
+   */
+  internal?: boolean;
   request?: RouteRequest;
   /** Responses, as a list (each carries its own status) or a status-keyed map. */
   responses?: RouteResponse[] | Record<string, RouteResponse>;
