@@ -13,10 +13,13 @@ import { d1FromHttp, httpKvStore } from "@suluk/cloudflare/live";
 import { CloudflareClient } from "@suluk/cloudflare";
 import { mockStripeFetch } from "@suluk/billing";
 import { loadEnvFile } from "@suluk/env/node";
+import { mkdirSync } from "node:fs";
+import { dirname } from "node:path";
 
 const DB_PATH = process.env.SULUK_DB_PATH ?? ".suluk/dev.sqlite";
 const KV_PATH = process.env.SULUK_KV_PATH ?? ".suluk/dev-kv.json";
 const MAILBOX_PATH = process.env.SULUK_MAILBOX_PATH ?? ".suluk/dev-mailbox.json";
+mkdirSync(dirname(DB_PATH), { recursive: true }); // ensure the local-state dir exists BEFORE bun:sqlite opens the DB (a fresh app has no .suluk/)
 const PORT = Number(process.env.PORT ?? 8787);
 const mailbox = jsonFileMailbox(MAILBOX_PATH); // a local inbox the mock email provider saves to
 
@@ -52,6 +55,10 @@ if (liveAttach) {
 
 const env: Record<string, unknown> = {
   ...S,
+  // `bun dev` IS the development server: force a non-production ENVIRONMENT so the mock-until-keyed providers ARM (dev-login,
+  // console email, …) regardless of any deploy-time ENVIRONMENT=production that leaked in from .env/process.env. The deployed
+  // Worker (src/index.ts) reads ENVIRONMENT from wrangler [vars]=production, untouched by this. Use `dev:cf`/`deploy` for prod.
+  ENVIRONMENT: "development",
   DB,
   RATE_CREDIT_KV,
   SULUK_MAILBOX_SINK: mailbox,

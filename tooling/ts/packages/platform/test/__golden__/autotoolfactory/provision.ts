@@ -6,7 +6,6 @@ import { existsSync, rmSync, readFileSync, writeFileSync } from "node:fs";
 import { randomBytes } from "node:crypto";
 import { loadEnvFile, setVar, ensureKeypair, encryptEnvFile } from "@suluk/env/node";
 import { runCli } from "@suluk/provision";
-import provisionApp from "../provision.config";
 import { linkKey } from "./link-key";
 import { mintTokens } from "./mint-tokens";
 
@@ -36,6 +35,8 @@ for (const name of GENERATED) {
 }
 
 // 3. provision the infra (D1/KV — the C047 provision.config) via @suluk/provision (imported), 4. mint the scoped tokens.
+// IMPORT THE CONFIG NOW (dynamic) — AFTER loadEnvFile — so provision.config's Cloudflare brokers pick up the decrypted creds.
+const { default: provisionApp } = await import("../provision.config");
 const { output, exitCode } = await runCli(provisionApp, ["apply"]);
 if (output) console.log(output);
 if (exitCode !== 0) process.exit(exitCode);
