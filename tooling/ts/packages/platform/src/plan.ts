@@ -115,7 +115,7 @@ export function planPlatform(input: PlatformManifest | Platform): PlatformPlan {
     ? ["mcp", "reference"].filter((c) => services.includes(c)).map((c) => ({ from: `${c}.apiDocument`, to: "contract.provideApiDocument" }))
     : [];
   const wires = [...userWires, ...structuralWires];
-  const wiring = resolveWiring(services, wires, catalog);
+  const wiring = resolveWiring(services, wires, catalog, manifest.opts);
   // diagnostics (never affect the emitted bytes): report pruned optional edges + the scope-gate-absent subset choice.
   if (wiring.pruned.length) console.warn(`[platform] pruned ${wiring.pruned.length} optional wire(s):\n  ${wiring.pruned.join("\n  ")}`);
   if ((services.includes("keys") || services.includes("mcp")) && !services.includes("contract"))
@@ -1049,8 +1049,9 @@ function buildProvisionConfig(services: string[], catalog: Record<string, Servic
     "// needs: the Cloudflare BROKERS (built from the decrypted creds), the file STATE journal, the @suluk/env binding SINK,",
     "// and the migration history. The brokers read the creds from process.env — `scripts/provision.ts` decrypts the .env",
     "// (loadEnvFile) BEFORE importing this file, so they are populated by then.",
-    'import { defineProvisionApp, defineProvision, fileStore, envSink, fileMigrationStore, cloudflareD1, cloudflareKv, cloudflareR2, cloudflareSecrets, cloudflareToken } from "@suluk/provision";',
-    'import { CloudflareClient } from "@suluk/cloudflare";',
+    // CloudflareClient is imported FROM @suluk/provision (which re-exports it) so `new CloudflareClient()` matches the brokers'
+    // expected type even when the app resolves a newer @suluk/cloudflare for its dev server than the one nested under provision.
+    'import { defineProvisionApp, defineProvision, fileStore, envSink, fileMigrationStore, cloudflareD1, cloudflareKv, cloudflareR2, cloudflareSecrets, cloudflareToken, CloudflareClient } from "@suluk/provision";',
     'import { mergeProvision } from "@suluk/platform";',
     ...imports,
     "",

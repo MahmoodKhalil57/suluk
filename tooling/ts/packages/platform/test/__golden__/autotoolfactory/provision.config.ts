@@ -3,8 +3,7 @@
 // needs: the Cloudflare BROKERS (built from the decrypted creds), the file STATE journal, the @suluk/env binding SINK,
 // and the migration history. The brokers read the creds from process.env — `scripts/provision.ts` decrypts the .env
 // (loadEnvFile) BEFORE importing this file, so they are populated by then.
-import { defineProvisionApp, defineProvision, fileStore, envSink, fileMigrationStore, cloudflareD1, cloudflareKv, cloudflareR2, cloudflareSecrets, cloudflareToken } from "@suluk/provision";
-import { CloudflareClient } from "@suluk/cloudflare";
+import { defineProvisionApp, defineProvision, fileStore, envSink, fileMigrationStore, cloudflareD1, cloudflareKv, cloudflareR2, cloudflareSecrets, cloudflareToken, CloudflareClient } from "@suluk/provision";
 import { mergeProvision } from "@suluk/platform";
 import { authProvision } from "./src/provision/auth";
 import { mcpProvision } from "./src/provision/mcp";

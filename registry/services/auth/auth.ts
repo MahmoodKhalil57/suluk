@@ -82,13 +82,20 @@ function buildAuth(env: AuthEnv, opts: AuthOptions = {}) {
   });
 }
 
-// One auth instance per DB binding (Workers reuse the isolate across requests).
-const cache = new WeakMap<D1Database, ReturnType<typeof buildAuth>>();
+// One auth instance per DB binding (Workers reuse the isolate across requests) — but SPLIT by whether the mcp() OAuth plugin
+// is enabled. The caller-resolution middleware (identity/apiKeyAuth/mcpBearerAuth) call `createAuth(env)` with NO opts on
+// every `/api/*` request; a single DB-keyed cache would let that plugin-LESS instance win, starving the mcp OAuth surface
+// (/.well-known/oauth-*, /api/auth/mcp/*, getMcpOAuthConfig) of its endpoints. Keying on mcp-presence keeps BOTH a lean
+// session instance (for identity) and the full OAuth instance (for the /api/auth handler + the discovery docs) per DB.
+const cache = new WeakMap<D1Database, { base?: ReturnType<typeof buildAuth>; mcp?: ReturnType<typeof buildAuth> }>();
 export function createAuth(env: AuthEnv, opts?: AuthOptions) {
-  const hit = cache.get(env.DB);
+  const slot = cache.get(env.DB) ?? {};
+  const key = opts?.mcp ? "mcp" : "base";
+  const hit = slot[key];
   if (hit) return hit;
   const auth = buildAuth(env, opts);
-  cache.set(env.DB, auth);
+  slot[key] = auth;
+  cache.set(env.DB, slot);
   return auth;
 }
 

@@ -33,6 +33,9 @@ export { fileStore } from "./file-store";
 export { envSink, type EnvSinkOptions } from "./env-sink";
 // the concrete Cloudflare brokers (wrap @suluk/cloudflare's idempotent provisioners).
 export { cloudflareD1, cloudflareKv, cloudflareR2, cloudflareSecrets, cloudflareToken, cloudflareWwwRedirect } from "./brokers/cloudflare";
+// re-export the client the brokers are built from, so a consumer's `new CloudflareClient()` matches the brokers' expected
+// type EXACTLY — even when the consumer app resolves a different @suluk/cloudflare version than the one nested under provision.
+export { CloudflareClient } from "@suluk/cloudflare";
 export { cloudflarePagesDomain } from "./brokers/cloudflare-domains";
 // the drizzle-kit-style app config + CLI (plan / apply / check / status).
 export { defineProvisionApp, type ProvisionApp } from "./app";

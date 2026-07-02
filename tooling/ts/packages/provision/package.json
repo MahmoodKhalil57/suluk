@@ -1,6 +1,6 @@
 {
   "name": "@suluk/provision",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Declarative service provisioning for a Suluk app, modelled on the Open Service Broker API and driven like drizzle-kit. Declare the infra you want in one provision.config (D1/KV/R2/secrets/Stripe/domains/tokens as OSB brokers); `plan` diffs desired-vs-live, `apply` walks the binding DAG (provision \u2192 poll async last-operation \u2192 bind \u2192 land credentials in @suluk/env, encrypted + commit-safe), `check` flags drift/orphans. A layer ABOVE @suluk/cloudflare / @suluk/deploy / @suluk/env \u2014 it orchestrates, they execute. CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"

@@ -96,7 +96,9 @@ export interface Capability<A = unknown> {
   readonly symbol: string; // exported name in the service's owned code (import-checked)
   readonly from: string;
   readonly imports?: { symbol: string; from: string }[]; // what the built expr references → unioned into the entry imports
-  readonly build: (ctx: { with: Record<string, unknown> }) => string;
+  // `with` = the wire's schema-validated params; `opts` = the CAPABILITY-OWNER service's resolved serviceOpts (so a capability
+  // can render its producer's own config into the closure — e.g. auth's mcpAuthInstance needs auth.mcp to enable the plugin).
+  readonly build: (ctx: { with: Record<string, unknown>; opts?: Record<string, unknown> }) => string;
 }
 
 /** What a service brings to the composition graph: the ports it exposes + the capabilities it offers. */
@@ -237,8 +239,17 @@ export const authService = defineService({
     offers: {
       // the Better-Auth API factory the contract's /api/openapi.json merge consumes (cuts contract → ../auth).
       provideAuthApi: { kind: "capability", symbol: "createAuth", from: "./auth", imports: [{ symbol: "createAuth", from: "./auth" }], build: () => `(env) => createAuth(env).api` },
-      // the Better-Auth INSTANCE the mcp OAuth discovery consumes (cuts mcp → ../auth).
-      mcpAuthInstance: { kind: "capability", symbol: "createAuth", from: "./auth", imports: [{ symbol: "createAuth", from: "./auth" }], build: () => `(env) => createAuth(env)` },
+      // the Better-Auth INSTANCE the mcp OAuth discovery consumes (cuts mcp → ../auth). The discovery docs
+      // (/.well-known/oauth-*) come from Better Auth's mcp() plugin, which createAuth adds ONLY when passed `{ mcp }` — so the
+      // discovery instance MUST carry auth's OWN mcp config, else getMcpOAuthConfig is undefined and the routes 500. The
+      // mcp-oauth wire is injected only when `auth.mcp` is set (plan.ts), so opts.mcp is present whenever this renders.
+      mcpAuthInstance: {
+        kind: "capability", symbol: "createAuth", from: "./auth", imports: [{ symbol: "createAuth", from: "./auth" }],
+        build: ({ opts }) => {
+          const mcp = (opts as { mcp?: unknown } | undefined)?.mcp;
+          return mcp ? `(env) => createAuth(env, { mcp: ${JSON.stringify(mcp)} })` : `(env) => createAuth(env)`;
+        },
+      },
     },
   },
 });

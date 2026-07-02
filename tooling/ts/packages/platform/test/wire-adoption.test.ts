@@ -48,7 +48,10 @@ describe("wired adoption — the decoupling edges render into mount-opts (not si
     const e = planPlatform(definePlatform({ system: wiredSystem(), brand })).entry;
     expect(e).toContain('mountContract(app, { "authApi": (env) => createAuth(env).api })');
     // mcp's mount carries BOTH the auth OAuth instance (optional wire) AND contract's apiDocument (auto-injected structural wire).
-    expect(e).toContain('mountMcp(app, { "mcpAuthInstance": (env) => createAuth(env), "apiDocument": apiDocument })');
+    // The discovery instance passes auth's OWN mcp config so createAuth builds the mcp() plugin (else /.well-known/oauth-* 500).
+    expect(e).toContain('"mcpAuthInstance": (env) => createAuth(env, { mcp: {');
+    expect(e).toContain('"resource":"https://autotoolfactory.example/api/mcp"'); // ...the derived mcp resource, threaded in
+    expect(e).toContain('"apiDocument": apiDocument })'); // + contract's apiDocument, same mount
     expect(e).toContain('import { createAuth } from "./auth"'); // the ONE createAuth import the composed capabilities share
   });
 
