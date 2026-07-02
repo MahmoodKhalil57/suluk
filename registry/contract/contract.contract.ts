@@ -17,6 +17,7 @@ import type { MiddlewareHandler } from "hono";
 import { z } from "zod";
 import { contractDoc, emitV4, type RouteContract } from "@suluk/hono";
 import { toProblemDetails, PROBLEM_CONTENT_TYPE, type OpenAPIv4Document } from "@suluk/core";
+import { ingestAuthOpenAPI, mergeAuth, authSecuritySchemes } from "@suluk/better-auth";
 
 /**
  * The base operation surface. Each op carries a `name` (the v4 by-name handle — C009), a `summary` (documentation
@@ -366,6 +367,35 @@ export function apiDocument(principal?: { scopes: string[] }): OpenAPIv4Document
     synthesizeErrors: true,
   });
   return document;
+}
+
+/** true when the Better Auth `api` can emit its own OpenAPI (the `openAPI()` plugin is enabled in `buildAuth`). */
+function hasOpenApiGenerator(x: unknown): x is { generateOpenAPISchema: () => Promise<Record<string, unknown>> } {
+  return typeof (x as { generateOpenAPISchema?: unknown } | null)?.generateOpenAPISchema === "function";
+}
+
+/**
+ * The FULL v4 document INCLUDING Better Auth's own surface (sign-in/up/out, get-session, social sign-in, …) — so
+ * BETTER-AUTH CLIENTS can discover + call the auth API from the same `/api/openapi.json`, exactly like toolfactory does.
+ * It ingests the `openAPI()`-generated OAS 3.0 (`auth.api.generateOpenAPISchema()`) → v4 (@suluk/better-auth's
+ * `ingestAuthOpenAPI`) → merges it into {@link apiDocument} (`mergeAuth`). ASYNC: the auth schema comes from a LIVE,
+ * per-request auth instance (Workers build it via `createAuth(c.env)`). Best-effort — if the generator is absent or throws
+ * it falls back to the base doc (never throws), so `/api/openapi.json` always serves at least the app surface. The APP wins
+ * a path collision (a barebones auth op never clobbers a typed contract op); Better Auth only emits enabled routes.
+ */
+export async function apiDocumentWithAuth(authApi: unknown, principal?: { scopes: string[] }): Promise<OpenAPIv4Document> {
+  const base = apiDocument(principal);
+  if (!hasOpenApiGenerator(authApi)) return base;
+  try {
+    const authV4 = ingestAuthOpenAPI(await authApi.generateOpenAPISchema(), { basePath: "/api/auth" });
+    const authOnly = { ...authV4, paths: Object.fromEntries(Object.entries(authV4.paths).filter(([p]) => !(p in base.paths))) };
+    const { securitySchemes } = authSecuritySchemes({ session: true }); // declare the session-cookie scheme the auth ops reference
+    return mergeAuth(base, authOnly, { securitySchemes });
+  } catch (err) {
+    // fall back to the base doc, but NOT silently — a bare swallow would serve an auth-LESS doc with zero signal.
+    console.warn("apiDocumentWithAuth: Better Auth OpenAPI ingest failed — serving the base doc (auth surface ABSENT)", err);
+    return base;
+  }
 }
 
 /**
