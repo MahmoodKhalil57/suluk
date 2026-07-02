@@ -8,7 +8,7 @@
 
 > **packageGraphData**(`packages`): [`PackageGraph`](../interfaces/PackageGraph.md)
 
-Defined in: [diagram.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/diagram.ts#L25)
+Defined in: [diagram.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/diagram.ts#L25)
 
 The `@suluk` package dependency graph as pure data (each package → its drawn `@suluk` dependencies) — the input
 to the d3 renderer (build tooling), replacing the old D2/kroki path. Zero-dep, so it stays in `@suluk/docs`.

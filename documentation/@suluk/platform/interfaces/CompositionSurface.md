@@ -6,7 +6,7 @@
 
 # Interface: CompositionSurface
 
-Defined in: [service.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L98)
+Defined in: [service.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L100)
 
 What a service brings to the composition graph: the ports it exposes + the capabilities it offers.
 
@@ -16,7 +16,7 @@ What a service brings to the composition graph: the ports it exposes + the capab
 
 > `optional` **exposes?**: `Record`\<`string`, [`Port`](Port.md)\<`unknown`\>\>
 
-Defined in: [service.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L99)
+Defined in: [service.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L101)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [service.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/fe6f55
 
 > `optional` **offers?**: `Record`\<`string`, [`Capability`](Capability.md)\<`unknown`\>\>
 
-Defined in: [service.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L100)
+Defined in: [service.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L102)

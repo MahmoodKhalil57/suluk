@@ -8,7 +8,7 @@
 
 > **teardown**(`opts`): `Promise`\<[`TeardownResult`](../interfaces/TeardownResult.md)\>
 
-Defined in: [provision/src/teardown.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/teardown.ts#L32)
+Defined in: [provision/src/teardown.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L32)
 
 Deprovision the whole journal, consumers-first, honouring `protected`. Destructive — gate it behind confirmation.
 

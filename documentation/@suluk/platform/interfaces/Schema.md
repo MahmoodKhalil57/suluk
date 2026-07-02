@@ -6,7 +6,7 @@
 
 # Interface: Schema\<Out\>
 
-Defined in: [service.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L62)
+Defined in: [service.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L64)
 
 Standard-Schema v1 shape (zod v4 implements it). Declared LOCALLY so the Service interface can carry the typed-opts slots
 with NO runtime validator dependency in Phase 1; Phase 2 replaces this with `@standard-schema/spec` and populates
@@ -24,7 +24,7 @@ with NO runtime validator dependency in Phase 1; Phase 2 replaces this with `@st
 
 > `readonly` **~standard**: `object`
 
-Defined in: [service.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L63)
+Defined in: [service.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L65)
 
 #### validate
 

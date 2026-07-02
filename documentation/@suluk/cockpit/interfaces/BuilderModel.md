@@ -6,7 +6,7 @@
 
 # Interface: BuilderModel
 
-Defined in: [cockpit/src/builder.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/builder.ts#L65)
+Defined in: [cockpit/src/builder.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/builder.ts#L65)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/builder.ts:65](https://github.com/MahmoodKhalil57/suluk
 
 > **app**: [`BuiltApp`](../../builder/interfaces/BuiltApp.md)
 
-Defined in: [cockpit/src/builder.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/builder.ts#L66)
+Defined in: [cockpit/src/builder.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/builder.ts#L66)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [cockpit/src/builder.ts:66](https://github.com/MahmoodKhalil57/suluk
 
 > **entityCount**: `number`
 
-Defined in: [cockpit/src/builder.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/builder.ts#L70)
+Defined in: [cockpit/src/builder.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/builder.ts#L70)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [cockpit/src/builder.ts:70](https://github.com/MahmoodKhalil57/suluk
 
 > **errors**: `object`[]
 
-Defined in: [cockpit/src/builder.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/builder.ts#L69)
+Defined in: [cockpit/src/builder.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/builder.ts#L69)
 
 DSL contract violations (empty ⇒ sound).
 
@@ -52,4 +52,4 @@ DSL contract violations (empty ⇒ sound).
 
 > **tree**: [`BuilderNode`](BuilderNode.md)[]
 
-Defined in: [cockpit/src/builder.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/builder.ts#L67)
+Defined in: [cockpit/src/builder.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/builder.ts#L67)

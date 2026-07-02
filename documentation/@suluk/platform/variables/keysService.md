@@ -8,9 +8,21 @@
 
 > `const` **keysService**: `object`
 
-Defined in: [service.ts:249](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L249)
+Defined in: [service.ts:254](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L254)
 
 ## Type Declaration
+
+### contract
+
+> `readonly` **contract**: `object`
+
+#### contract.from
+
+> `readonly` **from**: `"./contract/keys"` = `"./contract/keys"`
+
+#### contract.symbol
+
+> `readonly` **symbol**: `"keysOps"` = `"keysOps"`
 
 ### deps
 

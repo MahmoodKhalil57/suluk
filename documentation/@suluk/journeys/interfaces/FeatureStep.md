@@ -6,7 +6,7 @@
 
 # Interface: FeatureStep
 
-Defined in: [journeys/src/gherkin.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L11)
+Defined in: [journeys/src/gherkin.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L11)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/gherkin.ts:11](https://github.com/MahmoodKhalil57/sulu
 
 > **kind**: `StepKind`
 
-Defined in: [journeys/src/gherkin.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L13)
+Defined in: [journeys/src/gherkin.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L13)
 
 the RESOLVED keyword (And/But fold into the preceding Given/When/Then).
 
@@ -24,7 +24,7 @@ the RESOLVED keyword (And/But fold into the preceding Given/When/Then).
 
 > **line**: `number`
 
-Defined in: [journeys/src/gherkin.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L19)
+Defined in: [journeys/src/gherkin.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L19)
 
 1-based source line number (for file:line hand-offs).
 
@@ -34,7 +34,7 @@ Defined in: [journeys/src/gherkin.ts:19](https://github.com/MahmoodKhalil57/sulu
 
 > **raw**: `string`
 
-Defined in: [journeys/src/gherkin.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L17)
+Defined in: [journeys/src/gherkin.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L17)
 
 the raw line as written (for reporting).
 
@@ -44,6 +44,6 @@ the raw line as written (for reporting).
 
 > **text**: `string`
 
-Defined in: [journeys/src/gherkin.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L15)
+Defined in: [journeys/src/gherkin.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L15)
 
 the step text after the keyword.

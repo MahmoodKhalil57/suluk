@@ -8,7 +8,7 @@
 
 > **assertAgentInstallable**(`doc`, `agentName`): `void`
 
-Defined in: [agents/src/lint.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/lint.ts#L111)
+Defined in: [agents/src/lint.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/lint.ts#L111)
 
 Convenience: lint a single agent's existence + errors, throwing the first error (for fail-loud projection).
 

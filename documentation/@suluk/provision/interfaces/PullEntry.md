@@ -6,7 +6,7 @@
 
 # Interface: PullEntry
 
-Defined in: [provision/src/pull.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/pull.ts#L12)
+Defined in: [provision/src/pull.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/pull.ts#L12)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/pull.ts:12](https://github.com/MahmoodKhalil57/suluk/
 
 > **instanceId**: `string`
 
-Defined in: [provision/src/pull.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/pull.ts#L16)
+Defined in: [provision/src/pull.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/pull.ts#L16)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [provision/src/pull.ts:16](https://github.com/MahmoodKhalil57/suluk/
 
 > `optional` **liveOutputs?**: `Record`\<`string`, `string`\>
 
-Defined in: [provision/src/pull.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/pull.ts#L20)
+Defined in: [provision/src/pull.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/pull.ts#L20)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [provision/src/pull.ts:20](https://github.com/MahmoodKhalil57/suluk/
 
 > **name**: `string`
 
-Defined in: [provision/src/pull.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/pull.ts#L15)
+Defined in: [provision/src/pull.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/pull.ts#L15)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [provision/src/pull.ts:15](https://github.com/MahmoodKhalil57/suluk/
 
 > **ref**: `string`
 
-Defined in: [provision/src/pull.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/pull.ts#L13)
+Defined in: [provision/src/pull.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/pull.ts#L13)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [provision/src/pull.ts:13](https://github.com/MahmoodKhalil57/suluk/
 
 > **service**: `string`
 
-Defined in: [provision/src/pull.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/pull.ts#L14)
+Defined in: [provision/src/pull.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/pull.ts#L14)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [provision/src/pull.ts:14](https://github.com/MahmoodKhalil57/suluk/
 
 > **status**: [`PullStatus`](../type-aliases/PullStatus.md)
 
-Defined in: [provision/src/pull.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/pull.ts#L19)
+Defined in: [provision/src/pull.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/pull.ts#L19)
 
 live = present + matches · missing = gone from the provider · drifted = present but outputs changed · unknown = the
  broker has no `fetch`, so we couldn't check.

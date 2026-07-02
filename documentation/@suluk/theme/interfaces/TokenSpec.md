@@ -6,7 +6,7 @@
 
 # Interface: TokenSpec
 
-Defined in: [tokens.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L46)
+Defined in: [tokens.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L46)
 
 One mode's tokens (light or dark).
 
@@ -16,7 +16,7 @@ One mode's tokens (light or dark).
 
 > `optional` **breakpoints?**: `Record`\<`string`, `string`\>
 
-Defined in: [tokens.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L60)
+Defined in: [tokens.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L60)
 
 named breakpoints → min-width (e.g. { md: "48rem" }).
 
@@ -26,7 +26,7 @@ named breakpoints → min-width (e.g. { md: "48rem" }).
 
 > **colors**: [`ColorTokens`](ColorTokens.md)
 
-Defined in: [tokens.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L49)
+Defined in: [tokens.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L49)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [tokens.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559
 
 > `optional` **fonts?**: [`FontTokens`](FontTokens.md)
 
-Defined in: [tokens.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L52)
+Defined in: [tokens.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L52)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [tokens.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559
 
 > **name**: `string`
 
-Defined in: [tokens.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L48)
+Defined in: [tokens.ts:48](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L48)
 
 scheme name (e.g. "terracotta").
 
@@ -52,7 +52,7 @@ scheme name (e.g. "terracotta").
 
 > **radius**: `number`
 
-Defined in: [tokens.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L51)
+Defined in: [tokens.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L51)
 
 base corner radius in rem (drives --radius and the derived sm/md/lg).
 
@@ -62,7 +62,7 @@ base corner radius in rem (drives --radius and the derived sm/md/lg).
 
 > `optional` **shadows?**: `Record`\<`string`, `string`\>
 
-Defined in: [tokens.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L54)
+Defined in: [tokens.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L54)
 
 named box-shadows → CSS shadow value.
 
@@ -72,7 +72,7 @@ named box-shadows → CSS shadow value.
 
 > `optional` **spacing?**: `Record`\<`string`, `string`\>
 
-Defined in: [tokens.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L58)
+Defined in: [tokens.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L58)
 
 named spacing steps → length.
 
@@ -82,6 +82,6 @@ named spacing steps → length.
 
 > `optional` **typeScale?**: `Record`\<`string`, `string`\>
 
-Defined in: [tokens.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L56)
+Defined in: [tokens.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L56)
 
 named type-scale steps → font-size value (e.g. { base: "1rem", lg: "1.125rem" }).

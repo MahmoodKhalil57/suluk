@@ -8,7 +8,7 @@
 
 > **verifyAgentFreshness**(`manifest`, `snapshots`): [`ConformanceFinding`](../interfaces/ConformanceFinding.md)[]
 
-Defined in: [agents/src/manifest.ts:131](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L131)
+Defined in: [agents/src/manifest.ts:131](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/manifest.ts#L131)
 
 Verify a signed manifest's skills against the CURRENT served snapshots: each skill's signed `contentHash` must
 equal the hash of its current snapshot. A mismatch ⇒ the served preprompt drifted after the signature was minted

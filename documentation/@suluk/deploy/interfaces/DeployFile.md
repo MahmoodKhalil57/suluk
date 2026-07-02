@@ -6,7 +6,7 @@
 
 # Interface: DeployFile
 
-Defined in: [types.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L70)
+Defined in: [types.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L70)
 
 A file the provider wants written into the project.
 
@@ -16,7 +16,7 @@ A file the provider wants written into the project.
 
 > **content**: `string`
 
-Defined in: [types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L72)
+Defined in: [types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L72)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [types.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a
 
 > **path**: `string`
 
-Defined in: [types.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L71)
+Defined in: [types.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L71)

@@ -8,7 +8,7 @@
 
 > **tableMetadata**(`table`): [`TableMeta`](../interfaces/TableMeta.md)
 
-Defined in: [meta.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L54)
+Defined in: [meta.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L54)
 
 Read a drizzle table's metadata. This is the honest floor: every value comes from the column descriptor,
 nothing is inferred. `enumValues` is only present when the underlying column actually carries one — we

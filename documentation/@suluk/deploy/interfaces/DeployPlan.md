@@ -6,7 +6,7 @@
 
 # Interface: DeployPlan
 
-Defined in: [types.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L81)
+Defined in: [types.ts:81](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L81)
 
 `@suluk/deploy` — ship a Suluk app behind a SWAPPABLE target interface. A DeployProvider turns the app into
 the files + ordered steps that deploy it; the host (the vscode extension) runs the steps in a terminal
@@ -19,7 +19,7 @@ since the stack is already Cloudflare-native (Hono=Workers, sqlite-core=D1, fron
 
 > **files**: [`DeployFile`](DeployFile.md)[]
 
-Defined in: [types.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L83)
+Defined in: [types.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L83)
 
 ***
 
@@ -27,7 +27,7 @@ Defined in: [types.ts:83](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a
 
 > **notes**: `string`[]
 
-Defined in: [types.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L86)
+Defined in: [types.ts:86](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L86)
 
 Human-facing notes (auth, manual fill-ins, caveats).
 
@@ -37,7 +37,7 @@ Human-facing notes (auth, manual fill-ins, caveats).
 
 > **provider**: `string`
 
-Defined in: [types.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L82)
+Defined in: [types.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L82)
 
 ***
 
@@ -45,4 +45,4 @@ Defined in: [types.ts:82](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a
 
 > **steps**: [`DeployStep`](DeployStep.md)[]
 
-Defined in: [types.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L84)
+Defined in: [types.ts:84](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L84)

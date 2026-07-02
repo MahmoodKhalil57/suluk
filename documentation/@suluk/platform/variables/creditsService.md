@@ -8,7 +8,7 @@
 
 > `const` **creditsService**: `object`
 
-Defined in: [service.ts:219](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L219)
+Defined in: [service.ts:223](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L223)
 
 ## Type Declaration
 
@@ -55,6 +55,18 @@ Defined in: [service.ts:219](https://github.com/MahmoodKhalil57/suluk/blob/fe6f5
 #### compose.offers.grantOnSignup.symbol
 
 > `readonly` **symbol**: `"Credits"` = `"Credits"`
+
+### contract
+
+> `readonly` **contract**: `object`
+
+#### contract.from
+
+> `readonly` **from**: `"./contract/credits"` = `"./contract/credits"`
+
+#### contract.symbol
+
+> `readonly` **symbol**: `"creditsOps"` = `"creditsOps"`
 
 ### deps
 

@@ -8,7 +8,7 @@
 
 > **formatCurrency**(`config`, `code`, `value`, `currency`, `opts?`): `string`
 
-Defined in: [format.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/i18n/src/format.ts#L27)
+Defined in: [format.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/i18n/src/format.ts#L27)
 
 Format a MONEY amount. `value` is the major-unit number (e.g. dollars); for integer cents from @suluk/stripe,
 pass `cents / 100`. Honors the locale's numbering system + currency conventions.

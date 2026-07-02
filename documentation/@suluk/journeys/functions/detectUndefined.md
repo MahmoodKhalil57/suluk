@@ -8,7 +8,7 @@
 
 > **detectUndefined**(`vocab`, `features`, `opts?`): [`UndefinedStep`](../interfaces/UndefinedStep.md)[]
 
-Defined in: [journeys/src/bind.ts:284](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/bind.ts#L284)
+Defined in: [journeys/src/bind.ts:284](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/bind.ts#L284)
 
 Detect every authored step that is not yet runnable — the scaffolder's worklist (Cucumber-style "undefined steps",
 here resolved by MAPPING, not by writing code). It SUGGESTS a target when there is a lexical signal and otherwise

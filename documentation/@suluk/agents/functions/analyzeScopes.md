@@ -8,7 +8,7 @@
 
 > **analyzeScopes**(`doc`, `root`): `object`
 
-Defined in: [agents/src/scope.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/scope.ts#L33)
+Defined in: [agents/src/scope.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/scope.ts#L33)
 
 Walk the agent tree from `root`, computing each reachable node's effective (intersected) scope and every per-edge
 escalation. Cycle-guarded (lint rejects cycles independently); on a DAG/tree each node's effective is its first

@@ -6,7 +6,7 @@
 
 # Interface: RenderOptions
 
-Defined in: [journeys/src/demos.ts:154](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/demos.ts#L154)
+Defined in: [journeys/src/demos.ts:154](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/demos.ts#L154)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/demos.ts:154](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **baseUrl?**: `string`
 
-Defined in: [journeys/src/demos.ts:158](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/demos.ts#L158)
+Defined in: [journeys/src/demos.ts:158](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/demos.ts#L158)
 
 the PROD base URL — the live-call target the tester switches to.
 
@@ -24,7 +24,7 @@ the PROD base URL — the live-call target the tester switches to.
 
 > `optional` **localBaseUrl?**: `string`
 
-Defined in: [journeys/src/demos.ts:161](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/demos.ts#L161)
+Defined in: [journeys/src/demos.ts:161](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/demos.ts#L161)
 
 the LOCAL base URL a developer tests against FIRST (the same collection, just a different `baseUrl`). Default a
  Cloudflare Workers `wrangler dev` port.
@@ -35,6 +35,6 @@ the LOCAL base URL a developer tests against FIRST (the same collection, just a 
 
 > `optional` **name?**: `string`
 
-Defined in: [journeys/src/demos.ts:156](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/demos.ts#L156)
+Defined in: [journeys/src/demos.ts:156](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/demos.ts#L156)
 
 collection name (default the doc/feature title or "Demo").

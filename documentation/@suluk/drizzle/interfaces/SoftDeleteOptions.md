@@ -6,7 +6,7 @@
 
 # Interface: SoftDeleteOptions
 
-Defined in: [mutations.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/mutations.ts#L9)
+Defined in: [mutations.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/mutations.ts#L9)
 
 CrudOptions runtime helpers (saastarter-parity Phase 1): pure value-builders for soft-delete, anonymize-on-delete,
 and server-managed timestamps. The package projects CONTRACTS (it runs no SQL), so these produce the PATCH an
@@ -20,6 +20,6 @@ FK-safe posture).
 
 > `optional` **column?**: `string`
 
-Defined in: [mutations.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/mutations.ts#L11)
+Defined in: [mutations.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/mutations.ts#L11)
 
 the timestamp column set on delete (default "deletedAt").

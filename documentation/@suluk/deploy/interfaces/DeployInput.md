@@ -6,7 +6,7 @@
 
 # Interface: DeployInput
 
-Defined in: [types.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L31)
+Defined in: [types.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L31)
 
 `@suluk/deploy` — ship a Suluk app behind a SWAPPABLE target interface. A DeployProvider turns the app into
 the files + ordered steps that deploy it; the host (the vscode extension) runs the steps in a terminal
@@ -19,7 +19,7 @@ since the stack is already Cloudflare-native (Hono=Workers, sqlite-core=D1, fron
 
 > `optional` **appModule?**: `string`
 
-Defined in: [types.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L37)
+Defined in: [types.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L37)
 
 Path, in the user's project, to the module exporting the Hono `app` (default "./src/app").
 
@@ -29,7 +29,7 @@ Path, in the user's project, to the module exporting the Hono `app` (default "./
 
 > `optional` **assetsDir?**: `string`
 
-Defined in: [types.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L39)
+Defined in: [types.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L39)
 
 Built frontend assets directory served as static files (default "./dist/client").
 
@@ -39,7 +39,7 @@ Built frontend assets directory served as static files (default "./dist/client")
 
 > `optional` **compatibilityDate?**: `string`
 
-Defined in: [types.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L41)
+Defined in: [types.ts:41](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L41)
 
 Worker runtime compatibility date (default DEFAULT_COMPAT_DATE). Pass today's date in production.
 
@@ -49,7 +49,7 @@ Worker runtime compatibility date (default DEFAULT_COMPAT_DATE). Pass today's da
 
 > `optional` **durableObjectMigrationTag?**: `string`
 
-Defined in: [types.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L64)
+Defined in: [types.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L64)
 
 the migration tag for the DO classes above. Default "v1" on first deploy, "v2" when `prevDurableObjects` is given.
 
@@ -59,7 +59,7 @@ the migration tag for the DO classes above. Default "v1" on first deploy, "v2" w
 
 > `optional` **durableObjects?**: [`DurableObjectBinding`](DurableObjectBinding.md)[]
 
-Defined in: [types.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L54)
+Defined in: [types.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L54)
 
 Durable Object classes to bind + migrate (the Cloudflare Agents SDK runtime surface). When present, the
 generated wrangler.jsonc gains a `durable_objects.bindings` block and an additive `migrations` entry that
@@ -72,7 +72,7 @@ creates the SQLite-backed classes. Same-script classes only are migrated; a cros
 
 > **entities**: [`DeployEntity`](DeployEntity.md)[]
 
-Defined in: [types.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L35)
+Defined in: [types.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L35)
 
 The data entities (for the database schema).
 
@@ -82,7 +82,7 @@ The data entities (for the database schema).
 
 > **name**: `string`
 
-Defined in: [types.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L33)
+Defined in: [types.ts:33](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L33)
 
 App name (slugified by the provider for resource names).
 
@@ -92,7 +92,7 @@ App name (slugified by the provider for resource names).
 
 > `optional` **prevDurableObjectMigrationTag?**: `string`
 
-Defined in: [types.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L66)
+Defined in: [types.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L66)
 
 the tag the `prevDurableObjects` set was created under (default "v1") — the first step of the reconstructed history.
 
@@ -102,7 +102,7 @@ the tag the `prevDurableObjects` set was created under (default "v1") — the fi
 
 > `optional` **prevDurableObjects?**: [`DurableObjectBinding`](DurableObjectBinding.md)[]
 
-Defined in: [types.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L62)
+Defined in: [types.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L62)
 
 The previously-deployed DO class set. When given, the generated `migrations` become an ADDITIVE 2-step history
 (recreate prev under `prevDurableObjectMigrationTag`, then create only the classes added since under the new tag)
@@ -116,7 +116,7 @@ class that changed storage backend (sqlite↔legacy) throws. Omit on a first dep
 
 > `optional` **preview?**: `boolean`
 
-Defined in: [types.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L45)
+Defined in: [types.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L45)
 
 Emit a PREVIEW deployment variant (charter-bounded role-preview): a `${slug}-preview` Worker with the
  two fail-closed locks — a `SULUK_PREVIEW="1"` var + a `PREVIEW_DB` D1 binding on an isolated
@@ -128,6 +128,6 @@ Emit a PREVIEW deployment variant (charter-bounded role-preview): a `${slug}-pre
 
 > `optional` **previewRoles?**: `string`[]
 
-Defined in: [types.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L47)
+Defined in: [types.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L47)
 
 The roles to seed for a preview deployment (from the contract's User.role enum; cockpit threads them in).

@@ -8,7 +8,7 @@
 
 > **principalFromSession**(`session`, `opts?`): [`Principal`](../interfaces/Principal.md)
 
-Defined in: [principal.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/principal.ts#L50)
+Defined in: [principal.ts:50](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/principal.ts#L50)
 
 Extract a { scopes } principal from a Better Auth session. Null/undefined session ⇒ anonymous (no scopes).
 Beyond the user/apiKey scopes, it encodes MFA + org state AS scopes (Phase 1): a 2FA-cleared session gains

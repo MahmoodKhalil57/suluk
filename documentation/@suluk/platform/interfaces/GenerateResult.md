@@ -6,7 +6,7 @@
 
 # Interface: GenerateResult
 
-Defined in: [generate.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/generate.ts#L22)
+Defined in: [generate.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/generate.ts#L22)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [generate.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/fe6f5
 
 > **added**: `string`[]
 
-Defined in: [generate.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/generate.ts#L24)
+Defined in: [generate.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/generate.ts#L24)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [generate.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/fe6f5
 
 > **plan**: [`PlatformPlan`](PlatformPlan.md)
 
-Defined in: [generate.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/generate.ts#L23)
+Defined in: [generate.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/generate.ts#L23)
 
 ***
 
@@ -30,4 +30,4 @@ Defined in: [generate.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/fe6f5
 
 > **written**: `string`[]
 
-Defined in: [generate.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/generate.ts#L25)
+Defined in: [generate.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/generate.ts#L25)

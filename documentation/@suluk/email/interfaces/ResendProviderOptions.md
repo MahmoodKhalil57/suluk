@@ -6,7 +6,7 @@
 
 # Interface: ResendProviderOptions
 
-Defined in: [provider.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/provider.ts#L91)
+Defined in: [provider.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/provider.ts#L91)
 
 `@suluk/email` — the missing EmailProvider binding + a per-event/per-locale branded template set. The app RENDERS
 a message (pure, branded, localized via @suluk/i18n) and SENDS it through a swappable provider (consoleProvider in
@@ -19,7 +19,7 @@ dev; a Workers-safe resendProvider in prod). Never a hosted mailer — the provi
 
 > **apiKey**: `string`
 
-Defined in: [provider.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/provider.ts#L93)
+Defined in: [provider.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/provider.ts#L93)
 
 the Resend API key (the app pulls it from @suluk/env).
 
@@ -29,7 +29,7 @@ the Resend API key (the app pulls it from @suluk/env).
 
 > `optional` **costMicroUsd?**: `number`
 
-Defined in: [provider.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/provider.ts#L99)
+Defined in: [provider.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/provider.ts#L99)
 
 advisory per-send cost in µ$ for @suluk/cost metering.
 
@@ -39,7 +39,7 @@ advisory per-send cost in µ$ for @suluk/cost metering.
 
 > `optional` **fetch?**: *typeof* `fetch`
 
-Defined in: [provider.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/provider.ts#L97)
+Defined in: [provider.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/provider.ts#L97)
 
 inject a fetch (default: global fetch) — for testing / a custom transport.
 
@@ -49,6 +49,6 @@ inject a fetch (default: global fetch) — for testing / a custom transport.
 
 > **from**: `string`
 
-Defined in: [provider.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/provider.ts#L95)
+Defined in: [provider.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/provider.ts#L95)
 
 default From, e.g. "Acme <noreply@acme.com>" — must be a verified Resend domain.

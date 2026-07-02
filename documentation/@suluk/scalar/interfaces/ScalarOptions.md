@@ -6,7 +6,7 @@
 
 # Interface: ScalarOptions
 
-Defined in: [index.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/scalar/src/index.ts#L32)
+Defined in: [index.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/scalar/src/index.ts#L32)
 
 ## Extended by
 
@@ -18,7 +18,7 @@ Defined in: [index.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/fe6f5594
 
 > `optional` **cdn?**: `string`
 
-Defined in: [index.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/scalar/src/index.ts#L36)
+Defined in: [index.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/scalar/src/index.ts#L36)
 
 CDN URL for the Scalar standalone bundle (override for pinning/self-hosting).
 
@@ -28,7 +28,7 @@ CDN URL for the Scalar standalone bundle (override for pinning/self-hosting).
 
 > `optional` **configuration?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [index.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/scalar/src/index.ts#L42)
+Defined in: [index.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/scalar/src/index.ts#L42)
 
 Extra Scalar configuration merged into createApiReference (theme, layout, hideModels, …).
 
@@ -38,7 +38,7 @@ Extra Scalar configuration merged into createApiReference (theme, layout, hideMo
 
 > `optional` **customCss?**: `string`
 
-Defined in: [index.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/scalar/src/index.ts#L40)
+Defined in: [index.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/scalar/src/index.ts#L40)
 
 Override the injected suluk theme CSS.
 
@@ -48,7 +48,7 @@ Override the injected suluk theme CSS.
 
 > `optional` **facetBadges?**: `boolean`
 
-Defined in: [index.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/scalar/src/index.ts#L38)
+Defined in: [index.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/scalar/src/index.ts#L38)
 
 Surface v4 facets (cost + access) as Scalar badges on each operation (default true).
 
@@ -58,6 +58,6 @@ Surface v4 facets (cost + access) as Scalar badges on each operation (default tr
 
 > `optional` **pageTitle?**: `string`
 
-Defined in: [index.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/scalar/src/index.ts#L34)
+Defined in: [index.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/scalar/src/index.ts#L34)
 
 Browser tab title.

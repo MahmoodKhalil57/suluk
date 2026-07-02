@@ -8,7 +8,7 @@
 
 > `const` **contractService**: `object`
 
-Defined in: [service.ts:216](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L216)
+Defined in: [service.ts:220](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L220)
 
 ## Type Declaration
 

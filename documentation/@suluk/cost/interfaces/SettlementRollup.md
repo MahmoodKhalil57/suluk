@@ -6,7 +6,7 @@
 
 # Interface: SettlementRollup
 
-Defined in: [settlement.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/settlement.ts#L75)
+Defined in: [settlement.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/settlement.ts#L75)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [settlement.ts:75](https://github.com/MahmoodKhalil57/suluk/blob/26d
 
 > **credit**: `number`
 
-Defined in: [settlement.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/settlement.ts#L76)
+Defined in: [settlement.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/settlement.ts#L76)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [settlement.ts:76](https://github.com/MahmoodKhalil57/suluk/blob/26d
 
 > **free**: `number`
 
-Defined in: [settlement.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/settlement.ts#L78)
+Defined in: [settlement.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/settlement.ts#L78)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [settlement.ts:78](https://github.com/MahmoodKhalil57/suluk/blob/26d
 
 > **rate-limited**: `number`
 
-Defined in: [settlement.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/settlement.ts#L77)
+Defined in: [settlement.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/settlement.ts#L77)
 
 ***
 
@@ -38,6 +38,6 @@ Defined in: [settlement.ts:77](https://github.com/MahmoodKhalil57/suluk/blob/26d
 
 > **unsettled**: `number`
 
-Defined in: [settlement.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/settlement.ts#L80)
+Defined in: [settlement.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/settlement.ts#L80)
 
 priced ops with NO settlement declared (the gap).

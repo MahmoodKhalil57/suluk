@@ -8,7 +8,7 @@
 
 > **orderTotal**(`lines`, `discount?`): [`OrderTotal`](../interfaces/OrderTotal.md)
 
-Defined in: [pricing.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/pricing.ts#L109)
+Defined in: [pricing.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L109)
 
 Compose the authoritative order total from lines + an optional (already-validated) discount.
 

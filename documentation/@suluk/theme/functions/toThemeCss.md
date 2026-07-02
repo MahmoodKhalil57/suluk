@@ -8,7 +8,7 @@
 
 > **toThemeCss**(`theme`, `opts?`): `string`
 
-Defined in: [emit.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/emit.ts#L35)
+Defined in: [emit.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/emit.ts#L35)
 
 Both modes as CSS: light at :root, dark at the dark selector.
 

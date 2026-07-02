@@ -6,7 +6,7 @@
 
 # Interface: Headroom
 
-Defined in: [packages/keys/src/chain.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L71)
+Defined in: [packages/keys/src/chain.ts:71](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/keys/src/chain.ts#L71)
 
 `@suluk/keys` — the delegation-chain ALGEBRA for hierarchical API keys (C046, extracted from a real app).
 
@@ -25,7 +25,7 @@ plus the materialized-path utilities and the scope/metadata model.
 
 > **limit**: `number`
 
-Defined in: [packages/keys/src/chain.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L72)
+Defined in: [packages/keys/src/chain.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/keys/src/chain.ts#L72)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [packages/keys/src/chain.ts:72](https://github.com/MahmoodKhalil57/s
 
 > **remaining**: `number`
 
-Defined in: [packages/keys/src/chain.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L74)
+Defined in: [packages/keys/src/chain.ts:74](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/keys/src/chain.ts#L74)
 
 ***
 
@@ -41,4 +41,4 @@ Defined in: [packages/keys/src/chain.ts:74](https://github.com/MahmoodKhalil57/s
 
 > **spent**: `number`
 
-Defined in: [packages/keys/src/chain.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/keys/src/chain.ts#L73)
+Defined in: [packages/keys/src/chain.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/keys/src/chain.ts#L73)

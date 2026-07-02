@@ -1,0 +1,34 @@
+/* @suluk/typedoc-umlclass — layout + typography for the d3 UML class diagrams. The PlantUML-style colours are
+   baked into the SVG by the renderer (so the diagram reads the same in any theme); this file only handles the
+   container, fonts, and interaction. */
+
+/* The diagram sits at the BOTTOM of the page, under its own heading, set off from the members above it. */
+.tsd-umlclass-section {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-accent, #e1e4e8);
+}
+.tsd-umlclass-section > h2 {
+  margin-bottom: 0.25rem;
+}
+
+.tsd-umlclass {
+  margin: 1rem 0 1.75rem;
+  overflow-x: auto;
+}
+.tsd-umlclass .uml-svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.tsd-umlclass .uml-name { font-weight: 700; font-size: 13px; }
+.tsd-umlclass .uml-badge { font-weight: 700; font-size: 10px; }
+.tsd-umlclass .uml-stereo { font-style: italic; font-size: 10.5px; }
+.tsd-umlclass .uml-member { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+
+/* clickable class boxes */
+.tsd-umlclass a.uml-box { cursor: pointer; }
+.tsd-umlclass a.uml-box:hover rect { stroke: #20222a; stroke-width: 1.5; }
+.tsd-umlclass a.uml-box:hover .uml-name { text-decoration: underline; }

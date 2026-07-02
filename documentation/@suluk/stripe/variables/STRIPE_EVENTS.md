@@ -8,7 +8,7 @@
 
 > `const` **STRIPE\_EVENTS**: `object`
 
-Defined in: [stripe-webhook.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/stripe-webhook.ts#L87)
+Defined in: [stripe-webhook.ts:87](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/stripe-webhook.ts#L87)
 
 The common Stripe checkout/billing event types (for discoverability + typo-safe registration).
 

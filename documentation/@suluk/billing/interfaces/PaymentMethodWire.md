@@ -6,7 +6,7 @@
 
 # Interface: PaymentMethodWire
 
-Defined in: [packages/billing/src/billing.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L52)
+Defined in: [packages/billing/src/billing.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L52)
 
 A payment method as the billing panel shows it — card + its billing address + whether it's the customer's default.
 
@@ -16,7 +16,7 @@ A payment method as the billing panel shows it — card + its billing address + 
 
 > **brand**: `string`
 
-Defined in: [packages/billing/src/billing.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L54)
+Defined in: [packages/billing/src/billing.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L54)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [packages/billing/src/billing.ts:54](https://github.com/MahmoodKhali
 
 > **city**: `string` \| `null`
 
-Defined in: [packages/billing/src/billing.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L61)
+Defined in: [packages/billing/src/billing.ts:61](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L61)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [packages/billing/src/billing.ts:61](https://github.com/MahmoodKhali
 
 > **country**: `string` \| `null`
 
-Defined in: [packages/billing/src/billing.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L64)
+Defined in: [packages/billing/src/billing.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L64)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [packages/billing/src/billing.ts:64](https://github.com/MahmoodKhali
 
 > **expMonth**: `number`
 
-Defined in: [packages/billing/src/billing.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L56)
+Defined in: [packages/billing/src/billing.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L56)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [packages/billing/src/billing.ts:56](https://github.com/MahmoodKhali
 
 > **expYear**: `number`
 
-Defined in: [packages/billing/src/billing.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L57)
+Defined in: [packages/billing/src/billing.ts:57](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L57)
 
 ***
 
@@ -56,7 +56,7 @@ Defined in: [packages/billing/src/billing.ts:57](https://github.com/MahmoodKhali
 
 > **id**: `string`
 
-Defined in: [packages/billing/src/billing.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L53)
+Defined in: [packages/billing/src/billing.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L53)
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: [packages/billing/src/billing.ts:53](https://github.com/MahmoodKhali
 
 > **isDefault**: `boolean`
 
-Defined in: [packages/billing/src/billing.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L65)
+Defined in: [packages/billing/src/billing.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L65)
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: [packages/billing/src/billing.ts:65](https://github.com/MahmoodKhali
 
 > **last4**: `string`
 
-Defined in: [packages/billing/src/billing.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L55)
+Defined in: [packages/billing/src/billing.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L55)
 
 ***
 
@@ -80,7 +80,7 @@ Defined in: [packages/billing/src/billing.ts:55](https://github.com/MahmoodKhali
 
 > **line1**: `string` \| `null`
 
-Defined in: [packages/billing/src/billing.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L59)
+Defined in: [packages/billing/src/billing.ts:59](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L59)
 
 ***
 
@@ -88,7 +88,7 @@ Defined in: [packages/billing/src/billing.ts:59](https://github.com/MahmoodKhali
 
 > **line2**: `string` \| `null`
 
-Defined in: [packages/billing/src/billing.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L60)
+Defined in: [packages/billing/src/billing.ts:60](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L60)
 
 ***
 
@@ -96,7 +96,7 @@ Defined in: [packages/billing/src/billing.ts:60](https://github.com/MahmoodKhali
 
 > **name**: `string` \| `null`
 
-Defined in: [packages/billing/src/billing.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L58)
+Defined in: [packages/billing/src/billing.ts:58](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L58)
 
 ***
 
@@ -104,7 +104,7 @@ Defined in: [packages/billing/src/billing.ts:58](https://github.com/MahmoodKhali
 
 > **postalCode**: `string` \| `null`
 
-Defined in: [packages/billing/src/billing.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L63)
+Defined in: [packages/billing/src/billing.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L63)
 
 ***
 
@@ -112,4 +112,4 @@ Defined in: [packages/billing/src/billing.ts:63](https://github.com/MahmoodKhali
 
 > **region**: `string` \| `null`
 
-Defined in: [packages/billing/src/billing.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/billing.ts#L62)
+Defined in: [packages/billing/src/billing.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/billing.ts#L62)

@@ -6,7 +6,7 @@
 
 # Interface: SwaggerOptions
 
-Defined in: [index.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/swagger/src/index.ts#L11)
+Defined in: [index.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/swagger/src/index.ts#L11)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [index.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/fe6f5594
 
 > `optional` **cdn?**: `string`
 
-Defined in: [index.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/swagger/src/index.ts#L15)
+Defined in: [index.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/swagger/src/index.ts#L15)
 
 Base CDN URL for swagger-ui-dist (override for pinning/self-hosting).
 
@@ -24,7 +24,7 @@ Base CDN URL for swagger-ui-dist (override for pinning/self-hosting).
 
 > `optional` **configuration?**: `Record`\<`string`, `unknown`\>
 
-Defined in: [index.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/swagger/src/index.ts#L19)
+Defined in: [index.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/swagger/src/index.ts#L19)
 
 Extra SwaggerUIBundle configuration merged in (deepLinking, docExpansion, …).
 
@@ -34,7 +34,7 @@ Extra SwaggerUIBundle configuration merged in (deepLinking, docExpansion, …).
 
 > `optional` **pageTitle?**: `string`
 
-Defined in: [index.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/swagger/src/index.ts#L13)
+Defined in: [index.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/swagger/src/index.ts#L13)
 
 Browser tab title.
 
@@ -44,6 +44,6 @@ Browser tab title.
 
 > `optional` **version?**: `string`
 
-Defined in: [index.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/swagger/src/index.ts#L17)
+Defined in: [index.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/swagger/src/index.ts#L17)
 
 swagger-ui-dist version to pin (used with the default CDN).

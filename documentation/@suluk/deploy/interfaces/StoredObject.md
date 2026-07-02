@@ -6,7 +6,7 @@
 
 # Interface: StoredObject
 
-Defined in: [storage.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/storage.ts#L14)
+Defined in: [storage.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/storage.ts#L14)
 
 A stored object — its key + the public URL to reach it.
 
@@ -16,7 +16,7 @@ A stored object — its key + the public URL to reach it.
 
 > **key**: `string`
 
-Defined in: [storage.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/storage.ts#L15)
+Defined in: [storage.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/storage.ts#L15)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [storage.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/26d65d
 
 > **url**: `string`
 
-Defined in: [storage.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/storage.ts#L16)
+Defined in: [storage.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/storage.ts#L16)

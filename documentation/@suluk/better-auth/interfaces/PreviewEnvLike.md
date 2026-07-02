@@ -6,7 +6,7 @@
 
 # Interface: PreviewEnvLike
 
-Defined in: [preview.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/preview.ts#L28)
+Defined in: [preview.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/preview.ts#L28)
 
 The two independent locks live on the Worker env: a var and a binding. Duck-typed; extra keys ignored.
 
@@ -16,7 +16,7 @@ The two independent locks live on the Worker env: a var and a binding. Duck-type
 
 > `optional` **PREVIEW\_DB?**: `unknown`
 
-Defined in: [preview.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/preview.ts#L32)
+Defined in: [preview.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/preview.ts#L32)
 
 lock 2 — a D1 binding only the preview deploy declares (presence is the lock; we never read prod's DB here).
 
@@ -26,6 +26,6 @@ lock 2 — a D1 binding only the preview deploy declares (presence is the lock; 
 
 > `optional` **SULUK\_PREVIEW?**: `string`
 
-Defined in: [preview.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/preview.ts#L30)
+Defined in: [preview.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/preview.ts#L30)
 
 lock 1 — the deploy-time preview flag.

@@ -6,7 +6,7 @@
 
 # Interface: Reference
 
-Defined in: [types.ts:502](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L502)
+Defined in: [types.ts:502](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L502)
 
 An OpenAPI Reference Object (C013 #49). `$ref` is a JSON-Pointer "#/components/<type>/<name>"
 resolved BY NAME (C009; the resolve algorithm is C019 Appendix A).
@@ -17,7 +17,7 @@ resolved BY NAME (C009; the resolve algorithm is C019 Appendix A).
 
 > **$ref**: `string`
 
-Defined in: [types.ts:503](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L503)
+Defined in: [types.ts:503](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L503)
 
 ***
 
@@ -25,7 +25,7 @@ Defined in: [types.ts:503](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0
 
 > `optional` **description?**: `string`
 
-Defined in: [types.ts:505](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L505)
+Defined in: [types.ts:505](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L505)
 
 ***
 
@@ -33,4 +33,4 @@ Defined in: [types.ts:505](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0
 
 > `optional` **summary?**: `string`
 
-Defined in: [types.ts:504](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L504)
+Defined in: [types.ts:504](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L504)

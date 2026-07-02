@@ -6,7 +6,7 @@
 
 # Interface: MigrationJournal
 
-Defined in: [provision/src/migration-store.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/migration-store.ts#L12)
+Defined in: [provision/src/migration-store.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/migration-store.ts#L12)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/migration-store.ts:12](https://github.com/MahmoodKhal
 
 > **entries**: `object`[]
 
-Defined in: [provision/src/migration-store.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/migration-store.ts#L14)
+Defined in: [provision/src/migration-store.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/migration-store.ts#L14)
 
 #### idx
 
@@ -30,4 +30,4 @@ Defined in: [provision/src/migration-store.ts:14](https://github.com/MahmoodKhal
 
 > **version**: `string`
 
-Defined in: [provision/src/migration-store.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/migration-store.ts#L13)
+Defined in: [provision/src/migration-store.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/migration-store.ts#L13)

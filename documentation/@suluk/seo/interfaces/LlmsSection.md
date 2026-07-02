@@ -6,7 +6,7 @@
 
 # Interface: LlmsSection
 
-Defined in: [llms.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/llms.ts#L5)
+Defined in: [llms.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/llms.ts#L5)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [llms.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442
 
 > **links**: [`LlmsLink`](LlmsLink.md)[]
 
-Defined in: [llms.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/llms.ts#L5)
+Defined in: [llms.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/llms.ts#L5)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [llms.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442
 
 > **title**: `string`
 
-Defined in: [llms.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/llms.ts#L5)
+Defined in: [llms.ts:5](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/llms.ts#L5)

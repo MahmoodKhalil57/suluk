@@ -6,7 +6,7 @@
 
 # Interface: FormOptions
 
-Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/form.ts#L9)
+Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/form.ts#L9)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442
 
 > **basePath**: `string`
 
-Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/form.ts#L9)
+Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/form.ts#L9)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442
 
 > **canDelete**: `boolean`
 
-Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/form.ts#L9)
+Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/form.ts#L9)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442
 
 > **relPaths**: `Record`\<`string`, `string`\>
 
-Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/form.ts#L9)
+Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/form.ts#L9)
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442
 
 > `optional` **uploadPath?**: `string`
 
-Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/form.ts#L9)
+Defined in: [form.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/form.ts#L9)

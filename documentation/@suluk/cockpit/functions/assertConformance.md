@@ -8,7 +8,7 @@
 
 > **assertConformance**(`doc`): [`Gate`](../interfaces/Gate.md)[]
 
-Defined in: [cockpit/src/conformance.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/conformance.ts#L100)
+Defined in: [cockpit/src/conformance.ts:100](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/conformance.ts#L100)
 
 CI gate (the hard incentive): throw if any conformance gate is an `error` (a blocker). Returns the gates otherwise.
 

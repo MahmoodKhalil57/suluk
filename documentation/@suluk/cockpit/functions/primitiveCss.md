@@ -8,7 +8,7 @@
 
 > **primitiveCss**(): `string`
 
-Defined in: [visual/src/capture.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/visual/src/capture.ts#L44)
+Defined in: [visual/src/capture.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/visual/src/capture.ts#L44)
 
 A small stylesheet for the control fragments above — so a host can render `primitiveControl` inline.
 

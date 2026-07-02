@@ -6,7 +6,7 @@
 
 # Interface: EntityModel
 
-Defined in: [render-data.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/admin/src/render-data.ts#L27)
+Defined in: [render-data.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/admin/src/render-data.ts#L27)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [render-data.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26
 
 > **access**: [`EntityAccess`](EntityAccess.md)
 
-Defined in: [render-data.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/admin/src/render-data.ts#L31)
+Defined in: [render-data.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/admin/src/render-data.ts#L31)
 
 the `requires` level of each CRUD op (from x-suluk-access), so the admin shows who may do what.
 
@@ -24,7 +24,7 @@ the `requires` level of each CRUD op (from x-suluk-access), so the admin shows w
 
 > **fields**: [`EntityField`](EntityField.md)[]
 
-Defined in: [render-data.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/admin/src/render-data.ts#L29)
+Defined in: [render-data.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/admin/src/render-data.ts#L29)
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: [render-data.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/26
 
 > **name**: `string`
 
-Defined in: [render-data.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/admin/src/render-data.ts#L28)
+Defined in: [render-data.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/admin/src/render-data.ts#L28)

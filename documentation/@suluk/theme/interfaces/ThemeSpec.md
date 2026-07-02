@@ -6,7 +6,7 @@
 
 # Interface: ThemeSpec
 
-Defined in: [tokens.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L64)
+Defined in: [tokens.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L64)
 
 A complete scheme: the light mode + its dark mode (authored, or derived via deriveDark).
 
@@ -16,7 +16,7 @@ A complete scheme: the light mode + its dark mode (authored, or derived via deri
 
 > **dark**: [`TokenSpec`](TokenSpec.md)
 
-Defined in: [tokens.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L66)
+Defined in: [tokens.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L66)
 
 ***
 
@@ -24,4 +24,4 @@ Defined in: [tokens.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559
 
 > **light**: [`TokenSpec`](TokenSpec.md)
 
-Defined in: [tokens.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/tokens.ts#L65)
+Defined in: [tokens.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/tokens.ts#L65)

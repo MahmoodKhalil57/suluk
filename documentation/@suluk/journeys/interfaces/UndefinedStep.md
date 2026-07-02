@@ -6,7 +6,7 @@
 
 # Interface: UndefinedStep
 
-Defined in: [journeys/src/bind.ts:259](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/bind.ts#L259)
+Defined in: [journeys/src/bind.ts:259](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/bind.ts#L259)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/bind.ts:259](https://github.com/MahmoodKhalil57/suluk/
 
 > **line**: `number`
 
-Defined in: [journeys/src/bind.ts:263](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/bind.ts#L263)
+Defined in: [journeys/src/bind.ts:263](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/bind.ts#L263)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [journeys/src/bind.ts:263](https://github.com/MahmoodKhalil57/suluk/
 
 > **resolution**: `"alias"` \| `"map"` \| `"review"` \| `"define-journey"`
 
-Defined in: [journeys/src/bind.ts:273](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/bind.ts#L273)
+Defined in: [journeys/src/bind.ts:273](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/bind.ts#L273)
 
 How to make it run. NONE of these requires a developer EXCEPT where the scaffolder, on review, finds no operation
 provides the capability — then they escalate. The tool only ever SUGGESTS; it never asserts "a developer is required",
@@ -38,7 +38,7 @@ because absence of a lexical match is not evidence the capability is missing.
 
 > **scenario**: `string`
 
-Defined in: [journeys/src/bind.ts:260](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/bind.ts#L260)
+Defined in: [journeys/src/bind.ts:260](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/bind.ts#L260)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [journeys/src/bind.ts:260](https://github.com/MahmoodKhalil57/suluk/
 
 > **suggestion**: `string`
 
-Defined in: [journeys/src/bind.ts:275](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/bind.ts#L275)
+Defined in: [journeys/src/bind.ts:275](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/bind.ts#L275)
 
 a paste-ready definitions stub (or, for `review`, the honest "decide" note).
 
@@ -56,6 +56,6 @@ a paste-ready definitions stub (or, for `review`, the honest "decide" note).
 
 > **text**: `string`
 
-Defined in: [journeys/src/bind.ts:262](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/bind.ts#L262)
+Defined in: [journeys/src/bind.ts:262](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/bind.ts#L262)
 
 the original authored prose (the non-technical author's words).

@@ -8,7 +8,7 @@
 
 > `const` **rateLimitService**: `object`
 
-Defined in: [service.ts:286](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L286)
+Defined in: [service.ts:294](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L294)
 
 ## Type Declaration
 

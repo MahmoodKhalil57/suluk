@@ -6,7 +6,7 @@
 
 # Interface: Finding
 
-Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L17)
+Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/audit.ts#L17)
 
 `@suluk/harden` — schema hardening as a derived, scored contract facet. Audit a v4 'Suluk' document's INPUT
 schemas for the validations that keep malformed/oversized input from breaking the system, grade them A–F,
@@ -22,7 +22,7 @@ surface the grade to incentivise the author, and gate CI on a minimum.
 
 > **fix**: `string`
 
-Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L17)
+Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/audit.ts#L17)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a
 
 > **message**: `string`
 
-Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L17)
+Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/audit.ts#L17)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a
 
 > **path**: `string`
 
-Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L17)
+Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/audit.ts#L17)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a
 
 > **rule**: `string`
 
-Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L17)
+Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/audit.ts#L17)
 
 ***
 
@@ -54,4 +54,4 @@ Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a
 
 > **severity**: [`Severity`](../type-aliases/Severity.md)
 
-Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/audit.ts#L17)
+Defined in: [audit.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/audit.ts#L17)

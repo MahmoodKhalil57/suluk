@@ -6,7 +6,7 @@
 
 # Interface: TeardownResult
 
-Defined in: [provision/src/teardown.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/teardown.ts#L22)
+Defined in: [provision/src/teardown.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L22)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [provision/src/teardown.ts:22](https://github.com/MahmoodKhalil57/su
 
 > **kept**: `object`[]
 
-Defined in: [provision/src/teardown.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/teardown.ts#L26)
+Defined in: [provision/src/teardown.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L26)
 
 refs kept + why: protected (no force) or the broker can't deprovision.
 
@@ -32,7 +32,7 @@ refs kept + why: protected (no force) or the broker can't deprovision.
 
 > **state**: [`InstanceState`](InstanceState.md)[]
 
-Defined in: [provision/src/teardown.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/teardown.ts#L28)
+Defined in: [provision/src/teardown.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L28)
 
 the remaining journal after teardown (the kept instances).
 
@@ -42,6 +42,6 @@ the remaining journal after teardown (the kept instances).
 
 > **torn**: `string`[]
 
-Defined in: [provision/src/teardown.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/teardown.ts#L24)
+Defined in: [provision/src/teardown.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/teardown.ts#L24)
 
 refs deprovisioned (or, under dryRun, that WOULD be).

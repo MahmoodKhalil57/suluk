@@ -8,7 +8,7 @@
 
 > **hardenDocument**\<`T`\>(`doc`, `opts?`): `T`
 
-Defined in: [harden.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/harden.ts#L54)
+Defined in: [harden.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/harden.ts#L54)
 
 Harden EVERY input schema in a built v4 document IN PLACE — request bodies + all parameter slots (incl. the route
  generator's path params, otherwise unbounded strings). Idempotent. The transform that makes assertGrade pass.

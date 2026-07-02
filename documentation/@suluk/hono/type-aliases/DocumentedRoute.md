@@ -8,7 +8,7 @@
 
 > **DocumentedRoute** = [`RouteContract`](../interfaces/RouteContract.md) & \{ `summary`: `string`; \} \| \{ `description`: `string`; \}
 
-Defined in: [tooling/ts/packages/hono/src/contract.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/contract.ts#L80)
+Defined in: [tooling/ts/packages/hono/src/contract.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/contract.ts#L80)
 
 A route that satisfies documentation coverage at the TYPE level: it MUST carry a `summary` or a `description`. Used by
 [contractDoc](../functions/contractDoc.md) so a route authored with neither fails to type-check.

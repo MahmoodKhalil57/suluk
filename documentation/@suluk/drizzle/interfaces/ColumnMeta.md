@@ -6,7 +6,7 @@
 
 # Interface: ColumnMeta
 
-Defined in: [meta.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L14)
+Defined in: [meta.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L14)
 
 One column's metadata, lifted from drizzle's column descriptor (verified against drizzle-orm 0.45).
 
@@ -16,7 +16,7 @@ One column's metadata, lifted from drizzle's column descriptor (verified against
 
 > **autoIncrement**: `boolean`
 
-Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L30)
+Defined in: [meta.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L30)
 
 An AUTOINCREMENT primary key (SQLite integer PK declared with autoIncrement).
 
@@ -26,7 +26,7 @@ An AUTOINCREMENT primary key (SQLite integer PK declared with autoIncrement).
 
 > **columnType**: `string`
 
-Defined in: [meta.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L22)
+Defined in: [meta.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L22)
 
 drizzle's concrete column type tag, e.g. "SQLiteText" | "SQLiteInteger".
 
@@ -36,7 +36,7 @@ drizzle's concrete column type tag, e.g. "SQLiteText" | "SQLiteInteger".
 
 > **dataType**: `string`
 
-Defined in: [meta.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L20)
+Defined in: [meta.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L20)
 
 drizzle's coarse JS dataType, e.g. "string" | "number" | "boolean" | "date".
 
@@ -46,7 +46,7 @@ drizzle's coarse JS dataType, e.g. "string" | "number" | "boolean" | "date".
 
 > `optional` **defaultValue?**: `string` \| `number` \| `boolean`
 
-Defined in: [meta.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L37)
+Defined in: [meta.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L37)
 
 The STATIC default value (number/string/boolean) when the column carries one — for DDL emit. Absent for a
  runtime `$defaultFn` column (hasDefault true, no SQL-literal value) and for autoincrement PKs.
@@ -57,7 +57,7 @@ The STATIC default value (number/string/boolean) when the column carries one —
 
 > `optional` **enumValues?**: `string`[]
 
-Defined in: [meta.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L34)
+Defined in: [meta.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L34)
 
 SQL CHECK/enum allowed values when the column was declared with `{ enum: [...] }`.
 
@@ -67,7 +67,7 @@ SQL CHECK/enum allowed values when the column was declared with `{ enum: [...] }
 
 > **hasDefault**: `boolean`
 
-Defined in: [meta.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L26)
+Defined in: [meta.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L26)
 
 Has a DB-side default (also true for autoincrement PKs) ⇒ optional on insert.
 
@@ -77,7 +77,7 @@ Has a DB-side default (also true for autoincrement PKs) ⇒ optional on insert.
 
 > **name**: `string`
 
-Defined in: [meta.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L16)
+Defined in: [meta.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L16)
 
 the JS property key on the table object (e.g. `reviewId`) — the v4 component property name.
 
@@ -87,7 +87,7 @@ the JS property key on the table object (e.g. `reviewId`) — the v4 component p
 
 > **notNull**: `boolean`
 
-Defined in: [meta.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L24)
+Defined in: [meta.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L24)
 
 NOT NULL at the SQL level.
 
@@ -97,7 +97,7 @@ NOT NULL at the SQL level.
 
 > **primaryKey**: `boolean`
 
-Defined in: [meta.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L28)
+Defined in: [meta.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L28)
 
 Part of the (single-column) primary key.
 
@@ -107,7 +107,7 @@ Part of the (single-column) primary key.
 
 > **sqlName**: `string`
 
-Defined in: [meta.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L18)
+Defined in: [meta.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L18)
 
 the SQL column name (e.g. `review_id`) — what DDL + raw SQL must use; differs from `name` under camel/snake.
 
@@ -117,6 +117,6 @@ the SQL column name (e.g. `review_id`) — what DDL + raw SQL must use; differs 
 
 > **unique**: `boolean`
 
-Defined in: [meta.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/meta.ts#L32)
+Defined in: [meta.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/meta.ts#L32)
 
 Carries a column-level UNIQUE constraint (drizzle's `.unique()` / `isUnique`).

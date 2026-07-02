@@ -8,7 +8,7 @@
 
 > **scrubSource**(`doc`): [`OpenAPIv4Document`](../interfaces/OpenAPIv4Document.md)
 
-Defined in: [source.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/source.ts#L53)
+Defined in: [source.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/source.ts#L53)
 
 Return a CLONE of the document with every `x-suluk-source` removed — for externally published projections, where
 a source pointer is internal-layout disclosure (council: scrub from external). Shallow-clones paths/requests so

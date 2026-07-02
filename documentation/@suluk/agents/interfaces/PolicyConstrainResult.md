@@ -6,7 +6,7 @@
 
 # Interface: PolicyConstrainResult
 
-Defined in: [agents/src/policy.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/policy.ts#L52)
+Defined in: [agents/src/policy.ts:52](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L52)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/policy.ts:52](https://github.com/MahmoodKhalil57/suluk/b
 
 > **effective**: [`EffectiveAgent`](EffectiveAgent.md)
 
-Defined in: [agents/src/policy.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/policy.ts#L53)
+Defined in: [agents/src/policy.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L53)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [agents/src/policy.ts:53](https://github.com/MahmoodKhalil57/suluk/b
 
 > **narrowings**: [`PolicyNarrowing`](PolicyNarrowing.md)[]
 
-Defined in: [agents/src/policy.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/policy.ts#L54)
+Defined in: [agents/src/policy.ts:54](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L54)

@@ -6,7 +6,7 @@
 
 # Interface: CoverageHole
 
-Defined in: [journeys/src/bind.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/bind.ts#L63)
+Defined in: [journeys/src/bind.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/bind.ts#L63)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/bind.ts:63](https://github.com/MahmoodKhalil57/suluk/b
 
 > **handle**: `string`
 
-Defined in: [journeys/src/bind.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/bind.ts#L64)
+Defined in: [journeys/src/bind.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/bind.ts#L64)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [journeys/src/bind.ts:64](https://github.com/MahmoodKhalil57/suluk/b
 
 > **name**: `string`
 
-Defined in: [journeys/src/bind.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/bind.ts#L65)
+Defined in: [journeys/src/bind.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/bind.ts#L65)
 
 ***
 
@@ -30,6 +30,6 @@ Defined in: [journeys/src/bind.ts:65](https://github.com/MahmoodKhalil57/suluk/b
 
 > **stub**: `string`
 
-Defined in: [journeys/src/bind.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/bind.ts#L67)
+Defined in: [journeys/src/bind.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/bind.ts#L67)
 
 a one-line drop-in stub scenario to cover this operation.

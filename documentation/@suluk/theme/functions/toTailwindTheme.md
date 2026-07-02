@@ -8,7 +8,7 @@
 
 > **toTailwindTheme**(`spec`): `string`
 
-Defined in: [emit.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/emit.ts#L44)
+Defined in: [emit.ts:44](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/emit.ts#L44)
 
 The Tailwind v4 `@theme inline` block — maps each token to its utility variable (`--color-background`,
 `--radius-lg`, `--font-sans`, breakpoints) referencing the `:root` custom properties, so Tailwind utilities

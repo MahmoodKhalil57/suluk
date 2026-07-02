@@ -6,7 +6,7 @@
 
 # Interface: BindRequest
 
-Defined in: [provision/src/types.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/types.ts#L91)
+Defined in: [provision/src/types.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/types.ts#L91)
 
 The resolved request handed to a broker's `bind`.
 
@@ -16,7 +16,7 @@ The resolved request handed to a broker's `bind`.
 
 > **instanceId**: `string`
 
-Defined in: [provision/src/types.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/types.ts#L94)
+Defined in: [provision/src/types.ts:94](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/types.ts#L94)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [provision/src/types.ts:94](https://github.com/MahmoodKhalil57/suluk
 
 > **name**: `string`
 
-Defined in: [provision/src/types.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/types.ts#L93)
+Defined in: [provision/src/types.ts:93](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/types.ts#L93)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [provision/src/types.ts:93](https://github.com/MahmoodKhalil57/suluk
 
 > **params**: `Record`\<`string`, `unknown`\>
 
-Defined in: [provision/src/types.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/types.ts#L95)
+Defined in: [provision/src/types.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/types.ts#L95)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [provision/src/types.ts:95](https://github.com/MahmoodKhalil57/suluk
 
 > **ref**: `string`
 
-Defined in: [provision/src/types.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/provision/src/types.ts#L92)
+Defined in: [provision/src/types.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/provision/src/types.ts#L92)

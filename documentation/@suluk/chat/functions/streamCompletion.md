@@ -8,7 +8,7 @@
 
 > **streamCompletion**(`cfg`, `model`, `messages`, `tools`, `onText`, `signal?`): `Promise`\<[`ChatMessage`](../interfaces/ChatMessage.md)\>
 
-Defined in: [chat/src/openrouter.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/chat/src/openrouter.ts#L39)
+Defined in: [chat/src/openrouter.ts:39](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/chat/src/openrouter.ts#L39)
 
 One streamed chat completion. Forwards assistant text deltas to `onText` as they arrive and returns the FINAL
 assistant message (with any accumulated `tool_calls`). Throws on a non-2xx (the loop reports it to the client).

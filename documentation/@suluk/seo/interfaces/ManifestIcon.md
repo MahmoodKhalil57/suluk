@@ -6,7 +6,7 @@
 
 # Interface: ManifestIcon
 
-Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/manifest.ts#L3)
+Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/manifest.ts#L3)
 
 PWA web app manifest generation (W3C). Pure JSON-string builder with sane defaults.
 
@@ -16,7 +16,7 @@ PWA web app manifest generation (W3C). Pure JSON-string builder with sane defaul
 
 > `optional` **purpose?**: `string`
 
-Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/manifest.ts#L3)
+Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/manifest.ts#L3)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/fe6f55
 
 > **sizes**: `string`
 
-Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/manifest.ts#L3)
+Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/manifest.ts#L3)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/fe6f55
 
 > **src**: `string`
 
-Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/manifest.ts#L3)
+Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/manifest.ts#L3)
 
 ***
 
@@ -40,4 +40,4 @@ Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/fe6f55
 
 > `optional` **type?**: `string`
 
-Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/manifest.ts#L3)
+Defined in: [manifest.ts:3](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/manifest.ts#L3)

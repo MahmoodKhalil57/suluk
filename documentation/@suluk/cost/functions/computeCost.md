@@ -8,7 +8,7 @@
 
 > **computeCost**(`model`, `usage?`): `object`
 
-Defined in: [contract.ts:123](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L123)
+Defined in: [contract.ts:123](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/contract.ts#L123)
 
 Compute the actual µ$ a request cost, from its declared model + the usage the handler reported. Fixed
 (per-call) components always count; variable components count their reported units × unit cost. Returns

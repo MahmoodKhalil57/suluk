@@ -8,7 +8,7 @@
 
 > `const` **SULUK\_FORK\_STANDALONE\_VERSION**: `"0.1.0"` = `"0.1.0"`
 
-Defined in: [index.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/scalar/src/index.ts#L29)
+Defined in: [index.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/scalar/src/index.ts#L29)
 
 The PINNED suluk-forked Scalar standalone (Scalar + the v4 patch-set), published as `@suluk/scalar-standalone` and
 served from jsdelivr-npm. This is what makes the native-v4 view (`scalarV4Response`) work OUT OF THE BOX: vanilla

@@ -8,7 +8,7 @@
 
 > **buildUrl**(`path`, `params?`, `baseUrl?`): `string`
 
-Defined in: [tooling/ts/packages/nano-stores/src/url.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/nano-stores/src/url.ts#L12)
+Defined in: [tooling/ts/packages/nano-stores/src/url.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/nano-stores/src/url.ts#L12)
 
 URL templating for the STATE corner. A RouteContract.path is Hono-style ("/pet/:petId"); v4 uriTemplates
 are RFC-6570 ("pet/{petId}"). buildUrl accepts BOTH param syntaxes so the same helper works whether the

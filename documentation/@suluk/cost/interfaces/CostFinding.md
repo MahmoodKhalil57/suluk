@@ -6,7 +6,7 @@
 
 # Interface: CostFinding
 
-Defined in: [contract.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L65)
+Defined in: [contract.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/contract.ts#L65)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [contract.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/26d65
 
 > **code**: `"no-cost-model"` \| `"zero-cost"` \| `"unattributed-background-cost"` \| `"unverified-attribution"` \| `"reconciliation-incomplete"`
 
-Defined in: [contract.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L66)
+Defined in: [contract.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/contract.ts#L66)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [contract.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/26d65
 
 > **message**: `string`
 
-Defined in: [contract.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L70)
+Defined in: [contract.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/contract.ts#L70)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [contract.ts:70](https://github.com/MahmoodKhalil57/suluk/blob/26d65
 
 > **operation**: `string`
 
-Defined in: [contract.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L69)
+Defined in: [contract.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/contract.ts#L69)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [contract.ts:69](https://github.com/MahmoodKhalil57/suluk/blob/26d65
 
 > **path**: `string`
 
-Defined in: [contract.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L68)
+Defined in: [contract.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/contract.ts#L68)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [contract.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/26d65
 
 > **severity**: `"warn"` \| `"info"`
 
-Defined in: [contract.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/contract.ts#L67)
+Defined in: [contract.ts:67](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/contract.ts#L67)

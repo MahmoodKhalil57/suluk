@@ -6,7 +6,7 @@
 
 # Interface: PrimitiveSources
 
-Defined in: [shadcn.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/shadcn.ts#L10)
+Defined in: [shadcn.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/visual/src/shadcn.ts#L10)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [shadcn.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559
 
 > `optional` **formLayout?**: `string`
 
-Defined in: [shadcn.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/shadcn.ts#L14)
+Defined in: [shadcn.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/visual/src/shadcn.ts#L14)
 
 The form renderer/layout source — so changing the form's arrangement re-verifies the composition.
 
@@ -24,7 +24,7 @@ The form renderer/layout source — so changing the form's arrangement re-verifi
 
 > `optional` **tableLayout?**: `string`
 
-Defined in: [shadcn.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/shadcn.ts#L16)
+Defined in: [shadcn.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/visual/src/shadcn.ts#L16)
 
 The table renderer/layout source.
 
@@ -34,6 +34,6 @@ The table renderer/layout source.
 
 > **widgets**: `Record`\<`string`, `string`\>
 
-Defined in: [shadcn.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/shadcn.ts#L12)
+Defined in: [shadcn.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/visual/src/shadcn.ts#L12)
 
 widget name (text/number/select/switch/…) → the source of its UI component (the bytes that draw pixels).

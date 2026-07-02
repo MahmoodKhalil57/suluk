@@ -8,7 +8,7 @@
 
 > `const` **authService**: `object`
 
-Defined in: [service.ts:195](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L195)
+Defined in: [service.ts:199](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L199)
 
 ## Type Declaration
 

@@ -6,7 +6,7 @@
 
 # Interface: Scenario
 
-Defined in: [journeys/src/gherkin.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L22)
+Defined in: [journeys/src/gherkin.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L22)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [journeys/src/gherkin.ts:22](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **examples?**: `object`
 
-Defined in: [journeys/src/gherkin.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L32)
+Defined in: [journeys/src/gherkin.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L32)
 
 the captured `Examples:` table of a Scenario Outline (C040-P1); absent for a plain Scenario. `tags` are from a
  `@public`-style line directly above the `Examples:` keyword (C040-P4 promote selection).
@@ -37,7 +37,7 @@ the captured `Examples:` table of a Scenario Outline (C040-P1); absent for a pla
 
 > **line**: `number`
 
-Defined in: [journeys/src/gherkin.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L27)
+Defined in: [journeys/src/gherkin.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L27)
 
 ***
 
@@ -45,7 +45,7 @@ Defined in: [journeys/src/gherkin.ts:27](https://github.com/MahmoodKhalil57/sulu
 
 > **name**: `string`
 
-Defined in: [journeys/src/gherkin.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L23)
+Defined in: [journeys/src/gherkin.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L23)
 
 ***
 
@@ -53,7 +53,7 @@ Defined in: [journeys/src/gherkin.ts:23](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **rule?**: `string`
 
-Defined in: [journeys/src/gherkin.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L25)
+Defined in: [journeys/src/gherkin.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L25)
 
 the `Rule:` this scenario sits under, if any.
 
@@ -63,7 +63,7 @@ the `Rule:` this scenario sits under, if any.
 
 > **steps**: [`FeatureStep`](FeatureStep.md)[]
 
-Defined in: [journeys/src/gherkin.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L26)
+Defined in: [journeys/src/gherkin.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L26)
 
 ***
 
@@ -71,6 +71,6 @@ Defined in: [journeys/src/gherkin.ts:26](https://github.com/MahmoodKhalil57/sulu
 
 > `optional` **tags?**: `string`[]
 
-Defined in: [journeys/src/gherkin.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/gherkin.ts#L29)
+Defined in: [journeys/src/gherkin.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/gherkin.ts#L29)
 
 tags on this scenario (the leading `@` stripped), e.g. ["public"].

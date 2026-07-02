@@ -6,7 +6,7 @@
 
 # Interface: EmailVerificationOptions
 
-Defined in: [auth-flow.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/auth-flow.ts#L30)
+Defined in: [auth-flow.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/auth-flow.ts#L30)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [auth-flow.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d6
 
 > `optional` **autoSignIn?**: `boolean`
 
-Defined in: [auth-flow.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/auth-flow.ts#L34)
+Defined in: [auth-flow.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/auth-flow.ts#L34)
 
 sign the user in automatically after they click the verification link (default true — frictionless).
 
@@ -24,7 +24,7 @@ sign the user in automatically after they click the verification link (default t
 
 > `optional` **sendOnSignUp?**: `boolean`
 
-Defined in: [auth-flow.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/auth-flow.ts#L36)
+Defined in: [auth-flow.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/auth-flow.ts#L36)
 
 send a verification email on sign-up (default true).
 
@@ -34,7 +34,7 @@ send a verification email on sign-up (default true).
 
 > **sendVerificationEmail**: (`data`) => `void` \| `Promise`\<`void`\>
 
-Defined in: [auth-flow.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/better-auth/src/auth-flow.ts#L32)
+Defined in: [auth-flow.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/better-auth/src/auth-flow.ts#L32)
 
 send the verification email — bind to your branded-email builder.
 

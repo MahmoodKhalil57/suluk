@@ -6,7 +6,7 @@
 
 # Interface: CatalogEntry
 
-Defined in: [agents/src/resources.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resources.ts#L24)
+Defined in: [agents/src/resources.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/resources.ts#L24)
 
 One entry in an agent's loadable catalog — the CF Agent-Skill `get()` listing (what appears in the system prompt).
 
@@ -16,7 +16,7 @@ One entry in an agent's loadable catalog — the CF Agent-Skill `get()` listing 
 
 > **description**: `string`
 
-Defined in: [agents/src/resources.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resources.ts#L29)
+Defined in: [agents/src/resources.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/resources.ts#L29)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [agents/src/resources.ts:29](https://github.com/MahmoodKhalil57/sulu
 
 > **key**: `string`
 
-Defined in: [agents/src/resources.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resources.ts#L26)
+Defined in: [agents/src/resources.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/resources.ts#L26)
 
 the resource key in `x-suluk-resources`.
 
@@ -34,7 +34,7 @@ the resource key in `x-suluk-resources`.
 
 > **kind**: `"instructions"` \| `"reference"` \| `"script"`
 
-Defined in: [agents/src/resources.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resources.ts#L30)
+Defined in: [agents/src/resources.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/resources.ts#L30)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [agents/src/resources.ts:30](https://github.com/MahmoodKhalil57/sulu
 
 > **local**: `string`
 
-Defined in: [agents/src/resources.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resources.ts#L28)
+Defined in: [agents/src/resources.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/resources.ts#L28)
 
 the agent's local ref name (the `resources` map key).
 
@@ -52,7 +52,7 @@ the agent's local ref name (the `resources` map key).
 
 > **provenance**: `object`
 
-Defined in: [agents/src/resources.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resources.ts#L32)
+Defined in: [agents/src/resources.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/resources.ts#L32)
 
 #### contentHash
 
@@ -72,4 +72,4 @@ Defined in: [agents/src/resources.ts:32](https://github.com/MahmoodKhalil57/sulu
 
 > **trust**: `"author-declared"` \| `"retrieved"`
 
-Defined in: [agents/src/resources.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resources.ts#L31)
+Defined in: [agents/src/resources.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/resources.ts#L31)

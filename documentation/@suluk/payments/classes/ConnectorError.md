@@ -6,7 +6,7 @@
 
 # Class: ConnectorError
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/errors.ts#L21)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/errors.ts#L21)
 
 Response-phase: the processor returned an unexpected shape the connector couldn't transform.
 
@@ -20,7 +20,7 @@ Response-phase: the processor returned an unexpected shape the connector couldn'
 
 > **new ConnectorError**(`errorCode`, `message`): `ConnectorError`
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/errors.ts#L8)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/errors.ts#L8)
 
 #### Parameters
 
@@ -60,7 +60,7 @@ The cause of the error.
 
 > `readonly` **errorCode**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/errors.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/errors.ts#L9)
+Defined in: [tooling/ts/packages/payments/src/errors.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/errors.ts#L9)
 
 #### Inherited from
 

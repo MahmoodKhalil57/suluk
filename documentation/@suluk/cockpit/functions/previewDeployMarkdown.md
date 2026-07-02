@@ -8,7 +8,7 @@
 
 > **previewDeployMarkdown**(`plan`): `string`
 
-Defined in: [cockpit/src/deploy.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/deploy.ts#L64)
+Defined in: [cockpit/src/deploy.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/deploy.ts#L64)
 
 Render a PREVIEW deploy plan as a PREVIEW-DEPLOY.md — same steps, but headed with the role-preview safety.
 

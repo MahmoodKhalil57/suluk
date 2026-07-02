@@ -8,7 +8,7 @@
 
 > **allowedTypes**(`r`, `tier`): `Set`\<`string`\>
 
-Defined in: [registry.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/registry.ts#L35)
+Defined in: [registry.ts:35](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/registry.ts#L35)
 
 The type names a document of `tier` is allowed to reference (its children come from COMPOSES[tier]).
 

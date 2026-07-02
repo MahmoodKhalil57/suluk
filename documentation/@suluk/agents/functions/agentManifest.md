@@ -8,7 +8,7 @@
 
 > **agentManifest**(`doc`, `agentName`, `opts?`): [`AgentManifest`](../interfaces/AgentManifest.md)
 
-Defined in: [agents/src/manifest.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L73)
+Defined in: [agents/src/manifest.ts:73](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/manifest.ts#L73)
 
 Build the canonical, signable manifest for an agent and its reachable sub-tree. Pure; does not throw.
 

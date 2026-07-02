@@ -6,7 +6,7 @@
 
 # Interface: CompositionPlan
 
-Defined in: [compose.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/compose.ts#L13)
+Defined in: [compose.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/compose.ts#L13)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [compose.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d
 
 > **collisions**: `string`[]
 
-Defined in: [compose.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/compose.ts#L20)
+Defined in: [compose.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/compose.ts#L20)
 
 clashes installModule would refuse even with names satisfied: duplicate module, two providers of one
  entity (incl. the base), or two entity names mapping to one lowercased path resource
@@ -25,7 +25,7 @@ clashes installModule would refuse even with names satisfied: duplicate module, 
 
 > **ok**: `boolean`
 
-Defined in: [compose.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/compose.ts#L24)
+Defined in: [compose.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/compose.ts#L24)
 
 true ⇒ the whole set installs in `order` with every requirement met and no collision (matches composeModules)
 
@@ -35,7 +35,7 @@ true ⇒ the whole set installs in `order` with every requirement met and no col
 
 > **order**: [`SulukModule`](SulukModule.md)[]
 
-Defined in: [compose.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/compose.ts#L15)
+Defined in: [compose.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/compose.ts#L15)
 
 modules in install order — each one's requires are met by the base or an earlier entry
 
@@ -45,7 +45,7 @@ modules in install order — each one's requires are met by the base or an earli
 
 > **unmet**: `object`[]
 
-Defined in: [compose.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/compose.ts#L17)
+Defined in: [compose.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/compose.ts#L17)
 
 requirements neither the base nor ANOTHER selected module provides (a self-provide cannot bootstrap)
 
@@ -63,6 +63,6 @@ requirements neither the base nor ANOTHER selected module provides (a self-provi
 
 > **unresolved**: `string`[]
 
-Defined in: [compose.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/compose.ts#L22)
+Defined in: [compose.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/compose.ts#L22)
 
 modules that could not be ordered — they require each other, or sit behind a cycle

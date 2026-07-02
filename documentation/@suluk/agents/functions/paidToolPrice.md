@@ -8,7 +8,7 @@
 
 > **paidToolPrice**(`cost`): [`PaidToolPrice`](../interfaces/PaidToolPrice.md) \| `null`
 
-Defined in: [agents/src/runtime-shared.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/runtime-shared.ts#L45)
+Defined in: [agents/src/runtime-shared.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/runtime-shared.ts#L45)
 
 Derive an x402 `paidTool` price from an operation's declared `x-suluk-cost` (a `CostModel`, read STRUCTURALLY — no
 `@suluk/cost` dep). The price is the FLAT (per-call/per-request) portion: `estimateMicroUsd` if given, else the sum

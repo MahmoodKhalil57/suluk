@@ -8,7 +8,7 @@
 
 > **billingSubscriptionId**(`db`, `userId`): `Promise`\<`string` \| `null`\>
 
-Defined in: [packages/billing/src/account.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/account.ts#L32)
+Defined in: [packages/billing/src/account.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/account.ts#L32)
 
 The user's recorded Stripe subscription id, or null when they have no subscription.
 

@@ -6,7 +6,7 @@
 
 # Interface: Finding
 
-Defined in: [tooling/ts/packages/hono/src/audit.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/audit.ts#L9)
+Defined in: [tooling/ts/packages/hono/src/audit.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/audit.ts#L9)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/hono/src/audit.ts:9](https://github.com/Mahmood
 
 > **code**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/audit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/audit.ts#L11)
+Defined in: [tooling/ts/packages/hono/src/audit.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/audit.ts#L11)
 
 "missing-doc" | "no-success-schema" | "response-no-description" | "no-examples"
 
@@ -24,7 +24,7 @@ Defined in: [tooling/ts/packages/hono/src/audit.ts:11](https://github.com/Mahmoo
 
 > **message**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/audit.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/audit.ts#L15)
+Defined in: [tooling/ts/packages/hono/src/audit.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/audit.ts#L15)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [tooling/ts/packages/hono/src/audit.ts:15](https://github.com/Mahmoo
 
 > **operation**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/audit.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/audit.ts#L14)
+Defined in: [tooling/ts/packages/hono/src/audit.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/audit.ts#L14)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [tooling/ts/packages/hono/src/audit.ts:14](https://github.com/Mahmoo
 
 > **path**: `string`
 
-Defined in: [tooling/ts/packages/hono/src/audit.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/audit.ts#L13)
+Defined in: [tooling/ts/packages/hono/src/audit.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/audit.ts#L13)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [tooling/ts/packages/hono/src/audit.ts:13](https://github.com/Mahmoo
 
 > **severity**: `"warn"` \| `"info"`
 
-Defined in: [tooling/ts/packages/hono/src/audit.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/hono/src/audit.ts#L12)
+Defined in: [tooling/ts/packages/hono/src/audit.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/hono/src/audit.ts#L12)

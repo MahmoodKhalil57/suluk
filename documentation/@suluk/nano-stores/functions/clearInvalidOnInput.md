@@ -8,7 +8,7 @@
 
 > **clearInvalidOnInput**(`form`): () => `void`
 
-Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/nano-stores/src/validation.ts#L30)
+Defined in: [tooling/ts/packages/nano-stores/src/validation.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/nano-stores/src/validation.ts#L30)
 
 Attach real-time clearing: editing a field clears its invalid state (so the red ring disappears as the user fixes
  it, instead of lingering until the next submit). Returns a cleanup.

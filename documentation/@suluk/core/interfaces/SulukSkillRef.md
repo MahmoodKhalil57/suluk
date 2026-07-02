@@ -6,7 +6,7 @@
 
 # Interface: SulukSkillRef
 
-Defined in: [types.ts:213](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L213)
+Defined in: [types.ts:213](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L213)
 
 A SKILL within an agent — an instruction bundle (the LLM tier). PRESENCE of `model` is what makes this a skill
 (the system-text path) rather than a deterministic route. Skill text is a PROVENANCE POINTER (source URL +
@@ -23,7 +23,7 @@ projected SKILL.md is GENERATED from it, the content-hash binding making drift t
 
 > `optional` **model?**: `string`[]
 
-Defined in: [types.ts:219](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L219)
+Defined in: [types.ts:219](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L219)
 
 EXPLICIT model preference list (OpenRouter ids), cheap→capable — the opt-out path. OR declare NEEDS via
 `modelProfile`/`modelPrefer`/`modelRequire` and let `@suluk/models` pick the best CURRENT model (a skill
@@ -35,7 +35,7 @@ declares what it needs, not a frozen id). Structural-only — never read by the 
 
 > `optional` **modelPrefer?**: `object`
 
-Defined in: [types.ts:223](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L223)
+Defined in: [types.ts:223](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L223)
 
 escape-hatch preference weights (0-3) over the 4 author-facing axes.
 
@@ -61,7 +61,7 @@ escape-hatch preference weights (0-3) over the 4 author-facing axes.
 
 > `optional` **modelProfile?**: `"tool-reliable"` \| `"cheap-fast"` \| `"balanced"` \| `"max-reasoning"` \| `"long-context"` \| `"vision"`
 
-Defined in: [types.ts:221](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L221)
+Defined in: [types.ts:221](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L221)
 
 a named selection profile resolved against the model catalog (@suluk/models).
 
@@ -71,7 +71,7 @@ a named selection profile resolved against the model catalog (@suluk/models).
 
 > `optional` **modelRequire?**: `object`
 
-Defined in: [types.ts:231](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L231)
+Defined in: [types.ts:231](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L231)
 
 explicit hard requirements the author adds (beyond what's derived from the agent + the context analyzer). `zdr`
 (C030, verified 2026-06-13): require zero-data-retention serving — enforced at runtime via the router's
@@ -101,7 +101,7 @@ operator policy that forces a pin.
 
 > `optional` **modelResolve?**: `"pinned"` \| `"router"` \| `"latest"`
 
-Defined in: [types.ts:239](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L239)
+Defined in: [types.ts:239](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L239)
 
 How the model is RESOLVED from the survivor set (C030): `pinned` (default) — a concrete reproducible id; `router`
 — delegate the per-request pick to OpenRouter's auto-router fenced by our enumerated survivor allowlist (opt-in,
@@ -115,7 +115,7 @@ agent force-pins for reproducible, auditable behavior. Author surface only; neve
 
 > `optional` **provenance?**: `object`
 
-Defined in: [types.ts:248](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L248)
+Defined in: [types.ts:248](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L248)
 
 single source of truth + staleness binding (SKILL.md is generated from `source`, hashed to detect drift).
 
@@ -137,7 +137,7 @@ single source of truth + staleness binding (SKILL.md is generated from `source`,
 
 > `optional` **scope?**: `string`[]
 
-Defined in: [types.ts:246](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L246)
+Defined in: [types.ts:246](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L246)
 
 ***
 
@@ -145,7 +145,7 @@ Defined in: [types.ts:246](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0
 
 > `optional` **tier?**: `"resident"` \| `"cold-tail"`
 
-Defined in: [types.ts:241](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L241)
+Defined in: [types.ts:241](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L241)
 
 static serving partition: `resident` (default tools/list) vs `cold-tail` (revealed via discover_tools).
 
@@ -155,7 +155,7 @@ static serving partition: `resident` (default tools/list) vs `cold-tail` (reveal
 
 > `optional` **trust?**: `"author-declared"` \| `"retrieved"`
 
-Defined in: [types.ts:245](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L245)
+Defined in: [types.ts:245](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L245)
 
 author-declared (trusted) vs retrieved (untrusted) content (a retrieved skill may not escalate scope/provenance).
 
@@ -165,6 +165,6 @@ author-declared (trusted) vs retrieved (untrusted) content (a retrieved skill ma
 
 > `optional` **whenToUse?**: `string`
 
-Defined in: [types.ts:243](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/core/src/types.ts#L243)
+Defined in: [types.ts:243](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/core/src/types.ts#L243)
 
 routing-oriented precondition prose (runtime-advisory; never a request-value selector — D1).

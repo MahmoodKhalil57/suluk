@@ -8,6 +8,6 @@
 
 > **ExampleTier** = `"public"` \| `"maintainer"` \| `"synthetic"`
 
-Defined in: [index.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/examples/src/index.ts#L23)
+Defined in: [index.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/examples/src/index.ts#L23)
 
 Which source supplied the resolved value. `public` (highest) > `maintainer` > `synthetic` (lowest).

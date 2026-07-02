@@ -6,7 +6,7 @@
 
 # Interface: JourneyStep
 
-Defined in: [journeys/src/vocabulary.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/vocabulary.ts#L19)
+Defined in: [journeys/src/vocabulary.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/vocabulary.ts#L19)
 
 `@suluk/journeys` — intuitive, runnable BDD over a v4 "Suluk" contract.
 
@@ -24,7 +24,7 @@ VALUES — so it stays on the safe side of the D1 wall; the @suluk/core matcher 
 
 > **handle**: `string`
 
-Defined in: [journeys/src/vocabulary.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/vocabulary.ts#L27)
+Defined in: [journeys/src/vocabulary.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/vocabulary.ts#L27)
 
 stable identity: `op.name@path-uri`, or `@access:<role>` for a Given.
 
@@ -34,7 +34,7 @@ stable identity: `op.name@path-uri`, or `@access:<role>` for a Given.
 
 > **kind**: [`StepKind`](../type-aliases/StepKind.md)
 
-Defined in: [journeys/src/vocabulary.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/vocabulary.ts#L21)
+Defined in: [journeys/src/vocabulary.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/vocabulary.ts#L21)
 
 Given / When / Then.
 
@@ -44,7 +44,7 @@ Given / When / Then.
 
 > **phrase**: `string`
 
-Defined in: [journeys/src/vocabulary.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/vocabulary.ts#L23)
+Defined in: [journeys/src/vocabulary.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/vocabulary.ts#L23)
 
 the human-readable phrase an author writes, e.g. "When I checkout".
 
@@ -54,7 +54,7 @@ the human-readable phrase an author writes, e.g. "When I checkout".
 
 > **skeleton**: `string`
 
-Defined in: [journeys/src/vocabulary.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/vocabulary.ts#L25)
+Defined in: [journeys/src/vocabulary.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/vocabulary.ts#L25)
 
 the normalized matching skeleton (slot values stripped).
 
@@ -64,6 +64,6 @@ the normalized matching skeleton (slot values stripped).
 
 > **via**: `string`
 
-Defined in: [journeys/src/vocabulary.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/journeys/src/vocabulary.ts#L29)
+Defined in: [journeys/src/vocabulary.ts:29](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/journeys/src/vocabulary.ts#L29)
 
 provenance of this phrase (which contract fact produced it).

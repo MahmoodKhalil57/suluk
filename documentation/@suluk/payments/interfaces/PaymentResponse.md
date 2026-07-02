@@ -6,7 +6,7 @@
 
 # Interface: PaymentResponse
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:141](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L141)
+Defined in: [tooling/ts/packages/payments/src/types.ts:141](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L141)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:141](https://github.com/M
 
 > `optional` **amount?**: [`MinorAmount`](MinorAmount.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:147](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L147)
+Defined in: [tooling/ts/packages/payments/src/types.ts:147](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L147)
 
 the amount actually captured/authorized, when the processor reports it.
 
@@ -24,7 +24,7 @@ the amount actually captured/authorized, when the processor reports it.
 
 > `optional` **connectorTransactionId?**: `string`
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L143)
+Defined in: [tooling/ts/packages/payments/src/types.ts:143](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L143)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:143](https://github.com/M
 
 > `optional` **error?**: [`PaymentError`](PaymentError.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:145](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L145)
+Defined in: [tooling/ts/packages/payments/src/types.ts:145](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L145)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:145](https://github.com/M
 
 > `optional` **redirectionData?**: [`RedirectionData`](RedirectionData.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:144](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L144)
+Defined in: [tooling/ts/packages/payments/src/types.ts:144](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L144)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [tooling/ts/packages/payments/src/types.ts:144](https://github.com/M
 
 > **status**: [`PaymentStatus`](../enumerations/PaymentStatus.md)
 
-Defined in: [tooling/ts/packages/payments/src/types.ts:142](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/types.ts#L142)
+Defined in: [tooling/ts/packages/payments/src/types.ts:142](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/types.ts#L142)

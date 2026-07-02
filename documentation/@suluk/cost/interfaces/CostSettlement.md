@@ -6,7 +6,7 @@
 
 # Interface: CostSettlement
 
-Defined in: [types.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/types.ts#L98)
+Defined in: [types.ts:98](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/types.ts#L98)
 
 `@suluk/cost` — cost as a contract facet + runtime metering. You can't price a user without knowing what
 they cost you. So: declare per-operation cost (incl. third-party usage) on the contract — it bubbles into
@@ -20,7 +20,7 @@ it is and let you build pricing on top (Stripe via @suluk/stripe). CANDIDATE too
 
 > `optional` **credits?**: `number`
 
-Defined in: [types.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/types.ts#L102)
+Defined in: [types.ts:102](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/types.ts#L102)
 
 method:"credit" — the credits debited per call (a non-negative integer). Omitted ⇒ derived from
  `estimateMicroUsd` × the operator's credit rate (a runtime concern, not declared here).
@@ -31,7 +31,7 @@ method:"credit" — the credits debited per call (a non-negative integer). Omitt
 
 > **method**: [`SettlementMethod`](../type-aliases/SettlementMethod.md)
 
-Defined in: [types.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/types.ts#L99)
+Defined in: [types.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/types.ts#L99)
 
 ***
 
@@ -39,7 +39,7 @@ Defined in: [types.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a
 
 > `optional` **overflow?**: `"credit"` \| `"deny"`
 
-Defined in: [types.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/types.ts#L105)
+Defined in: [types.ts:105](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/types.ts#L105)
 
 method:"rate-limited" — what happens when the free cap (`x-suluk-ratelimit`) is exhausted: refuse, or fall back
  to charging credits. Advisory; the runtime enforces it.

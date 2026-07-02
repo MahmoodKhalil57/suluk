@@ -6,7 +6,7 @@
 
 # Interface: DeployProvider
 
-Defined in: [deploy/src/types.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L90)
+Defined in: [deploy/src/types.ts:90](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L90)
 
 A deployment target. Pure: it produces the plan; the host executes the steps (with the user's credentials).
 
@@ -16,7 +16,7 @@ A deployment target. Pure: it produces the plan; the host executes the steps (wi
 
 > **name**: `string`
 
-Defined in: [deploy/src/types.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L91)
+Defined in: [deploy/src/types.ts:91](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L91)
 
 ## Methods
 
@@ -24,7 +24,7 @@ Defined in: [deploy/src/types.ts:91](https://github.com/MahmoodKhalil57/suluk/bl
 
 > **generate**(`input`): [`DeployPlan`](DeployPlan.md)
 
-Defined in: [deploy/src/types.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/deploy/src/types.ts#L92)
+Defined in: [deploy/src/types.ts:92](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/deploy/src/types.ts#L92)
 
 #### Parameters
 

@@ -6,7 +6,7 @@
 
 # Interface: StoresOptions
 
-Defined in: [generate-stores.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate-stores.ts#L24)
+Defined in: [generate-stores.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/sdk/src/generate-stores.ts#L24)
 
 generateStores(doc) — project the C037 reactive facet (`x-suluk-store` + `x-suluk-notify`) into a typed Nano Stores
 reactive layer (states + mutation→store invalidation + a hookable callback seam) on top of the generated client.
@@ -21,6 +21,6 @@ reactive layer (states + mutation→store invalidation + a hookable callback sea
 
 > `optional` **clientModule?**: `string`
 
-Defined in: [generate-stores.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/sdk/src/generate-stores.ts#L26)
+Defined in: [generate-stores.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/sdk/src/generate-stores.ts#L26)
 
 Import specifier for the generated SDK module (where `SulukClient` lives). Default `"./sdk"`.

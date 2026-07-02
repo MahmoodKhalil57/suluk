@@ -6,7 +6,7 @@
 
 # Interface: VarSpec
 
-Defined in: [schema.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L17)
+Defined in: [schema.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/schema.ts#L17)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [schema.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0
 
 > `optional` **default?**: `string`
 
-Defined in: [schema.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L23)
+Defined in: [schema.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/schema.ts#L23)
 
 fallback value when absent.
 
@@ -24,7 +24,7 @@ fallback value when absent.
 
 > `optional` **description?**: `string`
 
-Defined in: [schema.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L26)
+Defined in: [schema.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/schema.ts#L26)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [schema.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0
 
 > `optional` **example?**: `string`
 
-Defined in: [schema.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L27)
+Defined in: [schema.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/schema.ts#L27)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [schema.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0
 
 > `optional` **forbidInSurface?**: `object`[]
 
-Defined in: [schema.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L37)
+Defined in: [schema.ts:37](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/schema.ts#L37)
 
 value patterns that are FORBIDDEN on specific surfaces — e.g. a `sk_test_` key on `cloudflare`. Default
  severity "warning" (a gated nudge); set "error" to fail closed.
@@ -67,7 +67,7 @@ value patterns that are FORBIDDEN on specific surfaces — e.g. a `sk_test_` key
 
 > `optional` **minLength?**: `number`
 
-Defined in: [schema.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L32)
+Defined in: [schema.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/schema.ts#L32)
 
 the value, when present, must be at least this long (a too-short secret is a real misconfiguration).
 
@@ -77,7 +77,7 @@ the value, when present, must be at least this long (a too-short secret is a rea
 
 > `optional` **pattern?**: `string` \| `RegExp`
 
-Defined in: [schema.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L30)
+Defined in: [schema.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/schema.ts#L30)
 
 the value, when present, must match this regex (source string or RegExp).
 
@@ -87,7 +87,7 @@ the value, when present, must match this regex (source string or RegExp).
 
 > `optional` **required?**: `boolean`
 
-Defined in: [schema.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L21)
+Defined in: [schema.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/schema.ts#L21)
 
 must be present (after defaults) — else parse() throws and health = "missing".
 
@@ -97,7 +97,7 @@ must be present (after defaults) — else parse() throws and health = "missing".
 
 > `optional` **requiredInSurface?**: [`Surface`](../type-aliases/Surface.md)[]
 
-Defined in: [schema.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L34)
+Defined in: [schema.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/schema.ts#L34)
 
 required ONLY when validating for one of these surfaces (in addition to `required`, which is always).
 
@@ -107,7 +107,7 @@ required ONLY when validating for one of these surfaces (in addition to `require
 
 > `optional` **secret?**: `boolean`
 
-Defined in: [schema.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L19)
+Defined in: [schema.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/schema.ts#L19)
 
 a secret — its value must be ENCRYPTED at rest in the committed .env (plaintext is flagged).
 
@@ -117,6 +117,6 @@ a secret — its value must be ENCRYPTED at rest in the committed .env (plaintex
 
 > `optional` **surfaces?**: [`Surface`](../type-aliases/Surface.md)[]
 
-Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/env/src/schema.ts#L25)
+Defined in: [schema.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/env/src/schema.ts#L25)
 
 which surfaces need this var (default: every surface). Drives the deploy/vscode projections.

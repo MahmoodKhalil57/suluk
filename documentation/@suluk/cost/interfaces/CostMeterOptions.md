@@ -6,7 +6,7 @@
 
 # Interface: CostMeterOptions
 
-Defined in: [meter.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/meter.ts#L31)
+Defined in: [meter.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/meter.ts#L31)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [meter.ts:31](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a
 
 > `optional` **actionHeader?**: `string`
 
-Defined in: [meter.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/meter.ts#L40)
+Defined in: [meter.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/meter.ts#L40)
 
 Header carrying the frontend action id (default "x-suluk-action").
 
@@ -24,7 +24,7 @@ Header carrying the frontend action id (default "x-suluk-action").
 
 > **costs**: `Record`\<`string`, [`CostModel`](CostModel.md)\>
 
-Defined in: [meter.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/meter.ts#L34)
+Defined in: [meter.ts:34](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/meter.ts#L34)
 
 operation name → its declared cost model.
 
@@ -34,7 +34,7 @@ operation name → its declared cost model.
 
 > `optional` **now?**: () => `number`
 
-Defined in: [meter.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/meter.ts#L42)
+Defined in: [meter.ts:42](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/meter.ts#L42)
 
 Wall-clock now (ms). Pass `() => Date.now()` in production; a fixed fn in tests for reproducibility.
 
@@ -48,7 +48,7 @@ Wall-clock now (ms). Pass `() => Date.now()` in production; a fixed fn in tests 
 
 > **operationOf**: (`c`) => `string` \| `undefined`
 
-Defined in: [meter.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/meter.ts#L36)
+Defined in: [meter.ts:36](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/meter.ts#L36)
 
 Resolve the operation name for a request (e.g. c.get("operation"), or a matcher).
 
@@ -68,7 +68,7 @@ Resolve the operation name for a request (e.g. c.get("operation"), or a matcher)
 
 > `optional` **principalOf?**: (`c`) => `string` \| `undefined`
 
-Defined in: [meter.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/meter.ts#L38)
+Defined in: [meter.ts:38](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/meter.ts#L38)
 
 Resolve the principal/user id (default: none).
 
@@ -88,4 +88,4 @@ Resolve the principal/user id (default: none).
 
 > **sink**: [`CostSink`](CostSink.md)
 
-Defined in: [meter.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/meter.ts#L32)
+Defined in: [meter.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/meter.ts#L32)

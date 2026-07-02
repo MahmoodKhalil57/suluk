@@ -8,7 +8,7 @@
 
 > **contractGates**(`doc`, `baseline`): [`Gate`](../interfaces/Gate.md)[]
 
-Defined in: [cockpit/src/lifecycle.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/lifecycle.ts#L26)
+Defined in: [cockpit/src/lifecycle.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/lifecycle.ts#L26)
 
 The CONTRACT-level ship gates — everything decidable from the document itself (no host needed).
 

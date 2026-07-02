@@ -6,7 +6,7 @@
 
 # Interface: ReadinessAudit
 
-Defined in: [readiness.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/readiness.ts#L17)
+Defined in: [readiness.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/readiness.ts#L17)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [readiness.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d6
 
 > **clean**: `number`
 
-Defined in: [readiness.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/readiness.ts#L20)
+Defined in: [readiness.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/readiness.ts#L20)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [readiness.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d6
 
 > **findings**: [`Finding`](Finding.md)[]
 
-Defined in: [readiness.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/readiness.ts#L18)
+Defined in: [readiness.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/readiness.ts#L18)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [readiness.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d6
 
 > **grade**: [`Grade`](../type-aliases/Grade.md)
 
-Defined in: [readiness.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/readiness.ts#L22)
+Defined in: [readiness.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/readiness.ts#L22)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [readiness.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/26d6
 
 > **nodes**: `number`
 
-Defined in: [readiness.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/readiness.ts#L19)
+Defined in: [readiness.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/readiness.ts#L19)
 
 ***
 
@@ -46,4 +46,4 @@ Defined in: [readiness.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/26d6
 
 > **score**: `number`
 
-Defined in: [readiness.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/harden/src/readiness.ts#L21)
+Defined in: [readiness.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/harden/src/readiness.ts#L21)

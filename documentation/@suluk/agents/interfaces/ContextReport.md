@@ -6,7 +6,7 @@
 
 # Interface: ContextReport
 
-Defined in: [agents/src/context.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/context.ts#L95)
+Defined in: [agents/src/context.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/context.ts#L95)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/context.ts:95](https://github.com/MahmoodKhalil57/suluk/
 
 > **findings**: [`LintFinding`](LintFinding.md)[]
 
-Defined in: [agents/src/context.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/context.ts#L97)
+Defined in: [agents/src/context.ts:97](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/context.ts#L97)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [agents/src/context.ts:97](https://github.com/MahmoodKhalil57/suluk/
 
 > **flatten**: [`FlattenSuggestion`](FlattenSuggestion.md)[]
 
-Defined in: [agents/src/context.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/context.ts#L101)
+Defined in: [agents/src/context.ts:101](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/context.ts#L101)
 
 flatten suggestions for thin/redundant layers (collapse UP).
 
@@ -32,7 +32,7 @@ flatten suggestions for thin/redundant layers (collapse UP).
 
 > **loads**: [`AgentContextLoad`](AgentContextLoad.md)[]
 
-Defined in: [agents/src/context.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/context.ts#L96)
+Defined in: [agents/src/context.ts:96](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/context.ts#L96)
 
 ***
 
@@ -40,6 +40,6 @@ Defined in: [agents/src/context.ts:96](https://github.com/MahmoodKhalil57/suluk/
 
 > **suggestions**: [`UnflattenSuggestion`](UnflattenSuggestion.md)[]
 
-Defined in: [agents/src/context.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/context.ts#L99)
+Defined in: [agents/src/context.ts:99](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/context.ts#L99)
 
 unflatten suggestions for over-target agents (split DOWN).

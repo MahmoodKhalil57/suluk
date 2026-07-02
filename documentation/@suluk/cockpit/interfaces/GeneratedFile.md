@@ -6,7 +6,7 @@
 
 # Interface: GeneratedFile
 
-Defined in: [cockpit/src/builder.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/builder.ts#L80)
+Defined in: [cockpit/src/builder.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/builder.ts#L80)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [cockpit/src/builder.ts:80](https://github.com/MahmoodKhalil57/suluk
 
 > **content**: `string`
 
-Defined in: [cockpit/src/builder.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/builder.ts#L80)
+Defined in: [cockpit/src/builder.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/builder.ts#L80)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [cockpit/src/builder.ts:80](https://github.com/MahmoodKhalil57/suluk
 
 > **path**: `string`
 
-Defined in: [cockpit/src/builder.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/builder.ts#L80)
+Defined in: [cockpit/src/builder.ts:80](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/builder.ts#L80)

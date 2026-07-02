@@ -6,7 +6,7 @@
 
 # Interface: ModuleDoc
 
-Defined in: [harvest.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L10)
+Defined in: [harvest.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L10)
 
 `@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
 (package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one
@@ -18,7 +18,7 @@ stylesheet, deployable to GitHub Pages with zero build. Suluk documents itself w
 
 > **doc**: `string`
 
-Defined in: [harvest.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L12)
+Defined in: [harvest.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L12)
 
 ***
 
@@ -26,4 +26,4 @@ Defined in: [harvest.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/26d65d
 
 > **file**: `string`
 
-Defined in: [harvest.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L11)
+Defined in: [harvest.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L11)

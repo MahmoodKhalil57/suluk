@@ -6,7 +6,7 @@
 
 # Interface: EntityModel
 
-Defined in: [model.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/model.ts#L7)
+Defined in: [model.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/model.ts#L7)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [model.ts:7](https://github.com/MahmoodKhalil57/suluk/blob/fe6f55944
 
 > **access**: `object`
 
-Defined in: [model.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/model.ts#L12)
+Defined in: [model.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/model.ts#L12)
 
 #### create
 
@@ -38,7 +38,7 @@ Defined in: [model.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/fe6f5594
 
 > **fields**: [`Field`](Field.md)[]
 
-Defined in: [model.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/model.ts#L10)
+Defined in: [model.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/model.ts#L10)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [model.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/fe6f5594
 
 > **name**: `string`
 
-Defined in: [model.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/model.ts#L8)
+Defined in: [model.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/model.ts#L8)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [model.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/fe6f55944
 
 > **path**: `string`
 
-Defined in: [model.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/model.ts#L9)
+Defined in: [model.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/model.ts#L9)
 
 ***
 
@@ -62,4 +62,4 @@ Defined in: [model.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/fe6f55944
 
 > **title**: `string`
 
-Defined in: [model.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/model.ts#L11)
+Defined in: [model.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/model.ts#L11)

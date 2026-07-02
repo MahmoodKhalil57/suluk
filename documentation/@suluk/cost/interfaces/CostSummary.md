@@ -6,7 +6,7 @@
 
 # Interface: CostSummary
 
-Defined in: [ledger.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/ledger.ts#L8)
+Defined in: [ledger.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/ledger.ts#L8)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [ledger.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a
 
 > **byAction**: `Record`\<`string`, `number`\>
 
-Defined in: [ledger.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/ledger.ts#L13)
+Defined in: [ledger.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/ledger.ts#L13)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [ledger.ts:13](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0
 
 > **byOperation**: `Record`\<`string`, `number`\>
 
-Defined in: [ledger.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/ledger.ts#L12)
+Defined in: [ledger.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/ledger.ts#L12)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [ledger.ts:12](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0
 
 > **byPrincipal**: `Record`\<`string`, `number`\>
 
-Defined in: [ledger.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/ledger.ts#L11)
+Defined in: [ledger.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/ledger.ts#L11)
 
 ***
 
@@ -38,7 +38,7 @@ Defined in: [ledger.ts:11](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0
 
 > **bySource**: `Record`\<`string`, `number`\>
 
-Defined in: [ledger.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/ledger.ts#L14)
+Defined in: [ledger.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/ledger.ts#L14)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [ledger.ts:14](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0
 
 > **count**: `number`
 
-Defined in: [ledger.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/ledger.ts#L10)
+Defined in: [ledger.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/ledger.ts#L10)
 
 ***
 
@@ -54,4 +54,4 @@ Defined in: [ledger.ts:10](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0
 
 > **total**: `number`
 
-Defined in: [ledger.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cost/src/ledger.ts#L9)
+Defined in: [ledger.ts:9](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cost/src/ledger.ts#L9)

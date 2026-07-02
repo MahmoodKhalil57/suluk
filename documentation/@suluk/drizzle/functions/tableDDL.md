@@ -8,7 +8,7 @@
 
 > **tableDDL**(`table`, `opts?`): `string`
 
-Defined in: [ddl.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/drizzle/src/ddl.ts#L40)
+Defined in: [ddl.ts:40](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/drizzle/src/ddl.ts#L40)
 
 `CREATE TABLE` DDL for one drizzle table (or its already-read metadata). Single-column primary keys only — a
 table-level composite `primaryKey({columns})` isn't visible on the column-descriptor floor (it needs

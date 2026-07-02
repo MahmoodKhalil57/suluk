@@ -6,7 +6,7 @@
 
 # Interface: ConfidenceReport
 
-Defined in: [baseline.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/baseline.ts#L45)
+Defined in: [baseline.ts:45](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/visual/src/baseline.ts#L45)
 
 `@suluk/visual` — pixel-confidence by construction.
 
@@ -23,7 +23,7 @@ deterministic projection. CANDIDATE tooling — NOT official OAS.
 
 > **approved**: `string`[]
 
-Defined in: [baseline.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/baseline.ts#L49)
+Defined in: [baseline.ts:49](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/visual/src/baseline.ts#L49)
 
 Used primitives that are approved at the current content hash.
 
@@ -33,7 +33,7 @@ Used primitives that are approved at the current content hash.
 
 > **confident**: `boolean`
 
-Defined in: [baseline.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/baseline.ts#L47)
+Defined in: [baseline.ts:47](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/visual/src/baseline.ts#L47)
 
 True ⇒ every used primitive is approved + unchanged → the UI is pixel-confident without a new screenshot.
 
@@ -43,7 +43,7 @@ True ⇒ every used primitive is approved + unchanged → the UI is pixel-confid
 
 > **drifted**: [`UsedPrimitive`](UsedPrimitive.md)[]
 
-Defined in: [baseline.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/baseline.ts#L53)
+Defined in: [baseline.ts:53](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/visual/src/baseline.ts#L53)
 
 Used primitives approved BEFORE but whose source changed (hash drifted) — must be re-verified.
 
@@ -53,6 +53,6 @@ Used primitives approved BEFORE but whose source changed (hash drifted) — must
 
 > **missing**: [`UsedPrimitive`](UsedPrimitive.md)[]
 
-Defined in: [baseline.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/visual/src/baseline.ts#L51)
+Defined in: [baseline.ts:51](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/visual/src/baseline.ts#L51)
 
 Used primitives never pixel-verified — must be verified once.

@@ -8,7 +8,7 @@
 
 > **lintPolicy**(`doc`): [`LintFinding`](../interfaces/LintFinding.md)[]
 
-Defined in: [agents/src/policy.ts:162](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/policy.ts#L162)
+Defined in: [agents/src/policy.ts:162](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/policy.ts#L162)
 
 Lint every operator policy: D1 selector-rejection, dangling appliesTo, unsatisfiability, widening, cap<estimate.
 

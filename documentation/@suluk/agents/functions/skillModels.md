@@ -8,7 +8,7 @@
 
 > **skillModels**(`doc`, `agentName`, `skillName`, `catalog`, `minWindowRequired?`): [`SkillModelResolution`](../interfaces/SkillModelResolution.md)
 
-Defined in: [agents/src/model-select.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/model-select.ts#L85)
+Defined in: [agents/src/model-select.ts:85](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/model-select.ts#L85)
 
 The public seam: the models for a skill — its DECLARED list (opt-out) or the catalog-SELECTED ranked ids, resolved
 to a runtime TARGET (pin / router / latest) under the C030 governance gate.

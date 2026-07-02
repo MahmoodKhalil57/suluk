@@ -8,7 +8,7 @@
 
 > **DslChild** = `string` \| `number` \| [`DslNode`](../interfaces/DslNode.md) \| [`EachRef`](../interfaces/EachRef.md) \| [`SlotRef`](../interfaces/SlotRef.md)
 
-Defined in: [dsl.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/builder/src/dsl.ts#L55)
+Defined in: [dsl.ts:55](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/builder/src/dsl.ts#L55)
 
 `@suluk/builder` — the tiered contract-narrowing DSL (components → blocks → sections → pages), bound to the
 Suluk cycle. The mechanism is ported from ~/apps/multivendorbuilder's DSL and rebuilt with the Suluk

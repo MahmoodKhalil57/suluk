@@ -8,7 +8,7 @@
 
 > **gradeCompleteness**(`defaultCatalog`, `localeCatalog`, `locale`): [`CompletenessGrade`](../interfaces/CompletenessGrade.md)
 
-Defined in: [messages.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/i18n/src/messages.ts#L66)
+Defined in: [messages.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/i18n/src/messages.ts#L66)
 
 Grade a locale catalog against the default catalog — the runtime, harden-style completeness gauge that complements
 the compile-time key-parity types. Surfaces missing/extra keys + a 0–1 grade so a locale's coverage is auditable.

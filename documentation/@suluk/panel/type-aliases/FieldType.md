@@ -8,7 +8,7 @@
 
 > **FieldType** = `"text"` \| `"textarea"` \| `"richtext"` \| `"number"` \| `"boolean"` \| `"select"` \| `"date"` \| `"datetime"` \| `"email"` \| `"url"` \| `"media"` \| `"json"` \| `"relationship"`
 
-Defined in: [fields.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/panel/src/fields.ts#L8)
+Defined in: [fields.ts:8](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/panel/src/fields.ts#L8)
 
 Field-type inference — the Payload-parity core, contract-first. Given an entity's JSON-Schema (from the v4 doc's
 components.schemas), infer the Payload-style field set: the right widget per property (text/textarea/number/

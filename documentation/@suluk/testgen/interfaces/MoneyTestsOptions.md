@@ -6,7 +6,7 @@
 
 # Interface: MoneyTestsOptions
 
-Defined in: [money.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/testgen/src/money.ts#L15)
+Defined in: [money.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/testgen/src/money.ts#L15)
 
 generateMoneyTests — PARITY §2 "Checkout & E-commerce Resilience" made an EXECUTABLE, in-process conformance
 suite over the @suluk/payments pricing primitives (saastarter-parity Phase 0). Unlike the wire conformance suite,
@@ -26,7 +26,7 @@ parity goal, not a behavioral port. The generated header says so.
 
 > `optional` **framework?**: `"bun"` \| `"vitest"`
 
-Defined in: [money.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/testgen/src/money.ts#L17)
+Defined in: [money.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/testgen/src/money.ts#L17)
 
 which runner's imports to emit (both share test/expect/describe). Default "bun".
 
@@ -36,6 +36,6 @@ which runner's imports to emit (both share test/expect/describe). Default "bun".
 
 > `optional` **stripeModule?**: `string`
 
-Defined in: [money.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/testgen/src/money.ts#L19)
+Defined in: [money.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/testgen/src/money.ts#L19)
 
 the import specifier for the pricing primitives. Default "@suluk/payments".

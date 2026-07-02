@@ -8,7 +8,7 @@
 
 > **previewLaunchUrl**(`env`, `role`): \{ `reason`: `string`; `refused`: `true`; \} \| \{ `refused`: `false`; `url`: `string`; \}
 
-Defined in: [cockpit/src/crosscut.ts:149](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/cockpit/src/crosscut.ts#L149)
+Defined in: [cockpit/src/crosscut.ts:149](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/cockpit/src/crosscut.ts#L149)
 
 Resolve the browser deep-link for previewing AS a role — the security-critical guard, made PURE so it is
 unit-testable (the extension package has no test harness). Hard-REFUSES any non-preview env BEFORE producing

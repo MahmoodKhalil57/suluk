@@ -8,7 +8,7 @@
 
 > **resendAudience**(`opts`): [`AudienceProvider`](../interfaces/AudienceProvider.md)
 
-Defined in: [audience.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/email/src/audience.ts#L56)
+Defined in: [audience.ts:56](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/email/src/audience.ts#L56)
 
 Resend Audiences via the REST API (https://api.resend.com/audiences/{id}/contacts) over `fetch` — no SDK; never throws.
 

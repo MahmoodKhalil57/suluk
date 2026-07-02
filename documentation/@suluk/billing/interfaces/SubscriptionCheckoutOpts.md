@@ -6,7 +6,7 @@
 
 # Interface: SubscriptionCheckoutOpts
 
-Defined in: [packages/billing/src/payments.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/payments.ts#L62)
+Defined in: [packages/billing/src/payments.ts:62](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/payments.ts#L62)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [packages/billing/src/payments.ts:62](https://github.com/MahmoodKhal
 
 > **cancelUrl**: `string`
 
-Defined in: [packages/billing/src/payments.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/payments.ts#L66)
+Defined in: [packages/billing/src/payments.ts:66](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/payments.ts#L66)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [packages/billing/src/payments.ts:66](https://github.com/MahmoodKhal
 
 > **plan**: [`SubPlan`](SubPlan.md)
 
-Defined in: [packages/billing/src/payments.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/payments.ts#L64)
+Defined in: [packages/billing/src/payments.ts:64](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/payments.ts#L64)
 
 ***
 
@@ -30,7 +30,7 @@ Defined in: [packages/billing/src/payments.ts:64](https://github.com/MahmoodKhal
 
 > **productName**: `string`
 
-Defined in: [packages/billing/src/payments.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/payments.ts#L68)
+Defined in: [packages/billing/src/payments.ts:68](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/payments.ts#L68)
 
 the line-item product name shown on the hosted page, e.g. "acme — Pro".
 
@@ -40,7 +40,7 @@ the line-item product name shown on the hosted page, e.g. "acme — Pro".
 
 > **successUrl**: `string`
 
-Defined in: [packages/billing/src/payments.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/payments.ts#L65)
+Defined in: [packages/billing/src/payments.ts:65](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/payments.ts#L65)
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: [packages/billing/src/payments.ts:65](https://github.com/MahmoodKhal
 
 > **userId**: `string`
 
-Defined in: [packages/billing/src/payments.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/billing/src/payments.ts#L63)
+Defined in: [packages/billing/src/payments.ts:63](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/billing/src/payments.ts#L63)

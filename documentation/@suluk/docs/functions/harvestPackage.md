@@ -8,7 +8,7 @@
 
 > **harvestPackage**(`dir`, `repoRoot?`): [`PackageDoc`](../interfaces/PackageDoc.md) \| `null`
 
-Defined in: [harvest.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L95)
+Defined in: [harvest.ts:95](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L95)
 
 `@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
 (package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one

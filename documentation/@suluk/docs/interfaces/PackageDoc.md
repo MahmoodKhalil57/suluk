@@ -6,7 +6,7 @@
 
 # Interface: PackageDoc
 
-Defined in: [harvest.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L15)
+Defined in: [harvest.ts:15](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L15)
 
 `@suluk/docs` — generate an intuitive static documentation site for a Bun/TS monorepo, straight from source
 (package.json + the leading doc-comments + exports + ARCHITECTURE/README). The output is plain HTML + one
@@ -18,7 +18,7 @@ stylesheet, deployable to GitHub Pages with zero build. Suluk documents itself w
 
 > **dependencies**: `string`[]
 
-Defined in: [harvest.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L21)
+Defined in: [harvest.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L21)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [harvest.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/26d65d
 
 > **description**: `string`
 
-Defined in: [harvest.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L18)
+Defined in: [harvest.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L18)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [harvest.ts:18](https://github.com/MahmoodKhalil57/suluk/blob/26d65d
 
 > **exports**: `string`[]
 
-Defined in: [harvest.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L30)
+Defined in: [harvest.ts:30](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L30)
 
 Public symbols re-exported from the barrel.
 
@@ -44,7 +44,7 @@ Public symbols re-exported from the barrel.
 
 > **modules**: [`ModuleDoc`](ModuleDoc.md)[]
 
-Defined in: [harvest.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L32)
+Defined in: [harvest.ts:32](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L32)
 
 Per-module leading doc-comments.
 
@@ -54,7 +54,7 @@ Per-module leading doc-comments.
 
 > **name**: `string`
 
-Defined in: [harvest.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L16)
+Defined in: [harvest.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L16)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [harvest.ts:16](https://github.com/MahmoodKhalil57/suluk/blob/26d65d
 
 > **overview**: `string`
 
-Defined in: [harvest.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L24)
+Defined in: [harvest.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L24)
 
 Markdown prose from the leading /** */ doc-comment of src/index.ts.
 
@@ -72,7 +72,7 @@ Markdown prose from the leading /** */ doc-comment of src/index.ts.
 
 > **peerDependencies**: `string`[]
 
-Defined in: [harvest.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L22)
+Defined in: [harvest.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L22)
 
 ***
 
@@ -80,7 +80,7 @@ Defined in: [harvest.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/26d65d
 
 > **private**: `boolean`
 
-Defined in: [harvest.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L20)
+Defined in: [harvest.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L20)
 
 ***
 
@@ -88,7 +88,7 @@ Defined in: [harvest.ts:20](https://github.com/MahmoodKhalil57/suluk/blob/26d65d
 
 > **readme**: `string`
 
-Defined in: [harvest.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L26)
+Defined in: [harvest.ts:26](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L26)
 
 The package's README.md, verbatim (the hand-written usage docs), or "" if it has none.
 
@@ -98,7 +98,7 @@ The package's README.md, verbatim (the hand-written usage docs), or "" if it has
 
 > **repoRelDir**: `string`
 
-Defined in: [harvest.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L28)
+Defined in: [harvest.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L28)
 
 The package directory relative to the repo root (e.g. `tooling/ts/packages/core`) — used to rewrite README links.
 
@@ -108,7 +108,7 @@ The package directory relative to the repo root (e.g. `tooling/ts/packages/core`
 
 > **slug**: `string`
 
-Defined in: [harvest.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L17)
+Defined in: [harvest.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L17)
 
 ***
 
@@ -116,4 +116,4 @@ Defined in: [harvest.ts:17](https://github.com/MahmoodKhalil57/suluk/blob/26d65d
 
 > **version**: `string`
 
-Defined in: [harvest.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/docs/src/harvest.ts#L19)
+Defined in: [harvest.ts:19](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/docs/src/harvest.ts#L19)

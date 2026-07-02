@@ -6,7 +6,7 @@
 
 # Interface: AgentManifestSkill
 
-Defined in: [agents/src/manifest.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L21)
+Defined in: [agents/src/manifest.ts:21](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/manifest.ts#L21)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [agents/src/manifest.ts:21](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **contentHash?**: `string`
 
-Defined in: [agents/src/manifest.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L27)
+Defined in: [agents/src/manifest.ts:27](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/manifest.ts#L27)
 
 the pinned hash of the served instructions — what the signature ends up covering.
 
@@ -24,7 +24,7 @@ the pinned hash of the served instructions — what the signature ends up coveri
 
 > **model**: `string`[]
 
-Defined in: [agents/src/manifest.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L23)
+Defined in: [agents/src/manifest.ts:23](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/manifest.ts#L23)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [agents/src/manifest.ts:23](https://github.com/MahmoodKhalil57/suluk
 
 > **name**: `string`
 
-Defined in: [agents/src/manifest.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L22)
+Defined in: [agents/src/manifest.ts:22](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/manifest.ts#L22)
 
 ***
 
@@ -40,7 +40,7 @@ Defined in: [agents/src/manifest.ts:22](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **source?**: `string`
 
-Defined in: [agents/src/manifest.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L25)
+Defined in: [agents/src/manifest.ts:25](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/manifest.ts#L25)
 
 ***
 
@@ -48,7 +48,7 @@ Defined in: [agents/src/manifest.ts:25](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **tier?**: `"resident"` \| `"cold-tail"`
 
-Defined in: [agents/src/manifest.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L24)
+Defined in: [agents/src/manifest.ts:24](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/manifest.ts#L24)
 
 ***
 
@@ -56,4 +56,4 @@ Defined in: [agents/src/manifest.ts:24](https://github.com/MahmoodKhalil57/suluk
 
 > `optional` **version?**: `string`
 
-Defined in: [agents/src/manifest.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/manifest.ts#L28)
+Defined in: [agents/src/manifest.ts:28](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/manifest.ts#L28)

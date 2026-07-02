@@ -6,7 +6,7 @@
 
 # Interface: SitemapAlternate
 
-Defined in: [sitemap.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/sitemap.ts#L6)
+Defined in: [sitemap.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/sitemap.ts#L6)
 
 ## Properties
 
@@ -14,7 +14,7 @@ Defined in: [sitemap.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559
 
 > **href**: `string`
 
-Defined in: [sitemap.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/sitemap.ts#L6)
+Defined in: [sitemap.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/sitemap.ts#L6)
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: [sitemap.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559
 
 > **hreflang**: `string`
 
-Defined in: [sitemap.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/seo/src/sitemap.ts#L6)
+Defined in: [sitemap.ts:6](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/seo/src/sitemap.ts#L6)

@@ -6,7 +6,7 @@
 
 # Interface: HandlerTarget
 
-Defined in: [index.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/stubgen/src/index.ts#L109)
+Defined in: [index.ts:109](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/stubgen/src/index.ts#L109)
 
 The handler-emit adapter seam — a target renders the HANDLER half in its app's idiom.
 
@@ -16,7 +16,7 @@ The handler-emit adapter seam — a target renders the HANDLER half in its app's
 
 > **name**: `string`
 
-Defined in: [index.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/stubgen/src/index.ts#L110)
+Defined in: [index.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/stubgen/src/index.ts#L110)
 
 ## Methods
 
@@ -24,7 +24,7 @@ Defined in: [index.ts:110](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559
 
 > **emitHandler**(`spec`): `string`
 
-Defined in: [index.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/stubgen/src/index.ts#L111)
+Defined in: [index.ts:111](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/stubgen/src/index.ts#L111)
 
 #### Parameters
 

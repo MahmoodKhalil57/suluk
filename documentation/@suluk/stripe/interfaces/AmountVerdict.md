@@ -6,7 +6,7 @@
 
 # ~~Interface: AmountVerdict~~
 
-Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L46)
 
 ## Deprecated
 
@@ -25,7 +25,7 @@ no consumer): the Stripe usage-billing (Billing Meters), the checkout-param buil
 
 > **claimedCents**: `number`
 
-Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L46)
 
 ***
 
@@ -33,7 +33,7 @@ Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f55
 
 > **deltaCents**: `number`
 
-Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L46)
 
 ***
 
@@ -41,7 +41,7 @@ Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f55
 
 > **expectedCents**: `number`
 
-Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L46)
 
 ***
 
@@ -49,7 +49,7 @@ Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f55
 
 > **ok**: `boolean`
 
-Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L46)
 
 ***
 
@@ -57,4 +57,4 @@ Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f55
 
 > `optional` **reason?**: `"amount-mismatch"`
 
-Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/payments/src/pricing.ts#L46)
+Defined in: [pricing.ts:46](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/payments/src/pricing.ts#L46)

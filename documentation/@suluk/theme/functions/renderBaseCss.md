@@ -8,7 +8,7 @@
 
 > **renderBaseCss**(`opts?`): `string`
 
-Defined in: [emit.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/theme/src/emit.ts#L89)
+Defined in: [emit.ts:89](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/theme/src/emit.ts#L89)
 
 The reusable design-system BASE layer — the accessibility + motion contract every builder inherits, independent
 of the scheme colors. Parameterized by CSS-var names so an app on its OWN color vocabulary (not the shadcn role

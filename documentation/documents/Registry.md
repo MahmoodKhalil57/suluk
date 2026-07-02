@@ -6,7 +6,11 @@
 
 # Registry
 
-The [shadcn registry](https://github.com/MahmoodKhalil57/suluk/blob/main/registry/README.md) distributes the generic SaaS-backend modules as **code you own**, wired over the `@suluk/*` packages (own the wiring, npm the logic). Install any item with:
+The [shadcn registry](https://github.com/MahmoodKhalil57/suluk/blob/main/registry/README.md) distributes the generic SaaS-backend modules as **code you own**, wired over the `@suluk/*` packages (own the wiring, npm the logic). Each item is its **own documentation site** — its README, the full TypeScript surface, and a UML class diagram. Here is how the 19 modules build on each other (`app` is the foundation everything rests on):
+
+![Suluk registry — how the modules compose](https://cdn.jsdelivr.net/gh/MahmoodKhalil57/suluk@main/tooling/ts/docs-pages/registry-uml.svg)
+
+Install any item with:
 
 ```bash
 pnpm dlx shadcn@latest add MahmoodKhalil57/suluk/<item>

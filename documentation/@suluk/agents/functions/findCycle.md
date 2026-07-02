@@ -8,7 +8,7 @@
 
 > **findCycle**(`map`, `root`): `string`[] \| `null`
 
-Defined in: [agents/src/resolve.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/resolve.ts#L72)
+Defined in: [agents/src/resolve.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/resolve.ts#L72)
 
 Detect a cycle in the agent graph reachable from `root`, following by-name sub-agent refs. Returns the cycle
 path (keys) if one exists, else null. JSON-Schema cannot express acyclicity — this is the author/install lint

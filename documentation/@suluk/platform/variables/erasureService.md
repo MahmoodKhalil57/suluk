@@ -8,9 +8,21 @@
 
 > `const` **erasureService**: `object`
 
-Defined in: [service.ts:263](https://github.com/MahmoodKhalil57/suluk/blob/fe6f559442a0c0faed05a49bbb88d075a56ea812/tooling/ts/packages/platform/src/service.ts#L263)
+Defined in: [service.ts:269](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/platform/src/service.ts#L269)
 
 ## Type Declaration
+
+### contract
+
+> `readonly` **contract**: `object`
+
+#### contract.from
+
+> `readonly` **from**: `"./contract/erasure"` = `"./contract/erasure"`
+
+#### contract.symbol
+
+> `readonly` **symbol**: `"erasureOps"` = `"erasureOps"`
 
 ### deps
 

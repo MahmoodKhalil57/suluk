@@ -8,7 +8,7 @@
 
 > **residentToolNames**(`doc`, `agentName`): `string`[]
 
-Defined in: [agents/src/conformance.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/26d65d0a9feabcf5cb1260d6a7ca321d86f2e3a4/tooling/ts/packages/agents/src/conformance.ts#L72)
+Defined in: [agents/src/conformance.ts:72](https://github.com/MahmoodKhalil57/suluk/blob/aaf30cfa393544c0ef54e004d9e2f37412540fa8/tooling/ts/packages/agents/src/conformance.ts#L72)
 
 The RESIDENT served-tool NAMES across an agent's whole REACHABLE surface (C027 tier-trim serving) — every route key
 (the served wire id) whose `tier` is not `cold-tail`, across the agent AND its transitively-reachable sub-agents.
