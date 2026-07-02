@@ -165,6 +165,24 @@ describe("route economics — cost · settlement · dynamic components · trigge
     expect(detail()).toContain("**Settlement** — 💳 credits · 3 credits debited per call");
   });
 
+  test("the C067 payment methods render HONESTLY — subscription/trust are user-paid, not 'operator absorbs'", () => {
+    const mk = (method: string) => ({
+      openapi: "4.0.0-candidate", info: { title: "S", version: "1" },
+      paths: { p: { requests: { op: { method: "POST", responses: { ok: { status: "200", description: "OK" } }, "x-suluk-cost": { estimateMicroUsd: 5000, settlement: { method } } } } } },
+    }) as never;
+    const d = (method: string) => (enrichedV4(mk(method)).spec as any).paths.p.requests.op.description as string;
+    const badgeColor = (method: string) => ((enrichedV4(mk(method)).spec as any).paths.p.requests.op["x-badges"] as { name: string; color: string }[]).find((b) => b.name.includes(method) || /subscription|net-terms|lead/.test(b.name))?.color;
+    // subscription is plan-billed — NOT operator-absorbed, and its badge is NOT the green free-color
+    expect(d("subscription")).toContain("recovered against the user's plan allowance");
+    expect(d("subscription")).not.toContain("the operator absorbs the cost");
+    expect(badgeColor("subscription")).not.toContain("green");
+    // trust is post-pay / net-terms — user IS billed later
+    expect(d("trust")).toContain("post-pay");
+    expect(badgeColor("trust")).not.toContain("green");
+    // lead genuinely is operator-absorbed (acquisition)
+    expect(d("lead")).toContain("acquisition");
+  });
+
   test("the TRIGGERED cost-bearing events render on the route that fires them (reverse of triggerRef)", () => {
     expect(detail()).toContain("**Triggers** —");
     expect(detail()).toContain("`billingSync`");

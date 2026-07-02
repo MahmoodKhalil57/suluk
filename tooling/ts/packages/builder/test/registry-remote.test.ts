@@ -20,6 +20,18 @@ describe("validateModule (untrusted manifest)", () => {
     expect(validateModule({ name: "x", version: "1", provides: ["Post"], schemas: "nope" }).error).toContain("schemas must be an object");
     expect(validateModule({ name: "x", version: "1", provides: ["Post"], schemas: {} }).error).toContain('provides "Post" but ships no schema');
   });
+  test("rejects a hostile cost.infra / cost.settlement (C067 — else it corrupts weighCost / settlementRollup)", () => {
+    const base = { name: "b", version: "1", provides: ["Post"], schemas: goodModule.schemas };
+    const withCost = (c: unknown) => validateModule({ ...base, cost: { listPost: c } });
+    // a string infra → Object.entries('...') yields bogus single-char meters in weighCost
+    expect(withCost({ components: [], estimateMicroUsd: 1, infra: "not-an-object" }).error).toContain("infra");
+    expect(withCost({ components: [], estimateMicroUsd: 1, infra: { "d1.read": "lots" } }).error).toContain("infra");
+    // a non-enum settlement.method → settlementRollup r[method]++ corrupts the tally
+    expect(withCost({ components: [], estimateMicroUsd: 1, settlement: { method: 42 } }).error).toContain("settlement");
+    expect(withCost({ components: [], estimateMicroUsd: 1, settlement: { method: "bogus" } }).error).toContain("settlement");
+    // the C067 enriched shape (real infra + a valid method) is ACCEPTED
+    expect(withCost({ components: [], estimateMicroUsd: 1, infra: { "d1.read": 20 }, settlement: { method: "subscription" } }).error).toBeUndefined();
+  });
 });
 
 describe("parseRegistry (untrusted payload)", () => {

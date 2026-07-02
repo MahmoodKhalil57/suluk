@@ -47,7 +47,9 @@ export function weighCost(model: CostModel | undefined, weights: WeightTable): W
   const unknownMeters: string[] = [];
   for (const [meter, units] of Object.entries(model?.infra ?? {})) {
     const w = weights[meter];
-    if (w == null) { unknownMeters.push(meter); continue; }
+    // a missing weight OR a non-finite weight/units is SURFACED (never silently zeroed AND never allowed to poison the
+    // total with NaN/Infinity — a bad pricing snapshot or override must fail visibly, not corrupt every downstream sum).
+    if (w == null || !Number.isFinite(w) || !Number.isFinite(units)) { unknownMeters.push(meter); continue; }
     const micro = units * w;
     infraMicroUsd += micro;
     infraBreakdown.push({ meter, units, microUsd: micro });
@@ -60,6 +62,6 @@ export function weighCost(model: CostModel | undefined, weights: WeightTable): W
 export function resolveCost(model: CostModel, weights: WeightTable): CostModel {
   const w = weighCost(model, weights);
   if (!model.infra || w.infraMicroUsd === 0) return model;
-  const components = [...model.components, { source: "infrastructure", basis: "per-call" as const, microUsd: Math.round(w.infraMicroUsd), description: "infra + provider fees (weighed from the live weight table)" }];
+  const components = [...(model.components ?? []), { source: "infrastructure", basis: "per-call" as const, microUsd: Math.round(w.infraMicroUsd), description: "infra + provider fees (weighed from the live weight table)" }];
   return { ...model, components, estimateMicroUsd: (model.estimateMicroUsd ?? 0) + Math.round(w.infraMicroUsd) };
 }

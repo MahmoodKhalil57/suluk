@@ -1,8 +1,10 @@
 {
   "name": "@suluk/deploy",
-  "version": "0.2.0",
-  "description": "Deploy a Suluk app behind a SWAPPABLE target interface \u2014 an EXECUTOR that ships over the target's API (no wrangler CLI) with credentials from the @suluk/env-decrypted .env. Cloudflare is the first provider (Workers + D1 + KV/R2 + static assets), an adapter over @suluk/cloudflare. CANDIDATE tooling.",
-  "publishConfig": { "access": "public" },
+  "version": "0.3.0",
+  "description": "Deploy a Suluk app behind a SWAPPABLE target interface — an EXECUTOR that ships over the target's API (no wrangler CLI) with credentials from the @suluk/env-decrypted .env. Cloudflare is the first provider (Workers + D1 + KV/R2 + static assets), an adapter over @suluk/cloudflare. CANDIDATE tooling.",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "Apache-2.0",
   "repository": {
     "type": "git",

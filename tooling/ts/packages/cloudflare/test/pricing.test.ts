@@ -17,7 +17,13 @@ describe("infra cost weights — the base of the token economy", () => {
     const r = weighInfra({ "d1.read": 2, "d1.write": 1, "worker.request": 1 });
     expect(r.microUsd).toBeCloseTo(0.002 + 1 + 0.3); // 1.302 µ$
     expect(r.unknown).toEqual([]);
-    expect(r.breakdown.find((b) => b.meter === "durable-objects.rows_read")?.microUsd).toBeCloseTo(0.002);
+    expect(r.breakdown.find((b) => b.meter === "d1.rows_read")?.microUsd).toBeCloseTo(0.002); // d1.read → d1's own product meter
+  });
+
+  test("d1.storage_gb_month resolves to D1's own $0.75/GB-mo, not the cheaper DO-SQLite $0.20", () => {
+    const r = weighInfra({ "d1.storage_gb_month": 5 });
+    expect(r.unknown).toEqual([]);
+    expect(r.microUsd).toBeCloseTo(3_750_000); // 5 GB-mo × $0.75 = $3.75, NOT 5 × $0.20
   });
 
   test("1 token = 1 µ$ ⇒ tokens map 1:1 to dollars at MICRO_PER_USD", () => {

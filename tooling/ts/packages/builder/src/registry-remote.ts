@@ -71,6 +71,21 @@ export function validateModule(m: unknown): { module?: SulukModule; error?: stri
       if (!co || !Array.isArray(co.components) || typeof co.estimateMicroUsd !== "number" || !Number.isFinite(co.estimateMicroUsd)) {
         return { error: `${where}: cost "${op}" must be { components: [...], estimateMicroUsd: <number> }` };
       }
+      // infra (C067): a meter→units map of finite numbers — else weighCost mis-reads it (Object.entries on a string, NaN units).
+      if (co.infra !== undefined) {
+        const infra = asObject(co.infra);
+        if (!infra || !Object.values(infra).every((u) => typeof u === "number" && Number.isFinite(u))) {
+          return { error: `${where}: cost "${op}".infra must be an object of meter→finite-number` };
+        }
+      }
+      // settlement (C067): method must be one of the SettlementMethod enum — else settlementRollup r[method]++ corrupts the tally.
+      if (co.settlement !== undefined) {
+        const s = asObject(co.settlement);
+        const METHODS = ["credit", "rate-limited", "free", "subscription", "trust", "lead"];
+        if (!s || typeof s.method !== "string" || !METHODS.includes(s.method) || (s.credits !== undefined && (typeof s.credits !== "number" || !Number.isFinite(s.credits)))) {
+          return { error: `${where}: cost "${op}".settlement must be { method: credit|rate-limited|free|subscription|trust|lead, credits?: <finite> }` };
+        }
+      }
     }
   }
   if (o.providerSlots !== undefined && !asObject(o.providerSlots)) return { error: `${where}: providerSlots must be an object` };

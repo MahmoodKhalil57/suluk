@@ -1,6 +1,6 @@
 {
   "name": "@suluk/payments",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Provider-agnostic payments — a Workers-native TypeScript reimplementation of the Hyperswitch Prism connector interface. ONE unified request schema (authorize/capture/void/refund/sync + optional customer/tokenize/recurring/webhook); switch processor by config, not code. Prism's native FFI core can't run on the edge, so we adopt its interface + integer-exact status semantics and implement over fetch — zero native deps, light, swappable. The seam that supersedes @suluk/stripe. INTERFACE-first (C048); real connectors + the billing rewire follow. CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"

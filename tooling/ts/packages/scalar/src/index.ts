@@ -58,7 +58,7 @@ const HTTP_METHODS = ["get", "put", "post", "patch", "delete", "head", "options"
 /** A small accent of suluk's identity over Scalar's own design tokens (kept light — Scalar's UI is already good). The
  *  cost facet mirrors @suluk/cost's CostModel — the FULL route economics, not just a flat number. */
 interface CostComponent { source?: string; basis?: string; microUsd?: number; description?: string }
-interface CostSettlement { method?: "credit" | "rate-limited" | "free"; credits?: number; overflow?: "deny" | "credit" }
+interface CostSettlement { method?: "credit" | "rate-limited" | "free" | "subscription" | "trust" | "lead"; credits?: number; overflow?: "deny" | "credit" }
 interface CostFacet {
   estimateMicroUsd?: number;
   components?: CostComponent[];
@@ -77,7 +77,11 @@ interface AccessFacet { requires?: "anyone" | "authenticated" | "admin"; scope?:
 // at runtime (from tokens, file MB, compute seconds, upstream calls, …). The static declaration names the RATE + the unit.
 const isFixed = (c: CostComponent): boolean => (c.basis ?? "per-call") === "per-call";
 const BASIS_LABEL: Record<string, string> = { "per-call": "call", "per-unit": "unit", "per-token": "token", "per-1k-tokens": "1k tokens", "per-second": "second", "per-request": "upstream call", "per-mb": "MB" };
-const SETTLE_LABEL: Record<string, string> = { credit: "💳 credits", "rate-limited": "⏳ rate-limited", free: "🎁 free" };
+const SETTLE_LABEL: Record<string, string> = { credit: "💳 credits", "rate-limited": "⏳ rate-limited", free: "🎁 free", subscription: "🔁 subscription", trust: "🤝 net-terms", lead: "🎯 lead" };
+// user-pays methods (credit debits now, subscription bills via the plan, trust post-pays) render as PAID (purple); the
+// operator-absorbed methods (free, lead-gen) render green; rate-limited (free within a cap) renders orange. A future method
+// defaults to the paid color, never green — so an unmapped method never reads as "free to the user".
+const SETTLE_COLOR: Record<string, string> = { credit: "var(--scalar-color-purple)", subscription: "var(--scalar-color-purple)", trust: "var(--scalar-color-purple)", "rate-limited": "var(--scalar-color-orange)", free: "var(--scalar-color-green)", lead: "var(--scalar-color-green)" };
 
 /** The FIXED per-call total (µ$): the declared estimate if given, else the sum of the per-call components. VARIABLE
  *  (metered) components are excluded — their amount is reported at runtime, so the badge/estimate shows the floor. */
@@ -105,7 +109,7 @@ function costBadge(cost: CostFacet | undefined): { name: string; color: string }
 function settlementBadge(cost: CostFacet | undefined): { name: string; color: string } | null {
   const m = cost?.settlement?.method;
   if (!m) return null;
-  const color = m === "credit" ? "var(--scalar-color-purple)" : m === "rate-limited" ? "var(--scalar-color-orange)" : "var(--scalar-color-green)";
+  const color = SETTLE_COLOR[m] ?? "var(--scalar-color-purple)"; // default paid, never green — an unmapped method must not read as free
   return { name: SETTLE_LABEL[m] ?? m, color };
 }
 
@@ -184,7 +188,13 @@ function facetDetail(op: Record<string, unknown>, triggered?: TriggeredCost[]): 
         ? (s.credits != null ? `${s.credits} credit${s.credits === 1 ? "" : "s"} debited per call` : "credits debited (amount derived from the estimate)")
         : s.method === "rate-limited"
           ? `free within the rate-limit cap${s.overflow === "credit" ? ", then credits" : ""}`
-          : "the operator absorbs the cost";
+        : s.method === "subscription"
+          ? "recovered against the user's plan allowance (no per-call debit)"
+        : s.method === "trust"
+          ? "accrued now, settled later (post-pay / net-terms)"
+        : s.method === "lead"
+          ? "an acquisition investment — the operator absorbs the cost"
+          : "the operator absorbs the cost"; // free
       lines.push(`**Settlement** — ${SETTLE_LABEL[s.method] ?? s.method} · ${how}`);
     }
     // this op's OWN cost fires on an EVENT (non-synchronous) — when it accrues + who pays.

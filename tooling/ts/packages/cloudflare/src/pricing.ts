@@ -65,9 +65,12 @@ export function infraWeights(pricing: PricingDoc = CLOUDFLARE_PRICING): Record<I
 export const INFRA_ALIASES: Record<string, InfraMeter> = {
   "worker.request": "workers.requests",
   "worker.cpu_ms": "workers.cpu_time",
-  "d1.read": "durable-objects.rows_read",
-  "d1.write": "durable-objects.rows_written",
-  "d1.storage_gb_month": "durable-objects.sqlite_storage",
+  // D1 aliases resolve to D1's OWN product meters, not the (distinct, cheaper) durable-objects SQLite line: D1 storage is
+  // $0.75/GB-mo, DO-SQLite storage is $0.20 — routing the D1-labeled key at DO undercounts D1 storage 3.75×. (Rows read/
+  // written price identically across the two products, but they too point at the d1 product for semantic honesty.)
+  "d1.read": "d1.rows_read",
+  "d1.write": "d1.rows_written",
+  "d1.storage_gb_month": "d1.storage",
   "kv.read": "durable-objects.kv_read_request_units",
   "kv.write": "durable-objects.kv_write_request_units",
   "kv.delete": "durable-objects.kv_delete_requests",

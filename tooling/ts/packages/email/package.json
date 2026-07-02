@@ -1,7 +1,7 @@
 {
   "name": "@suluk/email",
-  "version": "0.2.0",
-  "description": "The missing EmailProvider binding + a pure renderEmailHtml(options)\u2192HTML generator with a per-event/per-locale branded template set (verify/reset/change-email/delete/order-confirmation/order-status/newsletter). Emits content the app SENDS \u2014 never a hosted mailer: consoleProvider (dev) + a Workers-safe resendProvider (REST, no SDK) are swappable bindings. Consumes @suluk/i18n for strings. CANDIDATE tooling.",
+  "version": "0.3.0",
+  "description": "The missing EmailProvider binding + a pure renderEmailHtml(options)→HTML generator with a per-event/per-locale branded template set (verify/reset/change-email/delete/order-confirmation/order-status/newsletter). Emits content the app SENDS — never a hosted mailer: consoleProvider (dev) + a Workers-safe resendProvider (REST, no SDK) are swappable bindings. Consumes @suluk/i18n for strings. CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"
   },

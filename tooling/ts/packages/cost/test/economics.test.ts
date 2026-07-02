@@ -22,6 +22,18 @@ describe("weighCost — resolve a declared model to STATIC tokens via the weight
     expect(w.microUsd).toBeCloseTo(0.3);
     expect(w.unknownMeters).toContain("made.up");
   });
+
+  test("a NaN/Infinity unit or weight is SURFACED, never allowed to poison the total", () => {
+    // a malformed pricing snapshot (NaN units) must not turn every downstream total into NaN
+    const bad = weighCost({ components: [], infra: { "worker.request": 1, "d1.read": NaN } }, W);
+    expect(Number.isFinite(bad.microUsd)).toBe(true);
+    expect(bad.microUsd).toBeCloseTo(0.3); // only the good meter counts
+    expect(bad.unknownMeters).toContain("d1.read");
+    // a non-finite WEIGHT (Infinity in the table) is likewise surfaced, not accumulated
+    const badW = weighCost({ components: [], infra: { "worker.request": 1, "poison": 2 } }, { ...W, poison: Infinity });
+    expect(Number.isFinite(badW.microUsd)).toBe(true);
+    expect(badW.unknownMeters).toContain("poison");
+  });
 });
 
 describe("mergeWeights — the bubble-up join point (CF infra + provider weights → one table)", () => {

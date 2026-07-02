@@ -1,8 +1,10 @@
 {
   "name": "@suluk/cost",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Cost as a contract facet: declare per-operation cost (incl. third-party usage), bubble it into the v4 doc/Scalar/tests, and meter the ACTUAL per-user cost at runtime (frontend action -> operation -> third-party). Display as-is. CANDIDATE tooling.",
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -13,10 +15,29 @@
   "bugs": "https://github.com/MahmoodKhalil57/suluk/issues",
   "type": "module",
   "main": "src/index.ts",
-  "exports": { ".": "./src/index.ts" },
-  "dependencies": { "@suluk/core": "workspace:^" },
-  "peerDependencies": { "hono": "^4.0.0" },
-  "peerDependenciesMeta": { "hono": { "optional": true } },
-  "devDependencies": { "@types/bun": "latest", "hono": "^4.0.0", "@suluk/hono": "workspace:^", "@suluk/openapi-compat": "workspace:^", "zod": "^4.4.3" },
-  "scripts": { "test": "bun test", "typecheck": "tsc --noEmit -p ." }
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@suluk/core": "workspace:^"
+  },
+  "peerDependencies": {
+    "hono": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "hono": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "hono": "^4.0.0",
+    "@suluk/hono": "workspace:^",
+    "@suluk/openapi-compat": "workspace:^",
+    "zod": "^4.4.3"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit -p ."
+  }
 }
