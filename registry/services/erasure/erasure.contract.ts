@@ -1,24 +1,12 @@
-/** The `erasure` module's CONTRACT fragment — its `/api/erasure/*` op. Composed via `src/contract.ops.ts`. */
-import { z } from "zod";
+/** The `erasure` module's CONTRACT fragment — its `/api/erasure/*` op. Composed via `src/contract.ops.ts`.
+ *
+ *  The op is DERIVED from its `@suluk/effect` route handler in `./erasure.routes` — the single source of truth for its
+ *  response. The success body + status bubble up from the handler's success channel (the fail-closed 500 is a DEFECT, not a
+ *  typed error, so it's rendered as Problem-Details by the handler and not listed here), so the route and its contract can't
+ *  drift. */
 import type { RouteContract } from "@suluk/hono";
-
-/** The GDPR erasure receipt the cascade returns — the ordered names of the steps that ran (`c.json({ steps })`). */
-const ErasureReceiptSchema = z.object({
-  steps: z.array(z.string()),
-});
+import { eraseUserRoute } from "../routes/erasure";
 
 export const erasureOps = [
-  {
-    method: "post",
-    path: "/api/erasure/:userId",
-    name: "eraseUser",
-    summary: "Run the GDPR erasure cascade for a user across every subsystem. ADMIN-only; fail-closed (a failed step aborts with no receipt).",
-    tags: ["Admin"],
-    scopes: ["admin"],
-    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
-    request: { params: z.object({ userId: z.string() }) },
-    responses: [{ status: 200, description: "The erasure cascade completed.", schema: ErasureReceiptSchema }],
-    rateLimit: { windowMs: 60_000, maxRequests: 20, key: "principal" }, // destructive admin op → tight per-principal cap
-    errors: [500], // fail-closed: a failed cascade step aborts with no receipt (500)
-  },
+  eraseUserRoute.contract,
 ] satisfies readonly RouteContract[];
