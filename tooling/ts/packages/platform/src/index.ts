@@ -10,7 +10,7 @@ export { resolveWiring, groupImports, assertJsonSafe, validateIdentifier, lit, t
 // C053 — the open Service interface (the common shape community registries extend): defineService + the core service set.
 export { defineService, optsType, CORE_SERVICES, toCatalogEntry, type Service, type Port, type Capability, type CompositionSurface, type Schema, type McpOAuthOpts, type AuthServiceOpts } from "./service";
 // the core services as named, typed consts — import these into `defineSystem({ services: [...] })` for typed opts by id.
-export { appService, authService, contractService, mcpService, creditsService, keysService, billingService, costService, erasureService, emailService, webhooksService, rateLimitService, rateCreditService, i18nService, referenceService, adminService, logsService, journeysService, auditService } from "./service";
+export { appService, authService, contractService, mcpService, creditsService, keysService, billingService, costService, erasureService, emailService, webhooksService, rateLimitService, rateCreditService, i18nService, referenceService, adminService, logsService, todoService, journeysService, auditService } from "./service";
 export { CATALOG, orderServices, collectEnv, resolveVersion, BASE_DEPS, ECOSYSTEM_VERSIONS, DEV_DEPS, type CatalogEntry, type Mount, type EnvVar } from "./catalog";
 export { mergeProvision } from "./merge";
 export { planPlatform, buildPackageJson, mergePackageJson, mergeWranglerToml, mergeGitignore, type PlatformPlan } from "./plan";

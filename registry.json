@@ -556,6 +556,45 @@
       ]
     },
     {
+      "name": "todo",
+      "type": "registry:item",
+      "title": "Todos — CRUD Effect service (sign-in only, owner-scoped, pay-per-use)",
+      "description": "A complete fully-owned CRUD module: per-user todo items with sign-in-only owner-scoped access, metered + rate-limited usage (writes declare overflow:credit), and a drizzle schema that bubbles up into the contract.",
+      "registryDependencies": [
+        "MahmoodKhalil57/suluk/app"
+      ],
+      "dependencies": [
+        "@suluk/provision",
+        "@suluk/effect",
+        "effect",
+        "drizzle-orm",
+        "hono",
+        "zod"
+      ],
+      "files": [
+        {
+          "path": "registry/services/todo/todo.service.ts",
+          "type": "registry:file",
+          "target": "src/services/todo.ts"
+        },
+        {
+          "path": "registry/services/todo/todo.routes.ts",
+          "type": "registry:file",
+          "target": "src/routes/todo.ts"
+        },
+        {
+          "path": "registry/services/todo/todo.schema.ts",
+          "type": "registry:file",
+          "target": "src/db/todo.ts"
+        },
+        {
+          "path": "registry/services/todo/todo.provision.ts",
+          "type": "registry:file",
+          "target": "provision/todo.ts"
+        }
+      ]
+    },
+    {
       "name": "journeys",
       "type": "registry:item",
       "title": "Journeys — runnable BDD over your v4 contract (dev)",

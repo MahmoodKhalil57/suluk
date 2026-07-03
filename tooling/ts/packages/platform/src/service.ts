@@ -359,13 +359,17 @@ export const referenceService = defineService({ id: "reference", mount: { kind: 
   compose: { exposes: { apiDocument: { kind: "port", hookOptKey: "apiDocument", render: (e) => e[0] ?? "undefined" } } } });
 export const adminService = defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, contract: { symbol: "adminOps", from: "./routes/admin" }, deps: ["@suluk/credits"], env: [{ name: "SUPERADMIN_EMAILS", secret: true, hint: "comma/space-separated admin emails → the admin scope (secret-surfaced so they stay out of git plaintext)" }] }); // reads existing tables — no provision
 export const logsService = defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" }, contract: { symbol: "logsOps", from: "./routes/logs" }, compose: { offers: { eraseStep: eraseStepCapability("activity_log") } } });
+// A complete fully-owned CRUD module: per-user todos, SIGN-IN-ONLY + owner-scoped (routes read the authenticated principal,
+// never a client id), cost + rate-limit declared inline (writes credit-settled). `requires: ["auth"]` (needs the identity
+// middleware to set c.get("user")); offers an erase step so account erasure drops a user's todos.
+export const todoService = defineService({ id: "todo", mount: { kind: "route", path: "/api/todos", symbol: "todoRoutes", from: "./routes/todo" }, provision: { symbol: "todoProvision", from: "./src/provision/todo" }, contract: { symbol: "todoOps", from: "./routes/todo" }, deps: ["@suluk/effect", "zod"], requires: ["auth"], compose: { offers: { eraseStep: eraseStepCapability("todo") } } });
 export const journeysService = defineService({ id: "journeys", mount: { kind: "dev" }, deps: ["@suluk/journeys"] });
 export const auditService = defineService({ id: "audit", mount: { kind: "dev" }, deps: ["@suluk/cockpit", "@suluk/harden"] });
 
-/** The 19 core services, in the C051 catalog order. */
+/** The core services, in the C051 catalog order. */
 const CORE_SERVICE_LIST: Service[] = [
   appService, authService, contractService, mcpService, creditsService, keysService, billingService, costService, erasureService, emailService,
-  webhooksService, rateLimitService, rateCreditService, i18nService, referenceService, adminService, logsService, journeysService, auditService,
+  webhooksService, rateLimitService, rateCreditService, i18nService, referenceService, adminService, logsService, todoService, journeysService, auditService,
 ];
 
 /** The core services keyed by id (key === `service.id`, guaranteed by construction). */

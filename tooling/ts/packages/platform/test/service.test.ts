@@ -5,11 +5,11 @@ import { CORE_SERVICES, toCatalogEntry, defineService, CATALOG } from "../src/in
 
 const IDS = [
   "app", "auth", "contract", "mcp", "credits", "keys", "billing", "cost", "erasure", "email",
-  "webhooks", "rate-limit", "rate-credit", "i18n", "reference", "admin", "logs", "journeys", "audit",
+  "webhooks", "rate-limit", "rate-credit", "i18n", "reference", "admin", "logs", "todo", "journeys", "audit",
 ];
 
-describe("CORE_SERVICES — the 19 core services through defineService", () => {
-  test("carries exactly the expected 19 service ids, key === service.id", () => {
+describe("CORE_SERVICES — the core services through defineService", () => {
+  test("carries exactly the expected service ids, key === service.id", () => {
     expect(Object.keys(CORE_SERVICES).sort()).toEqual([...IDS].sort());
     for (const [id, s] of Object.entries(CORE_SERVICES)) expect(s.id).toBe(id);
   });
