@@ -42,3 +42,20 @@ falsified_when c078_roles_injects_auth_guard_and_userid == False
 # todo."), never restated per route. 28 effect tests pass; role-less modules unchanged. @>=0.85
 claim c078_response_description_from_wrapped_entity: Bool @>=0.85 = True
 falsified_when c078_response_description_from_wrapped_entity == False
+
+# C078++ (effect 0.4.0) — SERVICE ERRORS BUBBLE UP through the Effect channel to their HTTP status. effectRoute renders ANY
+# tagged httpError a handler fails with (declared, role-implied, or one a called SERVICE failed with) off the error's OWN
+# class (status + typed body via httpErrorClassOf(instance.constructor)), not a 500. The run E channel accepts any typed
+# httpError, so a service that fails with NotFoundError makes the route 404 with NO per-route declaration + NO in-handler
+# null-check; `errors` is now purely the DOC list. A non-httpError defect still -> 500. The old strict declare-every-error
+# enforcement is relaxed (the @ts-expect-error guard became a runtime bubble-up test). @>=0.85
+claim c078_service_errors_bubble_up_to_http: Bool @>=0.85 = True
+falsified_when c078_service_errors_bubble_up_to_http == False
+
+# todo service OWNS not-found (get/update/remove FAIL with NotFoundError when absent/non-owned, returning TodoItem/void not
+# nullable); the routes drop every `if(!item) return NotFoundError` -> one-liner handlers. PROVEN in ATF published 0.4.0: tsc
+# clean; GET/DELETE a missing/non-owned id -> typed 404 bubbled from the service (no handler check); Bob->Alice 404; anon ->
+# 401 via the roles guard; Alice CRUD; the doc keeps 200 "The todo."/401/403/404/429/500. 29 effect + doc-consumers + 148
+# platform pass. @>=0.85
+claim c078_todo_service_owns_notfound_proven: Bool @>=0.85 = True
+falsified_when c078_todo_service_owns_notfound_proven == False
