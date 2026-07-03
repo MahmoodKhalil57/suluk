@@ -19,6 +19,8 @@
  *   // spread `contract` into your route list; mount `handler` at post /credits/debit.
  */
 export { httpError, errorBody, type HttpErrorClass, type AnyHttpError } from "./errors";
+// reusable typed errors for the failure modes routes share (mapped to @suluk/core's status table) — reach for these first.
+export { ValidationError, UnauthorizedError, ForbiddenError, PaymentError, NotFoundError, ConflictError, ExternalServiceError } from "./common";
 export {
   effectRoute, respond, Ok, Created, Accepted, NoContent,
   type EffectRoute, type EffectRouteSpec, type HttpSuccess, type HandlerSuccess,
