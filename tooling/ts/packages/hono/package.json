@@ -1,6 +1,6 @@
 {
   "name": "@suluk/hono",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "The Suluk derivation engine: minimal Hono+Zod RouteContracts in; v4 doc (dynamic per principal+time), validation, contract tests, and doc-coverage audit out. CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"

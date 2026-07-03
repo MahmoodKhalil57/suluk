@@ -84,7 +84,7 @@ describe("@suluk/hono enforceAccess — facet-driven wire enforcement (the serve
     const r = await get("/pet-create");
     expect(r.headers.get("content-type")).toContain("application/problem+json");
     const body = await r.json();
-    expect(body).toMatchObject({ error: "unauthorized", status: 401 });
+    expect(body).toMatchObject({ status: 401, title: "Unauthorized" });
   });
 
   test("admin can be expressed via a scope when no isAdmin callback is given", async () => {

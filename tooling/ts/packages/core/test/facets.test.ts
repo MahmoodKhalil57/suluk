@@ -68,22 +68,22 @@ describe("error-envelope facet (saastarter-parity Phase 0)", () => {
     expect(TITLE_BY_TAG.RateLimitedError).toBe("Too many requests");
   });
 
-  test("toProblemDetails fills status/title/legacy-code and passes detail/errors through", () => {
+  test("toProblemDetails fills status/title/type (per-status URI, no legacy code) and passes detail/errors through", () => {
     const pd = toProblemDetails({ tag: "ValidationError", detail: "bad body", errors: { name: "required" } });
     expect(pd.status).toBe(400);
     expect(pd.title).toBe("Validation failed");
-    expect(pd.type).toBe("about:blank");
-    expect(pd.error).toBe("validation");        // legacy machine code
+    expect(pd.type).toBe("https://suluk.dev/problems/bad-request"); // per-status type URI (matches the stub's `const`)
+    expect("error" in pd).toBe(false);                              // the deprecated legacy machine code is GONE
     expect(pd.detail).toBe("bad body");
     expect(pd.errors).toEqual({ name: "required" });
   });
 
-  test("legacy codes match the enforce.ts deny-body codes and snake_case multi-word tags", () => {
-    expect(toProblemDetails({ tag: "UnauthorizedError" }).error).toBe("unauthorized"); // enforce.ts:39
-    expect(toProblemDetails({ tag: "ForbiddenError" }).error).toBe("forbidden");       // enforce.ts:40
-    expect(toProblemDetails({ tag: "RateLimitedError" }).error).toBe("rate_limited");
-    expect(toProblemDetails({ tag: "InvalidApiKeyError" }).error).toBe("invalid_api_key");
-    expect(toProblemDetails({ tag: "ExternalServiceError" }).error).toBe("external_service");
+  test("type is the canonical per-status URI (so the body matches the per-status stub's `const type`)", () => {
+    expect(toProblemDetails({ tag: "UnauthorizedError" }).type).toBe("https://suluk.dev/problems/unauthorized");
+    expect(toProblemDetails({ tag: "ForbiddenError" }).type).toBe("https://suluk.dev/problems/forbidden");
+    expect(toProblemDetails({ tag: "RateLimitedError" }).type).toBe("https://suluk.dev/problems/too-many-requests");
+    expect(toProblemDetails({ tag: "InvalidApiKeyError" }).type).toBe("https://suluk.dev/problems/unauthorized"); // 401
+    expect(toProblemDetails({ tag: "ExternalServiceError" }).type).toBe("https://suluk.dev/problems/bad-gateway"); // 502
   });
 
   test("isProblemDetails discriminates on title+status; rejects a bare {error}", () => {

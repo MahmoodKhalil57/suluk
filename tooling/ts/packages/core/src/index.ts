@@ -23,6 +23,7 @@ export { sourceIndex, sourceCoverage, scrubSource, sourceKey, type SourceGroup, 
 export { RATELIMIT_EXT, rateLimitOf, rateLimitIndex, rateLimitCoverage, retryAfterSeconds, type RateLimitGroup } from "./ratelimit";
 export {
   PROBLEM_CONTENT_TYPE, PROBLEM_STATUS_TABLE, TITLE_BY_TAG, PROBLEM_DETAILS_SCHEMA,
+  PROBLEM_TYPE_BASE, PROBLEM_TYPE_BY_STATUS, PROBLEM_TAG_BY_STATUS, PROBLEM_COMPONENT_BY_STATUS, problemSchemaFor,
   isProblemDetails, toProblemDetails,
   type ProblemDetails, type ProblemStatus, type ErrorTag,
 } from "./errors";

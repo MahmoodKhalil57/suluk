@@ -17,7 +17,7 @@ export interface SulukHttpErrorInit {
   instance?: string;
   /** structured validation errors (saastarter's `details`). */
   errors?: Record<string, unknown>;
-  /** override the `type` URI (default "about:blank"). */
+  /** override the `type` URI (default: the per-status problem URI, PROBLEM_TYPE_BY_STATUS). */
   type?: string;
   /** RateLimitedError: ms until the window resets — drives the Retry-After header (route-handler.ts:75). */
   retryAfterMs?: number;

@@ -68,7 +68,7 @@ describe("enforceRateLimit middleware — facet-driven, 429 + Retry-After", () =
     expect(r.headers.get("content-type")).toContain("application/problem+json");
     expect(r.headers.get("retry-after")).toBe("60");
     const body = await r.json();
-    expect(body).toMatchObject({ status: 429, title: "Too many requests", error: "rate_limited" });
+    expect(body).toMatchObject({ status: 429, title: "Too many requests" });
   });
 
   test("advancing the clock past the window lets the caller through again", async () => {

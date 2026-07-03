@@ -23,7 +23,7 @@ describe("@suluk/hono error model — typed throws → RFC-9457 (ported from saa
   test("toProblem renders a valid Problem Details body with ported field semantics", () => {
     const nf = HttpErrors.notFound("Pet", "7").toProblem();
     expect(isProblemDetails(nf)).toBe(true);
-    expect(nf).toMatchObject({ status: 404, title: "Not found", detail: "Pet not found", instance: "Pet/7", error: "not_found" });
+    expect(nf).toMatchObject({ status: 404, title: "Not found", detail: "Pet not found", instance: "Pet/7" });
 
     const val = HttpErrors.validation("bad body", { name: "required" }).toProblem();
     expect(val).toMatchObject({ status: 400, detail: "bad body", errors: { name: "required" } });
@@ -58,7 +58,7 @@ describe("onError handler — bridges a thrown typed error to the wire", () => {
     expect(r.status).toBe(403);
     expect(r.headers.get("content-type")).toContain("application/problem+json");
     const body = await r.json();
-    expect(body).toMatchObject({ status: 403, title: "Forbidden", error: "forbidden", detail: "nope" });
+    expect(body).toMatchObject({ status: 403, title: "Forbidden", detail: "nope" });
   });
 
   test("a 429 carries a Retry-After header (seconds)", async () => {
@@ -79,16 +79,27 @@ describe("onError handler — bridges a thrown typed error to the wire", () => {
   });
 });
 
-describe("emitV4 — synthesizes RFC-9457 error responses + a shared ProblemDetails schema", () => {
-  test("an auth-gated op gets 401/403/500 problem+json responses + components.schemas.ProblemDetails", () => {
+describe("emitV4 — synthesizes RFC-9457 error responses as PRECISE per-status problem stubs", () => {
+  test("an auth-gated op gets 401/403/500, each $ref'ing its per-status component with const status/title/type", () => {
     const { document } = emitV4([
       { method: "get", path: "/admin/report", name: "getReport", scopes: ["admin"] },
     ], { securityScheme: "bearerAuth" });
     const resps = document.paths["admin/report"].requests.getReport.responses;
     expect(Object.keys(resps).sort()).toEqual(["200", "401", "403", "500"]);
     expect(resps["401"].contentType).toBe("application/problem+json");
-    expect(resps["401"].contentSchema).toEqual({ $ref: "#/components/schemas/ProblemDetails" });
-    expect(document.components?.schemas?.ProblemDetails).toBeDefined();
+    // per-status component (NOT a shared generic ProblemDetails)
+    expect(resps["401"].contentSchema).toEqual({ $ref: "#/components/schemas/Unauthorized" });
+    expect(resps["403"].contentSchema).toEqual({ $ref: "#/components/schemas/Forbidden" });
+    expect(resps["500"].contentSchema).toEqual({ $ref: "#/components/schemas/InternalServerError" });
+    const unauth = document.components?.schemas?.Unauthorized as { properties: Record<string, { const?: unknown }> };
+    expect(unauth).toBeDefined();
+    // the fixed members are LITERALS (const), not loose types; the deprecated `error` field is gone
+    expect(unauth.properties.status.const).toBe(401);
+    expect(unauth.properties.title.const).toBe("Unauthorized");
+    expect(unauth.properties.type.const).toBe("https://suluk.dev/problems/unauthorized");
+    expect("error" in unauth.properties).toBe(false);
+    // the generic base is NOT emitted when every synthesized status is a known one
+    expect(document.components?.schemas?.ProblemDetails).toBeUndefined();
   });
 
   test("a public op gets only the always-500 error (no 401/403 without auth)", () => {
@@ -111,7 +122,17 @@ describe("emitV4 — synthesizes RFC-9457 error responses + a shared ProblemDeta
     expect(document.paths.orders.requests.createOrder["x-suluk-ratelimit"]).toMatchObject({ maxRequests: 20 });
   });
 
-  test("synthesizeErrors:false yields a success-only projection (no error responses, no ProblemDetails schema)", () => {
+  test("an UNRECOGNIZED error status falls back to the generic ProblemDetails base", () => {
+    const { document } = emitV4([
+      { method: "get", path: "/teapot", name: "brew", errors: [418] },
+    ]);
+    const resps = document.paths.teapot.requests.brew.responses;
+    expect(resps["418"].contentSchema).toEqual({ $ref: "#/components/schemas/ProblemDetails" });
+    expect(document.components?.schemas?.ProblemDetails).toBeDefined();       // the generic base for the unknown status
+    expect(document.components?.schemas?.InternalServerError).toBeDefined();  // 500 is always synthesized → per-status
+  });
+
+  test("synthesizeErrors:false yields a success-only projection (no error responses, no problem schema)", () => {
     const { document } = emitV4([
       { method: "get", path: "/admin/report", name: "getReport", scopes: ["admin"] },
     ], { synthesizeErrors: false });

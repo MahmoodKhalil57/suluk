@@ -61,10 +61,9 @@ export const TITLE_BY_TAG: Readonly<Record<ErrorTag, string>> = Object.freeze({
 });
 
 /**
- * An RFC-9457 Problem Details object. `type` is the machine identifier (a URI reference; default `"about:blank"`),
- * `title` is human-readable, `status` is the HTTP status. `detail` is the human explanation; `errors` carries
- * structured validation details (what saastarter put in `details`). `error` is a LEGACY machine-code member kept
- * for Phase 0 (the existing SDK + the @suluk/hono `deny()` body read it) — deprecated in favor of `type`/`detail`.
+ * An RFC-9457 Problem Details object. `type` is the machine identifier (a stable URI reference), `title` is
+ * human-readable, `status` is the HTTP status. `detail` is the human explanation for THIS occurrence; `instance`
+ * identifies the occurrence; `errors` carries structured, per-field validation details.
  */
 export interface ProblemDetails {
   type: string;
@@ -74,28 +73,99 @@ export interface ProblemDetails {
   instance?: string;
   /** structured validation errors (saastarter's `details`). */
   errors?: Record<string, unknown>;
-  /** @deprecated legacy machine code (Phase-0 bridge); prefer `type`/`detail`. */
-  error?: string;
   [ext: `x-${string}`]: unknown;
 }
 
+/** RFC-9457 problem-type identifier base (a stable machine id per §3.1.1; may not be dereferenceable). One base so a
+ *  rebrand is a single edit. Each status appends its slug → the `type` URI (a `const` in the per-status stub). */
+export const PROBLEM_TYPE_BASE = "https://suluk.dev/problems/" as const;
+
+const PROBLEM_SLUG_BY_STATUS: Readonly<Record<ProblemStatus, string>> = Object.freeze({
+  400: "bad-request", 401: "unauthorized", 402: "payment-required", 403: "forbidden",
+  404: "not-found", 409: "conflict", 429: "too-many-requests", 500: "internal-server-error", 502: "bad-gateway",
+});
+
+/** The canonical `type` URI per HTTP status — the `const` a SYNTHESIZED problem stub (and {@link toProblemDetails}) use. */
+export const PROBLEM_TYPE_BY_STATUS: Readonly<Record<ProblemStatus, string>> = Object.freeze(
+  Object.fromEntries(
+    (Object.keys(PROBLEM_SLUG_BY_STATUS).map(Number) as ProblemStatus[]).map((s) => [s, PROBLEM_TYPE_BASE + PROBLEM_SLUG_BY_STATUS[s]]),
+  ) as Record<ProblemStatus, string>,
+);
+
+/** The canonical error TAG a synthesized (cross-cutting) problem for `status` derives its `title` from (via {@link TITLE_BY_TAG},
+ *  the single source of truth), so the stub's `const title` always matches the body {@link toProblemDetails} produces. */
+export const PROBLEM_TAG_BY_STATUS: Readonly<Record<ProblemStatus, ErrorTag>> = Object.freeze({
+  400: "ValidationError", 401: "UnauthorizedError", 402: "PaymentError", 403: "ForbiddenError",
+  404: "NotFoundError", 409: "ConflictError", 429: "RateLimitedError", 500: "PayloadOperationError", 502: "ExternalServiceError",
+});
+
+/** The v4 component NAME a synthesized problem for `status` is hoisted under, so a renderer shows a precise, per-status stub
+ *  (e.g. `Unauthorized` with `status: const 401`) instead of one loose generic `ProblemDetails`. Distinct from the typed
+ *  domain-error names (`UnauthorizedError`, …) so they never collide. */
+export const PROBLEM_COMPONENT_BY_STATUS: Readonly<Record<ProblemStatus, string>> = Object.freeze({
+  400: "BadRequest", 401: "Unauthorized", 402: "PaymentRequired", 403: "Forbidden",
+  404: "NotFound", 409: "Conflict", 429: "TooManyRequests", 500: "InternalServerError", 502: "BadGateway",
+});
+
+/** A realistic `detail` example per status — rendered as the field's example so the stub reads like a real response. */
+const PROBLEM_DETAIL_EXAMPLE: Readonly<Record<ProblemStatus, string>> = Object.freeze({
+  400: "The request body does not satisfy the operation's contract.",
+  401: "Authentication is required to access this resource.",
+  402: "Payment is required to complete this request.",
+  403: 'This API key is missing the "credits:write" scope.',
+  404: "The requested resource was not found.",
+  409: "The request conflicts with the current state of the resource.",
+  429: "Rate limit exceeded — retry after the window resets.",
+  500: "An unexpected error occurred while processing the request.",
+  502: "An upstream service returned an error.",
+});
+
 /**
- * The canonical JSON Schema (2020-12) form of {@link ProblemDetails} — the `$ref` target @suluk/hono's emit
- * injects into `components.schemas.ProblemDetails`, so the SDK's `isApiError` typing and testgen's
- * error-conformance validate against ONE shared schema. Frozen; mirrors the type above.
+ * The PER-STATUS RFC-9457 Problem schema (2020-12) — a PRECISE stub: its fixed members are LITERALS (`const` type / title /
+ * status) and its free members carry an example + description, so a renderer shows the exact shape for THAT status instead of
+ * one loose generic body (no more `status: integer` / `title: string` with no values). `@suluk/hono`'s emit hoists these into
+ * `components.schemas[PROBLEM_COMPONENT_BY_STATUS[status]]` and `$ref`s them; the `const` values MATCH what
+ * {@link toProblemDetails} produces at runtime, so the body still conforms.
+ */
+export function problemSchemaFor(status: ProblemStatus): Record<string, unknown> {
+  const type = PROBLEM_TYPE_BY_STATUS[status];
+  const title = TITLE_BY_TAG[PROBLEM_TAG_BY_STATUS[status]];
+  const properties: Record<string, unknown> = {
+    type: { type: "string", format: "uri-reference", const: type, description: "The problem-type identifier — a stable URI (may not be dereferenceable)." },
+    title: { type: "string", const: title, description: "A short, human-readable summary of the problem type (constant for this status)." },
+    status: { type: "integer", const: status, description: "The HTTP status code (constant for this problem type)." },
+    detail: { type: "string", examples: [PROBLEM_DETAIL_EXAMPLE[status]], description: "A human-readable explanation specific to THIS occurrence." },
+    instance: { type: "string", format: "uri-reference", examples: [`/api/example#${status}`], description: "A URI reference identifying the specific occurrence." },
+  };
+  // 400 carries structured, per-field validation errors (the validator's output); the other statuses don't.
+  if (status === 400) {
+    properties.errors = { type: "object", additionalProperties: true, examples: [{ amount: ["must be a positive integer"] }], description: "Structured, per-field validation errors." };
+  }
+  return {
+    type: "object",
+    title: PROBLEM_COMPONENT_BY_STATUS[status],
+    description: `RFC-9457 Problem Details (${PROBLEM_CONTENT_TYPE}) for HTTP ${status} — ${title}.`,
+    properties,
+    required: ["type", "title", "status"],
+  };
+}
+
+/**
+ * The GENERIC JSON Schema (2020-12) form of {@link ProblemDetails} — the base shape (a `status` ENUM, not a per-status
+ * `const`). A synthesized error uses the precise per-status specialization ({@link problemSchemaFor}); this remains exported
+ * as the union base for any consumer that wants the whole-family type. Frozen; mirrors the type above.
  */
 export const PROBLEM_DETAILS_SCHEMA = Object.freeze({
   type: "object",
   title: "ProblemDetails",
-  description: "RFC-9457 Problem Details (application/problem+json).",
+  description: "RFC-9457 Problem Details (application/problem+json) — the base shape; a synthesized error uses a precise per-status specialization.",
   properties: {
-    type: { type: "string", format: "uri-reference", default: "about:blank" },
-    title: { type: "string" },
-    status: { type: "integer" },
-    detail: { type: "string" },
-    instance: { type: "string", format: "uri-reference" },
-    errors: { type: "object", additionalProperties: true },
-    error: { type: "string", deprecated: true },
+    type: { type: "string", format: "uri-reference", default: "about:blank", description: "The problem-type identifier (a URI reference)." },
+    title: { type: "string", description: "A short, human-readable summary of the problem type." },
+    status: { type: "integer", enum: [400, 401, 402, 403, 404, 409, 429, 500, 502], description: "The HTTP status code." },
+    detail: { type: "string", description: "A human-readable explanation specific to this occurrence." },
+    instance: { type: "string", format: "uri-reference", description: "A URI reference identifying the specific occurrence." },
+    errors: { type: "object", additionalProperties: true, description: "Structured, per-field validation errors." },
   },
   required: ["type", "title", "status"],
 });
@@ -110,14 +180,10 @@ export function isProblemDetails(body: unknown): body is ProblemDetails {
   return typeof b.title === "string" && typeof b.status === "number";
 }
 
-/** The legacy `error` machine code for a tag: snake_case of the tag minus its `Error` suffix (e.g. `rate_limited`). */
-function legacyCode(tag: ErrorTag): string {
-  return tag.replace(/Error$/, "").replace(/([a-z0-9])([A-Z])/g, "$1_$2").toLowerCase();
-}
-
 /**
- * Pure constructor: a tag (+ optional detail/instance/errors/type) → the canonical Problem Details body.
- * Fills `status` + `title` from the frozen tables and a stable legacy `error` code. No I/O, no throwing.
+ * Pure constructor: a tag (+ optional detail/instance/errors/type) → the canonical Problem Details body. Fills `status` +
+ * `title` from the frozen tables and `type` from {@link PROBLEM_TYPE_BY_STATUS} (so the body MATCHES the per-status stub's
+ * `const type`). No legacy machine code, no I/O, no throwing.
  */
 export function toProblemDetails(args: {
   tag: ErrorTag;
@@ -126,11 +192,11 @@ export function toProblemDetails(args: {
   errors?: Record<string, unknown>;
   type?: string;
 }): ProblemDetails {
+  const status = PROBLEM_STATUS_TABLE[args.tag];
   const pd: ProblemDetails = {
-    type: args.type ?? "about:blank",
+    type: args.type ?? PROBLEM_TYPE_BY_STATUS[status],
     title: TITLE_BY_TAG[args.tag],
-    status: PROBLEM_STATUS_TABLE[args.tag],
-    error: legacyCode(args.tag),
+    status,
   };
   if (args.detail !== undefined) pd.detail = args.detail;
   if (args.instance !== undefined) pd.instance = args.instance;

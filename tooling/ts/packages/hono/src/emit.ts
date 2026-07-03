@@ -4,7 +4,7 @@
  * NOT a static file: the document is a pure function of the contracts × the requesting principal (scopes,
  * the "who") × time (now, the "when"). A public export is just emitV4(routes) with no principal/now.
  */
-import { buildAda, PROBLEM_CONTENT_TYPE, PROBLEM_DETAILS_SCHEMA } from "@suluk/core";
+import { buildAda, PROBLEM_CONTENT_TYPE, PROBLEM_DETAILS_SCHEMA, PROBLEM_COMPONENT_BY_STATUS, problemSchemaFor, type ProblemStatus } from "@suluk/core";
 import type {
   OpenAPIv4Document, PathItem, Request, Response, ParameterSchema, SecurityRequirement, Server, Info, SecurityScheme,
   Components, Schema,
@@ -147,15 +147,18 @@ function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContex
     responses[String(r.status)] = resp;
   }
   if (Object.keys(responses).length === 0) responses["200"] = { status: 200 };
-  // synthesize RFC-9457 error responses — but never clobber a user-declared one for the same status.
+  // synthesize RFC-9457 error responses — but never clobber a user-declared one for the same status. Each references a
+  // PRECISE per-status problem component (`Unauthorized`/`Forbidden`/… with `const` status/title/type); an unknown status
+  // falls back to the generic `ProblemDetails`. The component is hoisted into components.schemas by emitV4.
   for (const status of errorStatusesFor(route, ctx)) {
     const key = String(status);
     if (responses[key]) continue;
+    const component = PROBLEM_COMPONENT_BY_STATUS[status as ProblemStatus] ?? "ProblemDetails";
     responses[key] = {
       status,
       description: ERROR_DESCRIPTION[status] ?? "Error",
       contentType: PROBLEM_CONTENT_TYPE,
-      contentSchema: { $ref: "#/components/schemas/ProblemDetails" },
+      contentSchema: { $ref: `#/components/schemas/${component}` },
     };
   }
   req.responses = responses;
@@ -229,15 +232,25 @@ export function emitV4(routes: readonly RouteContract[], ctx: EmitContext = {}):
   };
   if (ctx.servers) document.servers = ctx.servers;
 
-  // components: securitySchemes (C014) + the shared ProblemDetails schema iff any op synthesized a problem+json response.
-  const usesProblem = Object.values(paths).some((pi) =>
-    Object.values(pi.requests).some((r) =>
-      Object.values(r.responses).some((resp) => resp.contentType === PROBLEM_CONTENT_TYPE)));
+  // components: securitySchemes (C014) + a PRECISE per-status problem component for EACH synthesized error status present
+  // (`Unauthorized`/`Forbidden`/… with `const` status/title/type + examples), so a renderer shows the exact stub instead of
+  // one loose generic `ProblemDetails`. An unknown status (a raw `errors: [<n>]` outside the known set) falls back to the
+  // generic base. Collected by scanning the built responses for problem+json.
+  const problemStatuses = new Set<number>();
+  for (const pi of Object.values(paths))
+    for (const r of Object.values(pi.requests))
+      for (const resp of Object.values(r.responses)) if (resp.contentType === PROBLEM_CONTENT_TYPE) problemStatuses.add(Number(resp.status));
   const components: Components = {};
   if (ctx.securitySchemes) components.securitySchemes = ctx.securitySchemes;
-  // the hoisted named response bodies (effectRoute error/success types) + the shared ProblemDetails.
+  // the hoisted named response bodies (effectRoute error/success types) + the per-status problem stubs.
   const schemas: Record<string, Schema> = { ...named };
-  if (usesProblem) schemas.ProblemDetails = PROBLEM_DETAILS_SCHEMA as unknown as Schema;
+  let usesGenericProblem = false;
+  for (const status of problemStatuses) {
+    const component = PROBLEM_COMPONENT_BY_STATUS[status as ProblemStatus];
+    if (component) schemas[component] = problemSchemaFor(status as ProblemStatus) as unknown as Schema;
+    else usesGenericProblem = true; // an unrecognized status → the generic base
+  }
+  if (usesGenericProblem) schemas.ProblemDetails = PROBLEM_DETAILS_SCHEMA as unknown as Schema;
   if (Object.keys(schemas).length > 0) components.schemas = schemas;
   if (Object.keys(components).length > 0) document.components = components;
 

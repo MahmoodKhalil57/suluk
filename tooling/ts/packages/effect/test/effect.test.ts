@@ -100,9 +100,11 @@ describe("emitV4 — the typed errors reach the v4 document (not a generic Probl
     expect(r402).not.toContain("ProblemDetails");
     // the named component carries the ACTUAL error fields (generated from the httpError schema).
     expect(JSON.stringify((document.components as any).schemas.InsufficientCredits)).toContain("required");
-    // the success + the synthesized generic errors (a handler can always die / be denied)
+    // the success + the synthesized cross-cutting errors → PRECISE per-status stubs (const status/title/type), not a
+    // generic ProblemDetails (a handler can always die / be denied).
     expect(op.responses["201"]).toBeDefined();
-    expect(JSON.stringify(op.responses["500"].contentSchema)).toContain("ProblemDetails");
-    expect(JSON.stringify(op.responses["401"].contentSchema)).toContain("ProblemDetails"); // scoped → synthesized
+    expect(JSON.stringify(op.responses["500"].contentSchema)).toContain("InternalServerError"); // 500 → per-status stub
+    expect(JSON.stringify(op.responses["401"].contentSchema)).toContain("Unauthorized"); // scoped → synthesized per-status
+    expect(JSON.stringify((document.components as any).schemas.Unauthorized)).toContain('"const":401');
   });
 });
