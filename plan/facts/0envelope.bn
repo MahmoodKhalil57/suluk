@@ -1,0 +1,30 @@
+# C075 — the ORGANIC CONTRACT ENVELOPE (routeGroup). The contract is DEFINED BY the routes, not restated in a
+# separate higher-level <svc>.contract.ts file. Pairs with C072/C073/C074 (the effect-typed-routes arc).
+
+# @suluk/hono 0.4.2 ships `routeGroup(basePath)` — a route ENVELOPE a module builds up (.route = mount+document,
+# .mountOnly = mount-only, .doc = document-only) that bubbles up two ways: `.ops` (its contract fragment) +
+# `.router()` (the mounted handlers). contractDoc gains an additive group-flattening overload (@suluk/hono
+# "auto-reads" the envelope). 8 unit tests; the literal-tuple contractDoc overload is byte-preserved. @>=0.85
+claim c075_routegroup_envelope_in_hono: Bool @>=0.85 = True
+falsified_when c075_routegroup_envelope_in_hono == False
+
+# @suluk/effect 0.2.0 re-exports routeGroup (one import site with effectRoute) + a drizzle-zod bridge (db.ts:
+# rowSchema/insertSchema) so a module's request/response bodies DERIVE FROM its drizzle table (DB schema as the
+# source; add a column and it bubbles into the contract). Proven: logs' ListLogsOk carries the activityLog fields
+# with the wire-codec deltas (timestamp->epoch-ms number) spelled out. drizzle-zod 0.8 supports zod4+drizzle-orm. @>=0.85
+claim c075_drizzle_zod_bubble_up_through_effect: Bool @>=0.85 = True
+falsified_when c075_drizzle_zod_bubble_up_through_effect == False
+
+# The registry adopts the envelope: ALL 11 <svc>.contract.ts fragment files are DELETED; each module exports its
+# ops from its routes file (effectRoute modules build a routeGroup; the bespoke-mount surfaces webhooks/reference/mcp
+# co-locate their literal doc-op arrays). The generator (@suluk/platform 0.15.0) repoints contract.from -> ./routes/<svc>
+# + BASE_DEPS += @suluk/effect; the golden re-cut is only the contract.ops import paths + the one added dep. @>=0.82
+claim c075_registry_drops_all_contract_files: Bool @>=0.82 = True
+falsified_when c075_registry_drops_all_contract_files == False
+
+# END-TO-END PROVEN in autotoolfactory against the PUBLISHED bytes (hono 0.4.2 / effect 0.2.0 / platform 0.15.0):
+# tsc clean; apiDocument = 49 ops + 45 named components; the generated Scalar /api/reference + /reference/spec still
+# show inferred error statuses + NAMED response bodies (PaymentError/ValidationError/NotFoundError/ExternalServiceError,
+# DebitCreditsOk/RefundOk) + semantic success statuses (C074 preserved); live boot serves every module route 200. @>=0.85
+claim c075_e2e_proven_atf_published: Bool @>=0.85 = True
+falsified_when c075_e2e_proven_atf_published == False
