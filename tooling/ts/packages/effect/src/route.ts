@@ -52,6 +52,15 @@ type RoleImplied<R extends readonly Role[]> =
   | ("signed-in" extends R[number] ? InstanceType<typeof UnauthorizedError> : never)
   | ("admin" extends R[number] ? InstanceType<typeof UnauthorizedError> | InstanceType<typeof ForbiddenError> : never);
 
+/** The AUTH CONTEXT effectRoute injects as `run`'s 2nd argument. When `roles` requires auth, `userId` is GUARANTEED — the
+ *  handler is only reached for a resolved principal (effectRoute returns the 401 itself otherwise), so the handler
+ *  owner-scopes with `userId` directly, no `c.get("user")` read and no null-check. A public route gets `{ userId?: string }`. */
+export type RoleAuth<R extends readonly Role[]> = "signed-in" extends R[number]
+  ? { userId: string }
+  : "admin" extends R[number]
+    ? { userId: string }
+    : { userId?: string };
+
 export interface EffectRouteSpec<
   OkSchema extends z.ZodTypeAny,
   Errs extends readonly AnyHttpError[],
@@ -85,8 +94,10 @@ export interface EffectRouteSpec<
    *  error. Each becomes a distinct typed response (its status + schema) in the contract. */
   errors?: Errs;
   /** The handler: a fully-provided Effect (no remaining requirements) yielding the success body (or `respond(...)`) and
-   *  failing only with the declared errors + the role-implied auth errors. */
-  run: (c: Context) => Effect.Effect<HandlerSuccess<z.infer<OkSchema>>, InstanceType<Errs[number]> | RoleImplied<Roles>, never>;
+   *  failing only with the declared errors + the role-implied auth errors. Its 2nd arg is the injected {@link RoleAuth} — for
+   *  a signed-in/admin route, `auth.userId` is GUARANTEED (effectRoute already 401'd an anonymous caller), so owner-scope
+   *  with `auth.userId` directly. */
+  run: (c: Context, auth: RoleAuth<Roles>) => Effect.Effect<HandlerSuccess<z.infer<OkSchema>>, InstanceType<Errs[number]> | RoleImplied<Roles>, never>;
 }
 
 export interface EffectRoute {
@@ -101,6 +112,20 @@ export interface EffectRoute {
  * Build a route whose responses are DERIVED from the Effect handler. Returns the `contract` (to spread into your route list,
  * so emitV4/Scalar/SDK see the typed errors) + the Hono `handler` (mount it at `method`/`path`).
  */
+/** The response DESCRIPTION to bubble up from a zod schema: its own `.describe(...)`, else — for a response that WRAPS a
+ *  single described entity (`z.object({ todo: TodoItem })`) — the wrapped entity's `.describe(...)`. So a describe on the
+ *  service's `TodoItem` schema surfaces as the route's response description without being restated. */
+function schemaDescription(schema: unknown): string | undefined {
+  const s = schema as { description?: string; shape?: Record<string, { description?: string }> } | undefined;
+  if (s?.description) return s.description;
+  const shape = s?.shape;
+  if (shape && typeof shape === "object") {
+    const keys = Object.keys(shape);
+    if (keys.length === 1) return shape[keys[0]]?.description;
+  }
+  return undefined;
+}
+
 /** Method → is it a READ (GET/HEAD)? Drives the read-vs-write scope/cost/rate-limit defaults. */
 const isReadMethod = (m: string): boolean => m === "get" || m === "head";
 
@@ -156,9 +181,10 @@ export function effectRoute<
   // them into components.schemas + $refs them — a docs renderer shows the TYPE NAME, not "object" (generated from the code).
   const okName = spec.name ? `${spec.name[0].toUpperCase()}${spec.name.slice(1)}Ok` : undefined;
   const okSchema = spec.ok?.schema;
-  // the response DESCRIPTION defaults from the SCHEMA's own `.describe(...)` — so the description (and the per-field
+  // the response DESCRIPTION defaults from the SCHEMA's own `.describe(...)` — so the description (+ the per-field
   // descriptions + `.meta({examples})`) live ONCE on the zod schema (in the service) and bubble up, not restated per route.
-  const okDescription = spec.ok?.description ?? (okSchema as { description?: string } | undefined)?.description ?? "Success";
+  // A response WRAPPING a single described entity (`z.object({ todo: TodoItem })`) bubbles up the ENTITY's `.describe(...)`.
+  const okDescription = spec.ok?.description ?? schemaDescription(okSchema) ?? "Success";
   const responses: RouteResponse[] = [
     { status: okStatus, description: okDescription, ...(okSchema ? { schema: okSchema, ...(okName ? { schemaName: okName } : {}) } : {}) },
     // one TYPED response per declared/implied error — its own status + NAMED schema (NOT a generic ProblemDetails).
@@ -182,9 +208,24 @@ export function effectRoute<
   };
 
   const byTag = new Map(errs.map((E) => [E.errorTag, E]));
+  const UNAUTHORIZED = UnauthorizedError as unknown as AnyHttpError;
 
   const handler = async (c: Context): Promise<Response> => {
-    const exit = await Effect.runPromiseExit(spec.run(c));
+    // AUTH GUARD derived from `roles`: a signed-in/admin route requires a resolved principal — the auth `identity` middleware
+    // set it at `c.get("user")`. Absent → the typed 401 UnauthorizedError, WITHOUT running the handler. Present → inject
+    // `{ userId }` as run's 2nd arg, so the handler owner-scopes with a GUARANTEED id (no `c.get("user")` read, no null-check).
+    let auth: { userId?: string } = {};
+    if (authed) {
+      const user = (c.var as { user?: { id?: string } }).user;
+      if (!user?.id) {
+        return c.json(
+          errorBody({ reason: "authentication required" }, UNAUTHORIZED) as never,
+          UNAUTHORIZED.status as never,
+        );
+      }
+      auth = { userId: user.id };
+    }
+    const exit = await Effect.runPromiseExit(spec.run(c, auth as never));
     if (Exit.isSuccess(exit)) {
       const value = exit.value as unknown;
       const status = isHttpSuccess(value) ? value.status : okStatus;

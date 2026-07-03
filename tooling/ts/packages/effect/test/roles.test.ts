@@ -1,5 +1,6 @@
 import { test, expect, describe } from "bun:test";
 import { Effect } from "effect";
+import { Hono } from "hono";
 import { z } from "zod";
 import { responseList } from "@suluk/hono";
 import { effectRoute, UnauthorizedError, NotFoundError } from "../src/index";
@@ -108,6 +109,45 @@ describe("effectRoute roles — scope / cost / rate-limit / auth-error DEFAULTS 
       ok: { schema: Body, description: "override" }, run: () => Effect.succeed({ todo: { title: "x" } }),
     });
     expect(responseList(c2.responses).find((r) => r.status === 200)?.description).toBe("override");
+  });
+
+  test("the response description bubbles up from the WRAPPED ENTITY's .describe() (a single-property wrapper)", () => {
+    const Item = z.object({ id: z.string() }).describe("The todo.");
+    const { contract: c } = effectRoute({
+      method: "get", path: "/api/todos/:id", name: "getTodo", summary: "get",
+      roles: ["signed-in"], ok: { schema: z.object({ todo: Item }) }, run: () => Effect.succeed({ todo: { id: "1" } }),
+    });
+    expect(responseList(c.responses).find((r) => r.status === 200)?.description).toBe("The todo.");
+  });
+
+  describe("roles auth GUARD — effectRoute 401s an anonymous caller ITSELF + injects a guaranteed userId", () => {
+    const mount = (roles: readonly ("signed-in" | "public")[]) => {
+      const { handler } = effectRoute({
+        method: "get", path: "/api/todos", name: "listTodos", summary: "list", roles,
+        ok: { schema: z.object({ userId: z.string() }) },
+        // NOTE: no manual `caller`/null-check — the handler trusts the injected userId.
+        run: (_c, { userId }) => Effect.succeed({ userId: userId ?? "anon" }),
+      });
+      const app = new Hono();
+      app.get("/api/todos", (c) => { if (c.req.query("auth")) c.set("user", { id: "u-42" } as never); return handler(c); });
+      return app;
+    };
+
+    test("signed-in + NO principal → 401 UnauthorizedError, the handler never runs", async () => {
+      const res = await mount(["signed-in"]).request("/api/todos");
+      expect(res.status).toBe(401);
+      expect(await res.json()).toEqual({ reason: "authentication required" });
+    });
+    test("signed-in + a principal → the handler runs with the injected userId", async () => {
+      const res = await mount(["signed-in"]).request("/api/todos?auth=1");
+      expect(res.status).toBe(200);
+      expect(await res.json()).toEqual({ userId: "u-42" });
+    });
+    test("public → no guard (the handler runs even without a principal)", async () => {
+      const res = await mount(["public"]).request("/api/todos");
+      expect(res.status).toBe(200);
+      expect(await res.json()).toEqual({ userId: "anon" });
+    });
   });
 
   test("ok.schema is OPTIONAL — omit it and the success response carries only a status + description", () => {

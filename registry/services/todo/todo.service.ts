@@ -27,7 +27,9 @@ export const TodoItemSchema = rowSchema(todo, {
   .extend({
     createdAt: z.number().int().describe("When it was created — epoch milliseconds.").meta({ examples: [1783082151484] }),
     updatedAt: z.number().int().describe("When it was last updated — epoch milliseconds.").meta({ examples: [1783082151484] }),
-  });
+  })
+  // the ENTITY description — bubbles up as the response description of any route whose body wraps a single todo (`{ todo }`).
+  .describe("The todo.");
 
 /** A todo row as returned to the owner — z.infer of the wire DTO (timestamps as epoch-ms). */
 export type TodoItem = z.infer<typeof TodoItemSchema>;

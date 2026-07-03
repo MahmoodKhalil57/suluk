@@ -3,37 +3,33 @@
  * `effectRoute` (the C075 ENVELOPE): the module's `.ops` bubble up into the contract and its `.router()` is the mount, so the
  * whole `/api/todos/*` surface is DEFINED here, with no separate `todo.contract.ts`.
  *
- * MINIMAL by design (C078): `roles: ["signed-in"]` DERIVES the mechanical fields — the `todos:<read|write>` scope (from the
- * path + method), a method-based cost + rate-limit, and the typed 401 `UnauthorizedError` response — so each route declares
- * only what's route-specific (its body schema + any DOMAIN error like 404). Everything derived is still overridable.
+ * MINIMAL by design (C078): `roles: ["signed-in"]` DERIVES the mechanical fields — the `todos:<read|write>` scope, a
+ * method-based cost + rate-limit, the typed 401 — AND enforces the auth guard: effectRoute returns the 401 for an anonymous
+ * caller ITSELF and injects the GUARANTEED `{ userId }` as `run`'s 2nd arg, so the handler owner-scopes with `userId`
+ * directly (no `c.get("user")` read, no null-check). The response DESCRIPTION + field descriptions/examples come from the
+ * SERVICE's annotated `TodoItemSchema`. So a route declares only what's route-specific (its body schema + any DOMAIN 404).
  *
- * ONLY SIGNED-IN USERS: the scope gate lets sessions/anon THROUGH, so each route also reads the AUTHENTICATED principal off
- * `c.get("user")` and returns the (roles-declared) 401 when there is none. OWNER-SCOPED: that principal is the owner passed
- * to the service, NEVER a client id, so a caller only touches THEIR OWN todos (a non-owned id → typed 404). Mount:
- * `app.route("/api/todos", todoRoutes())`.
+ * OWNER-SCOPED: that injected `userId` is the owner passed to the service, NEVER a client id, so a caller only touches THEIR
+ * OWN todos (a non-owned id → typed 404). Mount: `app.route("/api/todos", todoRoutes())`.
  */
 import { Effect } from "effect";
 import { z } from "zod";
-import { effectRoute, routeGroup, UnauthorizedError, NotFoundError } from "@suluk/effect";
+import { effectRoute, routeGroup, NotFoundError } from "@suluk/effect";
 import { DbLive, type Bindings } from "../app";
 import { Todo, TodoLive, TodoItemSchema } from "../services/todo";
 
 // The module's ENVELOPE — `.ops` → the contract, `.router()` → the mount. Single source of the `/api/todos/*` surface.
 const todos = routeGroup("/api/todos");
 
-/** The AUTHENTICATED caller's id — the principal the auth `identity` middleware stashed as `c.get("user")`. Read off the
- *  variables bag (not declared as AppVars in this decoupled module, so cast the read). NEVER a client-supplied field. */
-const caller = (c: { var: { user?: { id?: string } } }): string | null => c.var.user?.id ?? null;
-
 /** Fully-provide a Todo program against the request's DB — discharges the Effect's requirements (`R = never`) before it
  *  reaches the effectRoute handler. */
 const provide = <A, E>(env: Bindings, program: Effect.Effect<A, E, Todo>): Effect.Effect<A, E, never> =>
   program.pipe(Effect.provide(TodoLive), Effect.provide(DbLive(env)));
 
-// ── response bodies — the SERVICE owns the annotated `TodoItemSchema` (drizzle-zod + per-field descriptions/examples); the
-// routes just WRAP it. The `.describe(...)` on each wrapper becomes the response DESCRIPTION (effectRoute reads it off the
-// schema), and the field descriptions + `.meta({examples})` bubble up into the doc — nothing restated per route. ──
-const TodoBody = z.object({ todo: TodoItemSchema }).describe("The todo.");
+// ── response bodies — the SERVICE owns the annotated `TodoItemSchema` (drizzle-zod + per-field describe/examples + the
+// entity `.describe("The todo.")`); the routes just WRAP it. effectRoute reads the response DESCRIPTION off the wrapped
+// entity, and the field descriptions + `.meta({examples})` bubble up into the doc — nothing restated per route. ──
+const TodoBody = z.object({ todo: TodoItemSchema }); // wraps a single todo → its `.describe("The todo.")` bubbles up
 const TodoListBody = z.object({ todos: z.array(TodoItemSchema) }).describe("The caller's todos, newest first.");
 const DeletedBody = z.object({ deleted: z.literal(true) }).describe("The todo was deleted.");
 
@@ -42,7 +38,7 @@ const CreateReq = z.object({ title: z.string().min(1).max(500) });
 const UpdateReq = z.object({ title: z.string().min(1).max(500).optional(), completed: z.boolean().optional() });
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
-// reads — the caller's own todos. `roles:["signed-in"]` derives todos:read + a read cost + a 120/min principal cap + 401.
+// reads — the caller's own todos. `roles:["signed-in"]` → todos:read + read cost + 120/min + the 401 guard + injected userId.
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // GET /api/todos → { todos } — the signed-in caller's list, newest first.
@@ -51,9 +47,7 @@ todos.route(effectRoute({
   summary: "List the signed-in user's todos, newest first.",
   tags: ["Todos"], roles: ["signed-in"],
   ok: { schema: TodoListBody },
-  run: (c) => Effect.gen(function* () {
-    const userId = caller(c);
-    if (!userId) return yield* new UnauthorizedError({ reason: "authentication required" });
+  run: (c, { userId }) => Effect.gen(function* () {
     const s = yield* Todo;
     return { todos: yield* s.list(userId) };
   }).pipe((p) => provide(c.env, p)),
@@ -66,9 +60,7 @@ todos.route(effectRoute({
   tags: ["Todos"], roles: ["signed-in"],
   ok: { schema: TodoBody },
   errors: [NotFoundError],
-  run: (c) => Effect.gen(function* () {
-    const userId = caller(c);
-    if (!userId) return yield* new UnauthorizedError({ reason: "authentication required" });
+  run: (c, { userId }) => Effect.gen(function* () {
     const id = c.req.param("id")!;
     const s = yield* Todo;
     const item = yield* s.get(userId, id);
@@ -78,7 +70,7 @@ todos.route(effectRoute({
 }));
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
-// writes — create / update / delete the caller's own todos. `roles` derives todos:write + a write cost + a 60/min cap + 401.
+// writes — create / update / delete the caller's own todos. `roles` → todos:write + write cost + 60/min + the 401 guard.
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // POST /api/todos { title } → 201 { todo } — create a todo owned by the caller (201 is the POST default).
@@ -88,9 +80,7 @@ todos.route(effectRoute({
   tags: ["Todos"], roles: ["signed-in"],
   request: { json: CreateReq },
   ok: { schema: TodoBody },
-  run: (c) => Effect.gen(function* () {
-    const userId = caller(c);
-    if (!userId) return yield* new UnauthorizedError({ reason: "authentication required" });
+  run: (c, { userId }) => Effect.gen(function* () {
     const { title } = yield* Effect.promise(() => c.req.json<{ title: string }>());
     const s = yield* Todo;
     return { todo: yield* s.create(userId, { title }) };
@@ -105,9 +95,7 @@ todos.route(effectRoute({
   request: { json: UpdateReq },
   ok: { schema: TodoBody },
   errors: [NotFoundError],
-  run: (c) => Effect.gen(function* () {
-    const userId = caller(c);
-    if (!userId) return yield* new UnauthorizedError({ reason: "authentication required" });
+  run: (c, { userId }) => Effect.gen(function* () {
     const id = c.req.param("id")!;
     const patch = yield* Effect.promise(() => c.req.json<{ title?: string; completed?: boolean }>());
     const s = yield* Todo;
@@ -125,9 +113,7 @@ todos.route(effectRoute({
   tags: ["Todos"], roles: ["signed-in"],
   ok: { status: 200, schema: DeletedBody },
   errors: [NotFoundError],
-  run: (c) => Effect.gen(function* () {
-    const userId = caller(c);
-    if (!userId) return yield* new UnauthorizedError({ reason: "authentication required" });
+  run: (c, { userId }) => Effect.gen(function* () {
     const id = c.req.param("id")!;
     const s = yield* Todo;
     const ok = yield* s.remove(userId, id);
