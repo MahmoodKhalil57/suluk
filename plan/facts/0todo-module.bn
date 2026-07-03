@@ -1,0 +1,29 @@
+# C077 — the `todo` registry module: a complete CRUD demonstrator built on the C075 envelope + C076 typed errors.
+# Sign-in-only, owner-scoped, metered + rate-limited, drizzle schema bubbles up. Added to platform.config.ts.
+
+# The module (registry/services/todo/*): a drizzle `todo` table (owner userId + index); a `Todo` Effect service whose
+# EVERY method is owner-scoped (list/get/create/update/remove filter on userId); a routeGroup envelope of 5 effectRoute
+# CRUD ops exporting todoOps + todoRoutes (no separate todo.contract.ts); a 0008_todo provision migration. Registered:
+# todoService (requires:["auth"], deps:["@suluk/effect","zod"], offers eraseStep("todo")), registry.json item, platform 0.16.0. @>=0.85
+claim c077_todo_module_built_and_registered: Bool @>=0.85 = True
+falsified_when c077_todo_module_built_and_registered == False
+
+# ONLY SIGNED-IN + OWNER-SCOPED enforced at runtime (proven in ATF): the scope gate lets sessions/anon through, so each
+# route reads c.get("user") and returns a typed 401 UnauthorizedError when absent; the authenticated principal is the owner
+# in every query (never a client id), a non-owned id is a typed 404. PROVEN: anonymous create/list -> 401; Alice full CRUD
+# (201/200/200/{deleted:true}); Bob's list is EMPTY + Bob GET/DELETE of Alice's todo -> 404 (no cross-user access/mutation). @>=0.88
+claim c077_signin_only_owner_scoped_proven: Bool @>=0.88 = True
+falsified_when c077_signin_only_owner_scoped_proven == False
+
+# Adversarially reviewed (6-dimension workflow: auth/tenancy/cost/schema/envelope/integration; 3 findings, all CONFIRMED
+# + FIXED): (1)+(2) writes switched settlement credit -> rate-limited+overflow:"credit" to kill the cost-model implied-402
+# conformance drift + the "credits enforced" doc overclaim (no installed middleware debits the ledger; cost is advisory/
+# metered); (3) todoService gained deps so a todo-without-contract app's generated package.json still carries zod. @>=0.82
+claim c077_adversarial_review_fixed: Bool @>=0.82 = True
+falsified_when c077_adversarial_review_fixed == False
+
+# PROVEN end-to-end against the PUBLISHED platform 0.16.0: ATF regenerated (entry mounts /api/todos, contract.ops spreads
+# todoOps, provision.config folds todoProvision, package.json carries zod + @suluk/effect), tsc clean, dev boots with 23
+# tables; /api/todos serves + /api/reference renders the typed CRUD contract. Registry pushed; ATF committed. @>=0.85
+claim c077_e2e_proven_atf_published: Bool @>=0.85 = True
+falsified_when c077_e2e_proven_atf_published == False
