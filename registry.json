@@ -12,6 +12,7 @@
         "hono",
         "effect",
         "drizzle-orm",
+        "drizzle-zod",
         "@suluk/core"
       ],
       "files": [

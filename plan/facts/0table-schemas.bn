@@ -1,0 +1,28 @@
+# C079 — one drizzle-zod source per table: the base `app` exposes `tableSchemas(table, refine?)`, and a module derives its
+# WHOLE wire contract + every type from ONE schema file. Extends the C078 minimal-route work. @suluk/platform 0.17.0.
+
+# The base app (foundation) adds `tableSchemas<T extends Table, R extends BuildRefine<T["_"]["columns"], undefined>>(table,
+# refine?)` -> { select: createSelectSchema(table, refine), insert: createInsertSchema(table), update: createUpdateSchema(table) }.
+# Generic over the table, so each field keeps its precise type; the refine param is typed NoUnknownKeys<R, T["$inferSelect"]>
+# (mirroring drizzle-zod's own overload) so R INFERS from the callback object and the `(s) =>` params are typed, not `any`.
+# drizzle-zod added to BASE_DEPS + ECOSYSTEM_VERSIONS (^0.8.0) and the `app` registry item's dependencies. @>=0.85
+claim c079_tableschemas_helper_typed_generic: Bool @>=0.85 = True
+falsified_when c079_tableschemas_helper_typed_generic == False
+
+# The todo SCHEMA FILE (src/db/todo.ts) is the SINGLE SOURCE: the table, then via `tableSchemas(todo, {refine})` the three
+# drizzle-zod schemas (select carries the per-field describe+examples), then EVERY type by z.infer (TodoRow/TodoInsert/
+# TodoUpdate/TodoItem), then the wire DTO (select with timestamps projected to epoch-ms), the request bodies (REUSING
+# todoSelect.shape.<field> + .min/.max — .describe+.meta survive the chain and .optional), and the per-op todoContract.
+# Nothing is rewritten downstream: the service imports the types (method params = Pick<TodoInsert|TodoUpdate,...>, no
+# hand-written {title?;completed?}), the routes spread the contract. @>=0.85
+claim c079_todo_single_schema_source_infer_all: Bool @>=0.85 = True
+falsified_when c079_todo_single_schema_source_infer_all == False
+
+# PROVEN in ATF (sources synced, drizzle-zod resolved): tsc --noEmit exit 0 (the generic helper preserves types through
+# z.infer; refine callbacks typed under strict). Live CRUD on mocks: anon->401, create->201, list/get->200, patch->completed:true,
+# GET missing->typed 404 {resource,id} bubbled via effect.ts, delete->{deleted:true}. Generated OpenAPI: GetTodoOk+ListTodosOk
+# carry entity .describe "The todo." + every field's description+examples (title "Buy milk", createdAt epoch-ms integer); the
+# createTodo request title has description+examples+minLength:1+maxLength:500; updateTodo body all-optional. platform 148 tests
+# pass; golden re-cut diff is ONLY the drizzle-zod line. Published @suluk/platform 0.17.0 + pushed + ATF adopted. @>=0.85
+claim c079_e2e_proven_atf_published: Bool @>=0.85 = True
+falsified_when c079_e2e_proven_atf_published == False

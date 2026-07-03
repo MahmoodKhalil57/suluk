@@ -53,6 +53,7 @@
     "@suluk/scalar": "latest",
     "better-auth": "^1.0.0",
     "drizzle-orm": "^0.45.2",
+    "drizzle-zod": "^0.8.0",
     "effect": "^3.0.0",
     "hono": "^4.0.0",
     "zod": "^4.0.0"

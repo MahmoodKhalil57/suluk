@@ -8,6 +8,8 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { Context, Layer } from "effect";
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
+import type { Table } from "drizzle-orm";
+import { createSelectSchema, createInsertSchema, createUpdateSchema, type BuildRefine, type NoUnknownKeys } from "drizzle-zod";
 
 export interface Bindings {
   DB: D1Database;
@@ -28,6 +30,28 @@ export class Db extends Context.Tag("Db")<Db, DrizzleD1Database>() {}
 
 /** Build the `Db` layer for one request from the Worker bindings. */
 export const DbLive = (env: Bindings): Layer.Layer<Db> => Layer.succeed(Db, drizzle(env.DB));
+
+/**
+ * Derive a table's three drizzle-zod schemas in ONE call — so a module defines its table ONCE and reads its
+ * `select` (a full row), `insert` (writable columns, defaults optional) and `update` (all optional) schemas + (via
+ * `z.infer`) their TS types from here, instead of rewriting `createSelectSchema(table)` / `createInsertSchema(table)` /
+ * `createUpdateSchema(table)` in every schema file. The optional `refine` annotates the SELECT schema (per-field
+ * `.describe()` + `.meta({examples})`), so those labels bubble up into the wire response body / Scalar. Generic over the
+ * table, so every field keeps its precise type — `z.infer<typeof tableSchemas(t).select>` is the exact row shape.
+ *
+ *   const { select, insert, update } = tableSchemas(todo, { title: (s) => s.describe("The todo text.") });
+ *   type Row = z.infer<typeof select>;   // { id: string; title: string; completed: boolean; ... }
+ */
+export function tableSchemas<T extends Table, R extends BuildRefine<T["_"]["columns"], undefined> = BuildRefine<T["_"]["columns"], undefined>>(
+  table: T,
+  refine?: NoUnknownKeys<R, T["$inferSelect"]>,
+) {
+  return {
+    select: createSelectSchema(table, refine),
+    insert: createInsertSchema(table),
+    update: createUpdateSchema(table),
+  };
+}
 
 /** Create the base app. Mount a feature module's router: `app.route("/credits", creditsRoutes())`. */
 export function createApp() {

@@ -16,7 +16,8 @@
 import { Effect } from "effect";
 import { effectRoute, routeGroup } from "@suluk/effect";
 import { DbLive, type Bindings } from "../app";
-import { Todo, TodoLive, todoContract } from "../services/todo";
+import { Todo, TodoLive } from "../services/todo";
+import { todoContract } from "../db/todo";
 
 // The module's ENVELOPE — `.ops` → the contract, `.router()` → the mount. Single source of the `/api/todos/*` surface.
 const todos = routeGroup("/api/todos");
