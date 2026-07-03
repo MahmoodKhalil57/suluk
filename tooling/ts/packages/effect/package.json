@@ -1,6 +1,6 @@
 {
   "name": "@suluk/effect",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Effect-native routes: typed HTTP errors (Data.TaggedError + status + schema) that BUBBLE UP the handler's Effect error channel into the v4 contract as detailed error responses (not generic ProblemDetails), plus success-status inference. The route's responses are DERIVED from the handler's A/E types. CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"
@@ -20,15 +20,18 @@
   },
   "dependencies": {
     "@suluk/core": "workspace:^",
-    "@suluk/hono": "workspace:^"
+    "@suluk/hono": "workspace:^",
+    "drizzle-zod": "^0.8.0"
   },
   "peerDependencies": {
+    "drizzle-orm": ">=0.36.0",
     "effect": "^3.0.0",
     "hono": "^4.0.0",
     "zod": "^4.0.0"
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "drizzle-orm": "^0.45.2",
     "effect": "^3.0.0",
     "hono": "^4.0.0",
     "zod": "^4.4.3"

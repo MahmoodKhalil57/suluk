@@ -263,7 +263,7 @@ export const contractService = defineService({ id: "contract", mount: { kind: "m
     // consumer calls it with its own arg (`apiDocument({scopes})` in mcp, `apiDocument()` in reference).
     offers: { provideApiDocument: { kind: "capability", symbol: "apiDocument", from: "./contract", imports: [{ symbol: "apiDocument", from: "./contract" }], build: () => "apiDocument" } },
   } });
-export const mcpService = defineService({ id: "mcp", mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" }, contract: { symbol: "mcpOps", from: "./contract/mcp" }, deps: ["@suluk/mcp", "@suluk/better-auth", "better-auth"],
+export const mcpService = defineService({ id: "mcp", mount: { kind: "middleware", symbol: "mountMcp", from: "./routes/mcp" }, provision: { symbol: "mcpProvision", from: "./src/provision/mcp" }, contract: { symbol: "mcpOps", from: "./routes/mcp" }, deps: ["@suluk/mcp", "@suluk/better-auth", "better-auth"],
   requires: ["contract", "auth"], // mcp IS the contract doc projected + reads the auth-set principal — hard runtime peers
   // EXPOSES `mcpAuthInstance` (auth's OAuth instance, optional) + `apiDocument` (contract's projector, auto-injected — mcp is
   // the contract doc projected, so it never imports `../contract`; the wire feeds `apiDocument` in as a mount-opt).
@@ -276,7 +276,7 @@ export const creditsService = defineService({
   id: "credits",
   mount: { kind: "route", path: "/api/credits", symbol: "creditsRoutes", from: "./routes/credits" },
   provision: { symbol: "creditsProvision", from: "./src/provision/credits" },
-  contract: { symbol: "creditsOps", from: "./contract/credits" },
+  contract: { symbol: "creditsOps", from: "./routes/credits" },
   deps: ["@suluk/credits"],
   compose: {
     offers: {
@@ -305,7 +305,7 @@ export const creditsService = defineService({
   },
 });
 
-export const keysService = defineService({ id: "keys", mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" }, contract: { symbol: "keysOps", from: "./contract/keys" }, deps: ["@suluk/keys"], requires: ["auth"],
+export const keysService = defineService({ id: "keys", mount: { kind: "route", path: "/api/keys", symbol: "keysRoutes", from: "./routes/keys" }, provision: { symbol: "keysProvision", from: "./src/provision/keys" }, contract: { symbol: "keysOps", from: "./routes/keys" }, deps: ["@suluk/keys"], requires: ["auth"],
   // keys is ALREADY import-decoupled (it mints via an injected CreateKey Effect layer, not a ../auth import). It only OFFERS
   // its GDPR erase-step; a future `createKey` port could wire auth's mint in (deferred — the caps→permissions map needs care).
   compose: { offers: { eraseStep: eraseStepCapability("key_lineage") } } });
@@ -314,7 +314,7 @@ export const billingService = defineService({
   id: "billing",
   mount: { kind: "route", path: "/api/billing", symbol: "billingRoutes", from: "./routes/billing" },
   provision: { symbol: "billingProvision", from: "./src/provision/billing" },
-  contract: { symbol: "billingOps", from: "./contract/billing" },
+  contract: { symbol: "billingOps", from: "./routes/billing" },
   deps: ["@suluk/billing", "@suluk/payments", "@suluk/credits"],
   env: [
     { name: "STRIPE_SECRET_KEY", required: true, secret: true, hint: "your Stripe secret key" },
@@ -323,14 +323,14 @@ export const billingService = defineService({
   compose: { offers: { eraseStep: eraseStepCapability("billing_account") } },
 });
 
-export const costService = defineService({ id: "cost", mount: { kind: "route", path: "/api/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" }, contract: { symbol: "costOps", from: "./contract/cost" }, deps: ["@suluk/cost"], compose: { offers: { eraseStep: eraseStepCapability("cost_event") } } });
-export const erasureService = defineService({ id: "erasure", mount: { kind: "route", path: "/api/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" }, contract: { symbol: "erasureOps", from: "./contract/erasure" }, deps: ["@suluk/better-auth"],
+export const costService = defineService({ id: "cost", mount: { kind: "route", path: "/api/cost", symbol: "costRoutes", from: "./routes/cost" }, provision: { symbol: "costProvision", from: "./src/provision/cost" }, contract: { symbol: "costOps", from: "./routes/cost" }, deps: ["@suluk/cost"], compose: { offers: { eraseStep: eraseStepCapability("cost_event") } } });
+export const erasureService = defineService({ id: "erasure", mount: { kind: "route", path: "/api/erasure", symbol: "erasureRoutes", from: "./routes/erasure" }, provision: { symbol: "erasureProvision", from: "./src/provision/erasure" }, contract: { symbol: "erasureOps", from: "./routes/erasure" }, deps: ["@suluk/better-auth"],
   compose: { exposes: { cascade: { kind: "port", fanIn: true, hookOptKey: "extraSteps", render: (exprs) => `(db) => [ ${exprs.join(", ")} ]` } } } });
 
 export const emailService = defineService({
   id: "email",
   mount: { kind: "route", path: "/api/email", symbol: "emailRoutes", from: "./routes/email" }, // stateless binding — no provision fragment (C052) // stateless binding — no provision fragment (C052)
-  contract: { symbol: "emailOps", from: "./contract/email" },
+  contract: { symbol: "emailOps", from: "./routes/email" },
   deps: ["@suluk/email"],
   env: [
     { name: "RESEND_API_KEY", secret: true, hint: "omit → the console provider (dev)" },
@@ -345,7 +345,7 @@ export const webhooksService = defineService({
   id: "webhooks",
   mount: { kind: "route", path: "/api/webhooks", symbol: "webhooksRoutes", from: "./routes/webhooks" },
   provision: { symbol: "webhooksProvision", from: "./src/provision/webhooks" },
-  contract: { symbol: "webhooksOps", from: "./contract/webhooks" },
+  contract: { symbol: "webhooksOps", from: "./routes/webhooks" },
   deps: ["@suluk/payments"],
   env: [{ name: "STRIPE_WEBHOOK_SECRET", required: true, secret: true, hint: "verifies inbound Stripe events (POST /api/webhooks/stripe)" }],
 });
@@ -353,12 +353,12 @@ export const webhooksService = defineService({
 export const rateLimitService = defineService({ id: "rate-limit", mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" }, deps: ["@suluk/hono"] });
 export const rateCreditService = defineService({ id: "rate-credit", mount: { kind: "middleware", symbol: "mountRateCredit", from: "./services/rate-credit" } }); // credit-backed free-tier bucket (KV binding)
 export const i18nService = defineService({ id: "i18n", mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" }, deps: ["@suluk/i18n"] });
-export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, contract: { symbol: "referenceOps", from: "./contract/reference" }, deps: ["@suluk/scalar", "@suluk/cloudflare"], requires: ["contract"], // derived — no provision (renders via @suluk/scalar; @suluk/cloudflare weightTable() feeds Scalar LIVE infra weights)
+export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, contract: { symbol: "referenceOps", from: "./routes/reference" }, deps: ["@suluk/scalar", "@suluk/cloudflare"], requires: ["contract"], // derived — no provision (renders via @suluk/scalar; @suluk/cloudflare weightTable() feeds Scalar LIVE infra weights)
   // EXPOSES `apiDocument` (contract's projector, auto-injected) — reference is the contract rendered as a page; it receives
   // `apiDocument` as a mount-opt rather than importing `../contract`.
   compose: { exposes: { apiDocument: { kind: "port", hookOptKey: "apiDocument", render: (e) => e[0] ?? "undefined" } } } });
-export const adminService = defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, contract: { symbol: "adminOps", from: "./contract/admin" }, deps: ["@suluk/credits"], env: [{ name: "SUPERADMIN_EMAILS", secret: true, hint: "comma/space-separated admin emails → the admin scope (secret-surfaced so they stay out of git plaintext)" }] }); // reads existing tables — no provision
-export const logsService = defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" }, contract: { symbol: "logsOps", from: "./contract/logs" }, compose: { offers: { eraseStep: eraseStepCapability("activity_log") } } });
+export const adminService = defineService({ id: "admin", mount: { kind: "route", path: "/api/admin", symbol: "adminRoutes", from: "./routes/admin" }, contract: { symbol: "adminOps", from: "./routes/admin" }, deps: ["@suluk/credits"], env: [{ name: "SUPERADMIN_EMAILS", secret: true, hint: "comma/space-separated admin emails → the admin scope (secret-surfaced so they stay out of git plaintext)" }] }); // reads existing tables — no provision
+export const logsService = defineService({ id: "logs", mount: { kind: "route", path: "/api/logs", symbol: "logsRoutes", from: "./routes/logs" }, provision: { symbol: "logsProvision", from: "./src/provision/logs" }, contract: { symbol: "logsOps", from: "./routes/logs" }, compose: { offers: { eraseStep: eraseStepCapability("activity_log") } } });
 export const journeysService = defineService({ id: "journeys", mount: { kind: "dev" }, deps: ["@suluk/journeys"] });
 export const auditService = defineService({ id: "audit", mount: { kind: "dev" }, deps: ["@suluk/cockpit", "@suluk/harden"] });
 

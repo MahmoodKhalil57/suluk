@@ -9,9 +9,13 @@
 import { Hono } from "hono";
 import { Effect } from "effect";
 import { z } from "zod";
-import { effectRoute } from "@suluk/effect";
+import { effectRoute, routeGroup } from "@suluk/effect";
 import { DbLive, type Bindings } from "../app";
 import { Erasure, ErasureLive, type ExtraSteps } from "../services/erasure";
+
+// The module's ENVELOPE — the single source of its `/api/erasure/*` op. `.ops` bubbles up into the contract (the generated
+// `src/contract.ops.ts` spreads it), so there is no separate `erasure.contract.ts` to keep in sync with the route.
+const erasure = routeGroup("/api/erasure");
 
 export interface MountErasureOptions {
   /** wired from platform.config.ts: the COMPOSED per-module erase-steps (`erasure.cascade → <module>.eraseStep`, fan-in).
@@ -33,7 +37,7 @@ const ErasureReceiptSchema = z.object({
  * Effect's requirements (`R = never`). `extraSteps` are read off `c.var` (the mount stashes the COMPOSED per-module steps),
  * so the contract stays a stable module-scope constant while the handler still gets the wired cascade.
  */
-export const eraseUserRoute = effectRoute({
+export const eraseUserRoute = erasure.route(effectRoute({
   method: "post", path: "/api/erasure/:userId", name: "eraseUser",
   summary: "Run the GDPR erasure cascade for a user across every subsystem. ADMIN-only; fail-closed (a failed step aborts with no receipt).",
   tags: ["Admin"], scopes: ["admin"],
@@ -49,7 +53,10 @@ export const eraseUserRoute = effectRoute({
     Effect.provide(ErasureLive((c.var as { extraSteps?: ExtraSteps }).extraSteps)),
     Effect.provide(DbLive(c.env as Bindings)),
   )),
-});
+}));
+
+/** The `erasure` module's CONTRACT fragment — bubbled up from the route above (replaces the old `erasure.contract.ts`). */
+export const erasureOps = erasure.ops;
 
 export function erasureRoutes(opts?: MountErasureOptions) {
   const r = new Hono<{ Bindings: Bindings }>();

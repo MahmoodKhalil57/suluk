@@ -8,9 +8,8 @@
  * uses: `POST /event` (a live-request cost from `costMeter`'s sink) and `POST /dedup` (a fired background event, deduped so an
  * at-least-once webhook can't double-charge). The projection + attribution logic stay in `@suluk/cost`.
  */
-import { Hono } from "hono";
 import { Effect } from "effect";
-import { effectRoute, ValidationError, Ok } from "@suluk/effect";
+import { effectRoute, routeGroup, ValidationError, Ok } from "@suluk/effect";
 import type { CostEvent, EventCostInput } from "@suluk/cost";
 import { DbLive, type Bindings } from "../app";
 import { Cost, CostLive } from "../services/cost";
@@ -18,7 +17,9 @@ import {
   CostSummaryBody, RecordEventBody, RecordDedupBody, UserIdParams,
 } from "./cost.schemas";
 
-type Env = { Bindings: Bindings };
+// The module's ENVELOPE — its `.ops` bubbles up into the contract (replacing `cost.contract.ts`) and its `.router()` is the
+// mount. The single source of truth for the `/api/cost/*` surface is the route definitions below.
+const cost = routeGroup("/api/cost");
 
 /** Fully-provide a Cost program against the request's DB — the SAME layer stack the old `run` used, so the Effect's remaining
  *  requirements are discharged (`R = never`) before it reaches the effectRoute handler. */
@@ -30,7 +31,7 @@ const provide = <A, E>(env: Bindings, program: Effect.Effect<A, E, Cost>): Effec
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // GET /cost/summary → the aggregate ledger (total + by principal/operation/action/source).
-export const getCostSummaryRoute = effectRoute({
+export const getCostSummaryRoute = cost.route(effectRoute({
   method: "get", path: "/api/cost/summary", name: "getCostSummary",
   summary: "The aggregate cost ledger (total + breakdown by principal / operation / action / source).",
   tags: ["Cost"], scopes: ["cost:read"],
@@ -42,10 +43,10 @@ export const getCostSummaryRoute = effectRoute({
     const s = yield* Cost;
     return { summary: yield* s.summary() };
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // GET /cost/summary/:userId → what one principal cost you.
-export const getUserCostSummaryRoute = effectRoute({
+export const getUserCostSummaryRoute = cost.route(effectRoute({
   method: "get", path: "/api/cost/summary/:userId", name: "getUserCostSummary",
   summary: "What one principal cost you — the per-user cost summary.",
   tags: ["Cost"], scopes: ["cost:read"],
@@ -58,14 +59,14 @@ export const getUserCostSummaryRoute = effectRoute({
     const s = yield* Cost;
     return { summary: yield* s.principalSummary(c.req.param("userId")!) }; // :userId is a required path param — always present
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
 // writes — record a measured / fired cost. A malformed body → the contract's declared typed 400.
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // POST /cost/event — record a measured live-request CostEvent (internal: the metering middleware's sink). Returns 201.
-export const recordCostEventRoute = effectRoute({
+export const recordCostEventRoute = cost.route(effectRoute({
   method: "post", path: "/api/cost/event", name: "recordCostEvent",
   summary: "Record a per-request cost event (at-least-once; deduped on the idempotency key).",
   tags: ["Cost"], scopes: ["cost:read"],
@@ -82,11 +83,11 @@ export const recordCostEventRoute = effectRoute({
     yield* s.record(event);
     return { ok: true as const };
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // POST /cost/dedup — record a FIRED background-event cost (webhook/cron), idempotent on the model's dedupe key.
 // A fresh insert → 201; a duplicate replay → 200 (via `respond`, since the status is data-dependent).
-export const recordCostDedupRoute = effectRoute({
+export const recordCostDedupRoute = cost.route(effectRoute({
   method: "post", path: "/api/cost/dedup", name: "recordCostDedup",
   summary: "Record a cost dedup marker (the at-least-once ledger for webhook-driven costs).",
   tags: ["Cost"], scopes: ["cost:read"],
@@ -103,17 +104,15 @@ export const recordCostDedupRoute = effectRoute({
     const res = yield* s.recordEvent(input);
     return res.recorded ? { recorded: true } : Ok({ recorded: false as const });
   }).pipe((p) => provide(c.env, p)),
-});
+}));
+
+/** The `cost` module's CONTRACT fragment — bubbled up from the routes above (replaces `cost.contract.ts`). */
+export const costOps = cost.ops;
 
 /**
- * Mount every route's Effect handler at its sub-path. Each handler runs its fully-provided Effect, renders the success at its
- * declared status (dedup's 201-vs-200 is data-dependent via `respond`), and maps any typed failure to its status + typed body.
+ * Mount every route's Effect handler at its sub-path — DERIVED from the envelope (`.router()`), so the mount can't drift
+ * from the definitions and there's no per-route list. Dedup's 201-vs-200 is data-dependent via `respond`.
  */
 export function costRoutes() {
-  const r = new Hono<Env>();
-  r.get("/summary", getCostSummaryRoute.handler);
-  r.get("/summary/:userId", getUserCostSummaryRoute.handler);
-  r.post("/event", recordCostEventRoute.handler);
-  r.post("/dedup", recordCostDedupRoute.handler);
-  return r;
+  return cost.router();
 }

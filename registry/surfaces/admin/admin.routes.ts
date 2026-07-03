@@ -8,15 +8,18 @@
  * the contract as DETAILED, typed responses. `getAdminStats` is a pure READ with no in-handler failure branch (auth is the
  * global scope gate, not the handler), so its success STATUS is effect-derived (200) and its `errors` list is empty.
  */
-import { Hono } from "hono";
 import { Effect } from "effect";
 import { z } from "zod";
-import { effectRoute } from "@suluk/effect";
+import { effectRoute, routeGroup } from "@suluk/effect";
 import { DbLive, type Bindings } from "../app";
 import { Admin, AdminLive } from "../services/admin";
 
 type Env = { Bindings: Bindings };
 type Bind = Env["Bindings"];
+
+// The module's ENVELOPE — its `.ops` bubbles up into the contract (replacing `admin.contract.ts`) and its `.router()` is the
+// mount. The single source of truth for the `/api/admin/*` surface is the route below.
+const admin = routeGroup("/api/admin");
 
 /** Fully-provide an Admin program against the request's DB — the SAME layer stack the old `run` used, so the Effect's
  *  remaining requirements are discharged (`R = never`) before it reaches the effectRoute handler. */
@@ -41,7 +44,7 @@ const StatsBody = z.object({ stats: AdminStatsSchema });
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // GET /api/admin/stats → { stats } aggregate ops/usage stats (admin-scoped by the global contract gate).
-export const getAdminStatsRoute = effectRoute({
+export const getAdminStatsRoute = admin.route(effectRoute({
   method: "get", path: "/api/admin/stats", name: "getAdminStats",
   summary: "Platform-wide credit + usage stats. ADMIN-only.",
   tags: ["Admin"], scopes: ["admin"],
@@ -53,17 +56,15 @@ export const getAdminStatsRoute = effectRoute({
     const s = yield* Admin;
     return { stats: yield* s.stats() };
   }).pipe((p) => provide(c.env, p)),
-});
+}));
+
+/** The `admin` module's CONTRACT fragment — bubbled up from the route above (replaces `admin.contract.ts`). */
+export const adminOps = admin.ops;
 
 /**
- * Mount every route's Effect handler at its sub-path. Each handler runs its fully-provided Effect, renders the success at
- * its declared status, and maps any typed failure to its status + typed body (never a generic ProblemDetails).
+ * Mount every route's Effect handler at its sub-path — DERIVED from the envelope (`.router()`), so the mount can't drift
+ * from the definitions.
  */
 export function adminRoutes() {
-  const r = new Hono<Env>();
-
-  // ── reads ──
-  r.get("/stats", getAdminStatsRoute.handler);
-
-  return r;
+  return admin.router();
 }

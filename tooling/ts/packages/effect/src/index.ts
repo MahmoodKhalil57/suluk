@@ -25,3 +25,10 @@ export {
   effectRoute, respond, Ok, Created, Accepted, NoContent,
   type EffectRoute, type EffectRouteSpec, type HttpSuccess, type HandlerSuccess,
 } from "./route";
+// the route ENVELOPE — build one up per module (`.route(effectRoute({...}))` + `.doc({...})`); it bubbles up into the
+// contract (`.ops`) + the mount (`.router()`), so a module needs no separate `<module>.contract.ts`. Re-exported from
+// @suluk/hono so a routes file imports effectRoute + routeGroup from one place.
+export { routeGroup, isRouteGroup, type RouteGroup, type HandlerRoute } from "@suluk/hono";
+// DB-as-source-of-truth — bubble a drizzle table up to a Zod schema (drizzle-zod), so request/response bodies are DERIVED
+// from the database schema. Import through @suluk/effect so the effectRoute + its schemas come from one place.
+export { rowSchema, insertSchema, createSelectSchema, createInsertSchema, createUpdateSchema } from "./db";

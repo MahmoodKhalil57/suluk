@@ -18,9 +18,19 @@
  */
 import { Hono } from "hono";
 import type { OpenAPIv4Document } from "@suluk/core";
+import type { RouteContract } from "@suluk/hono";
 import { weightTable } from "@suluk/cloudflare";
 import { scalarV4Response, enrichedSpec, DEFAULT_WEIGHTS, type WeightTable } from "@suluk/scalar";
 import type { Bindings } from "../app";
+
+// ── the module's CONTRACT fragment, co-located with the routes it describes (replaces `reference.contract.ts`) ──
+// These public pages are bespoke-mounted (they render Scalar / the enriched spec, not effectRoutes), so the ops are
+// documented literals; they still bubble up via `referenceOps` (spread by `src/contract.ops.ts`).
+export const referenceOps = [
+  { method: "get", path: "/api/reference", name: "listReference", summary: "The v4-enhanced Scalar API reference PAGE over the derived contract. Public.", cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "rate-limited" } }, tags: ["Reference"], rateLimit: { windowMs: 60_000, maxRequests: 120, key: "ip" }, responses: [{ status: 200, description: "The Scalar reference page (HTML)." }] },
+  { method: "get", path: "/api/reference/spec", name: "referenceSpec", summary: "The enriched (facet-badged) spec the reference's 'View as' toolbar re-fetches; `?view=anon` projects the public surface. Public.", cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "rate-limited" } }, tags: ["Reference"], rateLimit: { windowMs: 60_000, maxRequests: 120, key: "ip" }, responses: [{ status: 200, description: "The enriched OpenAPI spec (JSON), projected to the requested role." }] },
+  { method: "get", path: "/api/reference/:tool", name: "getReference", summary: "The reference page FOCUSED on one tool/operation (by its by-name handle). Public.", cost: { components: [], infra: { "worker.request": 1 }, settlement: { method: "rate-limited" } }, tags: ["Reference"], rateLimit: { windowMs: 60_000, maxRequests: 120, key: "ip" }, responses: [{ status: 200, description: "The single-operation reference page (HTML)." }] },
+] satisfies readonly RouteContract[];
 // NO `../contract` import — DECOUPLED. Reference is the contract rendered as a page; the v4 doc projector arrives via the
 // `apiDocument` mount-opt (auto-wired from contract — a HARD peer reference `requires`). So reference imports only `../app`
 // + `@suluk/*`; the one cross-module edge (contract → reference) is a generate-time wire.

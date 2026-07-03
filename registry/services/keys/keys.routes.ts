@@ -6,18 +6,19 @@
  * (`enabled = 0`); override it to match your setup. Mount: `app.route("/api/keys", keysRoutes())`. Key CREATION + LISTING is
  * Better Auth's apikey plugin (in `auth`) — this module manages the lineage + headroom + revoke (subtree / revoke / provision).
  */
-import { Hono } from "hono";
 import { Effect, Layer } from "effect";
 import { z } from "zod";
 import { drizzle } from "drizzle-orm/d1";
 import { sql } from "drizzle-orm";
-import { effectRoute } from "@suluk/effect";
+import { effectRoute, routeGroup } from "@suluk/effect";
 import type { EffectiveCaps } from "@suluk/keys";
 import { DbLive, type Bindings } from "../app";
 import { Keys, KeysLive, DisableKeys, CreateKey, type RequestedCaps } from "../services/keys";
 import { EffectiveCapsSchema } from "./keys.schemas";
 
-type Env = { Bindings: Bindings };
+// The module's ENVELOPE — its `.ops` bubbles up into the contract (replacing `keys.contract.ts`) and its `.router()` is the
+// mount. The `/api/keys/*` surface (the lineage routes below + the Better-Auth-served `listKeys` doc op) lives here.
+const keys = routeGroup("/api/keys");
 
 // default apikey-disable — Better Auth's apikey table has an `enabled` flag; soft-disable the revoked ids. Provided per env.
 const DisableKeysLive = (env: Bindings) =>
@@ -61,8 +62,36 @@ const ProvisionReq = z.object({
   requested: z.object({ scopes: z.array(z.string()), creditLimit: z.number().int().nonnegative().nullable().optional(), rateLimitSharePct: z.number().nonnegative().nullable().optional(), expiresAt: z.number().int().nullable().optional() }),
 });
 
+// listKeys — a DOC-ONLY op: Better Auth's apikey plugin serves `GET /api/keys` (there is no route handler in this module to
+// derive it from). Moved from the old `keys.contract.ts` so the whole `/api/keys` surface lives next to its routes. One row
+// of the delegation tree as listKeys exposes it — per-key usage + its place in the lineage (scopes, caps, parent, depth).
+const KeyRowSchema = z.object({
+  id: z.string(),
+  name: z.string().nullable(),
+  start: z.string().nullable(),
+  scopes: z.array(z.string()),
+  enabled: z.boolean(),
+  expiresAt: z.number().int().nullable(),
+  lastUsed: z.number().int().nullable(),
+  creditsUsed: z.number().int(),
+  subtreeCreditsUsed: z.number().int(),
+  creditLimit: z.number().int().nullable(),
+  rateLimitSharePct: z.number().int().nullable(),
+  parentKeyId: z.string().nullable(),
+  depth: z.number().int(),
+});
+keys.doc({
+  method: "get", path: "/api/keys", name: "listKeys",
+  summary: "The caller's API keys with their place in the delegation tree (scopes, caps, usage, lineage).",
+  tags: ["API keys"], scopes: ["keys:read"],
+  cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "rate-limited" } },
+  rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" },
+  errors: [401],
+  responses: [{ status: 200, description: "The API-key list.", schema: z.object({ keys: z.array(KeyRowSchema) }) }],
+});
+
 // GET /keys/:keyId/subtree → the descendant key ids. A pure read (the service never fails) → no typed error paths.
-export const getKeySubtreeRoute = effectRoute({
+export const getKeySubtreeRoute = keys.route(effectRoute({
   method: "get", path: "/api/keys/:keyId/subtree", name: "getKeySubtree",
   summary: "The delegation subtree rooted at a key (its descendants + their caps/usage).",
   tags: ["API keys"], scopes: ["keys:read"],
@@ -74,11 +103,11 @@ export const getKeySubtreeRoute = effectRoute({
     const s = yield* Keys;
     return { subtree: yield* s.subtree(c.req.param("keyId")!) };
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // POST /keys/provision — mint a delegated child key, caps CLAMPED to the parent's, lineage recorded; plaintext key returned
 // ONCE. A CREATE → 201 (kept from the current code). The service never fails → no typed error paths.
-export const provisionKeyRoute = effectRoute({
+export const provisionKeyRoute = keys.route(effectRoute({
   method: "post", path: "/api/keys/provision", name: "provisionKey",
   summary: "Mint a CHILD API key, its caps CLAMPED to the caller's own grant (a child can never out-scope an ancestor). Returns the plaintext key ONCE.",
   tags: ["API keys"], scopes: ["keys:write"],
@@ -92,11 +121,11 @@ export const provisionKeyRoute = effectRoute({
     const s = yield* Keys;
     return yield* s.provision(body);
   }).pipe((p) => provideProvision(c.env, p)),
-});
+}));
 
 // POST /keys/:keyId/revoke { userId, callerKeyId? } → cascade-revoke the key + its subtree. The service never fails → no
 // typed error paths.
-export const revokeKeyRoute = effectRoute({
+export const revokeKeyRoute = keys.route(effectRoute({
   method: "post", path: "/api/keys/:keyId/revoke", name: "revokeKey",
   summary: "Cascade-revoke an API key and every descendant it provisioned, transitively.",
   tags: ["API keys"], scopes: ["keys:write"],
@@ -110,16 +139,15 @@ export const revokeKeyRoute = effectRoute({
     const s = yield* Keys;
     return yield* s.revokeTree(userId, c.req.param("keyId")!, callerKeyId);
   }).pipe((p) => provide(c.env, p)),
-});
+}));
+
+/** The `keys` module's CONTRACT fragment — bubbled up from the doc op + routes above (replaces `keys.contract.ts`). */
+export const keysOps = keys.ops;
 
 /**
- * Mount every route's Effect handler at its sub-path. Each handler runs its fully-provided Effect and renders the success at
- * its declared status. (Key LISTING — `GET /api/keys` `listKeys` — is Better Auth's apikey plugin, not this module.)
+ * Mount every route's Effect handler at its sub-path — DERIVED from the envelope (`.router()`), so the mount can't drift from
+ * the definitions. (Key LISTING — `GET /api/keys` `listKeys` — is Better Auth's apikey plugin, a doc-only op above.)
  */
 export function keysRoutes() {
-  const r = new Hono<Env>();
-  r.get("/:keyId/subtree", getKeySubtreeRoute.handler);
-  r.post("/provision", provisionKeyRoute.handler);
-  r.post("/:keyId/revoke", revokeKeyRoute.handler);
-  return r;
+  return keys.router();
 }

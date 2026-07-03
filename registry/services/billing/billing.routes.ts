@@ -12,16 +12,19 @@
  * `../pricing` inside the service. The caller's userId is the AUTHENTICATED principal the auth `identity` middleware set on
  * the context (`c.get("user")`) — NEVER a body/query/header field, so a caller can only ever move THEIR OWN money.
  */
-import { Hono } from "hono";
 import { Effect, Layer } from "effect";
 import { z } from "zod";
-import { effectRoute, UnauthorizedError, ValidationError, NotFoundError } from "@suluk/effect";
+import { effectRoute, routeGroup, UnauthorizedError, ValidationError, NotFoundError } from "@suluk/effect";
 import { DbLive, type Bindings } from "../app";
 import { Billing, BillingLive, StripeCfg } from "../services/billing";
 import { PackSchema, PlanSchema, PaymentMethodSchema } from "./billing.schemas";
 
 type Env = { Bindings: Bindings & { STRIPE_SECRET_KEY: string; STRIPE_PUBLISHABLE_KEY?: string; STRIPE_FETCH?: typeof fetch } };
 type Bind = Env["Bindings"];
+
+// The module's ENVELOPE — its `.ops` bubbles up into the contract (replacing `billing.contract.ts`) and its `.router()` is
+// the mount. The full `/api/billing/*` surface (23 ops) is DEFINED BY the route definitions below — one source, no drift.
+const billing = routeGroup("/api/billing");
 
 /** The AUTHENTICATED caller's userId — the principal the auth `identity` middleware stashed as `c.get("user")`. Read off
  *  the variables bag (the app's Variables aren't declared as AppVars here, so cast the read). Never a client-supplied field. */
@@ -90,7 +93,7 @@ const COST_CHARGE = { components: [], infra: { "worker.request": 1, "d1.write": 
 // pricing (public reads) — no auth, no typed error paths.
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
-export const getPacksRoute = effectRoute({
+export const getPacksRoute = billing.route(effectRoute({
   method: "get", path: "/api/billing/packs", name: "getPacks",
   summary: "Available credit packs (server-authoritative pricing). Public — the frontend reads it pre-sign-in.",
   tags: ["Billing"], cost: COST_READ_20,
@@ -101,9 +104,9 @@ export const getPacksRoute = effectRoute({
     const s = yield* Billing;
     return { packs: yield* s.packs() };
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
-export const getPlansRoute = effectRoute({
+export const getPlansRoute = billing.route(effectRoute({
   method: "get", path: "/api/billing/plans", name: "getPlans",
   summary: "Available subscription plans (server-authoritative pricing). Public — the frontend reads it pre-sign-in.",
   tags: ["Billing"], cost: COST_READ_20,
@@ -114,9 +117,9 @@ export const getPlansRoute = effectRoute({
     const s = yield* Billing;
     return { plans: yield* s.plans() };
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
-export const getPaymentConfigRoute = effectRoute({
+export const getPaymentConfigRoute = billing.route(effectRoute({
   method: "get", path: "/api/billing/payment-config", name: "getPaymentConfig",
   summary: "The publishable payment config (publishable key + enabled methods) for the client SDK.",
   tags: ["Billing"], scopes: ["billing:read"], cost: COST_READ_LIGHT,
@@ -124,14 +127,14 @@ export const getPaymentConfigRoute = effectRoute({
   ok: { status: 200, schema: PaymentConfigBody },
   errors: [],
   run: (c) => Effect.succeed({ publishableKey: (c.env as Bind).STRIPE_PUBLISHABLE_KEY ?? "" }),
-});
+}));
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
 // top-up: hosted Checkout + on-site PaymentIntent
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // POST /checkout — an ACTION returning a hosted session URL → 200 (not a 201 creation).
-export const checkoutRoute = effectRoute({
+export const checkoutRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/checkout", name: "checkout",
   summary: "Start a Stripe checkout / payment session for a credit top-up; returns the client secret or hosted URL.",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_CHARGE,
@@ -146,10 +149,10 @@ export const checkoutRoute = effectRoute({
     const s = yield* Billing;
     return yield* s.checkout(userId, packId, successUrl, cancelUrl);
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // POST /payment-intent — on-site top-up; one-click when onDefaultCard → { clientSecret } (null when no default card).
-export const createPaymentIntentRoute = effectRoute({
+export const createPaymentIntentRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/payment-intent", name: "createPaymentIntent",
   summary: "Create a payment intent for a client-confirmed top-up; returns the client secret.",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_CHARGE,
@@ -164,14 +167,14 @@ export const createPaymentIntentRoute = effectRoute({
     const s = yield* Billing;
     return yield* s.paymentIntent(userId, packId, onDefaultCard ?? false);
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
 // subscriptions
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // POST /subscribe — an ACTION returning a session/url → 200. The service's `{ error }` failures become a typed 400.
-export const subscribeRoute = effectRoute({
+export const subscribeRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/subscribe", name: "subscribe",
   summary: "Start a subscription for a plan — one-click (client secret + subscription id) or hosted (checkout URL).",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_CHARGE,
@@ -188,10 +191,10 @@ export const subscribeRoute = effectRoute({
     if ("error" in out) return yield* new ValidationError({ issues: [out.error] });
     return out as z.infer<typeof SubscribeBody>;
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // GET /subscription — live status for the caller's subscription, or null.
-export const getSubscriptionRoute = effectRoute({
+export const getSubscriptionRoute = billing.route(effectRoute({
   method: "get", path: "/api/billing/subscription", name: "getSubscription",
   summary: "The caller's current subscription (plan, status, period end, cancel-at-period-end).",
   tags: ["Billing"], scopes: ["billing:read"], cost: COST_READ_1,
@@ -205,10 +208,10 @@ export const getSubscriptionRoute = effectRoute({
     const subscription = yield* s.subscriptionStatus(userId);
     return { subscription };
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // POST /subscription — schedule cancel/resume. A missing subscription (`!out.ok`) → typed 404.
-export const cancelSubscriptionRoute = effectRoute({
+export const cancelSubscriptionRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/subscription", name: "cancelSubscription",
   summary: "Cancel (or schedule cancellation of) the caller's subscription.",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_WRITE,
@@ -225,10 +228,10 @@ export const cancelSubscriptionRoute = effectRoute({
     if (!out.ok) return yield* new NotFoundError({ resource: "subscription" });
     return out;
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // POST /subscription-plan — change plan. The service's `{ error }` failures become a typed 400.
-export const changeSubscriptionPlanRoute = effectRoute({
+export const changeSubscriptionPlanRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/subscription-plan", name: "changeSubscriptionPlan",
   summary: "Switch the caller's subscription to a different plan (prorated).",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_CHARGE,
@@ -245,14 +248,14 @@ export const changeSubscriptionPlanRoute = effectRoute({
     if ("error" in out) return yield* new ValidationError({ issues: [out.error] });
     return out;
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
 // quotes
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // GET /purchase-quote?amountCents=… → { credits, taxCents, totalCents }. Bad amount → typed 400.
-export const getPurchaseQuoteRoute = effectRoute({
+export const getPurchaseQuoteRoute = billing.route(effectRoute({
   method: "get", path: "/api/billing/purchase-quote", name: "getPurchaseQuote",
   summary: "A server-authoritative quote (tax + total) for a credit-pack purchase before checkout.",
   tags: ["Billing"], scopes: ["billing:read"], cost: COST_READ_LIGHT,
@@ -270,10 +273,10 @@ export const getPurchaseQuoteRoute = effectRoute({
     const quote = yield* s.purchaseQuote(userId, amountCents, ip);
     return { credits: quote.credits, taxCents: quote.taxCents, totalCents: quote.totalCents };
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // GET /refund-quote?credits=… → { credits, netCents }. Bad credits → typed 400. No auth (matches current code).
-export const getRefundQuoteRoute = effectRoute({
+export const getRefundQuoteRoute = billing.route(effectRoute({
   method: "get", path: "/api/billing/refund-quote", name: "getRefundQuote",
   summary: "How much of a purchase is refundable (credits already spent are deducted).",
   tags: ["Billing"], scopes: ["billing:read"], cost: COST_READ_LIGHT,
@@ -287,14 +290,14 @@ export const getRefundQuoteRoute = effectRoute({
     const s = yield* Billing;
     return yield* s.refundQuote(credits);
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
 // refund (module-owned)
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // POST /refund { credits } → { refundedCents }. Service `{ error }` failures: "no billing account" → 404, else 400.
-export const refundRoute = effectRoute({
+export const refundRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/refund", name: "refund",
   summary: "Refund a purchase — DEBITS the granted credits before moving cash (partial-capped; re-credits any shortfall).",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_CHARGE,
@@ -314,14 +317,14 @@ export const refundRoute = effectRoute({
     }
     return out;
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
 // cards / methods
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // GET /cards/:userId → the saved cards (back-compat; no auth guard in the current code).
-export const listCardsRoute = effectRoute({
+export const listCardsRoute = billing.route(effectRoute({
   method: "get", path: "/api/billing/cards/:userId", name: "listCards",
   summary: "A user's saved cards (each with its billing address); empty until they have a Stripe customer.",
   tags: ["Billing"], scopes: ["billing:read"], cost: COST_READ_20,
@@ -332,10 +335,10 @@ export const listCardsRoute = effectRoute({
     const s = yield* Billing;
     return { cards: yield* s.cards(c.req.param("userId")!) }; // :userId is a required path param — always present
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // GET /methods → the caller's saved cards.
-export const listMethodsRoute = effectRoute({
+export const listMethodsRoute = billing.route(effectRoute({
   method: "get", path: "/api/billing/methods", name: "listMethods",
   summary: "The caller's saved payment methods (cards), the default flagged.",
   tags: ["Billing"], scopes: ["billing:read"], cost: COST_READ_20,
@@ -348,10 +351,10 @@ export const listMethodsRoute = effectRoute({
     const s = yield* Billing;
     return { methods: yield* s.cards(userId) };
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // POST /methods/default { pmId } → set the invoice default. "no billing account"/"card not found" → typed 404, else 400.
-export const setDefaultMethodRoute = effectRoute({
+export const setDefaultMethodRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/methods/default", name: "setDefaultMethod",
   summary: "Set a saved card as the default for off-session charges.",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_WRITE,
@@ -372,10 +375,10 @@ export const setDefaultMethodRoute = effectRoute({
     }
     return out;
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // POST /methods/delete { pmId } → detach a saved card. "no billing account"/"card not found" → typed 404, else 400.
-export const deleteMethodRoute = effectRoute({
+export const deleteMethodRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/methods/delete", name: "deleteMethod",
   summary: "Detach a saved card from the caller's Stripe customer.",
   tags: ["Billing"], scopes: ["billing:write"],
@@ -397,14 +400,14 @@ export const deleteMethodRoute = effectRoute({
     }
     return out;
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
 // portal (v1)
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // POST /portal { userId, returnUrl } → the Stripe billing-portal URL. A null (no customer) → typed 404.
-export const billingPortalRoute = effectRoute({
+export const billingPortalRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/portal", name: "billingPortal",
   summary: "Open the Stripe billing portal to manage/cancel a subscription. Returns the portal URL.",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_READ_LIGHT,
@@ -419,14 +422,14 @@ export const billingPortalRoute = effectRoute({
     if (!portal) return yield* new NotFoundError({ resource: "billing account" });
     return portal;
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
 // customer + sessions (v1)
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // POST /customer { userId, email } → ensure a Stripe customer.
-export const ensureCustomerRoute = effectRoute({
+export const ensureCustomerRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/customer", name: "ensureCustomer",
   summary: "Ensure the caller has a Stripe customer (idempotent) — used before saving a card.",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_WRITE,
@@ -439,10 +442,10 @@ export const ensureCustomerRoute = effectRoute({
     const s = yield* Billing;
     return { customerId: yield* s.ensureCustomer(userId, email) };
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // POST /payment-session { userId, amountCents, credits } → a client secret for the Payment Element.
-export const createPaymentSessionRoute = effectRoute({
+export const createPaymentSessionRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/payment-session", name: "createPaymentSession",
   summary: "Create a client payment session (Element auto-PM or one-click on the default card).",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_CHARGE,
@@ -455,10 +458,10 @@ export const createPaymentSessionRoute = effectRoute({
     const s = yield* Billing;
     return yield* s.paymentSession(userId, amountCents, credits);
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // POST /setup-session { userId } → a client secret to vault a card ("add card").
-export const createSetupSessionRoute = effectRoute({
+export const createSetupSessionRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/setup-session", name: "createSetupSession",
   summary: "Create a setup session to save a card off-session (no charge).",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_WRITE,
@@ -471,14 +474,14 @@ export const createSetupSessionRoute = effectRoute({
     const s = yield* Billing;
     return yield* s.setupSession(userId);
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
 // auto-topup (owned table)
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // GET /auto-topup → the caller's config (defaults when unset).
-export const getAutoTopupRoute = effectRoute({
+export const getAutoTopupRoute = billing.route(effectRoute({
   method: "get", path: "/api/billing/auto-topup", name: "getAutoTopup",
   summary: "The caller's auto-recharge config (threshold + pack, or disabled).",
   tags: ["Billing"], scopes: ["billing:read"], cost: COST_READ_1,
@@ -491,10 +494,10 @@ export const getAutoTopupRoute = effectRoute({
     const s = yield* Billing;
     return yield* s.getAutoTopup(userId);
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // POST /auto-topup { enabled, thresholdCredits, topupCredits } → upsert. Service `{ error }` → typed 400.
-export const setAutoTopupRoute = effectRoute({
+export const setAutoTopupRoute = billing.route(effectRoute({
   method: "post", path: "/api/billing/auto-topup", name: "setAutoTopup",
   summary: "Enable/update/disable auto-recharge (top up when the balance falls below a threshold).",
   tags: ["Billing"], scopes: ["billing:write"], cost: COST_WRITE,
@@ -511,14 +514,14 @@ export const setAutoTopupRoute = effectRoute({
     if ("error" in out) return yield* new ValidationError({ issues: [out.error] });
     return out;
   }).pipe((p) => provide(c.env, p)),
-});
+}));
 
 // ══════════════════════════════════════════════════════════════════════════════════════════
 // payment-health (owned table)
 // ══════════════════════════════════════════════════════════════════════════════════════════
 
 // GET /payment-health → the caller's standing payment alerts.
-export const getPaymentHealthRoute = effectRoute({
+export const getPaymentHealthRoute = billing.route(effectRoute({
   method: "get", path: "/api/billing/payment-health", name: "getPaymentHealth",
   summary: "Standing payment-health flags for the caller (failed charges, expiring cards, dunning).",
   tags: ["Billing"], scopes: ["billing:read"], cost: COST_READ_1,
@@ -532,57 +535,16 @@ export const getPaymentHealthRoute = effectRoute({
     const alerts = yield* s.paymentHealth(userId);
     return { alerts: alerts.map((a) => ({ kind: a.kind, message: a.detail ?? "" })) };
   }).pipe((p) => provide(c.env, p)),
-});
+}));
+
+/** The `billing` module's CONTRACT fragment — bubbled up from the 23 routes above (replaces `billing.contract.ts`), in
+ *  author order. */
+export const billingOps = billing.ops;
 
 /**
- * Mount every route's Effect handler at its sub-path. Each handler runs its fully-provided Effect, renders the success at
- * its declared status, and maps any typed failure to its status + typed body (never a generic ProblemDetails).
+ * Mount every route's Effect handler at its sub-path — DERIVED from the envelope (`.router()` mounts each of the 23
+ * handler-backed routes at its `/api/billing`-relative path), so the mount can't drift from the definitions.
  */
 export function billingRoutes() {
-  const r = new Hono<Env>();
-
-  // ── pricing (public) ──
-  r.get("/packs", getPacksRoute.handler);
-  r.get("/plans", getPlansRoute.handler);
-  r.get("/payment-config", getPaymentConfigRoute.handler);
-
-  // ── top-up ──
-  r.post("/checkout", checkoutRoute.handler);
-  r.post("/payment-intent", createPaymentIntentRoute.handler);
-
-  // ── subscriptions ──
-  r.post("/subscribe", subscribeRoute.handler);
-  r.get("/subscription", getSubscriptionRoute.handler);
-  r.post("/subscription", cancelSubscriptionRoute.handler);
-  r.post("/subscription-plan", changeSubscriptionPlanRoute.handler);
-
-  // ── quotes ──
-  r.get("/purchase-quote", getPurchaseQuoteRoute.handler);
-  r.get("/refund-quote", getRefundQuoteRoute.handler);
-
-  // ── refund ──
-  r.post("/refund", refundRoute.handler);
-
-  // ── cards / methods ──
-  r.get("/cards/:userId", listCardsRoute.handler);
-  r.get("/methods", listMethodsRoute.handler);
-  r.post("/methods/default", setDefaultMethodRoute.handler);
-  r.post("/methods/delete", deleteMethodRoute.handler);
-
-  // ── portal ──
-  r.post("/portal", billingPortalRoute.handler);
-
-  // ── customer + sessions ──
-  r.post("/customer", ensureCustomerRoute.handler);
-  r.post("/payment-session", createPaymentSessionRoute.handler);
-  r.post("/setup-session", createSetupSessionRoute.handler);
-
-  // ── auto-topup ──
-  r.get("/auto-topup", getAutoTopupRoute.handler);
-  r.post("/auto-topup", setAutoTopupRoute.handler);
-
-  // ── payment-health ──
-  r.get("/payment-health", getPaymentHealthRoute.handler);
-
-  return r;
+  return billing.router();
 }

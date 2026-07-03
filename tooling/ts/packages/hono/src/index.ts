@@ -4,6 +4,9 @@
  * a documentation-coverage audit. See tooling/ARCHITECTURE.md. CANDIDATE tooling.
  */
 export { contract, contractDoc, responseList, type RouteContract, type DocumentedRoute, type RouteRequest, type RouteResponse, type Method } from "./contract";
+// the route ENVELOPE — a module builds one up as it declares routes, and it bubbles up into the contract (`.ops`) + the
+// mount (`.router()`), so the contract is organic (defined by the routes) instead of a separate `<module>.contract.ts`.
+export { routeGroup, isRouteGroup, type RouteGroup, type HandlerRoute } from "./route-group";
 export { emitV4, type EmitContext, type EmitResult, type EmitDiagnostic } from "./emit";
 export { audit, coverage, autofill, type Finding } from "./audit";
 export { contractChecks, runContractChecks, type Check, type CheckRun } from "./checks";

@@ -19,9 +19,11 @@
  * resolved) and AFTER `contract` (the scope gate) in the manifest.
  */
 import type { Context, Hono } from "hono";
+import { z } from "zod";
 import { mcpApp, appExec, type FetchApp } from "@suluk/mcp";
 import { oAuthDiscoveryMetadata, oAuthProtectedResourceMetadata } from "better-auth/plugins";
 import type { OpenAPIv4Document } from "@suluk/core";
+import type { RouteContract } from "@suluk/hono";
 import type { Bindings } from "../app";
 import { mcpConnectionsRoutes } from "./mcp-connections";
 // NO `../contract` or `../auth` import — DECOUPLED. The v4 doc PROJECTOR (`apiDocument`) arrives via the `apiDocument`
@@ -30,6 +32,69 @@ import { mcpConnectionsRoutes } from "./mcp-connections";
 // plugin). So `mcp` imports only `../app` + its own files + `@suluk/*` — every cross-module edge is a wire.
 
 const BASE_PATH = "/api/mcp";
+
+// ── the module's CONTRACT fragment, co-located with the routes it describes (replaces `mcp.contract.ts`) ──
+// The session-only `/api/mcp/connections/*` management ops. The JSON-RPC + OAuth surfaces are bespoke-mounted (mcpApp /
+// discovery), so these are documented literals; they bubble up via `mcpOps` (spread by `src/contract.ops.ts`).
+
+/** One MCP connection knob-row as returned to the owner (matches `McpConnectionView` from the connections service). */
+const McpConnectionViewSchema = z.object({
+  clientId: z.string(),
+  /** the attributed-spend id (`mcp:<userId>:<clientId>`) — the key the connection's usage is charged under. */
+  keyId: z.string(),
+  creditCap: z.number().int().nullable(),
+  rateSharePct: z.number().int().nullable(),
+  disabled: z.boolean(),
+  createdAt: z.number().int(),
+});
+
+/** The `{ ok: true }` acknowledgement returned by update / revoke. */
+const OkSchema = z.object({ ok: z.boolean() });
+
+export const mcpOps = [
+  {
+    method: "get",
+    path: "/api/mcp/connections",
+    name: "listMcpConnections",
+    summary: "The caller's MCP OAuth connections (per-client config). Session-only.",
+    cost: { components: [], infra: { "worker.request": 1, "d1.read": 20 }, settlement: { method: "rate-limited" } },
+    tags: ["MCP"],
+    rateLimit: { windowMs: 60_000, maxRequests: 60, key: "principal" },
+    errors: [401, 403],
+    responses: [{ status: 200, description: "The MCP connections.", schema: z.object({ connections: z.array(McpConnectionViewSchema) }) }],
+  },
+  {
+    method: "post",
+    path: "/api/mcp/connections/update",
+    name: "updateMcpConnection",
+    summary: "Update an MCP connection's config. Session-only.",
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
+    tags: ["MCP"],
+    rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
+    errors: [400, 401, 403],
+    request: {
+      json: z.object({
+        clientId: z.string().min(1),
+        creditCap: z.number().int().nullable().optional(),
+        rateSharePct: z.number().int().nullable().optional(),
+        disabled: z.boolean().optional(),
+      }),
+    },
+    responses: [{ status: 200, description: "The connection was updated.", schema: OkSchema }],
+  },
+  {
+    method: "post",
+    path: "/api/mcp/connections/revoke",
+    name: "revokeMcpConnection",
+    summary: "Revoke an MCP connection (drops its tokens). Session-only.",
+    cost: { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } },
+    tags: ["MCP"],
+    rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" },
+    errors: [400, 401, 403],
+    request: { json: z.object({ clientId: z.string().min(1) }) },
+    responses: [{ status: 200, description: "The connection was revoked.", schema: OkSchema }],
+  },
+] satisfies readonly RouteContract[];
 
 export interface MountMcpOptions {
   /** wired from contract (auto-injected — mcp `requires: ["contract"]`): the per-caller v4 doc projector. */

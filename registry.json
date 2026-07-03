@@ -121,11 +121,6 @@
           "path": "registry/services/credits/credits.provision.ts",
           "type": "registry:file",
           "target": "provision/credits.ts"
-        },
-        {
-          "path": "registry/services/credits/credits.contract.ts",
-          "type": "registry:file",
-          "target": "contract/credits.ts"
         }
       ]
     },
@@ -169,11 +164,6 @@
           "path": "registry/services/keys/keys.schemas.ts",
           "target": "src/routes/keys.schemas.ts",
           "type": "registry:file"
-        },
-        {
-          "path": "registry/services/keys/keys.contract.ts",
-          "type": "registry:file",
-          "target": "contract/keys.ts"
         }
       ]
     },
@@ -224,11 +214,6 @@
           "path": "registry/services/billing/billing.schemas.ts",
           "target": "src/routes/billing.schemas.ts",
           "type": "registry:file"
-        },
-        {
-          "path": "registry/services/billing/billing.contract.ts",
-          "type": "registry:file",
-          "target": "contract/billing.ts"
         }
       ]
     },
@@ -272,11 +257,6 @@
           "path": "registry/services/cost/cost.schemas.ts",
           "target": "src/routes/cost.schemas.ts",
           "type": "registry:file"
-        },
-        {
-          "path": "registry/services/cost/cost.contract.ts",
-          "type": "registry:file",
-          "target": "contract/cost.ts"
         }
       ]
     },
@@ -315,11 +295,6 @@
           "path": "registry/services/erasure/erasure.provision.ts",
           "type": "registry:file",
           "target": "provision/erasure.ts"
-        },
-        {
-          "path": "registry/services/erasure/erasure.contract.ts",
-          "type": "registry:file",
-          "target": "contract/erasure.ts"
         }
       ]
     },
@@ -346,11 +321,6 @@
           "path": "registry/services/email/email.routes.ts",
           "type": "registry:file",
           "target": "src/routes/email.ts"
-        },
-        {
-          "path": "registry/services/email/email.contract.ts",
-          "type": "registry:file",
-          "target": "contract/email.ts"
         }
       ]
     },
@@ -389,11 +359,6 @@
           "path": "registry/services/webhooks/webhooks.provision.ts",
           "type": "registry:file",
           "target": "provision/webhooks.ts"
-        },
-        {
-          "path": "registry/services/webhooks/webhooks.contract.ts",
-          "type": "registry:file",
-          "target": "contract/webhooks.ts"
         }
       ]
     },
@@ -477,11 +442,6 @@
           "path": "registry/surfaces/reference/reference.routes.ts",
           "type": "registry:file",
           "target": "src/routes/reference.ts"
-        },
-        {
-          "path": "registry/surfaces/reference/reference.contract.ts",
-          "type": "registry:file",
-          "target": "contract/reference.ts"
         }
       ]
     },
@@ -509,11 +469,6 @@
           "path": "registry/surfaces/admin/admin.routes.ts",
           "type": "registry:file",
           "target": "src/routes/admin.ts"
-        },
-        {
-          "path": "registry/surfaces/admin/admin.contract.ts",
-          "type": "registry:file",
-          "target": "contract/admin.ts"
         }
       ]
     },
@@ -560,11 +515,6 @@
           "path": "registry/surfaces/mcp/mcp.provision.ts",
           "type": "registry:file",
           "target": "provision/mcp.ts"
-        },
-        {
-          "path": "registry/surfaces/mcp/mcp.contract.ts",
-          "type": "registry:file",
-          "target": "contract/mcp.ts"
         }
       ]
     },
@@ -602,11 +552,6 @@
           "path": "registry/services/logs/logs.provision.ts",
           "type": "registry:file",
           "target": "provision/logs.ts"
-        },
-        {
-          "path": "registry/services/logs/logs.contract.ts",
-          "type": "registry:file",
-          "target": "contract/logs.ts"
         }
       ]
     },

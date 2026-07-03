@@ -26,7 +26,9 @@ export const CATALOG: Record<string, CatalogEntry> = Object.fromEntries(Object.e
  * that imports mergeProvision from @suluk/platform + defineProvision from @suluk/provision). Union'd with each service's
  * `deps` to build package.json.
  */
-export const BASE_DEPS = ["@suluk/platform", "@suluk/provision", "@suluk/core", "@suluk/env", "effect", "hono", "drizzle-orm"];
+// @suluk/hono (the contract + the route ENVELOPE `routeGroup`) + @suluk/effect (effectRoute + the drizzle-zod bubble-up, which
+// pulls drizzle-zod transitively) are used by EVERY module's routes now — so every generated app deps them directly.
+export const BASE_DEPS = ["@suluk/platform", "@suluk/provision", "@suluk/core", "@suluk/env", "@suluk/hono", "@suluk/effect", "effect", "hono", "drizzle-orm"];
 
 /** Pinned ranges for the NON-@suluk ecosystem deps — the single place they're kept current for every generated app.
  *  `@suluk/*` are NOT here: they resolve to "latest" so a package fix flows to the app via `bun update` (the C052 payoff). */

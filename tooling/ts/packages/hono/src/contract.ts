@@ -6,6 +6,7 @@
 import type * as z from "zod";
 import type { SecurityRequirement, SulukRateLimit } from "@suluk/core";
 import type { CostModel } from "@suluk/cost";
+import { isRouteGroup, type RouteGroup } from "./route-group";
 
 export type Method = "get" | "post" | "put" | "patch" | "delete" | "head" | "options";
 
@@ -106,8 +107,20 @@ export type DocumentedRoute = RouteContract & ({ summary: string } | { descripti
  * CI warning. `contract()` stays UNCHANGED (some callers author docs separately / exercise the advisory audit); adopt
  * `contractDoc` where you want documentation enforced as you type.
  */
-export function contractDoc<const T extends readonly DocumentedRoute[]>(routes: T): T {
-  return contract(routes);
+export function contractDoc<const T extends readonly DocumentedRoute[]>(routes: T): T;
+/**
+ * ORGANIC overload — accept a mix of documented routes AND {@link RouteGroup} envelopes, flattening each group's `.ops`
+ * in place. This is how `@suluk/hono` "auto-reads" a module's envelope into the contract: a module exports one `routeGroup`
+ * and the keystone (or the generated `contract.ops.ts`) spreads it here with no separately-maintained op list. Returns a
+ * plain `DocumentedRoute[]` (op-name inference already widens through the composed `ALL_OPS`, so nothing is lost).
+ */
+export function contractDoc(items: readonly (DocumentedRoute | RouteGroup)[]): DocumentedRoute[];
+export function contractDoc(
+  items: readonly (DocumentedRoute | RouteGroup)[],
+): readonly DocumentedRoute[] {
+  // Fast path: no groups → preserve the exact input (the literal-tuple overload's runtime identity).
+  if (!items.some(isRouteGroup)) return items as readonly DocumentedRoute[];
+  return items.flatMap((it) => (isRouteGroup(it) ? [...it.ops] : [it]));
 }
 
 /** Normalize responses (list or map) to a list. */
