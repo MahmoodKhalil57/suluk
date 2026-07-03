@@ -20,20 +20,17 @@ shadcn add MahmoodKhalil57/suluk/todo
 
 | op | method + path | scope | success | notes |
 |---|---|---|---|---|
-| `listTodos` | `GET /api/todos` | `todo:read` | 200 | the caller's list, newest first |
-| `getTodo` | `GET /api/todos/:id` | `todo:read` | 200 | 404 for a non-owned/absent id |
-| `createTodo` | `POST /api/todos` | `todo:write` | 201 | body `{ title }` |
-| `updateTodo` | `PATCH /api/todos/:id` | `todo:write` | 200 | body `{ title?, completed? }` |
-| `deleteTodo` | `DELETE /api/todos/:id` | `todo:write` | 200 | `{ deleted: true }` |
+| `listTodos` | `GET /api/todos` | `todos:read` | 200 | the caller's list, newest first |
+| `getTodo` | `GET /api/todos/:id` | `todos:read` | 200 | 404 for a non-owned/absent id |
+| `createTodo` | `POST /api/todos` | `todos:write` | 201 | body `{ title }` |
+| `updateTodo` | `PATCH /api/todos/:id` | `todos:write` | 200 | body `{ title?, completed? }` |
+| `deleteTodo` | `DELETE /api/todos/:id` | `todos:write` | 200 | `{ deleted: true }` |
 
 - **Only signed-in users** — each route reads the authenticated principal off `c.get("user")` and returns a typed
   **401 `UnauthorizedError`** when there is none; an anonymous caller never reaches the data.
 - **Owner-scoped** — that principal is the owner in every query (never a client id), so a caller only touches THEIR OWN
   todos; a non-owned id is a typed **404 `NotFoundError`**.
-- **Metered + rate-limited** — every route declares its cost + rate budget inline, so `@suluk/cost` meters + attributes the
-  usage (per-user µ$) and `@suluk/scalar` renders it. Reads + writes settle `rate-limited` (a free tier, capped by the
-  per-route window + the rate-credit µ$ bucket); writes declare `overflow:"credit"` (usage beyond the free tier is paid by
-  credits — advisory: metered here, no inline debit, the same posture as every other write in the registry).
+- **Metered + rate-limited (DERIVED)** — `roles:["signed-in"]` derives the `todos:<read|write>` scope, a method-based cost (settled `rate-limited`), a rate-limit (read 120/min · write 60/min, principal-keyed), and the typed 401 — so each route declares only its body schema + any domain 404. Everything derived stays overridable.
 
 Add it to `platform.config.ts` (`todoService` in `services`, and an `erase-todo` wire so account erasure drops a user's
 todos), then regenerate.

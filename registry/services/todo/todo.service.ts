@@ -6,18 +6,31 @@
  */
 import { Context, Effect, Layer } from "effect";
 import { and, desc, eq } from "drizzle-orm";
+import { z } from "zod";
+import { rowSchema } from "@suluk/effect";
 import { todo } from "../db/todo";
 import { Db } from "../app";
 
-/** A todo row as returned to the owner — the DB row with timestamps projected to epoch-ms (the wire shape). */
-export interface TodoItem {
-  id: string;
-  userId: string;
-  title: string;
-  completed: boolean;
-  createdAt: number;
-  updatedAt: number;
-}
+/**
+ * The wire DTO for a todo — the SINGLE SOURCE for its shape, its per-field DESCRIPTIONS + EXAMPLES. Derived from the `todo`
+ * table (drizzle-zod's `rowSchema`, so a new column bubbles up here), with the timestamps projected to epoch-ms (the wire
+ * codec). The ROUTES reference this schema, so the descriptions + `.meta({examples})` bubble up into the contract / Scalar
+ * without being restated per route — the doc reads its labels + examples straight off the service's schema.
+ */
+export const TodoItemSchema = rowSchema(todo, {
+  id: (s) => s.describe("The todo's unique id (uuid).").meta({ examples: ["a3a2747d-b05f-4db6-8ab5-50ea2c2a7b3f"] }),
+  userId: (s) => s.describe("The owner's user id — the authenticated principal."),
+  title: (s) => s.describe("The todo text.").meta({ examples: ["Buy milk"] }),
+  completed: (s) => s.describe("Whether the todo is done.").meta({ examples: [false] }),
+})
+  .omit({ createdAt: true, updatedAt: true })
+  .extend({
+    createdAt: z.number().int().describe("When it was created — epoch milliseconds.").meta({ examples: [1783082151484] }),
+    updatedAt: z.number().int().describe("When it was last updated — epoch milliseconds.").meta({ examples: [1783082151484] }),
+  });
+
+/** A todo row as returned to the owner — z.infer of the wire DTO (timestamps as epoch-ms). */
+export type TodoItem = z.infer<typeof TodoItemSchema>;
 
 /** The stored row shape (drizzle returns `Date` for the timestamp columns). */
 type TodoRow = typeof todo.$inferSelect;

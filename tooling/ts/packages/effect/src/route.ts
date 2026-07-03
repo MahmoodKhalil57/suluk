@@ -15,6 +15,7 @@ import type { RouteContract, RouteResponse } from "@suluk/hono";
 import { toProblemDetails, PROBLEM_CONTENT_TYPE } from "@suluk/core";
 import type { z } from "zod";
 import { errorBody, type AnyHttpError } from "./errors";
+import { UnauthorizedError, ForbiddenError } from "./common";
 
 /** A per-request success carrying an EXPLICIT status — return `respond(201, body)` / `Created(body)` to set the status from
  *  the handler (it bubbles up), instead of the route's default. A plain body uses the route's declared/derived status. */
@@ -37,7 +38,25 @@ const DEFAULT_SUCCESS_STATUS: Record<string, number> = { post: 201, put: 200, pa
 /** The success body a handler may return: the plain body (uses the route's status) OR a `respond()`-wrapped body (its own). */
 export type HandlerSuccess<B> = B | HttpSuccess<B>;
 
-export interface EffectRouteSpec<OkSchema extends z.ZodTypeAny, Errs extends readonly AnyHttpError[]> {
+/**
+ * A route's AUDIENCE — who may call it. Declaring `roles` opts the route into method-derived DEFAULTS (so you stop restating
+ * the mechanical fields): `["signed-in"]` → a `<module>:<read|write>` scope (module from the path), a typed **401**
+ * `UnauthorizedError`, and a principal-keyed rate-limit; `["admin"]` → the `admin` scope + 401/403; `["public"]` → no scope,
+ * an IP-keyed rate-limit. Every derived field stays overridable (set `scopes`/`cost`/`rateLimit` explicitly to win).
+ */
+export type Role = "public" | "signed-in" | "admin";
+
+/** The auth error instance(s) a role set IMPLIES — so a handler may fail with them WITHOUT listing them in `errors` (they
+ *  come from `roles`). `signed-in` ⇒ Unauthorized; `admin` ⇒ Unauthorized | Forbidden. */
+type RoleImplied<R extends readonly Role[]> =
+  | ("signed-in" extends R[number] ? InstanceType<typeof UnauthorizedError> : never)
+  | ("admin" extends R[number] ? InstanceType<typeof UnauthorizedError> | InstanceType<typeof ForbiddenError> : never);
+
+export interface EffectRouteSpec<
+  OkSchema extends z.ZodTypeAny,
+  Errs extends readonly AnyHttpError[],
+  Roles extends readonly Role[],
+> {
   method: RouteContract["method"];
   path: string;
   name?: string;
@@ -45,20 +64,29 @@ export interface EffectRouteSpec<OkSchema extends z.ZodTypeAny, Errs extends rea
   summary: string;
   description?: string;
   tags?: string[];
+  /** WHO may call it — declaring it DEFAULTS the scope, the auth error(s), and the rate-limit key (see {@link Role}). */
+  roles?: Roles;
+  /** Override the scope PREFIX (default: the path's module segment — `/api/todos/:id` → `todos`). */
+  scope?: string;
+  /** Override the derived scopes entirely. */
   scopes?: string[];
   security?: RouteContract["security"];
+  /** Override the method-derived rate-limit (read 120/min · write 60/min; principal-keyed, or IP-keyed when public). */
   rateLimit?: RouteContract["rateLimit"];
+  /** Override the method-derived cost (read = 1× d1.read · write = 1× d1.write + 1× d1.read; settled `rate-limited`). */
   cost?: RouteContract["cost"];
   internal?: boolean;
   request?: RouteContract["request"];
-  /** The SUCCESS response: its body schema + status (defaults by method; a `respond()` in the handler overrides per-request). */
-  ok: { status?: number; schema: OkSchema; description?: string };
-  /** Every typed error the handler can produce. Effect's error channel is checked against this — declaring fewer than the
-   *  code throws is a TYPE error. Each becomes a distinct response (its status + schema) in the contract. */
+  /** The SUCCESS response. `status` defaults by method; `schema` is OPTIONAL — omit it and the response is documented by
+   *  status + description alone. A `respond()` in the handler overrides the status per-request. `ok` itself may be omitted. */
+  ok?: { status?: number; schema?: OkSchema; description?: string };
+  /** The DOMAIN errors the handler can produce (the AUTH errors come from `roles` — don't list them here). Effect's error
+   *  channel is checked against `errors` PLUS the role-implied auth errors — declaring fewer than the code throws is a TYPE
+   *  error. Each becomes a distinct typed response (its status + schema) in the contract. */
   errors?: Errs;
   /** The handler: a fully-provided Effect (no remaining requirements) yielding the success body (or `respond(...)`) and
-   *  failing only with the declared errors. */
-  run: (c: Context) => Effect.Effect<HandlerSuccess<z.infer<OkSchema>>, InstanceType<Errs[number]>, never>;
+   *  failing only with the declared errors + the role-implied auth errors. */
+  run: (c: Context) => Effect.Effect<HandlerSuccess<z.infer<OkSchema>>, InstanceType<Errs[number]> | RoleImplied<Roles>, never>;
 }
 
 export interface EffectRoute {
@@ -73,18 +101,67 @@ export interface EffectRoute {
  * Build a route whose responses are DERIVED from the Effect handler. Returns the `contract` (to spread into your route list,
  * so emitV4/Scalar/SDK see the typed errors) + the Hono `handler` (mount it at `method`/`path`).
  */
-export function effectRoute<OkSchema extends z.ZodTypeAny, const Errs extends readonly AnyHttpError[]>(
-  spec: EffectRouteSpec<OkSchema, Errs>,
-): EffectRoute {
-  const okStatus = spec.ok.status ?? DEFAULT_SUCCESS_STATUS[spec.method] ?? 200;
-  const errs = (spec.errors ?? []) as readonly AnyHttpError[];
+/** Method → is it a READ (GET/HEAD)? Drives the read-vs-write scope/cost/rate-limit defaults. */
+const isReadMethod = (m: string): boolean => m === "get" || m === "head";
+
+/** Method-derived DEFAULT cost — a read touches d1.read, a write touches d1.write + d1.read; both settled `rate-limited`. */
+const defaultCost = (read: boolean): NonNullable<RouteContract["cost"]> =>
+  read
+    ? { components: [], infra: { "worker.request": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } }
+    : { components: [], infra: { "worker.request": 1, "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited" } };
+
+/** Method + visibility-derived DEFAULT rate-limit — reads get a looser cap; an authed route keys on the principal, a public
+ *  one on the IP (no principal to key on). */
+const defaultRateLimit = (read: boolean, authed: boolean): NonNullable<RouteContract["rateLimit"]> => ({
+  windowMs: 60_000,
+  maxRequests: read ? 120 : 60,
+  key: authed ? "principal" : "ip",
+});
+
+export function effectRoute<
+  OkSchema extends z.ZodTypeAny = z.ZodTypeAny,
+  const Errs extends readonly AnyHttpError[] = readonly [],
+  const Roles extends readonly Role[] = readonly [],
+>(spec: EffectRouteSpec<OkSchema, Errs, Roles>): EffectRoute {
+  const okStatus = spec.ok?.status ?? DEFAULT_SUCCESS_STATUS[spec.method] ?? 200;
+
+  // ── DEFAULTS derived from `roles` + the method (all overridable). Declaring `roles` opts the route in; otherwise the
+  //    route keeps its EXACT explicit shape (backward-compatible — a route with no `roles` gets no auto cost/rate-limit). ──
+  const roles = (spec.roles ?? []) as readonly Role[];
+  const hasRoles = spec.roles !== undefined;
+  const isAdmin = roles.includes("admin");
+  const authed = isAdmin || roles.includes("signed-in");
+  const read = isReadMethod(spec.method);
+
+  // scope prefix from the path's module segment (…/api/<seg>/… → <seg>), unless overridden.
+  const segs = spec.path.split("/").filter(Boolean);
+  const scopePrefix = spec.scope ?? (segs[0] === "api" ? segs[1] : segs[0]);
+  const derivedScopes =
+    spec.scopes ??
+    (isAdmin ? ["admin"] : authed && scopePrefix ? [`${scopePrefix}:${read ? "read" : "write"}`] : undefined);
+  // cost / rate-limit default only when the route opts in via `roles` (so existing role-less routes are unchanged).
+  const derivedCost = spec.cost ?? (hasRoles ? defaultCost(read) : undefined);
+  const derivedRateLimit = spec.rateLimit ?? (hasRoles ? defaultRateLimit(read, authed) : undefined);
+
+  // errors = the DOMAIN errors the handler declares + the AUTH errors the roles imply (deduped by tag). So the contract's
+  // typed responses (and the handler's tag→body map) cover the 401/403 without the author restating UnauthorizedError.
+  const explicitErrs = (spec.errors ?? []) as readonly AnyHttpError[];
+  const roleErrs: AnyHttpError[] = [];
+  if (authed) roleErrs.push(UnauthorizedError as unknown as AnyHttpError);
+  if (isAdmin) roleErrs.push(ForbiddenError as unknown as AnyHttpError);
+  const seenTags = new Set(explicitErrs.map((e) => e.errorTag));
+  const errs = [...explicitErrs, ...roleErrs.filter((e) => !seenTags.has(e.errorTag))];
 
   // Name the SUCCESS body from the op (e.g. "debitCredits" → "DebitCreditsOk") + each error from its tag, so emitV4 hoists
   // them into components.schemas + $refs them — a docs renderer shows the TYPE NAME, not "object" (generated from the code).
   const okName = spec.name ? `${spec.name[0].toUpperCase()}${spec.name.slice(1)}Ok` : undefined;
+  const okSchema = spec.ok?.schema;
+  // the response DESCRIPTION defaults from the SCHEMA's own `.describe(...)` — so the description (and the per-field
+  // descriptions + `.meta({examples})`) live ONCE on the zod schema (in the service) and bubble up, not restated per route.
+  const okDescription = spec.ok?.description ?? (okSchema as { description?: string } | undefined)?.description ?? "Success";
   const responses: RouteResponse[] = [
-    { status: okStatus, description: spec.ok.description ?? "Success", schema: spec.ok.schema, ...(okName ? { schemaName: okName } : {}) },
-    // one TYPED response per declared error — its own status + NAMED schema (NOT a generic ProblemDetails).
+    { status: okStatus, description: okDescription, ...(okSchema ? { schema: okSchema, ...(okName ? { schemaName: okName } : {}) } : {}) },
+    // one TYPED response per declared/implied error — its own status + NAMED schema (NOT a generic ProblemDetails).
     ...errs.map((E): RouteResponse => ({ status: E.status, description: E.errorTag, schema: E.bodySchema, schemaName: E.errorTag })),
   ];
 
@@ -95,10 +172,10 @@ export function effectRoute<OkSchema extends z.ZodTypeAny, const Errs extends re
     ...(spec.name !== undefined ? { name: spec.name } : {}),
     ...(spec.description !== undefined ? { description: spec.description } : {}),
     ...(spec.tags !== undefined ? { tags: spec.tags } : {}),
-    ...(spec.scopes !== undefined ? { scopes: spec.scopes } : {}),
+    ...(derivedScopes !== undefined ? { scopes: derivedScopes } : {}),
     ...(spec.security !== undefined ? { security: spec.security } : {}),
-    ...(spec.rateLimit !== undefined ? { rateLimit: spec.rateLimit } : {}),
-    ...(spec.cost !== undefined ? { cost: spec.cost } : {}),
+    ...(derivedRateLimit !== undefined ? { rateLimit: derivedRateLimit } : {}),
+    ...(derivedCost !== undefined ? { cost: derivedCost } : {}),
     ...(spec.internal !== undefined ? { internal: spec.internal } : {}),
     ...(spec.request !== undefined ? { request: spec.request } : {}),
     responses,
