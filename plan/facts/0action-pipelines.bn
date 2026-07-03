@@ -1,0 +1,31 @@
+# C080 — a route's `run` is a PIPELINE of service actions, and effectPipeRoute WALKS the pipeline AST to bubble up the whole
+# HTTP contract. @suluk/effect 0.5.0. Additive over C072-C079 (effectRoute untouched). routes -> services -> db, made literal.
+
+# A ServiceAction (@suluk/effect action.ts) FUSES the wire schemas (request `input`, DOMAIN `output`, response `wrap` envelope,
+# httpError `errors`, optional `status`) as RUNTIME VALUES with an Effect impl that calls a SERVICE tag (Effect.flatMap(Todo,
+# s => s.method(...))) and never the DB directly. `envelope`/`listEnvelope`/`fixedEnvelope` build the wire body's schema+value
+# TOGETHER so the doc shape and rendered shape can't drift. `pipeline`/`chain` compose actions; the pipeline's `actions[]` IS
+# the walkable AST. Type erasure honored: every contract fact is a runtime value on an action, none derived from a TS type. @>=0.85
+claim c080_service_action_carries_runtime_wire_values: Bool @>=0.85 = True
+falsified_when c080_service_action_carries_runtime_wire_values == False
+
+# effectPipeRoute (pipe-route.ts) is a NEW sibling builder that WALKS the pipeline AST: request.json <- the HEAD action's input;
+# ok.schema+status <- the TERMINAL action's wrap (status defaults to 200 for a no-body method default like DELETE->204 so a
+# wrap body isn't dropped); errors <- the deduped union of every action's httpError classes. It then DELEGATES to the UNCHANGED
+# effectRoute for roles->scope/cost/rate-limit derivation, the 401 guard + userId injection, schemaName hoisting, description
+# bubbling, and the render path. effectRoute/route.ts/@suluk/hono are touched ZERO (backward-compat by construction; the 9
+# function-run modules byte-identical; no Effect/Layer enters @suluk/hono). `provide` is typed to RequirementOf<P> so a provide
+# that under-discharges the pipeline's R is a COMPILE error (precise for 1-3 typed-overload actions; 4+ variadic is an any-cliff). @>=0.85
+claim c080_effectpiperoute_walks_ast_delegates_effectroute: Bool @>=0.85 = True
+falsified_when c080_effectpiperoute_walks_ast_delegates_effectroute == False
+
+# todo MODULE dissolved onto pipelines: todoContract DELETED; a new todo.actions.ts holds 5 actions (list/get/create/update/
+# delete), each a single Effect.flatMap(Todo, s => s.method); todo.routes.ts is 5 effectPipeRoute({..., pipeline: pipeline(A.x)})
+# with ONE module `provide` + no Effect.gen + no restated schema. Designed via a 7-agent judge-panel (3 stances -> break -> synth),
+# built, then a 9-agent adversarial review CONFIRMED 5 findings (3 distinct latent traps, todo unaffected) -> ALL FIXED + tested:
+# (A) variadic pipeline erased R -> typed 2/3-arity overloads; (B) body-carrying DELETE dropped body at 204 -> walk defaults 200;
+# (C) request.json from first-input not head -> head-only. PROVEN in ATF: tsc 0; live CRUD (401/201/400/200/404/200 incl. delete
+# without explicit status -> 200 {deleted:true}); the emitted doc bubbles request+response bodies + field descriptions/examples +
+# the 404 into get/update/delete (richer than C079) + scopes/cost/rate-limit. 42 effect tests; published 0.5.0 + pushed + adopted. @>=0.85
+claim c080_todo_dissolved_reviewed_proven: Bool @>=0.85 = True
+falsified_when c080_todo_dissolved_reviewed_proven == False

@@ -57,21 +57,10 @@ export const TodoItemSchema = todoSelect
 export type TodoItem = z.infer<typeof TodoItemSchema>;
 
 // ── request bodies — REUSE the annotated fields off `todoSelect` (so the request doc carries the same labels/examples),
-//    plus the wire validation. Create takes `title`; update is the patch (both optional). ────────────────────────────────
+//    plus the wire validation. Create takes `title`; update is the patch (both optional). The ACTIONS (`todo.actions.ts`)
+//    reference these as their `input`, and the route builder bubbles them up into the contract's `request.json`. ─────────
 export const CreateReq = z.object({ title: todoSelect.shape.title.min(1).max(500) });
 export const UpdateReq = z.object({
   title: todoSelect.shape.title.min(1).max(500).optional(),
   completed: todoSelect.shape.completed.optional(),
 });
-
-// ── the per-operation WIRE CONTRACT — the `request` body + the `ok` response body per op, so a route BUBBLES ONE UP by
-//    spreading it (`...todoContract.read`) instead of restating a schema. Change a field on `TodoItemSchema` once and
-//    every route's doc updates. The 404 is NOT listed here — the service FAILS with `NotFoundError` and it bubbles up
-//    through effect.ts as a typed response (single source: the method body). ───────────────────────────────────────────
-export const todoContract = {
-  list: { ok: { schema: z.object({ todos: z.array(TodoItemSchema) }).describe("The caller's todos, newest first.") } },
-  read: { ok: { schema: z.object({ todo: TodoItemSchema }) } },
-  created: { request: { json: CreateReq }, ok: { schema: z.object({ todo: TodoItemSchema }) } },
-  updated: { request: { json: UpdateReq }, ok: { schema: z.object({ todo: TodoItemSchema }) } },
-  deleted: { ok: { status: 200, schema: z.object({ deleted: z.literal(true) }).describe("The todo was deleted.") } },
-};

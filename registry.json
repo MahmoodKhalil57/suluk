@@ -579,6 +579,11 @@
           "target": "src/services/todo.ts"
         },
         {
+          "path": "registry/services/todo/todo.actions.ts",
+          "type": "registry:file",
+          "target": "src/services/todo.actions.ts"
+        },
+        {
           "path": "registry/services/todo/todo.routes.ts",
           "type": "registry:file",
           "target": "src/routes/todo.ts"

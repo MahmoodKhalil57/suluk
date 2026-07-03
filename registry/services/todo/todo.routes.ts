@@ -1,97 +1,50 @@
 /**
- * Todo routes (Suluk registry: `todo`) — Hono over the {@link Todo} Effect service, each route defined with `@suluk/effect`'s
- * `effectRoute` (the C075 ENVELOPE): the module's `.ops` bubble up into the contract and its `.router()` is the mount, so the
- * whole `/api/todos/*` surface is DEFINED here, with no separate `todo.contract.ts`.
+ * Todo routes (Suluk registry: `todo`) — each route's `run` is a PIPELINE of service actions, and its whole v4 contract is
+ * WALKED off that pipeline (no `...todoContract.<op>` spread, no per-route `Effect.gen`, no restated schema): `effectPipeRoute`
+ * reads `request.json` off the head action's `input`, the response status+body off the terminal action's `wrap`, and the
+ * typed errors off the union of the actions' `errors`. `roles:["signed-in"]` still derives scope/cost/rate-limit + the 401
+ * guard + the injected `userId` (delegated to effectRoute unchanged).
  *
- * MINIMAL by design (C078): the SERVICE owns the whole wire contract, and each route BUBBLES IT UP:
- *   • `roles: ["signed-in"]` DERIVES the scope + cost + rate-limit + the typed 401, and INJECTS the auth guard (effectRoute
- *     401s an anonymous caller itself + hands `run` a GUARANTEED `{ userId }` — no `caller(c)`, no null-check).
- *   • `...todoContract.<op>` spreads the response body + typed errors DEFINED IN THE SERVICE (`todo.service.ts`) — the doc's
- *     typed 200 body + descriptions + examples + the 404, without a single schema restated on the route.
- *   • the SERVICE OWNS not-found: `get`/`update`/`remove` FAIL with `NotFoundError`, which BUBBLES UP to a typed 404 through
- *     effect.ts — so the handlers are one-liners with no `if (!item)` check.
- * OWNER-SCOPED: the injected `userId` is the owner passed to the service (never a client id) — a caller only touches THEIR
- * OWN todos. Mount: `app.route("/api/todos", todoRoutes())`.
+ * This is the `routes → services → db` seam made literal: a route ORCHESTRATES actions (defined in `todo.actions.ts`); each
+ * action calls the {@link Todo} SERVICE; the service owns the DB. The route file declares only method/path/roles + the
+ * pipeline + one module-wide `provide` (the layer wiring). Mount: `app.route("/api/todos", todoRoutes())`.
  */
 import { Effect } from "effect";
-import { effectRoute, routeGroup } from "@suluk/effect";
+import { effectPipeRoute, pipeline, routeGroup } from "@suluk/effect";
 import { DbLive, type Bindings } from "../app";
 import { Todo, TodoLive } from "../services/todo";
-import { todoContract } from "../db/todo";
+import * as A from "../services/todo.actions";
 
 // The module's ENVELOPE — `.ops` → the contract, `.router()` → the mount. Single source of the `/api/todos/*` surface.
 const todos = routeGroup("/api/todos");
 
-/** Fully-provide a Todo program against the request's DB — discharges the Effect's requirements (`R = never`) before it
- *  reaches the effectRoute handler. */
-const provide = <A, E>(env: Bindings, program: Effect.Effect<A, E, Todo>): Effect.Effect<A, E, never> =>
-  program.pipe(Effect.provide(TodoLive), Effect.provide(DbLive(env)));
+/** Discharge a Todo program against the request's DB — written ONCE for the module; effectPipeRoute applies it to each
+ *  pipeline after composing it, turning the actions' `R = Todo` requirement into `never` with the real per-request env. */
+const provide = <X, E>(env: Bindings, p: Effect.Effect<X, E, Todo>): Effect.Effect<X, E, never> =>
+  p.pipe(Effect.provide(TodoLive), Effect.provide(DbLive(env)));
 
-// ══════════════════════════════════════════════════════════════════════════════════════════
-// reads — the caller's own todos. `roles` → todos:read + read cost + 120/min + the 401 guard + injected userId.
-// ══════════════════════════════════════════════════════════════════════════════════════════
+// shared across every route: the tag, the audience (→ scope/cost/rate-limit/401/userId), and the layer wiring.
+const base = { tags: ["Todos"], roles: ["signed-in"] as const, provide };
 
 // GET /api/todos → { todos } — the signed-in caller's list, newest first.
-todos.route(effectRoute({
-  method: "get", path: "/api/todos", name: "listTodos",
-  summary: "List the signed-in user's todos, newest first.",
-  tags: ["Todos"], roles: ["signed-in"], ...todoContract.list,
-  run: (c, { userId }) => Effect.gen(function* () {
-    const s = yield* Todo;
-    return { todos: yield* s.list(userId) };
-  }).pipe((p) => provide(c.env, p)),
-}));
+todos.route(effectPipeRoute({ method: "get", path: "/api/todos", name: "listTodos",
+  summary: "List the signed-in user's todos, newest first.", ...base, pipeline: pipeline(A.listTodos) }));
 
 // GET /api/todos/:id → { todo } — one todo the caller OWNS; a non-owned/absent id → typed 404 (bubbled from the service).
-todos.route(effectRoute({
-  method: "get", path: "/api/todos/:id", name: "getTodo",
-  summary: "Get one of the signed-in user's todos by id.",
-  tags: ["Todos"], roles: ["signed-in"], ...todoContract.read,
-  run: (c, { userId }) => Effect.gen(function* () {
-    const s = yield* Todo;
-    return { todo: yield* s.get(userId, c.req.param("id")!) };
-  }).pipe((p) => provide(c.env, p)),
-}));
+todos.route(effectPipeRoute({ method: "get", path: "/api/todos/:id", name: "getTodo",
+  summary: "Get one of the signed-in user's todos by id.", ...base, pipeline: pipeline(A.getTodo) }));
 
-// ══════════════════════════════════════════════════════════════════════════════════════════
-// writes — create / update / delete the caller's own todos. `roles` → todos:write + write cost + 60/min + the 401 guard.
-// ══════════════════════════════════════════════════════════════════════════════════════════
+// POST /api/todos { title } → 201 { todo } — create a todo owned by the caller (201 from the action's status).
+todos.route(effectPipeRoute({ method: "post", path: "/api/todos", name: "createTodo",
+  summary: "Create a todo (owned by the signed-in user).", ...base, pipeline: pipeline(A.createTodo), validateBody: true }));
 
-// POST /api/todos { title } → 201 { todo } — create a todo owned by the caller (201 is the POST default).
-todos.route(effectRoute({
-  method: "post", path: "/api/todos", name: "createTodo",
-  summary: "Create a todo (owned by the signed-in user).",
-  tags: ["Todos"], roles: ["signed-in"], ...todoContract.created,
-  run: (c, { userId }) => Effect.gen(function* () {
-    const { title } = yield* Effect.promise(() => c.req.json<{ title: string }>());
-    const s = yield* Todo;
-    return { todo: yield* s.create(userId, { title }) };
-  }).pipe((p) => provide(c.env, p)),
-}));
-
-// PATCH /api/todos/:id { title?, completed? } → 200 { todo } — patch a todo the caller OWNS; absent/non-owned → 404.
-todos.route(effectRoute({
-  method: "patch", path: "/api/todos/:id", name: "updateTodo",
-  summary: "Update a todo the signed-in user owns (title and/or completed).",
-  tags: ["Todos"], roles: ["signed-in"], ...todoContract.updated,
-  run: (c, { userId }) => Effect.gen(function* () {
-    const patch = yield* Effect.promise(() => c.req.json<{ title?: string; completed?: boolean }>());
-    const s = yield* Todo;
-    return { todo: yield* s.update(userId, c.req.param("id")!, patch) };
-  }).pipe((p) => provide(c.env, p)),
-}));
+// PATCH /api/todos/:id { title?, completed? } → { todo } — patch a todo the caller OWNS; absent/non-owned → 404.
+todos.route(effectPipeRoute({ method: "patch", path: "/api/todos/:id", name: "updateTodo",
+  summary: "Update a todo the signed-in user owns (title and/or completed).", ...base, pipeline: pipeline(A.updateTodo), validateBody: true }));
 
 // DELETE /api/todos/:id → 200 { deleted: true } — delete a todo the caller OWNS; absent/non-owned → 404.
-todos.route(effectRoute({
-  method: "delete", path: "/api/todos/:id", name: "deleteTodo",
-  summary: "Delete a todo the signed-in user owns.",
-  tags: ["Todos"], roles: ["signed-in"], ...todoContract.deleted,
-  run: (c, { userId }) => Effect.gen(function* () {
-    const s = yield* Todo;
-    yield* s.remove(userId, c.req.param("id")!);
-    return { deleted: true as const };
-  }).pipe((p) => provide(c.env, p)),
-}));
+todos.route(effectPipeRoute({ method: "delete", path: "/api/todos/:id", name: "deleteTodo",
+  summary: "Delete a todo the signed-in user owns.", ...base, pipeline: pipeline(A.deleteTodo) }));
 
 /** The `todo` module's CONTRACT fragment — bubbled up from the routes above (no separate `todo.contract.ts`). */
 export const todoOps = todos.ops;

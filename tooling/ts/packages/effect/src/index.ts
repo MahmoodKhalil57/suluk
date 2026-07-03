@@ -29,6 +29,13 @@ export {
 // contract (`.ops`) + the mount (`.router()`), so a module needs no separate `<module>.contract.ts`. Re-exported from
 // @suluk/hono so a routes file imports effectRoute + routeGroup from one place.
 export { routeGroup, isRouteGroup, type RouteGroup, type HandlerRoute } from "@suluk/hono";
+// SERVICE-ACTION PIPELINES — a route's `run` becomes a PIPELINE of service actions, and effectPipeRoute WALKS the pipeline's
+// AST to bubble up the whole contract (request body ← the head's `input`; response status+body ← the terminal's `wrap`;
+// typed errors ← the union of every action's `errors`). `action`/`envelope` carry the wire schemas as runtime values (next
+// to the service); `pipeline`/`chain` compose them; `effectPipeRoute` delegates to effectRoute for the derivation + render.
+export { action, envelope, listEnvelope, fixedEnvelope, isAction, type ServiceAction, type AnyServiceAction, type ActionCtx, type Envelope } from "./action";
+export { pipeline, chain, isPipeline, type ActionPipeline, type RequirementOf, type FailureOf } from "./pipeline";
+export { effectPipeRoute, type EffectPipeRouteSpec } from "./pipe-route";
 // DB-as-source-of-truth — bubble a drizzle table up to a Zod schema (drizzle-zod), so request/response bodies are DERIVED
 // from the database schema. Import through @suluk/effect so the effectRoute + its schemas come from one place.
 export { rowSchema, insertSchema, createSelectSchema, createInsertSchema, createUpdateSchema } from "./db";
