@@ -8,7 +8,7 @@ import { test, expect, describe } from "bun:test";
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { getTableColumns } from "drizzle-orm";
 import { z } from "zod";
-import { tableZod, tableZodSchemas } from "../src/index";
+import { tableZod, tableZodSchemas, wireDto } from "../src/index";
 
 // A user table whose `userId` field zod we reuse below (FK-consistency trick). Reuse is off the EXTRACTED
 // zod object (`User.shape.userId`) — a drizzle *table* has no `.shape`; only the projected zod object does.
@@ -102,5 +102,40 @@ describe("tableZodSchemas — co-located select/insert/update", () => {
     expect((update as z.ZodObject).safeParse({}).success).toBe(true);
     // the inline title constraint rides into insert
     expect((insert as z.ZodObject).safeParse({ id: "a", userId: "u", title: "", createdAt: new Date() }).success).toBe(false);
+  });
+});
+
+describe("table-level `.zod()` + wireDto — parity with the base app seam", () => {
+  const thing = sqliteTable("thing", {
+    id: text("id").primaryKey().zod((s) => s.meta({ description: "the id" })),
+    title: text("title").notNull().zod((s) => s.trim().min(1).max(25).meta({ description: "the title", examples: ["hi"] })),
+    createdAt: integer("createdAt", { mode: "timestamp" }).notNull().zod((s) => s.meta({ description: "created ms", examples: [1] })),
+  }).zod((s) => s.meta({ description: "A thing." }));
+
+  test("the chained table-level `.zod()` sets the ENTITY meta on the select object", () => {
+    // (checked via `.description`/`.shape`, not z.toJSONSchema — the select carries a Date column, unrepresentable in JSON Schema)
+    const select = tableZodSchemas(thing).select as z.ZodObject;
+    expect((select as z.ZodType).description).toBe("A thing.");
+    const shape = select.shape as Record<string, z.ZodType>;
+    expect(shape.title.description).toBe("the title");
+    expect(shape.title.safeParse("x".repeat(26)).success).toBe(false); // max(25) enforced
+    expect(shape.title.safeParse("  hi  ").success).toBe(true);
+  });
+
+  test("column constraints ride into insert + update (the package refines all three)", () => {
+    const { insert, update } = tableZodSchemas(thing);
+    expect(((insert as z.ZodObject).shape.title as z.ZodType).safeParse("x".repeat(26)).success).toBe(false);
+    expect(((update as z.ZodObject).shape.title as z.ZodType).safeParse("x".repeat(26)).success).toBe(false);
+  });
+
+  test("wireDto projects Date timestamps → epoch-ms integer, carrying the field meta + the entity", () => {
+    const dto = wireDto(tableZodSchemas(thing).select);
+    const js = z.toJSONSchema(dto) as { description?: string; properties: Record<string, { type?: string; description?: string }> };
+    expect(js.description).toBe("A thing.");
+    expect(js.properties.createdAt.type).toBe("integer");
+    expect(js.properties.createdAt.description).toBe("created ms");
+    // z.infer<typeof dto>.createdAt is a NUMBER (Date → epoch-ms), and it parses:
+    const parsed: { createdAt: number; title: string } = dto.parse({ id: "x", title: "hi", createdAt: 123 }) as { createdAt: number; title: string };
+    expect(parsed.createdAt).toBe(123);
   });
 });

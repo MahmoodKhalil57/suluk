@@ -5,7 +5,7 @@
 import type { InstanceSpec } from "@suluk/provision";
 
 const TODO_MIGRATION = `
-CREATE TABLE IF NOT EXISTS todo (id TEXT PRIMARY KEY, userId TEXT NOT NULL, title TEXT NOT NULL, completed INTEGER NOT NULL DEFAULT 0, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS todo (id TEXT PRIMARY KEY, userId TEXT NOT NULL REFERENCES user(id), title TEXT NOT NULL, completed INTEGER NOT NULL DEFAULT 0, createdAt INTEGER NOT NULL, updatedAt INTEGER NOT NULL);
 CREATE INDEX IF NOT EXISTS todo_userId_idx ON todo(userId);
 `.trim();
 

@@ -1,0 +1,21 @@
+# C084 — best-standards schema authoring: FK referential integrity + an AUTOMATIC timestamp wire-codec (`wireDto`) + trim
+# validation, so a schema is declared ONCE and maintenance is automatic. Registry base `app` + todo; @suluk/drizzle 0.3.0 at
+# parity. Additive over C083 (the `.zod()` field-validation seam). Verified in ATF (tsc 0 + live + z.toJSONSchema).
+
+# `wireDto(select)` (base app + @suluk/drizzle) derives a module's WIRE DTO in ONE call: every `Date` field (drizzle
+# `mode:"timestamp"`) is projected to an epoch-ms `z.number().int()` CARRYING that field's co-located `.zod()` meta, and the
+# entity `.meta()` is preserved — so a schema NEVER hand-writes `.omit({createdAt,updatedAt}).extend({…})`. Add/annotate a
+# timestamp column and the DTO + its `z.infer` type update automatically. `type DatesToMs<O>` maps Date→number so
+# `z.infer<ReturnType<typeof wireDto>>` is correct. Proven: `z.toJSONSchema(TodoItemSchema).properties.createdAt` = integer +
+# the column's description/examples, with NO per-schema projection boilerplate. @>=0.85
+claim c084_wiredto_automatic_timestamp_codec: Bool @>=0.85 = True
+falsified_when c084_wiredto_automatic_timestamp_codec == False
+
+# The todo schema is now the BEST-STANDARD exemplar: `userId` is a FK — `text("userId").notNull().references(() => user.id)`
+# (todo registryDependencies += auth; the migration SQL gains `REFERENCES user(id)`) for referential integrity; `title` uses
+# `.trim().min(1).max(500)` co-located on the column (proven live: "  Buy milk  " stored trimmed as "Buy milk"; "   " → typed
+# 400 "Too small"); every field + the entity carry `.meta({description, examples})`; the wire DTO is `wireDto(todoSelect)`
+# (automatic). CreateReq/UpdateReq reuse `todoSelect.shape.<field>` so constraints validate on the request. @suluk/drizzle 0.3.0
+# brings the PACKAGE to parity (chained table-level `.zod()` + `wireDto` + 3 tests), so both seams share one API. @>=0.85
+claim c084_todo_best_standard_fk_trim_exemplar: Bool @>=0.85 = True
+falsified_when c084_todo_best_standard_fk_trim_exemplar == False

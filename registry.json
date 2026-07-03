@@ -562,7 +562,8 @@
       "title": "Todos — CRUD Effect service (sign-in only, owner-scoped, pay-per-use)",
       "description": "A complete fully-owned CRUD module: per-user todo items with sign-in-only owner-scoped access; roles:[\"signed-in\"] DERIVES the scope, cost, rate-limit + typed 401 (C078); a drizzle schema bubbles up into the contract.",
       "registryDependencies": [
-        "MahmoodKhalil57/suluk/app"
+        "MahmoodKhalil57/suluk/app",
+        "MahmoodKhalil57/suluk/auth"
       ],
       "dependencies": [
         "@suluk/provision",

@@ -32,8 +32,9 @@
  */
 import { getTableColumns } from "drizzle-orm";
 import { SQLiteColumnBuilder } from "drizzle-orm/sqlite-core/columns/common";
+import { SQLiteTable } from "drizzle-orm/sqlite-core";
 import { createSelectSchema, createInsertSchema, createUpdateSchema } from "drizzle-zod";
-import type { z } from "zod";
+import { z } from "zod";
 import type { AnyTable } from "./meta";
 
 /** Map drizzle's coarse `dataType` to the zod base a refiner receives — enough to expose `.min`/`.gt`/etc.
@@ -82,6 +83,40 @@ if (!Object.prototype.hasOwnProperty.call(SQLiteColumnBuilder.prototype, "zod"))
   });
 }
 
+// TABLE-LEVEL `.zod()` — the same seam ONE level up: `sqliteTable(…).zod(s => s.meta({ description }))` co-locates the ENTITY
+// refinement (the whole-object `.meta()`/`.describe()`) WITH the table. Read back by `tableZod`/`tableZodSchemas` and applied
+// to the SELECT object. Stored in a WeakMap (never mutating drizzle's table object).
+type TableEntityRefiner = (schema: z.ZodType) => z.ZodType;
+const tableEntityRefiners = new WeakMap<object, TableEntityRefiner>();
+declare module "drizzle-orm/sqlite-core" {
+  interface SQLiteTable {
+    /** Co-locate this TABLE's entity-level zod refinement (the whole-object `.meta()`/`.describe()`). Returns the table
+     *  unchanged; read by {@link tableZod}/{@link tableZodSchemas} and applied to the SELECT object. */
+    zod(refiner: (schema: z.ZodType) => z.ZodType): this;
+  }
+}
+if (!Object.prototype.hasOwnProperty.call(SQLiteTable.prototype, "zod")) {
+  Object.defineProperty(SQLiteTable.prototype, "zod", {
+    value: function (this: object, refiner: TableEntityRefiner) {
+      tableEntityRefiners.set(this, refiner);
+      return this;
+    },
+    writable: true,
+    configurable: true,
+    enumerable: false,
+  });
+}
+
+/** Apply a table's chained `.zod()` entity refiner to its SELECT object IN-PLACE via the global registry — reading the
+ *  refiner's `.meta()` off a throwaway clone (both casts through `unknown`) so the precise select type is preserved (applying
+ *  a function in the typed position forces drizzle-zod's deep type → TS2589). No-op if the table has no chained `.zod()`. */
+function registerEntity(table: AnyTable, select: object): void {
+  const entity = tableEntityRefiners.get(table);
+  if (!entity) return;
+  const meta = (entity(select as unknown as z.ZodType) as { meta?: () => Record<string, unknown> | undefined }).meta?.();
+  if (meta) z.globalRegistry.add(select as unknown as z.ZodType, meta);
+}
+
 /** Collect the co-located refiners off a built table's columns, keyed by JS property name. */
 function collectRefiners(table: AnyTable): Record<string, ZodRefiner> {
   const refine: Record<string, ZodRefiner> = {};
@@ -108,7 +143,10 @@ export function tableZod<T extends AnyTable>(table: T, opts: TableZodOptions = {
   // drizzle-zod types `refine` to the table's KNOWN column keys; our map is built from the SAME columns, so
   // it is key-correct at runtime — we cast through the structural mismatch at this one boundary only.
   const select = createSelectSchema(table, collectRefiners(table) as never);
-  return (opts.describe ? select.describe(opts.describe) : select) as typeof select;
+  // entity annotation: `opts.describe` wins; else the chained table-level `.zod()` refiner (registered in-place).
+  if (opts.describe) return select.describe(opts.describe) as typeof select;
+  registerEntity(table, select);
+  return select;
 }
 
 /**
@@ -119,9 +157,35 @@ export function tableZod<T extends AnyTable>(table: T, opts: TableZodOptions = {
 export function tableZodSchemas<T extends AnyTable>(table: T, opts: TableZodOptions = {}) {
   const refine = collectRefiners(table) as never;
   const select = createSelectSchema(table, refine);
+  if (!opts.describe) registerEntity(table, select);
   return {
     select: (opts.describe ? select.describe(opts.describe) : select) as typeof select,
     insert: createInsertSchema(table, refine),
     update: createUpdateSchema(table, refine),
   };
+}
+
+/** In the wire DTO, drizzle `mode:"timestamp"` `Date` columns become epoch-ms `number`s. */
+type DatesToMs<O> = { [K in keyof O]: O[K] extends Date ? number : O[K] };
+/**
+ * Derive a WIRE DTO from a SELECT schema in ONE call — every `Date` field (drizzle `mode:"timestamp"`) is projected to an
+ * epoch-ms `z.number().int()`, CARRYING that field's co-located `.zod()` meta (description/examples), and the entity `.meta()`
+ * is preserved. So a module never hand-writes `.omit({createdAt,updatedAt}).extend({…})`: annotate the timestamp column once
+ * and the DTO + its `z.infer` type update automatically. Non-date fields pass through. Pairs with {@link tableZod}/`tableZodSchemas`.
+ */
+export function wireDto<T extends z.ZodType>(select: T): z.ZodType<DatesToMs<z.infer<T>>> {
+  const shape = (select as unknown as { shape?: Record<string, z.ZodType> }).shape ?? {};
+  const out: Record<string, z.ZodType> = {};
+  for (const [key, field] of Object.entries(shape)) {
+    if (field instanceof z.ZodDate) {
+      const meta = (field as { meta?: () => Record<string, unknown> | undefined }).meta?.();
+      out[key] = meta ? z.number().int().meta(meta) : z.number().int().meta({ description: "Epoch milliseconds." });
+    } else {
+      out[key] = field;
+    }
+  }
+  let obj: z.ZodObject = z.object(out);
+  const entityMeta = (select as unknown as { meta?: () => Record<string, unknown> | undefined }).meta?.();
+  if (entityMeta) obj = obj.meta(entityMeta);
+  return obj as unknown as z.ZodType<DatesToMs<z.infer<T>>>;
 }

@@ -140,6 +140,33 @@ export function tableSchemas<T extends Table, R extends BuildRefine<T["_"]["colu
   };
 }
 
+/** In the wire DTO, drizzle `mode:"timestamp"` `Date` columns become epoch-ms `number`s. */
+type DatesToMs<O> = { [K in keyof O]: O[K] extends Date ? number : O[K] };
+/**
+ * Derive a module's WIRE DTO from its SELECT schema in ONE call — every `Date` field (drizzle `mode:"timestamp"`) is projected
+ * to an epoch-ms `z.number().int()`, CARRYING that field's co-located `.zod()` meta (description/examples), and the entity
+ * `.meta()` is preserved. So a schema never hand-writes `.omit({createdAt,updatedAt}).extend({…})`: add a timestamp column
+ * (annotate it once with `.zod(s => s.meta({…}))`) and the wire DTO + its `z.infer` type update automatically. Non-date
+ * fields pass through unchanged. `type Item = z.infer<ReturnType<typeof wireDto>>` is the DTO with `Date`→`number`.
+ */
+export function wireDto<T extends z.ZodType>(select: T): z.ZodType<DatesToMs<z.infer<T>>> {
+  const shape = (select as unknown as { shape?: Record<string, z.ZodType> }).shape ?? {};
+  const out: Record<string, z.ZodType> = {};
+  for (const [key, field] of Object.entries(shape)) {
+    if (field instanceof z.ZodDate) {
+      const meta = (field as { meta?: () => Record<string, unknown> | undefined }).meta?.();
+      out[key] = meta ? z.number().int().meta(meta) : z.number().int().meta({ description: "Epoch milliseconds." });
+    } else {
+      out[key] = field;
+    }
+  }
+  let obj: z.ZodObject = z.object(out);
+  // carry the entity-level `.meta()` (from the table-level `.zod()`) onto the DTO so the response description bubbles.
+  const entityMeta = (select as unknown as { meta?: () => Record<string, unknown> | undefined }).meta?.();
+  if (entityMeta) obj = obj.meta(entityMeta);
+  return obj as unknown as z.ZodType<DatesToMs<z.infer<T>>>;
+}
+
 /** Create the base app. Mount a feature module's router: `app.route("/credits", creditsRoutes())`. */
 export function createApp() {
   const app = new Hono<{ Bindings: Bindings }>();
