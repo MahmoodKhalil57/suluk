@@ -25,8 +25,8 @@
     {
       "name": "auth",
       "type": "registry:item",
-      "title": "Auth \u2014 Better Auth mount + CurrentUser Effect service",
-      "description": "The auth foundation: buildAuth (drizzle adapter + openAPI/apiKey/passkey plugins, parametrized), mountAuthRoutes (the Hono handler), and a CurrentUser Effect service. Owns the user + apikey tables. The schema is reconciled against Better Auth v1.6.23 (canonical) \u2014 regenerate with `npx @better-auth/cli generate` if you change plugins/version. The signup hook (onUserCreated) wires to the `credits` module.",
+      "title": "Auth — Better Auth mount + CurrentUser Effect service",
+      "description": "The auth foundation: buildAuth (drizzle adapter + openAPI/apiKey/passkey plugins, parametrized), mountAuthRoutes (the Hono handler), and a CurrentUser Effect service. Owns the user + apikey tables. The schema is reconciled against Better Auth v1.6.23 (canonical) — regenerate with `npx @better-auth/cli generate` if you change plugins/version. The signup hook (onUserCreated) wires to the `credits` module.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
       ],
@@ -61,8 +61,8 @@
     {
       "name": "contract",
       "type": "registry:item",
-      "title": "Contract keystone \u2014 derived v4 OpenAPI + scope facets",
-      "description": "The keystone: declares the base API surface as @suluk/hono RouteContracts (with x-suluk-access scopes + zod request schemas) and DERIVES everything downstream consumes \u2014 apiDocument(principal?) (the per-principal v4 doc via emitV4), SCOPE_BY_OP + PUBLIC_OPS (the scope facets the scope gate / MCP read), the enforceApiKeyScope gate, the validateRequest body gate, and GET /api/openapi.json projected to the caller's scopes. Own the wiring, npm the derivation. Stateless \u2014 no schema, no provision.",
+      "title": "Contract keystone — derived v4 OpenAPI + scope facets",
+      "description": "The keystone: declares the base API surface as @suluk/hono RouteContracts (with x-suluk-access scopes + zod request schemas) and DERIVES everything downstream consumes — apiDocument(principal?) (the per-principal v4 doc via emitV4), SCOPE_BY_OP + PUBLIC_OPS (the scope facets the scope gate / MCP read), the enforceApiKeyScope gate, the validateRequest body gate, and GET /api/openapi.json projected to the caller's scopes. Own the wiring, npm the derivation. Stateless — no schema, no provision.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
       ],
@@ -89,7 +89,7 @@
     {
       "name": "credits",
       "type": "registry:item",
-      "title": "Credit ledger \u2014 Effect service + metered debit",
+      "title": "Credit ledger — Effect service + metered debit",
       "description": "An Effect-TS Credits service (Context.Tag + Layer) wrapping @suluk/credits (the atomic debit CAS + idempotent grant stay upstream), its Hono routes, schema re-export, and a provision fragment for the D1 tables. The hybrid pattern: own the service wiring, npm the money logic.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
@@ -132,7 +132,7 @@
     {
       "name": "keys",
       "type": "registry:item",
-      "title": "Hierarchical API keys \u2014 pooled headroom + cascade revoke",
+      "title": "Hierarchical API keys — pooled headroom + cascade revoke",
       "description": "An Effect-TS Keys service over @suluk/keys (the abuse-proof pooled-headroom cap + cascade revocation stay upstream): lineage subtree, cascade revoke, and the pooled headroom over a chain. Key creation is Better Auth's apikey plugin (the `auth` module); this manages the delegation tree.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
@@ -175,7 +175,7 @@
     {
       "name": "billing",
       "type": "registry:item",
-      "title": "Billing \u2014 Stripe customer + browser sessions + cards",
+      "title": "Billing — Stripe customer + browser sessions + cards",
       "description": "An Effect-TS Billing service over @suluk/billing (which runs on @suluk/payments' agnostic connector + client-token surface): ensure-customer, Payment-Element + add-card sessions, saved cards, billing portal. The webhook dispatch + pricing matrix stay in your app (C046/C048).",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
@@ -216,6 +216,11 @@
           "target": "provision/billing.ts"
         },
         {
+          "path": "registry/services/billing/billing.schemas.ts",
+          "target": "src/routes/billing.schemas.ts",
+          "type": "registry:file"
+        },
+        {
           "path": "registry/services/billing/billing.contract.ts",
           "type": "registry:file",
           "target": "contract/billing.ts"
@@ -225,7 +230,7 @@
     {
       "name": "cost",
       "type": "registry:item",
-      "title": "Cost ledger \u2014 runtime metering + \u00b5$ projections",
+      "title": "Cost ledger — runtime metering + µ$ projections",
       "description": "An Effect-TS Cost service over @suluk/cost (the storage-agnostic cost algebra: integer micro-USD, per-source breakdowns, background-event attribution + at-least-once dedup stay upstream). Persists live-request + fired-event costs into D1 and reads the raw ledger picture back (total, by principal/operation/action/source). This module owns the cost_event + cost_dedup tables; the projection logic is npm.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
@@ -268,8 +273,8 @@
     {
       "name": "erasure",
       "type": "registry:item",
-      "title": "GDPR erasure \u2014 fail-closed cascade + audit receipt",
-      "description": "An Effect-TS Erasure service over @suluk/better-auth's beforeDeleteCascade (the fail-closed GDPR orchestrator \u2014 abort rather than half-erase \u2014 stays upstream). Runs an ordered delete/anonymize cascade across the core Suluk tables when a user is erased, wireable into Better Auth's deleteUser.beforeDelete hook, and writes an erasure_receipt audit row. You pick the posture (delete vs anonymize) and trim the cascade to the modules you installed.",
+      "title": "GDPR erasure — fail-closed cascade + audit receipt",
+      "description": "An Effect-TS Erasure service over @suluk/better-auth's beforeDeleteCascade (the fail-closed GDPR orchestrator — abort rather than half-erase — stays upstream). Runs an ordered delete/anonymize cascade across the core Suluk tables when a user is erased, wireable into Better Auth's deleteUser.beforeDelete hook, and writes an erasure_receipt audit row. You pick the posture (delete vs anonymize) and trim the cascade to the modules you installed.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
       ],
@@ -311,8 +316,8 @@
     {
       "name": "email",
       "type": "registry:item",
-      "title": "Email \u2014 swappable provider binding + auth lifecycle",
-      "description": "An Effect-TS Email service over @suluk/email (the EmailProvider transport, the Resend/console impls, and the branded lifecycle templates stay upstream). Reads the provider config from env, picks console in dev / Resend in prod, and exposes send + verify + reset \u2014 wire verify/reset into Better Auth's sendVerificationEmail + sendResetPassword. A stateless binding: no schema, no provision fragment (C052).",
+      "title": "Email — swappable provider binding + auth lifecycle",
+      "description": "An Effect-TS Email service over @suluk/email (the EmailProvider transport, the Resend/console impls, and the branded lifecycle templates stay upstream). Reads the provider config from env, picks console in dev / Resend in prod, and exposes send + verify + reset — wire verify/reset into Better Auth's sendVerificationEmail + sendResetPassword. A stateless binding: no schema, no provision fragment (C052).",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
       ],
@@ -342,8 +347,8 @@
     {
       "name": "webhooks",
       "type": "registry:item",
-      "title": "Webhooks \u2014 verified inbound Stripe + idempotent dispatch",
-      "description": "An Effect-TS Webhooks service over @suluk/payments' inbound Stripe surface (SDK-free HMAC-SHA256 signature verification + a typed event router stay upstream). Verifies the RAW request body against the stripe-signature header + the signing secret, dedups on the Stripe event id against an owned webhook_event table (Stripe is at-least-once, so redelivery is a no-op), then routes the verified event through webhookRouter. Ships a documented STUB handler set the app fills with fulfillment (e.g. credits.grant) \u2014 kept decoupled from @suluk/credits. Owns the webhook_event table; verification + routing is npm.",
+      "title": "Webhooks — verified inbound Stripe + idempotent dispatch",
+      "description": "An Effect-TS Webhooks service over @suluk/payments' inbound Stripe surface (SDK-free HMAC-SHA256 signature verification + a typed event router stay upstream). Verifies the RAW request body against the stripe-signature header + the signing secret, dedups on the Stripe event id against an owned webhook_event table (Stripe is at-least-once, so redelivery is a no-op), then routes the verified event through webhookRouter. Ships a documented STUB handler set the app fills with fulfillment (e.g. credits.grant) — kept decoupled from @suluk/credits. Owns the webhook_event table; verification + routing is npm.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
       ],
@@ -385,8 +390,8 @@
     {
       "name": "rate-limit",
       "type": "registry:item",
-      "title": "Rate limit \u2014 principal-aware middleware over @suluk/hono",
-      "description": "A principal-aware rate-limit MIDDLEWARE over @suluk/hono's enforceRateLimit (the fixed-window bucket math, the swappable RateLimitStore, MemoryRateLimitStore, and the 429 + Retry-After RFC-9457 envelope stay upstream). Owns only the wiring: a keyer that keys by the authenticated user id off the Hono context (else client IP) + the store choice (MemoryRateLimitStore in dev; swap a KV/DO-backed store for prod). mountRateLimit(app) applies it globally via app.use. A stateless binding \u2014 no schema, no provision (C052).",
+      "title": "Rate limit — principal-aware middleware over @suluk/hono",
+      "description": "A principal-aware rate-limit MIDDLEWARE over @suluk/hono's enforceRateLimit (the fixed-window bucket math, the swappable RateLimitStore, MemoryRateLimitStore, and the 429 + Retry-After RFC-9457 envelope stay upstream). Owns only the wiring: a keyer that keys by the authenticated user id off the Hono context (else client IP) + the store choice (MemoryRateLimitStore in dev; swap a KV/DO-backed store for prod). mountRateLimit(app) applies it globally via app.use. A stateless binding — no schema, no provision (C052).",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
       ],
@@ -406,8 +411,8 @@
     {
       "name": "rate-credit",
       "type": "registry:item",
-      "title": "Rate credit \u2014 credit-backed free-tier limiter (auto-regenerating \u00b5$ allowance)",
-      "description": "A credit-backed free-tier rate limiter alongside the fixed-window rate-limit: a per-principal token bucket denominated in \u00b5$ (the same unit as a route's COGS in cost). Each free-tier request debits a small fixed cost; 429 (RFC-9457 via @suluk/core) when the bucket is empty. C052: the \u00b5$ bucket math is app-owned policy (ported here, not a package); only the RFC-9457 envelope is npm. State is one KV binding env.RATE_CREDIT_KV (a binding, not an owned D1 table \u2014 no provision fragment). Lazy epoch-ms regen (no cron), FAIL-OPEN on KV error or an unbound namespace. mountRateCredit(app) applies globally after identity resolves; keys by c.var.user?.id else cf-connecting-ip; skips /api/health + /api/webhooks.",
+      "title": "Rate credit — credit-backed free-tier limiter (auto-regenerating µ$ allowance)",
+      "description": "A credit-backed free-tier rate limiter alongside the fixed-window rate-limit: a per-principal token bucket denominated in µ$ (the same unit as a route's COGS in cost). Each free-tier request debits a small fixed cost; 429 (RFC-9457 via @suluk/core) when the bucket is empty. C052: the µ$ bucket math is app-owned policy (ported here, not a package); only the RFC-9457 envelope is npm. State is one KV binding env.RATE_CREDIT_KV (a binding, not an owned D1 table — no provision fragment). Lazy epoch-ms regen (no cron), FAIL-OPEN on KV error or an unbound namespace. mountRateCredit(app) applies globally after identity resolves; keys by c.var.user?.id else cf-connecting-ip; skips /api/health + /api/webhooks.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
       ],
@@ -426,8 +431,8 @@
     {
       "name": "i18n",
       "type": "registry:item",
-      "title": "i18n \u2014 locale/direction negotiation middleware",
-      "description": "A locale/direction negotiation MIDDLEWARE over @suluk/i18n (the q-weighted Accept-Language matcher, the cookie parser, and the config/direction model stay upstream). Owns only the wiring: the app's default locale set + a Hono middleware that resolves each request's locale (?lang > cookie > Accept-Language) and stashes locale + dir on the context. mountI18n(app) applies it globally via app.use. A stateless binding \u2014 no schema, no provision (C052).",
+      "title": "i18n — locale/direction negotiation middleware",
+      "description": "A locale/direction negotiation MIDDLEWARE over @suluk/i18n (the q-weighted Accept-Language matcher, the cookie parser, and the config/direction model stay upstream). Owns only the wiring: the app's default locale set + a Hono middleware that resolves each request's locale (?lang > cookie > Accept-Language) and stashes locale + dir on the context. mountI18n(app) applies it globally via app.use. A stateless binding — no schema, no provision (C052).",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
       ],
@@ -446,8 +451,8 @@
     {
       "name": "reference",
       "type": "registry:item",
-      "title": "API reference \u2014 v4-enhanced Scalar page over the derived contract",
-      "description": "An API reference PAGE rendered by @suluk/scalar (Scalar taught to show v4: the pinned suluk-forked standalone renders v4 requests\u2192operations natively + surfaces x-suluk-cost/x-suluk-access as badges) over apiDocument() \u2014 the SAME per-principal v4 document the contract keystone derives. GET /api/reference renders the full page with a View-as role projector; GET /api/reference/spec serves the enriched per-role spec the toolbar re-fetches; GET /api/reference/:tool focuses on one operation (by its by-name handle). Own the wiring, npm the renderer. Derived + stateless \u2014 no schema, no provision.",
+      "title": "API reference — v4-enhanced Scalar page over the derived contract",
+      "description": "An API reference PAGE rendered by @suluk/scalar (Scalar taught to show v4: the pinned suluk-forked standalone renders v4 requests→operations natively + surfaces x-suluk-cost/x-suluk-access as badges) over apiDocument() — the SAME per-principal v4 document the contract keystone derives. GET /api/reference renders the full page with a View-as role projector; GET /api/reference/spec serves the enriched per-role spec the toolbar re-fetches; GET /api/reference/:tool focuses on one operation (by its by-name handle). Own the wiring, npm the renderer. Derived + stateless — no schema, no provision.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app",
         "MahmoodKhalil57/suluk/contract"
@@ -473,8 +478,8 @@
     {
       "name": "admin",
       "type": "registry:item",
-      "title": "Admin \u2014 ops/usage stats over the credit ledger",
-      "description": "An Effect-TS Admin service exposing GET /api/admin/stats \u2014 the admin-scoped ops/usage aggregate. Wraps @suluk/credits' ledgerStats (credits issued vs spent + outstanding balance stay upstream) + the module-owned credit_transaction row count. Admin-scope is enforced globally by the contract's enforceApiKeyScope on /api/admin, so the route does no gating. A stateless read: no schema, no provision (reads existing tables). Own the wiring, npm the aggregate.",
+      "title": "Admin — ops/usage stats over the credit ledger",
+      "description": "An Effect-TS Admin service exposing GET /api/admin/stats — the admin-scoped ops/usage aggregate. Wraps @suluk/credits' ledgerStats (credits issued vs spent + outstanding balance stay upstream) + the module-owned credit_transaction row count. Admin-scope is enforced globally by the contract's enforceApiKeyScope on /api/admin, so the route does no gating. A stateless read: no schema, no provision (reads existing tables). Own the wiring, npm the aggregate.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
       ],
@@ -505,8 +510,8 @@
     {
       "name": "mcp",
       "type": "registry:item",
-      "title": "MCP server \u2014 API-as-MCP over the derived contract + OAuth",
-      "description": "The API-as-MCP surface: mounts @suluk/mcp's mcpApp at /api/mcp with the contract's apiDocument(scopes) as the per-caller tool list (a caller only sees the tools its principal can call \u2014 the contract-first payoff), executes tools in-process via appExec, exposes the OAuth /.well-known discovery (Better Auth's mcp plugin, enabled in auth via opts.mcp), and manages MCP connections (list/update/revoke; session-only) over an owned mcp_connection table. Own the wiring, npm the protocol + OAuth server.",
+      "title": "MCP server — API-as-MCP over the derived contract + OAuth",
+      "description": "The API-as-MCP surface: mounts @suluk/mcp's mcpApp at /api/mcp with the contract's apiDocument(scopes) as the per-caller tool list (a caller only sees the tools its principal can call — the contract-first payoff), executes tools in-process via appExec, exposes the OAuth /.well-known discovery (Better Auth's mcp plugin, enabled in auth via opts.mcp), and manages MCP connections (list/update/revoke; session-only) over an owned mcp_connection table. Own the wiring, npm the protocol + OAuth server.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app",
         "MahmoodKhalil57/suluk/contract"
@@ -556,8 +561,8 @@
     {
       "name": "logs",
       "type": "registry:item",
-      "title": "Activity log \u2014 Effect service (fully owned)",
-      "description": "A fully-owned Effect-TS activity log over an append-only table: record an action, read a principal's recent activity. No @suluk logic package \u2014 the whole module is yours to extend.",
+      "title": "Activity log — Effect service (fully owned)",
+      "description": "A fully-owned Effect-TS activity log over an append-only table: record an action, read a principal's recent activity. No @suluk logic package — the whole module is yours to extend.",
       "registryDependencies": [
         "MahmoodKhalil57/suluk/app"
       ],
@@ -598,8 +603,8 @@
     {
       "name": "journeys",
       "type": "registry:item",
-      "title": "Journeys \u2014 runnable BDD over your v4 contract (dev)",
-      "description": "Dev/CI tooling (no runtime mount): author plain-Gherkin user journeys against the step vocabulary @suluk/journeys projects from your v4 contract, then bind + grade coverage as a bun:test gate. The binder resolves each step exact-or-unbound and grades contract\u2192authored coverage; unbound steps are your worklist. Ships a config, an example feature, and the coverage harness.",
+      "title": "Journeys — runnable BDD over your v4 contract (dev)",
+      "description": "Dev/CI tooling (no runtime mount): author plain-Gherkin user journeys against the step vocabulary @suluk/journeys projects from your v4 contract, then bind + grade coverage as a bun:test gate. The binder resolves each step exact-or-unbound and grades contract→authored coverage; unbound steps are your worklist. Ships a config, an example feature, and the coverage harness.",
       "dependencies": [
         "@suluk/journeys",
         "@suluk/core"
@@ -625,8 +630,8 @@
     {
       "name": "audit",
       "type": "registry:item",
-      "title": "Audit \u2014 one CI conformance gate (dev)",
-      "description": "Dev/CI tooling (no runtime mount): a single conformance script that consolidates @suluk/cockpit's lifecycle gates + @suluk/harden's input-hardening security grade + schema-fact readiness grade into one unified ship-readiness pass/fail. Loads your v4 contract and exits non-zero when a gate blocks or the combined grade falls below the floor \u2014 the one command your pipeline gates on.",
+      "title": "Audit — one CI conformance gate (dev)",
+      "description": "Dev/CI tooling (no runtime mount): a single conformance script that consolidates @suluk/cockpit's lifecycle gates + @suluk/harden's input-hardening security grade + schema-fact readiness grade into one unified ship-readiness pass/fail. Loads your v4 contract and exits non-zero when a gate blocks or the combined grade falls below the floor — the one command your pipeline gates on.",
       "dependencies": [
         "@suluk/cockpit",
         "@suluk/harden",
