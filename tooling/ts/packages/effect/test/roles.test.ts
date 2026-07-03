@@ -129,7 +129,7 @@ describe("effectRoute roles — scope / cost / rate-limit / auth-error DEFAULTS 
         run: (_c, { userId }) => Effect.succeed({ userId: userId ?? "anon" }),
       });
       const app = new Hono();
-      app.get("/api/todos", (c) => { if (c.req.query("auth")) c.set("user", { id: "u-42" } as never); return handler(c); });
+      app.get("/api/todos", (c) => { if (c.req.query("auth")) (c as { set: (k: string, v: unknown) => void }).set("user", { id: "u-42" }); return handler(c); });
       return app;
     };
 

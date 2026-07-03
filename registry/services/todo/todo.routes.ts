@@ -63,9 +63,7 @@ todos.route(effectRoute({
   run: (c, { userId }) => Effect.gen(function* () {
     const id = c.req.param("id")!;
     const s = yield* Todo;
-    const item = yield* s.get(userId, id);
-    if (!item) return yield* new NotFoundError({ resource: "todo", id });
-    return { todo: item };
+    return { todo: yield* s.get(userId, id) }; // s.get FAILS with NotFoundError when absent → the 404 bubbles up
   }).pipe((p) => provide(c.env, p)),
 }));
 
@@ -99,9 +97,7 @@ todos.route(effectRoute({
     const id = c.req.param("id")!;
     const patch = yield* Effect.promise(() => c.req.json<{ title?: string; completed?: boolean }>());
     const s = yield* Todo;
-    const item = yield* s.update(userId, id, patch);
-    if (!item) return yield* new NotFoundError({ resource: "todo", id });
-    return { todo: item };
+    return { todo: yield* s.update(userId, id, patch) }; // s.update FAILS with NotFoundError when absent → the 404 bubbles up
   }).pipe((p) => provide(c.env, p)),
 }));
 
@@ -116,8 +112,7 @@ todos.route(effectRoute({
   run: (c, { userId }) => Effect.gen(function* () {
     const id = c.req.param("id")!;
     const s = yield* Todo;
-    const ok = yield* s.remove(userId, id);
-    if (!ok) return yield* new NotFoundError({ resource: "todo", id });
+    yield* s.remove(userId, id); // FAILS with NotFoundError when absent → the 404 bubbles up
     return { deleted: true as const };
   }).pipe((p) => provide(c.env, p)),
 }));

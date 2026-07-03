@@ -10,6 +10,7 @@
  * actually produces.
  */
 import { Effect, Exit, Cause, Option } from "effect";
+import type { Cause as CauseT } from "effect";
 import type { Context } from "hono";
 import type { RouteContract, RouteResponse } from "@suluk/hono";
 import { toProblemDetails, PROBLEM_CONTENT_TYPE } from "@suluk/core";
@@ -61,6 +62,11 @@ export type RoleAuth<R extends readonly Role[]> = "signed-in" extends R[number]
     ? { userId: string }
     : { userId?: string };
 
+/** Any yieldable, tagged {@link httpError} instance — the handler's error channel accepts ALL of them (declared, role-implied,
+ *  OR one a called service fails with), so a service error BUBBLES UP to its own HTTP status without the route re-declaring
+ *  it. `errors` stays as the DOC list (which typed errors to surface in the contract); the runtime renders any tagged one. */
+type AnyHttpErrorInstance = CauseT.YieldableError & { readonly _tag: string };
+
 export interface EffectRouteSpec<
   OkSchema extends z.ZodTypeAny,
   Errs extends readonly AnyHttpError[],
@@ -93,11 +99,12 @@ export interface EffectRouteSpec<
    *  channel is checked against `errors` PLUS the role-implied auth errors — declaring fewer than the code throws is a TYPE
    *  error. Each becomes a distinct typed response (its status + schema) in the contract. */
   errors?: Errs;
-  /** The handler: a fully-provided Effect (no remaining requirements) yielding the success body (or `respond(...)`) and
-   *  failing only with the declared errors + the role-implied auth errors. Its 2nd arg is the injected {@link RoleAuth} — for
-   *  a signed-in/admin route, `auth.userId` is GUARANTEED (effectRoute already 401'd an anonymous caller), so owner-scope
-   *  with `auth.userId` directly. */
-  run: (c: Context, auth: RoleAuth<Roles>) => Effect.Effect<HandlerSuccess<z.infer<OkSchema>>, InstanceType<Errs[number]> | RoleImplied<Roles>, never>;
+  /** The handler: a fully-provided Effect (no remaining requirements) yielding the success body (or `respond(...)`). It may
+   *  FAIL with any typed {@link httpError} — a declared one, a role-implied auth error, OR one a called SERVICE fails with:
+   *  every tagged httpError BUBBLES UP to its own HTTP status + body (effect.ts unions the error channel; effectRoute renders
+   *  it off the error's own class). `errors` then only DOCUMENTS the ones you want in the contract. Its 2nd arg is the
+   *  injected {@link RoleAuth} — for a signed-in/admin route `auth.userId` is GUARANTEED (effectRoute already 401'd anon). */
+  run: (c: Context, auth: RoleAuth<Roles>) => Effect.Effect<HandlerSuccess<z.infer<OkSchema>>, InstanceType<Errs[number]> | RoleImplied<Roles> | AnyHttpErrorInstance, never>;
 }
 
 export interface EffectRoute {
@@ -124,6 +131,14 @@ function schemaDescription(schema: unknown): string | undefined {
     if (keys.length === 1) return shape[keys[0]]?.description;
   }
   return undefined;
+}
+
+/** Recover the httpError CLASS (its `status` + `bodySchema`) off a thrown instance's `constructor`, so an UNDECLARED tagged
+ *  httpError — e.g. one a SERVICE failed with — still renders at its OWN status + typed body (bubbles up) instead of
+ *  collapsing to a 500. Returns undefined for a non-httpError defect (→ the 500 path). */
+function httpErrorClassOf(e: unknown): AnyHttpError | undefined {
+  const ctor = (e as { constructor?: unknown } | null | undefined)?.constructor as Partial<AnyHttpError> | undefined;
+  return ctor && typeof ctor.status === "number" && ctor.bodySchema ? (ctor as AnyHttpError) : undefined;
 }
 
 /** Method → is it a READ (GET/HEAD)? Drives the read-vs-write scope/cost/rate-limit defaults. */
@@ -233,11 +248,13 @@ export function effectRoute<
       if (status === 204 || body === undefined) return c.body(null, status as never);
       return c.json(body as never, status as never);
     }
-    // a TYPED failure → its status + typed body (the DETAILED error, not a generic ProblemDetails).
+    // a TYPED failure → its status + typed body (the DETAILED error, not a generic ProblemDetails). Prefer a DECLARED error
+    // (`byTag`); else render ANY tagged httpError off its own class — so an error a SERVICE failed with BUBBLES UP to its
+    // status even when the route didn't declare it in `errors`.
     const failure = Cause.failureOption(exit.cause);
     if (Option.isSome(failure)) {
       const e = failure.value as { _tag?: string };
-      const E = e._tag ? byTag.get(e._tag) : undefined;
+      const E = (e._tag ? byTag.get(e._tag) : undefined) ?? httpErrorClassOf(e);
       if (E) return c.json(errorBody(e as Record<string, unknown>, E) as never, E.status as never);
     }
     // an undeclared failure or a DEFECT (a handler can always die) → 500 Problem Details. Surfaced, never swallowed.

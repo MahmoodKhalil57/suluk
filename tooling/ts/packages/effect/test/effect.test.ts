@@ -75,12 +75,31 @@ describe("effectRoute — runtime: run the Effect, map success/failure/defect", 
   });
 });
 
-describe("type-enforcement — the E channel is EXACT (you can't under-declare the ways it throws)", () => {
-  test("failing with an error NOT in `errors` is a TYPE error", () => {
-    // @ts-expect-error — run fails with NotFound but it isn't declared in `errors`; the mismatch MUST not compile. (If this
-    // line ever compiles, the @ts-expect-error becomes unused and this file fails to typecheck — the guard is self-checking.)
-    effectRoute({ method: "post", summary: "test route", path: "/z", ok: { schema: z.object({}) }, errors: [InsufficientCredits], run: () => Effect.fail(new NotFound({ resource: "x" })) });
-    expect(true).toBe(true);
+describe("service errors BUBBLE UP — an UNDECLARED tagged httpError renders at its own status (not a 500)", () => {
+  test("a handler failing with an error NOT in `errors` still renders that error's status + typed body", async () => {
+    // NotFound is NOT in `errors` (imagine it came from a called service). It compiles — the error channel accepts any typed
+    // httpError — and effectRoute renders it off its OWN class, so it bubbles up to a 404 instead of collapsing to a 500.
+    const { handler } = effectRoute({
+      method: "post", summary: "test route", path: "/z", ok: { schema: z.object({}) },
+      errors: [InsufficientCredits],
+      run: () => Effect.fail(new NotFound({ resource: "widget" })),
+    });
+    const app = new Hono();
+    app.post("/z", handler);
+    const res = await app.request("/z", { method: "POST" });
+    expect(res.status).toBe(404); // bubbled up from NotFound's own status
+    expect(await res.json()).toEqual({ resource: "widget" }); // its typed body, not a generic ProblemDetails
+  });
+
+  test("a NON-httpError defect still collapses to a 500 ProblemDetails (surfaced, not leaked)", async () => {
+    const { handler } = effectRoute({
+      method: "post", summary: "test route", path: "/z", ok: { schema: z.object({}) },
+      run: () => Effect.die(new Error("boom")),
+    });
+    const app = new Hono();
+    app.post("/z", handler);
+    const res = await app.request("/z", { method: "POST" });
+    expect(res.status).toBe(500);
   });
 });
 
