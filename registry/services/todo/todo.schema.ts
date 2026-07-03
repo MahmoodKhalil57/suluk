@@ -9,31 +9,32 @@ import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
 import { z } from "zod";
 import { tableSchemas } from "../app";
 
-// ── the table ──────────────────────────────────────────────────────────────────────────────
+// ── the table — each field's wire annotation lives INLINE on the column via `.zod()` (the drizzle-zod refine
+//    callback, co-located with the DDL instead of in a separate object). `.zod()` returns the builder unchanged, so
+//    the drizzle chain + `sqliteTable` are unaffected; `tableSchemas` reads the refiners back off the columns. ──────────
 export const todo = sqliteTable(
   "todo",
   {
-    id: text("id").primaryKey(),
+    id: text("id").primaryKey()
+      .zod((s) => s.describe("The todo's unique id (uuid).").meta({ examples: ["a3a2747d-b05f-4db6-8ab5-50ea2c2a7b3f"] })),
     /** the OWNER — the authenticated principal (`c.get("user")`). Every query filters on it; never a client-supplied field. */
-    userId: text("userId").notNull(),
-    title: text("title").notNull(),
+    userId: text("userId").notNull()
+      .zod((s) => s.describe("The owner's user id — the authenticated principal.")),
+    title: text("title").notNull()
+      .zod((s) => s.describe("The todo text.").meta({ examples: ["Buy milk"] })),
     /** done flag (SQLite has no boolean — drizzle maps it 0/1 ↔ boolean). */
-    completed: integer("completed", { mode: "boolean" }).notNull().default(false),
+    completed: integer("completed", { mode: "boolean" }).notNull().default(false)
+      .zod((s) => s.describe("Whether the todo is done.").meta({ examples: [false] })),
     createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
     updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull(),
   },
   (t) => ({ byUser: index("todo_userId_idx").on(t.userId) }), // the owner filter is the hot path
 );
 
-// ── the three drizzle-zod schemas, in ONE call via the base app's `tableSchemas` (no `createSelectSchema(todo)` etc. per
-//    file). The SELECT schema carries the per-field DESCRIPTIONS + EXAMPLES (its `refine`) so they bubble up into the doc;
-//    insert/update come straight off the columns. Add a column to `todo` and all three + their types update. ──────────────
-export const { select: todoSelect, insert: todoInsert, update: todoUpdate } = tableSchemas(todo, {
-  id: (s) => s.describe("The todo's unique id (uuid).").meta({ examples: ["a3a2747d-b05f-4db6-8ab5-50ea2c2a7b3f"] }),
-  userId: (s) => s.describe("The owner's user id — the authenticated principal."),
-  title: (s) => s.describe("The todo text.").meta({ examples: ["Buy milk"] }),
-  completed: (s) => s.describe("Whether the todo is done.").meta({ examples: [false] }),
-});
+// ── the three drizzle-zod schemas, in ONE call via the base app's `tableSchemas` — NO separate refine object now:
+//    the SELECT schema's per-field DESCRIPTIONS + EXAMPLES come from the columns' co-located `.zod()` above and bubble
+//    up into the doc; insert/update come straight off the columns. Add a column and all three + their types update. ──────
+export const { select: todoSelect, insert: todoInsert, update: todoUpdate } = tableSchemas(todo);
 
 // ── types INFERRED from the schemas — no hand-maintained row/insert/update type anywhere ──────────────────────────────
 /** The stored row (drizzle returns `Date` for the timestamp columns). */

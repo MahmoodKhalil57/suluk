@@ -8,8 +8,10 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { Context, Layer } from "effect";
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
-import type { Table } from "drizzle-orm";
+import { getTableColumns, type Table } from "drizzle-orm";
+import { SQLiteColumnBuilder } from "drizzle-orm/sqlite-core/columns/common";
 import { createSelectSchema, createInsertSchema, createUpdateSchema, type BuildRefine, type NoUnknownKeys } from "drizzle-zod";
+import type { z } from "zod";
 
 export interface Bindings {
   DB: D1Database;
@@ -31,23 +33,67 @@ export class Db extends Context.Tag("Db")<Db, DrizzleD1Database>() {}
 /** Build the `Db` layer for one request from the Worker bindings. */
 export const DbLive = (env: Bindings): Layer.Layer<Db> => Layer.succeed(Db, drizzle(env.DB));
 
+// ── INLINE zod on columns ─────────────────────────────────────────────────────────────────────────────────
+// `.zod(refiner)` co-locates a column's wire refinement WITH its DDL: it stashes the drizzle-zod refine callback
+// ON the column (returning `this`, so the drizzle chain + `sqliteTable` are unaffected), and `tableSchemas` reads
+// it back — so a module annotates each field on the column (`text("title").notNull().zod(s => s.describe(…))`)
+// instead of in a separate object. Runtime-augments the SQLite column builder (D1 is SQLite). The `s` a refiner
+// receives is typed by drizzle's coarse dataType (string→ZodString, …). See db/todo.ts for the worked pattern.
+type ZodForData<D> = D extends "string" ? z.ZodString
+  : D extends "number" | "bigint" ? z.ZodNumber
+  : D extends "boolean" ? z.ZodBoolean
+  : D extends "date" ? z.ZodDate
+  : z.ZodType;
+type ZodRefiner = (schema: z.ZodType) => z.ZodType;
+const ZOD_REFINER = Symbol.for("suluk.drizzle.inlineZod");
+
+declare module "drizzle-orm/sqlite-core/columns/common" {
+  interface SQLiteColumnBuilder {
+    /** Co-locate this column's zod refinement (the drizzle-zod refine callback; omit to just mark it). Receives the
+     *  column's base schema, returns the refined one — return another field's zod to reuse it. Read by `tableSchemas`. */
+    zod(refiner?: (schema: ZodForData<this["_"]["dataType"]>) => z.ZodType): this;
+  }
+}
+if (!Object.prototype.hasOwnProperty.call(SQLiteColumnBuilder.prototype, "zod")) {
+  Object.defineProperty(SQLiteColumnBuilder.prototype, "zod", {
+    value: function (this: { config: Record<string | symbol, unknown> }, refiner?: ZodRefiner) {
+      this.config[ZOD_REFINER] = refiner ?? ((s: z.ZodType) => s);
+      return this;
+    },
+    writable: true,
+    configurable: true,
+    enumerable: false,
+  });
+}
+
 /**
  * Derive a table's three drizzle-zod schemas in ONE call — so a module defines its table ONCE and reads its
  * `select` (a full row), `insert` (writable columns, defaults optional) and `update` (all optional) schemas + (via
  * `z.infer`) their TS types from here, instead of rewriting `createSelectSchema(table)` / `createInsertSchema(table)` /
- * `createUpdateSchema(table)` in every schema file. The optional `refine` annotates the SELECT schema (per-field
- * `.describe()` + `.meta({examples})`), so those labels bubble up into the wire response body / Scalar. Generic over the
- * table, so every field keeps its precise type — `z.infer<typeof tableSchemas(t).select>` is the exact row shape.
+ * `createUpdateSchema(table)` in every schema file. The SELECT schema is annotated by the columns' co-located
+ * `.zod()` refinements (per-field `.describe()` + `.meta({examples})`), so those labels bubble up into the wire
+ * response body / Scalar; the optional `refine` argument still works and OVERRIDES a co-located refiner on conflict.
+ * Generic over the table, so every field keeps its precise type — `z.infer<typeof tableSchemas(t).select>` is the row.
  *
- *   const { select, insert, update } = tableSchemas(todo, { title: (s) => s.describe("The todo text.") });
+ *   const todo = sqliteTable("todo", { title: text("title").notNull().zod(s => s.describe("The todo text.")) });
+ *   const { select, insert, update } = tableSchemas(todo);   // reads the co-located `.zod()` refinements
  *   type Row = z.infer<typeof select>;   // { id: string; title: string; completed: boolean; ... }
  */
 export function tableSchemas<T extends Table, R extends BuildRefine<T["_"]["columns"], undefined> = BuildRefine<T["_"]["columns"], undefined>>(
   table: T,
   refine?: NoUnknownKeys<R, T["$inferSelect"]>,
 ) {
+  // collect the co-located `.zod()` refiners off the columns, then let an explicit `refine` win on conflict.
+  const inline: Record<string, ZodRefiner> = {};
+  for (const [key, col] of Object.entries(getTableColumns(table))) {
+    const r = (col as unknown as { config?: Record<string | symbol, unknown> }).config?.[ZOD_REFINER];
+    if (typeof r === "function") inline[key] = r as ZodRefiner;
+  }
+  const merged = { ...inline, ...(refine as Record<string, ZodRefiner> | undefined) };
   return {
-    select: createSelectSchema(table, refine),
+    // Pass `merged` at runtime but keep the STATIC type of `refine`, so drizzle-zod infers the same precise
+    // return (`.shape.title` stays `ZodString`, not a degraded fallback) — casting to `never` erases that.
+    select: createSelectSchema(table, merged as unknown as typeof refine),
     insert: createInsertSchema(table),
     update: createUpdateSchema(table),
   };
