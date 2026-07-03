@@ -53,10 +53,10 @@ const UpdateReq = z.object({ title: z.string().min(1).max(500).optional(), compl
  */
 export const todoContract = {
   list: { ok: { schema: z.object({ todos: z.array(TodoItemSchema) }).describe("The caller's todos, newest first.") } },
-  read: { ok: { schema: z.object({ todo: TodoItemSchema }) }, errors: [NotFoundError] },
+  read: { ok: { schema: z.object({ todo: TodoItemSchema }) } },
   created: { request: { json: CreateReq }, ok: { schema: z.object({ todo: TodoItemSchema }) } },
-  updated: { request: { json: UpdateReq }, ok: { schema: z.object({ todo: TodoItemSchema }) }, errors: [NotFoundError] },
-  deleted: { ok: { status: 200, schema: z.object({ deleted: z.literal(true) }).describe("The todo was deleted.") }, errors: [NotFoundError] },
+  updated: { request: { json: UpdateReq }, ok: { schema: z.object({ todo: TodoItemSchema }) } },
+  deleted: { ok: { status: 200, schema: z.object({ deleted: z.literal(true) }).describe("The todo was deleted.") } },
 };
 
 /** The stored row shape (drizzle returns `Date` for the timestamp columns). */
