@@ -1,0 +1,22 @@
+# C083 — the inline `.zod()` seam extended: FULL field VALIDATION (not just meta) + a TABLE-LEVEL `.zod()` for the entity.
+# Registry `app` base + todo.schema. Additive over the `.zod()` migration (6dd625c5); the base app seam is self-contained
+# (augments drizzle's SQLiteColumnBuilder + SQLiteTable inline — no @suluk/drizzle dep). No @suluk/* package change.
+
+# A column's `.zod(s => …)` refiner already returns ANY refined zod, so FULL validation (`.min()/.max()/.regex()/.nanoid()`)
+# co-locates with the DDL alongside `.meta({ description, examples })` — proven: a `title.min(1).max(500)` on the column
+# ENFORCES on the wire (empty title → typed 400 "Too small", 600-char → 400 "Too big"). The constraint flows to the REQUEST
+# body because CreateReq/UpdateReq reuse `todoSelect.shape.title` (the refined SELECT field), NOT a re-refined insert/update:
+# re-refining insert+update via drizzle-zod's per-projection BuildRefine blows the app's generic to TS2589, so select-shape
+# reuse is the clean path (the @suluk/drizzle PACKAGE's simpler `tableZodSchemas` does refine all three; the app seam differs). @>=0.85
+claim c083_column_zod_full_validation_flows: Bool @>=0.85 = True
+falsified_when c083_column_zod_full_validation_flows == False
+
+# NEW: a TABLE-LEVEL `.zod()` — `sqliteTable(…).zod(s => s.meta({ description: "A todo item." }))` co-locates the ENTITY
+# annotation WITH the table (the same seam one level up). The base app augments drizzle's `SQLiteTable` prototype (stashing the
+# refiner in a WeakMap, returning the table unchanged) and `tableSchemas` reads it back. It applies the entity refiner IN-PLACE
+# via `z.globalRegistry.add` (reading the refiner's `.meta()` off a throwaway clone, casting the deep select through `unknown`)
+# — because applying a function in the TYPED select position forces drizzle-zod's deep type → TS2589; the in-place register
+# keeps the precise select type. Proven: `z.toJSONSchema(TodoItemSchema).description === "A todo item."`, and the title/id
+# carry `{ minLength, maxLength, description, examples }` in BOTH the response DTO and the request body. tsc clean in ATF. @>=0.85
+claim c083_table_level_zod_entity_meta: Bool @>=0.85 = True
+falsified_when c083_table_level_zod_entity_meta == False
