@@ -574,14 +574,9 @@
       ],
       "files": [
         {
-          "path": "registry/services/todo/todo.service.ts",
+          "path": "registry/services/todo/todo.ops.ts",
           "type": "registry:file",
           "target": "src/services/todo.ts"
-        },
-        {
-          "path": "registry/services/todo/todo.actions.ts",
-          "type": "registry:file",
-          "target": "src/services/todo.actions.ts"
         },
         {
           "path": "registry/services/todo/todo.routes.ts",

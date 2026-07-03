@@ -1,0 +1,106 @@
+/**
+ * Todo OPERATIONS (Suluk registry: `todo`) — the module's functions, each a self-contained sulukts `op`: it declares its
+ * WHOLE v4 operation (method + path + roles + summary + the request/response/errors/cost) ALONGSIDE its Effect impl, which
+ * runs DIRECTLY over the base `Db` service (`Effect.flatMap(Db, (db) => …)`, `R = Db`). There is NO separate `Context.Tag`
+ * "service" to wrap and NO `todo.actions.ts`: the function IS the composable unit, grounded in the core Request shape.
+ *
+ * `todo.routes.ts` just MOUNTS these ops — `effectPipeRoute` FOLDS each op's `meta` for the route identity, so method/path
+ * are never restated — and COMPOSES them (`all(getTodo, countTodos)` → `{ todo, count }`), bubbling the whole contract up.
+ *
+ * Every query is owner-scoped (`owned`): a caller only ever reads/mutates their OWN rows — the route injects the
+ * AUTHENTICATED principal as `ctx.userId`, never a client-supplied id. Timestamps are stored as `Date`, returned as epoch-ms.
+ */
+import { Effect } from "effect";
+import { z } from "zod";
+import { and, desc, eq } from "drizzle-orm";
+import { op, envelope, listEnvelope, fixedEnvelope, NotFoundError, type CostModel } from "@suluk/effect";
+import { Db } from "../app";
+import { todo, TodoItemSchema, CreateReq, UpdateReq, type TodoRow, type TodoItem } from "../db/todo";
+
+/** Project a stored row (Date timestamps) to the wire DTO (epoch-ms). */
+const toItem = (r: TodoRow): TodoItem => ({
+  id: r.id,
+  userId: r.userId,
+  title: r.title,
+  completed: r.completed,
+  createdAt: r.createdAt.getTime(),
+  updatedAt: r.updatedAt.getTime(),
+});
+/** the owner-scoping predicate reused by every by-id op — a caller can only ever touch a row where BOTH the id AND owner match. */
+const owned = (userId: string, id: string) => and(eq(todo.id, id), eq(todo.userId, userId));
+
+// the two entity envelopes (built once so the doc + render can't drift) + per-op COST (summed up the tree by effectPipeRoute).
+const one = envelope("todo", TodoItemSchema);
+const many = listEnvelope("todos", TodoItemSchema, { describe: "The caller's todos, newest first." });
+const readCost: CostModel = { components: [], infra: { "d1.read": 1 }, settlement: { method: "rate-limited" } };
+const writeCost: CostModel = { components: [], infra: { "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited", overflow: "credit" } };
+const deleteCost: CostModel = { components: [], infra: { "d1.write": 1 }, settlement: { method: "rate-limited", overflow: "credit" } };
+// shared by every standalone op: the audience (→ scope/rate-limit-key/401/userId) + the doc tag.
+const base = { roles: ["signed-in"] as const, tags: ["Todos"] };
+
+/** GET /api/todos → { todos } — the caller's own todos, newest first. */
+export const listTodos = op({
+  ...base, method: "get", path: "/api/todos", name: "listTodos",
+  summary: "List the signed-in user's todos, newest first.",
+  output: TodoItemSchema.array(), wrap: many, cost: readCost,
+  run: (ctx) => Effect.flatMap(Db, (db) => Effect.promise(async () =>
+    (await db.select().from(todo).where(eq(todo.userId, ctx.userId)).orderBy(desc(todo.createdAt))).map(toItem))),
+});
+
+/** GET /api/todos/:id → { todo } — one todo the caller OWNS; a non-owned/absent id → typed 404 (the op FAILS with NotFoundError). */
+export const getTodo = op({
+  ...base, method: "get", path: "/api/todos/:id", name: "getTodo",
+  summary: "Get one of the signed-in user's todos by id.",
+  output: TodoItemSchema, wrap: one, errors: [NotFoundError], cost: readCost,
+  run: (ctx) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
+    const [row] = yield* Effect.promise(() => db.select().from(todo).where(owned(ctx.userId, ctx.param("id")!)).limit(1));
+    if (!row) return yield* new NotFoundError({ resource: "todo", id: ctx.param("id")! });
+    return toItem(row);
+  })),
+});
+
+/** (composed-only — NO standalone route) the caller's total todo count; fans in with `getTodo` in the `getTodoDetail` `all`. */
+export const countTodos = op({
+  output: z.number().int(), wrap: envelope("count", z.number().int().describe("How many todos the caller has.")), cost: readCost,
+  run: (ctx) => Effect.flatMap(Db, (db) => Effect.promise(async () =>
+    (await db.select({ id: todo.id }).from(todo).where(eq(todo.userId, ctx.userId))).length)),
+});
+
+/** POST /api/todos { title } → 201 { todo } — create a todo owned by the caller. */
+export const createTodo = op({
+  ...base, method: "post", path: "/api/todos", name: "createTodo", validateBody: true,
+  summary: "Create a todo (owned by the signed-in user).",
+  input: CreateReq, output: TodoItemSchema, wrap: one, status: 201, cost: writeCost,
+  run: (ctx, body: { title: string }) => Effect.flatMap(Db, (db) => Effect.promise(async () => {
+    const now = new Date();
+    const row: TodoRow = { id: crypto.randomUUID(), userId: ctx.userId, title: body.title, completed: false, createdAt: now, updatedAt: now };
+    await db.insert(todo).values(row);
+    return toItem(row);
+  })),
+});
+
+/** PATCH /api/todos/:id { title?, completed? } → { todo } — patch a todo the caller OWNS; absent/non-owned → 404. */
+export const updateTodo = op({
+  ...base, method: "patch", path: "/api/todos/:id", name: "updateTodo", validateBody: true,
+  summary: "Update a todo the signed-in user owns (title and/or completed).",
+  input: UpdateReq, output: TodoItemSchema, wrap: one, errors: [NotFoundError], cost: writeCost,
+  run: (ctx, patch: { title?: string; completed?: boolean }) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
+    const rows = yield* Effect.promise(() => db.update(todo).set({ ...patch, updatedAt: new Date() }).where(owned(ctx.userId, ctx.param("id")!)).returning());
+    if (!rows[0]) return yield* new NotFoundError({ resource: "todo", id: ctx.param("id")! });
+    return toItem(rows[0]);
+  })),
+});
+
+/** DELETE /api/todos/:id → 200 { deleted:true } — delete a todo the caller OWNS; absent/non-owned → 404. No `status`:
+ *  effectPipeRoute defaults a body-carrying wrap on a no-body method (DELETE→204) to 200, so the confirmation renders. */
+export const deleteTodo = op({
+  ...base, method: "delete", path: "/api/todos/:id", name: "deleteTodo",
+  summary: "Delete a todo the signed-in user owns.",
+  output: z.void(),
+  wrap: fixedEnvelope<void, { deleted: true }>(z.object({ deleted: z.literal(true) }).describe("The todo was deleted."), { deleted: true }),
+  errors: [NotFoundError], cost: deleteCost,
+  run: (ctx) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
+    const rows = yield* Effect.promise(() => db.delete(todo).where(owned(ctx.userId, ctx.param("id")!)).returning({ id: todo.id }));
+    if (rows.length === 0) return yield* new NotFoundError({ resource: "todo", id: ctx.param("id")! });
+  })),
+});

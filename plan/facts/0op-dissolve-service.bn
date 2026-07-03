@@ -1,0 +1,30 @@
+# C082 — the `op` primitive: a service function IS a complete operation. Dissolve the Context.Tag service — the todo
+# functions become sulukts `op`s grounded in the core Request shape, running DIRECTLY over Db. @suluk/effect 0.7.0. Additive
+# over C081 (action/effectPipeRoute/seq/all/branch unchanged; the recursive tree + cost/rate-limit merge all still hold).
+
+# `op(def)` (@suluk/effect action.ts) = `action(def)` PLUS an OpMeta route identity (method/path/name/summary/roles/scope/
+# scopes/tags/internal/validateBody), stored as `meta` on the returned ServiceAction. So a function declares its WHOLE v4
+# operation (a core Request: method + path params + responses [wrap+errors] + roles) ALONGSIDE its Effect impl, ONCE, at
+# source. An op is still a plain composable leaf — usable in seq/all/branch exactly like an action; only the ENTRY op's meta
+# becomes a composite route's identity. Backward-compatible: a bare action() has no meta; existing routes are unchanged. @>=0.85
+claim c082_op_carries_operation_identity: Bool @>=0.85 = True
+falsified_when c082_op_carries_operation_identity == False
+
+# effectPipeRoute (pipe-route.ts) now RESOLVES the route identity from spec ?? the entry op's meta: method/path (required from
+# one of them, else throw), summary/name/roles/tags/description/scope/scopes/internal/validateBody. So mounting an op is
+# `effectPipeRoute({ provide, pipeline: pipeline(getTodo) })` — no restated method/path; a COMPOSITE (all(getTodo,countTodos))
+# supplies its own method/path which OVERRIDE the entry op's meta. All C081 folds (request←entry input, response←terminal wrap,
+# errors←union, cost←sum, rate-limit←tightest) are unchanged and run over the resolved identity. @>=0.85
+claim c082_effectpiperoute_folds_op_meta: Bool @>=0.85 = True
+falsified_when c082_effectpiperoute_folds_op_meta == False
+
+# The todo module DISSOLVED the Context.Tag service: `todo.service.ts` (the `Todo` tag + `TodoLive` Layer + `make(db)`) and
+# `todo.actions.ts` are DELETED; `todo.ops.ts` (→ src/services/todo.ts) holds 6 `op`s (list/get/count/create/update/delete)
+# whose `run` calls `Db` DIRECTLY (Effect.flatMap(Db, db => …), R = Db) — the owner-scoping + NotFound live inline in each op.
+# `todo.routes.ts` just mounts them (identity from meta) + composes getTodoDetail = all(getTodo, countTodos). The `Todo`
+# service was referenced only inside the module (eraseStep is catalog-rendered SQL, not the service), so the dissolution is
+# contained; the catalog's todoService (todoRoutes + todoOps symbols) is unchanged. registry.json: todo.service.ts entry →
+# todo.ops.ts, todo.actions.ts entry removed. Proven: 61 @suluk/effect tests (4 new op: meta-defaulting, missing-method/path
+# throws, composite override, render-over-impl); tsc clean. Published @suluk/effect 0.7.0; ATF re-adopted, tsc clean + live. @>=0.85
+claim c082_todo_service_dissolved_into_ops: Bool @>=0.85 = True
+falsified_when c082_todo_service_dissolved_into_ops == False

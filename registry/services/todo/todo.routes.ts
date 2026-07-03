@@ -1,63 +1,43 @@
 /**
- * Todo routes (Suluk registry: `todo`) — each route's `run` is a PIPELINE or a recursive TREE of service actions, and its
- * whole v4 contract is FOLDED off that tree (no `...todoContract.<op>` spread, no per-route `Effect.gen`, no restated schema):
- * `effectPipeRoute` reads `request.json` off the entry leaf's `input`, the response off the terminal `wrap`, the typed errors
- * off the union of the actions' `errors`, and the route COST off the SUM of the actions' `cost`. `roles:["signed-in"]` still
- * derives the scope/rate-limit-key + the 401 guard + the injected `userId` (delegated to effectRoute unchanged).
+ * Todo routes (Suluk registry: `todo`) — the module's OPERATIONS are authored as sulukts `op`s in `todo.ops.ts` (each op
+ * declares its own method/path/roles/summary + contract + impl over `Db`). This file just MOUNTS them: `effectPipeRoute`
+ * FOLDS each op's `meta` for the route identity, so method/path/roles are never restated here — the route supplies only the
+ * `provide` (the layer wiring) and any recursive COMPOSITION.
  *
- * The five CRUD routes are single-action pipelines. `getTodoDetail` is the RECURSIVE showcase: `all(getTodo, countTodos)` fans
- * out two reads whose envelopes ZIP into one `{ todo, count }` body — one wire endpoint, one merged contract, one summed cost
- * (`d1.read` ×2 + `worker.request`). This is the `routes → services → db` seam made literal: a route ORCHESTRATES actions
- * (defined in `todo.actions.ts`); each action calls the {@link Todo} SERVICE; the service owns the DB. Mount:
- * `app.route("/api/todos", todoRoutes())`.
+ * `getTodoDetail` is the recursive showcase: `all(getTodo, countTodos)` fans two reads into one `{ todo, count }` body — one
+ * wire endpoint, one merged contract, one summed cost. Mount: `app.route("/api/todos", todoRoutes())`.
  */
 import { Effect } from "effect";
 import { effectPipeRoute, pipeline, all, routeGroup } from "@suluk/effect";
-import { DbLive, type Bindings } from "../app";
-import { Todo, TodoLive } from "../services/todo";
-import * as A from "../services/todo.actions";
+import { Db, DbLive, type Bindings } from "../app";
+import * as T from "../services/todo";
 
 // The module's ENVELOPE — `.ops` → the contract, `.router()` → the mount. Single source of the `/api/todos/*` surface.
 const todos = routeGroup("/api/todos");
 
-/** Discharge a Todo program against the request's DB — written ONCE for the module; effectPipeRoute applies it to each
- *  pipeline after composing it, turning the actions' `R = Todo` requirement into `never` with the real per-request env. */
-const provide = <X, E>(env: Bindings, p: Effect.Effect<X, E, Todo>): Effect.Effect<X, E, never> =>
-  p.pipe(Effect.provide(TodoLive), Effect.provide(DbLive(env)));
+/** Discharge an op's `R = Db` requirement with the request's DB — written ONCE for the module (the ops call `Db` directly,
+ *  so there is no service Layer to provide, only the DB). */
+const provide = <X, E>(env: Bindings, p: Effect.Effect<X, E, Db>): Effect.Effect<X, E, never> =>
+  p.pipe(Effect.provide(DbLive(env)));
+const base = { provide };
 
-// shared across every route: the tag, the audience (→ scope/cost/rate-limit/401/userId), and the layer wiring.
-const base = { tags: ["Todos"], roles: ["signed-in"] as const, provide };
+// The 5 CRUD routes — method/path/roles/summary/validateBody all BUBBLE UP from each op's `meta`; the route wires only `provide`.
+todos.route(effectPipeRoute({ ...base, pipeline: pipeline(T.listTodos) }));
+todos.route(effectPipeRoute({ ...base, pipeline: pipeline(T.getTodo) }));
+todos.route(effectPipeRoute({ ...base, pipeline: pipeline(T.createTodo) }));
+todos.route(effectPipeRoute({ ...base, pipeline: pipeline(T.updateTodo) }));
+todos.route(effectPipeRoute({ ...base, pipeline: pipeline(T.deleteTodo) }));
 
-// GET /api/todos → { todos } — the signed-in caller's list, newest first.
-todos.route(effectPipeRoute({ method: "get", path: "/api/todos", name: "listTodos",
-  summary: "List the signed-in user's todos, newest first.", ...base, pipeline: pipeline(A.listTodos) }));
+// GET /api/todos/:id/detail → { todo, count } — RECURSIVE: `all` fans getTodo + countTodos into one merged body; the contract
+// bubbles up whole (errors 404 + role-implied 401, cost d1.read×2). The composite declares its own path (overriding getTodo's).
+todos.route(effectPipeRoute({ ...base, method: "get", path: "/api/todos/:id/detail", name: "getTodoDetail",
+  roles: ["signed-in"], summary: "Get one todo the caller owns, alongside their total todo count.",
+  pipeline: all(T.getTodo, T.countTodos) }));
 
-// GET /api/todos/:id → { todo } — one todo the caller OWNS; a non-owned/absent id → typed 404 (bubbled from the service).
-todos.route(effectPipeRoute({ method: "get", path: "/api/todos/:id", name: "getTodo",
-  summary: "Get one of the signed-in user's todos by id.", ...base, pipeline: pipeline(A.getTodo) }));
-
-// GET /api/todos/:id/detail → { todo, count } — RECURSIVE: `all` fans out getTodo + countTodos on the same request, and their
-// envelopes ZIP into one body. The contract bubbles up whole: request none · response { todo, count } · errors [404, 401] ·
-// cost = getTodo.cost ⊕ countTodos.cost = { d1.read: 2, worker.request: 1 } (the CostModel monoid) — all from the two leaves.
-todos.route(effectPipeRoute({ method: "get", path: "/api/todos/:id/detail", name: "getTodoDetail",
-  summary: "Get one todo the caller owns, alongside their total todo count.", ...base, pipeline: all(A.getTodo, A.countTodos) }));
-
-// POST /api/todos { title } → 201 { todo } — create a todo owned by the caller (201 from the action's status).
-todos.route(effectPipeRoute({ method: "post", path: "/api/todos", name: "createTodo",
-  summary: "Create a todo (owned by the signed-in user).", ...base, pipeline: pipeline(A.createTodo), validateBody: true }));
-
-// PATCH /api/todos/:id { title?, completed? } → { todo } — patch a todo the caller OWNS; absent/non-owned → 404.
-todos.route(effectPipeRoute({ method: "patch", path: "/api/todos/:id", name: "updateTodo",
-  summary: "Update a todo the signed-in user owns (title and/or completed).", ...base, pipeline: pipeline(A.updateTodo), validateBody: true }));
-
-// DELETE /api/todos/:id → 200 { deleted: true } — delete a todo the caller OWNS; absent/non-owned → 404.
-todos.route(effectPipeRoute({ method: "delete", path: "/api/todos/:id", name: "deleteTodo",
-  summary: "Delete a todo the signed-in user owns.", ...base, pipeline: pipeline(A.deleteTodo) }));
-
-/** The `todo` module's CONTRACT fragment — bubbled up from the routes above (no separate `todo.contract.ts`). */
+/** The `todo` module's CONTRACT fragment — bubbled up from the ops above (no separate `todo.contract.ts`). */
 export const todoOps = todos.ops;
 
-/** Mount every route's Effect handler at its sub-path — DERIVED from the envelope (`.router()`). */
+/** Mount every op's handler at its sub-path — DERIVED from the envelope (`.router()`). */
 export function todoRoutes() {
   return todos.router();
 }

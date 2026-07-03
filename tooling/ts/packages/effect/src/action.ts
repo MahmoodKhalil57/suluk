@@ -17,9 +17,33 @@ import type { Effect } from "effect";
 import type { Context } from "hono";
 import type { CostModel } from "@suluk/cost";
 import type { SulukRateLimit } from "@suluk/core";
+import type { RouteContract } from "@suluk/hono";
 import type { AnyHttpError } from "./errors";
+import type { Role } from "./route";
 
 const ACTION = Symbol.for("@suluk/effect/action");
+
+/**
+ * The standalone-OPERATION identity an {@link op} carries — the fields that make a composable function ALSO a complete v4
+ * operation (a core {@link Request}: `method` + path params, `responses` = the wrap + errors, its scope/roles). A route
+ * FOLDS its entry op's meta for `method`/`path`/`summary`/`roles`/… when the route spec omits them, so the function is
+ * defined ONCE at source and the route just mounts it. Composed (seq/all/branch) functions ignore a downstream op's meta —
+ * only the ENTRY op's meta is the route identity (the composite may still override any field).
+ */
+export interface OpMeta {
+  method?: RouteContract["method"];
+  path?: string;
+  name?: string;
+  summary?: string;
+  description?: string;
+  tags?: string[];
+  roles?: readonly Role[];
+  scope?: string;
+  scopes?: string[];
+  internal?: boolean;
+  /** validate the request body against `input` and fail with a typed 400 (else pass the raw body through). */
+  validateBody?: boolean;
+}
 
 /** The per-request context an action reads. `userId` is the injected principal (guaranteed for a signed-in/admin route, as
  *  effectRoute injects it — a public pipeline route gets `""`). `param` reads a path param; `c` is the raw Hono ctx. */
@@ -64,6 +88,10 @@ export interface ServiceAction<In, Dom, Err, R> {
   /** this action's RATE-LIMIT budget hint. A route takes the TIGHTEST (most restrictive) budget across its composed actions
    *  — calling the route once calls this action once, so its cap bounds the route. The `key` is route-owned (from roles). */
   readonly rateLimit?: SulukRateLimit;
+  /** OPTIONAL standalone-operation identity (set by {@link op}, absent for a bare {@link action}): the entry op's `meta` is
+   *  the route's `method`/`path`/`summary`/`roles`/… when the route spec omits them — so a function defines its whole
+   *  operation ONCE and the route just mounts it. */
+  readonly meta?: OpMeta;
   /** the Effect impl — `In` is the parsed body (or void); `R` is the undischarged service requirement. */
   readonly run: (ctx: ActionCtx, input: In) => Effect.Effect<Dom, Err, R>;
 }
@@ -96,6 +124,46 @@ export function action<In, Dom, Err = never, R = never>(def: {
   run: (ctx: ActionCtx, input: In) => Effect.Effect<Dom, Err, R>;
 }): ServiceAction<In, Dom, Err, R> {
   return { [ACTION]: true, ...def, errors: def.errors ?? [] };
+}
+
+/**
+ * Author an OP — a service function that IS a complete operation: it carries its own {@link OpMeta} route identity
+ * (`method`/`path`/`roles`/`summary`) ALONGSIDE the wire contract + impl, so the function is defined ONCE at source and a
+ * route just mounts it (`effectPipeRoute({ provide, pipeline: pipeline(getTodo) })` reads method/path/roles from the op).
+ * This dissolves the service layer: the op's `run` calls the base `Db` directly (`Effect.flatMap(Db, db => …)`, `R = Db`),
+ * there is no separate `Context.Tag` service to wrap. An op is still a plain composable leaf — usable in `seq`/`all`/`branch`
+ * exactly like an {@link action} (only the ENTRY op's meta becomes the composite route's identity).
+ *
+ *   export const getTodo = op({
+ *     method: "get", path: "/api/todos/:id", roles: ["signed-in"], summary: "Get one todo the caller owns.",
+ *     output: TodoItemSchema, wrap: envelope("todo", TodoItemSchema), errors: [NotFoundError], cost: readCost,
+ *     run: (ctx) => Effect.flatMap(Db, (db) => …),
+ *   });
+ */
+export function op<In, Dom, Err = never, R = never>(def: {
+  method?: RouteContract["method"];
+  path?: string;
+  name?: string;
+  summary?: string;
+  description?: string;
+  tags?: string[];
+  roles?: readonly Role[];
+  scope?: string;
+  scopes?: string[];
+  internal?: boolean;
+  validateBody?: boolean;
+  input?: z.ZodType<In>;
+  output: z.ZodType<Dom>;
+  wrap: Envelope<Dom, unknown>;
+  errors?: readonly AnyHttpError[];
+  status?: number;
+  cost?: CostModel;
+  rateLimit?: SulukRateLimit;
+  run: (ctx: ActionCtx, input: In) => Effect.Effect<Dom, Err, R>;
+}): ServiceAction<In, Dom, Err, R> {
+  const { method, path, name, summary, description, tags, roles, scope, scopes, internal, validateBody, ...actionDef } = def;
+  const meta: OpMeta = { method, path, name, summary, description, tags, roles, scope, scopes, internal, validateBody };
+  return { ...action(actionDef), meta };
 }
 
 /**

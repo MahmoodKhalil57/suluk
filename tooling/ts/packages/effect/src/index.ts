@@ -33,7 +33,7 @@ export { routeGroup, isRouteGroup, type RouteGroup, type HandlerRoute } from "@s
 // AST to bubble up the whole contract (request body ← the head's `input`; response status+body ← the terminal's `wrap`;
 // typed errors ← the union of every action's `errors`). `action`/`envelope` carry the wire schemas as runtime values (next
 // to the service); `pipeline`/`chain` compose them; `effectPipeRoute` delegates to effectRoute for the derivation + render.
-export { action, envelope, listEnvelope, fixedEnvelope, isAction, type ServiceAction, type AnyServiceAction, type ActionCtx, type Envelope } from "./action";
+export { action, op, envelope, listEnvelope, fixedEnvelope, isAction, type ServiceAction, type AnyServiceAction, type ActionCtx, type Envelope, type OpMeta } from "./action";
 // the facet types an action may carry as a bubbling contribution — re-exported so a routes file authors `cost`/`rateLimit`
 // (which SUM / tighten up the tree) from the same place as `action`. `CostModel` from @suluk/cost, `SulukRateLimit` from core.
 export type { CostModel } from "@suluk/cost";

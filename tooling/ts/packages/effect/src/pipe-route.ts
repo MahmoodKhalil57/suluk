@@ -32,10 +32,14 @@ type AnyPipeline = ActionPipeline<any, any, any, any>;
 const NO_BODY_DEFAULT_METHOD: Record<string, true> = { delete: true };
 
 export interface EffectPipeRouteSpec<P extends AnyPipeline, Roles extends readonly Role[]> {
-  method: RouteContract["method"];
-  path: string;
+  /** Optional — DEFAULTS from the entry op's `meta.method` (an `op()` carries its own operation identity). Required only
+   *  when the entry is a bare `action()` with no meta. */
+  method?: RouteContract["method"];
+  /** Optional — DEFAULTS from the entry op's `meta.path`. */
+  path?: string;
   name?: string;
-  summary: string;
+  /** Optional — DEFAULTS from the entry op's `meta.summary`. */
+  summary?: string;
   description?: string;
   tags?: string[];
   roles?: Roles;
@@ -67,6 +71,24 @@ export function effectPipeRoute<P extends AnyPipeline, const Roles extends reado
 ): EffectRoute {
   const { actions, root, head } = spec.pipeline;
 
+  // ── RESOLVE the route IDENTITY — an explicit spec field wins, else the ENTRY op's `meta` (an op() defines its whole
+  //    operation ONCE; the route just mounts it). method + path are required (from the spec OR the entry op). ─────────────
+  const meta = head.meta ?? {};
+  const method = spec.method ?? meta.method;
+  const path = spec.path ?? meta.path;
+  if (!method || !path) {
+    throw new Error("effectPipeRoute: missing method/path — pass them in the spec, or make the entry an op() that carries method + path.");
+  }
+  const summary = spec.summary ?? meta.summary ?? "";
+  const name = spec.name ?? meta.name;
+  const roles = spec.roles ?? meta.roles;
+  const tags = spec.tags ?? meta.tags;
+  const description = spec.description ?? meta.description;
+  const scope = spec.scope ?? meta.scope;
+  const scopes = spec.scopes ?? meta.scopes;
+  const internal = spec.internal ?? meta.internal;
+  const validateBody = spec.validateBody ?? meta.validateBody;
+
   // ── FOLD the TREE (synchronous — no request, no layer, because every schema fact is a static property) ────────────────
   // (1) request.json ← the ENTRY leaf's `input` ONLY — the runtime feeds the request body to the entry leaf (a downstream
   //     action's `input` is a composition-typed value threaded from the previous step, NEVER an HTTP body). Explicit wins.
@@ -80,7 +102,7 @@ export function effectPipeRoute<P extends AnyPipeline, const Roles extends reado
   // A pipe-route ALWAYS returns the terminal wrap body, so a no-body method default (DELETE→204) would silently DROP it +
   // document an illegal 204-with-body. When the terminal supplies no explicit status and the method's default is no-body,
   // use 200 instead (an explicit terminal status still wins; every other method keeps effectRoute's default via undefined).
-  const okStatus = term.status ?? (NO_BODY_DEFAULT_METHOD[spec.method] ? 200 : undefined);
+  const okStatus = term.status ?? (NO_BODY_DEFAULT_METHOD[method] ? 200 : undefined);
   // (3) errors ← the deduped union of EVERY leaf's httpError classes (both arms of a `branch`; effectRoute adds 401/403).
   const seen = new Set<string>();
   const errors: AnyHttpError[] = [];
@@ -98,7 +120,7 @@ export function effectPipeRoute<P extends AnyPipeline, const Roles extends reado
   // (5) rate-limit ← the TIGHTEST (smallest normalized rate) budget any leaf declares — calling the route once calls each leaf
   //     once, so a leaf's cap bounds the route (tightening, never loosening). The `key` is ROUTE-owned (from roles: an authed
   //     route keys on the principal, a public one on the IP). Explicit `spec.rateLimit` wins; no leaf budget → effectRoute default.
-  const authed = (spec.roles ?? []).some((r) => r === "signed-in" || r === "admin");
+  const authed = (roles ?? []).some((r) => r === "signed-in" || r === "admin");
   const leafRls = actions.map((a) => a.rateLimit).filter((r): r is SulukRateLimit => r !== undefined);
   const tightest = leafRls.reduce<SulukRateLimit | undefined>(
     (best, r) => (!best || r.maxRequests / r.windowMs < best.maxRequests / best.windowMs ? r : best),
@@ -110,19 +132,19 @@ export function effectPipeRoute<P extends AnyPipeline, const Roles extends reado
   // ── DELEGATE to effectRoute: it derives scopes/cost/rate-limit/responses + renders success/typed-failure/500 exactly as
   //    today. We supply only the walked ok/request/errors + the synthesized `run` (compose → discharge R → wrap). ──────────
   return effectRoute({
-    method: spec.method,
-    path: spec.path,
-    ...(spec.name !== undefined ? { name: spec.name } : {}),
-    summary: spec.summary,
-    ...(spec.description !== undefined ? { description: spec.description } : {}),
-    ...(spec.tags !== undefined ? { tags: spec.tags } : {}),
-    ...(spec.roles !== undefined ? { roles: spec.roles } : {}),
-    ...(spec.scope !== undefined ? { scope: spec.scope } : {}),
-    ...(spec.scopes !== undefined ? { scopes: spec.scopes } : {}),
+    method,
+    path,
+    ...(name !== undefined ? { name } : {}),
+    summary,
+    ...(description !== undefined ? { description } : {}),
+    ...(tags !== undefined ? { tags } : {}),
+    ...(roles !== undefined ? { roles: roles as readonly Role[] } : {}),
+    ...(scope !== undefined ? { scope } : {}),
+    ...(scopes !== undefined ? { scopes } : {}),
     ...(spec.security !== undefined ? { security: spec.security } : {}),
     ...(rateLimit !== undefined ? { rateLimit } : {}),
     ...(cost !== undefined ? { cost } : {}),
-    ...(spec.internal !== undefined ? { internal: spec.internal } : {}),
+    ...(internal !== undefined ? { internal } : {}),
     ...(request !== undefined ? { request } : {}),
     ok: { schema: okSchema, ...(okStatus !== undefined ? { status: okStatus } : {}) },
     errors: errors as unknown as readonly AnyHttpError[],
@@ -134,7 +156,7 @@ export function effectPipeRoute<P extends AnyPipeline, const Roles extends reado
         let input: unknown = undefined;
         if (bodyAction?.input) {
           const raw = (yield* Effect.promise(() => c.req.json().catch(() => ({})))) as unknown;
-          if (spec.validateBody) {
+          if (validateBody) {
             const parsed = bodyAction.input.safeParse(raw);
             if (!parsed.success) return yield* new ValidationError({ issues: parsed.error.issues.map((i) => i.message) });
             input = parsed.data;
