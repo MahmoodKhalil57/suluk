@@ -353,7 +353,7 @@ export const webhooksService = defineService({
 export const rateLimitService = defineService({ id: "rate-limit", mount: { kind: "middleware", symbol: "mountRateLimit", from: "./services/rate-limit" }, deps: ["@suluk/hono"] });
 export const rateCreditService = defineService({ id: "rate-credit", mount: { kind: "middleware", symbol: "mountRateCredit", from: "./services/rate-credit" } }); // credit-backed free-tier bucket (KV binding)
 export const i18nService = defineService({ id: "i18n", mount: { kind: "middleware", symbol: "mountI18n", from: "./services/i18n" }, deps: ["@suluk/i18n"] });
-export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, contract: { symbol: "referenceOps", from: "./contract/reference" }, deps: ["@suluk/scalar"], requires: ["contract"], // derived — no provision (renders via @suluk/scalar, our v4-enhanced Scalar)
+export const referenceService = defineService({ id: "reference", mount: { kind: "route", path: "/api/reference", symbol: "referenceRoutes", from: "./routes/reference" }, contract: { symbol: "referenceOps", from: "./contract/reference" }, deps: ["@suluk/scalar", "@suluk/cloudflare"], requires: ["contract"], // derived — no provision (renders via @suluk/scalar; @suluk/cloudflare weightTable() feeds Scalar LIVE infra weights)
   // EXPOSES `apiDocument` (contract's projector, auto-injected) — reference is the contract rendered as a page; it receives
   // `apiDocument` as a mount-opt rather than importing `../contract`.
   compose: { exposes: { apiDocument: { kind: "port", hookOptKey: "apiDocument", render: (e) => e[0] ?? "undefined" } } } });

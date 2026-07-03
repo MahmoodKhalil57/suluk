@@ -18,7 +18,8 @@
  */
 import { Hono } from "hono";
 import type { OpenAPIv4Document } from "@suluk/core";
-import { scalarV4Response, enrichedSpec } from "@suluk/scalar";
+import { weightTable } from "@suluk/cloudflare";
+import { scalarV4Response, enrichedSpec, DEFAULT_WEIGHTS, type WeightTable } from "@suluk/scalar";
 import type { Bindings } from "../app";
 // NO `../contract` import — DECOUPLED. Reference is the contract rendered as a page; the v4 doc projector arrives via the
 // `apiDocument` mount-opt (auto-wired from contract — a HARD peer reference `requires`). So reference imports only `../app`
@@ -27,6 +28,11 @@ import type { Bindings } from "../app";
 export interface MountReferenceOptions {
   /** wired from contract (auto-injected — reference `requires: ["contract"]`): the v4 doc projector the page renders. */
   apiDocument: (principal?: { scopes: string[] }) => OpenAPIv4Document;
+  /** the app's LIVE merged weight table (@suluk/cloudflare `weightTable()` + provider fee weights) — handed to @suluk/scalar
+   *  so each route's `infra` cost renders as an EXACT µ$ that auto-tracks pricing, instead of scalar's bundled DEFAULT_WEIGHTS
+   *  snapshot. Omit to use the snapshot (still usable). The app composes it from its INSTALLED providers, so reference stays
+   *  decoupled (it receives the table, never imports the providers). */
+  weights?: WeightTable;
 }
 
 // The "View as" roles offered in the Scalar toolbar → the principal each projects the document with. `anon` shows only the
@@ -57,9 +63,15 @@ function focusOn(doc: OpenAPIv4Document, tool: string): OpenAPIv4Document | unde
 export function referenceRoutes(opts: MountReferenceOptions) {
   const r = new Hono<{ Bindings: Bindings }>();
 
+  // The weight table Scalar weighs each route's `infra` cost with. Default: @suluk/cloudflare's LIVE `weightTable()` (auto-
+  // tracks CF pricing) layered over scalar's DEFAULT_WEIGHTS (which carries the provider meters — stripe.charge/resend.email/
+  // …). An app can pass fully-live weights (incl. live provider fees) via `opts.weights` to override. So costs render as real
+  // µ$, current with pricing, out of the box — no per-app wiring.
+  const weights: WeightTable = opts.weights ?? { ...DEFAULT_WEIGHTS, ...weightTable() };
+
   // the v4-enhanced Scalar options, shared by the page renders. `specUrl`/`views` arm the "View as" role projector — the
   // toolbar re-mounts Scalar with the enriched spec from `/reference/spec?view=<value>`. `brand` = the app's own doc title.
-  const v4Opts = (doc: OpenAPIv4Document) => ({ brand: doc.info?.title, specUrl: "/api/reference/spec", specParam: "view", views: [...VIEWS] });
+  const v4Opts = (doc: OpenAPIv4Document) => ({ brand: doc.info?.title, specUrl: "/api/reference/spec", specParam: "view", views: [...VIEWS], weights });
 
   // GET /reference → the full v4-enhanced reference over the derived contract document.
   r.get("/", () => {
@@ -70,7 +82,7 @@ export function referenceRoutes(opts: MountReferenceOptions) {
   // GET /reference/spec → the enriched (facet-badged) spec the "View as" toolbar re-fetches, projected to the chosen role.
   // Registered BEFORE `/:tool` so the static path wins.
   r.get("/spec", (c) => {
-    const { spec } = enrichedSpec(opts.apiDocument(principalFor(c.req.query("view"))));
+    const { spec } = enrichedSpec(opts.apiDocument(principalFor(c.req.query("view"))), { weights });
     return c.json(spec);
   });
 
