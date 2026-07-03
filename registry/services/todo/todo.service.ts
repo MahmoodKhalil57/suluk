@@ -6,15 +6,11 @@
  */
 import { Context, Effect, Layer } from "effect";
 import { and, desc, eq } from "drizzle-orm";
+import type { DrizzleD1Database } from "drizzle-orm/d1";
 import { z } from "zod";
 import { rowSchema, NotFoundError } from "@suluk/effect";
 import { todo } from "../db/todo";
 import { Db } from "../app";
-
-/** The service's not-found failure — a caller asking for a todo that doesn't exist / isn't theirs. It BUBBLES UP: any route
- *  calling `get`/`update`/`remove` inherits it on its Effect error channel, and effectRoute renders it as a typed 404 with
- *  NO per-route declaration or null-check (add `errors: [NotFoundError]` only to DOCUMENT it). */
-type TodoNotFound = InstanceType<typeof NotFoundError>;
 
 /**
  * The wire DTO for a todo — the SINGLE SOURCE for its shape, its per-field DESCRIPTIONS + EXAMPLES. Derived from the `todo`
@@ -70,62 +66,57 @@ const toItem = (r: TodoRow): TodoItem => ({
   updatedAt: r.updatedAt.getTime(),
 });
 
-export class Todo extends Context.Tag("Todo")<
-  Todo,
-  {
-    /** the caller's todos, newest first. */
-    readonly list: (userId: string) => Effect.Effect<TodoItem[]>;
-    /** one todo the caller OWNS — FAILS with NotFoundError when it doesn't exist / isn't theirs (the 404 bubbles up). */
-    readonly get: (userId: string, id: string) => Effect.Effect<TodoItem, TodoNotFound>;
-    /** create a todo owned by the caller. */
-    readonly create: (userId: string, input: { title: string }) => Effect.Effect<TodoItem>;
-    /** patch a todo the caller OWNS — FAILS with NotFoundError when it doesn't exist / isn't theirs. */
-    readonly update: (userId: string, id: string, patch: { title?: string; completed?: boolean }) => Effect.Effect<TodoItem, TodoNotFound>;
-    /** delete a todo the caller OWNS — FAILS with NotFoundError when it doesn't exist / isn't theirs. */
-    readonly remove: (userId: string, id: string) => Effect.Effect<void, TodoNotFound>;
-  }
->() {}
+/** the owner-scoping predicate reused by every by-id op — a caller can only ever touch a row where BOTH the id AND owner match. */
+const owned = (userId: string, id: string) => and(eq(todo.id, id), eq(todo.userId, userId));
 
+/**
+ * The service IMPLEMENTATION — the methods, INLINE. Their Effect types (the success value AND the error channel) are INFERRED
+ * from the bodies, so there is NO separate interface to keep in sync: the `Todo` tag's shape IS `ReturnType<typeof make>`.
+ * `make(db)` binds the methods to the request's DB. Ownership is enforced in every by-id query (`owned`); `get`/`update`/
+ * `remove` FAIL with `NotFoundError` when absent/non-owned — that error is INFERRED into the method's type and BUBBLES UP to a
+ * typed 404. Patch/insert shapes reuse `TodoRow` (the drizzle row type) rather than a hand-written duplicate.
+ */
+const make = (db: DrizzleD1Database) => ({
+  list: (userId: string) =>
+    Effect.promise(async () => (await db.select().from(todo).where(eq(todo.userId, userId)).orderBy(desc(todo.createdAt))).map(toItem)),
+
+  get: (userId: string, id: string) =>
+    Effect.gen(function* () {
+      const [row] = yield* Effect.promise(() => db.select().from(todo).where(owned(userId, id)).limit(1));
+      if (!row) return yield* new NotFoundError({ resource: "todo", id }); // not found / not theirs → the 404 bubbles up
+      return toItem(row);
+    }),
+
+  create: (userId: string, input: Pick<TodoRow, "title">) =>
+    Effect.promise(async () => {
+      const now = new Date();
+      const row: TodoRow = { id: crypto.randomUUID(), userId, title: input.title, completed: false, createdAt: now, updatedAt: now };
+      await db.insert(todo).values(row);
+      return toItem(row);
+    }),
+
+  update: (userId: string, id: string, patch: Partial<Pick<TodoRow, "title" | "completed">>) =>
+    Effect.gen(function* () {
+      const rows = yield* Effect.promise(() => db.update(todo).set({ ...patch, updatedAt: new Date() }).where(owned(userId, id)).returning());
+      if (!rows[0]) return yield* new NotFoundError({ resource: "todo", id }); // WHERE owner ⇒ absent/non-owned → 404
+      return toItem(rows[0]);
+    }),
+
+  remove: (userId: string, id: string) =>
+    Effect.gen(function* () {
+      const rows = yield* Effect.promise(() => db.delete(todo).where(owned(userId, id)).returning({ id: todo.id }));
+      if (rows.length === 0) return yield* new NotFoundError({ resource: "todo", id }); // WHERE owner ⇒ absent/non-owned → 404
+    }),
+});
+
+/** The `Todo` service — its SHAPE is DERIVED from the implementation (`ReturnType<typeof make>`); no hand-written interface. */
+export class Todo extends Context.Tag("Todo")<Todo, ReturnType<typeof make>>() {}
+
+/** The layer — build the impl against the request's DB. */
 export const TodoLive = Layer.effect(
   Todo,
   Effect.gen(function* () {
     const db = yield* Db;
-    /** the owner-scoping predicate reused by every by-id op — a caller can only ever touch a row where BOTH match. */
-    const owned = (userId: string, id: string) => and(eq(todo.id, id), eq(todo.userId, userId));
-    return {
-      list: (userId) =>
-        Effect.promise(async () => (await db.select().from(todo).where(eq(todo.userId, userId)).orderBy(desc(todo.createdAt))).map(toItem)),
-
-      get: (userId, id) =>
-        Effect.gen(function* () {
-          const [row] = yield* Effect.promise(() => db.select().from(todo).where(owned(userId, id)).limit(1));
-          if (!row) return yield* new NotFoundError({ resource: "todo", id }); // not found / not theirs → the 404 bubbles up
-          return toItem(row);
-        }),
-
-      create: (userId, input) =>
-        Effect.promise(async () => {
-          const now = new Date();
-          const row: TodoRow = { id: crypto.randomUUID(), userId, title: input.title, completed: false, createdAt: now, updatedAt: now };
-          await db.insert(todo).values(row);
-          return toItem(row);
-        }),
-
-      update: (userId, id, patch) =>
-        Effect.gen(function* () {
-          const set: Partial<TodoRow> = { updatedAt: new Date() };
-          if (patch.title !== undefined) set.title = patch.title;
-          if (patch.completed !== undefined) set.completed = patch.completed;
-          const rows = yield* Effect.promise(() => db.update(todo).set(set).where(owned(userId, id)).returning());
-          if (!rows[0]) return yield* new NotFoundError({ resource: "todo", id }); // WHERE owner ⇒ absent/non-owned → 404
-          return toItem(rows[0]);
-        }),
-
-      remove: (userId, id) =>
-        Effect.gen(function* () {
-          const rows = yield* Effect.promise(() => db.delete(todo).where(owned(userId, id)).returning({ id: todo.id }));
-          if (rows.length === 0) return yield* new NotFoundError({ resource: "todo", id }); // WHERE owner ⇒ absent/non-owned → 404
-        }),
-    };
+    return make(db);
   }),
 );
