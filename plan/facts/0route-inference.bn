@@ -27,3 +27,18 @@ falsified_when c078_todo_minimized_service_owns_schema == False
 # shape, owner-scoped intact. 24 effect tests pass; role-less registry modules unchanged (54 ops). Published + pushed + adopted. @>=0.85
 claim c078_e2e_proven_atf_published: Bool @>=0.85 = True
 falsified_when c078_e2e_proven_atf_published == False
+
+# C078+ (effect 0.3.1) — roles now ENFORCES + INJECTS, not just declares: a signed-in/admin route reads the principal off
+# c.get("user"), effectRoute returns the typed 401 ITSELF for an anonymous caller (handler never runs), and injects a
+# GUARANTEED { userId } as run's 2nd arg (RoleAuth<Roles>: {userId:string} when authed, else {userId?:string}). So the
+# handler owner-scopes with userId directly — no caller(c), no `if(!userId) return Unauthorized`. Proven in ATF: anon->401
+# via the injected guard (handler carries no auth code), Alice CRUD with injected userId, Bob->404. @>=0.85
+claim c078_roles_injects_auth_guard_and_userid: Bool @>=0.85 = True
+falsified_when c078_roles_injects_auth_guard_and_userid == False
+
+# C078+ — the response DESCRIPTION bubbles up from the WRAPPED ENTITY's `.describe(...)`: effectRoute's schemaDescription
+# unwraps a single-property object body (z.object({todo: TodoItem})) to the entity's describe. So `.describe("The todo.")`
+# lives ONCE on the service's TodoItemSchema and surfaces as the route response description (proven: getTodo 200 = "The
+# todo."), never restated per route. 28 effect tests pass; role-less modules unchanged. @>=0.85
+claim c078_response_description_from_wrapped_entity: Bool @>=0.85 = True
+falsified_when c078_response_description_from_wrapped_entity == False
