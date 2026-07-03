@@ -31,6 +31,12 @@ export {
   type TableV4Schemas,
 } from "./schemas";
 
+// INLINE zod on drizzle columns — `.zod(refiner)` co-locates a column's wire refinement WITH its DDL (a
+// runtime augmentation of the SQLite column builder), then `tableZod`/`tableZodSchemas` read the whole table
+// back as ONE annotated zod object to slice arbitrary operations (CRUD or not) from. Importing installs the
+// `.zod()` method as a side effect.
+export { tableZod, tableZodSchemas, type ZodRefiner, type TableZodOptions } from "./inline-zod";
+
 export { crudRoutes, type CrudOptions } from "./crud";
 // list query-param synthesis (Phase 1): declare page/perPage/sort/order/q + the pure parser the handler uses.
 export { listQuerySchema, parseListQuery, type ListQuery, type ListQueryOptions } from "./query";
