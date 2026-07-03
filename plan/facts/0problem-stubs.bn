@@ -1,0 +1,24 @@
+# C076 — PER-STATUS RFC-9457 problem stubs (literal status/title/type, examples, no deprecated `error`). Refines the
+# C072-C075 error-typing arc: the SYNTHESIZED cross-cutting errors were one loose generic ProblemDetails.
+
+# @suluk/core 0.1.14: the deprecated `error` machine-code field is REMOVED from the ProblemDetails type, the JSON schema,
+# and toProblemDetails (legacyCode deleted); no consumer read it. toProblemDetails sets `type` = PROBLEM_TYPE_BY_STATUS[status]
+# so a real body matches the per-status stub's `const type`. A per-status builder problemSchemaFor(status) emits const
+# type/title/status + example detail/instance + descriptions; the generic PROBLEM_DETAILS_SCHEMA (status enum, no error) is the
+# fallback base. @>=0.85
+claim c076_core_per_status_problem_no_error: Bool @>=0.85 = True
+falsified_when c076_core_per_status_problem_no_error == False
+
+# @suluk/hono 0.4.3: emitV4 synthesizes a PRECISE per-status component per used error status (Unauthorized/Forbidden/
+# TooManyRequests/InternalServerError/BadRequest/...) — $ref'd + hoisted into components.schemas — instead of one shared
+# ProblemDetails; an unrecognized status (a raw errors:[<n>] outside the known set) falls back to the generic base. @>=0.85
+claim c076_hono_emit_per_status_components: Bool @>=0.85 = True
+falsified_when c076_hono_emit_per_status_components == False
+
+# PROVEN in ATF against the PUBLISHED bytes (core 0.1.14 / hono 0.4.3): the generated Scalar /api/reference shows
+# Unauthorized = {status: const 401, title: const "Unauthorized", type: const ".../unauthorized", detail: string+example},
+# no `error`; debitCredits 401->Unauthorized / 403->Forbidden / 429->TooManyRequests / 500->InternalServerError; a LIVE 400
+# body = {type: ".../bad-request", title: "Validation failed", status: 400, errors:{...}} with NO `error`. tsc clean; core 53 +
+# hono 70 + effect 13 pass; sdk/testgen/cockpit/harden/scalar green. @>=0.85
+claim c076_e2e_proven_atf_published: Bool @>=0.85 = True
+falsified_when c076_e2e_proven_atf_published == False
