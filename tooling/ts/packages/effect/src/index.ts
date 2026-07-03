@@ -34,7 +34,16 @@ export { routeGroup, isRouteGroup, type RouteGroup, type HandlerRoute } from "@s
 // typed errors ← the union of every action's `errors`). `action`/`envelope` carry the wire schemas as runtime values (next
 // to the service); `pipeline`/`chain` compose them; `effectPipeRoute` delegates to effectRoute for the derivation + render.
 export { action, envelope, listEnvelope, fixedEnvelope, isAction, type ServiceAction, type AnyServiceAction, type ActionCtx, type Envelope } from "./action";
+// the facet types an action may carry as a bubbling contribution — re-exported so a routes file authors `cost`/`rateLimit`
+// (which SUM / tighten up the tree) from the same place as `action`. `CostModel` from @suluk/cost, `SulukRateLimit` from core.
+export type { CostModel } from "@suluk/cost";
+export type { SulukRateLimit } from "@suluk/core";
 export { pipeline, chain, isPipeline, type ActionPipeline, type RequirementOf, type FailureOf } from "./pipeline";
+// RECURSIVE composition — `seq` (nestable sequence), `all` (fan-out → a merged `{ todo, count }` body), `branch` (conditional).
+// A step may be an action OR a pipeline, so logic composes to any DEPTH and the contract (request/response/errors/cost) MERGES
+// up the tree into ONE route — the effect.ts-style bubbling for the Suluk v4 contract. `foldPlan`/`leavesOf`/`terminalWrapOf`
+// are the walks (exported for tooling); `PlanNode`/`Step` are the AST types.
+export { seq, all, branch, foldPlan, leavesOf, entryLeafOf, terminalWrapOf, type PlanNode, type Step, type TerminalWrap } from "./pipeline";
 export { effectPipeRoute, type EffectPipeRouteSpec } from "./pipe-route";
 // DB-as-source-of-truth — bubble a drizzle table up to a Zod schema (drizzle-zod), so request/response bodies are DERIVED
 // from the database schema. Import through @suluk/effect so the effectRoute + its schemas come from one place.

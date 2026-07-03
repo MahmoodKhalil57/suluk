@@ -33,6 +33,9 @@ export {
 export { summarize, principalCost, type CostSummary } from "./ledger";
 // weigh a declared cost model to TOKENS (µ$) via the live infra/provider weight table (from @suluk/cloudflare weightTable()).
 export { weighCost, resolveCost, mergeWeights, type WeightTable, type WeighedCost } from "./weigh";
+// COMBINE declared cost models — the CostModel MONOID (infra add, components concat, settlement strongest-wins). Lets a route's
+// cost BUBBLE UP from the service-actions it composes (@suluk/effect's recursive route tree sums leaf costs via sumCost).
+export { combineCost, sumCost, emptyCost } from "./combine";
 // THE COST CALCULATOR — net per-user economics (cost − paid, + rate-limit budget) + the "spin up a test user" simulator.
 export { userEconomics, simulateUser, type UserEconomics, type SimStep } from "./economics";
 // RATE-LIMIT EXPOSURE — rate-limit caps × per-route cost = the per-user $ budget; × N users = the platform's money-on-the-line.

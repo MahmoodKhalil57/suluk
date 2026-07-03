@@ -39,6 +39,10 @@ const make = (db: DrizzleD1Database) => ({
   list: (userId: string) =>
     Effect.promise(async () => (await db.select().from(todo).where(eq(todo.userId, userId)).orderBy(desc(todo.createdAt))).map(toItem)),
 
+  /** the caller's total todo count — a body-less read the `getTodoDetail` fan-out (`all`) composes alongside `get`. */
+  count: (userId: string) =>
+    Effect.promise(async () => (await db.select({ id: todo.id }).from(todo).where(eq(todo.userId, userId))).length),
+
   get: (userId: string, id: string) =>
     Effect.gen(function* () {
       const [row] = yield* Effect.promise(() => db.select().from(todo).where(owned(userId, id)).limit(1));

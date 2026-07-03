@@ -1,0 +1,32 @@
+# C081 — RECURSIVE route composition: seq/all/branch fold a PLAN TREE into ONE route, and the whole contract (request /
+# response / errors / COST / rate-limit) MERGES up the tree — the effect.ts-style bubbling for the Suluk v4 Request model.
+# @suluk/effect 0.6.0 + @suluk/cost combine.ts. Additive over C080 (effectRoute untouched; the 5 linear todo routes byte-identical).
+
+# The linear `actions[]` AST (C080) is generalized to a `PlanNode` TREE (leaf | seq | all | branch) — a discriminated union on
+# `kind`, so every walk (foldPlan/leavesOf/terminalWrapOf) is exhaustive and a 5th kind is a COMPILE error. `pipeline`/`chain`
+# build seq roots (byte-compat); `seq` is the nestable variadic; `all` FANS OUT (branches on the same input, tupled outputs,
+# their envelopes ZIPPED into one merged wire body `{ todo } ⊕ { count } = { todo, count }`); `branch` picks an arm on the input.
+# A step may be an action OR a pipeline, so composition is RECURSIVE to any depth. Err/R UNION at every node/depth (no cliff —
+# strictly better than the linear variadic's any-collapse); `all`'s Out is a position-preserving mapped tuple. @>=0.85
+claim c081_plan_tree_recursive_combinators: Bool @>=0.85 = True
+falsified_when c081_plan_tree_recursive_combinators == False
+
+# COST BUBBLES UP via a CostModel MONOID (@suluk/cost combine.ts — the piece that did NOT exist before): combineCost/sumCost
+# with identity emptyCost — infra ADDS key-wise, components CONCAT, estimate ADDS, settlement takes the STRONGEST recovery
+# method (credit ≻ subscription ≻ trust ≻ rate-limited ≻ lead ≻ free) with credits summed, and background-cost facets
+# (trigger/attribution/reconciliation/amount*) AGREE-or-throw (fail loud — no additive join). Associative + commutative, so a
+# tree's cost is order-independent. effectPipeRoute SUMS every leaf's declared `cost` (+ one worker.request the single HTTP call
+# incurs) into the route cost; if no leaf declares one it stays undefined → effectRoute's roles-default (byte-identical). @>=0.85
+claim c081_cost_model_monoid_bubbles: Bool @>=0.85 = True
+falsified_when c081_cost_model_monoid_bubbles == False
+
+# RATE-LIMIT bubbles as TIGHTEST-wins (sound: calling the route once calls each leaf once, so a leaf's cap BOUNDS the route —
+# tightening, never loosening): effectPipeRoute takes the smallest normalized rate (maxRequests/windowMs) across the leaves'
+# declared budgets; the `key` stays ROUTE-owned (roles: authed→principal, public→ip), never merged from a leaf. Request body =
+# the ENTRY leaf's `input` (single-owner election over the tree); response = the terminal wrap; errors = the union over ALL
+# leaves (both arms of a branch). D1-safe (a plan tree adds NO matcher-read facet — it changes only how run composes + how the
+# contract is derived); document-is-a-projection + declared-not-enforced held. Proven: 57 @suluk/effect tests (15 new: all/
+# branch/cost-sum/tightest-rate-limit/key-collision-throws/recursion) + 67 @suluk/cost tests (9 new monoid + laws); tsc clean.
+# todo module SHOWCASE: getTodoDetail GET /api/todos/:id/detail = all(getTodo, countTodos) → { todo, count }, cost d1.read×2. @>=0.85
+claim c081_ratelimit_tightest_and_walk_invariants: Bool @>=0.85 = True
+falsified_when c081_ratelimit_tightest_and_walk_invariants == False

@@ -15,12 +15,14 @@
 import { Effect } from "effect";
 import type { z } from "zod";
 import type { Context } from "hono";
+import type { SulukRateLimit } from "@suluk/core";
+import { sumCost, type CostModel } from "@suluk/cost";
 import type { RouteContract } from "@suluk/hono";
 import { effectRoute, type EffectRoute, type Role } from "./route";
 import { ValidationError } from "./common";
 import type { AnyHttpError } from "./errors";
 import type { ActionCtx } from "./action";
-import type { ActionPipeline, RequirementOf } from "./pipeline";
+import { terminalWrapOf, type ActionPipeline, type RequirementOf } from "./pipeline";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyPipeline = ActionPipeline<any, any, any, any>;
@@ -63,24 +65,47 @@ export interface EffectPipeRouteSpec<P extends AnyPipeline, Roles extends readon
 export function effectPipeRoute<P extends AnyPipeline, const Roles extends readonly Role[] = readonly []>(
   spec: EffectPipeRouteSpec<P, Roles>,
 ): EffectRoute {
-  const { actions, terminal, head } = spec.pipeline;
+  const { actions, root, head } = spec.pipeline;
 
-  // ── WALK the AST (synchronous — no request, no layer, because every schema fact is a static property) ──────────────────
-  // (1) request.json ← the HEAD action's `input` ONLY — the runtime feeds the request body to `head.run` (a downstream
+  // ── FOLD the TREE (synchronous — no request, no layer, because every schema fact is a static property) ────────────────
+  // (1) request.json ← the ENTRY leaf's `input` ONLY — the runtime feeds the request body to the entry leaf (a downstream
   //     action's `input` is a composition-typed value threaded from the previous step, NEVER an HTTP body). Explicit wins.
   const bodyAction = head.input ? head : undefined;
   const request: RouteContract["request"] | undefined =
     spec.request?.json || !bodyAction?.input ? spec.request : { ...spec.request, json: bodyAction.input };
-  // (2) ok.schema ← the terminal action's envelope schema (the `{ todo }` wrap); status ← its override.
-  const okSchema = terminal.wrap.schema as z.ZodTypeAny;
-  // A pipe-route ALWAYS returns the terminal's wrap body, so a no-body method default (DELETE→204) would silently DROP it +
+  // (2) ok.schema ← the tree's TERMINAL wrap: a leaf's own `{ todo }`, a seq's last step, or an `all` node's branches ZIPPED
+  //     into one merged body (`{ todo, count }`). status ← its override.
+  const term = terminalWrapOf(root);
+  const okSchema = term.wrap.schema as z.ZodTypeAny;
+  // A pipe-route ALWAYS returns the terminal wrap body, so a no-body method default (DELETE→204) would silently DROP it +
   // document an illegal 204-with-body. When the terminal supplies no explicit status and the method's default is no-body,
-  // use 200 instead (an explicit `terminal.status` still wins; every other method keeps effectRoute's default via undefined).
-  const okStatus = terminal.status ?? (NO_BODY_DEFAULT_METHOD[spec.method] ? 200 : undefined);
-  // (3) errors ← the deduped union of every action's httpError classes (effectRoute adds the role-implied 401/403).
+  // use 200 instead (an explicit terminal status still wins; every other method keeps effectRoute's default via undefined).
+  const okStatus = term.status ?? (NO_BODY_DEFAULT_METHOD[spec.method] ? 200 : undefined);
+  // (3) errors ← the deduped union of EVERY leaf's httpError classes (both arms of a `branch`; effectRoute adds 401/403).
   const seen = new Set<string>();
   const errors: AnyHttpError[] = [];
   for (const a of actions) for (const E of a.errors) if (!seen.has(E.errorTag)) { seen.add(E.errorTag); errors.push(E); }
+
+  // (4) cost ← the SUM of every leaf's declared `cost` (the CostModel monoid): a route that composes N actions declares the
+  //     SUM of their infra, not a hand-guess. Plus the single `worker.request` the one HTTP call always incurs. If NO leaf
+  //     declares a cost, stay undefined so effectRoute derives its roles-default (byte-identical to a role-only route).
+  const leafCosts = actions.map((a) => a.cost).filter((c): c is CostModel => c !== undefined);
+  const summedCost: CostModel | undefined = leafCosts.length
+    ? ((c) => ({ ...c, infra: { ...(c.infra ?? {}), "worker.request": 1 } }))(sumCost(leafCosts))
+    : undefined;
+  const cost = spec.cost ?? summedCost;
+
+  // (5) rate-limit ← the TIGHTEST (smallest normalized rate) budget any leaf declares — calling the route once calls each leaf
+  //     once, so a leaf's cap bounds the route (tightening, never loosening). The `key` is ROUTE-owned (from roles: an authed
+  //     route keys on the principal, a public one on the IP). Explicit `spec.rateLimit` wins; no leaf budget → effectRoute default.
+  const authed = (spec.roles ?? []).some((r) => r === "signed-in" || r === "admin");
+  const leafRls = actions.map((a) => a.rateLimit).filter((r): r is SulukRateLimit => r !== undefined);
+  const tightest = leafRls.reduce<SulukRateLimit | undefined>(
+    (best, r) => (!best || r.maxRequests / r.windowMs < best.maxRequests / best.windowMs ? r : best),
+    undefined,
+  );
+  const rateLimit: RouteContract["rateLimit"] =
+    spec.rateLimit ?? (tightest ? { ...tightest, key: authed ? "principal" : "ip" } : undefined);
 
   // ── DELEGATE to effectRoute: it derives scopes/cost/rate-limit/responses + renders success/typed-failure/500 exactly as
   //    today. We supply only the walked ok/request/errors + the synthesized `run` (compose → discharge R → wrap). ──────────
@@ -95,8 +120,8 @@ export function effectPipeRoute<P extends AnyPipeline, const Roles extends reado
     ...(spec.scope !== undefined ? { scope: spec.scope } : {}),
     ...(spec.scopes !== undefined ? { scopes: spec.scopes } : {}),
     ...(spec.security !== undefined ? { security: spec.security } : {}),
-    ...(spec.rateLimit !== undefined ? { rateLimit: spec.rateLimit } : {}),
-    ...(spec.cost !== undefined ? { cost: spec.cost } : {}),
+    ...(rateLimit !== undefined ? { rateLimit } : {}),
+    ...(cost !== undefined ? { cost } : {}),
     ...(spec.internal !== undefined ? { internal: spec.internal } : {}),
     ...(request !== undefined ? { request } : {}),
     ok: { schema: okSchema, ...(okStatus !== undefined ? { status: okStatus } : {}) },
@@ -120,7 +145,7 @@ export function effectPipeRoute<P extends AnyPipeline, const Roles extends reado
         // compose → discharge R with the real per-request env → apply the terminal wrap to shape the wire body.
         const program = spec.pipeline.run(ctx, input);
         const domain = yield* spec.provide(c.env, program);
-        return terminal.wrap.value(domain);
+        return term.wrap.value(domain);
       })) as never,
   });
 }

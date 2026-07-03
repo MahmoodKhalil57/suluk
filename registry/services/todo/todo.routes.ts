@@ -1,16 +1,18 @@
 /**
- * Todo routes (Suluk registry: `todo`) — each route's `run` is a PIPELINE of service actions, and its whole v4 contract is
- * WALKED off that pipeline (no `...todoContract.<op>` spread, no per-route `Effect.gen`, no restated schema): `effectPipeRoute`
- * reads `request.json` off the head action's `input`, the response status+body off the terminal action's `wrap`, and the
- * typed errors off the union of the actions' `errors`. `roles:["signed-in"]` still derives scope/cost/rate-limit + the 401
- * guard + the injected `userId` (delegated to effectRoute unchanged).
+ * Todo routes (Suluk registry: `todo`) — each route's `run` is a PIPELINE or a recursive TREE of service actions, and its
+ * whole v4 contract is FOLDED off that tree (no `...todoContract.<op>` spread, no per-route `Effect.gen`, no restated schema):
+ * `effectPipeRoute` reads `request.json` off the entry leaf's `input`, the response off the terminal `wrap`, the typed errors
+ * off the union of the actions' `errors`, and the route COST off the SUM of the actions' `cost`. `roles:["signed-in"]` still
+ * derives the scope/rate-limit-key + the 401 guard + the injected `userId` (delegated to effectRoute unchanged).
  *
- * This is the `routes → services → db` seam made literal: a route ORCHESTRATES actions (defined in `todo.actions.ts`); each
- * action calls the {@link Todo} SERVICE; the service owns the DB. The route file declares only method/path/roles + the
- * pipeline + one module-wide `provide` (the layer wiring). Mount: `app.route("/api/todos", todoRoutes())`.
+ * The five CRUD routes are single-action pipelines. `getTodoDetail` is the RECURSIVE showcase: `all(getTodo, countTodos)` fans
+ * out two reads whose envelopes ZIP into one `{ todo, count }` body — one wire endpoint, one merged contract, one summed cost
+ * (`d1.read` ×2 + `worker.request`). This is the `routes → services → db` seam made literal: a route ORCHESTRATES actions
+ * (defined in `todo.actions.ts`); each action calls the {@link Todo} SERVICE; the service owns the DB. Mount:
+ * `app.route("/api/todos", todoRoutes())`.
  */
 import { Effect } from "effect";
-import { effectPipeRoute, pipeline, routeGroup } from "@suluk/effect";
+import { effectPipeRoute, pipeline, all, routeGroup } from "@suluk/effect";
 import { DbLive, type Bindings } from "../app";
 import { Todo, TodoLive } from "../services/todo";
 import * as A from "../services/todo.actions";
@@ -33,6 +35,12 @@ todos.route(effectPipeRoute({ method: "get", path: "/api/todos", name: "listTodo
 // GET /api/todos/:id → { todo } — one todo the caller OWNS; a non-owned/absent id → typed 404 (bubbled from the service).
 todos.route(effectPipeRoute({ method: "get", path: "/api/todos/:id", name: "getTodo",
   summary: "Get one of the signed-in user's todos by id.", ...base, pipeline: pipeline(A.getTodo) }));
+
+// GET /api/todos/:id/detail → { todo, count } — RECURSIVE: `all` fans out getTodo + countTodos on the same request, and their
+// envelopes ZIP into one body. The contract bubbles up whole: request none · response { todo, count } · errors [404, 401] ·
+// cost = getTodo.cost ⊕ countTodos.cost = { d1.read: 2, worker.request: 1 } (the CostModel monoid) — all from the two leaves.
+todos.route(effectPipeRoute({ method: "get", path: "/api/todos/:id/detail", name: "getTodoDetail",
+  summary: "Get one todo the caller owns, alongside their total todo count.", ...base, pipeline: all(A.getTodo, A.countTodos) }));
 
 // POST /api/todos { title } → 201 { todo } — create a todo owned by the caller (201 from the action's status).
 todos.route(effectPipeRoute({ method: "post", path: "/api/todos", name: "createTodo",

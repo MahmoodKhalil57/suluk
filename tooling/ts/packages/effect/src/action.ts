@@ -15,6 +15,8 @@
 import { z } from "zod";
 import type { Effect } from "effect";
 import type { Context } from "hono";
+import type { CostModel } from "@suluk/cost";
+import type { SulukRateLimit } from "@suluk/core";
 import type { AnyHttpError } from "./errors";
 
 const ACTION = Symbol.for("@suluk/effect/action");
@@ -55,6 +57,13 @@ export interface ServiceAction<In, Dom, Err, R> {
   readonly errors: readonly AnyHttpError[];
   /** optional success-status override (create → 201); else the route's method default. */
   readonly status?: number;
+  /** this action's COST contribution — its own infra touches / metered components (`{ infra: { "d1.read": 1 } }`). When a
+   *  route composes actions, effectPipeRoute SUMS these (the CostModel monoid) so the route cost is DERIVED from what it
+   *  actually does, not hand-guessed. Omit and the route falls back to effectRoute's roles-derived default. */
+  readonly cost?: CostModel;
+  /** this action's RATE-LIMIT budget hint. A route takes the TIGHTEST (most restrictive) budget across its composed actions
+   *  — calling the route once calls this action once, so its cap bounds the route. The `key` is route-owned (from roles). */
+  readonly rateLimit?: SulukRateLimit;
   /** the Effect impl — `In` is the parsed body (or void); `R` is the undischarged service requirement. */
   readonly run: (ctx: ActionCtx, input: In) => Effect.Effect<Dom, Err, R>;
 }
@@ -82,6 +91,8 @@ export function action<In, Dom, Err = never, R = never>(def: {
   wrap: Envelope<Dom, unknown>;
   errors?: readonly AnyHttpError[];
   status?: number;
+  cost?: CostModel;
+  rateLimit?: SulukRateLimit;
   run: (ctx: ActionCtx, input: In) => Effect.Effect<Dom, Err, R>;
 }): ServiceAction<In, Dom, Err, R> {
   return { [ACTION]: true, ...def, errors: def.errors ?? [] };
