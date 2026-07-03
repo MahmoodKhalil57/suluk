@@ -39,6 +39,26 @@ export const TodoItemSchema = rowSchema(todo, {
 /** A todo row as returned to the owner — z.infer of the wire DTO (timestamps as epoch-ms). */
 export type TodoItem = z.infer<typeof TodoItemSchema>;
 
+// ── request bodies (part of the wire contract, owned here) ──
+const CreateReq = z.object({ title: z.string().min(1).max(500).describe("The todo text.").meta({ examples: ["Buy milk"] }) });
+const UpdateReq = z.object({ title: z.string().min(1).max(500).optional(), completed: z.boolean().optional() });
+
+/**
+ * The per-operation WIRE CONTRACT — the `request` body, the `ok` response body, and the typed `errors` for each op, DEFINED
+ * HERE (next to the data + the schemas they derive from), so a route BUBBLES ONE UP by spreading it (`...todoContract.read`)
+ * instead of restating any schema. Change a field on `TodoItemSchema` once and every route's doc updates. `errors` lists what
+ * the service BUBBLES UP (it renders at runtime regardless) so the contract DOCUMENTS the 404. This is the single,
+ * maintainable source of the module's wire shape — schemas can't be inferred from a TS return type (types are erased), so
+ * they live here as runtime VALUES and flow up through the routes.
+ */
+export const todoContract = {
+  list: { ok: { schema: z.object({ todos: z.array(TodoItemSchema) }).describe("The caller's todos, newest first.") } },
+  read: { ok: { schema: z.object({ todo: TodoItemSchema }) }, errors: [NotFoundError] },
+  created: { request: { json: CreateReq }, ok: { schema: z.object({ todo: TodoItemSchema }) } },
+  updated: { request: { json: UpdateReq }, ok: { schema: z.object({ todo: TodoItemSchema }) }, errors: [NotFoundError] },
+  deleted: { ok: { status: 200, schema: z.object({ deleted: z.literal(true) }).describe("The todo was deleted.") }, errors: [NotFoundError] },
+};
+
 /** The stored row shape (drizzle returns `Date` for the timestamp columns). */
 type TodoRow = typeof todo.$inferSelect;
 const toItem = (r: TodoRow): TodoItem => ({
