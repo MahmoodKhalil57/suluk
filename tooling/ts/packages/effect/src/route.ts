@@ -79,10 +79,13 @@ export function effectRoute<OkSchema extends z.ZodTypeAny, const Errs extends re
   const okStatus = spec.ok.status ?? DEFAULT_SUCCESS_STATUS[spec.method] ?? 200;
   const errs = (spec.errors ?? []) as readonly AnyHttpError[];
 
+  // Name the SUCCESS body from the op (e.g. "debitCredits" → "DebitCreditsOk") + each error from its tag, so emitV4 hoists
+  // them into components.schemas + $refs them — a docs renderer shows the TYPE NAME, not "object" (generated from the code).
+  const okName = spec.name ? `${spec.name[0].toUpperCase()}${spec.name.slice(1)}Ok` : undefined;
   const responses: RouteResponse[] = [
-    { status: okStatus, description: spec.ok.description ?? "Success", schema: spec.ok.schema },
-    // one TYPED response per declared error — its own status + schema (NOT a generic ProblemDetails).
-    ...errs.map((E): RouteResponse => ({ status: E.status, description: E.errorTag, schema: E.bodySchema })),
+    { status: okStatus, description: spec.ok.description ?? "Success", schema: spec.ok.schema, ...(okName ? { schemaName: okName } : {}) },
+    // one TYPED response per declared error — its own status + NAMED schema (NOT a generic ProblemDetails).
+    ...errs.map((E): RouteResponse => ({ status: E.status, description: E.errorTag, schema: E.bodySchema, schemaName: E.errorTag })),
   ];
 
   const contract: RouteContract & { summary: string } = {

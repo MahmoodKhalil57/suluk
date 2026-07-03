@@ -30,6 +30,10 @@ export interface RouteResponse {
   schema?: z.ZodType;
   /** Defaults to application/json when a schema is present. */
   contentType?: string;
+  /** A NAME for `schema` — emitV4 hoists it into `components.schemas.<schemaName>` and `$ref`s it, so a docs renderer
+   *  (Scalar) shows the TYPE NAME (e.g. "PaymentError") instead of an anonymous "object", and the schema is reusable.
+   *  `@suluk/effect` sets this from the error tag / a route-derived success name — documentation generated FROM the code. */
+  schemaName?: string;
   /** Optional concrete example responses — used by contractChecks. */
   examples?: unknown[];
 }

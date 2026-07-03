@@ -95,7 +95,7 @@ function toMs(d: string | Date): number {
 
 /** Build one v4 Request from a route contract. `segments` are the URI-template segments (a path param is `{name}` /
  *  `{+name}`) — used to AUTO-DERIVE path parameters even when `request.params` isn't declared. */
-function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContext, segments: string[] = []): Request {
+function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContext, segments: string[] = [], named: Record<string, Schema> = {}): Request {
   const req: Request = { method: route.method, responses: {} };
   if (route.summary) req.summary = route.summary;
   if (route.description) req.description = route.description;
@@ -133,7 +133,16 @@ function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContex
     if (r.description) resp.description = r.description;
     if (r.schema) {
       resp.contentType = r.contentType ?? "application/json";
-      resp.contentSchema = zodToV4(r.schema as Parameters<typeof zodToV4>[0]).schema;
+      const converted = zodToV4(r.schema as Parameters<typeof zodToV4>[0]).schema;
+      if (r.schemaName) {
+        // HOIST the body to a named component + $ref it — so a docs renderer shows the TYPE NAME (e.g. "PaymentError"),
+        // not an anonymous "object", and the schema is REUSABLE. Deduped by name (the same error class → one component);
+        // a title is stamped so the name shows even where a renderer doesn't resolve the $ref.
+        named[r.schemaName] ??= { title: r.schemaName, ...converted } as Schema;
+        resp.contentSchema = { $ref: `#/components/schemas/${r.schemaName}` };
+      } else {
+        resp.contentSchema = converted as Schema;
+      }
     }
     responses[String(r.status)] = resp;
   }
@@ -180,6 +189,9 @@ export function emitV4(routes: readonly RouteContract[], ctx: EmitContext = {}):
   const principalScopes = ctx.principal ? new Set(ctx.principal.scopes ?? []) : undefined;
 
   const paths: Record<string, PathItem> = {};
+  // named response bodies (from RouteResponse.schemaName — @suluk/effect sets it from the error tag / route) → hoisted to
+  // components.schemas so a renderer shows the TYPE NAME (docs generated FROM the code), not an anonymous "object".
+  const named: Record<string, Schema> = {};
   for (const route of routes) {
     const { template, segments } = toUriTemplate(route.path);
     const name = route.name ?? deriveName(route.method, segments);
@@ -204,9 +216,9 @@ export function emitV4(routes: readonly RouteContract[], ctx: EmitContext = {}):
     const pi = (paths[template] ??= { requests: {} });
     if (pi.requests[name]) {
       diagnostics.push({ kind: "collision", operation: name, message: `duplicate operation name '${name}' at '${template}'` });
-      pi.requests[`${name}_${route.method}`] = buildRequest(route, deprecated, ctx, segments);
+      pi.requests[`${name}_${route.method}`] = buildRequest(route, deprecated, ctx, segments, named);
     } else {
-      pi.requests[name] = buildRequest(route, deprecated, ctx, segments);
+      pi.requests[name] = buildRequest(route, deprecated, ctx, segments, named);
     }
   }
 
@@ -223,7 +235,10 @@ export function emitV4(routes: readonly RouteContract[], ctx: EmitContext = {}):
       Object.values(r.responses).some((resp) => resp.contentType === PROBLEM_CONTENT_TYPE)));
   const components: Components = {};
   if (ctx.securitySchemes) components.securitySchemes = ctx.securitySchemes;
-  if (usesProblem) components.schemas = { ProblemDetails: PROBLEM_DETAILS_SCHEMA as unknown as Schema };
+  // the hoisted named response bodies (effectRoute error/success types) + the shared ProblemDetails.
+  const schemas: Record<string, Schema> = { ...named };
+  if (usesProblem) schemas.ProblemDetails = PROBLEM_DETAILS_SCHEMA as unknown as Schema;
+  if (Object.keys(schemas).length > 0) components.schemas = schemas;
   if (Object.keys(components).length > 0) document.components = components;
 
   // static collision audit over the ADA (detect-and-tolerate; surfaced as diagnostics, never a gate).

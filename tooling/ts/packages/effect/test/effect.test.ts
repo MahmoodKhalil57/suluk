@@ -94,9 +94,12 @@ describe("emitV4 — the typed errors reach the v4 document (not a generic Probl
     });
     const { document } = emitV4([contract], { synthesizeErrors: true });
     const op = (document.paths["api/credits/debit"] as any).requests.debitCredits;
+    // the 402 is a $ref to a NAMED component (so a renderer shows "InsufficientCredits", not "object") — not ProblemDetails.
     const r402 = JSON.stringify(op.responses["402"].contentSchema);
-    expect(r402).toContain("required"); // the ACTUAL error fields
+    expect(r402).toContain("InsufficientCredits");
     expect(r402).not.toContain("ProblemDetails");
+    // the named component carries the ACTUAL error fields (generated from the httpError schema).
+    expect(JSON.stringify((document.components as any).schemas.InsufficientCredits)).toContain("required");
     // the success + the synthesized generic errors (a handler can always die / be denied)
     expect(op.responses["201"]).toBeDefined();
     expect(JSON.stringify(op.responses["500"].contentSchema)).toContain("ProblemDetails");
