@@ -59,3 +59,13 @@ falsified_when c078_service_errors_bubble_up_to_http == False
 # platform pass. @>=0.85
 claim c078_todo_service_owns_notfound_proven: Bool @>=0.85 = True
 falsified_when c078_todo_service_owns_notfound_proven == False
+
+# C078+++ — the SERVICE OWNS THE WHOLE WIRE CONTRACT; routes BUBBLE IT UP (registry pattern, no lib change). todo.service.ts
+# is the single source: TodoItemSchema (DTO + per-field descriptions/examples + entity describe) + `todoContract` (per-op
+# {request, ok, errors} derived from it) + the methods throw NotFoundError. A route RESTATES NOTHING — it spreads
+# `...todoContract.<op>` (request/response/errors), `roles:["signed-in"]` (scope/cost/rate-limit/401 + injected userId), and
+# the service's thrown error bubbles to a typed 404. Proven in ATF (published effect 0.4.0): tsc clean (the spread still
+# infers OkSchema/Errs); the doc is FULLY RICH (createTodo request {title}+example, getTodo 200 GetTodoOk "The todo." +
+# 401/403/404/429/500, per-field descriptions+examples) — all bubbled from the service; CRUD/404/401/ownership work. @>=0.85
+claim c078_service_owns_wire_contract_routes_bubble_up: Bool @>=0.85 = True
+falsified_when c078_service_owns_wire_contract_routes_bubble_up == False
