@@ -1,0 +1,40 @@
+{
+  "name": "@suluk/effect",
+  "version": "0.1.1",
+  "description": "Effect-native routes: typed HTTP errors (Data.TaggedError + status + schema) that BUBBLE UP the handler's Effect error channel into the v4 contract as detailed error responses (not generic ProblemDetails), plus success-status inference. The route's responses are DERIVED from the handler's A/E types. CANDIDATE tooling.",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MahmoodKhalil57/suluk.git",
+    "directory": "tooling/ts/packages/effect"
+  },
+  "homepage": "https://github.com/MahmoodKhalil57/suluk#readme",
+  "bugs": "https://github.com/MahmoodKhalil57/suluk/issues",
+  "type": "module",
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@suluk/core": "workspace:^",
+    "@suluk/hono": "workspace:^"
+  },
+  "peerDependencies": {
+    "effect": "^3.0.0",
+    "hono": "^4.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "effect": "^3.0.0",
+    "hono": "^4.0.0",
+    "zod": "^4.4.3"
+  },
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit -p ."
+  }
+}
