@@ -10,7 +10,7 @@
  */
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { Context, Layer, Effect } from "effect";
+import { Context, Layer, Effect, type Cause } from "effect";
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
 import { z } from "zod";
 import { sulukFn, type ActionCtx, type SulukFn, type AnyHttpError, type CostModel } from "@suluk/effect";
@@ -47,22 +47,34 @@ const BUILD_DB: DrizzleD1Database = drizzle({} as unknown as D1Database); // bui
 const DUMMY_CTX: ActionCtx = { userId: "", param: () => undefined, c: {} as never };
 const DUMMY_IN = new Proxy({}, { get: () => "" }); // any prop → "" so a query factory can BUILD with placeholder args
 type Step = { role: "given" | "when" | "then"; text: string };
+/** a yieldable httpError instance — what an `orElse` returns (e.g. `new NotFoundError(...)`). */
+type HttpErrorInstance = Cause.YieldableError & { readonly _tag: string };
 interface QueryBase {
-  /** this model's cost (bubbles up the sulukFmt pipeline); its BDD `step` (a Given precondition); its typed errors. */
+  /** this model's cost (bubbles up the sulukFmt pipeline); its BDD `step` (a Given precondition). */
   cost?: CostModel;
   step?: Step | readonly Step[];
 }
 
+/** DERIVE the doc error class from an `orElse` factory — the error is DEFINED ONCE (in `orElse`) and its CLASS (status +
+ *  bodySchema) is read off a build-time instance (`orElse(...).constructor`), so you never restate `errors: [NotFoundError]`.
+ *  This is the robust "define once" seam: `orElse` is a VALUE, so it survives TS type-erasure (an inline `yield* new X()` does
+ *  not — the type is erased and introspecting the run is unsafe/incomplete). */
+function errorOf(orElse?: (ctx: ActionCtx, input: never) => HttpErrorInstance): AnyHttpError[] {
+  if (!orElse) return [];
+  const cls = (orElse(DUMMY_CTX, DUMMY_IN as never) as { constructor?: unknown }).constructor as Partial<AnyHttpError> | undefined;
+  return cls && typeof cls.status === "number" && cls.bodySchema ? [cls as AnyHttpError] : [];
+}
+
 /** A MODEL that returns ONE row — `ok.schema` is DERIVED from the query's projection, the row is returned per-request, and an
- *  absent row FAILS with `orElse` (a by-id 404). The `query` is the SINGLE source: no separate response schema to maintain. */
-export function queryOne<In, Row, const Errs extends readonly AnyHttpError[] = readonly []>(def: QueryBase & {
-  errors?: Errs;
+ *  absent row FAILS with `orElse` (a by-id 404). The `query` is the single source of the SCHEMA; `orElse` is the single source
+ *  of the ERROR — both bubble into the api doc with NOTHING restated (no `ok.schema`, no `errors: […]`). */
+export function queryOne<In, Row, E extends HttpErrorInstance = never>(def: QueryBase & {
   query: (db: DrizzleD1Database, ctx: ActionCtx, input: In) => PromiseLike<Row[]>;
-  orElse?: (ctx: ActionCtx, input: In) => InstanceType<Errs[number]>;
+  orElse?: (ctx: ActionCtx, input: In) => E;
 }): SulukFn<In, Row, Db> {
   const schema = queryZodSchema(def.query(BUILD_DB, DUMMY_CTX, DUMMY_IN as In)) as z.ZodType<Row>;
   return sulukFn({
-    cost: def.cost, step: def.step, errors: def.errors, ok: { schema },
+    cost: def.cost, step: def.step, errors: errorOf(def.orElse as never), ok: { schema },
     run: (ctx, input: In) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
       const [row] = yield* Effect.promise(() => def.query(db, ctx, input));
       if (row) return row;
@@ -81,6 +93,22 @@ export function queryMany<In, Row>(def: QueryBase & {
   return sulukFn({
     cost: def.cost, step: def.step, ok: { schema },
     run: (ctx, input: In): Effect.Effect<Row[], never, Db> => Effect.flatMap(Db, (db) => Effect.promise(() => def.query(db, ctx, input))),
+  });
+}
+
+/** A MUTATION that affects rows and confirms downstream — runs a `.returning()` write; if it touched NO rows, FAILS with
+ *  `orElse` (a by-id 404). Like queryOne, the ERROR is DEFINED ONCE in `orElse` and bubbles into the doc (no `errors: […]`).
+ *  Sets NO response schema — the wire body is shaped by a following step (e.g. `{ deleted: true }`). Returns void. */
+export function mutate<In, E extends HttpErrorInstance = never>(def: QueryBase & {
+  query: (db: DrizzleD1Database, ctx: ActionCtx, input: In) => PromiseLike<{ readonly length: number }>;
+  orElse: (ctx: ActionCtx, input: In) => E;
+}): SulukFn<In, void, Db> {
+  return sulukFn({
+    cost: def.cost, step: def.step, errors: errorOf(def.orElse as never),
+    run: (ctx, input: In) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
+      const rows = yield* Effect.promise(() => def.query(db, ctx, input));
+      if (rows.length === 0) return yield* Effect.fail(def.orElse(ctx, input));
+    })),
   });
 }
 

@@ -9,7 +9,7 @@ import { Effect } from "effect";
 import { z } from "zod";
 import { and, desc, eq } from "drizzle-orm";
 import { sulukFn, NotFoundError, type CostModel } from "@suluk/effect";
-import { Db, queryOne, queryMany } from "../app";
+import { Db, queryOne, queryMany, mutate } from "../app";
 import { todo } from "../db/todo";
 
 /** A todo row AS RETURNED — inferred from the master; timestamps are epoch-ms `number`s, so the row IS the wire item. */
@@ -29,9 +29,10 @@ const readCost: CostModel = { components: [], infra: { "d1.read": 1 }, settlemen
 const writeCost: CostModel = { components: [], infra: { "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited", overflow: "credit" } };
 const deleteCost: CostModel = { components: [], infra: { "d1.write": 1 }, settlement: { method: "rate-limited", overflow: "credit" } };
 
-/** one todo the caller OWNS by id → `TodoItem`; a non-owned/absent id → typed 404. `ok.schema` DERIVES from the select. */
+/** one todo the caller OWNS by id → `TodoItem`; a non-owned/absent id → typed 404. `ok.schema` DERIVES from the select, the
+ *  404 DERIVES from `orElse` — neither is restated. */
 export const findTodo = queryOne({
-  cost: readCost, errors: [NotFoundError], step: { role: "given", text: "a todo the caller owns exists" },
+  cost: readCost, step: { role: "given", text: "a todo the caller owns exists" },
   query: (db, ctx, id: string) => db.select().from(todo).where(owned(ctx.userId, id)).limit(1),
   orElse: (_ctx, id) => new NotFoundError({ resource: "todo", id }),
 });
@@ -51,22 +52,20 @@ export const insertTodo = queryOne({
   },
 });
 
-/** patch a todo the caller OWNS → `TodoItem`; absent/non-owned → 404. Takes `{ id, patch }` (the route supplies the id). */
+/** patch a todo the caller OWNS → `TodoItem`; absent/non-owned → 404 (from `orElse`). Takes `{ id, patch }`. */
 export const patchTodo = queryOne({
-  cost: writeCost, errors: [NotFoundError], step: { role: "given", text: "a todo the caller owns exists" },
+  cost: writeCost, step: { role: "given", text: "a todo the caller owns exists" },
   query: (db, ctx, { id, patch }: { id: string; patch: { title?: string; completed?: boolean } }) =>
     db.update(todo).set({ ...patch, updatedAt: Date.now() }).where(owned(ctx.userId, id)).returning(),
   orElse: (_ctx, { id }) => new NotFoundError({ resource: "todo", id }),
 });
 
-/** delete a todo the caller OWNS → void; absent/non-owned → 404. The route's service maps the void to `{ deleted: true }`. */
-export const dropTodo = sulukFn({
-  cost: deleteCost, errors: [NotFoundError], step: { role: "given", text: "a todo the caller owns exists" },
-  run: (ctx, id: string): Effect.Effect<void, InstanceType<typeof NotFoundError>, Db> =>
-    Effect.flatMap(Db, (db) => Effect.gen(function* () {
-      const rows = yield* Effect.promise(() => db.delete(todo).where(owned(ctx.userId, id)).returning({ id: todo.id }));
-      if (rows.length === 0) return yield* new NotFoundError({ resource: "todo", id });
-    })),
+/** delete a todo the caller OWNS → void; absent/non-owned → 404 (from `orElse`, which is the SINGLE place the error is
+ *  defined + the source the doc reads). The route's service maps the void to `{ deleted: true }`. */
+export const dropTodo = mutate({
+  cost: deleteCost, step: { role: "given", text: "a todo the caller owns exists" },
+  query: (db, ctx, id: string) => db.delete(todo).where(owned(ctx.userId, id)).returning({ id: todo.id }),
+  orElse: (_ctx, id) => new NotFoundError({ resource: "todo", id }),
 });
 
 /** the caller's total todo count → `number` (an aggregate, not a row projection) — fans in with `findTodo` in `getTodoDetail`. */
