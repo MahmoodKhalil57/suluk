@@ -34,7 +34,7 @@ import type { Context } from "hono";
 import { sumCost, type CostModel } from "@suluk/cost";
 import type { SulukRateLimit, SulukSource } from "@suluk/core";
 import type { RouteContract, ScenarioStep } from "@suluk/hono";
-import { envelope, listEnvelope, type ActionCtx, type Envelope } from "./action";
+import { envelope, listEnvelope, type ActionCtx, type Envelope } from "./envelope";
 import { effectRoute, type EffectRoute, type Role } from "./route";
 import { ValidationError } from "./common";
 import type { AnyHttpError } from "./errors";
@@ -42,7 +42,7 @@ import type { AnyHttpError } from "./errors";
 const SULUK = Symbol.for("@suluk/effect/suluk-fn");
 
 /** Methods whose effectRoute success-status default is a NO-BODY status (DELETE→204). A suluk route that returns a wire body
- *  on such a method defaults to 200 instead, so the body isn't silently dropped (parity with effectPipeRoute). */
+ *  on such a method defaults to 200 instead, so the body isn't silently dropped (e.g. a delete returning `{ deleted: true }`). */
 const NO_BODY_DEFAULT_METHOD: Record<string, true> = { delete: true };
 
 /** Any yieldable, tagged {@link httpError} instance — a suluk function's run channel accepts ALL of them (its own declared
@@ -383,7 +383,7 @@ export function sulukRoute<Fn extends AnySulukFn>(fn: Fn, spec: SulukRouteSpec<F
   const request: RouteContract["request"] | undefined =
     s.body || s.query ? { ...(s.body ? { json: s.body } : {}), ...(s.query ? { query: s.query } : {}) } : undefined;
 
-  // cost ← the bubbled SUM + the one worker.request the HTTP call always incurs (parity with effectPipeRoute).
+  // cost ← the bubbled SUM + the one worker.request every HTTP call always incurs.
   const cost: RouteContract["cost"] | undefined = s.cost
     ? { ...s.cost, infra: { ...(s.cost.infra ?? {}), "worker.request": 1 } }
     : undefined;

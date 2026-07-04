@@ -1,7 +1,7 @@
 /**
  * COMBINING declared cost models — the {@link CostModel} MONOID that lets a route's cost BUBBLE UP from the costs of the
- * service-actions it composes. `@suluk/effect`'s recursive route tree (seq/all/branch) sums the leaf costs with {@link sumCost}
- * so a route that touches N operations declares the SUM of their infra, not a hand-guessed single number.
+ * sulukFns it composes. `@suluk/effect`'s `sulukFmt` (linear pipeline) / `sulukFmt.all` (fan-out) sum the leaf costs with
+ * {@link sumCost} so a route that touches N operations declares the SUM of their infra, not a hand-guessed single number.
  *
  * This operates on DECLARED (symbolic) models — `infra` meter-maps + `components` — NOT on weighed µ$. So it composes BEFORE
  * `weighCost`/`resolveCost` (which run ONCE at the top on the merged model): there is no double-counting, because infra is

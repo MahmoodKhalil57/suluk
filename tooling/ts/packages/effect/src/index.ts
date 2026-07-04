@@ -29,27 +29,18 @@ export {
 // contract (`.ops`) + the mount (`.router()`), so a module needs no separate `<module>.contract.ts`. Re-exported from
 // @suluk/hono so a routes file imports effectRoute + routeGroup from one place.
 export { routeGroup, isRouteGroup, type RouteGroup, type HandlerRoute } from "@suluk/hono";
-// SERVICE-ACTION PIPELINES — a route's `run` becomes a PIPELINE of service actions, and effectPipeRoute WALKS the pipeline's
-// AST to bubble up the whole contract (request body ← the head's `input`; response status+body ← the terminal's `wrap`;
-// typed errors ← the union of every action's `errors`). `action`/`envelope` carry the wire schemas as runtime values (next
-// to the service); `pipeline`/`chain` compose them; `effectPipeRoute` delegates to effectRoute for the derivation + render.
-export { action, op, envelope, listEnvelope, fixedEnvelope, isAction, type ServiceAction, type AnyServiceAction, type ActionCtx, type Envelope, type OpMeta } from "./action";
-// the facet types an action may carry as a bubbling contribution — re-exported so a routes file authors `cost`/`rateLimit`
-// (which SUM / tighten up the tree) from the same place as `action`. `CostModel` from @suluk/cost, `SulukRateLimit` from core.
+// The two WIRE-BOUNDARY primitives a sulukFn's `run` reads and returns: `ActionCtx` (the per-request context) and the response
+// ENVELOPE (`envelope`/`listEnvelope` build the `{ todo }`/`{ todos: [...] }` wrap — schema + value together, so they can't drift;
+// a route's `view`/`listView` is exactly a pending one). `CostModel`/`SulukRateLimit` are the bubbling facets a leaf declares.
+export { envelope, listEnvelope, type ActionCtx, type Envelope } from "./envelope";
 export type { CostModel } from "@suluk/cost";
 export type { SulukRateLimit } from "@suluk/core";
-export { pipeline, chain, isPipeline, type ActionPipeline, type RequirementOf, type FailureOf } from "./pipeline";
-// RECURSIVE composition — `seq` (nestable sequence), `all` (fan-out → a merged `{ todo, count }` body), `branch` (conditional).
-// A step may be an action OR a pipeline, so logic composes to any DEPTH and the contract (request/response/errors/cost) MERGES
-// up the tree into ONE route — the effect.ts-style bubbling for the Suluk v4 contract. `foldPlan`/`leavesOf`/`terminalWrapOf`
-// are the walks (exported for tooling); `PlanNode`/`Step` are the AST types.
-export { seq, all, branch, foldPlan, leavesOf, entryLeafOf, terminalWrapOf, type PlanNode, type Step, type TerminalWrap } from "./pipeline";
-export { effectPipeRoute, type EffectPipeRouteSpec } from "./pipe-route";
-// THE SULUK FUNCTION — the composable unit that carries a SLICE of the core v4 `Request` and BUBBLES it under composition, the
-// way `Effect` is Effect-TS's unit. Every layer — MODEL, SERVICE, ROUTE — is a `sulukFn`, and `sulukFmt` RUNS+FORMATS a pipeline
-// of them (a service `sulukFmt`s its models, a route `sulukFmt`s its services). Facts live on the leaf model — cost DEFINED there,
-// errors declared once, response schema from the db — and bubble up (cost SUM, errors UNION, schema inherited), so services/routes
-// hand-declare none. `sulukRoute` projects the merged slice onto effectRoute (host + api reference). Any split is just how you compose.
+// THE SULUK FUNCTION — the ONE composable unit that carries a SLICE of the core v4 `Request` and BUBBLES it under composition,
+// the way `Effect` is Effect-TS's unit. Every layer — MODEL, SERVICE, ROUTE — is a `sulukFn`; `sulukFmt(...fns)` RUNS+FORMATS a
+// linear pipeline of them (a service `sulukFmt`s its models, a route `sulukFmt`s its services) and `sulukFmt.all({k:fn})` fans
+// OUT (branches on one input → a derived `{ k }` body). Facts live on the leaf model — cost DEFINED there, errors declared once,
+// response schema from the db — and bubble up (cost SUM, errors UNION, schema inherited), so services/routes hand-declare none.
+// `sulukRoute` projects the merged slice onto effectRoute (host + api reference). Any layer split is just how you compose.
 export {
   sulukFn, sulukFmt, view, listView, sulukRoute, isSulukFn,
   type SulukFn, type AnySulukFn, type RequestSlice, type SliceProvider, type View,
