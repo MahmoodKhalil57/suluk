@@ -10,8 +10,11 @@
  */
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { Context, Layer } from "effect";
+import { Context, Layer, Effect } from "effect";
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
+import { z } from "zod";
+import { sulukFn, type ActionCtx, type SulukFn, type AnyHttpError, type CostModel } from "@suluk/effect";
+import { queryZodSchema } from "@suluk/drizzle";
 
 // The drizzle `.zod()` seam — the single published source (`@suluk/drizzle`). Re-exporting installs the column/table `.zod()` +
 // `.zodSchema` augmentation (a side effect) AND hands a schema file `tableZod`/`tableZodSchemas`/`withZod`/`nanoid`.
@@ -36,6 +39,50 @@ export class Db extends Context.Tag("Db")<Db, DrizzleD1Database>() {}
 
 /** Build the `Db` layer for one request from the Worker bindings. */
 export const DbLive = (env: Bindings): Layer.Layer<Db> => Layer.succeed(Db, drizzle(env.DB));
+
+// ── queryOne / queryMany — a MODEL from ONE query: `ok.schema` is DERIVED from the query's projected fields (no hand-written
+//    `TodoItemSchema`), and the SAME query runs per-request. A drizzle db over a fake binding BUILDS the query at module-load
+//    (never executed) so `queryZodSchema` can read its projection; the real `Db` executes it per-request. ────────────────────
+const BUILD_DB: DrizzleD1Database = drizzle({} as unknown as D1Database); // build-only — reads projections, never runs
+const DUMMY_CTX: ActionCtx = { userId: "", param: () => undefined, c: {} as never };
+const DUMMY_IN = new Proxy({}, { get: () => "" }); // any prop → "" so a query factory can BUILD with placeholder args
+type Step = { role: "given" | "when" | "then"; text: string };
+interface QueryBase {
+  /** this model's cost (bubbles up the sulukFmt pipeline); its BDD `step` (a Given precondition); its typed errors. */
+  cost?: CostModel;
+  step?: Step | readonly Step[];
+}
+
+/** A MODEL that returns ONE row — `ok.schema` is DERIVED from the query's projection, the row is returned per-request, and an
+ *  absent row FAILS with `orElse` (a by-id 404). The `query` is the SINGLE source: no separate response schema to maintain. */
+export function queryOne<In, Row, const Errs extends readonly AnyHttpError[] = readonly []>(def: QueryBase & {
+  errors?: Errs;
+  query: (db: DrizzleD1Database, ctx: ActionCtx, input: In) => PromiseLike<Row[]>;
+  orElse?: (ctx: ActionCtx, input: In) => InstanceType<Errs[number]>;
+}): SulukFn<In, Row, Db> {
+  const schema = queryZodSchema(def.query(BUILD_DB, DUMMY_CTX, DUMMY_IN as In)) as z.ZodType<Row>;
+  return sulukFn({
+    cost: def.cost, step: def.step, errors: def.errors, ok: { schema },
+    run: (ctx, input: In) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
+      const [row] = yield* Effect.promise(() => def.query(db, ctx, input));
+      if (row) return row;
+      if (def.orElse) return yield* Effect.fail(def.orElse(ctx, input));
+      return yield* Effect.die(new Error("queryOne: query returned no row"));
+    })),
+  });
+}
+
+/** A MODEL that returns MANY rows — `ok.schema` is DERIVED as the ITEM schema from the query's projection (a route's `listView`
+ *  arrays it). The `query` is the single source. */
+export function queryMany<In, Row>(def: QueryBase & {
+  query: (db: DrizzleD1Database, ctx: ActionCtx, input: In) => PromiseLike<Row[]>;
+}): SulukFn<In, Row[], Db> {
+  const schema = queryZodSchema(def.query(BUILD_DB, DUMMY_CTX, DUMMY_IN as In));
+  return sulukFn({
+    cost: def.cost, step: def.step, ok: { schema },
+    run: (ctx, input: In): Effect.Effect<Row[], never, Db> => Effect.flatMap(Db, (db) => Effect.promise(() => def.query(db, ctx, input))),
+  });
+}
 
 /** Create the base app. Mount a feature module's router: `app.route("/credits", creditsRoutes())`. */
 export function createApp() {
