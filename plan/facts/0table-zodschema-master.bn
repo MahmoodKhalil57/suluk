@@ -1,0 +1,23 @@
+# C085 — `table.zodSchema`: a STATIC, precisely-TYPED master schema read straight off the drizzle table, so EVERYTHING infers
+# from the one source. Registry base `app` + todo; @suluk/drizzle 0.4.0 at parity. Additive over C084. Verified in ATF (tsc 0).
+
+# The table-level `.zod()` now RETURNS `Self & { readonly zodSchema: TableSelectSchema<Self> }` (a generic `this: Self extends
+# Table`, NOT a `SQLiteTable`-interface property — an interface getter with a `this`-dependent type breaks EVERY drizzle table's
+# assignability to the query builders, TS2345, proven; an intersection off `.zod()` stays assignable). `TableSelectSchema<T
+# extends Table> = BuildSchema<"select", T["_"]["columns"], undefined, undefined>` — drizzle-zod's OWN select type over the
+# table's columns, so `z.infer<typeof todo.zodSchema>` is the EXACT row (not `any`/`{}`) and `.shape`/`.pick` resolve to the real
+# fields. Runtime: a memoized prototype getter returning the annotated select (`tableSchemas(this).select` / `tableZod(this)`).
+# `this`-indexing is disallowed in a nested type arg (TS2526) → the columns go through the `TableSelectSchema<Self>` helper. @>=0.85
+claim c085_table_zodschema_static_typed_master: Bool @>=0.85 = True
+falsified_when c085_table_zodschema_static_typed_master == False
+
+# The todo schema now derives EVERYTHING from the master `todo.zodSchema` — no `tableSchemas(...)` call, no restated shapes:
+# `TodoRow = z.infer<typeof todo.zodSchema>`, `TodoItemSchema = wireDto(todo.zodSchema)`, `CreateReq = todo.zodSchema.pick({title:
+# true})`, `UpdateReq = todo.zodSchema.pick({title:true,completed:true}).partial()`. Title gains a Unicode content regex
+# (`/^[\p{L}\p{N}\p{P}\p{Zs}]+$/u`) so "Buy milk" passes but control/emoji reject (proven live: "  Buy milk  " → stored "Buy
+# milk"; "💥💥" → typed 400). @suluk/drizzle 0.4.0 mirrors `.zodSchema` (+ a test proving z.infer precision without casts; 52
+# pass). DEVIATIONS from the sketch (noted): id kept a uuid (nanoid `$default` + `.nanoid()` would need the nanoid dep + a
+# service change to generate nanoids); userId has NO `$default` (it's the principal, not a random default); timestamp `.min/.max`
+# stay off (a `Date` column can't take numeric constraints — wireDto projects to epoch-ms for the wire). @>=0.85
+claim c085_todo_infers_all_from_master: Bool @>=0.85 = True
+falsified_when c085_todo_infers_all_from_master == False

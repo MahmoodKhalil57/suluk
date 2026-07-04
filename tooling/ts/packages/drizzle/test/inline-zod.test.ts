@@ -138,4 +138,18 @@ describe("table-level `.zod()` + wireDto — parity with the base app seam", () 
     const parsed: { createdAt: number; title: string } = dto.parse({ id: "x", title: "hi", createdAt: 123 }) as { createdAt: number; title: string };
     expect(parsed.createdAt).toBe(123);
   });
+
+  test("`table.zodSchema` is the MASTER — statically read off the table, precisely typed, sliceable + memoized", () => {
+    // STATIC + TYPED (no casts — these lines only compile because `thing.zodSchema` is the EXACT typed row schema):
+    const row: z.infer<typeof thing.zodSchema> = { id: "x", title: "hi", createdAt: new Date() };
+    expect(row.id).toBe("x");
+    const master = thing.zodSchema; // precisely typed; `.shape`/`.pick` resolve to the real fields
+    expect(Object.keys(master.shape).sort()).toEqual(["createdAt", "id", "title"]);
+    // slice operations off the master — the column's max(25) rides through (typed, no cast):
+    const Create = master.pick({ title: true });
+    expect(Object.keys(Create.shape)).toEqual(["title"]);
+    expect(Create.shape.title.safeParse("x".repeat(26)).success).toBe(false);
+    // memoized — referentially stable:
+    expect(thing.zodSchema).toBe(thing.zodSchema);
+  });
 });

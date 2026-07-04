@@ -11,7 +11,7 @@ import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
 import { getTableColumns, type Table } from "drizzle-orm";
 import { SQLiteColumnBuilder } from "drizzle-orm/sqlite-core/columns/common";
 import { SQLiteTable } from "drizzle-orm/sqlite-core";
-import { createSelectSchema, createInsertSchema, createUpdateSchema, type BuildRefine, type NoUnknownKeys } from "drizzle-zod";
+import { createSelectSchema, createInsertSchema, createUpdateSchema, type BuildRefine, type NoUnknownKeys, type BuildSchema } from "drizzle-zod";
 import { z } from "zod";
 
 export interface Bindings {
@@ -73,11 +73,23 @@ if (!Object.prototype.hasOwnProperty.call(SQLiteColumnBuilder.prototype, "zod"))
 // schema and returns it refined. Stored in a WeakMap (not on the drizzle table object) so we never mutate drizzle internals.
 type TableRefiner = (schema: z.ZodType) => z.ZodType;
 const tableRefiners = new WeakMap<object, TableRefiner>();
+/** memoize the derived master schema per table instance — `todo.zodSchema` is referentially stable + computed once. */
+const zodSchemaCache = new WeakMap<object, unknown>();
+/** The precise SELECT zod-object type for a drizzle table `T` — its columns handed to drizzle-zod's `BuildSchema` (the SAME
+ *  path `tableSchemas`/`createSelectSchema` use, so `z.infer<typeof table.zodSchema>` is the exact row). A helper (not
+ *  `this["_"]["columns"]` inline) because `this`-indexing is disallowed in a nested type arg. */
+type TableSelectSchema<T extends Table> = BuildSchema<"select", T["_"]["columns"], undefined, undefined>;
 declare module "drizzle-orm/sqlite-core" {
   interface SQLiteTable {
-    /** Co-locate this TABLE's entity-level zod refinement (the whole-object `.meta()`/`.describe()`). Returns the table
-     *  unchanged, so the drizzle chain is unaffected; read by `tableSchemas` and applied to the SELECT object schema. */
-    zod(refiner: (schema: z.ZodType) => z.ZodType): this;
+    /**
+     * Co-locate this TABLE's entity-level zod refinement (the whole-object `.meta()`/`.describe()`) AND expose the MASTER
+     * `zodSchema` on the returned table: the annotated SELECT projection (every column's co-located `.zod()` + this entity
+     * refinement), read STATICALLY and PRECISELY typed per-table (drizzle-zod's `BuildSchema` over `this` columns). The single
+     * source you infer everything from — `z.infer<typeof todo.zodSchema>` is the exact row; slice ops off it
+     * (`todo.zodSchema.pick({ title: true })`). Returned as an INTERSECTION (not an `SQLiteTable`-interface property) so a
+     * table stays assignable to drizzle's query builders; only a table that calls `.zod()` carries the typed `zodSchema`.
+     */
+    zod<Self extends Table>(this: Self, refiner: (schema: z.ZodType) => z.ZodType): Self & { readonly zodSchema: TableSelectSchema<Self> };
   }
 }
 if (!Object.prototype.hasOwnProperty.call(SQLiteTable.prototype, "zod")) {
@@ -87,6 +99,17 @@ if (!Object.prototype.hasOwnProperty.call(SQLiteTable.prototype, "zod")) {
       return this;
     },
     writable: true,
+    configurable: true,
+    enumerable: false,
+  });
+}
+if (!Object.prototype.hasOwnProperty.call(SQLiteTable.prototype, "zodSchema")) {
+  Object.defineProperty(SQLiteTable.prototype, "zodSchema", {
+    get(this: Table) {
+      let cached = zodSchemaCache.get(this);
+      if (!cached) { cached = tableSchemas(this).select; zodSchemaCache.set(this, cached); }
+      return cached;
+    },
     configurable: true,
     enumerable: false,
   });
