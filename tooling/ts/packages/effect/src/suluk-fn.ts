@@ -1,0 +1,345 @@
+/**
+ * A SULUK FUNCTION — the composable unit for the Suluk v4 contract, the way `Effect` is Effect-TS's composable unit. Each
+ * `sulukFn` carries a SLICE of the core v4 {@link Request} (packages/core/src/types.ts) — authored with ZOD — fused with an
+ * Effect impl. You maintain ONE surface (the `Request` fields: method / body / params / responses / errors / cost / …); every
+ * other split is just HOW you compose these functions.
+ *
+ * COMPOSITION IS BUBBLING. A function declares its `deps` (the lower functions it calls); their slices MERGE up into its own,
+ * so the whole `Request` accretes as you stack layers:
+ *   • `errors`  ← the UNION of every layer (a leaf declares `errors:[NotFoundError]` ONCE, where it throws; it bubbles up
+ *                 every layer above WITHOUT re-declaration — the run channels stay permissive, like {@link effectRoute}).
+ *   • response  ← the domain schema a lower layer supplies (typically a {@link model} over the db) — the outermost `view`
+ *                 WRAPS it into the wire body (`{ todo }`), so the response type is never hand-restated.
+ *   • `cost`    ← the SUM up the tree (the CostModel monoid); `rateLimit` ← the TIGHTEST; scalars (method/path/roles/body)
+ *                 come from whichever layer declares them.
+ * This connects the STATE SOURCE (drizzle, via {@link model}) to the HOST + API REFERENCE (hono, via {@link sulukRoute}, which
+ * projects the merged slice onto {@link effectRoute} — so it inherits, byte-for-byte, the scope/cost/rate-limit derivation, the
+ * 401 guard + `userId` injection, the typed-error rendering, and the emitV4 doc). An arbitrary split — controller→service→model,
+ * or any other — is expressible; nothing here hardcodes the layers.
+ *
+ *   const TodoModel   = model(wireDto(todo.zodSchema));                         // db → the domain schema (state source)
+ *   const getTodoSvc  = sulukFn({ deps: { m: TodoModel }, errors: [NotFoundError], cost: readCost,
+ *                                 run: (ctx, id: string) => Effect.flatMap(Db, (db) => …) });   // business + the 404
+ *   const getTodo     = sulukFn({ deps: { svc: getTodoSvc }, method: "get", path: "/api/todos/:id",
+ *                                 roles: ["signed-in"], summary: "…", view: view("todo"),        // HTTP identity + the { todo } wrap
+ *                                 run: (ctx, _in, { svc }) => svc.run(ctx, ctx.param("id")!) });
+ *   todos.route(sulukRoute(getTodo, { provide }));                              // hono host + the api reference, whole
+ */
+import { Effect } from "effect";
+import { z } from "zod";
+import type { Cause as CauseT } from "effect";
+import type { Context } from "hono";
+import { sumCost, type CostModel } from "@suluk/cost";
+import type { SulukRateLimit, SulukSource } from "@suluk/core";
+import type { RouteContract } from "@suluk/hono";
+import { envelope, listEnvelope, type ActionCtx, type Envelope } from "./action";
+import { effectRoute, type EffectRoute, type Role } from "./route";
+import { ValidationError } from "./common";
+import type { AnyHttpError } from "./errors";
+
+const SULUK = Symbol.for("@suluk/effect/suluk-fn");
+
+/** Methods whose effectRoute success-status default is a NO-BODY status (DELETE→204). A suluk route that returns a wire body
+ *  on such a method defaults to 200 instead, so the body isn't silently dropped (parity with effectPipeRoute). */
+const NO_BODY_DEFAULT_METHOD: Record<string, true> = { delete: true };
+
+/** Any yieldable, tagged {@link httpError} instance — a suluk function's run channel accepts ALL of them (its own declared
+ *  errors OR one a lower layer fails with), so a leaf's error BUBBLES UP through every layer above without re-declaration.
+ *  effectRoute renders any tagged one off its own class; the `errors` SLICE (not the channel) is what documents them. */
+type AnyHttpErrorInstance = CauseT.YieldableError & { readonly _tag: string };
+
+/**
+ * A VIEW — a pending response envelope keyed but not yet bound to a domain schema (`view("todo")`). At the route boundary it
+ * WRAPS whatever domain schema bubbled up into the wire body `{ todo: <domain> }`, so the wrap key lives with the controller
+ * while the wrapped schema comes from the model — the two provably agree (both are the SAME {@link envelope}).
+ */
+export type View = (domainSchema: z.ZodTypeAny) => Envelope<unknown, unknown>;
+
+/** Build a {@link View} — wrap the bubbled-up domain schema as `{ key: <domain> }` (a single entity). */
+export function view<K extends string>(key: K, opts?: { describe?: string }): View {
+  return ((domainSchema: z.ZodType<unknown>) => envelope(key, domainSchema, opts)) as View;
+}
+
+/** Build a LIST {@link View} — wrap the bubbled-up ITEM schema as `{ key: <item>[] }` (a collection of the model's entity),
+ *  so a list endpoint reuses the SAME model schema the single-entity one does, only arrayed. */
+export function listView<K extends string>(key: K, opts?: { describe?: string }): View {
+  return ((itemSchema: z.ZodType<unknown>) => listEnvelope(key, itemSchema, opts)) as View;
+}
+
+/**
+ * A SLICE of the core v4 {@link Request} — the ONE surface a suluk function maintains, authored with zod. Every field maps to a
+ * `Request` member (`body`→`contentSchema`, `ok`→a 2xx response, `errors`→typed 4xx/5xx, `cost`→`x-suluk-cost`, …). A function
+ * declares only the fields it OWNS; the rest bubble up from its `deps`.
+ */
+export interface RequestSlice {
+  method?: RouteContract["method"];
+  path?: string;
+  name?: string;
+  summary?: string;
+  description?: string;
+  tags?: string[];
+  roles?: readonly Role[];
+  scope?: string;
+  scopes?: string[];
+  internal?: boolean;
+  /** → the request body schema (`Request.contentSchema` / `request.json`). */
+  body?: z.ZodTypeAny;
+  /** → `Request.parameterSchema.query`. (Path params AUTO-derive from the path template's `:name`.) */
+  query?: z.ZodTypeAny;
+  /** validate the body against `body` and fail with a typed 400 (else pass the raw body through). */
+  validateBody?: boolean;
+  /** → the SUCCESS response (`Request.responses[2xx]`): the DOMAIN schema the handler yields (a `view` wraps it) + status. */
+  ok?: { status?: number; schema?: z.ZodTypeAny; description?: string };
+  /** the wrapper applied to the effective `ok.schema` to produce the wire body (`{ todo }`) — set by the outermost layer. */
+  view?: View;
+  /** → typed error responses (`Request.responses[4xx/5xx]`): the httpError CLASSES. UNIONed up the tree. */
+  errors?: readonly AnyHttpError[];
+  /** → `x-suluk-cost`: this layer's infra/components; SUMmed up the tree (the CostModel monoid). */
+  cost?: CostModel;
+  /** → `x-suluk-ratelimit`: the route takes the TIGHTEST budget any layer declares. */
+  rateLimit?: SulukRateLimit;
+  /** → `x-suluk-source`: provenance to the state source (e.g. the drizzle table `model` was built from). */
+  source?: SulukSource;
+  security?: RouteContract["security"];
+}
+
+/** Anything that contributes a {@link RequestSlice} to the bubble — a {@link SulukFn} or a {@link model}. */
+export interface SliceProvider {
+  readonly slice: RequestSlice;
+}
+
+/**
+ * A SULUK FUNCTION — `In` the run's input, `Out` its domain result (INFERRED from the Effect), `R` the undischarged Effect
+ * requirement (`Db`/a service tag), settled at the route via `provide`. `slice` is the FULLY-MERGED contract (own ⊕ deps).
+ */
+export interface SulukFn<In, Out, R> extends SliceProvider {
+  readonly [SULUK]: true;
+  readonly slice: RequestSlice;
+  /** the Effect impl with `deps` already baked in — call it from a higher layer's `run` (`svc.run(ctx, id)`) to thread it. */
+  readonly run: (ctx: ActionCtx, input: In) => Effect.Effect<Out, AnyHttpErrorInstance, R>;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnySulukFn = SulukFn<any, any, any>;
+
+/** Type guard — is `v` a {@link SulukFn}? */
+export const isSulukFn = (v: unknown): v is AnySulukFn =>
+  typeof v === "object" && v !== null && (v as Record<symbol, unknown>)[SULUK] === true;
+
+/** A MODEL — a slice provider that bridges a DOMAIN schema (typically the db table's, the state source) into the contract as
+ *  the response schema, plus the schema itself for a service to map rows against. NOT runnable — a pure contract contribution. */
+export interface SulukModel<Dom> extends SliceProvider {
+  readonly slice: RequestSlice;
+  /** the domain (wire) schema — pass the db's `wireDto(table.zodSchema)` so the response type IS the database schema. */
+  readonly schema: z.ZodType<Dom>;
+}
+
+/**
+ * Build a {@link SulukModel} from a DOMAIN schema — the state-source bridge. Feed it the db's `wireDto(table.zodSchema)` and the
+ * response schema (and its per-field constraints, `$ref` provenance, and descriptions) bubbles straight from the database into
+ * the api reference. The schema is the ONLY thing declared; the service maps rows to it, the view wraps it.
+ */
+export function model<Dom>(domainSchema: z.ZodType<Dom>, opts?: { describe?: string; source?: SulukSource }): SulukModel<Dom> {
+  const ok: NonNullable<RequestSlice["ok"]> = { schema: domainSchema, ...(opts?.describe ? { description: opts.describe } : {}) };
+  return { slice: { ok, ...(opts?.source ? { source: opts.source } : {}) }, schema: domainSchema };
+}
+
+// ── SLICE MERGE (the bubbling) ──────────────────────────────────────────────────────────────────────────────────────────
+
+/** own field wins; else the first dep that declares it (deps are already-merged, so this is one level). */
+function inherit<T>(own: T | undefined, deps: readonly RequestSlice[], pick: (s: RequestSlice) => T | undefined): T | undefined {
+  if (own !== undefined) return own;
+  for (const d of deps) { const v = pick(d); if (v !== undefined) return v; }
+  return undefined;
+}
+
+/** MERGE a function's own slice OVER its dependencies' slices — the bubble. Scalars inherit; `errors` UNION; `cost` SUM;
+ *  `rateLimit` tightens; `ok`/`view`/`source` inherit. So the outermost function's slice is the WHOLE `Request`. */
+function mergeSlices(own: RequestSlice, deps: readonly RequestSlice[]): RequestSlice {
+  const all = [own, ...deps];
+  // errors ← deduped union across every layer.
+  const seen = new Set<string>();
+  const errors: AnyHttpError[] = [];
+  for (const s of all) for (const E of s.errors ?? []) if (!seen.has(E.errorTag)) { seen.add(E.errorTag); errors.push(E); }
+  // cost ← the SUM of every layer's declared cost (the CostModel monoid).
+  const costs = all.map((s) => s.cost).filter((c): c is CostModel => c !== undefined);
+  const cost = costs.length ? sumCost(costs) : undefined;
+  // rate-limit ← the TIGHTEST (smallest normalized rate) any layer declares.
+  const rls = all.map((s) => s.rateLimit).filter((r): r is SulukRateLimit => r !== undefined);
+  const rateLimit = rls.reduce<SulukRateLimit | undefined>(
+    (best, r) => (!best || r.maxRequests / r.windowMs < best.maxRequests / best.windowMs ? r : best),
+    undefined,
+  );
+  const merged: RequestSlice = {
+    method: inherit(own.method, deps, (s) => s.method),
+    path: inherit(own.path, deps, (s) => s.path),
+    name: inherit(own.name, deps, (s) => s.name),
+    summary: inherit(own.summary, deps, (s) => s.summary),
+    description: inherit(own.description, deps, (s) => s.description),
+    tags: inherit(own.tags, deps, (s) => s.tags),
+    roles: inherit(own.roles, deps, (s) => s.roles),
+    scope: inherit(own.scope, deps, (s) => s.scope),
+    scopes: inherit(own.scopes, deps, (s) => s.scopes),
+    internal: inherit(own.internal, deps, (s) => s.internal),
+    body: inherit(own.body, deps, (s) => s.body),
+    query: inherit(own.query, deps, (s) => s.query),
+    validateBody: inherit(own.validateBody, deps, (s) => s.validateBody),
+    ok: inherit(own.ok, deps, (s) => s.ok),
+    view: inherit(own.view, deps, (s) => s.view),
+    source: inherit(own.source, deps, (s) => s.source),
+    security: inherit(own.security, deps, (s) => s.security),
+    ...(errors.length ? { errors } : {}),
+    ...(cost ? { cost } : {}),
+    ...(rateLimit ? { rateLimit } : {}),
+  };
+  // drop undefined keys so the slice stays a clean, inspectable surface.
+  return Object.fromEntries(Object.entries(merged).filter(([, v]) => v !== undefined)) as RequestSlice;
+}
+
+// ── THE CONSTRUCTOR ─────────────────────────────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Author a {@link SulukFn}. `deps` (a record of lower slice providers) BUBBLE their slices into this one and are injected into
+ * `run` as its 3rd arg. `Out` is INFERRED from the Effect. The run channel is PERMISSIVE (any tagged httpError) so this layer
+ * may call a lower layer that fails without re-declaring the error — the `errors` you list only DOCUMENTS this layer's own new
+ * failure modes, and every layer's errors bubble to the doc. `Errs` still types your own `run`'s declared throws.
+ */
+export function sulukFn<
+  In = void,
+  Out = unknown,
+  R = never,
+  const Errs extends readonly AnyHttpError[] = readonly [],
+  Deps extends Record<string, SliceProvider> = Record<string, never>,
+>(def: {
+  method?: RouteContract["method"];
+  path?: string;
+  name?: string;
+  summary?: string;
+  description?: string;
+  tags?: string[];
+  roles?: readonly Role[];
+  scope?: string;
+  scopes?: string[];
+  internal?: boolean;
+  body?: z.ZodType<In>;
+  query?: z.ZodTypeAny;
+  validateBody?: boolean;
+  ok?: { status?: number; schema?: z.ZodType<Out>; description?: string };
+  view?: View;
+  errors?: Errs;
+  cost?: CostModel;
+  rateLimit?: SulukRateLimit;
+  source?: SulukSource;
+  security?: RouteContract["security"];
+  deps?: Deps;
+  run: (ctx: ActionCtx, input: In, deps: Deps) => Effect.Effect<Out, InstanceType<Errs[number]> | AnyHttpErrorInstance, R>;
+}): SulukFn<In, Out, R> {
+  const deps = def.deps ?? ({} as Deps);
+  const own: RequestSlice = {
+    method: def.method, path: def.path, name: def.name, summary: def.summary, description: def.description,
+    tags: def.tags, roles: def.roles, scope: def.scope, scopes: def.scopes, internal: def.internal,
+    body: def.body, query: def.query, validateBody: def.validateBody, ok: def.ok, view: def.view,
+    errors: def.errors, cost: def.cost, rateLimit: def.rateLimit, source: def.source, security: def.security,
+  };
+  const slice = mergeSlices(own, Object.values(deps).map((d) => d.slice));
+  // every declared error is a yieldable httpError, so widening the run's channel to `AnyHttpErrorInstance` is sound (the extra
+  // member `InstanceType<Errs[number]>` is only nominally distinct from `YieldableError` at the type level).
+  const run = ((ctx: ActionCtx, input: In) => def.run(ctx, input, deps)) as SulukFn<In, Out, R>["run"];
+  return { [SULUK]: true, slice, run };
+}
+
+// ── THE HOST + API-REFERENCE BRIDGE ─────────────────────────────────────────────────────────────────────────────────────
+
+export interface SulukRouteSpec<Fn extends AnySulukFn> {
+  /**
+   * Discharge the function's remaining Effect requirement `R` (its service tag / `Db`) with the per-request env — TYPED to the
+   * fn's exact `R`, so a `provide` that discharges too little is a COMPILE error (never a runtime R-leak → 500).
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  provide: <A, E>(env: any, program: Effect.Effect<A, E, ReqOf<Fn>>) => Effect.Effect<A, E, never>;
+  /** Any explicit override of the bubbled slice (method/path/summary/roles/…). */
+  method?: RouteContract["method"];
+  path?: string;
+  summary?: string;
+  name?: string;
+  roles?: readonly Role[];
+}
+
+/** The Effect requirement a suluk function still needs discharged — used to TYPE `provide`. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ReqOf<Fn> = Fn extends SulukFn<any, any, infer R> ? R : never;
+
+/**
+ * Mount a suluk function as a v4 route — project its fully-merged {@link RequestSlice} onto {@link effectRoute} so the HOST
+ * (the hono handler) and the API REFERENCE (the derived `DocumentedRoute` → emitV4) come from ONE surface. Everything effectRoute
+ * derives — scopes, default cost/rate-limit, the 401 guard + `userId` injection, one typed response per bubbled error, the
+ * render — is inherited unchanged; this only supplies the walked ok/request/errors + the synthesized run (read body → run →
+ * discharge R → wrap with the view).
+ */
+export function sulukRoute<Fn extends AnySulukFn>(fn: Fn, spec: SulukRouteSpec<Fn>): EffectRoute {
+  const s = fn.slice;
+  const method = spec.method ?? s.method;
+  const path = spec.path ?? s.path;
+  if (!method || !path) {
+    throw new Error("sulukRoute: missing method/path — declare them on the outermost sulukFn, or pass them here.");
+  }
+  const roles = spec.roles ?? s.roles;
+
+  // response: the bubbled DOMAIN schema, WRAPPED by the view (if any) into the wire body. Doc-shape ≡ render-shape (same view).
+  const domainSchema = s.ok?.schema;
+  const viewed = s.view ? s.view(domainSchema ?? z.unknown()) : undefined;
+  const okSchema = (viewed ? viewed.schema : domainSchema) as z.ZodTypeAny | undefined;
+  // a body on a no-body-default method (DELETE→204) would be dropped; default it to 200 (an explicit status still wins).
+  const okStatus = s.ok?.status ?? (okSchema && NO_BODY_DEFAULT_METHOD[method] ? 200 : undefined);
+
+  // request: body → request.json, query → request.query (path params auto-derive from the path template).
+  const request: RouteContract["request"] | undefined =
+    s.body || s.query ? { ...(s.body ? { json: s.body } : {}), ...(s.query ? { query: s.query } : {}) } : undefined;
+
+  // cost ← the bubbled SUM + the one worker.request the HTTP call always incurs (parity with effectPipeRoute).
+  const cost: RouteContract["cost"] | undefined = s.cost
+    ? { ...s.cost, infra: { ...(s.cost.infra ?? {}), "worker.request": 1 } }
+    : undefined;
+  // rate-limit ← the bubbled tightest budget, keyed by the roles (authed → principal, else ip).
+  const authed = (roles ?? []).some((r) => r === "signed-in" || r === "admin");
+  const rateLimit: RouteContract["rateLimit"] | undefined = s.rateLimit ? { ...s.rateLimit, key: authed ? "principal" : "ip" } : undefined;
+
+  return effectRoute({
+    method,
+    path,
+    ...(spec.name ?? s.name ? { name: spec.name ?? s.name } : {}),
+    summary: spec.summary ?? s.summary ?? "",
+    ...(s.description !== undefined ? { description: s.description } : {}),
+    ...(s.tags !== undefined ? { tags: s.tags } : {}),
+    ...(roles !== undefined ? { roles: roles as readonly Role[] } : {}),
+    ...(s.scope !== undefined ? { scope: s.scope } : {}),
+    ...(s.scopes !== undefined ? { scopes: s.scopes } : {}),
+    ...(s.security !== undefined ? { security: s.security } : {}),
+    ...(rateLimit !== undefined ? { rateLimit } : {}),
+    ...(cost !== undefined ? { cost } : {}),
+    ...(s.internal !== undefined ? { internal: s.internal } : {}),
+    ...(request !== undefined ? { request } : {}),
+    ok: { ...(okSchema ? { schema: okSchema } : {}), ...(okStatus !== undefined ? { status: okStatus } : {}), ...(s.ok?.description ? { description: s.ok.description } : {}) },
+    errors: (s.errors ?? []) as unknown as readonly AnyHttpError[],
+    // The synthesized handler: build the ctx, read the body once (opt-in typed-400 validation), run the function, discharge its
+    // requirement with the real env, and apply the view to shape the wire body.
+    run: ((c: Context, auth: { userId?: string }) =>
+      Effect.gen(function* () {
+        const ctx: ActionCtx = { c, userId: auth.userId ?? "", param: (n) => c.req.param(n) };
+        let input: unknown = undefined;
+        if (s.body) {
+          const raw = (yield* Effect.promise(() => c.req.json().catch(() => ({})))) as unknown;
+          if (s.validateBody) {
+            const parsed = s.body.safeParse(raw);
+            if (!parsed.success) return yield* new ValidationError({ issues: parsed.error.issues.map((i) => i.message) });
+            input = parsed.data;
+          } else {
+            input = raw;
+          }
+        }
+        const program = fn.run(ctx, input as never);
+        const domain = yield* spec.provide(c.env, program);
+        return viewed ? viewed.value(domain) : domain;
+      })) as never,
+  });
+}

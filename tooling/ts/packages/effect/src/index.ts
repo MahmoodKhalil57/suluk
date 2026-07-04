@@ -45,6 +45,16 @@ export { pipeline, chain, isPipeline, type ActionPipeline, type RequirementOf, t
 // are the walks (exported for tooling); `PlanNode`/`Step` are the AST types.
 export { seq, all, branch, foldPlan, leavesOf, entryLeafOf, terminalWrapOf, type PlanNode, type Step, type TerminalWrap } from "./pipeline";
 export { effectPipeRoute, type EffectPipeRouteSpec } from "./pipe-route";
+// THE SULUK FUNCTION — the composable unit that carries a SLICE of the core v4 `Request` and BUBBLES it under composition, the
+// way `Effect` is Effect-TS's unit. You maintain one surface (the Request fields); `deps` merge lower slices up (errors union,
+// cost sum, response schema inherited, rate-limit tightest). `model` bridges the drizzle schema in (state source), `sulukRoute`
+// projects the merged slice onto effectRoute (host + api reference). Any split — controller→service→model or otherwise — is
+// just how you compose them; nothing hardcodes the layers.
+export {
+  sulukFn, model, view, listView, sulukRoute, isSulukFn,
+  type SulukFn, type AnySulukFn, type SulukModel, type RequestSlice, type SliceProvider, type View,
+  type SulukRouteSpec, type ReqOf,
+} from "./suluk-fn";
 // DB-as-source-of-truth — bubble a drizzle table up to a Zod schema (drizzle-zod), so request/response bodies are DERIVED
 // from the database schema. Import through @suluk/effect so the effectRoute + its schemas come from one place.
 export { rowSchema, insertSchema, createSelectSchema, createInsertSchema, createUpdateSchema } from "./db";

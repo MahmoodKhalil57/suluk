@@ -1,7 +1,7 @@
 {
   "name": "@suluk/effect",
-  "version": "0.8.0",
-  "description": "Effect-native routes: typed HTTP errors (Data.TaggedError + status + schema) that BUBBLE UP the handler's Effect error channel into the v4 contract as detailed error responses (not generic ProblemDetails), plus success-status inference. The route's responses are DERIVED from the handler's A/E types. CANDIDATE tooling.",
+  "version": "0.9.0",
+  "description": "Effect-native routes for the v4 contract: `sulukFn` — a composable unit carrying a SLICE of the core `Request`, so composing functions (controller→service→model, or any split) BUBBLES the whole contract up, bridging drizzle (state source) to hono (host + api reference). Typed HTTP errors bubble the handler's Effect error channel into detailed error responses; responses are DERIVED from the handler's A/E types. CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"
   },
