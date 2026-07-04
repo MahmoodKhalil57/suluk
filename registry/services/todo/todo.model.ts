@@ -39,6 +39,7 @@ const deleteCost: CostModel = { components: [], infra: { "d1.write": 1 }, settle
 /** one todo the caller OWNS by id → `TodoItem`; a non-owned/absent id → typed 404 (declared here, where it is thrown). */
 export const findTodo = sulukFn({
   cost: readCost, errors: [NotFoundError], ok: { schema: TodoItemSchema },
+  step: { role: "given", text: "a todo the caller owns exists" },
   run: (ctx, id: string) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
     const [row] = yield* Effect.promise(() => db.select().from(todo).where(owned(ctx.userId, id)).limit(1));
     if (!row) return yield* new NotFoundError({ resource: "todo", id });
@@ -66,6 +67,7 @@ export const insertTodo = sulukFn({
 /** patch a todo the caller OWNS → `TodoItem`; absent/non-owned → 404. Takes `{ id, patch }` (the route supplies the id). */
 export const patchTodo = sulukFn({
   cost: writeCost, errors: [NotFoundError], ok: { schema: TodoItemSchema },
+  step: { role: "given", text: "a todo the caller owns exists" },
   run: (ctx, { id, patch }: { id: string; patch: { title?: string; completed?: boolean } }) =>
     Effect.flatMap(Db, (db) => Effect.gen(function* () {
       const rows = yield* Effect.promise(() => db.update(todo).set({ ...patch, updatedAt: new Date() }).where(owned(ctx.userId, id)).returning());
@@ -77,6 +79,7 @@ export const patchTodo = sulukFn({
 /** delete a todo the caller OWNS → void; absent/non-owned → 404. The route's service maps the void to `{ deleted: true }`. */
 export const dropTodo = sulukFn({
   cost: deleteCost, errors: [NotFoundError],
+  step: { role: "given", text: "a todo the caller owns exists" },
   run: (ctx, id: string): Effect.Effect<void, InstanceType<typeof NotFoundError>, Db> =>
     Effect.flatMap(Db, (db) => Effect.gen(function* () {
       const rows = yield* Effect.promise(() => db.delete(todo).where(owned(ctx.userId, id)).returning({ id: todo.id }));

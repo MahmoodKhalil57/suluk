@@ -33,7 +33,7 @@ import type { Cause as CauseT } from "effect";
 import type { Context } from "hono";
 import { sumCost, type CostModel } from "@suluk/cost";
 import type { SulukRateLimit, SulukSource } from "@suluk/core";
-import type { RouteContract } from "@suluk/hono";
+import type { RouteContract, ScenarioStep } from "@suluk/hono";
 import { envelope, listEnvelope, type ActionCtx, type Envelope } from "./action";
 import { effectRoute, type EffectRoute, type Role } from "./route";
 import { ValidationError } from "./common";
@@ -102,6 +102,9 @@ export interface RequestSlice {
   rateLimit?: SulukRateLimit;
   /** → `x-suluk-source`: provenance to the state source (e.g. the drizzle table a model sulukFn queries). */
   source?: SulukSource;
+  /** → `x-suluk-scenario`: the authored BDD steps (Given/When/Then phrases). ACCUMULATED up the tree (concat + dedup, like
+   *  `errors` union — NOT inherit) so a route's merged slice holds the whole pipeline's steps; @suluk/journeys reads them. */
+  steps?: readonly ScenarioStep[];
   security?: RouteContract["security"];
 }
 
@@ -161,6 +164,9 @@ function mergeSlices(own: RequestSlice, deps: readonly RequestSlice[]): RequestS
     (best, r) => (!best || r.maxRequests / r.windowMs < best.maxRequests / best.windowMs ? r : best),
     undefined,
   );
+  // BDD steps ← the CONCAT of every layer's authored steps (accumulate like errors, NOT inherit), deduped by role+text so a
+  //             model's Given reused across a fan-out appears once. Role-order is applied downstream (journeys sorts G<W<T).
+  const steps = dedupeSteps(all.flatMap((s) => s.steps ?? []));
   const merged: RequestSlice = {
     method: inherit(own.method, deps, (s) => s.method),
     path: inherit(own.path, deps, (s) => s.path),
@@ -182,9 +188,18 @@ function mergeSlices(own: RequestSlice, deps: readonly RequestSlice[]): RequestS
     ...(errors.length ? { errors } : {}),
     ...(cost ? { cost } : {}),
     ...(rateLimit ? { rateLimit } : {}),
+    ...(steps.length ? { steps } : {}),
   };
   // drop undefined keys so the slice stays a clean, inspectable surface.
   return Object.fromEntries(Object.entries(merged).filter(([, v]) => v !== undefined)) as RequestSlice;
+}
+
+/** dedupe authored steps by role+text (a model's Given reused across a fan-out, or the auth Given, collapses to one). */
+function dedupeSteps(steps: readonly ScenarioStep[]): ScenarioStep[] {
+  const seen = new Set<string>();
+  const out: ScenarioStep[] = [];
+  for (const st of steps) { const k = `${st.role}::${st.text}`; if (!seen.has(k)) { seen.add(k); out.push(st); } }
+  return out;
 }
 
 // ── THE CONSTRUCTOR ─────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -224,6 +239,9 @@ export function sulukFn<
   rateLimit?: SulukRateLimit;
   source?: SulukSource;
   security?: RouteContract["security"];
+  /** the authored BDD step(s) this fn contributes — a MODEL its `given` precondition, a CONTROLLER its `when` action, either
+   *  an outcome `then`. Accumulated up the pipeline by {@link sulukFmt}; drives @suluk/journeys's generated scenario. */
+  step?: ScenarioStep | readonly ScenarioStep[];
   run: (ctx: ActionCtx, input: In) => Effect.Effect<Out, InstanceType<Errs[number]> | AnyHttpErrorInstance, R>;
 }): SulukFn<In, Out, R> {
   const own: RequestSlice = {
@@ -231,6 +249,7 @@ export function sulukFn<
     tags: def.tags, roles: def.roles, scope: def.scope, scopes: def.scopes, internal: def.internal,
     body: def.body, query: def.query, validateBody: def.validateBody, ok: def.ok, view: def.view,
     errors: def.errors, cost: def.cost, rateLimit: def.rateLimit, source: def.source, security: def.security,
+    steps: def.step ? (Array.isArray(def.step) ? def.step : [def.step]) : undefined,
   };
   const slice = mergeSlices(own, []); // normalize (drop undefined keys) — nothing to bubble; sulukFmt does the composing.
   // every declared error is a yieldable httpError, so widening the run's channel to `AnyHttpErrorInstance` is sound (the extra
@@ -292,16 +311,20 @@ export namespace sulukFmt {
     const seen = new Set<string>();
     const errors: AnyHttpError[] = [];
     const costs: CostModel[] = [];
+    const allSteps: ScenarioStep[] = [];
     for (const [key, fn] of entries) {
       const s = fn.slice;
       if (s.ok?.schema) okShape[key] = s.ok.schema as z.ZodTypeAny;
       for (const E of s.errors ?? []) if (!seen.has(E.errorTag)) { seen.add(E.errorTag); errors.push(E); }
       if (s.cost) costs.push(s.cost);
+      allSteps.push(...(s.steps ?? []));
     }
+    const steps = dedupeSteps(allSteps);
     const slice: RequestSlice = {
       ok: { schema: z.object(okShape) },
       ...(errors.length ? { errors } : {}),
       ...(costs.length ? { cost: sumCost(costs) } : {}),
+      ...(steps.length ? { steps } : {}),
     };
     const run = ((ctx: ActionCtx, input: unknown) =>
       Effect.map(
@@ -367,6 +390,10 @@ export function sulukRoute<Fn extends AnySulukFn>(fn: Fn, spec: SulukRouteSpec<F
   // rate-limit ← the bubbled tightest budget, keyed by the roles (authed → principal, else ip).
   const authed = (roles ?? []).some((r) => r === "signed-in" || r === "admin");
   const rateLimit: RouteContract["rateLimit"] | undefined = s.rateLimit ? { ...s.rateLimit, key: authed ? "principal" : "ip" } : undefined;
+  // scenario ← the bubbled authored steps, with the auth `Given` DERIVED from roles (so journeys needs no toolfactory-stamped
+  //            x-suluk-access) prepended + deduped. This is the whole ordered G/W/T the pipeline authored.
+  const authGiven: ScenarioStep[] = authed ? [{ role: "given", text: "I am a signed-in user" }] : [];
+  const scenario = dedupeSteps([...authGiven, ...(s.steps ?? [])]);
 
   return effectRoute({
     method,
@@ -383,6 +410,7 @@ export function sulukRoute<Fn extends AnySulukFn>(fn: Fn, spec: SulukRouteSpec<F
     ...(cost !== undefined ? { cost } : {}),
     ...(s.internal !== undefined ? { internal: s.internal } : {}),
     ...(request !== undefined ? { request } : {}),
+    ...(scenario.length ? { scenario } : {}),
     ok: { ...(okSchema ? { schema: okSchema } : {}), ...(okStatus !== undefined ? { status: okStatus } : {}), ...(s.ok?.description ? { description: s.ok.description } : {}) },
     errors: (s.errors ?? []) as unknown as readonly AnyHttpError[],
     // The synthesized handler: build the ctx, read the body once (opt-in typed-400 validation), run the function, discharge its

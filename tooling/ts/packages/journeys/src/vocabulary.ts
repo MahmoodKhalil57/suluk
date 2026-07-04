@@ -72,6 +72,26 @@ const isMetered = (op: Request): boolean => {
 const statusesOf = (op: Request): string[] =>
   op.responses ? Object.keys(op.responses) : [];
 
+/** The authored BDD steps a service pipeline stamped on the op (the `x-suluk-scenario` facet, C094) — the INTUITIVE phrases
+ *  co-located with the sulukFn code. Advisory, read via the untyped view like the other facets. */
+interface AuthoredStep { role: "given" | "when" | "then"; text: string }
+const scenarioOf = (op: Request): AuthoredStep[] => {
+  const s = ext(op)["x-suluk-scenario"];
+  return Array.isArray(s) ? (s as AuthoredStep[]).filter((x) => x?.role === "given" || x?.role === "when" || x?.role === "then") : [];
+};
+/** A DOMAIN error status → a bindable NEGATIVE-outcome Then (C094). Cross-cutting statuses (401 auth → the Given, 429 rate,
+ *  500 defect) are intentionally omitted — a negative journey is written for a domain failure, not an infra one. Shared with
+ *  outline.ts so the generated negative scenario BINDS against this same phrase. */
+export const NEGATIVE_THEN: Record<string, string> = {
+  "400": "Then it is rejected as invalid",
+  "402": "Then it is refused for payment",
+  "404": "Then it is not found",
+  "409": "Then it conflicts",
+  "422": "Then it is rejected as invalid",
+};
+// NB: 401 (→ the auth Given), 403 (scope-enforcement, cross-cutting), 429 (rate), 500 (defect) are intentionally OMITTED —
+// a negative journey is authored for a DOMAIN failure the caller can trigger, not an infra/policy one the framework enforces.
+
 /** Derive the canonical WHEN phrase for an operation from its method + name. */
 function whenPhrase(name: string, method: string): string {
   const words = camel(name).split(" ");
@@ -95,11 +115,24 @@ export function generateVocabulary(doc: OpenAPIv4Document): Vocabulary {
       push("when", whenPhrase(name, op.method), handle, `op ${op.method.toUpperCase()} ${path}`);
 
       const statuses = statusesOf(op);
-      if (statuses.includes("200")) push("then", "Then it succeeds", handle, "status 200");
+      // ANY 2xx is a success (200/201/202/204/…) — the generator (outline.ts) and this palette MUST agree, else a 204/202 op's
+      // fabricated "Then it succeeds" binds NEEDS-CONTRACT.
+      if (statuses.some((s) => /^2\d\d$/.test(s))) push("then", "Then it succeeds", handle, "status 2xx");
       const store = op["x-suluk-store"];
       if (store?.key) push("then", `Then I see my ${camel(store.key)}`, handle, `x-suluk-store key:${store.key}`);
       for (const inv of store?.invalidates ?? []) push("then", `Then my ${camel(inv)} refreshes`, handle, `x-suluk-store invalidates:${inv}`);
       if (isMetered(op)) push("then", "Then I am charged credits", handle, "x-suluk-cost per-unit");
+
+      // AUTHORED steps (x-suluk-scenario, C094): the intuitive phrases a sulukFn pipeline co-located with its code — each a
+      // bindable palette phrase (a Given precondition, an override When, an outcome Then). A given keys on @access iff it names
+      // auth, else on this op's handle (givens bind globally, so the handle is provenance).
+      for (const st of scenarioOf(op)) {
+        const kw = st.role[0].toUpperCase() + st.role.slice(1);
+        const h = st.role === "given" && /\b(sign|signed|auth|logged)\b/i.test(st.text) ? "@access:authenticated" : handle;
+        push(st.role, `${kw} ${st.text}`, h, "x-suluk-scenario");
+      }
+      // NEGATIVE outcomes (C094): each declared domain-error response → a bindable failure Then, so negative journeys bind + run.
+      for (const status of statuses) { const neg = NEGATIVE_THEN[status]; if (neg) push("then", neg, handle, `status ${status}`); }
     }
   }
 

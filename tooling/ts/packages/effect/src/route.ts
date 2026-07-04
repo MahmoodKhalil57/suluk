@@ -91,6 +91,8 @@ export interface EffectRouteSpec<
   /** Override the method-derived cost (read = 1× d1.read · write = 1× d1.write + 1× d1.read; settled `rate-limited`). */
   cost?: RouteContract["cost"];
   internal?: boolean;
+  /** authored BDD steps (the `x-suluk-scenario` facet) — passed through onto the contract for @suluk/journeys. */
+  scenario?: RouteContract["scenario"];
   request?: RouteContract["request"];
   /** The SUCCESS response. `status` defaults by method; `schema` is OPTIONAL — omit it and the response is documented by
    *  status + description alone. A `respond()` in the handler overrides the status per-request. `ok` itself may be omitted. */
@@ -218,6 +220,7 @@ export function effectRoute<
     ...(derivedRateLimit !== undefined ? { rateLimit: derivedRateLimit } : {}),
     ...(derivedCost !== undefined ? { cost: derivedCost } : {}),
     ...(spec.internal !== undefined ? { internal: spec.internal } : {}),
+    ...(spec.scenario !== undefined ? { scenario: spec.scenario } : {}),
     ...(spec.request !== undefined ? { request: spec.request } : {}),
     responses,
   };

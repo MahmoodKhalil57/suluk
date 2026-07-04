@@ -3,7 +3,7 @@
  * else is derived: the v4 document (dynamic per principal + time), request validation, contract tests, and
  * a documentation-coverage audit. See tooling/ARCHITECTURE.md. CANDIDATE tooling.
  */
-export { contract, contractDoc, responseList, type RouteContract, type DocumentedRoute, type RouteRequest, type RouteResponse, type Method } from "./contract";
+export { contract, contractDoc, responseList, type RouteContract, type DocumentedRoute, type RouteRequest, type RouteResponse, type ScenarioStep, type Method } from "./contract";
 // the route ENVELOPE — a module builds one up as it declares routes, and it bubbles up into the contract (`.ops`) + the
 // mount (`.router()`), so the contract is organic (defined by the routes) instead of a separate `<module>.contract.ts`.
 export { routeGroup, isRouteGroup, type RouteGroup, type HandlerRoute } from "./route-group";

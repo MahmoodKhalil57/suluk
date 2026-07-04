@@ -25,6 +25,17 @@ export interface RouteRequest {
   examples?: unknown[];
 }
 
+/**
+ * One authored BDD step (the `x-suluk-scenario` facet element, C094) — a Given/When/Then phrase co-located with the code
+ * (`role` fixes its Gherkin keyword; `text` is the phrase minus the keyword, so "the caller owns a todo" not "Given …").
+ * A MODEL states its precondition (`given`), a CONTROLLER its action (`when`), a service/model its outcome (`then`); the
+ * sulukFmt merge concatenates them in role order. Phrases name FACTS, never request VALUES (the journeys D1 wall).
+ */
+export interface ScenarioStep {
+  role: "given" | "when" | "then";
+  text: string;
+}
+
 export interface RouteResponse {
   status: number;
   description?: string;
@@ -82,6 +93,13 @@ export interface RouteContract {
    * keyed on a per-process nonce that never enters the document or the wire.
    */
   internal?: boolean;
+  /**
+   * The authored BDD SCENARIO steps (the `x-suluk-scenario` facet, C094) — Given/When/Then phrases co-located with the route
+   * (and bubbled up from its service/model layers), so @suluk/journeys generates an INTUITIVE, RICH scenario outline (the
+   * authored phrases, plus negative paths from the declared error responses) instead of the coarse method+name projection.
+   * emitV4 stamps it onto the operation; advisory — journeys reads it via the same untyped cast the other facets use.
+   */
+  scenario?: readonly ScenarioStep[];
   request?: RouteRequest;
   /** Responses, as a list (each carries its own status) or a status-keyed map. */
   responses?: RouteResponse[] | Record<string, RouteResponse>;

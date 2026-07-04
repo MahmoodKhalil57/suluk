@@ -171,3 +171,43 @@ describe("sulukFmt — the drizzle→hono bridge: a model over a db table carrie
     expect((js.properties.widget.properties.qty as { type: string }).type).toBe("integer");
   });
 });
+
+describe("sulukFmt — authored BDD `step`s accumulate up the pipeline into the contract's x-suluk-scenario", () => {
+  test("a model's given + a controller's when bubble to the merged slice + onto the contract, deduped", () => {
+    const findThing = sulukFn({
+      cost: readCost, errors: [NotFoundError], ok: { schema: ItemSchema },
+      step: { role: "given", text: "a thing the caller owns exists" },
+      run: (ctx, id: string) => Effect.flatMap(Store, (s) => s.get(id)),
+    });
+    const thingSvc = sulukFmt(findThing);
+    const getThing = sulukFmt(
+      sulukFn({ method: "get", path: "/api/things/:id", name: "getThing", roles: ["signed-in"], summary: "Get.", view: view("thing"),
+        step: { role: "when", text: "they open the thing" }, run: (ctx) => Effect.succeed(ctx.param("id")!) }),
+      thingSvc,
+    );
+    // the route's merged slice carries BOTH steps (given from the model, when from the controller)
+    expect(getThing.slice.steps).toEqual([
+      { role: "when", text: "they open the thing" },
+      { role: "given", text: "a thing the caller owns exists" },
+    ]);
+    // sulukRoute stamps them as the contract's scenario facet — with the auth Given DERIVED from roles + prepended.
+    const { contract } = sulukRoute(getThing, { provide: provideStore(new Map()) });
+    expect((contract as { scenario?: unknown }).scenario).toEqual([
+      { role: "given", text: "I am a signed-in user" },
+      { role: "when", text: "they open the thing" },
+      { role: "given", text: "a thing the caller owns exists" },
+    ]);
+  });
+
+  test("sulukFmt.all concatenates + dedupes branch steps (a shared model given appears once)", () => {
+    const g = { role: "given" as const, text: "the caller is set up" };
+    const a = sulukFn({ ok: { schema: ItemSchema }, step: [g, { role: "then", text: "the item is shown" }], run: () => Effect.flatMap(Store, (s) => s.get("a")) });
+    const b = sulukFn({ ok: { schema: z.number().int() }, step: [g, { role: "then", text: "the count is shown" }], run: () => Effect.flatMap(Store, (s) => s.count()) });
+    const fan = sulukFmt.all({ item: a, count: b });
+    expect(fan.slice.steps).toEqual([
+      { role: "given", text: "the caller is set up" }, // deduped — appeared on both branches
+      { role: "then", text: "the item is shown" },
+      { role: "then", text: "the count is shown" },
+    ]);
+  });
+})

@@ -1,7 +1,7 @@
 {
   "name": "@suluk/hono",
-  "version": "0.4.3",
-  "description": "The Suluk derivation engine: minimal Hono+Zod RouteContracts in; v4 doc (dynamic per principal+time), validation, contract tests, and doc-coverage audit out. CANDIDATE tooling.",
+  "version": "0.5.0",
+  "description": "The Suluk derivation engine: minimal Hono+Zod RouteContracts in; v4 doc (dynamic per principal+time), validation, contract tests, and doc-coverage audit out. CANDIDATE tooling. Emits the `x-suluk-scenario` BDD facet (authored Given/When/Then steps) for @suluk/journeys.",
   "publishConfig": {
     "access": "public"
   },

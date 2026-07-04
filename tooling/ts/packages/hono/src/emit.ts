@@ -168,6 +168,10 @@ function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContex
   // stamp the declared route ECONOMICS (cost/settlement/triggers/dynamic) so @suluk/cost audits + @suluk/scalar renders it.
   // x-suluk-cost is a passthrough facet (@suluk/cost owns the type + reads it via the same cast) — not a declared Request key.
   if (route.cost) (req as Request & Record<string, unknown>)["x-suluk-cost"] = route.cost;
+  // stamp the authored BDD scenario steps (Given/When/Then phrases co-located on the route/service/model, C094) so
+  // @suluk/journeys generates a RICH scenario outline (authored phrases + negative paths) instead of the coarse projection.
+  // A passthrough facet read via the same untyped cast (journeys owns nothing on the typed Request).
+  if (route.scenario?.length) (req as Request & Record<string, unknown>)["x-suluk-scenario"] = route.scenario;
   // INTERNAL ops: stamp the facet (@suluk/scalar badges it) + group under the "Internal" tag (Scalar's sidebar sections it).
   if (route.internal) {
     (req as Request & Record<string, unknown>)["x-suluk-internal"] = true;
