@@ -1,0 +1,20 @@
+# C086 — nanoid ids + min/max on Date columns (kept as `mode:"timestamp"`, not integer). Closes the two C085 deviations.
+# Registry base `app` + todo; @suluk/drizzle 0.5.0 (msRange + wireDto Date-bounds). Verified in ATF (tsc 0 + live).
+
+# NANOID: the base app gains a DEPENDENCY-FREE `nanoid()` (21 chars [A-Za-z0-9_-], crypto.getRandomValues over the standard
+# url alphabet). The todo id is `text("id").primaryKey().$defaultFn(() => nanoid()).zod(s => s.nanoid().meta(…))` — drizzle
+# generates it on insert (the service OMITS id + reads it back via `.returning()`), and `.nanoid()` puts the format on the wire
+# (JSON Schema `format:"nanoid"`, pattern ^[a-zA-Z0-9_-]{21}$). Proven live: a create returns a 21-char nanoid id. No nanoid
+# npm dep (the catalog would need a change + republish; the base app is "yours to edit", so the util is inlined). @>=0.85
+claim c086_nanoid_id_defaultfn_dependency_free: Bool @>=0.85 = True
+falsified_when c086_nanoid_id_defaultfn_dependency_free == False
+
+# DATE min/max: `msRange(s, { min, max })` (base app + @suluk/drizzle) bounds a `ZodDate` by EPOCH-MS values — the column stays a
+# `mode:"timestamp"` Date, NOT an integer. The bounds ride into the DB Date schema (a `Date` outside the window is rejected),
+# and `wireDto` READS them back (zod v4 stores ZodDate `.min/.max` in `_zod.def.checks` as Date values → getTime()) and carries
+# them onto the projected epoch-ms `z.number().int()`. Proven: `z.toJSONSchema(TodoItemSchema).properties.createdAt` = integer
+# with `minimum:0, maximum:<2100-01-01>`; the DB Date schema rejects out-of-window dates. todo createdAt/updatedAt use
+# `msRange(s, { min: 0, max: new Date("2100-01-01").getTime() })`. @suluk/drizzle 0.5.0 mirrors msRange + the Date-bounds read
+# (+ a test: DB Date bounds enforce AND the wire number carries minimum/maximum; 53 pass, tsc clean). @>=0.85
+claim c086_msrange_date_bounds_flow_to_wire: Bool @>=0.85 = True
+falsified_when c086_msrange_date_bounds_flow_to_wire == False

@@ -8,7 +8,7 @@ import { test, expect, describe } from "bun:test";
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { getTableColumns } from "drizzle-orm";
 import { z } from "zod";
-import { tableZod, tableZodSchemas, wireDto } from "../src/index";
+import { tableZod, tableZodSchemas, wireDto, msRange } from "../src/index";
 
 // A user table whose `userId` field zod we reuse below (FK-consistency trick). Reuse is off the EXTRACTED
 // zod object (`User.shape.userId`) — a drizzle *table* has no `.shape`; only the projected zod object does.
@@ -151,5 +151,19 @@ describe("table-level `.zod()` + wireDto — parity with the base app seam", () 
     expect(Create.shape.title.safeParse("x".repeat(26)).success).toBe(false);
     // memoized — referentially stable:
     expect(thing.zodSchema).toBe(thing.zodSchema);
+  });
+
+  test("msRange puts min/max on a Date column, and wireDto carries them onto the wire epoch-ms number", () => {
+    const dated = sqliteTable("dated", {
+      at: integer("at", { mode: "timestamp" }).notNull().zod((s) => msRange(s, { min: 0, max: 1000 }).meta({ description: "when" })),
+    });
+    // DB Date schema enforces the bounds:
+    const at = (tableZodSchemas(dated).select as z.ZodObject).shape.at as z.ZodType;
+    expect(at.safeParse(new Date(500)).success).toBe(true);
+    expect(at.safeParse(new Date(2000)).success).toBe(false); // > max
+    expect(at.safeParse(new Date(-5)).success).toBe(false); // < min
+    // wireDto projects to a number CARRYING the bounds (as epoch-ms):
+    const js = z.toJSONSchema(wireDto(tableZodSchemas(dated).select)) as { properties: Record<string, { type?: string; minimum?: number; maximum?: number; description?: string }> };
+    expect(js.properties.at).toMatchObject({ type: "integer", minimum: 0, maximum: 1000, description: "when" });
   });
 });

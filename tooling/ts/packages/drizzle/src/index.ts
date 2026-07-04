@@ -35,7 +35,7 @@ export {
 // runtime augmentation of the SQLite column builder), then `tableZod`/`tableZodSchemas` read the whole table
 // back as ONE annotated zod object to slice arbitrary operations (CRUD or not) from. Importing installs the
 // `.zod()` method as a side effect.
-export { tableZod, tableZodSchemas, wireDto, type ZodRefiner, type TableZodOptions } from "./inline-zod";
+export { tableZod, tableZodSchemas, wireDto, msRange, type ZodRefiner, type TableZodOptions } from "./inline-zod";
 
 export { crudRoutes, type CrudOptions } from "./crud";
 // list query-param synthesis (Phase 1): declare page/perPage/sort/order/q + the pure parser the handler uses.

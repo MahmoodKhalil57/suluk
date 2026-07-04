@@ -186,6 +186,32 @@ export function tableZodSchemas<T extends AnyTable>(table: T, opts: TableZodOpti
   };
 }
 
+/** Bound a `mode:"timestamp"` column's zod (a `ZodDate`) by EPOCH-MS values — ergonomic `min`/`max` on a Date column WITHOUT
+ *  making it an integer: `createdAt.zod((s) => msRange(s, { min: 0 }).meta({…}))`. The bounds ride into the DB `Date` schema AND
+ *  (via {@link wireDto}) onto the wire epoch-ms number. */
+export function msRange(s: z.ZodDate, opts: { min?: number; max?: number }): z.ZodDate {
+  let out = s;
+  if (opts.min !== undefined) out = out.min(new Date(opts.min), `Must be on/after ${new Date(opts.min).toISOString()}.`);
+  if (opts.max !== undefined) out = out.max(new Date(opts.max), `Must be on/before ${new Date(opts.max).toISOString()}.`);
+  return out;
+}
+
+/** Read a `z.date()`'s `.min/.max` checks as epoch-ms bounds (zod v4 stores them in `_zod.def.checks` as `Date` values), so
+ *  {@link wireDto} carries a timestamp column's bounds onto the projected epoch-ms number. */
+function dateBoundsMs(dateSchema: z.ZodType): { min?: number; max?: number; minInclusive?: boolean; maxInclusive?: boolean } {
+  const checks = (dateSchema as unknown as { _zod?: { def?: { checks?: unknown[] } } })._zod?.def?.checks ?? [];
+  const out: { min?: number; max?: number; minInclusive?: boolean; maxInclusive?: boolean } = {};
+  for (const c of checks) {
+    const cd = (c as { _zod?: { def?: { check?: string; inclusive?: boolean; value?: unknown } } })._zod?.def;
+    if (!cd) continue;
+    const v = cd.value instanceof Date ? cd.value.getTime() : typeof cd.value === "number" ? cd.value : undefined;
+    if (v === undefined) continue;
+    if (cd.check === "greater_than") { out.min = v; out.minInclusive = cd.inclusive; }
+    else if (cd.check === "less_than") { out.max = v; out.maxInclusive = cd.inclusive; }
+  }
+  return out;
+}
+
 /** In the wire DTO, drizzle `mode:"timestamp"` `Date` columns become epoch-ms `number`s. */
 type DatesToMs<O> = { [K in keyof O]: O[K] extends Date ? number : O[K] };
 /**
@@ -199,8 +225,13 @@ export function wireDto<T extends z.ZodType>(select: T): z.ZodType<DatesToMs<z.i
   const out: Record<string, z.ZodType> = {};
   for (const [key, field] of Object.entries(shape)) {
     if (field instanceof z.ZodDate) {
+      // project Date → epoch-ms number, carrying the field's `.zod()` meta AND its Date `.min/.max` bounds (as epoch-ms).
+      let num: z.ZodNumber = z.number().int();
+      const b = dateBoundsMs(field);
+      if (b.min !== undefined) num = b.minInclusive === false ? num.gt(b.min) : num.min(b.min);
+      if (b.max !== undefined) num = b.maxInclusive === false ? num.lt(b.max) : num.max(b.max);
       const meta = (field as { meta?: () => Record<string, unknown> | undefined }).meta?.();
-      out[key] = meta ? z.number().int().meta(meta) : z.number().int().meta({ description: "Epoch milliseconds." });
+      out[key] = meta ? num.meta(meta) : num.meta({ description: "Epoch milliseconds." });
     } else {
       out[key] = field;
     }
