@@ -36,6 +36,9 @@ export {
 // back as ONE annotated zod object to slice arbitrary operations (CRUD or not) from. Importing installs the
 // `.zod()` method as a side effect.
 export { tableZod, tableZodSchemas, wireDto, msRange, nanoid, type ZodRefiner, type TableZodOptions } from "./inline-zod";
+// run a query → `{ schema, rows }`: the zod schema DERIVED from the query's PROJECTED fields (each column's `.zod()`), so a
+// select/insert carries its own response contract with nothing restated. Schema mirrors the rows exactly (Date stays z.date()).
+export { withZod, queryZodSchema } from "./query-zod";
 
 export { crudRoutes, type CrudOptions } from "./crud";
 // list query-param synthesis (Phase 1): declare page/perPage/sort/order/q + the pure parser the handler uses.

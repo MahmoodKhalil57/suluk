@@ -1,7 +1,7 @@
 {
   "name": "@suluk/drizzle",
-  "version": "0.7.0",
-  "description": "Drizzle ORM schema -> v4 'Suluk' contract: table -> Zod (drizzle-zod) -> v4 Schema Objects, DB metadata, and generated CRUD RouteContracts. CANDIDATE tooling.",
+  "version": "0.8.0",
+  "description": "Drizzle ORM schema -> v4 'Suluk' contract: table -> Zod (drizzle-zod) -> v4 Schema Objects, DB metadata, and generated CRUD RouteContracts. CANDIDATE tooling. `withZod(query)` runs a drizzle query and returns `{ schema, rows }` \u2014 a zod object DERIVED from the exact projected fields (each column's `.zod()`), so a select/insert carries its own response contract with nothing restated.",
   "publishConfig": {
     "access": "public"
   },

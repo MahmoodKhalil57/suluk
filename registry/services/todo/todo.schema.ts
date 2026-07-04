@@ -6,7 +6,7 @@
  * `userId` is a FK to `user.id` (referential integrity); every query is owner-scoped.
  */
 import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
-import { nanoid, msRange } from "../app";
+import { nanoid } from "../app";
 import { user } from "../db/auth";
 
 // ── the table — each column carries its wire refinement inline via `.zod(s => …)` (FULL zod: constraints + `.meta()`); a
@@ -33,12 +33,13 @@ export const todo = sqliteTable(
     /** done flag (SQLite has no boolean — drizzle maps it 0/1 ↔ boolean). */
     completed: integer("completed", { mode: "boolean" }).notNull().default(false)
       .zod((s) => s.meta({ description: "Whether the todo is done.", examples: [false] })),
-    createdAt: integer("createdAt", { mode: "timestamp" }).notNull()
-      // min/max on a Date column (kept as `mode:"timestamp"`, not an integer) via `msRange` — the bounds ride into the DB Date
-      // schema AND onto the wire epoch-ms number. Sane window: on/after the epoch, on/before the year 2100.
-      .zod((s) => msRange(s, { min: 0, max: new Date("2100-01-01").getTime() }).meta({ description: "When it was created — epoch milliseconds.", examples: [1783082151484] })),
-    updatedAt: integer("updatedAt", { mode: "timestamp" }).notNull()
-      .zod((s) => msRange(s, { min: 0, max: new Date("2100-01-01").getTime() }).meta({ description: "When it was last updated — epoch milliseconds.", examples: [1783082151484] })),
+    // Timestamps are stored (and returned) as EPOCH-MS integers — what you send IS what's stored, so there is NO Date↔number
+    // codec: the column's zod is already a `z.number().int()`, min/max are plain number bounds, and a row's `createdAt` is the
+    // wire value verbatim. Window: on/after the epoch, on/before the year 2100.
+    createdAt: integer("createdAt").notNull()
+      .zod((s) => s.int().min(0).max(new Date("2100-01-01").getTime()).meta({ description: "When it was created — epoch milliseconds.", examples: [1783082151484] })),
+    updatedAt: integer("updatedAt").notNull()
+      .zod((s) => s.int().min(0).max(new Date("2100-01-01").getTime()).meta({ description: "When it was last updated — epoch milliseconds.", examples: [1783082151484] })),
   },
   (t) => ({ byUser: index("todo_userId_idx").on(t.userId) }), // the owner filter is the hot path
 ).zod((s) => s.meta({ description: "A todo item." })); // ← table-level: the ENTITY description, co-located with the DDL

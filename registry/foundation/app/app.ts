@@ -4,9 +4,9 @@
  * and run the program. This file is delivered into YOUR repo by `shadcn add` and is yours to edit. Cloudflare Workers (D1) target.
  *
  * The drizzle `.zod()` SCHEMA SEAM — inline column + table refinement, the master `table.zodSchema`, `tableZod`/`tableZodSchemas`,
- * the `wireDto` timestamp codec, `msRange` date bounds, `nanoid`, and the auto-`$ref` DB provenance — lives in `@suluk/drizzle`.
- * It is imported here (which installs the `.zod()`/`.zodSchema` augmentation as a side effect) and re-exported, so a schema file
- * gets the whole seam from `../app` with no local machinery to maintain.
+ * `withZod` (run a query → `{ schema, rows }` derived from the projected fields), `nanoid`, and the auto-`$ref` DB provenance —
+ * lives in `@suluk/drizzle`. It is imported here (which installs the `.zod()`/`.zodSchema` augmentation as a side effect) and
+ * re-exported, so a schema file gets the whole seam from `../app` with no local machinery to maintain.
  */
 import { Hono } from "hono";
 import { cors } from "hono/cors";
@@ -14,8 +14,8 @@ import { Context, Layer } from "effect";
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
 
 // The drizzle `.zod()` seam — the single published source (`@suluk/drizzle`). Re-exporting installs the column/table `.zod()` +
-// `.zodSchema` augmentation (a side effect) AND hands a schema file `wireDto`/`msRange`/`nanoid`/`tableZod`/`tableZodSchemas`.
-export { tableZod, tableZodSchemas, wireDto, msRange, nanoid } from "@suluk/drizzle";
+// `.zodSchema` augmentation (a side effect) AND hands a schema file `tableZod`/`tableZodSchemas`/`withZod`/`nanoid`.
+export { tableZod, tableZodSchemas, withZod, nanoid } from "@suluk/drizzle";
 
 export interface Bindings {
   DB: D1Database;
