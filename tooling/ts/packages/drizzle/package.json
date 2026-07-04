@@ -1,6 +1,6 @@
 {
   "name": "@suluk/drizzle",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Drizzle ORM schema -> v4 'Suluk' contract: table -> Zod (drizzle-zod) -> v4 Schema Objects, DB metadata, and generated CRUD RouteContracts. CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"
@@ -21,7 +21,8 @@
   "dependencies": {
     "@suluk/core": "workspace:^",
     "@suluk/zod": "workspace:^",
-    "@suluk/hono": "workspace:^"
+    "@suluk/hono": "workspace:^",
+    "nanoid": "^5.1.16"
   },
   "peerDependencies": {
     "drizzle-orm": "^0.4.0 || ^0.30.0 || ^0.40.0 || ^0.45.0",

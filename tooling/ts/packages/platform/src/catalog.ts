@@ -27,9 +27,10 @@ export const CATALOG: Record<string, CatalogEntry> = Object.fromEntries(Object.e
  * `deps` to build package.json.
  */
 // @suluk/hono (the contract + the route ENVELOPE `routeGroup`) + @suluk/effect (effectRoute + the drizzle-zod bubble-up) are
-// used by EVERY module's routes now — so every generated app deps them directly. drizzle-zod is direct too: the base `app`
-// exposes `tableSchemas(table)` (createSelectSchema/Insert/Update in one call), so a module derives its schemas + types there.
-export const BASE_DEPS = ["@suluk/platform", "@suluk/provision", "@suluk/core", "@suluk/env", "@suluk/hono", "@suluk/effect", "effect", "hono", "drizzle-orm", "drizzle-zod"];
+// used by EVERY module's routes now — so every generated app deps them directly. drizzle-orm/drizzle-zod are direct too, and
+// `@suluk/drizzle` owns the whole `.zod()` schema SEAM (inline column/table refinement, the master `table.zodSchema`, `wireDto`,
+// `msRange`, `nanoid`, auto-`$ref`); the base `app` re-exports it, so `app.ts` stays clean and a module gets the seam from `../app`.
+export const BASE_DEPS = ["@suluk/platform", "@suluk/provision", "@suluk/core", "@suluk/env", "@suluk/hono", "@suluk/effect", "@suluk/drizzle", "effect", "hono", "drizzle-orm", "drizzle-zod"];
 
 /** Pinned ranges for the NON-@suluk ecosystem deps — the single place they're kept current for every generated app.
  *  `@suluk/*` are NOT here: they resolve to "latest" so a package fix flows to the app via `bun update` (the C052 payoff). */

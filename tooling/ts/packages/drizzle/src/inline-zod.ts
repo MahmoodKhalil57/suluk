@@ -205,6 +205,10 @@ export function tableZodSchemas<T extends AnyTable>(table: T, opts: TableZodOpti
   };
 }
 
+/** The actual `nanoid` package, re-exported so a schema imports it from ONE place (`@suluk/drizzle`) alongside the seam:
+ *  `text("id").primaryKey().$defaultFn(() => nanoid())`, validated on the wire with `.zod((s) => s.nanoid())`. */
+export { nanoid } from "nanoid";
+
 /** Bound a `mode:"timestamp"` column's zod (a `ZodDate`) by EPOCH-MS values — ergonomic `min`/`max` on a Date column WITHOUT
  *  making it an integer: `createdAt.zod((s) => msRange(s, { min: 0 }).meta({…}))`. The bounds ride into the DB `Date` schema AND
  *  (via {@link wireDto}) onto the wire epoch-ms number. */

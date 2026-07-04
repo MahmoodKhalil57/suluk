@@ -1,0 +1,20 @@
+# C088 — CONSOLIDATE the drizzle `.zod()` schema seam into the PUBLISHED @suluk/drizzle package; the base app RE-EXPORTS it, so
+# `app.ts` is CLEAN (one source of truth, no inline machinery). @suluk/drizzle 0.7.0 + @suluk/platform 0.18.0. Verified in ATF (tsc 0).
+
+# @suluk/drizzle is now the SINGLE SOURCE of the seam: the column `.zod()` + table `.zod()`/`.zodSchema` augmentation,
+# `tableZod`/`tableZodSchemas`, `wireDto` (Date→epoch-ms + carries min/max bounds), `msRange`, the ACTUAL `nanoid` package
+# (deps `nanoid@^5.1.16`, re-exported — not an inline impl), `stampRefs` (auto `db.<table>.<field>` provenance). The base `app`
+# `registry/foundation/app/app.ts` no longer INLINES any of it: it drops from ~270 to ~55 lines (the Hono app + the `Db` Effect
+# service + createApp) and `export { tableZod, tableZodSchemas, wireDto, msRange, nanoid } from "@suluk/drizzle"` — the re-export
+# INSTALLS the `.zod()`/`.zodSchema` augmentation (a side effect) AND hands a schema file the seam from `../app` unchanged. @>=0.85
+claim c088_seam_consolidated_app_clean: Bool @>=0.85 = True
+falsified_when c088_seam_consolidated_app_clean == False
+
+# The generated app now DEPS @suluk/drizzle directly: `@suluk/drizzle` added to @suluk/platform's `BASE_DEPS` (catalog.ts), so the
+# generator writes it into every app's package.json (on "latest"), and `nanoid` arrives transitively. `tableSchemas` (the app's
+# old typed-refine variant) is DELETED — no registry module ever called it (only the internal `.zodSchema` getter used it, now
+# the package's `tableZod`). Proven end-to-end (local integration + regenerate): the clean `app.ts` + consolidated package tsc
+# CLEAN; `nanoid()` yields a real 21-char id; `todo.zodSchema` still carries every field's refinement + `$ref` (entity `db.todo`,
+# `title.$ref = db.todo.title`) + `wireDto` bounds (createdAt minimum 0). @suluk/drizzle 55 tests, tsc clean. platform 0.18.0. @>=0.85
+claim c088_base_dep_and_generated_app_clean: Bool @>=0.85 = True
+falsified_when c088_base_dep_and_generated_app_clean == False
