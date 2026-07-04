@@ -69,12 +69,16 @@ function errorOf(orElse?: (ctx: ActionCtx, input: never) => HttpErrorInstance): 
  *  absent row FAILS with `orElse` (a by-id 404). The `query` is the single source of the SCHEMA; `orElse` is the single source
  *  of the ERROR — both bubble into the api doc with NOTHING restated (no `ok.schema`, no `errors: […]`). */
 export function queryOne<In, Row, E extends HttpErrorInstance = never>(def: QueryBase & {
+  /** the input schema (usually `table.zodSchema.pick({…})`) — TYPES the query's input AND becomes the request BODY (validated +
+   *  bubbled to the contract), so the input shape + its validation are DERIVED from the db, not restated. Omit for a by-id input. */
+  input?: z.ZodType<In>;
   query: (db: DrizzleD1Database, ctx: ActionCtx, input: In) => PromiseLike<Row[]>;
   orElse?: (ctx: ActionCtx, input: In) => E;
 }): SulukFn<In, Row, Db> {
   const schema = queryZodSchema(def.query(BUILD_DB, DUMMY_CTX, DUMMY_IN as In)) as z.ZodType<Row>;
   return sulukFn({
     cost: def.cost, step: def.step, errors: errorOf(def.orElse as never), ok: { schema },
+    ...(def.input ? { body: def.input, validateBody: true } : {}),
     run: (ctx, input: In) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
       const [row] = yield* Effect.promise(() => def.query(db, ctx, input));
       if (row) return row;
@@ -87,11 +91,13 @@ export function queryOne<In, Row, E extends HttpErrorInstance = never>(def: Quer
 /** A MODEL that returns MANY rows — `ok.schema` is DERIVED as the ITEM schema from the query's projection (a route's `listView`
  *  arrays it). The `query` is the single source. */
 export function queryMany<In, Row>(def: QueryBase & {
+  input?: z.ZodType<In>;
   query: (db: DrizzleD1Database, ctx: ActionCtx, input: In) => PromiseLike<Row[]>;
 }): SulukFn<In, Row[], Db> {
   const schema = queryZodSchema(def.query(BUILD_DB, DUMMY_CTX, DUMMY_IN as In));
   return sulukFn({
     cost: def.cost, step: def.step, ok: { schema },
+    ...(def.input ? { body: def.input, validateBody: true } : {}),
     run: (ctx, input: In): Effect.Effect<Row[], never, Db> => Effect.flatMap(Db, (db) => Effect.promise(() => def.query(db, ctx, input))),
   });
 }
@@ -100,11 +106,13 @@ export function queryMany<In, Row>(def: QueryBase & {
  *  `orElse` (a by-id 404). Like queryOne, the ERROR is DEFINED ONCE in `orElse` and bubbles into the doc (no `errors: […]`).
  *  Sets NO response schema — the wire body is shaped by a following step (e.g. `{ deleted: true }`). Returns void. */
 export function mutate<In, E extends HttpErrorInstance = never>(def: QueryBase & {
+  input?: z.ZodType<In>;
   query: (db: DrizzleD1Database, ctx: ActionCtx, input: In) => PromiseLike<{ readonly length: number }>;
   orElse: (ctx: ActionCtx, input: In) => E;
 }): SulukFn<In, void, Db> {
   return sulukFn({
     cost: def.cost, step: def.step, errors: errorOf(def.orElse as never),
+    ...(def.input ? { body: def.input, validateBody: true } : {}),
     run: (ctx, input: In) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
       const rows = yield* Effect.promise(() => def.query(db, ctx, input));
       if (rows.length === 0) return yield* Effect.fail(def.orElse(ctx, input));

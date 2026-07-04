@@ -7,6 +7,7 @@
  * contract). Mount: `app.route("/api/todos", todoRoutes())`.
  */
 import { Effect } from "effect";
+import type { z } from "zod";
 import { routeGroup, sulukFn, sulukFmt, sulukRoute, view, listView, type AnySulukFn } from "@suluk/effect";
 import { Db, DbLive, type Bindings } from "../app";
 import * as S from "../services/todo";
@@ -38,10 +39,11 @@ const getTodo = sulukFmt(
 );
 
 const createTodo = sulukFmt(
+  // the request body + its validation BUBBLE UP from the model's `input` (insertTodo) — the route restates nothing.
   sulukFn({ method: "post", path: "/api/todos", name: "createTodo", roles: ["signed-in"],
-    summary: "Create a todo (owned by the signed-in user).", body: CreateReq, validateBody: true, ok: { status: 201 }, view: view("todo"),
+    summary: "Create a todo (owned by the signed-in user).", ok: { status: 201 }, view: view("todo"),
     step: { role: "when", text: "they create a todo" },
-    run: (ctx, body: { title: string }) => Effect.succeed(body) }),
+    run: (ctx, body: z.infer<typeof CreateReq>) => Effect.succeed(body) }),
   S.createTodo,
 );
 
