@@ -16,8 +16,21 @@ import { Effect } from "effect";
 import { z } from "zod";
 import { and, desc, eq } from "drizzle-orm";
 import { op, envelope, listEnvelope, fixedEnvelope, NotFoundError, type CostModel } from "@suluk/effect";
-import { Db } from "../app";
-import { todo, TodoItemSchema, CreateReq, UpdateReq, type TodoRow, type TodoItem } from "../db/todo";
+import { Db, wireDto } from "../app";
+import { todo } from "../db/todo";
+
+// ── EVERYTHING the operations need is DERIVED from the table's master `todo.zodSchema` (co-located with the ops, not in the
+//    schema file). Add/annotate a column in `db/todo.ts` and every one of these updates. ─────────────────────────────────────
+/** The stored row (drizzle returns `Date` for the timestamp columns) — inferred from the master. */
+export type TodoRow = z.infer<typeof todo.zodSchema>;
+/** The wire DTO — `wireDto` projects the master's `Date` timestamp columns to epoch-ms (carrying each column's `.zod()` meta). */
+export const TodoItemSchema = wireDto(todo.zodSchema);
+/** A todo as returned to the owner — `z.infer` of the wire DTO (timestamps as epoch-ms). */
+export type TodoItem = z.infer<typeof TodoItemSchema>;
+/** request bodies — SLICED off the master so a column's `.trim().min(1).max(500).regex(…)` validates on the wire. Create takes
+ *  `title`; update is a partial patch of `{ title?, completed? }`. Referenced as the ops' `input`. */
+export const CreateReq = todo.zodSchema.pick({ title: true });
+export const UpdateReq = todo.zodSchema.pick({ title: true, completed: true }).partial();
 
 /** Project a stored row (Date timestamps) to the wire DTO (epoch-ms). */
 const toItem = (r: TodoRow): TodoItem => ({

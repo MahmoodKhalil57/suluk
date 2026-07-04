@@ -1,13 +1,12 @@
 /**
- * The todo schema (Suluk registry: `todo`) — ONE table is the master, and EVERYTHING infers from `todo.zodSchema`: a static,
- * precisely-typed zod object read straight off the table (the annotated SELECT projection — every column's co-located `.zod()`
- * refinement + the table-level `.zod()` entity). Slice operations off it (`todo.zodSchema.pick({title:true})`), infer types
- * (`z.infer<typeof todo.zodSchema>`), derive the wire DTO (`wireDto`). Add/annotate a column and everything downstream updates.
+ * The todo TABLE (Suluk registry: `todo`) — the ONE master, and NOTHING else: just the drizzle table, every column carrying
+ * its wire refinement inline via `.zod(s => …)` plus a table-level `.zod()` for the entity. Everything DERIVABLE from it — the
+ * row/DTO types, the wire DTO, the sliced request bodies — lives next to the OPERATIONS in `services/todo.ts`, inferred from
+ * `todo.zodSchema` (the annotated SELECT projection). Add/annotate a column here and every derived artifact over there updates.
  * `userId` is a FK to `user.id` (referential integrity); every query is owner-scoped.
  */
 import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
-import { z } from "zod";
-import { wireDto, nanoid, msRange } from "../app";
+import { nanoid, msRange } from "../app";
 import { user } from "../db/auth";
 
 // ── the table — each column carries its wire refinement inline via `.zod(s => …)` (FULL zod: constraints + `.meta()`); a
@@ -44,17 +43,5 @@ export const todo = sqliteTable(
   (t) => ({ byUser: index("todo_userId_idx").on(t.userId) }), // the owner filter is the hot path
 ).zod((s) => s.meta({ description: "A todo item." })); // ← table-level: the ENTITY description, co-located with the DDL
 
-// ── EVERYTHING below infers from the master `todo.zodSchema` — no `tableSchemas(...)`, no restated shapes. ───────────────────
-/** The stored row (drizzle returns `Date` for the timestamp columns) — inferred from the master. */
-export type TodoRow = z.infer<typeof todo.zodSchema>;
-
-// ── the WIRE DTO — derived AUTOMATICALLY: `wireDto` projects the master's `Date` timestamp columns to epoch-ms (carrying their
-//    `.zod()` meta) + preserves the entity `.meta()`. No hand-written `.omit()/.extend()`. ─────────────────────────────────────
-export const TodoItemSchema = wireDto(todo.zodSchema);
-/** A todo as returned to the owner — z.infer of the wire DTO (timestamps as epoch-ms). */
-export type TodoItem = z.infer<typeof TodoItemSchema>;
-
-// ── request bodies — SLICED off the master so a column's `.trim().min(1).max(500).regex(…)` validates on the wire. Create takes
-//    `title`; update is a partial patch of `{ title?, completed? }`. The ops reference these as their `input`. ─────────────────
-export const CreateReq = todo.zodSchema.pick({ title: true });
-export const UpdateReq = todo.zodSchema.pick({ title: true, completed: true }).partial();
+// Everything else — `TodoRow` / `TodoItemSchema` / `TodoItem` / `CreateReq` / `UpdateReq` — is DERIVED from `todo.zodSchema`
+// next to the operations that use it, in `services/todo.ts`. Nothing but the table lives here.
