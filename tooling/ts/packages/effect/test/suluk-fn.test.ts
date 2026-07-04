@@ -99,12 +99,11 @@ describe("sulukFmt — a create (body), a list (listView), a delete (200 body), 
     sulukFn({ method: "delete", path: "/api/items/:id", name: "deleteItem", roles: ["signed-in"], summary: "Delete.", ok: { schema: z.object({ deleted: z.literal(true) }) }, run: (ctx) => Effect.succeed(ctx.param("id")!) }),
     sulukFn({ cost: deleteCost, errors: [NotFoundError], run: (ctx, id: string) => Effect.map(removeItemM.run(ctx, id), () => ({ deleted: true as const })) }),
   );
-  // composite fan-out — a route that runs TWO services + declares the merged { item, count } body (deps, not a linear pipe).
-  const detailRoute = sulukFn({
-    deps: { get: getItem, count: sulukFmt(countItemsM) }, method: "get", path: "/api/items/:id/detail", name: "detail", roles: ["signed-in"], summary: "Item + count.",
-    ok: { schema: z.object({ item: ItemSchema, count: z.number().int() }) },
-    run: (ctx, _in, { get, count }) => Effect.gen(function* () { const item = yield* get.run(ctx, ctx.param("id")!); const c = yield* count.run(ctx, undefined); return { item, count: c }; }),
-  });
+  // composite fan-out — `sulukFmt.all` runs TWO services on the same input; the { item, count } body + its schema are DERIVED.
+  const detailRoute = sulukFmt(
+    sulukFn({ method: "get", path: "/api/items/:id/detail", name: "detail", roles: ["signed-in"], summary: "Item + count.", run: (ctx) => Effect.succeed(ctx.param("id")!) }),
+    sulukFmt.all({ item: getItem, count: sulukFmt(countItemsM) }),
+  );
 
   test("create — request.json ← the body; 201 { item }; write cost bubbled from the model", () => {
     const { contract } = sulukRoute(createRoute, { provide: provideStore(new Map()) });
@@ -137,9 +136,12 @@ describe("sulukFmt — a create (body), a list (listView), a delete (200 body), 
     expect(responseList(contract.responses).find((r) => r.status === 204)).toBeFalsy();
   });
 
-  test("composite — { item, count }; the 404 bubbles from the get service's model", async () => {
+  test("composite — sulukFmt.all DERIVES the { item, count } schema; the 404 bubbles from the get service's model", async () => {
     const { contract } = sulukRoute(detailRoute, { provide: provideStore(new Map()) });
+    const ok = responseList(contract.responses).find((r) => r.status === 200);
+    expect(Object.keys((z.toJSONSchema(ok!.schema!) as { properties: Record<string, unknown> }).properties).sort()).toEqual(["count", "item"]); // derived from the branches, not restated
     expect(responseList(contract.responses).find((r) => r.status === 404)?.schemaName).toBe("NotFoundError");
+    expect(contract.cost?.infra).toEqual({ "d1.read": 2, "worker.request": 1 }); // both branches' read cost SUMmed
     const res = await mount(sulukRoute(detailRoute, { provide: provideStore(new Map([["a", { id: "a", title: "x" }]])) })).request("/api/items/a/detail");
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ item: { id: "a", title: "x" }, count: 1 });

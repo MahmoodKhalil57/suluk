@@ -7,11 +7,10 @@
  * contract). Mount: `app.route("/api/todos", todoRoutes())`.
  */
 import { Effect } from "effect";
-import { z } from "zod";
 import { routeGroup, sulukFn, sulukFmt, sulukRoute, view, listView, type AnySulukFn } from "@suluk/effect";
 import { Db, DbLive, type Bindings } from "../app";
 import * as S from "../services/todo";
-import { TodoItemSchema, CreateReq, UpdateReq } from "../models/todo";
+import { CreateReq, UpdateReq } from "../models/todo";
 
 // The module's ENVELOPE — `.ops` → the contract, `.router()` → the mount. Single source of the `/api/todos/*` surface.
 const todos = routeGroup("/api/todos");
@@ -57,18 +56,15 @@ const deleteTodo = sulukFmt(
   S.deleteTodo,
 );
 
-// getTodoDetail → { todo, count } — the ROUTE runs TWO services (deps, a fan-out not a linear pipe) and declares the composite
-// `ok`. The 404 (from getTodo's model) + cost (both services, summed) bubble up; only the merged wire shape is stated here.
-const getTodoDetail = sulukFn({
-  deps: { get: S.getTodo, count: S.countTodos }, method: "get", path: "/api/todos/:id/detail", name: "getTodoDetail", roles: ["signed-in"],
-  summary: "Get one todo the caller owns, alongside their total todo count.",
-  ok: { schema: z.object({ todo: TodoItemSchema, count: z.number().int() }).describe("A todo the caller owns and their total count.") },
-  run: (ctx, _in, { get, count }) => Effect.gen(function* () {
-    const t = yield* get.run(ctx, ctx.param("id")!);
-    const c = yield* count.run(ctx, undefined);
-    return { todo: t, count: c };
-  }),
-});
+// getTodoDetail → { todo, count } — the FAN-OUT: `sulukFmt.all` runs the getTodo + countTodos services on the same input and
+// DERIVES the merged `{ todo, count }` body (its schema) + UNIONs their errors (getTodo's 404) + SUMs their cost. The controller
+// extracts the id; nothing is restated — not the composite schema, not the 404, not the cost.
+const getTodoDetail = sulukFmt(
+  sulukFn({ method: "get", path: "/api/todos/:id/detail", name: "getTodoDetail", roles: ["signed-in"],
+    summary: "Get one todo the caller owns, alongside their total todo count.",
+    run: (ctx) => Effect.succeed(ctx.param("id")!) }),
+  sulukFmt.all({ todo: S.getTodo, count: S.countTodos }),
+);
 
 // MOUNT every route — `sulukRoute` derives the contract + the hono handler from the merged slice.
 const routes: AnySulukFn[] = [listTodo, getTodo, createTodo, updateTodo, deleteTodo, getTodoDetail];

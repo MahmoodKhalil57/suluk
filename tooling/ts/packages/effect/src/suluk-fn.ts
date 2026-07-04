@@ -71,7 +71,7 @@ export function listView<K extends string>(key: K, opts?: { describe?: string })
 /**
  * A SLICE of the core v4 {@link Request} — the ONE surface a suluk function maintains, authored with zod. Every field maps to a
  * `Request` member (`body`→`contentSchema`, `ok`→a 2xx response, `errors`→typed 4xx/5xx, `cost`→`x-suluk-cost`, …). A function
- * declares only the fields it OWNS; the rest bubble up from its `deps`.
+ * declares only the fields it OWNS; the rest bubble up when {@link sulukFmt} merges the pipeline's slices.
  */
 export interface RequestSlice {
   method?: RouteContract["method"];
@@ -100,24 +100,25 @@ export interface RequestSlice {
   cost?: CostModel;
   /** → `x-suluk-ratelimit`: the route takes the TIGHTEST budget any layer declares. */
   rateLimit?: SulukRateLimit;
-  /** → `x-suluk-source`: provenance to the state source (e.g. the drizzle table `model` was built from). */
+  /** → `x-suluk-source`: provenance to the state source (e.g. the drizzle table a model sulukFn queries). */
   source?: SulukSource;
   security?: RouteContract["security"];
 }
 
-/** Anything that contributes a {@link RequestSlice} to the bubble — a {@link SulukFn} or a {@link model}. */
+/** Anything that carries a {@link RequestSlice} — every {@link SulukFn} is one; {@link sulukFmt} merges their slices. */
 export interface SliceProvider {
   readonly slice: RequestSlice;
 }
 
 /**
  * A SULUK FUNCTION — `In` the run's input, `Out` its domain result (INFERRED from the Effect), `R` the undischarged Effect
- * requirement (`Db`/a service tag), settled at the route via `provide`. `slice` is the FULLY-MERGED contract (own ⊕ deps).
+ * requirement (`Db`/a service tag), settled at the route via `provide`. `slice` is this fn's own contract contribution; a
+ * pipeline's merged slice comes from {@link sulukFmt}.
  */
 export interface SulukFn<In, Out, R> extends SliceProvider {
   readonly [SULUK]: true;
   readonly slice: RequestSlice;
-  /** the Effect impl with `deps` already baked in — call it from a higher layer's `run` (`svc.run(ctx, id)`) to thread it. */
+  /** the Effect impl. {@link sulukFmt} threads it in a pipeline (`fns[i].run(ctx, prevOut)`); a leaf just runs. */
   readonly run: (ctx: ActionCtx, input: In) => Effect.Effect<Out, AnyHttpErrorInstance, R>;
 }
 
@@ -189,17 +190,17 @@ function mergeSlices(own: RequestSlice, deps: readonly RequestSlice[]): RequestS
 // ── THE CONSTRUCTOR ─────────────────────────────────────────────────────────────────────────────────────────────────────
 
 /**
- * Author a {@link SulukFn}. `deps` (a record of lower slice providers) BUBBLE their slices into this one and are injected into
- * `run` as its 3rd arg. `Out` is INFERRED from the Effect. The run channel is PERMISSIVE (any tagged httpError) so this layer
- * may call a lower layer that fails without re-declaring the error — the `errors` you list only DOCUMENTS this layer's own new
- * failure modes, and every layer's errors bubble to the doc. `Errs` still types your own `run`'s declared throws.
+ * Author a {@link SulukFn} — a LEAF: its own contract slice + `run`. It composes with OTHER sulukFns only through {@link sulukFmt}
+ * (linear pipeline) / {@link sulukFmt.all} (fan-out); there is no in-constructor `deps` — a layer never reaches into another. `Out`
+ * is INFERRED from the Effect. The run channel is PERMISSIVE (any tagged httpError) so a pipeline may run a lower fn that fails
+ * without re-declaring the error — `errors` only DOCUMENTS this fn's own new failure modes, and every fn's errors bubble via the
+ * merge. `Errs` types this fn's own declared throws.
  */
 export function sulukFn<
   In = void,
   Out = unknown,
   R = never,
   const Errs extends readonly AnyHttpError[] = readonly [],
-  Deps extends Record<string, SliceProvider> = Record<string, never>,
 >(def: {
   method?: RouteContract["method"];
   path?: string;
@@ -223,20 +224,18 @@ export function sulukFn<
   rateLimit?: SulukRateLimit;
   source?: SulukSource;
   security?: RouteContract["security"];
-  deps?: Deps;
-  run: (ctx: ActionCtx, input: In, deps: Deps) => Effect.Effect<Out, InstanceType<Errs[number]> | AnyHttpErrorInstance, R>;
+  run: (ctx: ActionCtx, input: In) => Effect.Effect<Out, InstanceType<Errs[number]> | AnyHttpErrorInstance, R>;
 }): SulukFn<In, Out, R> {
-  const deps = def.deps ?? ({} as Deps);
   const own: RequestSlice = {
     method: def.method, path: def.path, name: def.name, summary: def.summary, description: def.description,
     tags: def.tags, roles: def.roles, scope: def.scope, scopes: def.scopes, internal: def.internal,
     body: def.body, query: def.query, validateBody: def.validateBody, ok: def.ok, view: def.view,
     errors: def.errors, cost: def.cost, rateLimit: def.rateLimit, source: def.source, security: def.security,
   };
-  const slice = mergeSlices(own, Object.values(deps).map((d) => d.slice));
+  const slice = mergeSlices(own, []); // normalize (drop undefined keys) — nothing to bubble; sulukFmt does the composing.
   // every declared error is a yieldable httpError, so widening the run's channel to `AnyHttpErrorInstance` is sound (the extra
   // member `InstanceType<Errs[number]>` is only nominally distinct from `YieldableError` at the type level).
-  const run = ((ctx: ActionCtx, input: In) => def.run(ctx, input, deps)) as SulukFn<In, Out, R>["run"];
+  const run = def.run as SulukFn<In, Out, R>["run"];
   return { [SULUK]: true, slice, run };
 }
 
@@ -269,6 +268,48 @@ export function sulukFmt(...fns: AnySulukFn[]): AnySulukFn {
     return eff;
   }) as AnySulukFn["run"];
   return { [SULUK]: true, slice, run };
+}
+
+/** the domain output of a sulukFn — for typing the fan-out's keyed body. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type OutOf<Fn> = Fn extends SulukFn<any, infer O, any> ? O : never;
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace sulukFmt {
+  /**
+   * `sulukFmt.all` — FAN OUT: run every branch on the SAME input, then FORMAT their keyed outputs into ONE body. Where
+   * {@link sulukFmt} is a linear pipeline (thread output→input), this is the parallel merge — the second combinator so any
+   * composition is a sulukFmt, never `deps`. Each branch's `ok.schema` becomes a property of the merged response schema
+   * (`{ todo: TodoItem, count: number }`), so the composite body is DERIVED, never restated. errors UNION, cost SUM across branches.
+   *
+   *   sulukFmt.all({ todo: getTodo, count: countTodos })   // → { todo, count }; schema + errors + cost all bubble
+   */
+  export function all<T extends Record<string, AnySulukFn>>(
+    branches: T,
+  ): SulukFn<unknown, { [K in keyof T]: OutOf<T[K]> }, ReqOf<T[keyof T]>> {
+    const entries = Object.entries(branches);
+    const okShape: Record<string, z.ZodTypeAny> = {};
+    const seen = new Set<string>();
+    const errors: AnyHttpError[] = [];
+    const costs: CostModel[] = [];
+    for (const [key, fn] of entries) {
+      const s = fn.slice;
+      if (s.ok?.schema) okShape[key] = s.ok.schema as z.ZodTypeAny;
+      for (const E of s.errors ?? []) if (!seen.has(E.errorTag)) { seen.add(E.errorTag); errors.push(E); }
+      if (s.cost) costs.push(s.cost);
+    }
+    const slice: RequestSlice = {
+      ok: { schema: z.object(okShape) },
+      ...(errors.length ? { errors } : {}),
+      ...(costs.length ? { cost: sumCost(costs) } : {}),
+    };
+    const run = ((ctx: ActionCtx, input: unknown) =>
+      Effect.map(
+        Effect.all(entries.map(([, fn]) => fn.run(ctx, input as never))),
+        (outs) => Object.fromEntries(entries.map(([key], i) => [key, (outs as unknown[])[i]])),
+      )) as AnySulukFn["run"];
+    return { [SULUK]: true, slice, run } as SulukFn<unknown, { [K in keyof T]: OutOf<T[K]> }, ReqOf<T[keyof T]>>;
+  }
 }
 
 // ── THE HOST + API-REFERENCE BRIDGE ─────────────────────────────────────────────────────────────────────────────────────
