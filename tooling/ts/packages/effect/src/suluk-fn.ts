@@ -4,26 +4,28 @@
  * Effect impl. You maintain ONE surface (the `Request` fields: method / body / params / responses / errors / cost / …); every
  * other split is just HOW you compose these functions.
  *
- * COMPOSITION IS BUBBLING. A function declares its `deps` (the lower functions it calls); their slices MERGE up into its own,
- * so the whole `Request` accretes as you stack layers:
- *   • `errors`  ← the UNION of every layer (a leaf declares `errors:[NotFoundError]` ONCE, where it throws; it bubbles up
- *                 every layer above WITHOUT re-declaration — the run channels stay permissive, like {@link effectRoute}).
- *   • response  ← the domain schema a lower layer supplies (typically a {@link model} over the db) — the outermost `view`
- *                 WRAPS it into the wire body (`{ todo }`), so the response type is never hand-restated.
- *   • `cost`    ← the SUM up the tree (the CostModel monoid); `rateLimit` ← the TIGHTEST; scalars (method/path/roles/body)
- *                 come from whichever layer declares them.
- * This connects the STATE SOURCE (drizzle, via {@link model}) to the HOST + API REFERENCE (hono, via {@link sulukRoute}, which
- * projects the merged slice onto {@link effectRoute} — so it inherits, byte-for-byte, the scope/cost/rate-limit derivation, the
- * 401 guard + `userId` injection, the typed-error rendering, and the emitV4 doc). An arbitrary split — controller→service→model,
- * or any other — is expressible; nothing here hardcodes the layers.
+ * COMPOSITION IS BUBBLING. Every layer — MODEL, SERVICE, ROUTE — is a `sulukFn`, and {@link sulukFmt} RUNS+FORMATS a layer over
+ * the one below (a service `sulukFmt`s its models; a route `sulukFmt`s its services). Because every fact lives on the leaf MODEL,
+ * the whole `Request` accretes upward with nothing restated:
+ *   • `cost`    ← DEFINED ON THE MODEL; SUMmed up the tree (the CostModel monoid) — a service/route hand-declares none.
+ *   • `errors`  ← the UNION of every layer (a model declares `errors:[NotFoundError]` ONCE; it bubbles up every layer WITHOUT
+ *                 re-declaration — run channels stay permissive, like {@link effectRoute}).
+ *   • response  ← the model's `ok.schema` (`wireDto(table.zodSchema)` — the db schema IS the response type); the route's `view`
+ *                 WRAPS it into the wire body (`{ todo }`). `rateLimit` ← the TIGHTEST; scalars lead from the outermost layer.
+ * This connects the STATE SOURCE (drizzle, in the model's query + schema) to the HOST + API REFERENCE (hono, via {@link sulukRoute},
+ * which projects the merged slice onto {@link effectRoute} — inheriting the scope/cost/rate-limit derivation, the 401 guard +
+ * `userId` injection, the typed-error rendering, and the emitV4 doc). Any split — controller→service→model or otherwise — is just
+ * how you `sulukFmt`; nothing hardcodes the layers.
  *
- *   const TodoModel   = model(wireDto(todo.zodSchema));                         // db → the domain schema (state source)
- *   const getTodoSvc  = sulukFn({ deps: { m: TodoModel }, errors: [NotFoundError], cost: readCost,
- *                                 run: (ctx, id: string) => Effect.flatMap(Db, (db) => …) });   // business + the 404
- *   const getTodo     = sulukFn({ deps: { svc: getTodoSvc }, method: "get", path: "/api/todos/:id",
- *                                 roles: ["signed-in"], summary: "…", view: view("todo"),        // HTTP identity + the { todo } wrap
- *                                 run: (ctx, _in, { svc }) => svc.run(ctx, ctx.param("id")!) });
- *   todos.route(sulukRoute(getTodo, { provide }));                              // hono host + the api reference, whole
+ *   // MODEL — the db query + the state-source facts (schema, cost, by-id error) on its slice
+ *   const findTodo   = sulukFn({ cost: readCost, errors: [NotFoundError], ok: { schema: wireDto(todo.zodSchema) },
+ *                                run: (ctx, id: string) => Effect.flatMap(Db, (db) => …) });
+ *   const getTodoSvc = sulukFmt(findTodo);                                        // SERVICE — runs+formats the model(s)
+ *   const getTodo    = sulukFmt(                                                  // ROUTE — runs+formats the service(s) + HTTP/view
+ *     sulukFn({ method: "get", path: "/api/todos/:id", roles: ["signed-in"], summary: "…", view: view("todo"),
+ *               run: (ctx) => Effect.succeed(ctx.param("id")!) }),                //   controller: HTTP identity + extract the id
+ *     getTodoSvc);
+ *   todos.route(sulukRoute(getTodo, { provide }));                               // hono host + the api reference, whole
  */
 import { Effect } from "effect";
 import { z } from "zod";
@@ -126,23 +128,11 @@ export type AnySulukFn = SulukFn<any, any, any>;
 export const isSulukFn = (v: unknown): v is AnySulukFn =>
   typeof v === "object" && v !== null && (v as Record<symbol, unknown>)[SULUK] === true;
 
-/** A MODEL — a slice provider that bridges a DOMAIN schema (typically the db table's, the state source) into the contract as
- *  the response schema, plus the schema itself for a service to map rows against. NOT runnable — a pure contract contribution. */
-export interface SulukModel<Dom> extends SliceProvider {
-  readonly slice: RequestSlice;
-  /** the domain (wire) schema — pass the db's `wireDto(table.zodSchema)` so the response type IS the database schema. */
-  readonly schema: z.ZodType<Dom>;
-}
-
-/**
- * Build a {@link SulukModel} from a DOMAIN schema — the state-source bridge. Feed it the db's `wireDto(table.zodSchema)` and the
- * response schema (and its per-field constraints, `$ref` provenance, and descriptions) bubbles straight from the database into
- * the api reference. The schema is the ONLY thing declared; the service maps rows to it, the view wraps it.
- */
-export function model<Dom>(domainSchema: z.ZodType<Dom>, opts?: { describe?: string; source?: SulukSource }): SulukModel<Dom> {
-  const ok: NonNullable<RequestSlice["ok"]> = { schema: domainSchema, ...(opts?.describe ? { description: opts.describe } : {}) };
-  return { slice: { ok, ...(opts?.source ? { source: opts.source } : {}) }, schema: domainSchema };
-}
+// A MODEL is just a {@link sulukFn} too — the leaf that runs the db query and carries the STATE-SOURCE facts on its slice: the
+// entity `ok.schema` (`wireDto(table.zodSchema)` — the db schema IS the response type, with its constraints + `$ref` provenance),
+// its `cost` (defined HERE, so it bubbles up), and any by-id `errors` ([NotFoundError]). A SERVICE `sulukFmt`s models; a ROUTE
+// `sulukFmt`s services. So there is no separate model primitive — models, services, routes are all sulukFns, and {@link sulukFmt}
+// runs+formats each layer over the one below.
 
 // ── SLICE MERGE (the bubbling) ──────────────────────────────────────────────────────────────────────────────────────────
 
@@ -224,7 +214,9 @@ export function sulukFn<
   body?: z.ZodType<In>;
   query?: z.ZodTypeAny;
   validateBody?: boolean;
-  ok?: { status?: number; schema?: z.ZodType<Out>; description?: string };
+  /** the response schema BEFORE any `view` wrapping — a model's ENTITY schema. Decoupled from `Out`: a list model returns
+   *  `Out = Item[]` but its `ok.schema` is the `Item` (a `listView` arrays it), so this is `z.ZodTypeAny`, not `z.ZodType<Out>`. */
+  ok?: { status?: number; schema?: z.ZodTypeAny; description?: string };
   view?: View;
   errors?: Errs;
   cost?: CostModel;
@@ -245,6 +237,37 @@ export function sulukFn<
   // every declared error is a yieldable httpError, so widening the run's channel to `AnyHttpErrorInstance` is sound (the extra
   // member `InstanceType<Errs[number]>` is only nominally distinct from `YieldableError` at the type level).
   const run = ((ctx: ActionCtx, input: In) => def.run(ctx, input, deps)) as SulukFn<In, Out, R>["run"];
+  return { [SULUK]: true, slice, run };
+}
+
+// ── THE PIPELINE FORMATTER ──────────────────────────────────────────────────────────────────────────────────────────────
+
+/**
+ * `sulukFmt` — RUN a pipeline of {@link sulukFn}s and FORMAT (merge) their slices into one. This is how a layer composes the one
+ * below it: a SERVICE `sulukFmt`s its MODELS, a ROUTE `sulukFmt`s its SERVICES — and because every fact (schema / cost / errors)
+ * lives on the leaf model, it BUBBLES up through every layer, so a service/route hand-declares NONE of them.
+ *   • RUN — the fns thread left→right: `fns[0].run(ctx, input)` → `fns[1].run(ctx, out0)` → … The terminal fn's output is the
+ *     response domain (a route's `view` wraps it). A single-fn pipeline is just that fn, run.
+ *   • FORMAT — every fn's slice MERGES (errors UNION, cost SUM, rate-limit tightest, response schema + scalars inherit). The
+ *     FIRST fn's scalars win (so a route's controller — its `method`/`path`/`view` — leads; the model's `ok`/`cost`/`errors`
+ *     follow). Define costs in the model and they SUM up the tree here with nothing restated.
+ * Returns a {@link SulukFn}, so pipelines nest (a route is `sulukFmt(controller, service)` where `service = sulukFmt(model)`).
+ */
+export function sulukFmt<In, Out, R>(a: SulukFn<In, Out, R>): SulukFn<In, Out, R>;
+export function sulukFmt<In, A, Out, R1, R2>(a: SulukFn<In, A, R1>, b: SulukFn<A, Out, R2>): SulukFn<In, Out, R1 | R2>;
+export function sulukFmt<In, A, B, Out, R1, R2, R3>(a: SulukFn<In, A, R1>, b: SulukFn<A, B, R2>, c: SulukFn<B, Out, R3>): SulukFn<In, Out, R1 | R2 | R3>;
+export function sulukFmt(...fns: AnySulukFn[]): AnySulukFn;
+export function sulukFmt(...fns: AnySulukFn[]): AnySulukFn {
+  if (fns.length === 0) throw new Error("sulukFmt: needs at least one sulukFn to run + format.");
+  const slice = fns.reduce<RequestSlice>((acc, f) => mergeSlices(acc, [f.slice]), {});
+  const run = ((ctx: ActionCtx, input: unknown) => {
+    let eff = fns[0].run(ctx, input as never);
+    for (let i = 1; i < fns.length; i++) {
+      const next = fns[i];
+      eff = Effect.flatMap(eff, (out) => next.run(ctx, out as never));
+    }
+    return eff;
+  }) as AnySulukFn["run"];
   return { [SULUK]: true, slice, run };
 }
 

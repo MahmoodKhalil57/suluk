@@ -1,7 +1,7 @@
 {
   "name": "@suluk/effect",
-  "version": "0.9.0",
-  "description": "Effect-native routes for the v4 contract: `sulukFn` — a composable unit carrying a SLICE of the core `Request`, so composing functions (controller→service→model, or any split) BUBBLES the whole contract up, bridging drizzle (state source) to hono (host + api reference). Typed HTTP errors bubble the handler's Effect error channel into detailed error responses; responses are DERIVED from the handler's A/E types. CANDIDATE tooling.",
+  "version": "0.10.0",
+  "description": "Effect-native routes for the v4 contract: `sulukFn` — a composable unit carrying a SLICE of the core `Request` — and `sulukFmt`, which RUNS+FORMATS a pipeline of them. Every layer (MODEL/SERVICE/ROUTE) is a sulukFn; a service `sulukFmt`s its models, a route `sulukFmt`s its services, so facts DEFINED on the leaf model (cost, by-id errors, the db schema as the response type) BUBBLE up with nothing restated — bridging drizzle (state source) to hono (host + api reference). CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"
   },

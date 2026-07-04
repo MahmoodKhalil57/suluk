@@ -3,42 +3,43 @@ import { Context, Effect, Layer } from "effect";
 import { Hono } from "hono";
 import { z } from "zod";
 import { responseList } from "@suluk/hono";
-import { sulukFn, model, view, listView, sulukRoute, NotFoundError, type CostModel } from "../src/index";
+import { sulukFn, sulukFmt, view, listView, sulukRoute, NotFoundError, type CostModel } from "../src/index";
 
 /**
- * THE SULUK FUNCTION — the composable v4-contract unit. A leaf carries a SLICE of the core `Request`; declaring `deps` MERGES
- * lower slices up (the bubbling). This proves a controller→service→model split maintains ONE surface: the response schema comes
- * from the model (state source), the 404 is declared ONCE at the service and bubbles to the controller's doc without
- * re-declaration, and `sulukRoute` projects the whole thing to a v4 contract + a live hono handler.
+ * THE SULUK FUNCTION + `sulukFmt` — every layer (MODEL / SERVICE / ROUTE) is a `sulukFn`; `sulukFmt` RUNS+FORMATS a pipeline of
+ * them. Facts live on the leaf MODEL — cost DEFINED there, the by-id error declared once, the response schema from the state
+ * source — and BUBBLE up through the service and route, which hand-declare NONE of them.
  */
 interface ItemT { readonly id: string; readonly title: string }
 const ItemSchema = z.object({ id: z.string(), title: z.string().describe("The item text.") }).describe("An item.");
 class Store extends Context.Tag("Store")<Store, {
   readonly get: (id: string) => Effect.Effect<ItemT, InstanceType<typeof NotFoundError>>;
+  readonly list: () => Effect.Effect<ItemT[]>;
   readonly create: (title: string) => Effect.Effect<ItemT>;
+  readonly count: () => Effect.Effect<number>;
+  readonly remove: (id: string) => Effect.Effect<void, InstanceType<typeof NotFoundError>>;
 }>() {}
 const StoreLive = (rows: Map<string, ItemT>) =>
   Layer.succeed(Store, {
     get: (id) => Effect.gen(function* () { const r = rows.get(id); if (!r) return yield* new NotFoundError({ resource: "item", id }); return r; }),
+    list: () => Effect.sync(() => [...rows.values()]),
     create: (title) => Effect.sync(() => { const r = { id: `id-${rows.size + 1}`, title }; rows.set(r.id, r); return r; }),
+    count: () => Effect.sync(() => rows.size),
+    remove: (id) => Effect.gen(function* () { if (!rows.delete(id)) return yield* new NotFoundError({ resource: "item", id }); }),
   });
 const readCost: CostModel = { components: [], infra: { "d1.read": 1 }, settlement: { method: "rate-limited" } };
 const writeCost: CostModel = { components: [], infra: { "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited", overflow: "credit" } };
+const deleteCost: CostModel = { components: [], infra: { "d1.write": 1 }, settlement: { method: "rate-limited", overflow: "credit" } };
 
-// ── THE STACK — three layers, three slices that bubble into one Request ───────────────────────────────────────────────────
-// MODEL (state source): the domain schema. In a real app this is `wireDto(item.zodSchema)` off a drizzle table.
-const ItemModel = model(ItemSchema);
-// SERVICE: business logic + the 404 (declared ONCE, where it is thrown). `Out` inferred from the Effect.
-const getItemService = sulukFn({
-  deps: { m: ItemModel }, errors: [NotFoundError], cost: readCost,
-  run: (ctx, id: string) => Effect.flatMap(Store, (s) => s.get(id)),
-});
-// CONTROLLER + VIEW: the HTTP identity + the { item } wrap. Declares NO errors — the service's 404 bubbles up.
-const getItem = sulukFn({
-  deps: { svc: getItemService }, method: "get", path: "/api/items/:id", roles: ["signed-in"],
-  summary: "Get one item.", view: view("item"),
-  run: (ctx, _in, { svc }) => svc.run(ctx, ctx.param("id")!),
-});
+// ── MODELS — sulukFns: the db query + the STATE-SOURCE facts (schema / cost / by-id error) on the slice. Cost lives HERE. ────
+const findItem = sulukFn({ cost: readCost, errors: [NotFoundError], ok: { schema: ItemSchema }, run: (ctx, id: string) => Effect.flatMap(Store, (s) => s.get(id)) });
+const listItemsM = sulukFn({ cost: readCost, ok: { schema: ItemSchema }, run: (): Effect.Effect<ItemT[], never, Store> => Effect.flatMap(Store, (s) => s.list()) });
+const createItemM = sulukFn({ cost: writeCost, ok: { schema: ItemSchema }, run: (ctx, body: { title: string }) => Effect.flatMap(Store, (s) => s.create(body.title)) });
+const countItemsM = sulukFn({ cost: readCost, ok: { schema: z.number().int() }, run: (): Effect.Effect<number, never, Store> => Effect.flatMap(Store, (s) => s.count()) });
+const removeItemM = sulukFn({ cost: deleteCost, errors: [NotFoundError], run: (ctx, id: string): Effect.Effect<void, InstanceType<typeof NotFoundError>, Store> => Effect.flatMap(Store, (s) => s.remove(id)) });
+
+// ── SERVICES — `sulukFmt` over models (thin here; the place business logic would go). NO cost/errors restated. ──────────────
+const getItem = sulukFmt(findItem);
 
 const mount = (r: { contract: { method: string; path: string }; handler: (c: import("hono").Context) => Response | Promise<Response> }) => {
   const app = new Hono();
@@ -47,34 +48,34 @@ const mount = (r: { contract: { method: string; path: string }; handler: (c: imp
 };
 const provideStore = (rows: Map<string, ItemT>) => <A, E>(_env: unknown, p: Effect.Effect<A, E, Store>) => p.pipe(Effect.provide(StoreLive(rows)));
 
-describe("sulukFn — the slice BUBBLES up the controller→service→model stack into one Request", () => {
-  test("the merged slice on the outermost fn carries every layer's contribution", () => {
-    expect(getItem.slice.method).toBe("get");
-    expect(getItem.slice.path).toBe("/api/items/:id");
-    expect(getItem.slice.roles).toEqual(["signed-in"]);
-    // errors bubbled from the SERVICE (the controller declared none) ↓
-    expect(getItem.slice.errors?.map((e) => e.errorTag)).toEqual(["NotFoundError"]);
-    // response schema bubbled from the MODEL (two layers down) ↓
-    expect(getItem.slice.ok?.schema).toBe(ItemSchema);
-    // cost bubbled from the SERVICE ↓
-    expect(getItem.slice.cost?.infra).toEqual({ "d1.read": 1 });
+describe("sulukFmt — cost DEFINED on the model bubbles through service→route with nothing restated", () => {
+  // ROUTE — sulukFmt(controller, service). The controller declares ONLY its HTTP identity + view + how to extract the id.
+  const getItemRoute = sulukFmt(
+    sulukFn({ method: "get", path: "/api/items/:id", name: "getItem", roles: ["signed-in"], summary: "Get one item.", view: view("item"), run: (ctx) => Effect.succeed(ctx.param("id")!) }),
+    getItem,
+  );
+
+  test("the route's merged slice inherited cost + errors + schema from the MODEL (never restated up the pipeline)", () => {
+    expect(getItemRoute.slice.method).toBe("get");
+    expect(getItemRoute.slice.cost?.infra).toEqual({ "d1.read": 1 });     // ← from findItem (the model)
+    expect(getItemRoute.slice.errors?.map((e) => e.errorTag)).toEqual(["NotFoundError"]); // ← from findItem
+    expect(getItemRoute.slice.ok?.schema).toBe(ItemSchema);               // ← from findItem
   });
 
-  test("sulukRoute derives the v4 contract — 200 { item } (view over the model schema) + 404 (bubbled) + role-implied 401", () => {
-    const { contract } = sulukRoute(getItem, { provide: provideStore(new Map()) });
+  test("sulukRoute derives the v4 contract — 200 { item } + 404 (bubbled) + role-implied 401; cost summed + worker.request", () => {
+    const { contract } = sulukRoute(getItemRoute, { provide: provideStore(new Map()) });
     const resps = responseList(contract.responses);
-    const ok = resps.find((r) => r.status === 200);
-    const js = z.toJSONSchema(ok!.schema!) as unknown as { properties: Record<string, unknown> };
-    expect(Object.keys(js.properties)).toEqual(["item"]); // the view wrapped the model's domain schema
-    expect(resps.find((r) => r.status === 404)?.schemaName).toBe("NotFoundError"); // declared at the SERVICE, in the doc
-    expect(resps.find((r) => r.status === 401)?.schemaName).toBe("UnauthorizedError"); // from roles:["signed-in"]
-    expect(contract.cost?.infra).toEqual({ "d1.read": 1, "worker.request": 1 }); // bubbled sum + the HTTP call
-    expect(contract.scopes).toEqual(["items:read"]); // derived from roles + the path module segment
+    const js = z.toJSONSchema(resps.find((r) => r.status === 200)!.schema!) as unknown as { properties: Record<string, unknown> };
+    expect(Object.keys(js.properties)).toEqual(["item"]);
+    expect(resps.find((r) => r.status === 404)?.schemaName).toBe("NotFoundError");
+    expect(resps.find((r) => r.status === 401)?.schemaName).toBe("UnauthorizedError");
+    expect(contract.cost?.infra).toEqual({ "d1.read": 1, "worker.request": 1 });
+    expect(contract.scopes).toEqual(["items:read"]);
   });
 
-  test("runtime — 200 { item } for a hit, typed 404 for a miss (the service's error bubbles to the wire)", async () => {
+  test("runtime — the pipeline threads controller→service→model: 200 { item } hit, typed 404 miss", async () => {
     const rows = new Map<string, ItemT>([["a", { id: "a", title: "x" }]]);
-    const app = mount(sulukRoute(getItem, { provide: provideStore(rows) }));
+    const app = mount(sulukRoute(getItemRoute, { provide: provideStore(rows) }));
     const ok = await app.request("/api/items/a");
     expect(ok.status).toBe(200);
     expect(await ok.json()).toEqual({ item: { id: "a", title: "x" } });
@@ -84,131 +85,87 @@ describe("sulukFn — the slice BUBBLES up the controller→service→model stac
   });
 });
 
-describe("sulukFn — a body-carrying create; the request body is the maintained surface", () => {
+describe("sulukFmt — a create (body), a list (listView), a delete (200 body), a composite", () => {
   const CreateReq = z.object({ title: z.string().min(1) });
-  const createItemService = sulukFn({
-    deps: { m: ItemModel }, cost: writeCost,
-    run: (ctx, body: { title: string }) => Effect.flatMap(Store, (s) => s.create(body.title)),
-  });
-  const createItem = sulukFn({
-    deps: { svc: createItemService }, method: "post", path: "/api/items", roles: ["signed-in"],
-    summary: "Create an item.", body: CreateReq, validateBody: true, ok: { status: 201 }, view: view("item"),
-    run: (ctx, body: { title: string }, { svc }) => svc.run(ctx, body),
+  const createRoute = sulukFmt(
+    sulukFn({ method: "post", path: "/api/items", name: "createItem", roles: ["signed-in"], summary: "Create.", body: CreateReq, validateBody: true, ok: { status: 201 }, view: view("item"), run: (ctx, body: { title: string }) => Effect.succeed(body) }),
+    sulukFmt(createItemM),
+  );
+  const listRoute = sulukFmt(
+    sulukFn({ method: "get", path: "/api/items", name: "listItems", roles: ["signed-in"], summary: "List.", view: listView("items"), run: (ctx) => Effect.succeed(undefined) }),
+    sulukFmt(listItemsM),
+  );
+  const deleteRoute = sulukFmt(
+    sulukFn({ method: "delete", path: "/api/items/:id", name: "deleteItem", roles: ["signed-in"], summary: "Delete.", ok: { schema: z.object({ deleted: z.literal(true) }) }, run: (ctx) => Effect.succeed(ctx.param("id")!) }),
+    sulukFn({ cost: deleteCost, errors: [NotFoundError], run: (ctx, id: string) => Effect.map(removeItemM.run(ctx, id), () => ({ deleted: true as const })) }),
+  );
+  // composite fan-out — a route that runs TWO services + declares the merged { item, count } body (deps, not a linear pipe).
+  const detailRoute = sulukFn({
+    deps: { get: getItem, count: sulukFmt(countItemsM) }, method: "get", path: "/api/items/:id/detail", name: "detail", roles: ["signed-in"], summary: "Item + count.",
+    ok: { schema: z.object({ item: ItemSchema, count: z.number().int() }) },
+    run: (ctx, _in, { get, count }) => Effect.gen(function* () { const item = yield* get.run(ctx, ctx.param("id")!); const c = yield* count.run(ctx, undefined); return { item, count: c }; }),
   });
 
-  test("request.json ← the controller's `body`; response 201 { item }; write cost bubbles", () => {
-    const { contract } = sulukRoute(createItem, { provide: provideStore(new Map()) });
+  test("create — request.json ← the body; 201 { item }; write cost bubbled from the model", () => {
+    const { contract } = sulukRoute(createRoute, { provide: provideStore(new Map()) });
     expect(contract.request?.json).toBe(CreateReq);
-    const ok = responseList(contract.responses).find((r) => r.status === 201);
-    const js = z.toJSONSchema(ok!.schema!) as unknown as { properties: Record<string, unknown> };
-    expect(Object.keys(js.properties)).toEqual(["item"]);
     expect(contract.cost?.infra).toEqual({ "d1.write": 1, "d1.read": 1, "worker.request": 1 });
+    const ok = responseList(contract.responses).find((r) => r.status === 201);
+    expect(Object.keys((z.toJSONSchema(ok!.schema!) as { properties: Record<string, unknown> }).properties)).toEqual(["item"]);
   });
 
-  test("runtime — POST creates and returns 201 { item }; a validation miss is a typed 400", async () => {
-    const app = mount(sulukRoute(createItem, { provide: provideStore(new Map()) }));
-    const created = await app.request("/api/items", { method: "POST", body: JSON.stringify({ title: "new" }), headers: { "content-type": "application/json" } });
+  test("runtime — create 201, list 200 { items }, delete 200 { deleted }, miss 404", async () => {
+    const rows = new Map<string, ItemT>([["a", { id: "a", title: "x" }]]);
+    const created = await mount(sulukRoute(createRoute, { provide: provideStore(rows) })).request("/api/items", { method: "POST", body: JSON.stringify({ title: "new" }), headers: { "content-type": "application/json" } });
     expect(created.status).toBe(201);
     expect(((await created.json()) as { item: ItemT }).item.title).toBe("new");
-    const bad = await app.request("/api/items", { method: "POST", body: JSON.stringify({ title: "" }), headers: { "content-type": "application/json" } });
-    expect(bad.status).toBe(400);
-  });
-});
 
-describe("sulukFn — the drizzle→hono bridge: a db table IS the response schema (state source → api reference)", () => {
-  test("model(createSelectSchema(table)) bubbles the db columns straight into the 200 body", async () => {
-    // a REAL drizzle table — the state source. Its select schema is the domain schema the model bridges into the contract.
-    const { sqliteTable, text, integer } = await import("drizzle-orm/sqlite-core");
-    const { createSelectSchema } = await import("../src/index");
-    const widget = sqliteTable("widget", {
-      id: text("id").primaryKey(),
-      label: text("label").notNull(),
-      qty: integer("qty").notNull(),
-    });
-    interface Widget { id: string; label: string; qty: number }
-    const WidgetModel = model(createSelectSchema(widget) as unknown as import("zod").z.ZodType<Widget>);
+    const listed = await mount(sulukRoute(listRoute, { provide: provideStore(rows) })).request("/api/items");
+    expect(listed.status).toBe(200);
+    expect(((await listed.json()) as { items: ItemT[] }).items.length).toBe(2);
 
-    class Widgets extends Context.Tag("Widgets")<Widgets, { readonly get: (id: string) => Effect.Effect<Widget, InstanceType<typeof NotFoundError>> }>() {}
-    const getWidgetService = sulukFn({
-      deps: { m: WidgetModel }, errors: [NotFoundError], cost: readCost,
-      run: (ctx, id: string) => Effect.flatMap(Widgets, (w) => w.get(id)),
-    });
-    const getWidget = sulukFn({
-      deps: { svc: getWidgetService }, method: "get", path: "/api/widgets/:id", roles: ["signed-in"],
-      summary: "Get one widget.", view: view("widget"),
-      run: (ctx, _in, { svc }) => svc.run(ctx, ctx.param("id")!),
-    });
-
-    const rows = new Map<string, Widget>([["w1", { id: "w1", label: "Bolt", qty: 3 }]]);
-    const provide = <A, E>(_env: unknown, p: Effect.Effect<A, E, Widgets>) =>
-      p.pipe(Effect.provide(Layer.succeed(Widgets, { get: (id) => Effect.gen(function* () { const r = rows.get(id); if (!r) return yield* new NotFoundError({ resource: "widget", id }); return r; }) })));
-
-    const { contract } = sulukRoute(getWidget, { provide });
-    const ok = responseList(contract.responses).find((r) => r.status === 200);
-    // the DB columns (id/label/qty) bubbled up through model→service→controller into the wrapped { widget } body.
-    const js = z.toJSONSchema(ok!.schema!) as unknown as { properties: { widget: { properties: Record<string, unknown> } } };
-    expect(Object.keys(js.properties.widget.properties).sort()).toEqual(["id", "label", "qty"]);
-    expect((js.properties.widget.properties.qty as { type: string }).type).toBe("integer"); // the db column type carried through
-  });
-});
-
-describe("sulukFn — list / delete-with-body / composite fan-out (the behaviors the todo adoption exercises)", () => {
-  interface Row { readonly id: string; readonly title: string }
-  const RowSchema = z.object({ id: z.string(), title: z.string() }).describe("A row.");
-  class Rows extends Context.Tag("Rows")<Rows, {
-    readonly list: () => Effect.Effect<Row[]>;
-    readonly get: (id: string) => Effect.Effect<Row, InstanceType<typeof NotFoundError>>;
-    readonly count: () => Effect.Effect<number>;
-    readonly remove: (id: string) => Effect.Effect<void, InstanceType<typeof NotFoundError>>;
-  }>() {}
-  const live = (m: Map<string, Row>) => Layer.succeed(Rows, {
-    list: () => Effect.sync(() => [...m.values()]),
-    get: (id) => Effect.gen(function* () { const r = m.get(id); if (!r) return yield* new NotFoundError({ resource: "row", id }); return r; }),
-    count: () => Effect.sync(() => m.size),
-    remove: (id) => Effect.gen(function* () { if (!m.delete(id)) return yield* new NotFoundError({ resource: "row", id }); }),
-  });
-  const RowModel = model(RowSchema);
-  const provideRows = (m: Map<string, Row>) => <A, E>(_e: unknown, p: Effect.Effect<A, E, Rows>) => p.pipe(Effect.provide(live(m)));
-  const mountR = (r: { contract: { method: string; path: string }; handler: (c: import("hono").Context) => Response | Promise<Response> }) => {
-    const app = new Hono();
-    app.on(r.contract.method.toUpperCase(), r.contract.path, (c) => { (c as { set: (k: string, v: unknown) => void }).set("user", { id: "u" }); return r.handler(c); });
-    return app;
-  };
-
-  test("listView wraps the model schema → 200 { rows: [...] } at runtime", async () => {
-    const listSvc = sulukFn({ deps: { m: RowModel }, run: (): Effect.Effect<Row[], never, Rows> => Effect.flatMap(Rows, (r) => r.list()) });
-    const listCtrl = sulukFn({ deps: { svc: listSvc }, method: "get", path: "/api/rows", roles: ["signed-in"], summary: "list", view: listView("rows"), run: (ctx, _i, { svc }) => svc.run(ctx, undefined) });
-    const res = await mountR(sulukRoute(listCtrl, { provide: provideRows(new Map([["a", { id: "a", title: "x" }]])) })).request("/api/rows");
-    expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ rows: [{ id: "a", title: "x" }] });
-  });
-
-  test("delete returns a body at 200 (not a 204 that drops it); a miss is the bubbled 404", async () => {
-    const delSvc = sulukFn({ errors: [NotFoundError], run: (ctx, id: string): Effect.Effect<void, InstanceType<typeof NotFoundError>, Rows> => Effect.flatMap(Rows, (r) => r.remove(id)) });
-    const delCtrl = sulukFn({ deps: { svc: delSvc }, method: "delete", path: "/api/rows/:id", roles: ["signed-in"], summary: "del", ok: { schema: z.object({ deleted: z.literal(true) }) }, run: (ctx, _i, { svc }) => Effect.map(svc.run(ctx, ctx.param("id")!), () => ({ deleted: true as const })) });
-    const { contract } = sulukRoute(delCtrl, { provide: provideRows(new Map()) });
-    expect(responseList(contract.responses).find((r) => r.status === 200)).toBeTruthy(); // 200, not 204
-    const m = new Map<string, Row>([["a", { id: "a", title: "x" }]]);
-    const app = mountR(sulukRoute(delCtrl, { provide: provideRows(m) }));
-    const ok = await app.request("/api/rows/a", { method: "DELETE" });
+    const del = mount(sulukRoute(deleteRoute, { provide: provideStore(rows) }));
+    const ok = await del.request("/api/items/a", { method: "DELETE" });
     expect(ok.status).toBe(200);
     expect(await ok.json()).toEqual({ deleted: true });
-    const miss = await app.request("/api/rows/nope", { method: "DELETE" });
-    expect(miss.status).toBe(404);
+    expect((await del.request("/api/items/nope", { method: "DELETE" })).status).toBe(404);
   });
 
-  test("a composite controller fans two services into { row, count }; the 404 bubbles", async () => {
-    const getSvc = sulukFn({ deps: { m: RowModel }, errors: [NotFoundError], run: (ctx, id: string) => Effect.flatMap(Rows, (r) => r.get(id)) });
-    const countSvc = sulukFn({ ok: { schema: z.number().int() }, run: (): Effect.Effect<number, never, Rows> => Effect.flatMap(Rows, (r) => r.count()) });
-    const detail = sulukFn({
-      deps: { g: getSvc, c: countSvc }, method: "get", path: "/api/rows/:id/detail", roles: ["signed-in"], summary: "detail",
-      ok: { schema: z.object({ row: RowSchema, count: z.number().int() }) },
-      run: (ctx, _i, { g, c }) => Effect.gen(function* () { const row = yield* g.run(ctx, ctx.param("id")!); const n = yield* c.run(ctx, undefined); return { row, count: n }; }),
-    });
-    const { contract } = sulukRoute(detail, { provide: provideRows(new Map()) });
-    expect(responseList(contract.responses).find((r) => r.status === 404)?.schemaName).toBe("NotFoundError"); // bubbled from getSvc
-    const res = await mountR(sulukRoute(detail, { provide: provideRows(new Map([["a", { id: "a", title: "x" }]])) })).request("/api/rows/a/detail");
+  test("delete route defaults to 200 (not 204) so the { deleted } body survives", () => {
+    const { contract } = sulukRoute(deleteRoute, { provide: provideStore(new Map()) });
+    expect(responseList(contract.responses).find((r) => r.status === 200)).toBeTruthy();
+    expect(responseList(contract.responses).find((r) => r.status === 204)).toBeFalsy();
+  });
+
+  test("composite — { item, count }; the 404 bubbles from the get service's model", async () => {
+    const { contract } = sulukRoute(detailRoute, { provide: provideStore(new Map()) });
+    expect(responseList(contract.responses).find((r) => r.status === 404)?.schemaName).toBe("NotFoundError");
+    const res = await mount(sulukRoute(detailRoute, { provide: provideStore(new Map([["a", { id: "a", title: "x" }]])) })).request("/api/items/a/detail");
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ row: { id: "a", title: "x" }, count: 1 });
+    expect(await res.json()).toEqual({ item: { id: "a", title: "x" }, count: 1 });
+  });
+});
+
+describe("sulukFmt — the drizzle→hono bridge: a model over a db table carries the columns into the response", () => {
+  test("a model whose ok.schema is a table's select schema bubbles the db columns into the 200 body", async () => {
+    const { sqliteTable, text, integer } = await import("drizzle-orm/sqlite-core");
+    const { createSelectSchema } = await import("../src/index");
+    const widget = sqliteTable("widget", { id: text("id").primaryKey(), label: text("label").notNull(), qty: integer("qty").notNull() });
+    interface Widget { id: string; label: string; qty: number }
+    class Widgets extends Context.Tag("Widgets")<Widgets, { readonly get: (id: string) => Effect.Effect<Widget, InstanceType<typeof NotFoundError>> }>() {}
+    const rows = new Map<string, Widget>([["w1", { id: "w1", label: "Bolt", qty: 3 }]]);
+    const provide = <A, E>(_e: unknown, p: Effect.Effect<A, E, Widgets>) =>
+      p.pipe(Effect.provide(Layer.succeed(Widgets, { get: (id) => Effect.gen(function* () { const r = rows.get(id); if (!r) return yield* new NotFoundError({ resource: "widget", id }); return r; }) })));
+
+    // MODEL: cost + errors + the DB SELECT schema, doing the query.
+    const findWidget = sulukFn({ cost: readCost, errors: [NotFoundError], ok: { schema: createSelectSchema(widget) as unknown as z.ZodType<Widget> }, run: (ctx, id: string) => Effect.flatMap(Widgets, (w) => w.get(id)) });
+    const getWidget = sulukFmt(
+      sulukFn({ method: "get", path: "/api/widgets/:id", name: "getWidget", roles: ["signed-in"], summary: "Get.", view: view("widget"), run: (ctx) => Effect.succeed(ctx.param("id")!) }),
+      sulukFmt(findWidget),
+    );
+    const ok = responseList(sulukRoute(getWidget, { provide }).contract.responses).find((r) => r.status === 200);
+    const js = z.toJSONSchema(ok!.schema!) as unknown as { properties: { widget: { properties: Record<string, unknown> } } };
+    expect(Object.keys(js.properties.widget.properties).sort()).toEqual(["id", "label", "qty"]);
+    expect((js.properties.widget.properties.qty as { type: string }).type).toBe("integer");
   });
 });

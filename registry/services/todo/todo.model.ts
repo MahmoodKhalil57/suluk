@@ -1,14 +1,16 @@
 /**
- * The todo MODEL (Suluk registry: `todo`) — the MODEL layer of the controller→service→model split, and the bridge from the
- * STATE SOURCE (the drizzle `todo` table) into the v4 contract. It owns everything DERIVED from the table's master
- * `todo.zodSchema`: the row/DTO types, the wire DTO (`Date` timestamps → epoch-ms), the row→wire mapper, and the request
- * bodies. `TodoModel = model(TodoItemSchema)` makes that wire schema the RESPONSE schema a service returns and a controller's
- * `view` wraps — so the database schema (its per-field constraints, `$ref` provenance, descriptions) bubbles straight into the
- * api reference. Add/annotate a column in `db/todo.ts` and every artifact here — and the contract — updates.
+ * Todo MODELS (Suluk registry: `todo`) — the MODEL layer of the controller→service→model split: db-query `sulukFn`s, each the
+ * LEAF that runs a query over the base `Db` and carries the STATE-SOURCE facts on its slice — the entity response schema
+ * (`TodoItemSchema` = `wireDto(todo.zodSchema)`, so the db schema IS the response type, with its constraints + `$ref`
+ * provenance), its `cost` (DEFINED HERE, so it bubbles up), and any by-id `errors` (`[NotFoundError]`). A SERVICE `sulukFmt`s
+ * these; a ROUTE `sulukFmt`s the services — and because every fact lives here, nothing upstream restates cost/errors/schema.
+ * Everything derives from the table's master `todo.zodSchema`; every query is owner-scoped (`owned`).
  */
+import { Effect } from "effect";
 import { z } from "zod";
-import { model, type SulukModel } from "@suluk/effect";
-import { wireDto } from "../app";
+import { and, desc, eq } from "drizzle-orm";
+import { sulukFn, NotFoundError, type CostModel } from "@suluk/effect";
+import { Db, wireDto } from "../app";
 import { todo } from "../db/todo";
 
 /** The stored row (drizzle returns `Date` for the timestamp columns) — inferred from the master. */
@@ -17,22 +19,74 @@ export type TodoRow = z.infer<typeof todo.zodSchema>;
 export const TodoItemSchema = wireDto(todo.zodSchema);
 /** A todo as returned to the owner — `z.infer` of the wire DTO (timestamps as epoch-ms). */
 export type TodoItem = z.infer<typeof TodoItemSchema>;
-
-/** request bodies — SLICED off the master so a column's `.trim().min(1).max(500).regex(…)` validates on the wire. Create takes
- *  `title`; update is a partial patch of `{ title?, completed? }`. A controller declares one as its `body`. */
+/** request bodies — SLICED off the master so a column's `.trim().min(1).max(500).regex(…)` validates on the wire. */
 export const CreateReq = todo.zodSchema.pick({ title: true });
 export const UpdateReq = todo.zodSchema.pick({ title: true, completed: true }).partial();
 
-/** map a stored row (Date timestamps) → the wire DTO (epoch-ms) — the model's domain projection. */
-export const toItem = (r: TodoRow): TodoItem => ({
-  id: r.id,
-  userId: r.userId,
-  title: r.title,
-  completed: r.completed,
-  createdAt: r.createdAt.getTime(),
-  updatedAt: r.updatedAt.getTime(),
+/** map a stored row (Date timestamps) → the wire DTO (epoch-ms). */
+const toItem = (r: TodoRow): TodoItem => ({
+  id: r.id, userId: r.userId, title: r.title, completed: r.completed,
+  createdAt: r.createdAt.getTime(), updatedAt: r.updatedAt.getTime(),
+});
+/** the owner-scoping predicate every by-id query reuses — a caller can only ever touch a row where BOTH id AND owner match. */
+const owned = (userId: string, id: string) => and(eq(todo.id, id), eq(todo.userId, userId));
+
+// The per-operation COSTS — DEFINED on the models; `sulukFmt` SUMS them up the tree so services/routes declare none.
+const readCost: CostModel = { components: [], infra: { "d1.read": 1 }, settlement: { method: "rate-limited" } };
+const writeCost: CostModel = { components: [], infra: { "d1.write": 1, "d1.read": 1 }, settlement: { method: "rate-limited", overflow: "credit" } };
+const deleteCost: CostModel = { components: [], infra: { "d1.write": 1 }, settlement: { method: "rate-limited", overflow: "credit" } };
+
+/** one todo the caller OWNS by id → `TodoItem`; a non-owned/absent id → typed 404 (declared here, where it is thrown). */
+export const findTodo = sulukFn({
+  cost: readCost, errors: [NotFoundError], ok: { schema: TodoItemSchema },
+  run: (ctx, id: string) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
+    const [row] = yield* Effect.promise(() => db.select().from(todo).where(owned(ctx.userId, id)).limit(1));
+    if (!row) return yield* new NotFoundError({ resource: "todo", id });
+    return toItem(row);
+  })),
 });
 
-/** The TODO MODEL — bridges the table's wire schema into the contract as the entity's response schema. A service returns
- *  `TodoItem`s (mapped via {@link toItem}); a controller wraps them with `view("todo")` / `listView("todos")`. */
-export const TodoModel: SulukModel<TodoItem> = model(TodoItemSchema);
+/** the caller's own todos, newest first → `TodoItem[]` (a `listView` arrays the entity schema at the route). */
+export const listTodos = sulukFn({
+  cost: readCost, ok: { schema: TodoItemSchema },
+  run: (ctx): Effect.Effect<TodoItem[], never, Db> => Effect.flatMap(Db, (db) => Effect.promise(async () =>
+    (await db.select().from(todo).where(eq(todo.userId, ctx.userId)).orderBy(desc(todo.createdAt))).map(toItem))),
+});
+
+/** create a todo owned by the caller → `TodoItem`. The `id` is generated by the column's `$defaultFn(() => nanoid())`. */
+export const insertTodo = sulukFn({
+  cost: writeCost, ok: { schema: TodoItemSchema },
+  run: (ctx, body: { title: string }) => Effect.flatMap(Db, (db) => Effect.promise(async () => {
+    const now = new Date();
+    const [row] = await db.insert(todo).values({ userId: ctx.userId, title: body.title, completed: false, createdAt: now, updatedAt: now }).returning();
+    return toItem(row);
+  })),
+});
+
+/** patch a todo the caller OWNS → `TodoItem`; absent/non-owned → 404. Takes `{ id, patch }` (the route supplies the id). */
+export const patchTodo = sulukFn({
+  cost: writeCost, errors: [NotFoundError], ok: { schema: TodoItemSchema },
+  run: (ctx, { id, patch }: { id: string; patch: { title?: string; completed?: boolean } }) =>
+    Effect.flatMap(Db, (db) => Effect.gen(function* () {
+      const rows = yield* Effect.promise(() => db.update(todo).set({ ...patch, updatedAt: new Date() }).where(owned(ctx.userId, id)).returning());
+      if (!rows[0]) return yield* new NotFoundError({ resource: "todo", id });
+      return toItem(rows[0]);
+    })),
+});
+
+/** delete a todo the caller OWNS → void; absent/non-owned → 404. The route's service maps the void to `{ deleted: true }`. */
+export const dropTodo = sulukFn({
+  cost: deleteCost, errors: [NotFoundError],
+  run: (ctx, id: string): Effect.Effect<void, InstanceType<typeof NotFoundError>, Db> =>
+    Effect.flatMap(Db, (db) => Effect.gen(function* () {
+      const rows = yield* Effect.promise(() => db.delete(todo).where(owned(ctx.userId, id)).returning({ id: todo.id }));
+      if (rows.length === 0) return yield* new NotFoundError({ resource: "todo", id });
+    })),
+});
+
+/** the caller's total todo count → `number` (its OWN schema, not the entity) — fans in with `findTodo` in `getTodoDetail`. */
+export const countTodos = sulukFn({
+  cost: readCost, ok: { schema: z.number().int().describe("How many todos the caller has.") },
+  run: (ctx): Effect.Effect<number, never, Db> => Effect.flatMap(Db, (db) => Effect.promise(async () =>
+    (await db.select({ id: todo.id }).from(todo).where(eq(todo.userId, ctx.userId))).length)),
+});
