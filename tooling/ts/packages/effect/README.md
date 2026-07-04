@@ -3,6 +3,10 @@
 **Effect-native routes whose v4 contract responses are DERIVED from the handler's types.** Stop returning generic
 `ProblemDetails` for every error and hardcoding `200` — let the Effect error channel and the success type bubble up.
 
+> **New here? Read [`../../AUTHORING.md`](../../AUTHORING.md) first** — the one-page mental model (one unit `sulukFn`, two
+> compositions `sulukFmt` / `sulukFmt.all`, one projection `sulukRoute`). This README covers `effectRoute`, the *direct*
+> single-route primitive that `sulukRoute` projects onto — reach for it when a route has no model/service layering.
+
 ## The two problems it solves
 
 1. **Detailed error types, not generic ProblemDetails.** Define errors as typed Effect `Data.TaggedError`s carrying their
