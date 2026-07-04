@@ -27,12 +27,12 @@ const readCost: CostModel = { components: [], infra: { "d1.read": 1 }, settlemen
 // the op carries its WHOLE operation identity + impl over Store (no wrapper service, no separate route declaration)
 const getItem = op({
   method: "get", path: "/api/items/:id", name: "getItem", roles: ["signed-in"], summary: "Get one item.",
-  output: ItemSchema, wrap: envelope("item", ItemSchema), errors: [NotFoundError], cost: readCost,
+  wrap: envelope("item", ItemSchema), errors: [NotFoundError], cost: readCost,
   run: (ctx) => Effect.flatMap(Store, (s) => s.get(ctx.param("id")!)),
 });
 // a COMPOSED-only leaf — no standalone route identity, just a unit that fans in
 const countItems = op({
-  output: z.number().int(), wrap: envelope("count", z.number().int()), cost: readCost,
+  wrap: envelope("count", z.number().int()), cost: readCost,
   run: () => Effect.flatMap(Store, (s) => s.count()),
 });
 

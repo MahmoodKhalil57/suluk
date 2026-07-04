@@ -3,11 +3,12 @@
  * forbids deriving from a return type. A route (see {@link effectPipeRoute}) is a PIPELINE of these actions; walking the
  * pipeline collects the whole contract:
  *   • `input`  — the request-body zod schema (→ the contract's `request.json`). A runtime value; omit for a body-less action.
- *   • `output` — the DOMAIN output zod schema (what `run` yields, e.g. `TodoItemSchema` or `z.array(TodoItemSchema)`).
  *   • `wrap`   — the response ENVELOPE: the wire body's schema + the map that produces it (`{ todo }` / `{ todos }`), built
- *                TOGETHER (see {@link envelope}) so the doc shape and the runtime shape provably agree (constraint 6).
+ *                TOGETHER (see {@link envelope}) so the doc shape and the runtime shape provably agree. The DOMAIN type is
+ *                INFERRED from `run`'s Effect success type — there is NO separate `output` schema (the schema is in `wrap`).
  *   • `errors` — the {@link httpError} CLASSES this action can fail with — runtime values carrying `status` + `bodySchema`,
- *                so a 404 bubbles into the contract off the class (never a generic ProblemDetails).
+ *                so a 404 bubbles into the contract off the class (never a generic ProblemDetails). `errors` also DRIVES the
+ *                run's error channel: the run may fail ONLY with a listed class, so the declaration can't drift from the yield.
  *   • `status` — an optional success-status override (create → 201); else the route's method default.
  * The `run` returns an Effect that STILL REQUIRES its service tag (`R`, e.g. `Todo`) — discharged per-request by the route's
  * `provide`. So an action is `routes → services → (db | third-party)`: it calls a SERVICE, never the DB directly.
@@ -65,17 +66,16 @@ export interface Envelope<Dom, Wire> {
 }
 
 /**
- * A service action. `In` — the request-body type (`z.infer<input>`), `void` when it reads no body. `Dom` — the DOMAIN value
- * `run` yields (must match `output`). `Err` — the httpError-instance union `run` can fail with. `R` — the Effect requirement
- * (`Todo`), discharged at request time by the route's `provide`.
+ * A service action. `In` — the request-body type (`z.infer<input>`), `unknown` when it reads no body. `Dom` — the DOMAIN value
+ * `run` yields (INFERRED from the Effect; `wrap` must consume it). `Err` — the httpError-instance union `run` can fail with
+ * (DRIVEN by `errors`). `R` — the Effect requirement (`Db`), discharged at request time by the route's `provide`.
  */
 export interface ServiceAction<In, Dom, Err, R> {
   readonly [ACTION]: true;
   /** request-body schema → the contract's `request.json`. Undefined for a body-less (GET/DELETE) action. */
   readonly input?: z.ZodType<In>;
-  /** DOMAIN output schema — MUST equal what `run` yields (fixes `Dom`, checked against `wrap`). */
-  readonly output: z.ZodType<Dom>;
-  /** the response envelope: `schema` → `ok.schema`; `value` applied to `run`'s result at render. */
+  /** the response envelope: `schema` → `ok.schema`; `value` applied to `run`'s result at render. The DOMAIN type `Dom` is
+   *  INFERRED from `run`'s Effect success type — no separate `output` schema: the wire schema lives here in `wrap`. */
   readonly wrap: Envelope<Dom, unknown>;
   /** the httpError CLASSES this action can fail with (runtime values carrying status + bodySchema). */
   readonly errors: readonly AnyHttpError[];
@@ -105,24 +105,26 @@ export const isAction = (v: unknown): v is AnyServiceAction =>
   typeof v === "object" && v !== null && (v as Record<symbol, unknown>)[ACTION] === true;
 
 /**
- * Author a {@link ServiceAction}. `output` fixes `Dom`; `wrap` must consume that SAME `Dom` — so a single-item `output` with
- * a list `wrap` (or vice-versa) is a COMPILE error, not a runtime surprise. `input` (if given) fixes the request-body type.
+ * Author a {@link ServiceAction}. The DOMAIN type `Dom` is INFERRED from `run`'s Effect success type — there is no separate
+ * `output` schema; the response schema lives in `wrap`, which must consume that same `Dom` (a `wrap` that doesn't match what
+ * `run` yields is a COMPILE error). `input` (if given) fixes the request-body type. `errors` DRIVES `run`'s error channel:
+ * the run may fail ONLY with a declared error class (`InstanceType<Errs[number]>`), so a `run` that yields an httpError you
+ * did not list is a COMPILE error — the declaration can't drift from what the Effect actually yields.
  *
  *   export const getTodo = action({
- *     output: TodoItemSchema, wrap: envelope("todo", TodoItemSchema), errors: [NotFoundError],
+ *     wrap: envelope("todo", TodoItemSchema), errors: [NotFoundError],   // ← Dom inferred from run; run may fail only w/ NotFoundError
  *     run: (ctx) => Effect.flatMap(Todo, (s) => s.get(ctx.userId, ctx.param("id")!)),
  *   });
  */
-export function action<In, Dom, Err = never, R = never>(def: {
+export function action<const Errs extends readonly AnyHttpError[] = readonly [], In = unknown, Dom = unknown, R = never>(def: {
   input?: z.ZodType<In>;
-  output: z.ZodType<Dom>;
   wrap: Envelope<Dom, unknown>;
-  errors?: readonly AnyHttpError[];
+  errors?: Errs;
   status?: number;
   cost?: CostModel;
   rateLimit?: SulukRateLimit;
-  run: (ctx: ActionCtx, input: In) => Effect.Effect<Dom, Err, R>;
-}): ServiceAction<In, Dom, Err, R> {
+  run: (ctx: ActionCtx, input: In) => Effect.Effect<Dom, InstanceType<Errs[number]>, R>;
+}): ServiceAction<In, Dom, InstanceType<Errs[number]>, R> {
   return { [ACTION]: true, ...def, errors: def.errors ?? [] };
 }
 
@@ -140,7 +142,7 @@ export function action<In, Dom, Err = never, R = never>(def: {
  *     run: (ctx) => Effect.flatMap(Db, (db) => …),
  *   });
  */
-export function op<In, Dom, Err = never, R = never>(def: {
+export function op<const Errs extends readonly AnyHttpError[] = readonly [], In = unknown, Dom = unknown, R = never>(def: {
   method?: RouteContract["method"];
   path?: string;
   name?: string;
@@ -153,14 +155,13 @@ export function op<In, Dom, Err = never, R = never>(def: {
   internal?: boolean;
   validateBody?: boolean;
   input?: z.ZodType<In>;
-  output: z.ZodType<Dom>;
   wrap: Envelope<Dom, unknown>;
-  errors?: readonly AnyHttpError[];
+  errors?: Errs;
   status?: number;
   cost?: CostModel;
   rateLimit?: SulukRateLimit;
-  run: (ctx: ActionCtx, input: In) => Effect.Effect<Dom, Err, R>;
-}): ServiceAction<In, Dom, Err, R> {
+  run: (ctx: ActionCtx, input: In) => Effect.Effect<Dom, InstanceType<Errs[number]>, R>;
+}): ServiceAction<In, Dom, InstanceType<Errs[number]>, R> {
   const { method, path, name, summary, description, tags, roles, scope, scopes, internal, validateBody, ...actionDef } = def;
   const meta: OpMeta = { method, path, name, summary, description, tags, roles, scope, scopes, internal, validateBody };
   return { ...action(actionDef), meta };

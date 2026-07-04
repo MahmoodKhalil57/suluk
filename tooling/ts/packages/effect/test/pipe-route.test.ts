@@ -38,10 +38,10 @@ const CreateReq = z.object({ title: z.string().min(1).max(50).describe("The item
 const one = envelope("item", ItemSchema);
 const many = listEnvelope("items", ItemSchema, { describe: "The items." });
 
-const getItem = action({ output: ItemSchema, wrap: one, errors: [NotFoundError], run: (ctx) => Effect.flatMap(Store, (s) => s.get(ctx.param("id")!)) });
-const listItems = action({ output: ItemSchema.array(), wrap: many, run: () => Effect.flatMap(Store, (s) => s.list()) });
-const createItem = action({ input: CreateReq, output: ItemSchema, wrap: one, status: 201, run: (_c, body: { title: string }) => Effect.flatMap(Store, (s) => s.create(body.title)) });
-const removeItem = action({ output: z.void(), wrap: fixedEnvelope<void, { deleted: true }>(z.object({ deleted: z.literal(true) }).describe("Deleted."), { deleted: true }), status: 200, errors: [NotFoundError], run: (ctx) => Effect.flatMap(Store, (s) => s.remove(ctx.param("id")!)) });
+const getItem = action({ wrap: one, errors: [NotFoundError], run: (ctx) => Effect.flatMap(Store, (s) => s.get(ctx.param("id")!)) });
+const listItems = action({ wrap: many, run: () => Effect.flatMap(Store, (s) => s.list()) });
+const createItem = action({ input: CreateReq, wrap: one, status: 201, run: (_c, body: { title: string }) => Effect.flatMap(Store, (s) => s.create(body.title)) });
+const removeItem = action({ wrap: fixedEnvelope<void, { deleted: true }>(z.object({ deleted: z.literal(true) }).describe("Deleted."), { deleted: true }), status: 200, errors: [NotFoundError], run: (ctx) => Effect.flatMap(Store, (s) => s.remove(ctx.param("id")!)) });
 
 const provide = <A, E>(rows: Map<string, ItemT>, p: Effect.Effect<A, E, Store>): Effect.Effect<A, E, never> => p.pipe(Effect.provide(StoreLive(rows)));
 const mkProvide = (rows: Map<string, ItemT>) => <A, E>(_env: unknown, p: Effect.Effect<A, E, Store>) => provide(rows, p);
@@ -125,9 +125,15 @@ describe("effectPipeRoute — the contract is WALKED off the pipeline AST", () =
 });
 
 describe("type-safety guarantees (compile-time)", () => {
-  test("output MUST match wrap — a single-item output with a list wrap is a compile error", () => {
-    // @ts-expect-error — output: ItemSchema (Dom=Item) with wrap: listEnvelope (wants Dom[]) must NOT typecheck
-    const bad = action({ output: ItemSchema, wrap: listEnvelope("items", ItemSchema), run: () => Effect.flatMap(Store, (s) => s.list()) });
+  test("wrap MUST match run's domain — a single-item run with a list wrap is a compile error (no `output` field)", () => {
+    // @ts-expect-error — run yields a single Item (Dom=Item), but wrap: listEnvelope wants Dom[] — must NOT typecheck
+    const bad = action({ wrap: listEnvelope("items", ItemSchema), run: () => Effect.flatMap(Store, (s) => s.create("x")) });
+    expect(bad).toBeDefined();
+  });
+
+  test("errors DRIVES the run's E channel — a run that fails with an UNDECLARED error is a compile error", () => {
+    // @ts-expect-error — run fails with NotFoundError but `errors` omits it → the run's E channel violates `never`
+    const bad = action({ wrap: one, run: (ctx) => Effect.flatMap(Store, (s) => s.get(ctx.param("id")!)) });
     expect(bad).toBeDefined();
   });
 
@@ -151,7 +157,7 @@ describe("review fixes — no-body-status default, head-only request, precise mu
   };
 
   test("FIX B: a body-carrying DELETE action that OMITS status:200 defaults to 200 (not 204) — body renders, doc is legal", async () => {
-    const del = action({ output: z.void(), wrap: fixedEnvelope<void, { deleted: true }>(z.object({ deleted: z.literal(true) }), { deleted: true }), errors: [NotFoundError], run: (ctx) => Effect.flatMap(Store, (s) => s.remove(ctx.param("id")!)) });
+    const del = action({ wrap: fixedEnvelope<void, { deleted: true }>(z.object({ deleted: z.literal(true) }), { deleted: true }), errors: [NotFoundError], run: (ctx) => Effect.flatMap(Store, (s) => s.remove(ctx.param("id")!)) });
     const r = effectPipeRoute({ method: "delete", path: "/api/items/:id", name: "rm", summary: "d", roles: ["signed-in"], provide: mkProvide(new Map(rows)), pipeline: pipeline(del) });
     // contract: success at 200 WITH the body schema; NO 204 (a 204-with-body is illegal + drops the body)
     expect(responseList(r.contract.responses).find((x) => x.status === 200)?.schema).toBeDefined();
@@ -163,16 +169,16 @@ describe("review fixes — no-body-status default, head-only request, precise mu
   });
 
   test("FIX C: request.json comes from the HEAD only — a downstream action's input is NOT exposed as the request body", () => {
-    const seed = action({ output: z.string(), wrap: fixedEnvelope<string, { v: string }>(z.object({ v: z.string() }), { v: "" }), run: () => Effect.succeed("seed") });
-    const consume = action({ input: z.string(), output: ItemSchema, wrap: envelope("item", ItemSchema), run: (_c, prev: string) => Effect.succeed({ id: prev, title: "t" }) });
+    const seed = action({ wrap: fixedEnvelope<string, { v: string }>(z.object({ v: z.string() }), { v: "" }), run: () => Effect.succeed("seed") });
+    const consume = action({ input: z.string(), wrap: envelope("item", ItemSchema), run: (_c, prev: string) => Effect.succeed({ id: prev, title: "t" }) });
     const r = effectPipeRoute({ method: "post", path: "/api/x", name: "hx", summary: "x", roles: ["signed-in"], provide: <A, E>(_e: unknown, p: Effect.Effect<A, E, never>) => p, pipeline: pipeline(seed, consume) });
     expect(r.contract.request?.json).toBeUndefined(); // head (seed) has NO input → no request body documented (not consume.input)
   });
 
   test("FIX A: a 2-action pipeline across TWO tags has a PRECISE requirement — a forgetful provide is a compile error", () => {
     class Log extends Context.Tag("Log")<Log, { readonly note: (s: string) => Effect.Effect<string> }>() {}
-    const a1 = action({ output: z.string(), wrap: fixedEnvelope<string, { v: string }>(z.object({ v: z.string() }), { v: "" }), run: () => Effect.flatMap(Store, (s) => Effect.map(s.list(), (rs) => rs[0]?.id ?? "none")) });
-    const a2 = action({ input: z.string(), output: ItemSchema, wrap: envelope("item", ItemSchema), run: (_c, id: string) => Effect.flatMap(Log, (l) => Effect.map(l.note(id), () => ({ id, title: "t" }))) });
+    const a1 = action({ wrap: fixedEnvelope<string, { v: string }>(z.object({ v: z.string() }), { v: "" }), run: () => Effect.flatMap(Store, (s) => Effect.map(s.list(), (rs) => rs[0]?.id ?? "none")) });
+    const a2 = action({ input: z.string(), wrap: envelope("item", ItemSchema), run: (_c, id: string) => Effect.flatMap(Log, (l) => Effect.map(l.note(id), () => ({ id, title: "t" }))) });
     effectPipeRoute({
       method: "post", path: "/api/y", name: "hy", summary: "y", roles: ["signed-in"],
       pipeline: pipeline(a1, a2), // typed overload → R = Store | Log (precise, NOT any)
@@ -186,8 +192,8 @@ describe("review fixes — no-body-status default, head-only request, precise mu
 describe("chain — a TYPED 2-step pipeline bubbles request from the head + response from the terminal", () => {
   // step 1 reads a body { from }, yields a string; step 2 consumes that string, yields an item.
   const FromReq = z.object({ from: z.string() });
-  const resolveId = action({ input: FromReq, output: z.string(), wrap: fixedEnvelope<string, { id: string }>(z.object({ id: z.string() }), { id: "" }), run: (_c, body: { from: string }) => Effect.succeed(body.from) });
-  const fetchItem = action({ output: ItemSchema, wrap: envelope("item", ItemSchema), errors: [ConflictError], run: (_c, id: string) => Effect.succeed({ id, title: "t" }) });
+  const resolveId = action({ input: FromReq, wrap: fixedEnvelope<string, { id: string }>(z.object({ id: z.string() }), { id: "" }), run: (_c, body: { from: string }) => Effect.succeed(body.from) });
+  const fetchItem = action({ wrap: envelope("item", ItemSchema), errors: [ConflictError], run: (_c, id: string) => Effect.succeed({ id, title: "t" }) });
   const two = chain(resolveId, fetchItem);
 
   test("the AST has BOTH actions; head = resolveId (input), terminal = fetchItem (wrap + its errors)", () => {

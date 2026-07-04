@@ -36,19 +36,19 @@ const many = listEnvelope("items", ItemSchema, { describe: "The items." });
 const readCost: CostModel = { components: [], infra: { "d1.read": 1 }, settlement: { method: "rate-limited" } };
 
 const getItem = action({
-  output: ItemSchema, wrap: one, errors: [NotFoundError], cost: readCost,
+  wrap: one, errors: [NotFoundError], cost: readCost,
   rateLimit: { windowMs: 60_000, maxRequests: 100, key: "principal" },
   run: (ctx) => Effect.flatMap(Store, (s) => s.get(ctx.param("id")!)),
 });
 const countItems = action({
-  output: z.number(), wrap: envelope("count", z.number().describe("How many items.")), cost: readCost,
+  wrap: envelope("count", z.number().describe("How many items.")), cost: readCost,
   rateLimit: { windowMs: 60_000, maxRequests: 30, key: "principal" }, // TIGHTER than getItem
   run: () => Effect.flatMap(Store, (s) => s.count()),
 });
-const listItems = action({ output: ItemSchema.array(), wrap: many, cost: readCost, run: () => Effect.flatMap(Store, (s) => s.list()) });
+const listItems = action({ wrap: many, cost: readCost, run: () => Effect.flatMap(Store, (s) => s.list()) });
 const CreateReq = z.object({ title: z.string().min(1) });
 const createItem = action({
-  input: CreateReq, output: ItemSchema, wrap: one, status: 201,
+  input: CreateReq, wrap: one, status: 201,
   cost: { components: [], infra: { "d1.write": 1, "d1.read": 1 }, settlement: { method: "credit", credits: 2 } },
   run: (_c, body: { title: string }) => Effect.flatMap(Store, (s) => s.create(body.title)),
 });
@@ -137,7 +137,7 @@ describe("rate-limit BUBBLES UP — the route takes the TIGHTEST leaf budget; ke
 describe("branch — CONDITIONAL: arms union their errors; the runtime picks on the input", () => {
   const rows = new Map<string, ItemT>([["id-9", { id: "id-9", title: "seed" }]]);
   // POST { title } → create when a title is present, else fall back to reading an id from the body.
-  const readById = action({ input: z.object({ id: z.string() }), output: ItemSchema, wrap: one, errors: [NotFoundError], run: (_c, body: { id: string }) => Effect.flatMap(Store, (s) => s.get(body.id)) });
+  const readById = action({ input: z.object({ id: z.string() }), wrap: one, errors: [NotFoundError], run: (_c, body: { id: string }) => Effect.flatMap(Store, (s) => s.get(body.id)) });
   const tree = branch((body: { title?: string; id?: string }) => !!body.title, createItem, readById);
   const spec = { method: "post" as const, path: "/api/items", name: "createOrRead", summary: "create or read", ...base, provide: mkProvide(rows), pipeline: tree, validateBody: false };
 

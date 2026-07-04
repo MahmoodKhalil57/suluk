@@ -1,8 +1,9 @@
 /**
- * Todo routes (Suluk registry: `todo`) — the module's OPERATIONS are authored as sulukts `op`s in `todo.ops.ts` (each op
- * declares its own method/path/roles/summary + contract + impl over `Db`). This file just MOUNTS them: `effectPipeRoute`
- * FOLDS each op's `meta` for the route identity, so method/path/roles are never restated here — the route supplies only the
- * `provide` (the layer wiring) and any recursive COMPOSITION.
+ * Todo routes (Suluk registry: `todo`) — where each op is MOUNTED. The ROUTE owns the HTTP identity — `method` + `path` +
+ * `name` + `summary` — so the endpoint's address lives here, next to the mount; the op (`todo.ops.ts`) owns everything that's
+ * intrinsic to the operation (roles/input/wrap/cost/errors + impl), and everything derivable is INFERRED: the response body
+ * shape from the op's `wrap`, the domain type + the typed errors from the op's Effect. So a route is just its address + the
+ * `provide` (layer wiring) + the pipeline.
  *
  * `getTodoDetail` is the recursive showcase: `all(getTodo, countTodos)` fans two reads into one `{ todo, count }` body — one
  * wire endpoint, one merged contract, one summed cost. Mount: `app.route("/api/todos", todoRoutes())`.
@@ -21,15 +22,21 @@ const provide = <X, E>(env: Bindings, p: Effect.Effect<X, E, Db>): Effect.Effect
   p.pipe(Effect.provide(DbLive(env)));
 const base = { provide };
 
-// The 5 CRUD routes — method/path/roles/summary/validateBody all BUBBLE UP from each op's `meta`; the route wires only `provide`.
-todos.route(effectPipeRoute({ ...base, pipeline: pipeline(T.listTodos) }));
-todos.route(effectPipeRoute({ ...base, pipeline: pipeline(T.getTodo) }));
-todos.route(effectPipeRoute({ ...base, pipeline: pipeline(T.createTodo) }));
-todos.route(effectPipeRoute({ ...base, pipeline: pipeline(T.updateTodo) }));
-todos.route(effectPipeRoute({ ...base, pipeline: pipeline(T.deleteTodo) }));
+// The 5 CRUD routes — the ROUTE declares the HTTP identity (method/path/name/summary); roles/cost/validateBody/errors/response
+// body all BUBBLE UP from the op it mounts (`pipeline(op)`).
+todos.route(effectPipeRoute({ ...base, method: "get", path: "/api/todos", name: "listTodos",
+  summary: "List the signed-in user's todos, newest first.", pipeline: pipeline(T.listTodos) }));
+todos.route(effectPipeRoute({ ...base, method: "get", path: "/api/todos/:id", name: "getTodo",
+  summary: "Get one of the signed-in user's todos by id.", pipeline: pipeline(T.getTodo) }));
+todos.route(effectPipeRoute({ ...base, method: "post", path: "/api/todos", name: "createTodo",
+  summary: "Create a todo (owned by the signed-in user).", pipeline: pipeline(T.createTodo) }));
+todos.route(effectPipeRoute({ ...base, method: "patch", path: "/api/todos/:id", name: "updateTodo",
+  summary: "Update a todo the signed-in user owns (title and/or completed).", pipeline: pipeline(T.updateTodo) }));
+todos.route(effectPipeRoute({ ...base, method: "delete", path: "/api/todos/:id", name: "deleteTodo",
+  summary: "Delete a todo the signed-in user owns.", pipeline: pipeline(T.deleteTodo) }));
 
 // GET /api/todos/:id/detail → { todo, count } — RECURSIVE: `all` fans getTodo + countTodos into one merged body; the contract
-// bubbles up whole (errors 404 + role-implied 401, cost d1.read×2). The composite declares its own path (overriding getTodo's).
+// bubbles up whole (errors 404 + role-implied 401, cost d1.read×2).
 todos.route(effectPipeRoute({ ...base, method: "get", path: "/api/todos/:id/detail", name: "getTodoDetail",
   roles: ["signed-in"], summary: "Get one todo the caller owns, alongside their total todo count.",
   pipeline: all(T.getTodo, T.countTodos) }));

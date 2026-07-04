@@ -1,0 +1,30 @@
+# C089 — the route/op FIELD SPLIT + infer what's inferable: the ROUTE owns the HTTP identity, the OP owns the contract+impl,
+# and `output` is gone (Dom inferred) while `errors` DRIVES the run's error channel. @suluk/effect 0.8.0. Refines C080/C082.
+
+# Operator: "method/path/name/summary should be defined in the ROUTE not the service (op); output + errors should be inferred
+# and bubbled up from the effect return type." DELIVERED for output (fully) + method/path/name/summary (fully); errors is
+# type-DRIVEN (the honest max — see the doc-limit claim). The todo ops drop method/path/name/summary + output; the routes
+# (effectPipeRoute) declare method/path/name/summary; roles/tags/input/wrap/cost/status/errors stay on the op. @>=0.85
+claim c089_route_owns_identity_op_owns_contract: Bool @>=0.85 = True
+falsified_when c089_route_owns_identity_op_owns_contract == False
+
+# `output` REMOVED from op()/action(): Dom is INFERRED from `run`'s Effect success type (proven: TS unifies Dom from run +
+# the wrap constraint), and the response schema lives in `wrap` (the doc reads wrap.schema, never .output — .output was a
+# compile-time anchor only, no runtime read). `errors` now DRIVES the run's error channel: the signature types run's E as
+# `InstanceType<Errs[number]>` (Errs from the `errors` tuple, `const`), so a run that yields an httpError not listed in
+# `errors` is a COMPILE error — the declaration can't drift from what the Effect actually yields. Only the todo module uses
+# op/action, so removing output is not a wider break. 62 effect tests incl @ts-expect-error guards (wrap-matches-run's-Dom;
+# errors-drives-E: an undeclared-error run fails to compile). @>=0.85
+claim c089_output_inferred_errors_drives_e: Bool @>=0.85 = True
+falsified_when c089_output_inferred_errors_drives_e == False
+
+# THE DOC LIMIT (honest): the typed 404 stays in the STATIC api-reference with FULL detail — but this REQUIRES the runtime
+# error CLASS as a value the framework can walk (it reads `a.errors` at build time). It CANNOT be reflected from the erased
+# Effect error TYPE, nor extracted from the opaque `run` closure, in a run-from-source stack with no codegen. So `errors` is
+# irreducible as a WRITTEN declaration; the achievable maximum is that it's compiler-DRIVEN by the return type (can't forget
+# or misdeclare). PROVEN in ATF (published 0.8.0): tsc 0; live CRUD (create 201 / get 200 / missing typed-404 / detail 200
+# {todo,count} / delete 200 {deleted:true}); the doc shows getTodo/updateTodo/deleteTodo 404 with the FULL NotFoundError
+# schema {resource,id}, list/create with NO 404 (not declared), field descriptions+examples + @suluk/drizzle $ref provenance
+# still bubbling, and the `all(getTodo,countTodos)` composite as {todo,count}+404. Published + pushed + adopted. @>=0.85
+claim c089_doc_404_full_detail_requires_runtime_witness: Bool @>=0.85 = True
+falsified_when c089_doc_404_full_detail_requires_runtime_witness == False
