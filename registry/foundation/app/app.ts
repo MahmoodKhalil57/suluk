@@ -8,7 +8,7 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { Context, Layer } from "effect";
 import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
-import { getTableColumns, type Table } from "drizzle-orm";
+import { getTableColumns, getTableName, type Table } from "drizzle-orm";
 import { SQLiteColumnBuilder } from "drizzle-orm/sqlite-core/columns/common";
 import { SQLiteTable } from "drizzle-orm/sqlite-core";
 import { createSelectSchema, createInsertSchema, createUpdateSchema, type BuildRefine, type NoUnknownKeys, type BuildSchema } from "drizzle-zod";
@@ -156,11 +156,28 @@ export function tableSchemas<T extends Table, R extends BuildRefine<T["_"]["colu
     const meta = annotated.meta?.();
     if (meta) z.globalRegistry.add(baseSelect as unknown as z.ZodType, meta);
   }
+  stampRefs(table, baseSelect);
   return {
     select: baseSelect,
     insert: createInsertSchema(table),
     update: createUpdateSchema(table),
   };
+}
+
+/**
+ * Stamp a canonical `$ref` into every field's meta (`db.<table>.<field>`) + the entity (`db.<table>`), IN-PLACE — so the master
+ * schema carries a stable pointer back to its DB source, ready to bubble up / cross-reference later. Merges with the field's
+ * existing `.zod()` meta; idempotent (skips a field that already has a `$ref`). The parent object's `z.toJSONSchema` reads it.
+ */
+function stampRefs(table: Table, select: object): void {
+  const tableName = getTableName(table as Table);
+  const shape = (select as unknown as { shape?: Record<string, z.ZodType> }).shape ?? {};
+  for (const [key, field] of Object.entries(shape)) {
+    const existing = (field as { meta?: () => Record<string, unknown> | undefined }).meta?.() ?? {};
+    if (existing.$ref === undefined) z.globalRegistry.add(field, { ...existing, $ref: `db.${tableName}.${key}` });
+  }
+  const entity = (select as unknown as { meta?: () => Record<string, unknown> | undefined }).meta?.() ?? {};
+  if (entity.$ref === undefined) z.globalRegistry.add(select as unknown as z.ZodType, { ...entity, $ref: `db.${tableName}` });
 }
 
 /** A URL-safe **nanoid** — 21 chars from `[A-Za-z0-9_-]`, crypto-backed, DEPENDENCY-FREE. Use as a column default:

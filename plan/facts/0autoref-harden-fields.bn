@@ -1,0 +1,22 @@
+# C087 — HARDEN every field directly from the DB column + AUTO-GENERATE a canonical `$ref` in every field's meta, so the master
+# `table.zodSchema` carries a stable pointer to its DB source (to bubble up later). Registry base `app` + @suluk/drizzle 0.6.0.
+# Additive over C086. Verified in ATF (tsc 0) + @suluk/drizzle 55 tests.
+
+# HARDEN-EVERY-FIELD is already inherent in the `.zod()` seam: the refiner receives the column's drizzle-zod base typed by
+# `ZodForData<dataType>` — text→ZodString (`.trim/.min/.max/.regex/.nanoid`), number→ZodNumber (`.int/.min/.max`),
+# date→ZodDate (`min/max` via `msRange`, C086), boolean→ZodBoolean, enum→as-is. Proven by a matrix test: a string rejects a
+# regex/length violation, an int rejects out-of-[min,max], a date rejects out-of-window, a bool passes — ALL declared ON the
+# column and riding into the select DTO + (via shape-reuse) the request bodies. So every field is hardenable from the DB. @>=0.85
+claim c087_harden_every_field_from_column: Bool @>=0.85 = True
+falsified_when c087_harden_every_field_from_column == False
+
+# AUTO-$REF: `tableSchemas`/`tableZod`/`tableZodSchemas` now STAMP a canonical `$ref` into every field's meta
+# (`db.<tableName>.<key>`, from drizzle's `getTableName` + the shape key) AND the entity (`db.<tableName>`), IN-PLACE via
+# `z.globalRegistry.add` (merges with the field's existing `.zod()` meta; idempotent — skips a field that already has a `$ref`;
+# no rebuild → no TS2589). So `todo.zodSchema` carries `$ref: "db.todo.<field>"` per field + `$ref: "db.todo"` on the object, and
+# the ref BUBBLES: it survives `wireDto` (the Date→number projection re-applies the field meta) and `.pick()` (a request body
+# reuses the same field instance) — proven: `z.toJSONSchema(TodoItemSchema).properties.createdAt.$ref === "db.todo.createdAt"`,
+# `CreateReq.title.$ref === "db.todo.title"`, entity `$ref === "db.todo"`. The single-source master now self-describes its DB
+# provenance, ready to resolve/cross-reference later. @suluk/drizzle 0.6.0 mirrors it (+ a test). @>=0.85
+claim c087_autoref_db_provenance_bubbles: Bool @>=0.85 = True
+falsified_when c087_autoref_db_provenance_bubbles == False

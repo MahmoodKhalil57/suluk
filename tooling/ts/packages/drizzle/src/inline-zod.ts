@@ -30,7 +30,7 @@
  * — the FK-consistency trick. Trade-off vs. the separate `refine` object: the co-located `s` is typed only
  * by drizzle's coarse `dataType` (string→ZodString, …), not the exact per-column zod. CANDIDATE tooling.
  */
-import { getTableColumns, type Table } from "drizzle-orm";
+import { getTableColumns, getTableName, type Table } from "drizzle-orm";
 import { SQLiteColumnBuilder } from "drizzle-orm/sqlite-core/columns/common";
 import { SQLiteTable } from "drizzle-orm/sqlite-core";
 import { createSelectSchema, createInsertSchema, createUpdateSchema, type BuildSchema } from "drizzle-zod";
@@ -160,14 +160,31 @@ export interface TableZodOptions {
  * `createSelectSchema`; the collected refiners are its `refine` argument. Types are inferred, so
  * `z.infer<ReturnType<typeof tableZod>>` is the exact row shape.
  */
+/**
+ * Stamp a canonical `$ref` into every field's meta (`db.<table>.<field>`) + the entity (`db.<table>`), IN-PLACE — so the master
+ * schema carries a stable pointer back to its DB source, ready to bubble up / cross-reference later. Merges with the field's
+ * existing meta; idempotent (skips a field that already has a `$ref`). The parent object's `z.toJSONSchema` reads it back.
+ */
+function stampRefs(table: AnyTable, select: object): void {
+  const tableName = getTableName(table as Table);
+  const shape = (select as unknown as { shape?: Record<string, z.ZodType> }).shape ?? {};
+  for (const [key, field] of Object.entries(shape)) {
+    const existing = (field as { meta?: () => Record<string, unknown> | undefined }).meta?.() ?? {};
+    if (existing.$ref === undefined) z.globalRegistry.add(field, { ...existing, $ref: `db.${tableName}.${key}` });
+  }
+  const entity = (select as unknown as { meta?: () => Record<string, unknown> | undefined }).meta?.() ?? {};
+  if (entity.$ref === undefined) z.globalRegistry.add(select as unknown as z.ZodType, { ...entity, $ref: `db.${tableName}` });
+}
+
 export function tableZod<T extends AnyTable>(table: T, opts: TableZodOptions = {}) {
   // drizzle-zod types `refine` to the table's KNOWN column keys; our map is built from the SAME columns, so
   // it is key-correct at runtime — we cast through the structural mismatch at this one boundary only.
   const select = createSelectSchema(table, collectRefiners(table) as never);
   // entity annotation: `opts.describe` wins; else the chained table-level `.zod()` refiner (registered in-place).
-  if (opts.describe) return select.describe(opts.describe) as typeof select;
-  registerEntity(table, select);
-  return select;
+  if (!opts.describe) registerEntity(table, select);
+  const out = (opts.describe ? select.describe(opts.describe) : select) as typeof select;
+  stampRefs(table, out as object);
+  return out;
 }
 
 /**
@@ -179,8 +196,10 @@ export function tableZodSchemas<T extends AnyTable>(table: T, opts: TableZodOpti
   const refine = collectRefiners(table) as never;
   const select = createSelectSchema(table, refine);
   if (!opts.describe) registerEntity(table, select);
+  const outSelect = (opts.describe ? select.describe(opts.describe) : select) as typeof select;
+  stampRefs(table, outSelect as object);
   return {
-    select: (opts.describe ? select.describe(opts.describe) : select) as typeof select,
+    select: outSelect,
     insert: createInsertSchema(table, refine),
     update: createUpdateSchema(table, refine),
   };

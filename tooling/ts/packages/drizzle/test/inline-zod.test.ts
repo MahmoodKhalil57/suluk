@@ -167,3 +167,36 @@ describe("table-level `.zod()` + wireDto — parity with the base app seam", () 
     expect(js.properties.at).toMatchObject({ type: "integer", minimum: 0, maximum: 1000, description: "when" });
   });
 });
+
+describe("auto-$ref + harden every field type directly from the column", () => {
+  const gadget = sqliteTable("gadget", {
+    id: text("id").primaryKey().zod((s) => s.nanoid().meta({ description: "id" })),
+    name: text("name").notNull().zod((s) => s.trim().min(1).max(50).regex(/^[a-z]+$/, "lowercase only").meta({ description: "name" })),
+    qty: integer("qty").notNull().zod((s) => s.int().min(0).max(999).meta({ description: "qty" })),
+    active: integer("active", { mode: "boolean" }).notNull().zod((s) => s.meta({ description: "active" })),
+    at: integer("at", { mode: "timestamp" }).notNull().zod((s) => msRange(s, { min: 0, max: 100 }).meta({ description: "at" })),
+  }).zod((s) => s.meta({ description: "A gadget." }));
+
+  test("auto `$ref` — `db.<table>.<field>` on every field + `db.<table>` on the entity (bubbles through wireDto)", () => {
+    const js = z.toJSONSchema(wireDto(gadget.zodSchema)) as { $ref?: string; properties: Record<string, { $ref?: string }> };
+    expect(js.$ref).toBe("db.gadget");
+    for (const k of ["id", "name", "qty", "active", "at"]) expect(js.properties[k]?.$ref).toBe(`db.gadget.${k}`);
+  });
+
+  test("harden EVERY type from the column: string regex/max, int min/max, date min/max, bool passes", () => {
+    const shape = (gadget.zodSchema as z.ZodObject).shape as Record<string, z.ZodType>;
+    // string: regex + length
+    expect(shape.name.safeParse("abc").success).toBe(true);
+    expect(shape.name.safeParse("ABC").success).toBe(false); // regex
+    expect(shape.name.safeParse("x".repeat(51)).success).toBe(false); // max
+    // int: min/max
+    expect(shape.qty.safeParse(5).success).toBe(true);
+    expect(shape.qty.safeParse(-1).success).toBe(false);
+    expect(shape.qty.safeParse(1000).success).toBe(false);
+    // date: min/max via msRange
+    expect(shape.at.safeParse(new Date(50)).success).toBe(true);
+    expect(shape.at.safeParse(new Date(200)).success).toBe(false);
+    // bool: fine as-is
+    expect(shape.active.safeParse(true).success).toBe(true);
+  });
+});
