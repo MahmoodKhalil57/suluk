@@ -8,6 +8,9 @@ export { contract, contractDoc, responseList, type RouteContract, type Documente
 // mount (`.router()`), so the contract is organic (defined by the routes) instead of a separate `<module>.contract.ts`.
 export { routeGroup, isRouteGroup, type RouteGroup, type HandlerRoute } from "./route-group";
 export { emitV4, type EmitContext, type EmitResult, type EmitDiagnostic } from "./emit";
+// the ASYNC counterpart to emitV4 — project the document's event surface (jobs/webhooks/store invalidations) into a standard
+// AsyncAPI 3.0 document whose messages are CloudEvents 1.0.2 envelopes (no bespoke event format).
+export { emitAsyncApi, type AsyncApiDocument, type AsyncApiChannel, type AsyncApiOperation, type AsyncApiMessage } from "./asyncapi";
 export { audit, coverage, autofill, type Finding } from "./audit";
 export { contractChecks, runContractChecks, type Check, type CheckRun } from "./checks";
 export { validateSchema2020, type SchemaCheck } from "./schema-check";
