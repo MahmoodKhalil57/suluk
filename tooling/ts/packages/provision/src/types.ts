@@ -1,15 +1,28 @@
 /**
- * The Open Service Broker API, recast as a TypeScript seam (C047). Each service a Suluk app needs (a Cloudflare D1
- * database, a KV namespace, an R2 bucket, Worker secrets, a Stripe account's products/webhooks, a custom domain, a
- * scoped token) is a {@link Broker} — it advertises a {@link Catalog}, then `provision` / `bind` / `deprovision` a
- * Service Instance, exactly the OSB lifecycle. The platform (this package) is the OSB *client*: it reads a declared
- * desired-state, diffs it against live state, and walks the brokers. Brokers are PURE of the orchestration — they hold
- * only their own provider call (e.g. @suluk/cloudflare's `provisionD1`), so the lifecycle logic can never drift per
- * service. See `spec.md` (the OSB v2 master) for the contract these types mirror.
+ * The Open Service Broker API, as a TypeScript source-of-truth (C047). This file carries ONE layer now:
+ *
+ *  THE BROKER SEAM (the framework's client-side abstraction) — each service a Suluk app needs (a Cloudflare D1
+ *  database, a KV namespace, an R2 bucket, Worker secrets, a Stripe account's products/webhooks, a custom domain, a
+ *  scoped token) is a {@link Broker}: it advertises a {@link Catalog}, then `provision` / `bind` / `deprovision` a
+ *  Service Instance, exactly the OSB lifecycle. The platform (this package) is the OSB *client* — it reads a declared
+ *  desired-state, diffs it against live state, and walks the brokers. Brokers are PURE of the orchestration (they
+ *  hold only their own provider call, e.g. @suluk/cloudflare's `provisionD1`), so lifecycle logic never drifts per
+ *  service. These are the types the framework code imports ({@link InstanceSpec}, {@link Broker}, {@link StateStore}…).
+ *
+ * **C101 — the OSB v2 WIRE CONTRACT moved to `@suluk/core`.** Every request/response body and supporting object of the
+ * Open Service Broker API v2 (grounded in `spec.md` + the projected `openapiv4.json`) now lives in `@suluk/core`'s
+ * `types.ts` as a non-normative companion model — the same "reference the standard, no dep" treatment core already
+ * gives JSON Schema (C099) and CloudEvents/AsyncAPI (C100). Re-exported below (byte-identical) so every existing
+ * import of this package keeps working. The seam above is the framework's OWN reduced view of that wire contract (see
+ * the cross-links in each seam type's doc comment) — it does NOT move, the same way `@suluk/hono`'s `emitAsyncApi`
+ * projection logic stayed put while its wire types moved to core. NEW: {@link deriveInstanceSpecs} (`./derive`)
+ * projects a v4 document's `x-suluk-provision` facet (the light "broker intent" annotation, `@suluk/core`'s
+ * `SulukProvisionInstance`) into this file's own {@link InstanceSpec}[] — "author domain once, generate OSB artifacts."
+ *
+ * See `spec.md` (the OSB v2 master) for the normative contract the re-exported types mirror.
  */
-
-/** OSB last-operation state for an ASYNC provision/deprovision (a database that takes seconds, a cert that takes minutes). */
-export type OperationState = "in progress" | "succeeded" | "failed";
+import type { OperationState } from "@suluk/core";
+export type { OperationState } from "@suluk/core";
 
 /** A plan tier within an offering (OSB Service Plan). Most infra has a single "standard" plan; `free` marks $0 tiers. */
 export interface ServicePlan {
@@ -143,3 +156,24 @@ export interface StateStore {
   load(): Promise<InstanceState[]> | InstanceState[];
   save(state: InstanceState[]): Promise<void> | void;
 }
+
+/* ════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+ * THE OSB v2 WIRE CONTRACT — re-exported from `@suluk/core` (C101).
+ *
+ * Every request/response body and supporting object of the Open Service Broker API v2 now lives in `@suluk/core`
+ * (grounded in `spec.md` + the projected `openapiv4.json`, same as before — only the file moved). Field NAMES are
+ * still the wire names (snake_case), verbatim from the spec; two schema names are still renamed to avoid shadowing a
+ * TypeScript/JS global or this package's own seam name — OSB `Object` → {@link JsonObject}, OSB `Error` →
+ * {@link ServiceBrokerError}, OSB `Catalog` → {@link CatalogResponse} (to avoid this file's own {@link Catalog}).
+ * ════════════════════════════════════════════════════════════════════════════════════════════════════════════════ */
+export type {
+  JsonObject, Context, Metadata, MaintenanceInfo, DashboardClient,
+  Schemas, ServiceInstanceSchema, ServiceBindingSchema, ServiceRequires,
+  Plan, Service, CatalogResponse, ServiceInstanceMetadata,
+  ServiceInstanceProvisionRequestBody, ServiceInstanceProvisionResponse, ServiceInstanceAsyncOperation,
+  ServiceInstanceUpdateRequestBody, ServiceInstancePreviousValues, ServiceInstanceResource,
+  AsyncOperation, LastOperationResource,
+  ServiceBindingResouceObject, ServiceBindingRequest, ServiceBindingMetadata, ServiceBindingEndpoint,
+  ServiceBindingVolumeMountDevice, ServiceBindingVolumeMount, ServiceBindingResponse, ServiceBindingResource,
+  ServiceBrokerError,
+} from "@suluk/core";

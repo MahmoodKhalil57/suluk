@@ -6,6 +6,7 @@
  * widget renders against this shape.
  */
 import * as z from "zod";
+import type { Schema } from "@suluk/core";
 
 /** A single Lexical node — recursive + open (each node type carries its own extra fields; we keep the common ones). */
 export const lexicalNodeSchema: z.ZodType = z.lazy(() =>
@@ -75,4 +76,4 @@ export const LEXICAL_V4_SCHEMA = Object.freeze({
       required: ["type"],
     },
   },
-});
+}) satisfies Schema;

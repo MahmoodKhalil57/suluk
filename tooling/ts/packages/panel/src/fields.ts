@@ -4,6 +4,7 @@
  * boolean/select/date/email/url/json/richtext/relationship), required/nullable, enum options, and relationships
  * (a `<entity>Id` whose `<Entity>` is itself an entity). No config DSL — the contract IS the config.
  */
+import type { SchemaObject } from "@suluk/core";
 
 export type FieldType =
   | "text" | "textarea" | "richtext" | "number" | "boolean"
@@ -23,7 +24,7 @@ export interface Field {
   relationLabelField?: string; // which field of the related entity to show
 }
 
-type Schema = Record<string, unknown>;
+type Schema = SchemaObject;
 
 const TITLE_FIELDS = ["title", "name", "label", "headline", "question", "slug", "code", "email"];
 const TEXTAREA_NAMES = /^(description|excerpt|summary|message|answer|bio|notes?|abstract|subtitle)$/i;

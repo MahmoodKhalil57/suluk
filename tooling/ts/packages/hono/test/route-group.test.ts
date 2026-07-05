@@ -1,9 +1,10 @@
 import { test, expect, describe } from "bun:test";
 import { Hono } from "hono";
 import { routeGroup, isRouteGroup, contractDoc, emitV4, type DocumentedRoute, type HandlerRoute } from "../src/index";
+import type { HttpStatus } from "@suluk/core";
 
 /** A tiny handler-backed route (the `{ contract, handler }` shape `effectRoute` returns), so this test needs no @suluk/effect. */
-const route = (method: DocumentedRoute["method"], path: string, name: string, body: unknown, status = 200): HandlerRoute => ({
+const route = (method: DocumentedRoute["method"], path: string, name: string, body: unknown, status: HttpStatus = 200): HandlerRoute => ({
   contract: { method, path, name, summary: `${name} route`, responses: [{ status, description: "ok", schema: undefined }] },
   handler: (c) => c.json(body as never, status as never),
 });

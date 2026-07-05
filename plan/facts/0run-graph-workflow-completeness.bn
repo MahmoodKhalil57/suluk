@@ -1,0 +1,97 @@
+# C105 -- x-suluk-run WORKFLOW-COMPLETENESS: typed recover, automatic compensation, acyclicity validation, resultNode.
+# Extends C104 same-day. Operator posed 7 completeness criteria (sequence, fan-out+join, route on success/typed
+# failure, retry+timeout, run declared compensation automatically, one unambiguous graph result, stay acyclic and
+# statically lintable). A first assessment framed the gaps against the deleted "Gen-1" DAG engine's history; operator
+# corrected directly: "ignore 'Gen-1', it was an old attempt we should move on, stop lingering" -- gaps were
+# re-assessed on pure technical merits (drift risk between graph data and real execution, type safety, proportional
+# surface area) via a ground-truth pass + three competing design stances (effect-native-minimal, graph-interpreter,
+# incremental/defer) + a critical review pass, before the operator chose "also design (3)/(5) now, accepting the
+# guess" -- build the harder capabilities now rather than defer for a real consumer. ADR C105. @>=0.85
+claim c105_reassessed_on_technical_merits_not_gen1_history: Bool @>=0.85 = True
+falsified_when c105_reassessed_on_technical_merits_not_gen1_history == False
+
+# GROUND-TRUTH FINDING that changed priority: reusing an already-composed sulukFn in an INCONSISTENT order
+# (sulukFmt(B, A) where A already fed into B) already produced a REAL, REPRODUCIBLE cycle in the shipped C104 code --
+# wireSequential's `after: prevTerminals` wiring plus terminalLabels's naive incoming/outgoing check silently
+# returned terminals:[] with NO error. VERIFIED DIRECTLY (a standalone repro run BEFORE trusting the workflow's
+# claim, per the session's trust-but-verify discipline), not just claimed by an agent. This made "stay acyclic and
+# statically lintable" a LIVE BUG-FIX, not speculative hardening -- and was built as such, with elevated priority.
+# @>=0.9
+claim c105_cycle_bug_verified_directly_not_just_claimed: Bool @>=0.9 = True
+falsified_when c105_cycle_bug_verified_directly_not_just_claimed == False
+
+# BUILT: lintRunGraph (exported) -- Kahn's-algorithm cycle detection across BOTH success and error edges, plus
+# every edge's to/after and every node's compensate resolving to a real node in the SAME graph -- runs automatically
+# inside mergeGraphs/wireSequential (the two choke points every graph-construction path already goes through),
+# throwing eagerly at construction time; ALSO exported standalone for validating an already-emitted x-suluk-run
+# facet. resultNode (core/types.ts, computed) -- terminals[0] iff terminals.length===1, else absent (an honest
+# signal that a multi-terminal graph's response is a DERIVED composite, not one node's raw output) -- computed
+# everywhere terminals is computed so it can never drift from it. @>=0.85
+claim c105_lintRunGraph_and_resultNode_built: Bool @>=0.85 = True
+falsified_when c105_lintRunGraph_and_resultNode_built == False
+
+# BUILT: recover -- typed-failure routing SCOPED TO A SINGLE NODE'S OWN DECLARED ERRORS. sulukFn's node option (and
+# ref()'s opts) gains recover?: Partial<Record<Errs[number]["errorTag"] | "TimeoutError", SulukFn<In,Out,R>>> --
+# TYPE-CHECKED against the SAME Errs generic already constraining `errors`, so an unrecognized tag is a compile
+# error. Compiles to a real Effect.catchTags wrap in withNodeControls, applied AFTER retry is exhausted (retry
+# handles transient failure; recover handles "this path is done, take the alternate one"). Deliberately narrower
+# than a graph-interpreter design considered and rejected during review: no cross-graph string-label dynamic
+# dispatch, no new control-flow primitive -- a node recovering its OWN failure with its OWN typed fallback, exactly
+# the shape Effect.catchTags already provides. Live-tested: recovers on the declared tag; does NOT fire until retry
+# is exhausted; a fallback with no node label of its own still runs for real with no graph edge (absent-unless-
+# labeled honesty, matching every other C104 field). @>=0.85
+claim c105_recover_typed_and_scoped_to_own_errors: Bool @>=0.85 = True
+falsified_when c105_recover_typed_and_scoped_to_own_errors == False
+
+# BUILT: compensate -- automatic rollback SCOPED TO A SINGLE PIPELINE'S OWN ALREADY-SUCCEEDED STEPS. Changed from a
+# DECLARED-ONLY string (C104) to a live SulukFn<In,unknown,R> reference -- a BREAKING authoring-API change to a
+# field ZERO real routes used outside this package's own tests (confirmed via repo-wide grep BEFORE making the
+# change, not assumed). sulukFmt builds a success LEDGER (pushed right after each step succeeds, so it always
+# reflects exactly what really completed) and wraps the whole chain in ONE Effect.tapError that walks the ledger in
+# REVERSE on any later failure, invoking each entry's own compensator against the ORIGINAL input that step received;
+# sulukFmt.all does the fan-out analog (each branch's own effect tapped independently, so whichever branches
+# actually completed get compensated if the fan-out as a whole fails). A compensator's own failure is swallowed
+# (Effect.catchAll -> Effect.void) -- best-effort, never masks the real failure that triggered rollback. OPT-IN per
+# pipeline: nothing declares compensate => the exact pre-C105 loop runs, byte-for-byte, zero overhead. Live-tested:
+# reverse-order sequential compensation; a step's OWN failure never triggers its own compensate; a compensator's own
+# failure is swallowed; fan-out compensates only actually-succeeded branches. @>=0.85
+claim c105_compensate_live_reference_ledger_based_reverse_rollback: Bool @>=0.85 = True
+falsified_when c105_compensate_live_reference_ledger_based_reverse_rollback == False
+
+# A REAL CORRECTNESS FIX discovered WHILE BUILDING this (not by the tests catching it after the fact -- reasoned
+# through during design, then confirmed by a failing test written for a DIFFERENT assertion): recover/compensate
+# wire real "error" edges now, so entryLabels/terminalLabels were changed to consider ONLY "success" edges -- an
+# error edge must never make an otherwise-terminal node look non-terminal on the path that actually succeeds. A
+# follow-on subtlety WAS caught by the test suite itself: a fallback/compensator node that is ONLY ever the target
+# of an error edge (never touches a success edge) must be EXCLUDED from entry/terminal computation entirely, not
+# merely "not counted as depended-on" -- else it trivially looks like its own isolated root+terminal, misrepresenting
+# the graph's actual response shape. errorOnlyTargets computes and excludes exactly this set; the fix was verified
+# by the recover-graph test failing with an extra "charge.fallback" in terminals before the fix, and passing clean
+# after. @>=0.85
+claim c105_success_error_edge_split_and_errorOnlyTargets_fix: Bool @>=0.85 = True
+falsified_when c105_success_error_edge_split_and_errorOnlyTargets_fix == False
+
+# VERIFIED: @suluk/effect 85/85 tests pass (68 pre-existing from C104 unchanged + 17 new covering: recover
+# recovers/only-after-retry-exhausted/graph-shape/unlabeled-fallback-still-runs/ref() parity; compensate reverse-
+# order/own-failure-not-compensated/compensator-failure-swallowed/zero-overhead-when-unused/graph-shape/fan-out-
+# partial-success; resultNode singular/absent-on-fan-out/restored-after-a-later-linear-stage; the true multi-parent
+# JOIN case (fan-out consumed as prev by a later sulukFmt stage) with a runtime ordering assertion that the joining
+# stage genuinely waited for BOTH branches; lintRunGraph rejecting the verified cycle + a well-formed graph never
+# throwing + standalone dangling-reference validation). Full 30-package ecosystem sweep: ZERO typecheck errors.
+# Every touched package's runtime suite green (effect 85, hono 81, core 66, drizzle 60, platform 149) -- zero
+# regression. Same TWO pre-existing, unrelated failures as C104 (admin's stale wrangler-deploy test; a drizzle-zod/
+# nano-stores version-mismatch typecheck error in untouched files) -- confirmed unchanged, out of scope. @>=0.9
+claim c105_verified_zero_regression_full_ecosystem_sweep: Bool @>=0.9 = True
+falsified_when c105_verified_zero_regression_full_ecosystem_sweep == False
+
+# DELIBERATELY STILL NOT BUILT (named honestly, not silently deferred): conditional routing on anything OTHER than a
+# node's own declared error tags (no cross-graph dynamic dispatch by string label); compensation for a partially-
+# completed CONCURRENT fan-out beyond "whichever branches' own effects individually completed" (no distributed-saga
+# semantics -- retryable compensators, compensation ordering across NESTED fan-outs, etc. are all open); a
+# multi-node sub-pipeline used as a recover/compensate target only gets its FIRST entry wired into the graph DATA
+# (documented simplification -- the full sub-pipeline still executes for real regardless, since composition drives
+# execution, not the graph); @suluk/journeys consuming ANY of x-suluk-run for BDD generation (still the ORIGINAL,
+# not-yet-started motivating goal from C104); the specification/candidate-v4/v4-types.ts spec mirror (non-normative,
+# likely needs no meta-schema change -- to be CONFIRMED not assumed before the next spec-mirror pass). @>=0.85
+claim c105_deferred_items_named_honestly: Bool @>=0.85 = True
+falsified_when c105_deferred_items_named_honestly == False

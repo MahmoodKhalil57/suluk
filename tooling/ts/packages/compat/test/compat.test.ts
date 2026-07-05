@@ -153,6 +153,76 @@ paths:
   });
 });
 
+describe("3.0-shaped features upgrade() must not drop ($ref params, response headers, doc-level security)", () => {
+  // a compact OSB-style 3.0 doc exercising: a $ref header param, an inline path/query param, a response header,
+  // and doc-level security with one op opting out via `security: []`.
+  const doc30: Record<string, unknown> = {
+    openapi: "3.0.0",
+    info: { title: "OSB-ish", version: "1" },
+    security: [{ basicAuth: [] }],
+    externalDocs: { url: "https://example.com/spec", description: "the spec" },
+    paths: {
+      "/v2/service_instances/{instance_id}/last_operation": {
+        get: {
+          operationId: "lastOp.get",
+          parameters: [
+            { $ref: "#/components/parameters/APIVersion" },
+            { name: "instance_id", in: "path", required: true, schema: { type: "string" } },
+            { name: "operation", in: "query", schema: { type: "string" } },
+          ],
+          responses: {
+            "200": {
+              description: "OK",
+              content: { "application/json": { schema: { type: "object" } } },
+              headers: { "Retry-After": { description: "when to retry", required: false, schema: { type: "string" } } },
+            },
+          },
+        },
+      },
+      "/public": {
+        get: { operationId: "ping", security: [], responses: { "200": { description: "OK" } } },
+      },
+    },
+    components: {
+      parameters: {
+        APIVersion: { name: "X-Broker-API-Version", in: "header", required: true, schema: { type: "string", default: "2.13" } },
+      },
+    },
+  };
+  const v4 = upgrade(doc30) as any;
+  const lastOp = v4.paths["/v2/service_instances/{instance_id}/last_operation"].requests["lastOp.get"];
+
+  test("a $ref header parameter is inlined into parameterSchema.header (not dropped)", () => {
+    expect(lastOp.parameterSchema.header.properties["X-Broker-API-Version"]).toEqual({ type: "string", default: "2.13" });
+    expect(lastOp.parameterSchema.header.required).toEqual(["X-Broker-API-Version"]);
+  });
+
+  test("inline path/query params still bucket by location", () => {
+    expect(lastOp.parameterSchema.path.required).toEqual(["instance_id"]);
+    expect(lastOp.parameterSchema.query.properties.operation).toEqual({ type: "string" });
+    expect(lastOp.parameterSchema.query.required).toBeUndefined(); // `operation` is optional
+  });
+
+  test("response headers pass through to Response.headers", () => {
+    expect(lastOp.responses["200"].headers["Retry-After"].schema).toEqual({ type: "string" });
+  });
+
+  test("doc-level security is pushed onto ops that don't declare their own; an op-level `security: []` opts out", () => {
+    expect(lastOp.security).toEqual([{ basicAuth: [] }]);
+    expect(v4.paths["/public"].requests.ping.security).toEqual([]); // explicit opt-out preserved, not overwritten
+  });
+
+  test("doc-level externalDocs is preserved as x-externalDocs (v4 has no doc-level field)", () => {
+    expect(v4["x-externalDocs"]).toEqual({ url: "https://example.com/spec", description: "the spec" });
+  });
+
+  test("headers survive a v4 → 3.1 downgrade too (lossless round-trip)", () => {
+    const back = downgrade(v4).document as any;
+    const resp = back.paths["/v2/service_instances/{instance_id}/last_operation"].get.responses["200"];
+    expect(resp.headers["Retry-After"].schema).toEqual({ type: "string" });
+  });
+});
+
 describe("3.1 → v4 → 3.1 round-trip", () => {
   test("downgrade → upgrade recovers the operations by name + method", () => {
     const { document } = downgrade(petstore);

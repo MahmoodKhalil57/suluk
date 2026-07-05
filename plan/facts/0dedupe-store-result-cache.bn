@@ -1,0 +1,44 @@
+# C110 -- operator: "also enforce dedupe store + result caching in suluk/hono's RateLimitStore and reflect in
+# suluk/effect." This is the item C108 named explicitly out of scope + recommended a dedicated ADR for --
+# now built. ADR C110. @>=0.85
+claim c110_dedupe_store_built_mirroring_ratelimitstore: Bool @>=0.85 = True
+falsified_when c110_dedupe_store_built_mirroring_ratelimitstore == False
+
+# BUILT: core's SulukDedupe facet (x-suluk-dedupe on Request) -- ttlMs + scope? + keySource:{header}|{bodyField},
+# the SAME D1-safe request-level-only boundary SulukRunNode.idempotencyKeySource (C108) already drew. @>=0.9
+claim c110_sulukdedupe_facet_mirrors_ratelimit_and_idempotencykeysource: Bool @>=0.9 = True
+falsified_when c110_sulukdedupe_facet_mirrors_ratelimit_and_idempotencykeysource == False
+
+# BUILT + REAL (not a stub): @suluk/hono's DedupeStore/MemoryDedupeStore/enforceDedupe (src/dedupe.ts) -- an
+# ATOMIC reserve/complete/release store; a fresh key runs the handler, an in-flight duplicate gets 409 (the
+# EXISTING ConflictError tag, no new error taxonomy), a completed key REPLAYS the recorded response verbatim
+# (status+body+content-type) instead of re-running -- real result caching, not just rejection. Verified: 12 new
+# hono tests incl. the header-vs-body key source + Hono bodyCache non-consumption + in-flight 409 + replay
+# without re-execution. @>=0.9
+claim c110_dedupe_store_atomic_reserve_replay_verified: Bool @>=0.9 = True
+falsified_when c110_dedupe_store_atomic_reserve_replay_verified == False
+
+# BUILT: RouteContract.dedupe (mirrors .rateLimit) -- emitV4 stamps x-suluk-dedupe + synthesizes 409 when
+# declared, exactly like .rateLimit synthesizes 429. Verified via emitV4 test. @>=0.9
+claim c110_routecontract_dedupe_emitv4_wiring_verified: Bool @>=0.9 = True
+falsified_when c110_routecontract_dedupe_emitv4_wiring_verified == False
+
+# REFLECTED in @suluk/effect: SulukRunNode.dedupe?:{ttlMs,scope?} -- DECLARED-ONLY, threaded through BOTH sulukFn's
+# node opts and ref()'s opts (the same two sites idempotencyKeySource/requiresIdempotencyKey/effect thread
+# through). This is a MIRROR not a second enforcement point -- @suluk/effect itself still enforces nothing
+# (proven: a dedupe-declared node still runs twice when called twice). Closes the gap requiresIdempotencyKey's own
+# C108 doc comment named (the store "belongs [at the HTTP layer]... not bolted onto this pure-Effect graph
+# facet" -- now built there; this field is the graph-level mirror). @>=0.9
+claim c110_effect_dedupe_reflection_declared_only_verified: Bool @>=0.9 = True
+falsified_when c110_effect_dedupe_reflection_declared_only_verified == False
+
+# DECLINED (again, consistent with C107/C108): "derived binding" for keySource -- a {fromNode,fromPath}-style
+# graph binding -- reintroduces the same symbolic value-reference/interpreter risk already declined twice.
+# keySource supports ONLY request-level {header}/{bodyField} names. @>=0.85
+claim c110_derived_binding_declined_again_same_boundary: Bool @>=0.85 = True
+falsified_when c110_derived_binding_declined_again_same_boundary == False
+
+# VERIFIED: hono 94/94 (12 new), effect 146/146 (3 new). Full 30-package sweep: 1949 tests, zero fail, zero
+# typecheck errors. conformance/run.py 8/8. @>=0.9
+claim c110_full_sweep_1949_tests_zero_regression: Bool @>=0.9 = True
+falsified_when c110_full_sweep_1949_tests_zero_regression == False

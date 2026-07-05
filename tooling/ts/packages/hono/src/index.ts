@@ -25,3 +25,7 @@ export {
   enforceRateLimit, MemoryRateLimitStore,
   type EnforceRateLimitConfig, type RateLimitStore, type RateLimitResult, type RateLimitConsumeOptions,
 } from "./ratelimit";
+export {
+  enforceDedupe, MemoryDedupeStore,
+  type EnforceDedupeConfig, type DedupeStore, type DedupeOutcome, type DedupeConsumeOptions, type CachedResponse,
+} from "./dedupe";

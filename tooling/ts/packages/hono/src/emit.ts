@@ -7,7 +7,7 @@
 import { buildAda, PROBLEM_CONTENT_TYPE, PROBLEM_DETAILS_SCHEMA, PROBLEM_COMPONENT_BY_STATUS, problemSchemaFor, type ProblemStatus } from "@suluk/core";
 import type {
   OpenAPIv4Document, PathItem, Request, Response, ParameterSchema, SecurityRequirement, Server, Info, SecurityScheme,
-  Components, Schema,
+  Components, Schema, ObjectSchema, SchemaOrRef, SulukProvisionInstance, HttpStatus,
 } from "@suluk/core";
 import { zodToV4 } from "@suluk/zod";
 import { responseList, type RouteContract, type Method } from "./contract";
@@ -25,6 +25,8 @@ export interface EmitContext {
   securitySchemes?: Record<string, SecurityScheme>;
   /** Include operations flagged deprecated (default true; they are marked, not hidden). */
   includeDeprecated?: boolean;
+  /** Declared backing-infrastructure needs (C101) — stamped verbatim onto the document's `x-suluk-provision` map. */
+  provision?: Record<string, SulukProvisionInstance>;
   /**
    * Synthesize RFC-9457 error responses (401/403 from access, 429 from a rate-limit facet, always-500, plus any
    * `route.errors`) + a shared `components.schemas.ProblemDetails`. Default true — the SDK's `isApiError` guard and
@@ -43,11 +45,12 @@ const ERROR_DESCRIPTION: Readonly<Record<number, string>> = {
  * Which error statuses an operation declares it can return: explicit `route.errors`, + 401/403 when the op is
  * auth-gated (it can deny), + 429 when it declares a rate-limit budget, + always-500 (any handler can fail).
  */
-function errorStatusesFor(route: RouteContract, ctx: EmitContext): number[] {
+function errorStatusesFor(route: RouteContract, ctx: EmitContext): Extract<HttpStatus, number>[] {
   if (ctx.synthesizeErrors === false) return [];
-  const set = new Set<number>(route.errors ?? []);
+  const set = new Set<Extract<HttpStatus, number>>(route.errors ?? []);
   if ((route.scopes && route.scopes.length > 0) || route.security) { set.add(401); set.add(403); }
   if (route.rateLimit) set.add(429);
+  if (route.dedupe) set.add(409);
   set.add(500);
   return [...set].sort((a, b) => a - b);
 }
@@ -84,7 +87,7 @@ function deriveName(method: Method, segments: string[]): string {
   return method + parts.join("");
 }
 
-function zParam(schema: unknown): Record<string, unknown> | undefined {
+function zParam(schema: unknown): Schema | undefined {
   if (!schema) return undefined;
   return zodToV4(schema as Parameters<typeof zodToV4>[0]).schema;
 }
@@ -116,8 +119,8 @@ function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContex
   // `request.params` schema wins for a param; an UNDECLARED one gets a default `string`. Path params are always required.
   const pathNames = segments.filter((s) => s.startsWith("{")).map((s) => s.slice(1, -1).replace(/^\+/, ""));
   if (pathNames.length) {
-    const cur = (ps.path && typeof ps.path === "object" ? ps.path : {}) as { properties?: Record<string, unknown>; required?: string[] };
-    const properties: Record<string, unknown> = { ...(cur.properties ?? {}) };
+    const cur = (ps.path && typeof ps.path === "object" ? ps.path : {}) as ObjectSchema;
+    const properties: Record<string, SchemaOrRef> = { ...(cur.properties ?? {}) };
     const required = new Set(cur.required ?? []);
     for (const n of pathNames) {
       if (!properties[n]) properties[n] = { type: "string" };
@@ -165,6 +168,8 @@ function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContex
 
   // stamp the declared rate-limit facet so rateLimitIndex/coverage + the middleware can read it off the document.
   if (route.rateLimit) req["x-suluk-ratelimit"] = route.rateLimit;
+  // stamp the declared dedupe/result-cache facet (C110) so enforceDedupe can read it off the document.
+  if (route.dedupe) req["x-suluk-dedupe"] = route.dedupe;
   // stamp the declared route ECONOMICS (cost/settlement/triggers/dynamic) so @suluk/cost audits + @suluk/scalar renders it.
   // x-suluk-cost is a passthrough facet (@suluk/cost owns the type + reads it via the same cast) — not a declared Request key.
   if (route.cost) (req as Request & Record<string, unknown>)["x-suluk-cost"] = route.cost;
@@ -172,6 +177,12 @@ function buildRequest(route: RouteContract, deprecated: boolean, ctx: EmitContex
   // @suluk/journeys generates a RICH scenario outline (authored phrases + negative paths) instead of the coarse projection.
   // A passthrough facet read via the same untyped cast (journeys owns nothing on the typed Request).
   if (route.scenario?.length) (req as Request & Record<string, unknown>)["x-suluk-scenario"] = route.scenario;
+  // stamp the REACTIVE-STORE facet (C037) — a query's backing `key` / a mutation's `invalidates` — co-located on the route.
+  // @suluk/sdk generates the reactive client from it; emitAsyncApi projects the invalidations to CloudEvents. Passthrough facet.
+  if (route.store) (req as Request & Record<string, unknown>)["x-suluk-store"] = route.store;
+  // stamp the RUN-PIPELINE facet (C104) — the composed node/edge graph @suluk/effect's sulukFmt/sulukFmt.all built.
+  // @suluk/journeys reads it for graph-shaped BDD scenarios; a typed Request field (unlike the passthrough facets above).
+  if (route.runGraph) req["x-suluk-run"] = route.runGraph;
   // INTERNAL ops: stamp the facet (@suluk/scalar badges it) + group under the "Internal" tag (Scalar's sidebar sections it).
   if (route.internal) {
     (req as Request & Record<string, unknown>)["x-suluk-internal"] = true;
@@ -235,6 +246,8 @@ export function emitV4(routes: readonly RouteContract[], ctx: EmitContext = {}):
     paths,
   };
   if (ctx.servers) document.servers = ctx.servers;
+  // stamp the declared PROVISION facet (C101) — the app's backing-infrastructure needs, generated alongside its routes.
+  if (ctx.provision) document["x-suluk-provision"] = ctx.provision;
 
   // components: securitySchemes (C014) + a PRECISE per-status problem component for EACH synthesized error status present
   // (`Unauthorized`/`Forbidden`/… with `const` status/title/type + examples), so a renderer shows the exact stub instead of
@@ -251,10 +264,10 @@ export function emitV4(routes: readonly RouteContract[], ctx: EmitContext = {}):
   let usesGenericProblem = false;
   for (const status of problemStatuses) {
     const component = PROBLEM_COMPONENT_BY_STATUS[status as ProblemStatus];
-    if (component) schemas[component] = problemSchemaFor(status as ProblemStatus) as unknown as Schema;
+    if (component) schemas[component] = problemSchemaFor(status as ProblemStatus);
     else usesGenericProblem = true; // an unrecognized status → the generic base
   }
-  if (usesGenericProblem) schemas.ProblemDetails = PROBLEM_DETAILS_SCHEMA as unknown as Schema;
+  if (usesGenericProblem) schemas.ProblemDetails = PROBLEM_DETAILS_SCHEMA;
   if (Object.keys(schemas).length > 0) components.schemas = schemas;
   if (Object.keys(components).length > 0) document.components = components;
 

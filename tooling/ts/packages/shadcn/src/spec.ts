@@ -9,7 +9,7 @@
  * `warnings: string[]` channel for every property we could not faithfully map (unresolvable $ref, boolean
  * schemas, untyped/union-typed properties, non-object roots for a form). Callers decide; nothing is silent.
  */
-import { isReference, type SchemaOrRef, type Schema, type Reference } from "@suluk/core";
+import { isReference, type SchemaOrRef, type SchemaObject, type Reference } from "@suluk/core";
 
 /** The shadcn form control we pick for a property. Drives which control the renderer emits. */
 export type FieldWidget =
@@ -71,9 +71,6 @@ export interface SpecOptions {
   defs?: Record<string, SchemaOrRef>;
 }
 
-/** A normalised, plain JSON-Schema object view (boolean schemas + refs already resolved away or flagged). */
-type SchemaObject = Record<string, unknown>;
-
 /**
  * Resolve an OpenAPI Reference Object against `defs`. Returns the target schema, or `undefined` (with the
  * caller free to record a warning) when the ref is unresolvable. Supports both a bare name key and the
@@ -99,7 +96,7 @@ function asObject(s: SchemaOrRef | undefined, defs: Record<string, SchemaOrRef> 
     return asObject(target, defs);
   }
   if (typeof s === "boolean") return undefined; // boolean schema: no property structure to read
-  return s as SchemaObject;
+  return s;
 }
 
 /** "firstName" / "first_name" / "first-name" → "First Name". A label is cosmetic; never load-bearing. */
@@ -140,9 +137,12 @@ function pickWidget(schema: SchemaObject): FieldWidget {
   const enumMembers = Array.isArray(schema.enum) ? schema.enum : undefined;
 
   // contract-first overrides win: an explicit x-suluk-widget, or x-suluk-relation ⇒ a relation picker.
-  const hint = schema["x-suluk-widget"];
+  // (bracket access on the vendor-facet key: TS can't distribute a template-literal index signature across this
+  // many-membered union the way it does a single interface — cast at the read site, same as core's own SchemaProperty.)
+  const facets = schema as Record<string, unknown>;
+  const hint = facets["x-suluk-widget"];
   if (typeof hint === "string" && WIDGET_HINTS.has(hint as FieldWidget)) return hint as FieldWidget;
-  if (typeof schema["x-suluk-relation"] === "string") return "relation";
+  if (typeof facets["x-suluk-relation"] === "string") return "relation";
 
   if (type === "boolean") return "switch";
   // enum → select regardless of type (a numeric enum is still a closed choice, not a free number input).
@@ -217,7 +217,8 @@ export function formSpec(schema: SchemaOrRef, opts: SpecOptions = {}): FormSpec 
     if (typeof prop.minimum === "number") field.min = prop.minimum;
     if (typeof prop.maximum === "number") field.max = prop.maximum;
     if (typeof prop.pattern === "string") field.pattern = prop.pattern;
-    if (typeof prop["x-suluk-relation"] === "string") field.relation = prop["x-suluk-relation"] as string;
+    const propFacets = prop as Record<string, unknown>;
+    if (typeof propFacets["x-suluk-relation"] === "string") field.relation = propFacets["x-suluk-relation"] as string;
     fields.push(field);
   }
 

@@ -1,0 +1,61 @@
+# C101 — OSB as a companion/projection: the THIRD @suluk/core companion model (after C099 JSON Schema, C100
+# CloudEvents/AsyncAPI). Hoists @suluk/provision's OSB v2 WIRE CONTRACT (Service/Plan/CatalogResponse/
+# ServiceInstanceProvisionRequestBody/ServiceBindingRequest/ServiceBrokerError/OperationState/JsonObject/...) into
+# core/src/types.ts (pure types, no dep; ONE FILE per the C100 single-file precedent), adds a LIGHT "broker intent"
+# facet (SulukProvisionInstance + document-level x-suluk-provision, mirroring x-suluk-jobs exactly), and a NEW
+# projector `deriveInstanceSpecs(doc)` in @suluk/provision (the emitAsyncApi analog) that projects the facet into the
+# package's OWN existing InstanceSpec[] shape. Operator-driven (2026-07-04): "use provision/types.ts to improve suluk
+# core type for OSB api compatibility... Treat OSB as a companion/projection generated from the canonical Suluk
+# document: author domain once, annotate broker intent, generate OSB artifacts... single source of truth... without
+# polluting the domain model." ADR C101. Builds on C099/C100. Grounded by a 3-agent research pass BEFORE design
+# (provision internals / platform catalog+codegen / core facet precedents) confirming: the OSB wire types were purely
+# descriptive (zero brokers/CLI/tests construct them), zero prior core<->provision linkage, provision.config.ts is
+# generated as literal TS source text (any new InstanceSpec[] source must stay a plain exported array), and SulukJob
+# already sanctions per-facet extension (x-suluk-cost) with `queue` being the concrete motivating gap.
+
+# THE HOIST + PROJECTOR ARE BUILT + LIVE-WIRED, EMPIRICALLY WITNESSED (executable). @suluk/provision's OSB-wire section
+# is now `export type {...} from "@suluk/core"` (byte-identical values); OperationState (shared by the wire contract AND
+# the seam's ProvisionResult/Broker) imported from core too; the seam (Broker/InstanceSpec/InstanceState/
+# ServiceOffering/ServicePlan/Catalog/StateStore/BindingSink) stays LOCAL, unchanged. @suluk/core added as a REAL new
+# dependency of @suluk/provision (previously zero). deriveInstanceSpecs(doc) reads doc["x-suluk-provision"], produces
+# InstanceSpec[] (ref from the map key + verbatim fields), PURE + total (absent facet -> [], mirrors emitAsyncApi's
+# empty-surface case). PROVEN composable with the EXISTING mechanism UNMODIFIED: derived specs flow through
+# defineProvision + plan() exactly like a hand-authored fragment (test/derive.test.ts, 5 tests); a hand-authored
+# fragment + a derived one concatenate into one valid config. Runtime-verified across the WHOLE affected ecosystem:
+# core 62 tests, provision 42 tests (37 pre-existing + 5 new), platform 149 tests (unaffected — confirms the rewire is
+# invisible to the generator/codegen), hono 79, builder 104, agents 177 — ALL GREEN. @>=0.85
+claim c101_osb_hoist_and_projector_built_and_wired: Bool @>=0.85 = True
+falsified_when c101_osb_hoist_and_projector_built_and_wired == False
+
+# THE FACET IS LIGHT (no OSB wire ceremony) AND D1-SAFE. SulukProvisionInstance carries ONLY service/plan/name/params/
+# bind/protected (+ provenance + a vendor index sig) — no dashboard_client/maintenance_info/schemas; a runtime test
+# (test/osb-provision.test.ts) asserts `"dashboard_client" in facet.db === false` on a constructed x-suluk-provision
+# entry, proving the wire ceremony genuinely stays out of the domain model. D1 HELD: a NEW
+# test/provision-d1-invariance.test.ts (mirroring the agents/store/resources/policy D1 gates exactly) proves buildAda +
+# matchRequest are IDENTICAL with vs without an x-suluk-provision block present (incl. a block with a DANGLING
+# @unknown.key binding reference — dangling-ref linting is deriveInstanceSpecs'/defineProvision's concern, never the
+# matcher's). Zero new normative kind; x-suluk-provision is optional + additive, riding the x-suluk-jobs/agents/
+# policy/resources vendor-map move exactly. @>=0.85
+claim c101_facet_light_and_d1_safe: Bool @>=0.85 = True
+falsified_when c101_facet_light_and_d1_safe == False
+
+# DURABLE ADOPTION IS NOT YET WITNESSED — honestly low ceiling. No registry/services/* module declares
+# x-suluk-provision yet; every EXISTING provision fragment (credits/auth/billing/...) is still hand-authored
+# InstanceSpec[] literals. Neither @suluk/core nor @suluk/provision is published with this change. The per-job attach
+# point (SulukJob's OWN x-suluk-provision, motivated by its `queue` field lacking real infra) is DELIBERATELY DEFERRED
+# — building it before any consumer uses even the document-level form would fragment the authoring surface
+# prematurely. So: the projection MECHANISM is proven correct + composable, but "this is how a real Suluk app declares
+# its infra" awaits a live adopter + publish. @>=0.55
+claim c101_durable_adoption_pending: Bool @>=0.55 = True
+falsified_when c101_durable_adoption_pending == False
+
+# FLAGGED, NOT FIXED: an UNRELATED concurrent-session regression (a HttpStatusCode-keyed Record<...,Response> type on
+# Request.responses/Response.status/Components.responses/PathItem.pathResponses, first observed narrow after C100)
+# WIDENED during this work's verification sweep to break `tsc` in 14+ packages (hono/builder/agents/admin/cockpit/
+# compat/cost/drizzle/editor/effect/scalar/swagger/vscode/better-auth). Confirmed via error-content inspection: 100%
+# of ~96 error lines trace to that ONE root cause; ZERO mention Provision/OSB/Broker/Service/Plan/CatalogResponse (this
+# fact's own vocabulary) — so C101 introduces no new typecheck regressions anywhere. RUNTIME unaffected everywhere
+# checked (bun test green; Bun strips types without full-checking). Out of scope for C101; flagged to the operator, not
+# fixed here. @>=0.9
+claim c101_unrelated_httpstatuscode_regression_flagged_not_fixed: Bool @>=0.9 = True
+falsified_when c101_unrelated_httpstatuscode_regression_flagged_not_fixed == False

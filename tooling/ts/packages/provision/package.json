@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@suluk/cloudflare": "workspace:^",
+    "@suluk/core": "workspace:^",
     "@suluk/env": "workspace:^"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@
  * the pure derivations (emitV4 / audit / contractChecks) need no running server — only mount() touches Hono.
  */
 import type * as z from "zod";
-import type { SecurityRequirement, SulukRateLimit } from "@suluk/core";
+import type { SecurityRequirement, SulukRateLimit, SulukDedupe, SulukStore, HttpStatus, SulukRunGraph } from "@suluk/core";
 import type { CostModel } from "@suluk/cost";
 import { isRouteGroup, type RouteGroup } from "./route-group";
 
@@ -37,7 +37,7 @@ export interface ScenarioStep {
 }
 
 export interface RouteResponse {
-  status: number;
+  status: HttpStatus;
   description?: string;
   schema?: z.ZodType;
   /** Defaults to application/json when a schema is present. */
@@ -72,12 +72,18 @@ export interface RouteContract {
    * Error statuses this operation can return. Synthesized into RFC-9457 error responses by emitV4 (alongside
    * the auto-derived 401/403 for auth-gated ops, 429 when rate-limited, and an always-present 500).
    */
-  errors?: number[];
+  errors?: Extract<HttpStatus, number>[];
   /**
    * The declared rate budget (the `x-suluk-ratelimit` facet). emitV4 stamps it onto the operation + synthesizes a
    * 429 response; @suluk/hono's enforceRateLimit middleware ENFORCES it on the wire. Advisory vendor extension.
    */
   rateLimit?: SulukRateLimit;
+  /**
+   * The declared dedupe/result-cache budget (the `x-suluk-dedupe` facet, C110). emitV4 stamps it onto the
+   * operation + synthesizes a 409 response; @suluk/hono's `enforceDedupe` middleware ENFORCES it on the wire
+   * against a swappable `DedupeStore` (mirrors `rateLimit`/`RateLimitStore` exactly). Advisory vendor extension.
+   */
+  dedupe?: SulukDedupe;
   /**
    * The route's ECONOMICS (the `x-suluk-cost` facet, C024/C044) — declared INLINE with the route so a backend dev
    * pragmatically considers it while writing the code: the per-call floor + the DYNAMIC/metered `components` (per-token,
@@ -100,6 +106,20 @@ export interface RouteContract {
    * emitV4 stamps it onto the operation; advisory — journeys reads it via the same untyped cast the other facets use.
    */
   scenario?: readonly ScenarioStep[];
+  /**
+   * The REACTIVE-STORE facet (the `x-suluk-store` facet, C037) — how this operation participates in reactive state: a QUERY
+   * BACKS a store (`key` + optional `params`/`ttl`), a MUTATION INVALIDATES stores on success (`invalidates`). Every field
+   * names author-chosen STORE names or param NAMES — never a request/body/query VALUE (D1-safe). @suluk/sdk generates the
+   * reactive client from it; emitV4 stamps it onto the operation; emitAsyncApi projects the invalidations to CloudEvents.
+   */
+  store?: SulukStore;
+  /**
+   * The RUN-PIPELINE facet (the `x-suluk-run` facet, C104) — this operation's composed pipeline as data: every named
+   * node (internal/external/generic/package op, or a not-yet-written `ref()` stub) + the dependency edges between
+   * them. Produced by `@suluk/effect`'s `sulukFmt`/`sulukFmt.all` as they compose (never hand-authored); emitV4 stamps
+   * it onto the operation; @suluk/journeys reads it for graph-shaped BDD scenarios.
+   */
+  runGraph?: SulukRunGraph;
   request?: RouteRequest;
   /** Responses, as a list (each carries its own status) or a status-keyed map. */
   responses?: RouteResponse[] | Record<string, RouteResponse>;

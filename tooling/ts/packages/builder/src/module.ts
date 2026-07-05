@@ -11,7 +11,7 @@
  * rewriting its internal $refs. Pure (no host) → unit-tested.
  */
 import { validateDocument } from "@suluk/core";
-import type { OpenAPIv4Document, PathItem, Request, SchemaOrRef } from "@suluk/core";
+import type { OpenAPIv4Document, PathItem, Request, SchemaOrRef, SecurityScheme } from "@suluk/core";
 import { audit } from "@suluk/hono";
 
 /** A per-operation cost facet (mirrors @suluk/cost's CostModel; kept local so builder needn't depend on cost). */
@@ -44,7 +44,7 @@ export interface SulukModule {
   /** x-suluk-cost per operation name (e.g. createOrder). */
   cost?: Record<string, ModuleCost>;
   /** securitySchemes to merge. */
-  securitySchemes?: Record<string, unknown>;
+  securitySchemes?: Record<string, SecurityScheme>;
   /** Declared provider slots a developer can swap (e.g. { payments: "stripe" }). */
   providerSlots?: Record<string, string>;
 }
@@ -156,7 +156,7 @@ export function installModule(base: OpenAPIv4Document, mod: SulukModule): Instal
   for (const p of Object.keys(newPaths)) if (hasOwn(basePaths, p)) conflicts.push(`path "${p}" already exists in the app (collision)`);
 
   // 5. operation-name collisions — vs base (paths AND webhooks), and duplicated WITHIN the module
-  const baseOps = new Set<string>([...opNamesOf(basePaths), ...Object.keys((base as { webhooks?: Record<string, unknown> }).webhooks ?? {})]);
+  const baseOps = new Set<string>([...opNamesOf(basePaths), ...Object.keys(base.webhooks ?? {})]);
   const allNewOps = [...opNamesOf(crud), ...opNamesOf(explicit)];
   const seen = new Set<string>();
   for (const op of allNewOps) {
@@ -172,7 +172,7 @@ export function installModule(base: OpenAPIv4Document, mod: SulukModule): Instal
   doc.components = doc.components ?? {};
   doc.components.schemas = { ...(doc.components.schemas ?? {}), ...mod.schemas } as typeof doc.components.schemas;
   if (mod.securitySchemes) {
-    doc.components.securitySchemes = { ...(doc.components.securitySchemes ?? {}), ...mod.securitySchemes } as typeof doc.components.securitySchemes;
+    doc.components.securitySchemes = { ...(doc.components.securitySchemes ?? {}), ...mod.securitySchemes };
   }
   if (mod.providerSlots) {
     // record the module's provider-slot defaults (M3) — but an EXISTING binding (a user's deliberate swap, or

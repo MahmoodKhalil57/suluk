@@ -5,7 +5,7 @@
  * is closed (additionalProperties:false). Authors TIGHTEN per field (a slug isn't 1024 chars) — this is the floor
  * that turns an F/D contract into a B. The inverse of the audit: audit grades the gaps, harden fills them.
  */
-import type { OpenAPIv4Document } from "@suluk/core";
+import type { OpenAPIv4Document, SchemaOrRef } from "@suluk/core";
 
 type S = Record<string, unknown>;
 
@@ -24,7 +24,7 @@ const SAFE_TEXT = "^[^\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f]*$";
 const DEFAULTS: Required<HardenOptions> = { maxLength: 1024, textPattern: SAFE_TEXT, numberMax: 1_000_000_000_000, numberMin: -1_000_000_000_000, maxItems: 1000 };
 
 /** Recursively add baseline bounds to a JSON Schema. Idempotent — never overrides an author-set bound. */
-export function hardenSchema(schema: unknown, opts: HardenOptions = {}): unknown {
+export function hardenSchema<T extends SchemaOrRef>(schema: T, opts: HardenOptions = {}): T {
   const o = { ...DEFAULTS, ...opts };
   const go = (sch: unknown): unknown => {
     if (sch == null || typeof sch !== "object") return sch;
@@ -46,18 +46,17 @@ export function hardenSchema(schema: unknown, opts: HardenOptions = {}): unknown
     if (t === "array" && s.maxItems === undefined) s.maxItems = o.maxItems;
     return s;
   };
-  return go(schema);
+  return go(schema) as T;
 }
 
 /** Harden EVERY input schema in a built v4 document IN PLACE — request bodies + all parameter slots (incl. the route
  *  generator's path params, otherwise unbounded strings). Idempotent. The transform that makes assertGrade pass. */
 export function hardenDocument<T extends OpenAPIv4Document>(doc: T, opts: HardenOptions = {}): T {
-  const d = doc as unknown as { paths?: Record<string, { requests?: Record<string, Record<string, unknown>> }> };
-  for (const pi of Object.values(d.paths ?? {})) {
+  for (const pi of Object.values(doc.paths ?? {})) {
     for (const req of Object.values(pi.requests ?? {})) {
       if (req.contentSchema) req.contentSchema = hardenSchema(req.contentSchema, opts);
-      const ps = req.parameterSchema as Record<string, unknown> | undefined;
-      if (ps) for (const loc of ["query", "path", "header", "cookie", "body"]) if (ps[loc]) ps[loc] = hardenSchema(ps[loc], opts);
+      const ps = req.parameterSchema;
+      if (ps) for (const loc of ["query", "path", "header", "cookie", "body"] as const) if (ps[loc]) ps[loc] = hardenSchema(ps[loc], opts);
     }
   }
   return doc;

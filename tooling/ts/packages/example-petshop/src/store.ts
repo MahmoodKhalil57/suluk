@@ -6,7 +6,8 @@
  */
 import { Database } from "bun:sqlite";
 import { drizzle, type BunSQLiteDatabase } from "drizzle-orm/bun-sqlite";
-import { eq, type Table } from "drizzle-orm";
+import { eq } from "drizzle-orm";
+import type { SQLiteTable, TableConfig } from "drizzle-orm/sqlite-core";
 import type { Context } from "hono";
 
 // in-memory SQLite for the demo (no setup); the schema matches the Drizzle tables in entities.ts.
@@ -38,8 +39,11 @@ export interface CrudHandlers {
   delete: (c: Context) => Response | Promise<Response>;
 }
 
-/** Generic Drizzle-backed CRUD handlers for one table (the table has an `id` primary key). */
-export function drizzleHandlers(table: Table & { id: import("drizzle-orm").Column }): CrudHandlers {
+/** Generic Drizzle-backed CRUD handlers for one table (the table has an `id` primary key). Typed against the
+ *  real `SQLiteTable` (not the bare `Table` base) so it stays assignable to `.from()`/`.select()` under
+ *  @suluk/drizzle's `.zod()` module augmentation (inline-zod.ts), which adds a required `zod` member to the
+ *  actual `drizzle-orm/sqlite-core` `SQLiteTable` interface — a real `sqliteTable(...)` result already carries it. */
+export function drizzleHandlers(table: SQLiteTable<TableConfig> & { id: import("drizzle-orm").Column }): CrudHandlers {
   const id = (c: Context) => Number(c.req.param("id"));
   return {
     list: (c) => c.json(db.select().from(table).all()),

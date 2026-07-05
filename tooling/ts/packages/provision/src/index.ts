@@ -6,12 +6,30 @@
  * last-operation → bind → land credentials in @suluk/env), `assertNoDrift` is the CI gate. This package is the OSB
  * *client* / orchestrator — a layer ABOVE @suluk/cloudflare / @suluk/deploy / @suluk/env, which it composes as brokers +
  * the binding sink. This barrel is the CORE framework; the concrete brokers + the CLI ship alongside it.
+ *
+ * C101: `deriveInstanceSpecs` projects a v4 "Suluk" document's `x-suluk-provision` facet (declared alongside the
+ * document's routes/jobs — `@suluk/core`'s `SulukProvisionInstance`) into this package's own `InstanceSpec[]`, the
+ * OSB wire-contract types below now RE-EXPORTED from `@suluk/core` (the same companion-model treatment as JSON
+ * Schema/CloudEvents/AsyncAPI) rather than defined here.
  */
 export type {
   OperationState, ServicePlan, ServiceOffering, Catalog,
   InstanceSpec, InstanceState,
   ProvisionRequest, ProvisionResult, BindRequest, BindResult, OperationRequest,
   Broker, BindingSink, StateStore,
+} from "./types";
+export { deriveInstanceSpecs } from "./derive";
+// the complete OSB v2 wire contract (spec.md / openapiv4.json) — re-exported from @suluk/core (C101).
+export type {
+  JsonObject, Context, Metadata, MaintenanceInfo, DashboardClient,
+  Schemas, ServiceInstanceSchema, ServiceBindingSchema, ServiceRequires,
+  Plan, Service, CatalogResponse,
+  ServiceInstanceMetadata, ServiceInstanceProvisionRequestBody, ServiceInstanceProvisionResponse,
+  ServiceInstanceAsyncOperation, ServiceInstanceUpdateRequestBody, ServiceInstancePreviousValues,
+  ServiceInstanceResource, AsyncOperation, LastOperationResource,
+  ServiceBindingResouceObject, ServiceBindingRequest, ServiceBindingMetadata,
+  ServiceBindingEndpoint, ServiceBindingVolumeMountDevice, ServiceBindingVolumeMount,
+  ServiceBindingResponse, ServiceBindingResource, ServiceBrokerError,
 } from "./types";
 export { defineProvision, type ProvisionConfig } from "./config";
 export { topoOrder } from "./dag";

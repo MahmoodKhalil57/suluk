@@ -1,0 +1,69 @@
+# C112 -- pre-publish review over the whole C099-C111 uncommitted diff (~101 files): 8 independent finder angles
+# via the Agent tool, 1-vote verification on the top correctness candidates. All 5 verified came back CONFIRMED.
+# ADR C112. @>=0.9
+claim c112_eight_angle_review_five_confirmed_bugs_fixed: Bool @>=0.9 = True
+falsified_when c112_eight_angle_review_five_confirmed_bugs_fixed == False
+
+# CONFIRMED + FIXED: enforceDedupe (hono/dedupe.ts) permanently cached a 5xx from an unhandled defect (effectRoute
+# renders even an undeclared crash as a plain Response, not a throw, so the catch/release path never ran) --
+# denying every retry with the same idempotency key forever. Fix: only cache/replay status<500; release on 5xx.
+# Live-tested (a handler failing once then succeeding really re-runs on retry). @>=0.9
+claim c112_dedupe_5xx_caching_bug_fixed_verified: Bool @>=0.9 = True
+falsified_when c112_dedupe_5xx_caching_bug_fixed_verified == False
+
+# CONFIRMED + FIXED: C105 compensation (suluk-fn.ts, both sulukFmt's linear path and sulukFmt.all's fan-out path)
+# never fired on a DEFECT (raw throw), only a typed httpError failure, via Effect.tapError which only observes the
+# typed E channel. Fix: Effect.tapError -> Effect.tapErrorCause (re-raises the original cause automatically,
+# same contract, but also observes Die/Interrupt). Live-tested both paths (compensator runs even on a Cause.Die).
+# @>=0.9
+claim c112_compensation_on_defect_bug_fixed_verified: Bool @>=0.9 = True
+falsified_when c112_compensation_on_defect_bug_fixed_verified == False
+
+# CONFIRMED + FIXED: a table's .policy() (C111) bled dedupe/requiresIdempotencyKey/idempotencyKeySource onto EVERY
+# model touching that table with no read-vs-write distinction (registry/foundation/app/app.ts's policyOf/nodeOf).
+# Fix: new @suluk/drizzle queryKind(query) (verified by direct probe against real drizzle-orm builders:
+# config.fields=>select, config.set=>update, config.values=>insert, else=>delete) gates the write-only fields
+# behind queryKind(builtQuery)!=="select"; retry/timeoutMs/idempotent/effect/rateLimit stay universal. Verified
+# end-to-end via a throwaway scratch package (built, checked, deleted): a read gets retry but not dedupe, a write
+# gets both. @>=0.9
+claim c112_table_policy_read_write_scoping_fixed_verified: Bool @>=0.9 = True
+falsified_when c112_table_policy_read_write_scoping_fixed_verified == False
+
+# CONFIRMED + FIXED: sulukFmt.branch resolved dedupe/rateLimit by declaration-order first-wins (mergeSlices'
+# generic inherit()), not by which case actually runs -- unlike cost's deliberate MAX-across-cases override.
+# Fix: new agreeOrUndefined helper -- keep the value ONLY when every case that declares one agrees exactly,
+# else undefined (the same honest-absence-over-wrong-guess rule resultNode already uses). Applied to both dedupe
+# and rateLimit in branch. @>=0.9
+claim c112_branch_dedupe_ratelimit_agree_or_undefined_fixed: Bool @>=0.9 = True
+falsified_when c112_branch_dedupe_ratelimit_agree_or_undefined_fixed == False
+
+# CONFIRMED + FIXED (lower severity, graph-facet accuracy only -- x-suluk-run is advisory, the matcher never reads
+# it per D1): mergeGraphs silently dropped a same-labeled node's schema under sulukFmt.all (first-wins). Fix:
+# throw a clear error at composition time when two DIFFERENT nodes share a label (compared by value); the SAME
+# node legitimately reused twice under different keys stays a no-op. @>=0.85
+claim c112_mergegraphs_label_collision_fails_loud_fixed: Bool @>=0.85 = True
+falsified_when c112_mergegraphs_label_collision_fails_loud_fixed == False
+
+# APPLIED (operator-stated mid-review, not from the automated review): registry/services/todo/todo.ops.ts (the
+# SERVICE layer) directly imported effect+zod to build one inline leaf sulukFn -- violates "services import only
+# services+models, no third-party". Fix: moved confirmDeleted into todo.model.ts (the MODEL layer); the service
+# now only imports @suluk/effect (the composition vocabulary, not counted as third-party) + ../models/todo. Zero
+# behavior change. Saved as a durable memory since the rule isn't fully derivable from the current code alone.
+# @>=0.85
+claim c112_registry_layering_violation_fixed: Bool @>=0.85 = True
+falsified_when c112_registry_layering_violation_fixed == False
+
+# NOTED, NOT ACTIONED (lower priority, explicitly not silently dropped): several reuse/simplification/efficiency
+# candidates (duplicated SulukDedupe-shaped literals across core/effect/drizzle; policyOf/nodeOf's duplicate
+# table lookup; sulukFn/ref()'s duplicated node-wiring body; withNodeControls rebuilding its Schedule per request;
+# enforceDedupe's synchronous res.clone().text()+store-write on the critical path; MemoryDedupeStore's unbounded
+# growth under high key cardinality, already documented dev-only). The HttpStatus wildcard narrowing the
+# removed-behavior angle flagged was checked against C103's own ADR and confirmed a DELIBERATE prior-session fix,
+# not a regression. @>=0.85
+claim c112_lower_priority_findings_noted_not_silently_dropped: Bool @>=0.85 = True
+falsified_when c112_lower_priority_findings_noted_not_silently_dropped == False
+
+# VERIFIED: full 30-package ecosystem sweep after all fixes -- 1969 tests pass, zero fail, zero typecheck errors
+# (+10 new regression tests for the 5 confirmed bugs). conformance/run.py 8/8. @>=0.9
+claim c112_full_sweep_1969_tests_zero_regression: Bool @>=0.9 = True
+falsified_when c112_full_sweep_1969_tests_zero_regression == False

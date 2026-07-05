@@ -12,58 +12,19 @@
  * Every message payload is a CloudEvent (`specversion`/`id`/`source`/`type` + `data`), so the wire is a standard envelope any
  * CloudEvents SDK / event bus / AsyncAPI generator consumes. NOT normative to the OpenAPI contract — a separate projection.
  */
-import type { OpenAPIv4Document, Request } from "@suluk/core";
+import type {
+  OpenAPIv4Document, Request,
+  AsyncApiDocument, AsyncApiMessage, AsyncApiChannel, AsyncApiOperation,
+} from "@suluk/core";
+import { cloudEventEnvelopeSchema, CLOUDEVENTS_JSON_CONTENT_TYPE } from "@suluk/core";
+
+// The AsyncAPI document model + the CloudEvents envelope builder now live in @suluk/core (C100 — the event-architecture
+// source-of-truth). Re-export the types so @suluk/hono's public API is unchanged; `cloudEventEnvelopeSchema` replaces the
+// envelope this file used to inline (same output, one typed home).
+export type { AsyncApiDocument, AsyncApiMessage, AsyncApiChannel, AsyncApiOperation } from "@suluk/core";
 
 /** The reverse-DNS prefix for every generated CloudEvent `type` (rebrandable, one place). */
 const CE_TYPE_PREFIX = "dev.suluk";
-
-// ── AsyncAPI 3.0 document shape (the subset we emit) ────────────────────────────────────────────────────────────────────
-export interface AsyncApiMessage {
-  name: string;
-  title?: string;
-  summary?: string;
-  contentType: string;
-  /** the CloudEvents envelope schema (JSON Schema); its `data` is the event's own payload. */
-  payload: Record<string, unknown>;
-}
-export interface AsyncApiChannel {
-  address: string;
-  description?: string;
-  messages: Record<string, { $ref: string }>;
-}
-export interface AsyncApiOperation {
-  action: "send" | "receive";
-  channel: { $ref: string };
-  summary?: string;
-  messages: { $ref: string }[];
-}
-export interface AsyncApiDocument {
-  asyncapi: "3.0.0";
-  info: { title: string; version: string; description?: string };
-  channels: Record<string, AsyncApiChannel>;
-  operations: Record<string, AsyncApiOperation>;
-  components: { messages: Record<string, AsyncApiMessage> };
-  [ext: `x-${string}`]: unknown;
-}
-
-/** The CloudEvents 1.0.2 structured-JSON envelope as a JSON Schema — `data` carries the event's own payload (or is open). */
-function cloudEvent(type: string, source: string, data?: unknown): Record<string, unknown> {
-  return {
-    type: "object",
-    title: "CloudEvent",
-    required: ["specversion", "id", "source", "type"],
-    properties: {
-      specversion: { type: "string", const: "1.0", description: "The CloudEvents spec version." },
-      id: { type: "string", description: "A unique id for this event occurrence." },
-      source: { type: "string", format: "uri-reference", description: "The event producer.", examples: [source] },
-      type: { type: "string", const: type, description: "The event type (reverse-DNS)." },
-      time: { type: "string", format: "date-time", description: "When the event occurred." },
-      datacontenttype: { type: "string", const: "application/json" },
-      data: data ?? {},
-    },
-    additionalProperties: true, // CloudEvents extension attributes are allowed
-  };
-}
 
 // vendor facets live on an untyped view (they aren't on the typed Request — the same cast emitV4/journeys use).
 const ext = (o: unknown): Record<string, unknown> => o as Record<string, unknown>;
@@ -98,7 +59,7 @@ export function emitAsyncApi(doc: OpenAPIv4Document): AsyncApiDocument {
     const type = `${CE_TYPE_PREFIX}.job.${camelSafe(name)}${queued ? ".queued" : ".scheduled"}`;
     const source = queued ? `queue/${job.queue ?? name}` : `schedule/${job.schedule ?? name}`;
     const msgId = `${camelSafe(name)}Trigger`;
-    addMessage(msgId, { name: type, title: `${name} trigger`, summary: job.summary, contentType: "application/cloudevents+json", payload: cloudEvent(type, source) });
+    addMessage(msgId, { name: type, title: `${name} trigger`, summary: job.summary, contentType: CLOUDEVENTS_JSON_CONTENT_TYPE, payload: cloudEventEnvelopeSchema(type, source) });
     addChannelOp(camelSafe(name), source, job.description ?? `The ${name} job's trigger (${job.trigger ?? "scheduled"}).`, msgId, "receive", `Handle the ${name} job.`);
   }
 
@@ -107,7 +68,7 @@ export function emitAsyncApi(doc: OpenAPIv4Document): AsyncApiDocument {
     const wh = whRaw as Request;
     const type = `${CE_TYPE_PREFIX}.webhook.${camelSafe(name)}`;
     const msgId = `${camelSafe(name)}Webhook`;
-    addMessage(msgId, { name: type, title: `${name} webhook`, summary: wh.summary, contentType: "application/cloudevents+json", payload: cloudEvent(type, `webhook/${name}`, wh.contentSchema as unknown) });
+    addMessage(msgId, { name: type, title: `${name} webhook`, summary: wh.summary, contentType: CLOUDEVENTS_JSON_CONTENT_TYPE, payload: cloudEventEnvelopeSchema(type, `webhook/${name}`, wh.contentSchema) });
     addChannelOp(`${camelSafe(name)}Webhook`, `webhook/${name}`, wh.description ?? `Inbound ${name} webhook.`, msgId, "receive", `Receive the ${name} webhook.`);
   }
 
@@ -122,7 +83,7 @@ export function emitAsyncApi(doc: OpenAPIv4Document): AsyncApiDocument {
         emitted.add(key);
         const type = `${CE_TYPE_PREFIX}.store.${camelSafe(key)}.invalidated`;
         const msgId = `${camelSafe(key)}Invalidated`;
-        addMessage(msgId, { name: type, title: `${key} invalidated`, summary: `The ${key} store was invalidated and should refresh.`, contentType: "application/cloudevents+json", payload: cloudEvent(type, `op/${opName}`) });
+        addMessage(msgId, { name: type, title: `${key} invalidated`, summary: `The ${key} store was invalidated and should refresh.`, contentType: CLOUDEVENTS_JSON_CONTENT_TYPE, payload: cloudEventEnvelopeSchema(type, `op/${opName}`) });
         addChannelOp(`store_${camelSafe(key)}`, `store/${key}`, `Emitted when a mutation (e.g. ${opName} at ${uri}) invalidates the ${key} store.`, msgId, "send", `Announce the ${key} store is stale.`);
       }
     }

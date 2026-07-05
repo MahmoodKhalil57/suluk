@@ -1,0 +1,1565 @@
+{
+  "openapi": "4.0.0-candidate",
+  "info": {
+    "title": "Open Service Broker API",
+    "description": "The Open Service Broker API defines an HTTP(S) interface between Platforms and Service Brokers.",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "contact": {
+      "name": "Open Service Broker API",
+      "url": "https://www.openservicebrokerapi.org/",
+      "email": "open-service-broker-api@googlegroups.com"
+    },
+    "version": "master - might contain changes that are not yet released"
+  },
+  "paths": {
+    "/v2/catalog": {
+      "requests": {
+        "catalog.get": {
+          "method": "get",
+          "responses": {
+            "200": {
+              "status": "200",
+              "description": "catalog response",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Catalog"
+              }
+            }
+          },
+          "summary": "get the catalog of services that the service broker offers",
+          "tags": [
+            "Catalog"
+          ],
+          "parameterSchema": {
+            "header": {
+              "type": "object",
+              "properties": {
+                "X-Broker-API-Version": {
+                  "type": "string",
+                  "default": "2.13"
+                }
+              },
+              "required": [
+                "X-Broker-API-Version"
+              ]
+            }
+          },
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ]
+        }
+      }
+    },
+    "/v2/service_instances/{instance_id}": {
+      "requests": {
+        "serviceInstance.get": {
+          "method": "get",
+          "responses": {
+            "200": {
+              "status": "200",
+              "description": "OK",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/ServiceInstanceResource"
+              }
+            },
+            "404": {
+              "status": "404",
+              "description": "Not Found",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          },
+          "summary": "get a service instance",
+          "tags": [
+            "ServiceInstances"
+          ],
+          "parameterSchema": {
+            "header": {
+              "type": "object",
+              "properties": {
+                "X-Broker-API-Version": {
+                  "type": "string",
+                  "default": "2.13"
+                },
+                "X-Broker-API-Originating-Identity": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "X-Broker-API-Version"
+              ]
+            },
+            "path": {
+              "type": "object",
+              "properties": {
+                "instance_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "instance_id"
+              ]
+            },
+            "query": {
+              "type": "object",
+              "properties": {
+                "service_id": {
+                  "type": "string"
+                },
+                "plan_id": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ]
+        },
+        "serviceInstance.provision": {
+          "method": "put",
+          "responses": {
+            "200": {
+              "status": "200",
+              "description": "OK",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/ServiceInstanceProvisionResponse"
+              }
+            },
+            "201": {
+              "status": "201",
+              "description": "Created",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/ServiceInstanceProvisionResponse"
+              }
+            },
+            "202": {
+              "status": "202",
+              "description": "Accepted",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/ServiceInstanceAsyncOperation"
+              }
+            },
+            "400": {
+              "status": "400",
+              "description": "Bad Request",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "401": {
+              "status": "401",
+              "description": "Unauthorized",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "409": {
+              "status": "409",
+              "description": "Conflict",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "422": {
+              "status": "422",
+              "description": "Unprocessable Entity",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          },
+          "summary": "provision a service instance",
+          "tags": [
+            "ServiceInstances"
+          ],
+          "parameterSchema": {
+            "header": {
+              "type": "object",
+              "properties": {
+                "X-Broker-API-Version": {
+                  "type": "string",
+                  "default": "2.13"
+                },
+                "X-Broker-API-Originating-Identity": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "X-Broker-API-Version"
+              ]
+            },
+            "path": {
+              "type": "object",
+              "properties": {
+                "instance_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "instance_id"
+              ]
+            },
+            "query": {
+              "type": "object",
+              "properties": {
+                "accepts_incomplete": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "contentType": "application/json",
+          "contentSchema": {
+            "$ref": "#/components/schemas/ServiceInstanceProvisionRequestBody"
+          },
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ]
+        },
+        "serviceInstance.deprovision": {
+          "method": "delete",
+          "responses": {
+            "200": {
+              "status": "200",
+              "description": "OK",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Object"
+              }
+            },
+            "202": {
+              "status": "202",
+              "description": "Accepted",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/AsyncOperation"
+              }
+            },
+            "400": {
+              "status": "400",
+              "description": "Bad Request",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "401": {
+              "status": "401",
+              "description": "Unauthorized",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "410": {
+              "status": "410",
+              "description": "Gone",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "422": {
+              "status": "422",
+              "description": "Unprocessable Entity",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          },
+          "summary": "deprovision a service instance",
+          "tags": [
+            "ServiceInstances"
+          ],
+          "parameterSchema": {
+            "header": {
+              "type": "object",
+              "properties": {
+                "X-Broker-API-Version": {
+                  "type": "string",
+                  "default": "2.13"
+                },
+                "X-Broker-API-Originating-Identity": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "X-Broker-API-Version"
+              ]
+            },
+            "path": {
+              "type": "object",
+              "properties": {
+                "instance_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "instance_id"
+              ]
+            },
+            "query": {
+              "type": "object",
+              "properties": {
+                "service_id": {
+                  "type": "string"
+                },
+                "plan_id": {
+                  "type": "string"
+                },
+                "accepts_incomplete": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "service_id",
+                "plan_id"
+              ]
+            }
+          },
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ]
+        },
+        "serviceInstance.update": {
+          "method": "patch",
+          "responses": {
+            "200": {
+              "status": "200",
+              "description": "OK",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Object"
+              }
+            },
+            "202": {
+              "status": "202",
+              "description": "Accepted",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/ServiceInstanceAsyncOperation"
+              }
+            },
+            "400": {
+              "status": "400",
+              "description": "Bad Request",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "401": {
+              "status": "401",
+              "description": "Unauthorized",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "422": {
+              "status": "422",
+              "description": "Unprocessable entity",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          },
+          "summary": "update a service instance",
+          "tags": [
+            "ServiceInstances"
+          ],
+          "parameterSchema": {
+            "header": {
+              "type": "object",
+              "properties": {
+                "X-Broker-API-Version": {
+                  "type": "string",
+                  "default": "2.13"
+                },
+                "X-Broker-API-Originating-Identity": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "X-Broker-API-Version"
+              ]
+            },
+            "path": {
+              "type": "object",
+              "properties": {
+                "instance_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "instance_id"
+              ]
+            },
+            "query": {
+              "type": "object",
+              "properties": {
+                "accepts_incomplete": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "contentType": "application/json",
+          "contentSchema": {
+            "$ref": "#/components/schemas/ServiceInstanceUpdateRequestBody"
+          },
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ]
+        }
+      }
+    },
+    "/v2/service_instances/{instance_id}/last_operation": {
+      "requests": {
+        "serviceInstance.lastOperation.get": {
+          "method": "get",
+          "responses": {
+            "200": {
+              "status": "200",
+              "description": "OK",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/LastOperationResource"
+              },
+              "headers": {
+                "Retry-After": {
+                  "description": "Indicates when to retry the request",
+                  "required": false,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "400": {
+              "status": "400",
+              "description": "Bad Request",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "401": {
+              "status": "401",
+              "description": "Unauthorized",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "404": {
+              "status": "404",
+              "description": "Not Found",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "410": {
+              "status": "410",
+              "description": "Gone",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          },
+          "summary": "get the last requested operation state for service instance",
+          "tags": [
+            "ServiceInstances"
+          ],
+          "parameterSchema": {
+            "header": {
+              "type": "object",
+              "properties": {
+                "X-Broker-API-Version": {
+                  "type": "string",
+                  "default": "2.13"
+                }
+              },
+              "required": [
+                "X-Broker-API-Version"
+              ]
+            },
+            "path": {
+              "type": "object",
+              "properties": {
+                "instance_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "instance_id"
+              ]
+            },
+            "query": {
+              "type": "object",
+              "properties": {
+                "service_id": {
+                  "type": "string"
+                },
+                "plan_id": {
+                  "type": "string"
+                },
+                "operation": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ]
+        }
+      }
+    },
+    "/v2/service_instances/{instance_id}/service_bindings/{binding_id}/last_operation": {
+      "requests": {
+        "serviceBinding.lastOperation.get": {
+          "method": "get",
+          "responses": {
+            "200": {
+              "status": "200",
+              "description": "OK",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/LastOperationResource"
+              },
+              "headers": {
+                "Retry-After": {
+                  "description": "Indicates when to retry the request",
+                  "required": false,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "400": {
+              "status": "400",
+              "description": "Bad Request",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "401": {
+              "status": "401",
+              "description": "Unauthorized",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "404": {
+              "status": "404",
+              "description": "Not Found",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "410": {
+              "status": "410",
+              "description": "Gone",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          },
+          "summary": "get the last requested operation state for service binding",
+          "tags": [
+            "ServiceBindings"
+          ],
+          "parameterSchema": {
+            "header": {
+              "type": "object",
+              "properties": {
+                "X-Broker-API-Version": {
+                  "type": "string",
+                  "default": "2.13"
+                }
+              },
+              "required": [
+                "X-Broker-API-Version"
+              ]
+            },
+            "path": {
+              "type": "object",
+              "properties": {
+                "instance_id": {
+                  "type": "string"
+                },
+                "binding_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "instance_id",
+                "binding_id"
+              ]
+            },
+            "query": {
+              "type": "object",
+              "properties": {
+                "service_id": {
+                  "type": "string"
+                },
+                "plan_id": {
+                  "type": "string"
+                },
+                "operation": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ]
+        }
+      }
+    },
+    "/v2/service_instances/{instance_id}/service_bindings/{binding_id}": {
+      "requests": {
+        "serviceBinding.get": {
+          "method": "get",
+          "responses": {
+            "200": {
+              "status": "200",
+              "description": "OK",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/ServiceBindingResource"
+              }
+            },
+            "404": {
+              "status": "404",
+              "description": "Not Found",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          },
+          "summary": "get a service binding",
+          "tags": [
+            "ServiceBindings"
+          ],
+          "parameterSchema": {
+            "header": {
+              "type": "object",
+              "properties": {
+                "X-Broker-API-Version": {
+                  "type": "string",
+                  "default": "2.13"
+                },
+                "X-Broker-API-Originating-Identity": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "X-Broker-API-Version"
+              ]
+            },
+            "path": {
+              "type": "object",
+              "properties": {
+                "instance_id": {
+                  "type": "string"
+                },
+                "binding_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "instance_id",
+                "binding_id"
+              ]
+            },
+            "query": {
+              "type": "object",
+              "properties": {
+                "service_id": {
+                  "type": "string"
+                },
+                "plan_id": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ]
+        },
+        "serviceBinding.binding": {
+          "method": "put",
+          "responses": {
+            "200": {
+              "status": "200",
+              "description": "OK",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/ServiceBindingResponse"
+              }
+            },
+            "201": {
+              "status": "201",
+              "description": "Created",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/ServiceBindingResponse"
+              }
+            },
+            "202": {
+              "status": "202",
+              "description": "Accepted",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/AsyncOperation"
+              }
+            },
+            "400": {
+              "status": "400",
+              "description": "Bad Request",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "401": {
+              "status": "401",
+              "description": "Unauthorized",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "409": {
+              "status": "409",
+              "description": "Conflict",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "422": {
+              "status": "422",
+              "description": "Unprocessable Entity",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          },
+          "summary": "generate a service binding",
+          "tags": [
+            "ServiceBindings"
+          ],
+          "parameterSchema": {
+            "header": {
+              "type": "object",
+              "properties": {
+                "X-Broker-API-Version": {
+                  "type": "string",
+                  "default": "2.13"
+                },
+                "X-Broker-API-Originating-Identity": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "X-Broker-API-Version"
+              ]
+            },
+            "path": {
+              "type": "object",
+              "properties": {
+                "instance_id": {
+                  "type": "string"
+                },
+                "binding_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "instance_id",
+                "binding_id"
+              ]
+            },
+            "query": {
+              "type": "object",
+              "properties": {
+                "accepts_incomplete": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "contentType": "application/json",
+          "contentSchema": {
+            "$ref": "#/components/schemas/ServiceBindingRequest"
+          },
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ]
+        },
+        "serviceBinding.unbinding": {
+          "method": "delete",
+          "responses": {
+            "200": {
+              "status": "200",
+              "description": "OK",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Object"
+              }
+            },
+            "202": {
+              "status": "202",
+              "description": "Accepted",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/AsyncOperation"
+              }
+            },
+            "400": {
+              "status": "400",
+              "description": "Bad Request",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "401": {
+              "status": "401",
+              "description": "Unauthorized",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "410": {
+              "status": "410",
+              "description": "Gone",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            },
+            "422": {
+              "status": "422",
+              "description": "Unprocessable Entity",
+              "contentType": "application/json",
+              "contentSchema": {
+                "$ref": "#/components/schemas/Error"
+              }
+            }
+          },
+          "summary": "deprovision a service binding",
+          "tags": [
+            "ServiceBindings"
+          ],
+          "parameterSchema": {
+            "header": {
+              "type": "object",
+              "properties": {
+                "X-Broker-API-Version": {
+                  "type": "string",
+                  "default": "2.13"
+                },
+                "X-Broker-API-Originating-Identity": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "X-Broker-API-Version"
+              ]
+            },
+            "path": {
+              "type": "object",
+              "properties": {
+                "instance_id": {
+                  "type": "string"
+                },
+                "binding_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "instance_id",
+                "binding_id"
+              ]
+            },
+            "query": {
+              "type": "object",
+              "properties": {
+                "service_id": {
+                  "type": "string"
+                },
+                "plan_id": {
+                  "type": "string"
+                },
+                "accepts_incomplete": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "service_id",
+                "plan_id"
+              ]
+            }
+          },
+          "security": [
+            {
+              "basicAuth": []
+            }
+          ]
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://example.com",
+      "description": "Broker Endpoint"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "OSB Checker - MockOSB"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Catalog": {
+        "type": "object",
+        "properties": {
+          "services": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Service"
+            }
+          }
+        }
+      },
+      "Service": {
+        "type": "object",
+        "required": [
+          "name",
+          "id",
+          "description",
+          "bindable",
+          "plans"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requires": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "syslog_drain",
+                "route_forwarding",
+                "volume_mount"
+              ]
+            }
+          },
+          "bindable": {
+            "type": "boolean"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "dashboard_client": {
+            "$ref": "#/components/schemas/DashboardClient"
+          },
+          "binding_rotatable": {
+            "type": "boolean"
+          },
+          "plan_updateable": {
+            "type": "boolean"
+          },
+          "plans": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Plan"
+            }
+          }
+        }
+      },
+      "DashboardClient": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "secret": {
+            "type": "string"
+          },
+          "redirect_uri": {
+            "type": "string"
+          }
+        }
+      },
+      "Plan": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "description"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/Metadata"
+          },
+          "maintenance_info": {
+            "$ref": "#/components/schemas/MaintenanceInfo"
+          },
+          "free": {
+            "type": "boolean",
+            "default": true
+          },
+          "bindable": {
+            "type": "boolean"
+          },
+          "schemas": {
+            "$ref": "#/components/schemas/Schemas"
+          },
+          "maximum_polling_duration": {
+            "type": "integer"
+          },
+          "plan_updateable": {
+            "type": "boolean"
+          },
+          "binding_rotatable": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "Schemas": {
+        "type": "object",
+        "properties": {
+          "service_instance": {
+            "$ref": "#/components/schemas/ServiceInstanceSchema"
+          },
+          "service_binding": {
+            "$ref": "#/components/schemas/ServiceBindingSchema"
+          }
+        }
+      },
+      "ServiceInstanceSchema": {
+        "type": "object",
+        "properties": {
+          "create": {
+            "type": "object",
+            "properties": {
+              "parameters": {
+                "type": "object"
+              }
+            }
+          },
+          "update": {
+            "type": "object",
+            "properties": {
+              "parameters": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "ServiceBindingSchema": {
+        "type": "object",
+        "properties": {
+          "create": {
+            "type": "object",
+            "properties": {
+              "parameters": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "ServiceInstanceResource": {
+        "type": "object",
+        "properties": {
+          "service_id": {
+            "type": "string"
+          },
+          "plan_id": {
+            "type": "string"
+          },
+          "dashboard_url": {
+            "type": "string"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/Object"
+          },
+          "maintenance_info": {
+            "$ref": "#/components/schemas/MaintenanceInfo"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/ServiceInstanceMetadata"
+          }
+        }
+      },
+      "ServiceInstanceProvisionRequestBody": {
+        "type": "object",
+        "required": [
+          "service_id",
+          "plan_id",
+          "organization_guid",
+          "space_guid"
+        ],
+        "properties": {
+          "service_id": {
+            "type": "string"
+          },
+          "plan_id": {
+            "type": "string"
+          },
+          "context": {
+            "$ref": "#/components/schemas/Context"
+          },
+          "organization_guid": {
+            "type": "string",
+            "deprecated": true
+          },
+          "space_guid": {
+            "type": "string",
+            "deprecated": true
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/Object"
+          }
+        }
+      },
+      "ServiceInstanceProvisionResponse": {
+        "type": "object",
+        "properties": {
+          "dashboard_url": {
+            "type": "string"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/ServiceInstanceMetadata"
+          }
+        }
+      },
+      "ServiceInstanceAsyncOperation": {
+        "type": "object",
+        "properties": {
+          "dashboard_url": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/ServiceInstanceMetadata"
+          }
+        }
+      },
+      "ServiceInstanceMetadata": {
+        "type": "object",
+        "properties": {
+          "labels": {
+            "type": "object"
+          },
+          "attributes": {
+            "type": "object"
+          }
+        }
+      },
+      "ServiceInstanceUpdateRequestBody": {
+        "type": "object",
+        "required": [
+          "service_id"
+        ],
+        "properties": {
+          "context": {
+            "$ref": "#/components/schemas/Context"
+          },
+          "service_id": {
+            "type": "string"
+          },
+          "plan_id": {
+            "type": "string"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/Object"
+          },
+          "previous_values": {
+            "$ref": "#/components/schemas/ServiceInstancePreviousValues"
+          }
+        }
+      },
+      "ServiceInstancePreviousValues": {
+        "type": "object",
+        "properties": {
+          "service_id": {
+            "type": "string",
+            "deprecated": true
+          },
+          "plan_id": {
+            "type": "string"
+          },
+          "organization_id": {
+            "type": "string",
+            "deprecated": true
+          },
+          "space_id": {
+            "type": "string",
+            "deprecated": true
+          }
+        }
+      },
+      "AsyncOperation": {
+        "type": "object",
+        "properties": {
+          "operation": {
+            "type": "string"
+          }
+        }
+      },
+      "LastOperationResource": {
+        "type": "object",
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "in progress",
+              "succeeded",
+              "failed"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "instance_usable": {
+            "type": "boolean"
+          },
+          "update_repeatable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ServiceBindingResource": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ServiceBindingMetadata"
+          },
+          "credentials": {
+            "$ref": "#/components/schemas/Object"
+          },
+          "syslog_drain_url": {
+            "type": "string"
+          },
+          "route_service_url": {
+            "type": "string"
+          },
+          "volume_mounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceBindingVolumeMount"
+            }
+          },
+          "endpoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceBindingEndpoint"
+            }
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/Object"
+          }
+        }
+      },
+      "ServiceBindingRequest": {
+        "type": "object",
+        "required": [
+          "service_id",
+          "plan_id"
+        ],
+        "properties": {
+          "context": {
+            "$ref": "#/components/schemas/Context"
+          },
+          "service_id": {
+            "type": "string"
+          },
+          "plan_id": {
+            "type": "string"
+          },
+          "app_guid": {
+            "type": "string",
+            "deprecated": true
+          },
+          "bind_resource": {
+            "$ref": "#/components/schemas/ServiceBindingResouceObject"
+          },
+          "parameters": {
+            "$ref": "#/components/schemas/Object"
+          },
+          "predecessor_binding_id": {
+            "type": "string"
+          }
+        }
+      },
+      "ServiceBindingMetadata": {
+        "type": "object",
+        "properties": {
+          "expires_at": {
+            "type": "string"
+          },
+          "renew_before": {
+            "type": "string"
+          }
+        }
+      },
+      "ServiceBindingResouceObject": {
+        "type": "object",
+        "properties": {
+          "app_guid": {
+            "type": "string"
+          },
+          "route": {
+            "type": "string"
+          }
+        }
+      },
+      "ServiceBindingResponse": {
+        "type": "object",
+        "properties": {
+          "metadata": {
+            "$ref": "#/components/schemas/ServiceBindingMetadata"
+          },
+          "credentials": {
+            "$ref": "#/components/schemas/Object"
+          },
+          "syslog_drain_url": {
+            "type": "string"
+          },
+          "route_service_url": {
+            "type": "string"
+          },
+          "volume_mounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceBindingVolumeMount"
+            }
+          },
+          "endpoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceBindingEndpoint"
+            }
+          }
+        }
+      },
+      "ServiceBindingEndpoint": {
+        "type": "object",
+        "required": [
+          "host",
+          "ports"
+        ],
+        "properties": {
+          "host": {
+            "type": "string"
+          },
+          "ports": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "protocol": {
+            "type": "string",
+            "enum": [
+              "tcp",
+              "udp",
+              "all"
+            ],
+            "default": "tcp"
+          }
+        }
+      },
+      "ServiceBindingVolumeMount": {
+        "type": "object",
+        "required": [
+          "driver",
+          "container_dir",
+          "mode",
+          "device_type",
+          "device"
+        ],
+        "properties": {
+          "driver": {
+            "type": "string"
+          },
+          "container_dir": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "r",
+              "rw"
+            ]
+          },
+          "device_type": {
+            "type": "string",
+            "enum": [
+              "shared"
+            ]
+          },
+          "device": {
+            "$ref": "#/components/schemas/ServiceBindingVolumeMountDevice"
+          }
+        }
+      },
+      "ServiceBindingVolumeMountDevice": {
+        "type": "object",
+        "required": [
+          "volume_id"
+        ],
+        "properties": {
+          "volume_id": {
+            "type": "string"
+          },
+          "mount_config": {
+            "$ref": "#/components/schemas/Object"
+          },
+          "device_config": {
+            "$ref": "#/components/schemas/Object"
+          }
+        }
+      },
+      "Context": {
+        "description": "See [Context Conventions](https://github.com/openservicebrokerapi/servicebroker/blob/master/profile.md#context-object) for more details.",
+        "type": "object"
+      },
+      "Metadata": {
+        "description": "See [Service Metadata Conventions](https://github.com/openservicebrokerapi/servicebroker/blob/master/profile.md#service-metadata) for more details.",
+        "type": "object"
+      },
+      "MaintenanceInfo": {
+        "type": "object",
+        "required": [
+          "version"
+        ],
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "Object": {
+        "type": "object"
+      },
+      "Error": {
+        "description": "See [Service Broker Errors](https://github.com/openservicebrokerapi/servicebroker/blob/master/spec.md#service-broker-errors) for more details.",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "instance_usable": {
+            "type": "boolean"
+          },
+          "update_repeatable": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  },
+  "tags": {
+    "Open Service Broker API Specification": {}
+  },
+  "x-externalDocs": {
+    "description": "The official Open Service Broker API specification",
+    "url": "https://github.com/openservicebrokerapi/servicebroker/"
+  }
+}

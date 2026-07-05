@@ -1,0 +1,41 @@
+# C109 -- operator asked to "fix all existing errors and generate v4-meta-schema.json/v4-types.ts from
+# core/src/types.ts". Two parts: fix three issues previously flagged pre-existing/out-of-scope across
+# C102-C108; verify the spec mirror against core's current normative section. ADR C109. @>=0.9
+claim c109_three_preexisting_errors_fixed_zero_ecosystem_regression: Bool @>=0.9 = True
+falsified_when c109_three_preexisting_errors_fixed_zero_ecosystem_regression == False
+
+# FIXED: nano-stores successSchema compared HttpStatus (number|string union) with >=/< directly (TS2365).
+# Normalized via Number(r.status) -- the SAME idiom already used at hono/emit.ts:256 and
+# cockpit/conformance.ts:28 for the identical C012 numeric/string status equivalence. NaN on "5XX"/"default"
+# naturally excludes the wildcards. @>=0.9
+claim c109_nanostores_status_fix_matches_existing_idiom: Bool @>=0.9 = True
+falsified_when c109_nanostores_status_fix_matches_existing_idiom == False
+
+# FIXED: example-petshop drizzleHandlers typed its param as a hand-rolled `Table & {id}` -- too loose once
+# @suluk/drizzle's inline-zod.ts module-augments the REAL drizzle-orm/sqlite-core SQLiteTable interface with a
+# required zod/zodSchema member (visible in example-petshop's own tsc program via its transitive
+# @suluk/drizzle import). Retyped against the real SQLiteTable<TableConfig> & {id} instead of the generic
+# Table; the actual pet/category tables already satisfy it structurally. @>=0.9
+claim c109_petshop_table_type_fix_uses_real_upstream_type: Bool @>=0.9 = True
+falsified_when c109_petshop_table_type_fix_uses_real_upstream_type == False
+
+# FIXED: admin's "deploy page" test asserted stale "wrangler login"/"wrangler deploy" text predating the C059
+# de-wrangler migration (cockpit's deployPlan has said "bun run deploy" / "no wrangler CLI" since C059 shipped;
+# the test was never updated when the renderer changed underneath it). Reasserted against the CURRENT real
+# strings. @>=0.9
+claim c109_admin_test_fix_asserts_current_deploy_plan_text: Bool @>=0.9 = True
+falsified_when c109_admin_test_fix_asserts_current_deploy_plan_text == False
+
+# VERIFIED (not built): read core/src/types.ts (1825 lines) against v4-types.ts (478 lines) field-by-field.
+# Every NORMATIVE member already matches exactly. The one non-mirrored member (SchemaProperty/PropertyFacets,
+# a property-level facet-locus HELPER type, C102) is judged intentionally excluded -- not part of
+# OpenAPIv4Document's structural closure, same category as every other excluded x-suluk-* facet type.
+# v4-meta-schema.json independently re-verified via the conformance harness (all 8 checks). NO DRIFT FOUND;
+# "generate...from types.ts" resolves to a verified re-confirmation, not a content change. @>=0.85
+claim c109_spec_mirror_verified_no_drift_no_content_change: Bool @>=0.85 = True
+falsified_when c109_spec_mirror_verified_no_drift_no_content_change == False
+
+# VERIFIED: full 30-package sweep (tsc + bun test) -- zero errors, zero failures (down from 2 typecheck errors +
+# 1 test failure pre-existing since C102-C108). conformance/run.py -- all 8 checks pass unchanged. @>=0.9
+claim c109_full_sweep_and_conformance_clean: Bool @>=0.9 = True
+falsified_when c109_full_sweep_and_conformance_clean == False

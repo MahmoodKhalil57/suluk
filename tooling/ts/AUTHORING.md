@@ -74,7 +74,7 @@ the whole route reports:
 | the API (requests/responses) | **OpenAPI v4** + **JSON Schema 2020-12** | `emitV4` (`@suluk/hono`) |
 | every error body | **RFC 9457** `application/problem+json` | derived from the error classes |
 | runnable acceptance tests | **Gherkin** `.feature` → bun:test, **Bruno**, **Postman** | `@suluk/journeys` (reads the `step`s) |
-| the event surface (jobs, webhooks, store invalidations) | **AsyncAPI 3.0** + **CloudEvents 1.0.2** | `emitAsyncApi` (`@suluk/hono`) |
+| the event surface (jobs, webhooks, store invalidations) | **AsyncAPI 3.0** + **CloudEvents 1.0.2** | `emitAsyncApi` (`@suluk/hono`), typed by `@suluk/core` (`CloudEventV1`/`AsyncApiDocument`, C100) |
 
 The BDD `step`s you write on your services/controllers are the Given/When/Then of the generated scenarios — the same
 sentences document the code and *run* as tests. (An event surface only appears on the AsyncAPI projection once a module

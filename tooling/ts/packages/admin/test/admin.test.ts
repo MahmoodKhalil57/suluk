@@ -47,8 +47,8 @@ describe("@suluk/admin — the /superadmin panel mirrors the cockpit", () => {
 
   test("the deploy page renders the Cloudflare plan", async () => {
     const html = await (await app.request("/superadmin/deploy", su)).text();
-    expect(html).toContain("wrangler login");
-    expect(html).toContain("wrangler deploy");
+    expect(html).toContain("bun run deploy");
+    expect(html).toContain("no wrangler CLI");
   });
 
   test("the checks page renders the contract checks", async () => {

@@ -1,0 +1,37 @@
+# C100 — a typed CloudEvents 1.0.2 + AsyncAPI 3.x model in @suluk/core: the async twin of C099. The event surface
+# (webhooks C018 / x-suluk-jobs C025 / x-suluk-store.invalidates C037) had its CloudEvents envelope as an ad-hoc INLINE
+# JSON Schema in @suluk/hono's asyncapi.ts and its AsyncAPI doc types as a hand-rolled LOCAL subset — neither a typed
+# source-of-truth in core. C100 hoists both into core/src/types.ts (pure types, no dep; FIRST landed as a separate
+# src/events.ts, then CONSOLIDATED into types.ts per operator follow-up — "why does events get its own file when
+# schema didn't", matching the C099 precedent of one file/one source of truth), referencing the `cloudevents`
+# npm CloudEventV1<T> + @scalar/types asyncapi/3.1, and rewires hono to consume them. Operator-driven (2026-07-04):
+# "use npm cloudEvents to improve our core type for apis with event architecture the same way we used json schema and
+# typebox" + "consider scalar asyncapi 3.1". ADR C100. Builds on C099.
+
+# THE MODEL IS HOISTED + LIVE-ADOPTED BYTE-IDENTICALLY, and it is EMPIRICALLY WITNESSED (executable). CloudEventV1<T>
+# mirrors the `cloudevents` npm package field-for-field (three-layer OptionalAttributes->+source/type->+id/specversion +
+# extension index sig), so a runtime cloudevents event is structurally assignable — with NO dependency. cloudEventEnvelopeSchema()
+# builds the envelope on the C099 typed ObjectSchema (the C099<->C100 bridge). @suluk/hono's emitAsyncApi DROPPED its local
+# type block + inline cloudEvent(), imports the model+builder from core, RE-EXPORTS the 4 AsyncApi types (public API
+# unchanged), and its output is BYTE-IDENTICAL (the 8 asyncapi tests assert the exact envelope + pure-function and PASS).
+# PROVEN: whole ~30-package @suluk/core graph typechecks clean; core 57 tests + hono 8 asyncapi tests green; core type-level
+# assertions in test/events.test.ts lock CloudEventV1<T> inference + the ObjectSchema envelope + the emitter doc shape. @>=0.85
+claim c100_cloudevents_asyncapi_model_hoisted_adopted_byte_identical: Bool @>=0.85 = True
+falsified_when c100_cloudevents_asyncapi_model_hoisted_adopted_byte_identical == False
+
+# NON-NORMATIVE (C018 UPHELD): the async surface stays a PROJECTION of the v4 doc's event triggers, never part of the
+# normative OpenAPI contract. Nothing about the NORMATIVE v4 document sections of core/src/types.ts changes; the event
+# model is a separate, clearly-marked, additive SECTION of that same file (consolidated from an initial separate
+# src/events.ts per operator follow-up, matching the C099 one-file precedent). The AsyncApi* types are an EMITTER type (channels/operations/components required because a
+# Suluk-emitted doc always carries them; Scalar's parse-oriented model has them optional). Letting webhooks/jobs DECLARE a
+# CloudEvents payload normatively is a future decision deliberately NOT taken here. @>=0.85
+claim c100_non_normative_projection_c018_upheld: Bool @>=0.85 = True
+falsified_when c100_non_normative_projection_c018_upheld == False
+
+# THE DURABLE EVENT-MODEL STANCE carries an HONESTLY-LOW ceiling. The hoist + hono adoption are witnessed, but the event
+# FACETS themselves (webhooks/x-suluk-jobs/x-suluk-store.invalidates) are NOT yet populated end-to-end by a real registry app
+# (the asyncapi test is a synthetic representative doc; "real registry apps don't yet populate these facets"), and @suluk/core
+# is unpublished. So the model's CORRECTNESS + adoption-by-the-emitter is high, but "this is the right durable event model
+# exercised by real apps" awaits a real app populating the facets + publish. @>=0.6
+claim c100_durable_event_model_pending_real_app_and_publish: Bool @>=0.6 = True
+falsified_when c100_durable_event_model_pending_real_app_and_publish == False

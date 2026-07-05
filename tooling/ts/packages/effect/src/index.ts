@@ -20,7 +20,7 @@
  */
 export { httpError, errorBody, type HttpErrorClass, type AnyHttpError } from "./errors";
 // reusable typed errors for the failure modes routes share (mapped to @suluk/core's status table) — reach for these first.
-export { ValidationError, UnauthorizedError, ForbiddenError, PaymentError, NotFoundError, ConflictError, ExternalServiceError } from "./common";
+export { ValidationError, UnauthorizedError, ForbiddenError, PaymentError, NotFoundError, ConflictError, ExternalServiceError, TimeoutError } from "./common";
 export {
   effectRoute, respond, Ok, Created, Accepted, NoContent,
   type EffectRoute, type EffectRouteSpec, type HttpSuccess, type HandlerSuccess,
@@ -34,7 +34,7 @@ export { routeGroup, isRouteGroup, type RouteGroup, type HandlerRoute } from "@s
 // a route's `view`/`listView` is exactly a pending one). `CostModel`/`SulukRateLimit` are the bubbling facets a leaf declares.
 export { envelope, listEnvelope, type ActionCtx, type Envelope } from "./envelope";
 export type { CostModel } from "@suluk/cost";
-export type { SulukRateLimit } from "@suluk/core";
+export type { SulukRateLimit, SulukDedupe, SulukStore, SulukRunGraph, SulukRunNode, SulukRunEdge, SulukRunNodeKind } from "@suluk/core";
 // THE SULUK FUNCTION — the ONE composable unit that carries a SLICE of the core v4 `Request` and BUBBLES it under composition,
 // the way `Effect` is Effect-TS's unit. Every layer — MODEL, SERVICE, ROUTE — is a `sulukFn`; `sulukFmt(...fns)` RUNS+FORMATS a
 // linear pipeline of them (a service `sulukFmt`s its models, a route `sulukFmt`s its services) and `sulukFmt.all({k:fn})` fans
@@ -42,9 +42,9 @@ export type { SulukRateLimit } from "@suluk/core";
 // response schema from the db — and bubble up (cost SUM, errors UNION, schema inherited), so services/routes hand-declare none.
 // `sulukRoute` projects the merged slice onto effectRoute (host + api reference). Any layer split is just how you compose.
 export {
-  sulukFn, sulukFmt, view, listView, sulukRoute, isSulukFn,
+  sulukFn, sulukFmt, view, listView, sulukRoute, isSulukFn, ref, lintRunGraph,
   type SulukFn, type AnySulukFn, type RequestSlice, type SliceProvider, type View,
-  type SulukRouteSpec, type ReqOf,
+  type SulukRouteSpec, type ReqOf, type RefFn, type NodesAndEdges,
 } from "./suluk-fn";
 // DB-as-source-of-truth — bubble a drizzle table up to a Zod schema (drizzle-zod), so request/response bodies are DERIVED
 // from the database schema. Import through @suluk/effect so the effectRoute + its schemas come from one place.

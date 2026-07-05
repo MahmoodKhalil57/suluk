@@ -94,7 +94,13 @@
       "required": ["status"],
       "description": "Named in its containing map (§5). Most-specific-wins precedence: request > pathResponses > apiResponses (C012 #17b).",
       "properties": {
-        "status": { "oneOf": [ { "type": "string", "pattern": "^([1-5][0-9X]{2}|default)$" }, { "type": "integer", "minimum": 100, "maximum": 599 } ], "description": "HTTP status, a wildcard like 5XX, or 'default'." },
+        "status": {
+          "oneOf": [
+            { "type": "integer", "enum": [100, 101, 103, 200, 201, 202, 203, 204, 205, 206, 207, 208, 226, 300, 301, 302, 303, 304, 305, 307, 308, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 421, 422, 423, 424, 425, 426, 428, 429, 431, 451, 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, 511] },
+            { "type": "string", "enum": ["100", "101", "103", "200", "201", "202", "203", "204", "205", "206", "207", "208", "226", "300", "301", "302", "303", "304", "305", "307", "308", "400", "401", "402", "403", "404", "405", "406", "407", "408", "409", "410", "411", "412", "413", "414", "415", "416", "417", "418", "421", "422", "423", "424", "425", "426", "428", "429", "431", "451", "500", "501", "502", "503", "504", "505", "506", "507", "508", "510", "511", "5XX", "default"] }
+          ],
+          "description": "HTTP status (C012): a registered numeric code (200) or its EQUIVALENT string form (\"200\" — never treated as drift from the number, see @suluk/cockpit's diffContracts), the \"5XX\" status-class wildcard, or \"default\". The exact vocabulary of core's HttpStatusCode/HttpStatus (tooling/ts/packages/core/src/types.ts)."
+        },
         "contentType": { "oneOf": [ { "type": "string" }, { "type": "array", "items": { "type": "string" } } ] },
         "contentSchema": { "$ref": "#/$defs/SchemaOrRef" },
         "description": { "type": "string" }
@@ -142,7 +148,7 @@
       "additionalProperties": false
     },
     "Schema": {
-      "$comment": "A JSON Schema 2020-12 object (or boolean). Treated as opaque here; validated by the 2020-12 dialect (C013). May itself contain a JSON-Schema $ref.",
+      "$comment": "A JSON Schema 2020-12 object (or boolean). VALIDATION stays delegated to the 2020-12 dialect (C013) — this structural meta-schema deliberately keeps it opaque rather than re-inlining the whole dialect. C099 provides the precise DESCRIPTIVE rendering of this same dialect as a TypeScript model (v4-types.ts SchemaObject / @suluk/core Schema); the two are consistent (the TS model names what the dialect validates), not divergent. May itself contain a JSON-Schema $ref.",
       "oneOf": [ { "type": "object" }, { "type": "boolean" } ]
     },
     "SchemaOrRef": {

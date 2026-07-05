@@ -7,7 +7,7 @@
  * Pure (no host) → unit-tested.
  */
 import { buildAda } from "@suluk/core";
-import type { OpenAPIv4Document, Request, SchemaOrRef, SecurityRequirement } from "@suluk/core";
+import type { OpenAPIv4Document, SchemaOrRef, SecurityRequirement, SecurityScheme } from "@suluk/core";
 import { schemaRefName, PREVIEW_ONLY_MARKER } from "@suluk/builder";
 
 export type ConvergeCode = "dangling-ref" | "undeclared-scheme" | "orphan-scope" | "empty-path" | "unreferenced-entity" | "preview-op-exposed";
@@ -31,12 +31,11 @@ const hasOwn = (o: object, k: string) => Object.prototype.hasOwnProperty.call(o,
  * knowable (openIdConnect defines its scopes in a remote discovery document), so converge must not flag them.
  * oauth2 → the union of its flows' declared scopes; apiKey/http/mutualTLS → the empty set (they declare none).
  */
-function scopeUniverse(scheme: unknown): Set<string> | null {
-  const s = scheme as { type?: string; flows?: Record<string, { scopes?: Record<string, string> }> };
-  if (s?.type === "openIdConnect") return null; // scopes live in the OIDC discovery doc — not locally checkable
-  if (s?.type !== "oauth2") return new Set();
+function scopeUniverse(scheme: SecurityScheme | undefined): Set<string> | null {
+  if (scheme?.type === "openIdConnect") return null; // scopes live in the OIDC discovery doc — not locally checkable
+  if (scheme?.type !== "oauth2") return new Set();
   const out = new Set<string>();
-  for (const flow of Object.values(s.flows ?? {})) for (const name of Object.keys(flow?.scopes ?? {})) out.add(name);
+  for (const flow of Object.values(scheme.flows ?? {})) for (const name of Object.keys((flow as { scopes?: Record<string, string> } | undefined)?.scopes ?? {})) out.add(name);
   return out;
 }
 
@@ -58,8 +57,8 @@ function referencedSchemas(doc: OpenAPIv4Document): Set<string> {
 /** Audit a contract for coherence contradictions a clean merge can still leave behind. */
 export function convergeContract(doc: OpenAPIv4Document): ConvergeReport {
   const findings: ConvergeFinding[] = [];
-  const schemas = (doc.components?.schemas ?? {}) as Record<string, SchemaOrRef>;
-  const schemes = (doc.components?.securitySchemes ?? {}) as Record<string, unknown>;
+  const schemas: Record<string, SchemaOrRef> = doc.components?.schemas ?? {};
+  const schemes: Record<string, SecurityScheme> = doc.components?.securitySchemes ?? {};
 
   // dangling $refs — a reference to a schema nothing provides
   const referenced = referencedSchemas(doc);
@@ -69,7 +68,7 @@ export function convergeContract(doc: OpenAPIv4Document): ConvergeReport {
   // Covers BOTH path operations AND webhooks (both carry security; the dangling-ref walk already covers webhooks).
   const secured = [
     ...buildAda(doc).operations.map((o) => ({ name: o.name, security: o.request.security as SecurityRequirement[] | undefined })),
-    ...Object.entries((doc as { webhooks?: Record<string, Request> }).webhooks ?? {}).map(([name, req]) => ({ name, security: req.security as SecurityRequirement[] | undefined })),
+    ...Object.entries(doc.webhooks ?? {}).map(([name, req]) => ({ name, security: req.security as SecurityRequirement[] | undefined })),
   ];
   for (const op of secured) {
     for (const req of op.security ?? []) {
@@ -102,7 +101,7 @@ export function convergeContract(doc: OpenAPIv4Document): ConvergeReport {
       findings.push({ code: "preview-op-exposed", severity: "warn", message: `operation "${o.name}" is preview-only (a role-login backdoor) — it must reach prod ONLY behind the SULUK_PREVIEW gate; confirm this is a preview deployment, not production`, where: o.name });
     }
   }
-  for (const [name, req] of Object.entries((doc as { webhooks?: Record<string, Request> }).webhooks ?? {})) {
+  for (const [name, req] of Object.entries(doc.webhooks ?? {})) {
     if (previewMarked(req as unknown)) {
       findings.push({ code: "preview-op-exposed", severity: "warn", message: `webhook "${name}" is preview-only (a role-login backdoor) — it must reach prod ONLY behind the SULUK_PREVIEW gate; confirm this is a preview deployment, not production`, where: name });
     }

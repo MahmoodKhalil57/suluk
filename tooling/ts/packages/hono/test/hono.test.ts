@@ -54,6 +54,17 @@ describe("emitV4 — the keystone derivation", () => {
     const { document } = emitV4(routes, { info: { title: "Pets", version: "1" } });
     expect(validate31(downgrade(document).document).valid).toBe(true);
   });
+
+  test("ctx.provision (C101) stamps x-suluk-provision onto the document, mirroring ctx.securitySchemes", () => {
+    const provision = { db: { service: "cloudflare-d1", name: "pets-db", bind: { database_id: "CLOUDFLARE_D1_ID" } } };
+    const { document } = emitV4(routes, { provision });
+    expect(document["x-suluk-provision"]).toEqual(provision);
+  });
+
+  test("omitting ctx.provision leaves x-suluk-provision absent (no forced empty object)", () => {
+    const { document } = emitV4(routes);
+    expect(document["x-suluk-provision"]).toBeUndefined();
+  });
 });
 
 describe("the document is a FUNCTION of who + when (dynamic projection)", () => {

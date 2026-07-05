@@ -4,7 +4,7 @@
  * form, over the generic CRUD. No hand-built admin per entity — the admin IS a projection of the contract, so it
  * can never drift from it (this is what Payload's auto-admin gave saastarter; here it falls out of the document).
  */
-import type { OpenAPIv4Document, Schema } from "@suluk/core";
+import type { OpenAPIv4Document, Schema, SchemaOrRef } from "@suluk/core";
 import { esc } from "./render";
 
 export interface EntityField {
@@ -33,7 +33,10 @@ export interface EntityModel {
 
 function fieldsOf(schema: Schema): EntityField[] {
   if (typeof schema !== "object" || schema === null) return [];
-  const s = schema as { properties?: Record<string, Record<string, unknown>>; required?: string[] };
+  // `.required`/`.properties` read `any` off the wide SchemaObject union (a TS resolution limit for this many-membered
+  // union) even though every individual member types them precisely — cast at the read site, same as core's own
+  // SchemaProperty pattern; a single ObjectSchema constituent (verified via tsc) has `required?: string[]`.
+  const s = schema as { properties?: Record<string, SchemaOrRef>; required?: string[] };
   const required = new Set(s.required ?? []);
   return Object.entries(s.properties ?? {}).map(([name, p]) => {
     const prop = p as { type?: string | string[]; format?: string; enum?: unknown[] };

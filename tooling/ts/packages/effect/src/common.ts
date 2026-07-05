@@ -33,3 +33,7 @@ export const ConflictError = httpError("ConflictError", 409, z.object({ resource
 
 /** 502 — an upstream/third-party call failed (Stripe, Resend, …). `provider` names it; `detail` is the upstream message. */
 export const ExternalServiceError = httpError("ExternalServiceError", 502, z.object({ provider: z.string(), detail: z.string() }));
+
+/** 504 — a `sulukFn`/`ref()` node exceeded its declared `node.timeoutMs` (C104). What `Effect.timeout` raises after
+ *  this package converts it from the generic `TimeoutException` into a typed, documented response. */
+export const TimeoutError = httpError("TimeoutError", 504, z.object({ label: z.string(), timeoutMs: z.number() }));

@@ -109,3 +109,28 @@ test("an empty event surface yields a valid, honest empty async document", () =>
 test("is a PURE function — same doc in, deep-equal doc out", () => {
   expect(emitAsyncApi(DOC)).toEqual(emitAsyncApi(DOC));
 });
+
+// INTEGRATION: a RouteContract.store → emitV4 stamps x-suluk-store on the op → emitAsyncApi projects the invalidation event.
+// (This is the write-side the authoring layer now produces; asyncapi's own tests above use a hand-built doc.)
+import { emitV4 } from "../src/index";
+
+test("emitV4 stamps x-suluk-store from RouteContract.store; emitAsyncApi then projects the invalidation", () => {
+  const { document } = emitV4([
+    { method: "get", path: "/api/todos", name: "listTodos", summary: "List.", store: { key: "todos" } },
+    { method: "post", path: "/api/todos", name: "createTodo", summary: "Create.", store: { invalidates: ["todos"] } },
+  ]);
+  // the facet is stamped onto each operation (emitV4 keys paths without the leading slash)
+  const reqs = document.paths["api/todos"].requests as unknown as Record<string, Record<string, unknown>>;
+  const list = reqs.listTodos;
+  const create = reqs.createTodo;
+  expect(list["x-suluk-store"]).toEqual({ key: "todos" });
+  expect(create["x-suluk-store"]).toEqual({ invalidates: ["todos"] });
+
+  // the async projection: the mutation's invalidation → a send op + CloudEvent; the read's key → nothing (no invalidates)
+  const async = emitAsyncApi(document);
+  expect(async.operations.store_todos.action).toBe("send");
+  const props = (async.components.messages.todosInvalidated.payload as { properties: Record<string, { const?: string }> }).properties;
+  expect(props.type.const).toBe("dev.suluk.store.todos.invalidated");
+  // the read op (key only, no invalidates) produced no channel
+  expect(async.channels.store_todo).toBeUndefined();
+});

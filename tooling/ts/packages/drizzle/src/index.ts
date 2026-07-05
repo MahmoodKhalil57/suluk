@@ -39,6 +39,10 @@ export { tableZod, tableZodSchemas, wireDto, msRange, nanoid, type ZodRefiner, t
 // run a query → `{ schema, rows }`: the zod schema DERIVED from the query's PROJECTED fields (each column's `.zod()`), so a
 // select/insert carries its own response contract with nothing restated. Schema mirrors the rows exactly (Date stays z.date()).
 export { withZod, queryZodSchema } from "./query-zod";
+// TABLE-LEVEL execution policy (C111) — `.policy({...})` co-locates retry/timeout/idempotency/dedupe/rate-limit WITH the
+// DDL; `tablePolicy` reads it back; `queryTable` reads the table ANY query builder (select/insert/update/delete) touches —
+// `../app`'s `queryOne`/`queryMany`/`mutate` compose the two so a model picks up its table's policy automatically.
+export { tablePolicy, queryTable, queryKind, type TableExecutionPolicy, type QueryKind } from "./policy";
 
 export { crudRoutes, type CrudOptions } from "./crud";
 // list query-param synthesis (Phase 1): declare page/perPage/sort/order/q + the pure parser the handler uses.

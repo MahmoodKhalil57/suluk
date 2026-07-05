@@ -9,13 +9,14 @@
  * `$ref` is resolved against an optional defs map (e.g. components.schemas / $defs); unknown refs throw.
  */
 import * as z from "zod";
+import type { Schema } from "@suluk/core";
 
 export interface V4ToZodOptions {
   /** Resolver for `$ref`: a map of pointer → schema, or a function. Supports "#/$defs/X", "#/components/schemas/X". */
   defs?: Record<string, unknown> | ((ref: string) => unknown);
 }
 
-type JSchema = Record<string, unknown> | boolean;
+type JSchema = Schema;
 
 // Zod 4 emits these bounds for z.int(); recognizing the sentinel keeps the fixpoint exact.
 const SAFE_INT_MIN = -9007199254740991;

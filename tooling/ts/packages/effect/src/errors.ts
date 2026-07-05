@@ -9,6 +9,7 @@
 import { Data } from "effect";
 import type { Cause } from "effect";
 import type { z } from "zod";
+import type { HttpStatus } from "@suluk/core";
 
 /** A typed HTTP error CLASS: construct `new E(payload)` (payload matches `schema`); the instance is a `Data.TaggedError`
  *  (Effect-yieldable) carrying `_tag` + the payload, and the class carries the HTTP `status` + response-body `schema`. */
@@ -16,7 +17,7 @@ export interface HttpErrorClass<Tag extends string, S extends z.ZodObject<z.ZodR
   /** the discriminating tag (also the Effect `_tag`). */
   readonly errorTag: Tag;
   /** the HTTP status this error maps to. */
-  readonly status: number;
+  readonly status: Extract<HttpStatus, number>;
   /** the zod schema of this error's RESPONSE BODY — surfaced into the contract as the response for `status`. */
   readonly bodySchema: S;
   new (payload: z.infer<S>): Cause.YieldableError & { readonly _tag: Tag } & Readonly<z.infer<S>>;
@@ -31,7 +32,7 @@ export interface HttpErrorClass<Tag extends string, S extends z.ZodObject<z.ZodR
  *   const InsufficientCredits = httpError("InsufficientCredits", 402, z.object({ required: z.number(), balance: z.number() }));
  *   // fail with it inside an Effect:  yield* new InsufficientCredits({ required: 10, balance: 3 })
  */
-export function httpError<Tag extends string, S extends z.ZodObject<z.ZodRawShape>>(tag: Tag, status: number, schema: S): HttpErrorClass<Tag, S> {
+export function httpError<Tag extends string, S extends z.ZodObject<z.ZodRawShape>>(tag: Tag, status: Extract<HttpStatus, number>, schema: S): HttpErrorClass<Tag, S> {
   // Base with a CONCRETE Record payload (Data.TaggedError rejects an opaque generic); the precise payload type is applied
   // via the HttpErrorClass cast — runtime accepts the object either way.
   class E extends Data.TaggedError(tag)<Record<string, unknown>> {
@@ -45,7 +46,7 @@ export function httpError<Tag extends string, S extends z.ZodObject<z.ZodRawShap
 /** The structural shape a route reads off any typed-error class (its statics + that it constructs a `_tag`-carrying value). */
 export interface AnyHttpError {
   readonly errorTag: string;
-  readonly status: number;
+  readonly status: Extract<HttpStatus, number>;
   readonly bodySchema: z.ZodObject<z.ZodRawShape>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   new (payload: any): { readonly _tag: string };

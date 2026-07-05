@@ -1,0 +1,68 @@
+# C102 — the ADOPTION PASS: reflecting C099 (JSON Schema)/C100 (CloudEvents+AsyncAPI)/C101 (OSB+provision) into the
+# ecosystem that depends on @suluk/core. Grounded via a 7-agent parallel audit (zod/drizzle/effect/hono/platform/
+# provision individually + one broad sweep of ~24 remaining core dependents), each required to cite REAL tsc-verified
+# before/afters. Only HIGH-rated, tsc-confirmed findings were implemented; several proposed changes were tried and
+# REJECTED after direct verification (see below) rather than applied on the audit's say-so. Operator-driven
+# (2026-07-05): "review our core changes and make sure to reflect them to suluk/zod suluk/drizzle suluk/effect
+# suluk/hono suluk/platform suluk/provision etc." ADR C102. Builds on C099/C100/C101.
+
+# TWO GENUINE WIRING COMPLETIONS (not just type tightening), both proven additive/non-breaking. (1) @suluk/hono's
+# EmitContext gained a `provision` field -> emitV4({...,provision}) stamps document["x-suluk-provision"], mirroring the
+# EXISTING securitySchemes->components.securitySchemes pattern exactly; proven via 2 new tests (stamps when set, absent
+# when omitted -- no forced empty object). (2) @suluk/platform's buildProvisionConfig additively calls
+# deriveInstanceSpecs(apiDocument()) when the app has a `contract` service, merged alongside every module's InstanceSpec[]
+# fragment -- mirrors the ALREADY-SHIPPED buildEmitContract/buildEmitAsyncApi pattern in ci.ts exactly. Inert until a
+# module populates x-suluk-provision (deriveInstanceSpecs returns [] on an empty facet) -- proven via golden-fixture
+# regeneration (UPDATE_GOLDEN=1 bun test golden): the diff is EXACTLY the new import + one always-empty array element,
+# nothing else changes. Together these close the C101 loop end-to-end at the MECHANISM level (facet -> emitV4 stamp ->
+# deriveInstanceSpecs -> generated provision.config.ts) -- though still zero LIVE consumers (no registry module authors
+# x-suluk-provision yet; this pass makes it POSSIBLE, not adopted). @>=0.85
+claim c102_provision_loop_closed_mechanism_level: Bool @>=0.85 = True
+falsified_when c102_provision_loop_closed_mechanism_level == False
+
+# 13 FILES ACROSS 12 PACKAGES type-tightened (loose Record<string,unknown>/hand-duplicated shape -> core's real
+# SchemaObject/Schema/SecurityScheme/ParameterSchema/ObjectSchema/SchemaOrRef), each change verified with a REAL
+# tsc --noEmit run before/after, zero net behavior change: @suluk/zod (ZodToV4Result.schema, the to-zod JSchema alias,
+# LEXICAL_V4_SCHEMA satisfies Schema -- @suluk/core added as a real new dependency, previously had none), @suluk/hono
+# (zParam return type, the auto-derived path-param schema, 2 now-redundant double-casts), @suluk/provision (derive.ts's
+# now-redundant local cast), @suluk/shadcn (spec.ts's local SchemaObject shadow), @suluk/harden (hardenSchema/
+# hardenDocument signatures), @suluk/mcp (McpTool.inputSchema + the request-shape reads), @suluk/sdk (RawReq's schema
+# fields), @suluk/cockpit (scopeUniverse + the schemas/schemes casts + 2 webhooks casts), @suluk/builder (SulukModule.
+# securitySchemes + a merge cast + a webhooks cast), @suluk/admin (render-data.ts's fieldsOf), @suluk/panel (model.ts's
+# Doc-type + isEntitySchema, fields.ts's local Schema alias). Full ecosystem sweep (30 packages): typecheck error content
+# 100% traces to the pre-existing unrelated HttpStatusCode regression (zero new errors, verified by identifier grep);
+# runtime `bun test` green on EVERY package except one already-pre-existing unrelated @suluk/admin failure (confirmed via
+# git stash isolation -- a deploy-page copy assertion, nothing to do with this pass's files). @>=0.85
+claim c102_thirteen_files_tightened_zero_regressions: Bool @>=0.85 = True
+falsified_when c102_thirteen_files_tightened_zero_regressions == False
+
+# THE DISCIPLINE THIS PASS IS REALLY ABOUT: several audit-proposed changes were tried and REJECTED after direct
+# verification, not applied on trust. (1) SchemaObject's `.required`/`.properties` COLLAPSE TO any/unknown when read off
+# the WIDE 9-member union, even though every INDIVIDUAL member types them precisely -- confirmed via isolated scratch
+# probes per member. @suluk/admin + @suluk/panel needed a small targeted local cast at the read site instead of a bare
+# removal; @suluk/compat's downgrade.ts was found to ALREADY have the necessary casts (the audit's "provably redundant"
+# claim did NOT hold up -- verified the type resolves to `unknown` not a precise type, so removing would have been a
+# REGRESSION) -- left unchanged. (2) Bracket access on an x-suluk-* vendor-facet key (schema["x-suluk-widget"]) fails the
+# SAME way via a DIFFERENT mechanism (TS can't distribute a template-literal index signature across this many-membered
+# union via bracket notation) -- confirmed in @suluk/shadcn's spec.ts, fixed with a local cast at the specific read sites
+# (the same escape hatch core's own SchemaProperty doc comment already documents). (3) hardenSchema's generic bound
+# needed SchemaOrRef not Schema (real callers pass a possible bare $ref) -- constraining to Schema alone broke real call
+# sites, caught immediately by tsc. (4) @suluk/effect: this pass's OWN audit independently reached the SAME conclusion as
+# C101's original ADR -- do NOT add a per-route x-suluk-provision attach point yet (no per-op facet exists on
+# RouteContract for it; building one now would fragment the authoring surface before the document-level form has a
+# single live consumer) -- two independent audits converging on "don't build this yet" IS the signal, not a data point to
+# override. (5) @suluk/drizzle: genuinely NOTHING applied -- already correctly wired (schemas.ts), and
+# SchemaProperty/PropertyFacets was checked against inline-zod.ts's $ref-stamping and found NOT to fit ($ref isn't an
+# x-suluk-*-prefixed key -- confirmed by tsc, not assumed). @>=0.85
+claim c102_rejected_findings_after_verification_not_on_trust: Bool @>=0.85 = True
+falsified_when c102_rejected_findings_after_verification_not_on_trust == False
+
+# FLAGGED, NOT FIXED (recurring, out of scope): the unrelated concurrent-session HttpStatusCode-keyed Record regression
+# (first noted after C100, flagged again after C101) is STILL present and, if anything, slightly WIDER at this pass's
+# final sweep (99 error lines across 14 packages, up from ~96 previously) -- confirmed via full content inspection that
+# ZERO of them relate to this pass's changes. A SECOND, independent pre-existing failure was newly observed and confirmed
+# unrelated: one @suluk/admin test asserting deploy-page copy ("wrangler deploy") no longer matching the rendered output
+# -- isolated via git stash to a concurrent edit entirely outside this pass's files (registry/foundation/app/app.ts and
+# other files this pass never touched). Neither fixed here; both flagged to the operator. @>=0.9
+claim c102_unrelated_regressions_flagged_wider_not_fixed: Bool @>=0.9 = True
+falsified_when c102_unrelated_regressions_flagged_wider_not_fixed == False

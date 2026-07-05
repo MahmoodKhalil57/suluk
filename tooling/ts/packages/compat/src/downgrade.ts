@@ -103,6 +103,7 @@ function responseEntry(resp: Response): Record<string, unknown> {
     for (const mt of mediaTypes(resp.contentType, "application/json")) content[mt] = { schema: resp.contentSchema };
     entry.content = content;
   }
+  if (resp.headers) entry.headers = resp.headers; // response headers pass through (3.1 parity, keeps the upgrade round-trip lossless)
   return entry;
 }
 

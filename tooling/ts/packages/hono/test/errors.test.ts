@@ -122,6 +122,20 @@ describe("emitV4 — synthesizes RFC-9457 error responses as PRECISE per-status 
     expect(document.paths.orders.requests.createOrder["x-suluk-ratelimit"]).toMatchObject({ maxRequests: 20 });
   });
 
+  test("route.dedupe (C110) synthesizes 409 + stamps x-suluk-dedupe", () => {
+    const { document } = emitV4([
+      {
+        method: "post", path: "/charges", name: "createCharge",
+        dedupe: { ttlMs: 60_000, keySource: { header: "idempotency-key" } },
+        responses: [{ status: 201, description: "created" }],
+      },
+    ]);
+    const resps = document.paths.charges.requests.createCharge.responses;
+    expect(Object.keys(resps).sort()).toEqual(["201", "409", "500"]);
+    expect(resps["409"].contentSchema).toEqual({ $ref: "#/components/schemas/Conflict" });
+    expect(document.paths.charges.requests.createCharge["x-suluk-dedupe"]).toMatchObject({ ttlMs: 60_000 });
+  });
+
   test("an UNRECOGNIZED error status falls back to the generic ProblemDetails base", () => {
     const { document } = emitV4([
       { method: "get", path: "/teapot", name: "brew", errors: [418] },

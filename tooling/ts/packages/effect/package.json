@@ -22,6 +22,7 @@
     "@suluk/core": "workspace:^",
     "@suluk/cost": "workspace:^",
     "@suluk/hono": "workspace:^",
+    "@suluk/zod": "workspace:^",
     "drizzle-zod": "^0.8.0"
   },
   "peerDependencies": {

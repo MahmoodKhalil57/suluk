@@ -14,6 +14,7 @@ import type { Cause as CauseT } from "effect";
 import type { Context } from "hono";
 import type { RouteContract, RouteResponse } from "@suluk/hono";
 import { toProblemDetails, PROBLEM_CONTENT_TYPE } from "@suluk/core";
+import type { HttpStatus } from "@suluk/core";
 import type { z } from "zod";
 import { errorBody, type AnyHttpError } from "./errors";
 import { UnauthorizedError, ForbiddenError } from "./common";
@@ -23,10 +24,10 @@ import { UnauthorizedError, ForbiddenError } from "./common";
 const SUCCESS = Symbol.for("@suluk/effect/success");
 export interface HttpSuccess<B> {
   readonly [SUCCESS]: true;
-  readonly status: number;
+  readonly status: Extract<HttpStatus, number>;
   readonly body: B;
 }
-export const respond = <B>(status: number, body: B): HttpSuccess<B> => ({ [SUCCESS]: true, status, body });
+export const respond = <B>(status: Extract<HttpStatus, number>, body: B): HttpSuccess<B> => ({ [SUCCESS]: true, status, body });
 export const Ok = <B>(body: B): HttpSuccess<B> => respond(200, body);
 export const Created = <B>(body: B): HttpSuccess<B> => respond(201, body);
 export const Accepted = <B>(body: B): HttpSuccess<B> => respond(202, body);
@@ -34,7 +35,7 @@ export const NoContent = (): HttpSuccess<undefined> => respond(204, undefined);
 const isHttpSuccess = (v: unknown): v is HttpSuccess<unknown> => typeof v === "object" && v !== null && (v as Record<symbol, unknown>)[SUCCESS] === true;
 
 /** Convention: the default success status for a method when `ok.status` isn't given — so it's semantic, not always 200. */
-const DEFAULT_SUCCESS_STATUS: Record<string, number> = { post: 201, put: 200, patch: 200, delete: 204, get: 200, head: 200, options: 200 };
+const DEFAULT_SUCCESS_STATUS: Record<string, Extract<HttpStatus, number>> = { post: 201, put: 200, patch: 200, delete: 204, get: 200, head: 200, options: 200 };
 
 /** The success body a handler may return: the plain body (uses the route's status) OR a `respond()`-wrapped body (its own). */
 export type HandlerSuccess<B> = B | HttpSuccess<B>;
@@ -93,10 +94,20 @@ export interface EffectRouteSpec<
   internal?: boolean;
   /** authored BDD steps (the `x-suluk-scenario` facet) — passed through onto the contract for @suluk/journeys. */
   scenario?: RouteContract["scenario"];
+  /** the reactive-STORE facet (`x-suluk-store`, C037) — a query's backing `key` / a mutation's `invalidates`; passed through
+   *  onto the contract for @suluk/sdk (reactive client) + emitAsyncApi (CloudEvents). */
+  store?: RouteContract["store"];
+  /** the RUN-PIPELINE facet (`x-suluk-run`, C104) — the composed node/edge graph a sulukFn pipeline built; passed through
+   *  onto the contract for @suluk/journeys (graph-shaped BDD) + stub codegen. */
+  runGraph?: RouteContract["runGraph"];
+  /** the dedupe/result-cache facet (`x-suluk-dedupe`, C110) — passed through onto the contract; `@suluk/hono`'s
+   *  `enforceDedupe` REALLY enforces it. Opt-in only (unlike `rateLimit`, there is no method-derived default —
+   *  a table's `.policy()` declaration, C111, is the usual source). */
+  dedupe?: RouteContract["dedupe"];
   request?: RouteContract["request"];
   /** The SUCCESS response. `status` defaults by method; `schema` is OPTIONAL — omit it and the response is documented by
    *  status + description alone. A `respond()` in the handler overrides the status per-request. `ok` itself may be omitted. */
-  ok?: { status?: number; schema?: OkSchema; description?: string };
+  ok?: { status?: Extract<HttpStatus, number>; schema?: OkSchema; description?: string };
   /** The DOMAIN errors the handler can produce (the AUTH errors come from `roles` — don't list them here). Effect's error
    *  channel is checked against `errors` PLUS the role-implied auth errors — declaring fewer than the code throws is a TYPE
    *  error. Each becomes a distinct typed response (its status + schema) in the contract. */
@@ -218,9 +229,12 @@ export function effectRoute<
     ...(derivedScopes !== undefined ? { scopes: derivedScopes } : {}),
     ...(spec.security !== undefined ? { security: spec.security } : {}),
     ...(derivedRateLimit !== undefined ? { rateLimit: derivedRateLimit } : {}),
+    ...(spec.dedupe !== undefined ? { dedupe: spec.dedupe } : {}),
     ...(derivedCost !== undefined ? { cost: derivedCost } : {}),
     ...(spec.internal !== undefined ? { internal: spec.internal } : {}),
     ...(spec.scenario !== undefined ? { scenario: spec.scenario } : {}),
+    ...(spec.store !== undefined ? { store: spec.store } : {}),
+    ...(spec.runGraph !== undefined ? { runGraph: spec.runGraph } : {}),
     ...(spec.request !== undefined ? { request: spec.request } : {}),
     responses,
   };

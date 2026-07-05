@@ -38,6 +38,7 @@
     "@suluk/cost": "latest",
     "@suluk/credits": "latest",
     "@suluk/deploy": "latest",
+    "@suluk/drizzle": "latest",
     "@suluk/effect": "latest",
     "@suluk/email": "latest",
     "@suluk/env": "latest",

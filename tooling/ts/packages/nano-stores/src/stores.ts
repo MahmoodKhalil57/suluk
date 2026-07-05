@@ -43,8 +43,12 @@ function deriveName(route: RouteContract): string {
 function successSchema(route: RouteContract): z.ZodType | undefined {
   let fallback: RouteResponse | undefined;
   for (const r of responseList(route.responses)) {
-    if (r.status >= 200 && r.status < 300 && r.schema) {
-      if (r.status === 200) return r.schema; // prefer the canonical 200
+    // HttpStatus mixes numeric literals with their string form ("200" ≡ 200, C012) plus non-numeric
+    // wildcards ("5XX"/"default"); normalize to a number so the 2xx range check applies to either form
+    // and NaN naturally excludes the wildcards.
+    const status = Number(r.status);
+    if (status >= 200 && status < 300 && r.schema) {
+      if (status === 200) return r.schema; // prefer the canonical 200
       fallback ??= r;
     }
   }

@@ -2,7 +2,7 @@ import { test, expect, describe } from "bun:test";
 import type { OpenAPIv4Document } from "@suluk/core";
 import { agenticPatterns, affordedPatterns } from "../src/index";
 
-const op = () => ({ method: "post" as const, summary: "o", responses: { ok: { status: 200 } } });
+const op = () => ({ method: "post" as const, summary: "o", responses: { ok: { status: 200 as const } } });
 const skill = { model: ["m"], tier: "resident" as const, provenance: { source: "https://x/i", contentHash: "h", version: "v" } };
 const childRef = (k: string) => ({ ref: `#/x-suluk-agents/${k}` });
 

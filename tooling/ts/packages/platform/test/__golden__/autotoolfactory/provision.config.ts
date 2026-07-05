@@ -3,7 +3,7 @@
 // needs: the Cloudflare BROKERS (built from the decrypted creds), the file STATE journal, the @suluk/env binding SINK,
 // and the migration history. The brokers read the creds from process.env — `scripts/provision.ts` decrypts the .env
 // (loadEnvFile) BEFORE importing this file, so they are populated by then.
-import { defineProvisionApp, defineProvision, fileStore, envSink, fileMigrationStore, cloudflareD1, cloudflareKv, cloudflareR2, cloudflareSecrets, cloudflareToken, CloudflareClient } from "@suluk/provision";
+import { defineProvisionApp, defineProvision, fileStore, envSink, fileMigrationStore, cloudflareD1, cloudflareKv, cloudflareR2, cloudflareSecrets, cloudflareToken, CloudflareClient, deriveInstanceSpecs } from "@suluk/provision";
 import { mergeProvision } from "@suluk/platform";
 import { authProvision } from "./src/provision/auth";
 import { mcpProvision } from "./src/provision/mcp";
@@ -14,13 +14,14 @@ import { costProvision } from "./src/provision/cost";
 import { erasureProvision } from "./src/provision/erasure";
 import { webhooksProvision } from "./src/provision/webhooks";
 import { logsProvision } from "./src/provision/logs";
+import { apiDocument } from "./src/contract";
 
 // A non-empty fallback so CONSTRUCTION never throws when creds are absent — read-only commands (plan/status/check, which
 // never call a broker) then work, and only a real provision/apply fails, at the Cloudflare API with an auth error.
 const cf = new CloudflareClient({ apiToken: process.env.CLOUDFLARE_API_TOKEN || "MISSING_CLOUDFLARE_API_TOKEN", accountId: process.env.CLOUDFLARE_ACCOUNT_ID || "MISSING_CLOUDFLARE_ACCOUNT_ID" });
 
 export default defineProvisionApp({
-  config: defineProvision({ instances: mergeProvision([authProvision, mcpProvision, creditsProvision, keysProvision, billingProvision, costProvision, erasureProvision, webhooksProvision, logsProvision]) }),
+  config: defineProvision({ instances: mergeProvision([authProvision, mcpProvision, creditsProvision, keysProvision, billingProvision, costProvision, erasureProvision, webhooksProvision, logsProvision, deriveInstanceSpecs(apiDocument())]) }),
   // service id → broker. The full Cloudflare set (only the ones an instance references are ever invoked); a missing one
   // fails with a CLEAR `no broker registered for service "…"` at apply, never a crash.
   brokers: { "cloudflare-d1": cloudflareD1(cf), "cloudflare-kv": cloudflareKv(cf), "cloudflare-r2": cloudflareR2(cf), "cloudflare-secrets": cloudflareSecrets(cf), "cloudflare-token": cloudflareToken(cf) },

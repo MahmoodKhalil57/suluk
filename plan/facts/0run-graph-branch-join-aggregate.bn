@@ -1,0 +1,100 @@
+# C106 -- sulukFmt.branch/race/quorum: first-class branching, join policies, aggregation, graph I/O. Extends
+# C104/C105 same-day. Operator quoted C105's own ADR text back verbatim ("It still is not a general conditional
+# workflow engine... you still do not have arbitrary branching, rich match/switch semantics, or a fully general
+# control-flow language") and asked for four concrete additions: a first-class branch mechanism, a first-class join
+# policy, a first-class aggregation/result-mapping mechanism, graph-level input/output schemas -- supplying a
+# concrete type sketch as a starting point. Given the concurrency-correctness stakes of hand-building join-policy
+# primitives Effect has no built-in for, a design was drafted, then INDEPENDENTLY VERIFIED (Effect API grounding)
+# and CRITICALLY REVIEWED (concurrency correctness + API consistency, two parallel reviewers) BEFORE a line of
+# production code was written. ADR C106. @>=0.85
+claim c106_verified_and_reviewed_before_implementation: Bool @>=0.85 = True
+falsified_when c106_verified_and_reviewed_before_implementation == False
+
+# A REAL, HANG-CAUSING BUG WAS FOUND DURING DESIGN, BEFORE ANY PRODUCTION CODE EXISTED. Effect has no single
+# built-in combinator for either join policy needed: Effect.raceAll races on FIRST SETTLEMENT (a branch that merely
+# FAILS fast still "wins" over one that later succeeds -- wrong for "any"); Effect.firstSuccessOf runs its
+# candidates SEQUENTIALLY, not concurrently. Both had to be hand-built (raceForSuccess/raceForQuorum, via Deferred +
+# Effect.fork + Fiber.interruptAll). A first draft used Effect.matchEffect to observe each branch's outcome -- the
+# verification pass found this only ever sees the plain Fail/E channel, silently dropping Die (a defect) and
+# Interrupt: if the LAST branch needed to settle a race died instead of failing cleanly, the accounting counter
+# would never reach zero and the whole race would hang FOREVER, leaking the awaiting fiber. Fixed with Effect.exit
+# (converts EVERY outcome -- Fail/Die/Interrupt -- into an inspectable Exit), verified against the real effect
+# package source before being written, locked in by a dedicated regression test (a branch that throws rather than
+# Effect.fail's). A SECOND review pass then found three further hangs in the first corrected draft (effects=[],
+# quorum<=0, quorum>effects.length) -- each fixed with an eager guard BEFORE forking anything. @>=0.9
+claim c106_matchEffect_hang_bug_found_and_fixed_before_shipping: Bool @>=0.9 = True
+falsified_when c106_matchEffect_hang_bug_found_and_fixed_before_shipping == False
+
+# BUILT: sulukFmt.branch(cases, discriminator, opts?) -- real, type-checked conditional routing over a node's OWN
+# declared cases (cases FIRST, so Cases resolves before discriminator is checked against it -- the reverse order
+# was flagged as inference-hostile during review; the FINAL signature indexes Out/R/In off Cases[keyof Cases] via
+# InOf/OutOf/ReqOf, mirroring sulukFmt.all's own already-working inference pattern, after an EARLIER signature using
+# 3 independent generic params defeated TS's inference and required explicit type arguments in tests -- a real,
+# caught-via-tsc bug in the FIRST implementation attempt, fixed before shipping). All cases share the same Out;
+# errors/steps/store.invalidates UNION across cases; cost is the MAX across cases (not the sum sulukFmt/sulukFmt.all
+# use) -- exactly one case executes per call, so summing would overstate the real, billed x-suluk-cost (a review
+# finding, not part of the original sketch). opts.label adds a synthetic decision node whose shape is COMPUTED,
+# never hand-set, as "branch"; the wire-level `when` on each branch edge is sourced structurally from
+# Object.keys(cases), never free-form author prose. @>=0.85
+claim c106_branch_type_checked_cases_first_max_cost: Bool @>=0.85 = True
+falsified_when c106_branch_type_checked_cases_first_max_cost == False
+
+# BUILT: sulukFmt.race(effects, opts?) / sulukFmt.quorum(effects, quorum, opts?) -- "any"/"quorum" JOIN POLICIES:
+# fork every candidate concurrently; race resolves on first SUCCESS (interrupting the rest); quorum resolves once
+# quorum-many succeed (an array, completion order; interrupting the rest); both fail eagerly once unreachable. Take
+# a plain ARRAY not a keyed Record -- a review finding: TS does NOT actually enforce homogeneous Out across Record
+# values the way the original sketch assumed, so Record bought a FALSE type-safety guarantee for these two unkeyed-
+# result combinators (Record stays right for branch, which genuinely needs per-case keys). errors/cost UNION/SUM
+# across all candidates (every one genuinely runs concurrently, unlike branch). opts.label adds a synthetic
+# join:{policy}+aggregate:{strategy} node as the sole terminal. sulukFmt.all gains the SAME opts.label (unchanged
+# default behavior -- still Effect.all, still object merge; labeling adds join:{policy:"all"}+
+# aggregate:{strategy:"object"}, giving a labeled fan-out a defined resultNode where an unlabeled one still has
+# none). @>=0.85
+claim c106_race_quorum_array_based_all_gains_label: Bool @>=0.85 = True
+falsified_when c106_race_quorum_array_based_all_gains_label == False
+
+# BUILT: graph-level roots/input/output. roots mirrors terminals (recomputed at EVERY merge choke point, not just
+# once -- a review finding: sequential edges retire the NEXT stage's root candidates the same way they retire
+# prev's terminal candidates). input/output mirror resultNode's own honest reasoning exactly: present iff
+# unambiguous (roots.length===1 / resultNode defined), taken from that single node's own input/output. output is
+# explicitly documented as the pre-view-wrap domain shape (a review finding -- the original sketch didn't restate
+# this at the graph level). A REQUIRED correctness fix from adding "branch" edges: isSuccessEdge was renamed
+# isForwardEdge and extended to treat "branch" as forward-progress topology (like "success") -- only "error" edges
+# are excluded from roots/terminals/resultNode computation; getting this wrong (treating branch like error) would
+# have made every branch case and the decision node itself vanish from entry/terminal computation, a review-flagged
+# blocking issue caught before it shipped. Node `shape` (renamed from the original sketch's `role`, which collided
+# with the pre-existing ScenarioStep.role) is fully COMPUTED, never author-set. @>=0.85
+claim c106_graph_io_roots_and_forward_edge_fix: Bool @>=0.85 = True
+falsified_when c106_graph_io_roots_and_forward_edge_fix == False
+
+# VERIFIED: @suluk/effect 115/115 tests pass (85 pre-existing from C104/C105 unchanged + 30 new), including REAL
+# timing-sensitive concurrency tests: slow-success-beats-fast-failure, a losing branch actually gets INTERRUPTED
+# (not left running in the background -- proven via Effect.onInterrupt), a DEFECT (thrown, not Effect.fail) on the
+# last-standing candidate still surfaces correctly (the exact matchEffect bug this design was built around),
+# quorum fails EAGERLY before a slow straggler would have resolved, quorum<=0 resolves [] without running anything,
+# quorum>candidates dies rather than hanging, a race/quorum loser's OWN compensate does NOT fire when interrupted
+# mid-flight (a deliberately tested boundary), branch/race/quorum cost aggregation (MAX vs SUM) is asserted, and
+# lintRunGraph's cycle detection still catches a cycle formed by reusing a branch's own case node as a later
+# pipeline stage. Full 30-package ecosystem sweep: ZERO typecheck errors. Every touched package's runtime suite
+# green (effect 115, hono 81, core 66, drizzle 60, platform 149) -- zero regression. Same TWO pre-existing,
+# unrelated failures as C104/C105 (admin's stale wrangler-deploy test; a drizzle-zod/nano-stores version-mismatch
+# typecheck error in untouched files) -- confirmed unchanged, out of scope. @>=0.9
+claim c106_verified_115_tests_zero_regression_full_sweep: Bool @>=0.9 = True
+falsified_when c106_verified_115_tests_zero_regression_full_sweep == False
+
+# DELIBERATELY STILL NOT BUILT, NAMED HONESTLY (not silently dropped): aggregate.strategy's "custom-keyed-merge"
+# value from the original sketch (nothing produces it: all->"object", race->"first", quorum->"array" -- an
+# unproduced enum value violates the facet's "absent unless meaningfully declared" discipline); a role:"fail" node
+# classification (can't be computed purely from graph structure the way join/aggregate/branch can); a "portable"
+# predicate/expression language, node-to-node symbolic value bindings (SulukRunValueRef/SulukRunBinding), a general
+# error-routing model beyond a node's own declared cases, or a graph-level result-projection rule distinct from
+# resultNode/output -- these are a CATEGORICALLY DIFFERENT, LARGER undertaking than anything in C104-C106: every
+# combinator shipped here still routes through a REAL, type-checked TypeScript function the author writes; a
+# JSON-encoded predicate/binding language would instead need a genuine INTERPRETER (evaluating predicate-shaped data
+# against resolved runtime values), reopening exactly the drift risk this whole primitive has been built, three
+# ADRs running, to avoid -- a decision requiring its own deliberate scoping pass, not a silent extension of this
+# one. This ADR explicitly REVISES C093/C104/C105's "exactly two combinators" framing: sulukFmt (linear) and
+# sulukFmt.all (unconditional fan-out) remain the base pair; branch/race/quorum are now real, additional
+# combinators, each narrowly scoped the same way recover/compensate already are. @>=0.85
+claim c106_deferred_items_and_revised_two_combinators_claim: Bool @>=0.85 = True
+falsified_when c106_deferred_items_and_revised_two_combinators_claim == False

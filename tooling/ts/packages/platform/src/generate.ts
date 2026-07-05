@@ -126,6 +126,12 @@ export async function generatePlatform(input: PlatformManifest | Platform, opts:
     await opts.write("scripts/emit-contract.ts", plan.emitContract);
     written.push("scripts/emit-contract.ts");
   }
+  // the ASYNC companion — project the event surface (jobs/webhooks/store invalidations) to asyncapi.json (AsyncAPI + CloudEvents).
+  if (plan.emitAsyncApi) {
+    log("▸ writing scripts/emit-asyncapi.ts");
+    await opts.write("scripts/emit-asyncapi.ts", plan.emitAsyncApi);
+    written.push("scripts/emit-asyncapi.ts");
+  }
 
   // 4) format + lint-fix the scaffold so the on-push CI is GREEN out of the box. The FETCHED registry modules are not
   //    prettier-clean at printWidth 160 (they're authored narrower), so a fresh `format:check`/`lint` would go red on the

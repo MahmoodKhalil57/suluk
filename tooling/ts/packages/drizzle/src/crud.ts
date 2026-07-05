@@ -7,6 +7,7 @@
 import * as z from "zod";
 import { getTableName } from "drizzle-orm";
 import type { RouteContract, RouteResponse } from "@suluk/hono";
+import type { HttpStatus } from "@suluk/core";
 import { tableSchemas } from "./schemas";
 import { pascalCase, type AnyTable } from "./meta";
 import { listQuerySchema, type ListQueryOptions } from "./query";
@@ -51,8 +52,8 @@ export function crudRoutes(table: AnyTable, opts: CrudOptions = {}): RouteContra
   const idParams = z.object({ [idParam]: z.string() });
   const itemPath = `${base}/:${idParam}`;
 
-  const ok = (status: number, schema: z.ZodType, description: string): RouteResponse => ({ status, schema, description });
-  const bare = (status: number, description: string): RouteResponse => ({ status, description });
+  const ok = (status: HttpStatus, schema: z.ZodType, description: string): RouteResponse => ({ status, schema, description });
+  const bare = (status: HttpStatus, description: string): RouteResponse => ({ status, description });
 
   // a soft-delete / anonymize-delete keeps the row, so DELETE returns it (200) rather than 204.
   const softening = opts.softDelete || opts.anonymizeDelete;

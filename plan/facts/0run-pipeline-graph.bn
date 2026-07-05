@@ -1,0 +1,83 @@
+# C104 -- x-suluk-run: a per-operation PIPELINE GRAPH captured as a BYPRODUCT of sulukFmt/sulukFmt.all composition,
+# never a hand-authored parallel DAG spec and never a second execution engine. Operator, turn 1: "what if we add a way
+# to define a 'run' in each operation that is made up of a pipeline that runs other internal or external defined ops
+# or generic ops or developer abstracted ops or package imported ops plus DAG, would it be a good way to define
+# routes + service interfaces before even writing any code." Corrected: "we are the same author for all of these
+# pieces ... dont take my history as a bad precedence" -- the C093/C100 Gen-1-deletion history is a LESSON (a general
+# runtime DAG/branch executor had zero real consumers), not a verdict against a data-only graph. Decided: "the DAG
+# compile down to sulukFmt/sulukFmt.all (or a better version) as generated output, or gets generated from them - it
+# can be used as both, but we will use it as a durable, re-read source of truth that allows us to autogenerate bdd
+# primitives from" -> "yes, go". Extended mid-build: "To make it execution-complete, I would add: Per-node input and
+# output contracts ... Transition semantics ... Terminal semantics ... Runtime controls, such as retry policy,
+# timeout, idempotency, and optional compensation edges." ADR C104. @>=0.85
+claim c104_data_only_graph_not_a_second_execution_engine: Bool @>=0.85 = True
+falsified_when c104_data_only_graph_not_a_second_execution_engine == False
+
+# THE TYPES: SulukRunNodeKind ("internal"|"external"|"generic"|"package"); SulukRunNode (label, kind, advisory from,
+# stub, errors, input/output as SchemaOrRef via @suluk/zod's zodToV4, retry?:{times,delayMs?}, timeoutMs?,
+# idempotent?, compensate?); SulukRunEdge (to, after:string[], advisory on?:"success"|"error", defaults "success");
+# SulukRunGraph (nodes, edges, COMPUTED terminals:string[]). Every field marked HONESTLY DECLARED-AND-ENFORCED or
+# DECLARED-ONLY (advisory), the SAME treatment SulukApproval/SulukPolicy already use elsewhere in core/types.ts.
+# DECLARED-AND-ENFORCED (real runtime effect): retry -> a genuine Effect.retry(Schedule.recurs(times) [intersect
+# Schedule.spaced(delayMs) if given]); timeoutMs -> a genuine Effect.timeoutFail, failing with a NEW typed
+# TimeoutError (504, added to effect/src/common.ts following the existing httpError() pattern exactly). DECLARED-ONLY
+# (advisory, never enforced): idempotent (no dedup-key machinery exists), compensate (no saga/rollback engine invokes
+# it -- the same honest boundary SulukAgent's deliberately-absent stopCondition vocabulary draws), edge on:"error"
+# (reserved for a FUTURE conditional-routing capability sulukFmt/sulukFmt.all do not build today -- the same C093
+# boundary that kept exactly two combinators, linear + fan-out, and removed a general branch). The facet:
+# ["x-suluk-run"]?: SulukRunGraph on Request -- absent by default, zero impact on every route that doesn't opt in.
+# @>=0.85
+claim c104_types_honest_declared_vs_enforced_boundary: Bool @>=0.85 = True
+falsified_when c104_types_honest_declared_vs_enforced_boundary == False
+
+# @suluk/effect PRODUCES the graph, never authors it in parallel. sulukFn's def.node option (label+kind+the runtime
+# controls) seeds a ONE-node graph (terminals:[label]) on that leaf's slice.runGraph; a declared body/ok.schema
+# converts via zodToV4 into the node's input/output. mergeSlices merely UNIONS graphs across a pipeline's slices (no
+# sequencing context of its own -- nodes deduped by label, edges deduped, terminals recomputed). sulukFmt (linear)
+# ADDITIONALLY wires one dependency edge from each stage's terminal node(s) into the next stage's entry node(s),
+# mirroring its own run loop exactly (fns[i] only starts once fns[i-1] resolves). sulukFmt.all (fan-out) does NOT
+# wire new edges between branches (same input, so a plain union is the correct topology); nested inside a linear
+# stage, the OUTER sulukFmt still wires one edge into each of the fan-out's entry nodes -- proven by a dedicated
+# nested-fan-out test. sulukRoute passes the merged graph onto the derived RouteContract exactly like the existing
+# `store` field. ref() is the placeholder-op primitive for a not-yet-written external/generic/package op -- composes
+# into sulukFmt/sulukFmt.all with the IDENTICAL [SULUK]/slice/run shape as a real sulukFn; no run supplied ->
+# stub:true + calling it Effect.die's (a DEFECT, correctly never auto-retried, since Effect.retry only acts on the
+# FAILURE channel, not defects) -- a design-time node, not something meant to serve traffic. @>=0.85
+claim c104_effect_produces_graph_as_byproduct_of_composition: Bool @>=0.85 = True
+falsified_when c104_effect_produces_graph_as_byproduct_of_composition == False
+
+# A REAL BUG WAS CAUGHT MID-BUILD (the trust-but-verify discipline earning its keep): EffectRouteSpec (effectRoute()'s
+# own input type) never declared a runGraph field, so sulukRoute's `...(runGraph !== undefined ? {runGraph} : {})`
+# spread into effectRoute({...}) compiled clean (a conditional spread bypasses TS's excess-property check) but was
+# SILENTLY DROPPED before ever reaching the built contract -- caught only because a dedicated test asserted
+# sulukRoute(...).contract.runGraph was defined and it wasn't. Fixed with the same one-line pattern `store` already
+# has: added `runGraph?: RouteContract["runGraph"]` to EffectRouteSpec + copied it into the built contract object.
+# @>=0.9
+claim c104_effectroutespec_missing_field_bug_caught_by_test_and_fixed: Bool @>=0.9 = True
+falsified_when c104_effectroutespec_missing_field_bug_caught_by_test_and_fixed == False
+
+# VERIFIED: @suluk/effect 68/68 tests pass (44 pre-existing unchanged + 24 new -- run-graph.test.ts covers zero-impact
+# when unused, linear wiring [2-stage, 3-stage, unlabeled-passthrough], fan-out union [flat + nested-after-linear],
+# ref() stub/composition/real-run-swap, input/output zodToV4 conversion [sulukFn + ref(), + the no-schema-declared
+# case], retry [succeeds-after-N-failures, exhausts-and-propagates, no-retry-runs-once, delayMs accepted], timeout
+# [exceeds->typed TimeoutError not a hang, well-within->unaffected, ref()'s timeoutMs, the error carries the node's
+# OWN label], idempotent/compensate/on:"error" declared-but-NEVER-enforced boundary [idempotent changes nothing
+# without an explicit retry, compensate names a node nothing auto-invokes, edges never author "error"], and
+# sulukRoute's contract-level propagation). Full 30-package typecheck sweep: ZERO errors. Every touched package's
+# runtime suite green (effect 68, hono 81, core 66, drizzle 60, platform 149) -- zero regression. Two PRE-EXISTING,
+# UNRELATED failures observed (not touched this session, out of scope): @suluk/admin's stale "wrangler deploy" test
+# assertion (predates the C059 de-wrangler migration, already flagged pre-existing in C102/C103's own sweeps) and a
+# drizzle-zod/nano-stores version-mismatch typecheck error in nano-stores/example-petshop (untouched files, long
+# pre-dating this session per git log). @>=0.9
+claim c104_verified_zero_regression_full_ecosystem_sweep: Bool @>=0.9 = True
+falsified_when c104_verified_zero_regression_full_ecosystem_sweep == False
+
+# DEFERRED, DELIBERATELY (scoped out to keep this diff bounded to the primitive itself): @suluk/journeys consuming
+# x-suluk-run for graph-shaped BDD scenarios (multi-step ordering, per-node negative Thens) -- the ORIGINAL
+# motivating "autogenerate bdd primitives" goal, not yet started; a real stub-generator turning stub:true nodes into
+# scaffolded files; publishing @suluk/core/@suluk/effect/@suluk/hono; the specification/candidate-v4/v4-types.ts spec
+# mirror (x-suluk-run is non-normative like x-suluk-store/x-suluk-scenario, neither of which needed a meta-schema
+# change, so none is expected here -- but this should be CONFIRMED, not assumed, before the next spec-mirror pass).
+# @>=0.85
+claim c104_deferred_journeys_consumption_and_stub_codegen_not_started: Bool @>=0.85 = True
+falsified_when c104_deferred_journeys_consumption_and_stub_codegen_not_started == False

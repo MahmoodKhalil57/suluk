@@ -4,7 +4,7 @@
  * `inputSchema` is the operation's path + query params (flattened) plus, for mutations, a nested `body`. The op
  * metadata (`McpOp`) is what the executor needs to turn a tool call back into an HTTP request.
  */
-import type { OpenAPIv4Document } from "@suluk/core";
+import type { OpenAPIv4Document, Request, ObjectSchema, SchemaOrRef } from "@suluk/core";
 
 export interface McpOp {
   /** Tool name (sanitized to MCP rules) — also how the executor finds the operation. */
@@ -25,7 +25,9 @@ export interface McpOp {
 export interface McpTool {
   name: string;
   description: string;
-  inputSchema: { type: "object"; properties: Record<string, unknown>; required?: string[]; additionalProperties: boolean };
+  /** `toolsFrom` always builds `properties`/`additionalProperties` (never omits them, even when empty) — narrower
+   *  than the general {@link ObjectSchema} (where every keyword is optional) to match that invariant. */
+  inputSchema: ObjectSchema & { properties: Record<string, SchemaOrRef>; additionalProperties: boolean };
   op: McpOp;
 }
 
@@ -63,9 +65,9 @@ function deref(node: unknown, doc: OpenAPIv4Document, seen = new Set<string>()):
 }
 
 /** Pull `{properties, required}` out of an (object) schema, dereferencing a top-level $ref first. */
-function objectShape(schema: unknown, doc: OpenAPIv4Document): { properties: Record<string, unknown>; required: string[] } {
+function objectShape(schema: unknown, doc: OpenAPIv4Document): { properties: Record<string, SchemaOrRef>; required: string[] } {
   const s = deref(schema, doc);
-  const properties = (s?.properties && typeof s.properties === "object" ? (s.properties as Record<string, unknown>) : {});
+  const properties = (s?.properties && typeof s.properties === "object" ? (s.properties as Record<string, SchemaOrRef>) : {});
   const required = Array.isArray(s?.required) ? (s!.required as string[]) : [];
   return { properties, required };
 }
@@ -83,16 +85,11 @@ export function toolsFrom(doc: OpenAPIv4Document, opts: ToolsOptions = {}): McpT
   const used = new Set<string>();
 
   for (const [rawPath, pathItem] of Object.entries(doc.paths ?? {})) {
-    const requests = (pathItem as { requests?: Record<string, unknown> }).requests ?? {};
+    const requests = pathItem.requests ?? {};
     const path = rawPath.startsWith("/") ? rawPath : `/${rawPath}`;
     const pathVars = templateVars(path);
 
-    for (const [opName, reqRaw] of Object.entries(requests)) {
-      const req = reqRaw as {
-        method?: string; summary?: string; description?: string; deprecated?: boolean;
-        parameterSchema?: { path?: unknown; query?: unknown; body?: unknown };
-        contentSchema?: unknown;
-      };
+    for (const [opName, req] of Object.entries(requests) as [string, Request][]) {
       const method = String(req.method ?? "GET").toUpperCase();
       const readOnly = method === "GET" || method === "HEAD";
 
@@ -107,7 +104,7 @@ export function toolsFrom(doc: OpenAPIv4Document, opts: ToolsOptions = {}): McpT
       const bodySchema = ps.body ?? req.contentSchema;
       const hasBody = !readOnly && bodySchema != null;
 
-      const properties: Record<string, unknown> = {};
+      const properties: Record<string, SchemaOrRef> = {};
       const required: string[] = [];
       // Every template var IS a path param (the uriTemplate is authoritative, C019); the path schema only adds types.
       // Union them — using one OR the other drops a var the other side declares, yielding an unsubstitutable {var}.

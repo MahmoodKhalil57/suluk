@@ -6,4 +6,5 @@ node_modules/
 dist/
 .ci/
 openapi.v4.json
+asyncapi.json
 .suluk/

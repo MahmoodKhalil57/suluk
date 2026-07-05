@@ -13,10 +13,11 @@
  * with zero loss. `warnings` lists the dropped effects so callers can decide (and persist them out-of-band).
  */
 import * as z from "zod";
+import type { SchemaObject } from "@suluk/core";
 
 export interface ZodToV4Result {
   /** A v4 Schema Object (JSON Schema 2020-12), with the embedded `$schema` marker removed. */
-  schema: Record<string, unknown>;
+  schema: SchemaObject;
   /** Zod runtime effects that could not be represented (dropped). Empty ⇒ fully lossless. */
   warnings: string[];
 }
@@ -43,7 +44,7 @@ export function zodToV4(schema: z.ZodType, opts: { io?: "input" | "output" } = {
         }
       } catch { /* internals moved — skip detection, never block conversion */ }
     },
-  }) as Record<string, unknown>;
+  }) as SchemaObject;
   delete json.$schema;
   return { schema: json, warnings: [...new Set(warnings)] };
 }

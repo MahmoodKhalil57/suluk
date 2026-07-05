@@ -1,0 +1,49 @@
+# C103 — fixes the HttpStatusCode regression flagged (and repeatedly deferred as out-of-scope) across C100/C101/C102.
+# A concurrent, undocumented edit had added HttpStatusCode (numeric status -> semantic name) to core/src/types.ts with
+# ZERO doc comment / ADR, applied wrongly in two ways: (1) Response.status: keyof HttpStatusCode dropped the
+# quoted-string numeric form ("200") that real code depends on (cockpit's diffContracts explicitly tests 200/"200"
+# equivalence; scalar's tests use "200" extensively); (2) the FOUR response-map fields (Request.responses/
+# Components.responses/PathItem.pathResponses/OpenAPIv4Document.apiResponses) were retyped
+# Record<HttpStatusCode[keyof HttpStatusCode], Response> -- indexing by the interface's VALUES (semantic names like
+# "ok"/"notFound"), requiring an EXHAUSTIVE ~60-key record on every sparse, author-named response map -- breaking tsc
+# across 14+ packages. Operator-driven (2026-07-05): "fix all issues to use the new HttpStatusCode properly and
+# update specification/candidate-v4/v4-meta-schema.json as per our changes in core/src/types.ts." ADR C103.
+
+# THE FIX KEEPS HttpStatusCode (a real improvement) but corrects WHERE it's used. The four response-map fields
+# revert to Record<string, Response> (free-form author-named, sparse) -- exactly what the meta-schema ALREADY
+# validated all along (never touched by the original bug, confirmed by direct inspection before fixing). A NEW
+# derived HttpStatus type = keyof HttpStatusCode | `${Extract<keyof HttpStatusCode,number>}` (numeric code, its
+# EQUIVALENT string form, "5XX", or "default") -- Response.status: HttpStatus (not keyof HttpStatusCode directly).
+# HttpStatusCode now carries a proper doc comment declaring it a VALUE lookup, not a map-key constraint. PROVEN:
+# core/test/http-status.test.ts asserts HttpStatus accepts 200/"200"/"5XX"/"default" and rejects 999 (both
+# @ts-expect-error type assertions AND real validateDocument runtime checks against the updated meta-schema); the
+# four response maps stay genuinely sparse (a 2-entry map validates, no 58-key requirement). @>=0.85
+claim c103_httpstatuscode_kept_but_fixed_at_the_right_field: Bool @>=0.85 = True
+falsified_when c103_httpstatuscode_kept_but_fixed_at_the_right_field == False
+
+# THE PRECISION WAS CARRIED THROUGH TO WHERE STATUS CODES ARE ACTUALLY AUTHORED, not just patched at the point of
+# tsc failure -- the actual point of introducing HttpStatusCode. @suluk/hono: RouteResponse.status (HttpStatus) +
+# errors? (Extract<HttpStatus,number>[]) + errorStatusesFor's return type. @suluk/effect: HttpErrorClass.status +
+# httpError()'s status param + AnyHttpError.status + HttpSuccess.status + respond()'s status param +
+# DEFAULT_SUCCESS_STATUS + BOTH ok?.status declarations (route.ts's EffectRouteSpec + suluk-fn.ts's two RequestSlice
+# defs). @suluk/drizzle: crud.ts's local ok/bare response-builder helpers. @suluk/compat: upgrade.ts's 3.x->v4
+# status cast (justified inline -- an external, untrusted document, best-effort conversion, validateDocument catches
+# a genuinely malformed status downstream). specification/candidate-v4/v4-types.ts (the spec mirror) gained the
+# same HttpStatusCode/HttpStatus + Response.status retyping, verified to compile standalone.
+# specification/candidate-v4/v4-meta-schema.json's status validation replaced the old pattern/range approximation
+# (which incorrectly ACCEPTED unregistered codes like 199/250) with an EXACT enum mirroring HttpStatus precisely.
+# @>=0.85
+claim c103_precision_carried_to_authoring_surfaces_not_just_patched: Bool @>=0.85 = True
+falsified_when c103_precision_carried_to_authoring_surfaces_not_just_patched == False
+
+# FULLY RESOLVED, FIRST CLEAN SWEEP SINCE THE REGRESSION WAS FIRST OBSERVED. A full 30-package typecheck sweep: ZERO
+# errors on every package (down from the 14-package/~99-error-line state flagged repeatedly across C100/C101/C102).
+# Full runtime test sweep: every package green except the ALREADY-CONFIRMED-PRE-EXISTING-AND-UNRELATED @suluk/admin
+# deploy-page-copy test failure (isolated via git stash in C102, reconfirmed unaffected here). A handful of
+# test-only literal-widening fixes were needed (core/test/facets.test.ts, agents/test/patterns.test.ts,
+# hono/test/route-group.test.ts) where a bare object literal or an unannotated helper's default param widened a
+# status literal to plain number -- each pinned with `as const` or an explicit param type, zero behavior change.
+# Nothing about the NORMATIVE response-map shape changed relative to C013-C098 -- this is a correction back to the
+# long-standing, meta-schema-verified design, not a new decision. @>=0.9
+claim c103_fully_resolved_first_clean_ecosystem_sweep: Bool @>=0.9 = True
+falsified_when c103_fully_resolved_first_clean_ecosystem_sweep == False

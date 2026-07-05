@@ -1,0 +1,52 @@
+# C111 -- operator: "connect our changes to core hono and effect with drizzle inline zod to allow bubbling up
+# everything about the response and connecting input types with drizzle fields directly when its the source of
+# truth etc.....". Scoped via AskUserQuestion: response/input-from-drizzle already existed (prior-session C098,
+# unchanged); operator picked the remaining gap -- table-level execution-policy (retry/dedupe/idempotency/effect
+# kind) via .zod()-style co-location, auto-picked-up by queryOne/mutate. ADR C111. @>=0.85
+claim c111_drizzle_table_policy_built_scoped_via_askuserquestion: Bool @>=0.85 = True
+falsified_when c111_drizzle_table_policy_built_scoped_via_askuserquestion == False
+
+# BUILT: @suluk/drizzle table.policy({...}) + tablePolicy(table) + queryTable(query) (src/policy.ts) -- the SAME
+# co-location move as .zod(). queryTable reads config.table, VERIFIED present uniformly across select/insert/
+# update/delete drizzle query builders via a real probe against the installed drizzle-orm (not assumed). @>=0.9
+claim c111_table_policy_and_querytable_verified_against_real_drizzle: Bool @>=0.9 = True
+falsified_when c111_table_policy_and_querytable_verified_against_real_drizzle == False
+
+# BUILT: registry/foundation/app/app.ts's queryOne/queryMany/mutate read the policy AUTOMATICALLY -- off the SAME
+# build-time query object queryZodSchema already reads (no query built twice), via queryTable->tablePolicy. A
+# model needs only reference the table in its query + (to enter the graph) a `node: "label"` string -- every
+# execution-policy field comes from the table, per the operator's own "picks it up automatically" phrasing (which
+# ruled out an explicit table: parameter design). @>=0.9
+claim c111_queryone_querymany_mutate_automatic_pickup: Bool @>=0.9 = True
+falsified_when c111_queryone_querymany_mutate_automatic_pickup == False
+
+# BUILT: sulukFn gained a NEW top-level `dedupe` field (distinct from C110's node.dedupe graph-only mirror) --
+# mirrors the EXISTING top-level `rateLimit` field exactly: bubbles via mergeSlices (inherit: own wins else first
+# layer) to the final RouteContract.dedupe, which @suluk/hono's enforceDedupe REALLY reads+enforces. Closes the
+# loop C110 left open (a graph-only reflection) with REAL route-level enforcement. @>=0.9
+claim c111_sulukfn_toplevel_dedupe_bubbles_to_real_enforcement: Bool @>=0.9 = True
+falsified_when c111_sulukfn_toplevel_dedupe_bubbles_to_real_enforcement == False
+
+# GAP CLOSED IN PASSING: SulukDedupe (added to core in C110) was never re-exported from @suluk/effect's public
+# index.ts, unlike SulukRateLimit -- a real omission, fixed here. @>=0.9
+claim c111_sulukdedupe_reexport_gap_fixed: Bool @>=0.9 = True
+falsified_when c111_sulukdedupe_reexport_gap_fixed == False
+
+# VERIFIED END-TO-END: a throwaway scratch package (tooling/ts/packages/_verify-registry, built + tsc-verified +
+# DELETED, never committed) proved (a) ZERO typecheck impact on the REAL unmodified `todo` registry module, and
+# (b) a runtime script proved a payment-shaped table's .policy() flows automatically through queryOne (label-only
+# node opt-in) all the way to the FINAL emitted RouteContract.dedupe -- the exact field @suluk/hono's enforceDedupe
+# reads off the wire document. @>=0.9
+claim c111_verified_e2e_scratch_harness_zero_impact_and_runtime_proof: Bool @>=0.9 = True
+falsified_when c111_verified_e2e_scratch_harness_zero_impact_and_runtime_proof == False
+
+# DELIBERATE NON-CHANGE: the `todo` exemplar module was left untouched -- it has no dangerous writes needing
+# dedupe/retry, so forcing a fabricated .policy() onto it just to demo the feature would have been an invented
+# scenario, not a real one. @>=0.85
+claim c111_todo_exemplar_left_untouched_no_fabricated_demo: Bool @>=0.85 = True
+falsified_when c111_todo_exemplar_left_untouched_no_fabricated_demo == False
+
+# VERIFIED: full 30-package ecosystem sweep -- 1959 tests pass, zero fail, zero typecheck errors.
+# conformance/run.py 8/8. drizzle 76/76 (8 new), effect 148/148 (2 new). @>=0.9
+claim c111_full_sweep_1959_tests_zero_regression: Bool @>=0.9 = True
+falsified_when c111_full_sweep_1959_tests_zero_regression == False

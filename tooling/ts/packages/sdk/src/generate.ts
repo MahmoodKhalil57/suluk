@@ -13,7 +13,7 @@
  *     client-side guard, not enforcement — the server is the boundary (C022).
  * Static TS types come from the SAME JSON Schema (tsType), so the body is typed AND validated from one source.
  */
-import type { OpenAPIv4Document, SulukStore } from "@suluk/core";
+import type { OpenAPIv4Document, SulukStore, SchemaOrRef, ParameterSchema } from "@suluk/core";
 import { isReference } from "@suluk/core";
 import { describeInputs, type FieldDescriptor } from "@suluk/examples";
 
@@ -47,9 +47,9 @@ export function tsType(doc: OpenAPIv4Document, schema: unknown, depth = 0): stri
 }
 
 interface RawReq {
-  method: string; summary?: string; contentSchema?: unknown;
-  parameterSchema?: Record<string, unknown>;
-  responses?: Record<string, { status: string | number; contentSchema?: unknown }>;
+  method: string; summary?: string; contentSchema?: SchemaOrRef;
+  parameterSchema?: ParameterSchema;
+  responses?: Record<string, { status: string | number; contentSchema?: SchemaOrRef }>;
   ["x-suluk-cost"]?: { estimateMicroUsd?: number; components?: { microUsd?: number }[] };
   ["x-suluk-access"]?: { requires?: string; scope?: string };
   ["x-suluk-store"]?: SulukStore;

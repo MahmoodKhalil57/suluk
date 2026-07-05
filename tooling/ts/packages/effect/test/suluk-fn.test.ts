@@ -85,6 +85,31 @@ describe("sulukFmt — cost DEFINED on the model bubbles through service→route
   });
 });
 
+describe("sulukFn.dedupe (C110) — REAL enforcement bubbling, unlike node.dedupe's graph-only reflection", () => {
+  test("a model's own `dedupe` bubbles through service→route onto the emitted contract's `x-suluk-dedupe`", () => {
+    const chargeM = sulukFn({
+      cost: writeCost, ok: { schema: ItemSchema },
+      dedupe: { ttlMs: 60_000, keySource: { header: "Idempotency-Key" } },
+      run: (ctx, body: { title: string }) => Effect.flatMap(Store, (s) => s.create(body.title)),
+    });
+    const chargeRoute = sulukFmt(
+      sulukFn({ method: "post", path: "/api/charges", name: "charge", roles: ["signed-in"], summary: "Charge.", body: z.object({ title: z.string() }), view: view("item"), run: (ctx) => Effect.succeed(ctx as never) }),
+      sulukFmt(chargeM),
+    );
+    const { contract } = sulukRoute(chargeRoute, { provide: provideStore(new Map()) });
+    expect(contract.dedupe).toEqual({ ttlMs: 60_000, keySource: { header: "Idempotency-Key" } });
+  });
+
+  test("absent by default — an ordinary route carries no dedupe facet", () => {
+    const plainRoute = sulukFmt(
+      sulukFn({ method: "get", path: "/api/items/:id", name: "getItemPlain", roles: ["signed-in"], summary: "Get one item.", view: view("item"), run: (ctx) => Effect.succeed(ctx.param("id")!) }),
+      getItem,
+    );
+    const { contract } = sulukRoute(plainRoute, { provide: provideStore(new Map()) });
+    expect(contract.dedupe).toBeUndefined();
+  });
+});
+
 describe("sulukFmt — a create (body), a list (listView), a delete (200 body), a composite", () => {
   const CreateReq = z.object({ title: z.string().min(1) });
   const createRoute = sulukFmt(
@@ -209,5 +234,49 @@ describe("sulukFmt — authored BDD `step`s accumulate up the pipeline into the 
       { role: "then", text: "the item is shown" },
       { role: "then", text: "the count is shown" },
     ]);
+  });
+})
+
+describe("x-suluk-store (C037) — the reactive-store facet bubbles like cost, invalidates UNION", () => {
+  // read models BACK a store (key); write models INVALIDATE (invalidates). Declared on the model, restated nowhere above.
+  const findWithStore = sulukFn({ cost: readCost, ok: { schema: ItemSchema }, store: { key: "items", params: ["id"] }, run: (ctx, id: string) => Effect.flatMap(Store, (s) => s.get(id)) });
+  const createWithStore = sulukFn({ cost: writeCost, ok: { schema: ItemSchema }, store: { invalidates: ["items"] }, run: (ctx, body: { title: string }) => Effect.flatMap(Store, (s) => s.create(body.title)) });
+
+  test("a read model's key + params bubble to the route's merged slice + contract (first-wins)", () => {
+    const route = sulukFmt(
+      sulukFn({ method: "get", path: "/api/items/:id", roles: ["signed-in"], summary: "Get one.", view: view("item"), run: (ctx) => Effect.succeed(ctx.param("id")!) }),
+      sulukFmt(findWithStore),
+    );
+    expect(route.slice.store).toEqual({ key: "items", params: ["id"] });
+    const { contract } = sulukRoute(route, { provide: provideStore(new Map()) });
+    expect((contract as { store?: unknown }).store).toEqual({ key: "items", params: ["id"] });
+  });
+
+  test("a write model's invalidates bubble to the route contract", () => {
+    const route = sulukFmt(
+      sulukFn({ method: "post", path: "/api/items", roles: ["signed-in"], summary: "Create.", view: view("item"), run: (ctx, body: { title: string }) => Effect.succeed(body) }),
+      sulukFmt(createWithStore),
+    );
+    expect(route.slice.store).toEqual({ invalidates: ["items"] });
+  });
+
+  test("invalidates UNION (deduped) across layers; key stays first-wins", () => {
+    const m1 = sulukFn({ ok: { schema: ItemSchema }, store: { key: "items", invalidates: ["a"] }, run: () => Effect.flatMap(Store, (s) => s.get("x")) });
+    const m2 = sulukFn({ store: { invalidates: ["a", "b"] }, run: () => Effect.succeed(undefined) });
+    const merged = sulukFmt(m1, m2);
+    expect(merged.slice.store).toEqual({ key: "items", invalidates: ["a", "b"] });
+  });
+
+  test("sulukFmt.all UNIONs branch invalidates but DROPS branch keys (a composite has no single key)", () => {
+    const a = sulukFn({ ok: { schema: ItemSchema }, store: { key: "item", invalidates: ["x"] }, run: () => Effect.flatMap(Store, (s) => s.get("a")) });
+    const b = sulukFn({ ok: { schema: z.number().int() }, store: { key: "count", invalidates: ["y"] }, run: () => Effect.flatMap(Store, (s) => s.count()) });
+    const fan = sulukFmt.all({ item: a, count: b });
+    expect(fan.slice.store).toEqual({ invalidates: ["x", "y"] }); // no `key` — the composite gets its own at the controller if needed
+  });
+
+  test("a store-less pipeline emits no store on the contract", () => {
+    const route = sulukFmt(sulukFn({ method: "get", path: "/api/plain", roles: ["signed-in"], summary: "Plain.", ok: { schema: ItemSchema }, run: () => Effect.flatMap(Store, (s) => s.get("a")) }));
+    const { contract } = sulukRoute(route, { provide: provideStore(new Map()) });
+    expect((contract as { store?: unknown }).store).toBeUndefined();
   });
 })

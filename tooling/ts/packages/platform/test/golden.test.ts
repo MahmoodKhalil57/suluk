@@ -74,6 +74,7 @@ const OUTPUTS: Record<string, string> = {
   ciLocal: "scripts_ci-local.ts",
   ciWorktree: "scripts_ci-worktree.ts",
   emitContract: "scripts_emit-contract.ts", // present because AUTOTOOLFACTORY installs `contract`
+  emitAsyncApi: "scripts_emit-asyncapi.ts", // the AsyncAPI + CloudEvents projection, rides the `contract` service (C101)
   eslintConfig: "eslint.config.js",
   prettierrc: "prettierrc.json",
 };

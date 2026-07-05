@@ -1,0 +1,34 @@
+# C099 — a typed JSON Schema 2020-12 model in @suluk/core: the inner Schema Object (opaque Record<string,unknown>|boolean
+# through C013–C098) rendered as a PRECISE, TypeBox/JSON-Schema-aligned TS model — the descriptive source-of-truth for what
+# an input/output can be — WITHOUT changing what validates (dialect stays authoritative) and WITHOUT a runtime dependency.
+# Operator-driven (2026-07-04): "add much more types to core so it is the source of truth to what is possible ... from
+# Standard JSON Schema (TypeBox)." Forks decided: pure-types (no dep) / whole document model / type-only (Zod stays author).
+# ADR C099. Mirrors core src/types.ts + specification/candidate-v4/v4-types.ts (vendor-free).
+
+# BACKWARD-COMPATIBILITY is the load-bearing invariant, and it is EMPIRICALLY WITNESSED (executable). zodToV4().schema is
+# typed Record<string,unknown> and is assigned straight into contentSchema?:SchemaOrRef by @suluk/hono emit.ts; the
+# OpaqueSchema (Record<string,unknown>) escape member keeps Schema a STRICT SUPERSET of the old opaque type, so every precise
+# variant is additive + excess-property false-positives are suppressed. PROVEN: every ~30 in-repo @suluk/core dependent
+# typechecks clean (compat/hono/effect/drizzle/platform/mcp/... all 0 errors; example-petshop's 6 errors are a PRE-EXISTING
+# drizzle-orm nit, verified by stash-recheck), and the @suluk/hono suite (78 tests) + core suite (54 tests) stay green. @>=0.85
+claim c099_backward_compatible_superset_ecosystem_clean: Bool @>=0.85 = True
+falsified_when c099_backward_compatible_superset_ecosystem_clean == False
+
+# KEYWORD-PERMISSIVENESS matches the 2020-12 dialect AND unbreaks generic readers. In 2020-12 a keyword that does not apply to
+# an instance's `type` is IGNORED, not forbidden ({type:"string",minItems:3} is valid), so every variant carries all
+# constraint keywords (SchemaConstraints) with `type` discriminating the instance type. An earlier STRICT-per-variant model
+# was rejected: it broke @suluk/compat's v4->3.1 downgrade (which reads properties/required off an unnarrowed schema) AND was
+# LESS correct about the dialect. The dependency-free Static<S> mirrors TypeBox's Static<> for the common constructs
+# (booleans/const/enum/6 primitives/arrays/objects with properties+required/allOf/anyOf/oneOf), unmodeled -> unknown (honestly
+# under-narrowed, never falsely narrowed). Both are LOCKED by test/typed-schema.test.ts type-level assertions (tsc-enforced). @>=0.85
+claim c099_keyword_permissive_faithful_static_infers: Bool @>=0.85 = True
+falsified_when c099_keyword_permissive_faithful_static_infers == False
+
+# THE DEVIATION FROM C013 IS TYPE-LEVEL ONLY, and the durable source-of-truth stance carries an HONESTLY-LOW ceiling. Validation
+# semantics are untouched (the 2020-12 dialect stays the runtime authority; the structural meta-schema stays deliberately
+# opaque — re-inlining the dialect would be redundant/error-prone; only a clarifying $comment was added). C099 is BUILT +
+# verified but NOT published and NOT yet adopted by a downstream generator to emit narrower types (Zod still authors; the
+# model is the TARGET, nothing yet CONSUMES the precise variants beyond the type tests). So the model's CORRECTNESS is high,
+# but "this is the right durable design" awaits publish + a real downstream consumer narrowing against it. @>=0.6
+claim c099_type_level_deviation_pending_adoption: Bool @>=0.6 = True
+falsified_when c099_type_level_deviation_pending_adoption == False

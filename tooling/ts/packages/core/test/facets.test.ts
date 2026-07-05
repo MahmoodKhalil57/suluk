@@ -12,7 +12,7 @@ describe("x-suluk-approval (HITL facet, Stage 1.4) is ADVISORY — it never pert
   const reqOf = (approval?: SulukApproval) => ({
     method: "post" as const,
     contentSchema: { $ref: "#/components/schemas/CalcInput" },
-    responses: { ok: { status: 200 } },
+    responses: { ok: { status: 200 as const } },
     ...(approval ? { "x-suluk-approval": approval } : {}),
   });
 
