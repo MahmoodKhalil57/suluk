@@ -49,8 +49,10 @@ export { crudRoutes, type CrudOptions } from "./crud";
 // recursive and/or/not FilterNode tree (ADVANCED, Splunk-parity) — parseListQuery normalizes either into ONE
 // ListQuery; compileFilter/compileSort/compileTextSearch turn it into real, bound drizzle SQL.
 export {
-  listQuerySchema, parseListQuery, filterNodeSchema, compileFilter, compileSort, compileTextSearch, FILTER_OPS,
+  listQuerySchema, parseListQuery, filterNodeSchema, compileFilter, compileSort, compileTextSearch, resolveListQuery,
+  FILTER_OPS,
   type ListQuery, type ListQueryOptions, type FilterOp, type FilterCondition, type FilterNode, type SortSpec,
+  type ResolvedListQuery,
 } from "./query";
 // CrudOptions runtime helpers (Phase 1): soft-delete / anonymize-on-delete (GDPR keep-record) / timestamps patches.
 export {

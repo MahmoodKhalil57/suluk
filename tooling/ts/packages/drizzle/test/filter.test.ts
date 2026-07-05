@@ -2,8 +2,9 @@ import { test, expect, describe } from "bun:test";
 import { Database } from "bun:sqlite";
 import { drizzle } from "drizzle-orm/bun-sqlite";
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { eq, desc } from "drizzle-orm";
 import {
-  filterNodeSchema, parseListQuery, compileFilter, compileSort, compileTextSearch, type FilterNode,
+  filterNodeSchema, parseListQuery, compileFilter, compileSort, compileTextSearch, resolveListQuery, type FilterNode,
 } from "../src/index";
 
 const todo = sqliteTable("todo", {
@@ -55,6 +56,25 @@ describe("filterNodeSchema — the recursive, JSON-Schema-describable advanced f
     const schema = filterNodeSchema(todo);
     expect(() => schema.parse({ and: [] })).toThrow();
     expect(() => schema.parse({ or: [] })).toThrow();
+  });
+
+  test("a filter tree past maxFilterNodes is rejected at validation time — never reaches SQL compilation/execution", () => {
+    const schema = filterNodeSchema(todo);
+    const wide: FilterNode = { or: Array.from({ length: 1000 }, (_, i) => ({ field: "title", op: "eq" as const, value: `x${i}` })) };
+    expect(() => schema.parse(wide)).toThrow(/too many conditions/);
+    const deep = Array.from({ length: 1000 }).reduce<FilterNode>((n) => ({ not: n }), { field: "title", op: "eq", value: "x" });
+    expect(() => schema.parse(deep)).toThrow(/too many conditions/);
+  });
+
+  test("a tree within the default bound (200 nodes) still validates fine", () => {
+    const schema = filterNodeSchema(todo);
+    const ok: FilterNode = { or: Array.from({ length: 50 }, (_, i) => ({ field: "title", op: "eq" as const, value: `x${i}` })) };
+    expect(() => schema.parse(ok)).not.toThrow();
+  });
+
+  test("maxFilterNodes is configurable via opts", () => {
+    const schema = filterNodeSchema(todo, { maxFilterNodes: 5 });
+    expect(() => schema.parse({ or: Array.from({ length: 10 }, (_, i) => ({ field: "title", op: "eq" as const, value: `x${i}` })) })).toThrow(/too many conditions/);
   });
 });
 
@@ -177,5 +197,49 @@ describe("compileSort + compileTextSearch", () => {
   test("compileTextSearch returns undefined for an empty q (never an accidental match-everything query)", () => {
     expect(compileTextSearch(todo, undefined)).toBeUndefined();
     expect(compileTextSearch(todo, "")).toBeUndefined();
+  });
+});
+
+describe("resolveListQuery — the one-call parse+compile+fallback primitive (C116)", () => {
+  const scope = eq(todo.userId, "u1");
+  const defaultOrder = [desc(todo.createdAt)];
+
+  const run = (db: ReturnType<typeof mkDb>, raw: Record<string, string>) => {
+    const { where, orderBy, limit, offset } = resolveListQuery(todo, raw, scope, defaultOrder);
+    return db.select().from(todo).where(where).orderBy(...orderBy).limit(limit).offset(offset).all();
+  };
+
+  test("a valid filter narrows within the scope", () => {
+    const rows = run(mkDb(), { title__contains: "milk" });
+    expect(rows.map((r) => r.id)).toEqual(["1"]);
+  });
+
+  test("an op invalid for its column's dataType falls back to scope-only, unfiltered — never throws", () => {
+    const db = mkDb();
+    expect(() => run(db, { completed__contains: "true" })).not.toThrow();
+    const rows = run(db, { completed__contains: "true" });
+    expect(rows.map((r) => r.id).sort()).toEqual(["1", "2", "3"]); // every u1 row, none of u2's
+  });
+
+  test("a malformed advanced filter= JSON falls back the same way", () => {
+    expect(() => run(mkDb(), { filter: "not-json" })).not.toThrow();
+    expect(run(mkDb(), { filter: "not-json" }).map((r) => r.id).sort()).toEqual(["1", "2", "3"]);
+  });
+
+  test("scope is always the outermost AND — a filter targeting another user's rows returns empty, never a leak", () => {
+    const rows = run(mkDb(), { filter: JSON.stringify({ field: "userId", op: "eq", value: "u2" }) });
+    expect(rows).toEqual([]);
+  });
+
+  test("no query params -> the scope + defaultOrderBy + a default page", () => {
+    const rows = run(mkDb(), {});
+    expect(rows.map((r) => r.id)).toEqual(["3", "2", "1"]); // u1's rows, newest first (createdAt desc)
+  });
+
+  test("an oversized filter tree (the SQLite expression-tree-depth DoS shape) falls back safely, never reaches the DB engine", () => {
+    const db = mkDb();
+    const huge = JSON.stringify({ or: Array.from({ length: 1000 }, (_, i) => ({ field: "title", op: "eq", value: `x${i}` })) });
+    expect(() => run(db, { filter: huge })).not.toThrow();
+    expect(run(db, { filter: huge }).map((r) => r.id).sort()).toEqual(["1", "2", "3"]); // every u1 row, none of u2's
   });
 });

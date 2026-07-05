@@ -135,7 +135,12 @@ describe("sulukFmt — a create (body), a list (listView), a delete (200 body), 
     expect(contract.request?.json).toBe(CreateReq);
     expect(contract.cost?.infra).toEqual({ "d1.write": 1, "d1.read": 1, "worker.request": 1 });
     const ok = responseList(contract.responses).find((r) => r.status === 201);
-    expect(Object.keys((z.toJSONSchema(ok!.schema!) as { properties: Record<string, unknown> }).properties)).toEqual(["item"]);
+    const okJsonSchema = z.toJSONSchema(ok!.schema!) as unknown as { properties: { item: { properties?: Record<string, unknown> } } };
+    expect(Object.keys(okJsonSchema.properties)).toEqual(["item"]);
+    // the CONTROLLER declares only `ok:{status:201}` (no schema) — the model's own `ok.schema` (id/title) must survive
+    // the merge, not just the outer `{ item }` wrapper (a controller-only-status field once discarded the model's
+    // schema entirely, leaving `item: {}` — see the dedicated mergeOk test below).
+    expect(Object.keys(okJsonSchema.properties.item.properties ?? {}).sort()).toEqual(["id", "title"]);
   });
 
   test("runtime — create 201, list 200 { items }, delete 200 { deleted }, miss 404", async () => {
@@ -278,5 +283,30 @@ describe("x-suluk-store (C037) — the reactive-store facet bubbles like cost, i
     const route = sulukFmt(sulukFn({ method: "get", path: "/api/plain", roles: ["signed-in"], summary: "Plain.", ok: { schema: ItemSchema }, run: () => Effect.flatMap(Store, (s) => s.get("a")) }));
     const { contract } = sulukRoute(route, { provide: provideStore(new Map()) });
     expect((contract as { store?: unknown }).store).toBeUndefined();
+  });
+})
+
+describe("sulukFmt — `ok` merges FIELD-BY-FIELD (status/schema/description independently), never atomically", () => {
+  test("a controller declaring only ok:{status} does not discard a dependency's own ok.schema", () => {
+    const model = sulukFn({ ok: { schema: ItemSchema }, run: () => Effect.succeed({ id: "1", title: "x" }) });
+    const controller = sulukFn({ method: "post", path: "/api/items", roles: ["signed-in"], summary: "Create.", ok: { status: 201 }, run: () => Effect.succeed(undefined) });
+    const route = sulukFmt(controller, sulukFmt(model));
+    expect(route.slice.ok?.status).toBe(201);
+    expect(route.slice.ok?.schema).toBe(ItemSchema);
+  });
+
+  test("own's schema still wins over a dependency's schema when own declares both", () => {
+    const OwnSchema = z.object({ ok: z.literal(true) });
+    const model = sulukFn({ ok: { schema: ItemSchema }, run: () => Effect.succeed({ id: "1", title: "x" }) });
+    const controller = sulukFn({ method: "post", path: "/api/items", roles: ["signed-in"], summary: "Create.", ok: { status: 201, schema: OwnSchema }, run: () => Effect.succeed(undefined) });
+    const route = sulukFmt(controller, sulukFmt(model));
+    expect(route.slice.ok?.schema).toBe(OwnSchema);
+  });
+
+  test("a description-only dependency's description survives a status-only controller", () => {
+    const model = sulukFn({ ok: { schema: ItemSchema, description: "The created item." }, run: () => Effect.succeed({ id: "1", title: "x" }) });
+    const controller = sulukFn({ method: "post", path: "/api/items", roles: ["signed-in"], summary: "Create.", ok: { status: 201 }, run: () => Effect.succeed(undefined) });
+    const route = sulukFmt(controller, sulukFmt(model));
+    expect(route.slice.ok).toEqual({ status: 201, schema: ItemSchema, description: "The created item." });
   });
 })

@@ -32,6 +32,11 @@ export interface ListQueryOptions {
   maxPerPage?: number;
   /** columns the free-text `q` search matches against (default: every `dataType: "string"` column). */
   searchColumns?: string[];
+  /** max total nodes (leaves + and/or/not wrappers) an advanced `filter` tree may have (default 200) — SQLite (and
+   *  D1) rejects a compiled expression past a few hundred/thousand nodes with "Expression tree is too large", an
+   *  execution-time failure `compileFilter`'s own dataType checks can't catch (the tree is 100% schema-valid); a
+   *  caller-sized tree is rejected at VALIDATION time instead, well before it ever reaches SQL. */
+  maxFilterNodes?: number;
 }
 
 /** Reserved query keys (everything else that matches a column, or `column__op`, becomes a simple-mode filter). */
@@ -71,9 +76,19 @@ export interface FilterCondition {
  *  describable via `$defs`/`$ref` (zodToV4 projects `z.lazy` recursion exactly this way) rather than opaque. */
 export type FilterNode = FilterCondition | { and: FilterNode[] } | { or: FilterNode[] } | { not: FilterNode };
 
+/** Total node count (leaves + `and`/`or`/`not` wrappers) in a {@link FilterNode} tree. */
+function countFilterNodes(n: FilterNode): number {
+  if ("and" in n) return 1 + n.and.reduce((sum, c) => sum + countFilterNodes(c), 0);
+  if ("or" in n) return 1 + n.or.reduce((sum, c) => sum + countFilterNodes(c), 0);
+  if ("not" in n) return 1 + countFilterNodes(n.not);
+  return 1;
+}
+
 /** The Zod schema for a {@link FilterNode}, scoped to `table`'s real columns (or `opts.columns`) — an unrecognized
- *  `field` or `op` fails VALIDATION (a typed 400), not a silent no-op. Exported so a route can declare the
- *  `filter` query param's true shape (e.g. for a request BODY carrying a filter instead of a query string). */
+ *  `field` or `op` fails VALIDATION (a typed 400), not a silent no-op; a tree past `opts.maxFilterNodes` (default
+ *  200) fails validation too (see the option's own doc — the DB engine's expression-depth limit is an execution-
+ *  time failure this schema-level bound heads off). Exported so a route can declare the `filter` query param's
+ *  true shape (e.g. for a request BODY carrying a filter instead of a query string). */
 export function filterNodeSchema(table?: AnyTable, opts: ListQueryOptions = {}): z.ZodType<FilterNode> {
   const cols = opts.columns ?? (table ? tableMetadata(table).columns.map((c) => c.name) : []);
   const field = cols.length ? z.enum(cols as [string, ...string[]]) : z.string();
@@ -90,7 +105,8 @@ export function filterNodeSchema(table?: AnyTable, opts: ListQueryOptions = {}):
       z.object({ not: node }),
     ]),
   );
-  return node;
+  const maxNodes = opts.maxFilterNodes ?? 200;
+  return node.refine((n) => countFilterNodes(n) <= maxNodes, { message: `filter has too many conditions (max ${maxNodes}).` });
 }
 
 /** The Zod query schema for a list route: `page`/`perPage`/`sort`/`order`/`q` (SIMPLE mode; coerced from strings)
@@ -112,7 +128,11 @@ export function listQuerySchema(table?: AnyTable, opts: ListQueryOptions = {}): 
     q: z.string().optional(),
     /** ADVANCED mode: a JSON-encoded {@link FilterNode}. When present, SIMPLE per-column params are ignored (no
      *  ambiguous merge of two filter mechanisms) — use `filterNodeSchema(table)` to validate/document the real shape. */
-    filter: z.string().optional(),
+    filter: z.string().optional().meta({
+      description: "A JSON-encoded recursive filter tree: a leaf { field, op, value } composed with and/or/not — " +
+        "see filterNodeSchema's own schema for the exact recognized fields/ops.",
+      examples: [JSON.stringify({ and: [{ field: "title", op: "contains", value: "milk" }, { not: { field: "completed", op: "eq", value: true } }] })],
+    }),
   });
 }
 
@@ -311,4 +331,39 @@ export function compileTextSearch(table: AnyTable, q: string | undefined, opts: 
   const cols = getTableColumns(table) as unknown as Record<string, Column>;
   const conds = searchable.filter((name) => cols[name]).map((name) => likeEscaped(cols[name]!, `%${escapeLike(q)}%`));
   return conds.length ? or(...conds) : undefined;
+}
+
+export interface ResolvedListQuery {
+  where: SQL;
+  orderBy: SQL[];
+  limit: number;
+  offset: number;
+}
+
+/**
+ * The one-call list-query primitive: `parseListQuery` + `compileFilter`/`compileTextSearch`/`compileSort`, ANY
+ * failure among them (a malformed advanced `filter=`, or a syntactically-valid-but-dataType-invalid op —
+ * `compileFilter` deliberately throws for that) caught and resolved to `scope`/`defaultOrderBy`/a default page —
+ * never a 500. `scope` is ALWAYS the outermost `and()` term, on both the happy path and the fallback — a
+ * caller-supplied filter can never widen past it. Model authors reach for this instead of hand-rolling the
+ * parse/compile/fallback chain per table (C116: that chain, once hand-rolled per model, is exactly where a
+ * dataType/op-mismatch bug hid until adversarially found).
+ */
+export function resolveListQuery(
+  table: AnyTable,
+  raw: RawQuery,
+  scope: SQL,
+  defaultOrderBy: SQL[],
+  opts: ListQueryOptions = {},
+): ResolvedListQuery {
+  try {
+    const lq = parseListQuery(raw, table, opts);
+    const filterCond = lq.filter ? compileFilter(table, lq.filter, opts) : undefined;
+    const searchCond = compileTextSearch(table, lq.q, opts);
+    const where = and(scope, ...[filterCond, searchCond].filter((c): c is SQL => c !== undefined)) ?? scope;
+    const orderBy = lq.sort.length ? compileSort(table, lq.sort, opts) : defaultOrderBy;
+    return { where, orderBy, limit: lq.limit, offset: lq.offset };
+  } catch {
+    return { where: scope, orderBy: defaultOrderBy, limit: opts.defaultPerPage ?? 20, offset: 0 };
+  }
 }

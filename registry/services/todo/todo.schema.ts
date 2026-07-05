@@ -1,27 +1,15 @@
-/**
- * The todo TABLE (Suluk registry: `todo`) — the ONE master, and NOTHING else: just the drizzle table, every column carrying
- * its wire refinement inline via `.zod(s => …)` plus a table-level `.zod()` for the entity. Everything DERIVABLE from it — the
- * row/DTO types, the wire DTO, the sliced request bodies — lives next to the OPERATIONS in `services/todo.ts`, inferred from
- * `todo.zodSchema` (the annotated SELECT projection). Add/annotate a column here and every derived artifact over there updates.
- * `userId` is a FK to `user.id` (referential integrity); every query is owner-scoped.
- */
 import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
 import { nanoid } from "../app";
 import { user } from "../db/auth";
 
-// ── the table — each column carries its wire refinement inline via `.zod(s => …)` (FULL zod: constraints + `.meta()`); a
-//    table-level `.zod()` carries the ENTITY; `userId` REFERENCES `user.id` for integrity. This is the SINGLE source. ─────────
 export const todo = sqliteTable(
   "todo",
   {
     id: text("id").primaryKey().$defaultFn(() => nanoid())
       .zod((s) => s.nanoid().meta({ description: "The todo's unique id (nanoid).", examples: ["V1StGXR8_Z5jdHi6B-myT"] })),
-    /** the OWNER — a FK to `user.id`; the authenticated principal (`c.get("user")`). Every query filters on it; never client-supplied. */
     userId: text("userId").notNull().references(() => user.id)
       .zod((s) => s.meta({ description: "The owner's user id — the authenticated principal." })),
     title: text("title").notNull()
-      // VALIDATION lives ON the column — trim + length + a Unicode content rule (letters/numbers/punctuation/spaces, so "Buy
-      // milk" passes) — and rides into the response DTO AND the create/patch request bodies.
       .zod((s) =>
         s
           .trim()
@@ -30,19 +18,12 @@ export const todo = sqliteTable(
           .regex(/^[\p{L}\p{N}\p{P}\p{Zs}]+$/u, "Title must contain only letters, numbers, punctuation, and spaces.")
           .meta({ description: "The todo text.", examples: ["Buy milk"] }),
       ),
-    /** done flag (SQLite has no boolean — drizzle maps it 0/1 ↔ boolean). */
     completed: integer("completed", { mode: "boolean" }).notNull().default(false)
       .zod((s) => s.meta({ description: "Whether the todo is done.", examples: [false] })),
-    // Timestamps are stored (and returned) as EPOCH-MS integers — what you send IS what's stored, so there is NO Date↔number
-    // codec: the column's zod is already a `z.number().int()`, min/max are plain number bounds, and a row's `createdAt` is the
-    // wire value verbatim. Window: on/after the epoch, on/before the year 2100.
     createdAt: integer("createdAt").notNull()
       .zod((s) => s.int().min(0).max(new Date("2100-01-01").getTime()).meta({ description: "When it was created — epoch milliseconds.", examples: [1783082151484] })),
     updatedAt: integer("updatedAt").notNull()
       .zod((s) => s.int().min(0).max(new Date("2100-01-01").getTime()).meta({ description: "When it was last updated — epoch milliseconds.", examples: [1783082151484] })),
   },
-  (t) => ({ byUser: index("todo_userId_idx").on(t.userId) }), // the owner filter is the hot path
-).zod((s) => s.meta({ description: "A todo item." })); // ← table-level: the ENTITY description, co-located with the DDL
-
-// Everything else — `TodoRow` / `TodoItemSchema` / `TodoItem` / `CreateReq` / `UpdateReq` — is DERIVED from `todo.zodSchema`
-// next to the operations that use it, in `services/todo.ts`. Nothing but the table lives here.
+  (t) => ({ byUser: index("todo_userId_idx").on(t.userId) }),
+).zod((s) => s.meta({ description: "A todo item." }));

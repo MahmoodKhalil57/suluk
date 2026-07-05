@@ -212,7 +212,9 @@ await db.select().from(products).$withCache();
 | `tableComponents(tables)` | `{ [PascalName]: select-v4-schema }` for `components.schemas`. |
 | `tableComponentsAudit(tables)` | `{ schemas, collisions }` — enumerates name collisions instead of dropping them. |
 | `crudRoutes(table, opts?)` | The five conventional CRUD `RouteContract`s (the `@suluk/hono` shape). |
-| `listQuerySchema(table?, opts?)` / `parseListQuery(raw, table, opts?)` | Declare `page/perPage/sort/order/q` params, and the pure parser the handler uses. |
+| `listQuerySchema(table?, opts?)` / `parseListQuery(raw, table, opts?)` | Declare `page/perPage/sort/order/q/filter` params, and the pure parser the handler uses. |
+| `compileFilter` / `compileSort` / `compileTextSearch` | Turn a parsed filter tree / sort spec / free-text `q` into real, bound drizzle `SQL`. |
+| `resolveListQuery(table, raw, scope, defaultOrderBy, opts?)` | The one-call model-layer primitive: parses + compiles a request's list-query params into `{ where, orderBy, limit, offset }`, ANY failure (malformed `filter=`, an op invalid for its column's dataType) falling back to `scope`-only/unfiltered/`defaultOrderBy`/a default page — never a throw. `scope` is always the outermost `AND` term. |
 | `crudHandlers(table, opts)` | Driver-agnostic gated CRUD handler factory (dev `bun:sqlite` + Worker D1, one impl). |
 | `softDeleteValues` / `anonymizeValues` / `touchTimestamps` / `notSoftDeleted` | The PATCH value-builders your handler applies for soft-delete / GDPR-anonymize / timestamps. |
 | `tableDDL(table, opts?)` / `schemaDDL(tables, opts?)` | SQLite `CREATE TABLE` DDL generated from the tables. |

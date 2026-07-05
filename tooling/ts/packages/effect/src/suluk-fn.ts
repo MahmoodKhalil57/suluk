@@ -212,7 +212,7 @@ function mergeSlices(own: RequestSlice, deps: readonly RequestSlice[]): RequestS
     body: inherit(own.body, deps, (s) => s.body),
     query: inherit(own.query, deps, (s) => s.query),
     validateBody: inherit(own.validateBody, deps, (s) => s.validateBody),
-    ok: inherit(own.ok, deps, (s) => s.ok),
+    ok: mergeOk(all),
     view: inherit(own.view, deps, (s) => s.view),
     source: inherit(own.source, deps, (s) => s.source),
     security: inherit(own.security, deps, (s) => s.security),
@@ -226,6 +226,24 @@ function mergeSlices(own: RequestSlice, deps: readonly RequestSlice[]): RequestS
   };
   // drop undefined keys so the slice stays a clean, inspectable surface.
   return Object.fromEntries(Object.entries(merged).filter(([, v]) => v !== undefined)) as RequestSlice;
+}
+
+/** MERGE `ok` FIELD-BY-FIELD (status/schema/description each inherit independently, own wins first) — never atomically:
+ *  a controller declaring only `ok:{status:201}` (to override the status alone) must NOT discard a dependency's own
+ *  `ok.schema`, which is exactly what a whole-object `inherit(own.ok, deps, ...)` did (own.ok, having ANY field set,
+ *  would win outright and erase the dep's schema). Mirrors `mergeStore`'s per-field first-wins shape. */
+function mergeOk(slices: readonly RequestSlice[]): RequestSlice["ok"] {
+  const oks = slices.map((s) => s.ok).filter((v): v is NonNullable<RequestSlice["ok"]> => v !== undefined);
+  if (oks.length === 0) return undefined;
+  const first = <T>(pick: (o: NonNullable<RequestSlice["ok"]>) => T | undefined): T | undefined => {
+    for (const o of oks) { const v = pick(o); if (v !== undefined) return v; }
+    return undefined;
+  };
+  const out: NonNullable<RequestSlice["ok"]> = {};
+  const status = first((o) => o.status); if (status !== undefined) out.status = status;
+  const schema = first((o) => o.schema); if (schema !== undefined) out.schema = schema;
+  const description = first((o) => o.description); if (description !== undefined) out.description = description;
+  return Object.keys(out).length ? out : undefined;
 }
 
 /** MERGE the `x-suluk-store` facet across slices: `invalidates` = deduped UNION (like errors); the QUERY facets INHERIT
