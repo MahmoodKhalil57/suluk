@@ -45,8 +45,13 @@ export { withZod, queryZodSchema } from "./query-zod";
 export { tablePolicy, queryTable, queryKind, type TableExecutionPolicy, type QueryKind } from "./policy";
 
 export { crudRoutes, type CrudOptions } from "./crud";
-// list query-param synthesis (Phase 1): declare page/perPage/sort/order/q + the pure parser the handler uses.
-export { listQuerySchema, parseListQuery, type ListQuery, type ListQueryOptions } from "./query";
+// list query-param synthesis (C114 extends Phase 1): page/perPage/multi-column sort/free-text q (SIMPLE) + a real
+// recursive and/or/not FilterNode tree (ADVANCED, Splunk-parity) — parseListQuery normalizes either into ONE
+// ListQuery; compileFilter/compileSort/compileTextSearch turn it into real, bound drizzle SQL.
+export {
+  listQuerySchema, parseListQuery, filterNodeSchema, compileFilter, compileSort, compileTextSearch, FILTER_OPS,
+  type ListQuery, type ListQueryOptions, type FilterOp, type FilterCondition, type FilterNode, type SortSpec,
+} from "./query";
 // CrudOptions runtime helpers (Phase 1): soft-delete / anonymize-on-delete (GDPR keep-record) / timestamps patches.
 export {
   softDeleteValues, anonymizeValues, touchTimestamps, notSoftDeleted,

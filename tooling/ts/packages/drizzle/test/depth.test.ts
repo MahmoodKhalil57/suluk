@@ -24,12 +24,13 @@ describe("unique-index metadata", () => {
 });
 
 describe("list query-param synthesis", () => {
-  test("listQuerySchema parses + coerces reserved params and validates sort against columns", () => {
+  test("listQuerySchema parses + coerces reserved params", () => {
     const schema = listQuerySchema(users);
     expect((schema as { parse: (v: unknown) => unknown }).parse({ page: "2", perPage: "10", sort: "email", order: "desc", q: "ab" }))
       .toEqual({ page: 2, perPage: 10, sort: "email", order: "desc", q: "ab" });
-    // an unknown sort column is rejected
-    expect(() => (schema as { parse: (v: unknown) => unknown }).parse({ sort: "nope" })).toThrow();
+    // `sort` is a free string at the SCHEMA level now (C114: it carries a comma-separated, `-`-prefixed multi-column
+    // list, which isn't a finite enum) — real-column validation happens at `parseListQuery` time instead, below.
+    expect((schema as { parse: (v: unknown) => unknown }).parse({ sort: "nope" })).toEqual({ sort: "nope" });
   });
 
   test("parseListQuery normalizes to limit/offset/orderBy/filters (clamped, column-validated)", () => {

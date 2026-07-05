@@ -9,9 +9,13 @@
 import { sulukFmt } from "@suluk/effect";
 import * as M from "../models/todo";
 
+/** the `GET /api/todos` query schema (page/perPage/sort/order/q/filter, C114) — a plain re-export of the model's
+ *  own value (computed there, where the table lives); the route imports it from HERE, never the model directly. */
+export { ListTodosQuery } from "../models/todo";
+
 /** one todo the caller owns → `TodoItem` (404 + read cost bubble from `findTodo`). */
 export const getTodo = sulukFmt(M.findTodo);
-/** the caller's todos, newest first → `TodoItem[]` (read cost bubbles). */
+/** the caller's todos, paginated/sorted/filtered/searched (read cost bubbles). */
 export const listTodos = sulukFmt(M.listTodos);
 /** create a todo → `TodoItem` (write cost bubbles). */
 export const createTodo = sulukFmt(M.insertTodo);

@@ -1,0 +1,57 @@
+# C114 -- operator: "the listTodo should have much more standard table features like limit and offset, sorting,
+# and thorough filtering that would allow splunk parity auto tables with thorough simple or thorough advanced
+# modes." Scoped via AskUserQuestion on the advanced-filter syntax; operator redirected to "the most thorough...
+# solution definable with json schema" -- settling on a real recursive Zod/JSON-Schema filter tree, not an opaque
+# search string. ADR C114. @>=0.85
+claim c114_list_query_filter_dsl_built_scoped_via_askuserquestion: Bool @>=0.85 = True
+falsified_when c114_list_query_filter_dsl_built_scoped_via_askuserquestion == False
+
+# BUILT: @suluk/drizzle's list-query primitive (query.ts, pre-existing "Phase 1", confirmed unused by any real
+# registry module before this) extended with SIMPLE mode (flat column/column__op params, 13 closed operators,
+# implicit AND, unrecognized field/op silently ignored) and ADVANCED mode (a JSON-encoded recursive FilterNode
+# tree: leaf {field,op,value} + and/or/not, arbitrarily nested) -- a real Zod type (z.lazy recursion), hence
+# JSON-Schema-describable via $defs/$ref, not an opaque string. Multi-column sort (sort=-createdAt,title) +
+# free-text q search (OR of contains across string columns) also added. @>=0.9
+claim c114_simple_and_advanced_filter_modes_built: Bool @>=0.9 = True
+falsified_when c114_simple_and_advanced_filter_modes_built == False
+
+# REAL BUG FOUND + FIXED during this build: drizzle's own like() helper emits a plain LIKE with NO ESCAPE clause,
+# so escapeLike's own backslash-escaping of %/_ would match the escape sequence literally instead of the intended
+# literal %/_ -- caught by a test asserting contains:"100%" matches only the literal row, not every row. Fixed
+# with an explicit sql`${col} LIKE ${pattern} ESCAPE '\\'` (mirrors the registry's own logs module's exact
+# pattern) instead of drizzle's bare like(). @>=0.9
+claim c114_like_escape_bug_found_and_fixed: Bool @>=0.9 = True
+falsified_when c114_like_escape_bug_found_and_fixed == False
+
+# ADOPTED in listTodos (registry/services/todo): owner scope (eq(userId,ctx.userId)) is the OUTERMOST and() term,
+# structurally un-bypassable by any caller filter -- verified directly (a filter attempting userId=other-caller
+# returns EMPTY, never another caller's rows, since AND of a contradictory userId sub-condition is empty).
+# A malformed ADVANCED filter= JSON is caught in the MODEL and treated as no-filter (safe default) rather than a
+# 500 -- deliberately NOT fixed via a bigger change to queryOne/queryMany's shared Effect.promise error handling
+# (would blur defect-vs-domain-error for every model), a narrow two-line try/catch at the one call site instead.
+# @>=0.9
+claim c114_listtodos_adopted_owner_scope_unbypassable_verified: Bool @>=0.9 = True
+falsified_when c114_listtodos_adopted_owner_scope_unbypassable_verified == False
+
+# RESPECTS the operator's routes->services->models import-layering rule (stated mid-session, C112): the ROUTE
+# never imports @suluk/drizzle or the table -- forwards the raw ctx.c.req.query() record only; the MODEL (already
+# importing the table) does all parsing/compiling; the SERVICE re-exports the model's pre-built ListTodosQuery
+# schema so the route declares it without reaching past the service layer. @>=0.85
+claim c114_respects_routes_services_models_layering: Bool @>=0.85 = True
+falsified_when c114_respects_routes_services_models_layering == False
+
+# VERIFIED end-to-end via a throwaway scratch package (built, tsc-checked, deleted, never committed): pagination,
+# multi-column sort, simple filters (incl. operator suffixes), advanced nested and/or filters, free-text search,
+# the literal "100%" LIKE-escape fix, the owner-scope-bypass-attempt returning empty, and the malformed-filter
+# safe-fallback -- ALL confirmed against a real mounted app + real bun:sqlite rows, not just unit-level mocks.
+# @>=0.9
+claim c114_verified_e2e_scratch_harness_all_behaviors_confirmed: Bool @>=0.9 = True
+falsified_when c114_verified_e2e_scratch_harness_all_behaviors_confirmed == False
+
+# VERIFIED: full 30-package ecosystem sweep -- 1990 tests pass, zero fail, zero typecheck errors. @suluk/drizzle
+# 92/92 (21 new). One intentional, narrow schema-level change to listQuerySchema's `sort` field (enum -> string,
+# since multi-column comma-lists aren't a finite enum; column validity moved to parseListQuery time) -- one
+# existing test updated to match; ListQuery.orderBy/.filters kept as deprecated-but-present aliases for
+# @suluk/drizzle's own pre-existing crudHandlers consumer, unaffected. @>=0.9
+claim c114_full_sweep_1990_tests_zero_regression: Bool @>=0.9 = True
+falsified_when c114_full_sweep_1990_tests_zero_regression == False

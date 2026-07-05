@@ -11,6 +11,7 @@ import type { z } from "zod";
 import { routeGroup, sulukFn, sulukFmt, sulukRoute, view, listView, type AnySulukFn } from "@suluk/effect";
 import { Db, DbLive, type Bindings } from "../app";
 import * as S from "../services/todo";
+import { ListTodosQuery } from "../services/todo";
 import { CreateReq, UpdateReq } from "../models/todo";
 
 // The module's ENVELOPE — `.ops` → the contract, `.router()` → the mount. Single source of the `/api/todos/*` surface.
@@ -22,11 +23,14 @@ const provide = <X, E>(env: Bindings, p: Effect.Effect<X, E, Db>): Effect.Effect
   p.pipe(Effect.provide(DbLive(env)));
 
 // ── ROUTES — `sulukFmt(controller, service)`; the controller extracts the service input from the request + owns the view. ────
+// listTodos (C114): the controller forwards the RAW query record — no drizzle/table dependency at this layer (routes→
+// services→models) — the model (`M.listTodos`) is what parses/compiles it into real SQL against the real table.
 const listTodo = sulukFmt(
   sulukFn({ method: "get", path: "/api/todos", name: "listTodos", roles: ["signed-in"],
-    summary: "List the signed-in user's todos, newest first.", view: listView("todos", { describe: "The caller's todos, newest first." }),
+    summary: "List the signed-in user's todos — paginated, sorted, and filtered (SIMPLE flat params or an ADVANCED and/or/not filter tree).",
+    query: ListTodosQuery, view: listView("todos", { describe: "The caller's todos, newest first by default." }),
     step: { role: "when", text: "they list their todos" },
-    run: (ctx) => Effect.succeed(undefined) }),
+    run: (ctx) => Effect.succeed(ctx.c.req.query()) }),
   S.listTodos,
 );
 

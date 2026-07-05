@@ -7,10 +7,18 @@
  */
 import { Effect } from "effect";
 import { z } from "zod";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, type SQL } from "drizzle-orm";
 import { sulukFn, NotFoundError, type CostModel } from "@suluk/effect";
+import { listQuerySchema, parseListQuery, compileFilter, compileSort, compileTextSearch } from "@suluk/drizzle";
 import { Db, queryOne, queryMany, mutate } from "../app";
 import { todo } from "../db/todo";
+
+/** the caller-tunable list-query shape (page/perPage/sort/order/q/filter) — the SAME opts used both to declare the
+ *  route's query schema (doc) and to parse a real request (`listTodos`, below), so the two can never drift. */
+const LIST_OPTS = { defaultPerPage: 20, maxPerPage: 100 };
+/** the route-facing schema for `GET /api/todos`'s query params — re-exported (via the service) for the route to
+ *  declare, without the ROUTE ever importing `@suluk/drizzle`/the table directly (routes→services→models). */
+export const ListTodosQuery = listQuerySchema(todo, LIST_OPTS);
 
 /** A todo row AS RETURNED — inferred from the master; timestamps are epoch-ms `number`s, so the row IS the wire item. */
 export type TodoRow = z.infer<typeof todo.zodSchema>;
@@ -38,11 +46,32 @@ export const findTodo = queryOne({
   orElse: (_ctx, id) => new NotFoundError({ resource: "todo", id }),
 });
 
-/** the caller's own todos, newest first → `TodoItem[]`; the route's `listView` arrays the derived item schema. */
+/** the caller's own todos → `TodoItem[]`, paginated/sorted/filtered/searched — the route's `listView` arrays the
+ *  derived item schema. Takes the RAW query record (the controller just forwards `ctx.c.req.query()`, no
+ *  drizzle/table dependency at that layer); `parseListQuery` + `compileFilter`/`compileSort`/`compileTextSearch`
+ *  (all `@suluk/drizzle`, C114) turn it into real, bound SQL. The owner scope (`eq(todo.userId, ctx.userId)`) is
+ *  ALWAYS the outermost AND term — a caller-supplied filter can never widen past it (AND of a contradictory
+ *  `userId` sub-condition returns EMPTY, never another caller's rows) — never OR'd, never bypassed. A malformed
+ *  ADVANCED `filter=` JSON is caught and treated as "no filter" (the same honest-default the SIMPLE mode already
+ *  applies to an unrecognized field/op) rather than surfacing as an uncaught 500. Default sort (no `sort` param):
+ *  newest first, matching the pre-C114 behavior exactly. */
 export const listTodos = queryMany({
   cost: readCost,
   store: { key: "todos" }, // BACKS the `$todos` collection store
-  query: (db, ctx) => db.select().from(todo).where(eq(todo.userId, ctx.userId)).orderBy(desc(todo.createdAt)),
+  query: (db, ctx, raw: Record<string, string>) => {
+    let lq;
+    try {
+      lq = parseListQuery(raw, todo, LIST_OPTS);
+    } catch {
+      lq = parseListQuery({}, todo, LIST_OPTS); // malformed advanced `filter=` JSON -> ignore it, safe default
+    }
+    const owner = eq(todo.userId, ctx.userId);
+    const filterCond = lq.filter ? compileFilter(todo, lq.filter) : undefined;
+    const searchCond = compileTextSearch(todo, lq.q);
+    const where = and(owner, ...([filterCond, searchCond].filter((c): c is SQL => c !== undefined)));
+    const orderCols = lq.sort.length ? compileSort(todo, lq.sort) : [desc(todo.createdAt)];
+    return db.select().from(todo).where(where).orderBy(...orderCols).limit(lq.limit).offset(lq.offset);
+  },
 });
 
 /** create a todo owned by the caller → `TodoItem`. `input` is SLICED off the master (`CreateReq`) — it TYPES `body` AND becomes
