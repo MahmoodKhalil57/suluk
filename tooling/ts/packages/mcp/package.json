@@ -1,6 +1,6 @@
 {
   "name": "@suluk/mcp",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Project ONE OpenAPI v4 document into a Model Context Protocol (MCP) server: each operation becomes an MCP tool (read-only by default), served over the Streamable-HTTP JSON-RPC transport as a Hono-mountable app. Same contract that drives the API/SDK/docs/admin/panel now drives an agent-callable surface \u2014 zero hand-written tool schemas. CANDIDATE tooling \u2014 NOT official OAS.",
   "publishConfig": {
     "access": "public"

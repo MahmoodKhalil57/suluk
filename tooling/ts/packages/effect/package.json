@@ -1,6 +1,6 @@
 {
   "name": "@suluk/effect",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Effect-native routes for the v4 contract: `sulukFn` — a composable unit carrying a SLICE of the core `Request` — composed ONLY through `sulukFmt` (linear pipeline) / `sulukFmt.all` (fan-out → a derived `{ a, b }` body). Every layer (MODEL/SERVICE/ROUTE) is a sulukFn; a service `sulukFmt`s its models, a route `sulukFmt`s its services, so facts DEFINED on the leaf model (cost, by-id errors, the db schema as the response type) BUBBLE up with nothing restated — bridging drizzle (state source) to hono (host + api reference). CANDIDATE tooling. `sulukFn` gains a `step` (Given/When/Then) collected up the sulukFmt pipeline + stamped as x-suluk-scenario — services as BDD primitives.",
   "publishConfig": {
     "access": "public"
