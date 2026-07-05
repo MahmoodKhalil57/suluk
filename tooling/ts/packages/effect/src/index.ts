@@ -44,7 +44,7 @@ export type { SulukRateLimit, SulukDedupe, SulukStore, SulukRunGraph, SulukRunNo
 export {
   sulukFn, sulukFmt, view, listView, sulukRoute, isSulukFn, ref, lintRunGraph, passthrough,
   type SulukFn, type AnySulukFn, type RequestSlice, type SliceProvider, type View,
-  type SulukRouteSpec, type ReqOf, type InputOf, type MergedInput, type RefFn, type NodesAndEdges,
+  type SulukRouteSpec, type ReqOf, type InputOf, type OutputOf, type MergedInput, type RelayMeta, type RefFn, type NodesAndEdges,
 } from "./suluk-fn";
 // DB-as-source-of-truth — bubble a drizzle table up to a Zod schema (drizzle-zod), so request/response bodies are DERIVED
 // from the database schema. Import through @suluk/effect so the effectRoute + its schemas come from one place.

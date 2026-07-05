@@ -1,0 +1,64 @@
+# C119 -- operator (direct follow-on to C118): "we should find a way to not have to maintain this separate type,
+# it should be inferred from the services that will run directly automatically using generics etc.." citing
+# InputOf<typeof S.getTodo> in registry/services/todo/todo.routes.ts. ADR C119. @>=0.85
+claim c119_sulukfmt_relay_eliminates_last_manual_type: Bool @>=0.85 = True
+falsified_when c119_sulukfmt_relay_eliminates_last_manual_type == False
+
+# sulukFmt.relay<Fn extends AnySulukFn>(service: Fn, meta: RelayMeta): SulukFn<InputOf<Fn>,OutputOf<Fn>,ReqOf<Fn>>
+# takes the SERVICE first so TypeScript infers In/Out/R from the ACTUAL VALUE passed, never a name the developer
+# spells out. registry/services/todo/todo.routes.ts's 4 direct-relay routes (getTodo/createTodo/updateTodo/
+# deleteTodo) rewritten to sulukFmt.relay(S.x, {method,path,...}) -- zero InputOf, zero z.infer, zero model import
+# remain in the file. listTodos (extracts ctx.c.req.query(), not a merged-input relay) and getTodoDetail (a
+# sulukFmt.all fan-out) correctly left unchanged -- neither fits relay's shape. @>=0.9
+claim c119_relay_adopted_in_todo_routes_4_of_6: Bool @>=0.9 = True
+falsified_when c119_relay_adopted_in_todo_routes_4_of_6 == False
+
+# Empirically PROVEN (not assumed) that relay's generic inference produces REAL concrete types, not a silent any:
+# a throwaway compile check used a from-scratch any-leak-detecting Equal/IsAny type helper (validated non-vacuous
+# via a @ts-expect-error negative control) confirming InputOf<typeof relay(...)> is the real type across params-
+# only/body-only/both, with no cross-call contamination between separate relay() invocations. @>=0.9
+claim c119_relay_generic_inference_no_any_leak_proven: Bool @>=0.9 = True
+falsified_when c119_relay_generic_inference_no_any_leak_proven == False
+
+# An INDEPENDENT adversarial verification workflow (skeptical review pass, then a from-scratch verify-agent per
+# finding, none reusing the author's own scratch files) surfaced 4 findings -- 2 real gaps (fixed below) and 2
+# judged genuine, acceptable design tradeoffs (argument-order asymmetry vs the base sulukFmt combinator, inherent
+# to why relay must take the inferred-from value first; relay correctly delegates wrong-but-concrete-service
+# soundness to sulukFmt's own C118 overload-arity fix rather than duplicating it). @>=0.9
+claim c119_adversarial_workflow_four_findings_two_real: Bool @>=0.9 = True
+falsified_when c119_adversarial_workflow_four_findings_two_real == False
+
+# FINDING 1 CONFIRMED + FIXED: Fn extends AnySulukFn structurally accepted BOTH a sulukFmt.all fan-out (In
+# deliberately unknown) and a service reached through a widened AnySulukFn-typed variable (In collapsed to any)
+# with ZERO compile error -- the fan-out case producing a route with no request schema at all that throws an
+# unhandled TypeError at the first real request instead of a typed 400; the widened-any case silently defeating
+# relay's whole "nothing to keep in sync" guarantee. Reproduced independently by the verify-agent via a real tsc
+# run (an @ts-expect-error correctly fired on the fan-out case, confirmed non-vacuous). Fixed via a compile-time
+# guard: IsUnknownOrAny<T> (detects unknown AND any in one mechanism, verified false on a concrete type) +
+# RejectUnknownInput<Fn> collapsing Fn's parameter position to a literal string error message when it fires.
+# Verified via a PERMANENT type-only regression file (test/relay-type-guard.ts -- no ".test." in the name so
+# `bun test` skips it, but `tsc --noEmit -p .` still checks it): a concrete service compiles clean; the fan-out
+# AND the widened-any case are both gated behind a confirmed-non-vacuous @ts-expect-error. @>=0.9
+claim c119_finding1_unknown_any_guard_fixed_verified: Bool @>=0.9 = True
+falsified_when c119_finding1_unknown_any_guard_fixed_verified == False
+
+# FINDING 2 CONFIRMED + FIXED: RelayMeta deliberately omits params/body/query/errors/cost/dedupe/rateLimit/store/
+# security, but relay's implementation spread the WHOLE meta object into sulukFn's def with no runtime filtering --
+# TypeScript's excess-property check only fires on object LITERALS, so a meta built via a shared variable/helper
+# (a natural DRY move) carrying a stray params/cost field would SILENTLY override the service's real, enforced
+# schema/cost via sulukFmt's own-wins-first merge, with zero compile error and zero crash -- just wrong behavior.
+# Reproduced independently (real tsc run + real runtime execution) by the verify-agent. Fixed by destructuring
+# EXACTLY RelayMeta's own fields inside relay instead of spreading the whole object -- a real, unconditional
+# runtime whitelist that doesn't rely on TypeScript catching anything. Verified via a new runtime test: a
+# Record<string,unknown>-typed meta smuggling a wrong params schema + a phantom cost entry is proven inert -- the
+# relayed route still carries the SERVICE's real params/cost, never the smuggled ones. @>=0.9
+claim c119_finding2_meta_field_whitelist_fixed_verified: Bool @>=0.9 = True
+falsified_when c119_finding2_meta_field_whitelist_fixed_verified == False
+
+# VERIFIED: @suluk/effect 169/169 tests pass (6 new, up from 163 pre-C119). Full 46-package ecosystem sweep -- zero
+# fail, zero typecheck errors. A scratch-package live-HTTP + doc-emission re-verification, RE-RUN AFTER the guard/
+# whitelist hardening (not just before), confirms full CRUD, malformed-id 400, merge-order hardening, the
+# getTodoDetail fan-out, and the emitted OpenAPI doc (path param schema + CreateTodoOk response schema) are
+# UNCHANGED from the pre-C119 manual-InputOf version. @suluk/effect 0.15.0 -> 0.16.0. @>=0.9
+claim c119_full_sweep_and_reverify_clean: Bool @>=0.9 = True
+falsified_when c119_full_sweep_and_reverify_clean == False

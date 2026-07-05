@@ -21,13 +21,14 @@ You compose these. There is nothing else to learn — the list is deliberately s
 | **`sulukFn({ … })`** | the ONE composable unit — a typed `run` + a *slice* of the v4 `Request` (method/path/body/errors/cost/…) it contributes | `@suluk/effect` |
 | **`sulukFmt(a, b, …)`** | run+format a **linear pipeline** — thread the runs, MERGE the slices (a service `sulukFmt`s its models; a route `sulukFmt`s its services) | `@suluk/effect` |
 | **`sulukFmt.all({ k: fn })`** | **fan-out** — run branches on the *same* input → a derived `{ k }` body; errors UNION, cost SUM | `@suluk/effect` |
+| **`sulukFmt.relay(service, { … })`** | the common controller — HTTP-identify a request and forward its merged input straight through to ONE service; `In`/`Out`/`R` INFERRED from `service` itself, no manual type anywhere | `@suluk/effect` |
 | **`sulukRoute(fn, { provide })`** | the ONE projection — turn a fully-composed `sulukFn` into `{ contract, handler }` (the api reference + the Hono handler) | `@suluk/effect` |
 | **`view("todo")` / `listView("todos")`** | a pending response wrap — bound to the model's schema at the route boundary (`{ todo }` / `{ todos: [...] }`) | `@suluk/effect` |
 | **`queryOne` / `queryMany` / `mutate`** | a MODEL from ONE drizzle query — the response schema is DERIVED from the query's projection; the same query runs per-request | your `app.ts` |
 | **`routeGroup("/api/todos")`** | the module ENVELOPE — `.route(...)` as you go; `.ops` → the contract fragment, `.router()` → the mount | `@suluk/hono` |
 | **`table.zodSchema` + `.zod(refine)`** | the SCHEMA SEAM — a column's wire refinement lives WITH its DDL; `pick`/`omit` it for request bodies OR path params (`todo.zodSchema.pick({ id: true })`) | `@suluk/drizzle` |
 | **`NotFoundError(...)` etc.** | typed HTTP errors (status + body schema) — each becomes a distinct typed response, never a generic `ProblemDetails` | `@suluk/effect` |
-| **`InputOf<typeof someService>`** | extract a composed `sulukFn`'s input type — type a controller's `run` off the SERVICE it composes with, never re-import the model's schema | `@suluk/effect` |
+| **`InputOf<typeof someService>`** | extract a composed `sulukFn`'s input type — for the rare controller `sulukFmt.relay` doesn't fit (e.g. a fan-out's own controller still declaring `params` itself) | `@suluk/effect` |
 
 Plus one direct primitive for one-off routes: **`effectRoute({ … })`** — a single handler → a single route. `sulukRoute`
 projects onto it internally; reach for it directly only when a route has no model/service layering to compose.
@@ -46,19 +47,21 @@ models   findTodo   = queryOne({ cost: readCost, params: todo.zodSchema.pick({ i
              ▼
 services getTodo    = sulukFmt(findTodo)                        // formats the model; inherits params+schema+404+cost
              ▼
-routes   getTodo    = sulukFmt(
-             controller = sulukFn({ method:"get", path:"/api/todos/:id", roles:["signed-in"], view:view("todo"),
-                                    run:(ctx, input: InputOf<typeof getTodoService>) => Effect.succeed(input) }),
-             getTodoService )                                    // everything else BUBBLES: params, response schema, 404, cost, rate-limit
+routes   getTodo    = sulukFmt.relay(getTodoService,
+                        { method:"get", path:"/api/todos/:id", roles:["signed-in"], view:view("todo") })
          todos.route(sulukRoute(getTodo, { provide }))           // → contract + handler
 ```
 
 `roles: ["signed-in"]` alone derives the scope, the cost's rate-limit settlement, the 401, and the auth guard (C078). The
-controller declares only what is *its* — the HTTP identity. The `:id` path param is auto-parsed off `c.req.param()`,
-validated against `params` (a malformed id is a typed 400 before `run` ever sees it), and handed to `run` as `input` —
-`InputOf<typeof getTodoService>` types that without importing the model's schema or writing `z.infer<typeof X>` by
-hand. A model needing BOTH a path param and a body (e.g. `patchTodo`) declares `params` **and** `input`; the two merge
-into ONE flat object (`{ id, title?, completed? }`, not a nested `{ id, patch }`) — same mechanism, same rule.
+`meta` object declares only what is *its* — the HTTP identity; `sulukFmt.relay` builds the controller for you (HTTP-
+identify the request, forward its merged input straight through), with `In`/`Out`/`R` INFERRED from `getTodoService`
+itself — no `InputOf<typeof ...>`, no `z.infer`, nothing to keep in sync by hand. The `:id` path param is auto-parsed
+off `c.req.param()`, validated against `params` (a malformed id is a typed 400 before the service ever runs). A model
+needing BOTH a path param and a body (e.g. `patchTodo`) declares `params` **and** `input`; the two merge into ONE flat
+object (`{ id, title?, completed? }`, not a nested `{ id, patch }`) — `relay` forwards whichever shape bubbles up,
+unchanged. `sulukFmt.relay` is rejected at compile time for a `sulukFmt.all` fan-out (its `In` is deliberately
+`unknown` — see below) or a service reached through a widened `AnySulukFn` reference; write a plain `sulukFn({params,
+run:passthrough})` controller (typed via `InputOf<typeof someService>` if it doesn't declare its own `params`) instead.
 
 ## What bubbles — declare each fact once
 

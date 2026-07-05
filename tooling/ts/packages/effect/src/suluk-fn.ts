@@ -1317,6 +1317,71 @@ export type InputOf<Fn> = Fn extends SulukFn<infer In, any, any> ? In : never;
  *  for the common case where a route restates nothing about the request, just relays it to the service beneath. */
 export const passthrough = <T>(_ctx: ActionCtx, input: T): Effect.Effect<T, never, never> => Effect.succeed(input);
 
+/** the domain output of a sulukFn — same extraction as the private {@link OutOf} above, exposed for {@link relay}'s
+ *  return type (a controller/route caller may want to name it too, e.g. a further `sulukFmt.all` branch). */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type OutputOf<Fn> = Fn extends SulukFn<any, infer O, any> ? O : never;
+
+/** the controller-only facts {@link relay} accepts — HTTP identity + BDD step. Never `params`/`body`/`query`/
+ *  `errors`/`cost`: those belong to the model/service leaf and bubble up through {@link sulukFmt} automatically —
+ *  restating them here would be exactly the double-source-of-truth C118 exists to remove. */
+export interface RelayMeta {
+  method?: RouteContract["method"];
+  path?: string;
+  name?: string;
+  summary?: string;
+  description?: string;
+  tags?: string[];
+  roles?: readonly Role[];
+  scope?: string;
+  scopes?: string[];
+  internal?: boolean;
+  ok?: { status?: Extract<HttpStatus, number>; description?: string };
+  view?: View;
+  step?: ScenarioStep | readonly ScenarioStep[];
+}
+
+/** is `T` exactly `unknown` (a {@link sulukFmt.all} fan-out's deliberately-unconstrained `In`) OR `any` (a service
+ *  reached through a widened {@link AnySulukFn} reference, which otherwise silently defeats every `XOf<Fn>`
+ *  extractor) — both mean "no real input type to infer from," which {@link relay} must reject at compile time
+ *  rather than silently synthesizing an unchecked passthrough. `[T] extends [unknown]` is true for every `T`;
+ *  the second, reversed check narrows it to the two cases where the reverse ALSO holds. */
+type IsUnknownOrAny<T> = [T] extends [unknown] ? ([unknown] extends [T] ? true : false) : false;
+
+/** {@link relay}'s compile-time guard: `Fn` unchanged when its own input is a real type, else a literal STRING
+ *  error message (not `never`, so the failure reads as a message at the call site, not a bare type mismatch). */
+type RejectUnknownInput<Fn> = IsUnknownOrAny<InputOf<Fn>> extends true
+  ? "sulukFmt.relay: cannot relay a service whose input is `unknown`/`any` (a sulukFmt.all fan-out, or a widened AnySulukFn reference) — declare params directly on your own sulukFn({ params, run: passthrough }) controller instead, as getTodoDetail does."
+  : Fn;
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace sulukFmt {
+  /**
+   * `sulukFmt.relay` (C119) — the common controller shape: a route that HTTP-identifies a request and forwards its
+   * merged `params`/`body` straight through to the ONE service beneath, unchanged. Hand-building this needs a
+   * manually-annotated `run: (ctx, input: InputOf<typeof service>) => passthrough(ctx, input)` — the service's `In`
+   * restated at every call site (a second source of truth C118's own `InputOf` still left standing). `relay` takes
+   * the service FIRST, so TypeScript infers `In`/`Out`/`R` from the ACTUAL VALUE passed — nothing to keep in sync
+   * by hand, and a genuinely wrong service still fails to compile (the same soundness `sulukFmt`'s own overloads
+   * enforce). REJECTED at compile time, not just documented: a `sulukFmt.all` fan-out (`In` deliberately `unknown`)
+   * or a service reached through a widened `AnySulukFn` reference (`In` collapsed to `any`) — a composite route
+   * still declares `params` directly on its own `sulukFn({ params, run: passthrough })` controller, exactly as
+   * `getTodoDetail` does. Only the caller-supplied HTTP-identity facts ({@link RelayMeta}) are ever read from
+   * `meta` — an object smuggling extra fields through a variable (defeating TS's own excess-property check) is
+   * still inert, since `relay` destructures exactly `RelayMeta`'s own fields rather than spreading the whole thing.
+   *
+   *   const getTodo = sulukFmt.relay(S.getTodo, { method: "get", path: "/api/todos/:id", roles: ["signed-in"], view: view("todo") });
+   */
+  export function relay<Fn extends AnySulukFn>(service: Fn & RejectUnknownInput<Fn>, meta: RelayMeta): SulukFn<InputOf<Fn>, OutputOf<Fn>, ReqOf<Fn>> {
+    const { method, path, name, summary, description, tags, roles, scope, scopes, internal, ok, view, step } = meta;
+    const controller = sulukFn<void, void, InputOf<Fn>, InputOf<Fn>, never>({
+      method, path, name, summary, description, tags, roles, scope, scopes, internal, ok, view, step,
+      run: passthrough,
+    });
+    return sulukFmt(controller, service as Fn);
+  }
+}
+
 /**
  * Mount a suluk function as a v4 route — project its fully-merged {@link RequestSlice} onto {@link effectRoute} so the HOST
  * (the hono handler) and the API REFERENCE (the derived `DocumentedRoute` → emitV4) come from ONE surface. Everything effectRoute

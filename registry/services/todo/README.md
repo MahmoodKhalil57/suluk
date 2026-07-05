@@ -47,11 +47,13 @@ Every operation declares only what's genuinely its own (a domain error) — the 
 request-body schemas, the 401/403/404, the summed cost, and the rate-limit all bubble up through `sulukFmt` from
 the model that owns them. Nothing is restated at the service or route layer: a by-id model declares
 `params: todo.zodSchema.pick({ id: true })` (the SAME nanoid format/description/example the column already
-carries — never a hand-written `id: string`), and a route's controller types its own `run` via `InputOf<typeof
-S.xxx>` (extracted off the service it composes with) instead of importing the model's schema and re-deriving
-`z.infer<typeof X>` by hand. `params`/`body` are auto-parsed, validated, and merged into ONE flat input object at
-the route boundary — a malformed path id is a typed 400 before any handler runs, and a route like `updateTodo`
-just relays the merged `{ id, title?, completed? }` straight through.
+carries — never a hand-written `id: string`), and a route composes its service directly via `sulukFmt.relay(S.xxx,
+{ method, path, roles, ... })` — `In`/`Out`/`R` are INFERRED from the service passed, so there is no `InputOf<typeof
+S.xxx>` to write, no model import, no `z.infer<typeof X>` anywhere in the routes file. `params`/`body` are
+auto-parsed, validated, and merged into ONE flat input object at the route boundary — a malformed path id is a
+typed 400 before any handler runs, and a route like `updateTodo` just relays the merged `{ id, title?, completed?
+}` straight through. (`getTodoDetail`, a `sulukFmt.all` fan-out, is the one exception `relay` doesn't fit — it
+declares `params` directly on its own controller, since a fan-out's input is deliberately unconstrained.)
 
 - **Only signed-in users** — each route reads the authenticated principal via `roles: ["signed-in"]`, returning a
   typed **401 `UnauthorizedError`** when there is none; an anonymous caller never reaches the data.

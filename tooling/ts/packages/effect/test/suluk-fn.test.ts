@@ -412,3 +412,77 @@ describe("params (C118) — a real, validated path-param schema that bubbles + m
     expect(route.slice.body).toBe(CreateBody); // still bubbles the REAL schema value for validation/doc
   });
 })
+
+describe("sulukFmt.relay (C119) — the controller's own In inferred from the service passed in, no InputOf<typeof …> annotation", () => {
+  const IdParams = z.object({ id: z.string().min(3) });
+
+  test("a params-only model relays end-to-end with ZERO manual type annotation anywhere in the route", async () => {
+    const model = sulukFn({ params: IdParams, errors: [NotFoundError], ok: { schema: ItemSchema }, run: (ctx, { id }) => Effect.flatMap(Store, (s) => s.get(id)) });
+    const service = sulukFmt(model);
+    // no `run:`, no InputOf, no z.infer — `relay` infers everything from `service` itself.
+    const route = sulukFmt.relay(service, { method: "get", path: "/api/items/:id", roles: ["signed-in"], summary: "Get.", view: view("item") });
+    const { contract, handler } = sulukRoute(route, { provide: provideStore(new Map([["abc", { id: "abc", title: "x" }]])) });
+    const res = await mount({ contract, handler }).request("/api/items/abc");
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ item: { id: "abc", title: "x" } });
+  });
+
+  test("params + errors + cost still bubble through relay exactly like the hand-written passthrough pattern", () => {
+    const model = sulukFn({ params: IdParams, cost: { components: [], infra: { "d1.read": 1 }, settlement: { method: "rate-limited" } }, errors: [NotFoundError], ok: { schema: ItemSchema }, run: (ctx, { id }) => Effect.flatMap(Store, (s) => s.get(id)) });
+    const service = sulukFmt(model);
+    const route = sulukFmt.relay(service, { method: "get", path: "/api/items/:id", roles: ["signed-in"], summary: "Get." });
+    expect(route.slice.params).toBe(IdParams);
+    expect(route.slice.cost?.infra).toEqual({ "d1.read": 1 });
+    expect(route.slice.errors?.map((e) => e.errorTag)).toEqual(["NotFoundError"]);
+  });
+
+  test("a malformed param is still a typed 400 through relay — never reaches the model", async () => {
+    const model = sulukFn({ params: IdParams, ok: { schema: ItemSchema }, run: (ctx, { id }) => Effect.flatMap(Store, (s) => s.get(id)) });
+    const route = sulukFmt.relay(sulukFmt(model), { method: "get", path: "/api/items/:id", roles: ["signed-in"], summary: "Get." });
+    const { contract, handler } = sulukRoute(route, { provide: provideStore(new Map()) });
+    const res = await mount({ contract, handler }).request("/api/items/ab"); // fails IdParams's min(3)
+    expect(res.status).toBe(400);
+  });
+
+  test("params + body merge into one flat object through relay, same as the hand-written pattern", async () => {
+    const PatchBody = z.object({ title: z.string() }).partial();
+    const rows = new Map([["abc", { id: "abc", title: "old" }]]);
+    const model = sulukFn({
+      params: IdParams, body: PatchBody, validateBody: true, errors: [NotFoundError], ok: { schema: ItemSchema },
+      run: (ctx, { id, title }) => Effect.gen(function* () {
+        const row = yield* Store.pipe(Effect.flatMap((s) => s.get(id)));
+        return { ...row, ...(title !== undefined ? { title } : {}) };
+      }),
+    });
+    const route = sulukFmt.relay(sulukFmt(model), { method: "patch", path: "/api/items/:id", roles: ["signed-in"], summary: "Update.", view: view("item") });
+    const { contract, handler } = sulukRoute(route, { provide: provideStore(rows) });
+    const res = await mount({ contract, handler }).request("/api/items/abc", { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ title: "new" }) });
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ item: { id: "abc", title: "new" } });
+  });
+
+  test("relay's ok override (status only) doesn't erase the service's ok.schema — the C117 mergeOk fix still holds", () => {
+    const CreateBody = z.object({ title: z.string() });
+    const model = sulukFn({ body: CreateBody, ok: { schema: ItemSchema }, run: (ctx, body) => Effect.flatMap(Store, (s) => s.create(body.title)) });
+    // RelayMeta's `ok` type has no `schema` field at all — a wrong/erasing override isn't even expressible.
+    const route = sulukFmt.relay(sulukFmt(model), { method: "post", path: "/api/items", roles: ["signed-in"], summary: "Create.", ok: { status: 201 }, view: view("item") });
+    expect(route.slice.ok?.status).toBe(201);
+    expect(route.slice.ok?.schema).toBe(ItemSchema);
+    expect(route.slice.body).toBe(CreateBody);
+  });
+
+  test("a meta object smuggling forbidden fields (routed through a variable, defeating TS's excess-property check) is still inert at runtime — relay reads only RelayMeta's own fields", () => {
+    const RealParams = z.object({ id: z.string().min(3) });
+    const WrongParams = z.object({ somethingElse: z.number() });
+    const model = sulukFn({ params: RealParams, cost: { components: [], infra: { "d1.read": 1 }, settlement: { method: "rate-limited" } }, ok: { schema: ItemSchema }, run: (ctx, { id }) => Effect.flatMap(Store, (s) => s.get(id)) });
+    // deliberately routed through a `Record<string, unknown>`-typed variable — the same shape a shared meta-building
+    // helper would produce — so TS's excess-property check (literal-only) can't catch the smuggled fields either.
+    const smuggledMeta: Record<string, unknown> = {
+      method: "get", path: "/api/items/:id", roles: ["signed-in"], summary: "Get.",
+      params: WrongParams, cost: { components: [], infra: { "phantom.op": 999 } },
+    };
+    const route = sulukFmt.relay(sulukFmt(model), smuggledMeta as never);
+    expect(route.slice.params).toBe(RealParams); // NOT WrongParams — relay never reads meta.params
+    expect(route.slice.cost?.infra).toEqual({ "d1.read": 1 }); // NOT phantom.op — relay never reads meta.cost
+  });
+})
