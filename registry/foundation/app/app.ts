@@ -12,6 +12,13 @@
  * (`queryTable`, uniform across select/insert/update/delete) and, if that table declared a `.policy({...})` (retry/timeout/
  * idempotency/dedupe/rate-limit, co-located with its DDL like `.zod()`), fold it into the derived `sulukFn` AUTOMATICALLY —
  * so a model that queries a `.policy()`-bearing table needs no restated execution-policy config at its own call site.
+ *
+ * ATOMIC WRITES + CACHE (C115) — `DbLive` disables `db.transaction()` (`guardTransactions`): it silently "works" against
+ * the local dev shim (a real, persistent bun:sqlite connection) but throws on real Cloudflare D1 (stateless HTTP — no
+ * session ties a BEGIN to a later COMMIT). A model composing several statements reaches for `atomicBatch` (re-exported
+ * below) — `db.batch()`, the primitive Cloudflare actually supports, all statements in ONE round trip. `DbLive` also
+ * wires a `SulukCache` (Cloudflare's free `caches.default` in prod, an in-memory Map in dev — no Upstash, no new
+ * provisioning) — `strategy:"explicit"`, so it costs nothing until a model opts a specific query in via `.$withCache()`.
  */
 import { Hono } from "hono";
 import { cors } from "hono/cors";
@@ -22,7 +29,10 @@ import {
   sulukFn, type ActionCtx, type SulukFn, type AnyHttpError, type CostModel, type SulukStore,
   type SulukRateLimit, type SulukDedupe, type SulukRunNodeKind,
 } from "@suluk/effect";
-import { queryZodSchema, queryTable, queryKind, tablePolicy } from "@suluk/drizzle";
+import {
+  queryZodSchema, queryTable, queryKind, tablePolicy, guardTransactions, SulukCache,
+  memoryCacheBackend, cloudflareCacheBackend, type CacheBackend, type FetchCacheLike,
+} from "@suluk/drizzle";
 
 // The drizzle `.zod()` seam — the single published source (`@suluk/drizzle`). Re-exporting installs the column/table `.zod()` +
 // `.zodSchema` augmentation (a side effect) AND hands a schema file `tableZod`/`tableZodSchemas`/`withZod`/`nanoid`.
@@ -30,6 +40,9 @@ export { tableZod, tableZodSchemas, withZod, nanoid } from "@suluk/drizzle";
 // the table-level execution-policy seam (C111) — installs `.policy()` as a side effect; a schema file can declare a
 // table's policy without a separate `@suluk/drizzle` import.
 export { tablePolicy, queryTable } from "@suluk/drizzle";
+// the atomic-batch seam (C115) — a model composing 2+ statements imports `atomicBatch` from here, no separate
+// `@suluk/drizzle` import (mirrors the `tableZod`/`tablePolicy` re-exports above).
+export { atomicBatch } from "@suluk/drizzle";
 
 export interface Bindings {
   DB: D1Database;
@@ -48,8 +61,21 @@ const isTrusted = (origin: string, allow: string[]): boolean => allow.includes(o
  *  D1 binding, so services never reach for a global. */
 export class Db extends Context.Tag("Db")<Db, DrizzleD1Database>() {}
 
-/** Build the `Db` layer for one request from the Worker bindings. */
-export const DbLive = (env: Bindings): Layer.Layer<Db> => Layer.succeed(Db, drizzle(env.DB));
+/** Pick the query-cache backend for THIS runtime: a real Cloudflare Worker exposes a global `caches` (the free
+ *  `caches.default` Fetch-API cache — no binding, no provisioning); `bun dev` doesn't, so it falls back to an
+ *  in-memory Map. Either way `SulukCache` is `strategy:"explicit"` — inert until a model opts a query in. */
+function defaultCacheBackend(): CacheBackend {
+  // `as unknown as` — the DOM lib's own ambient `CacheStorage` (no `.default`) and `@cloudflare/workers-types`'s
+  // (which HAS `.default`) both declare a global `caches`; whichever wins in a given tsconfig, `FetchCacheLike` is
+  // deliberately a minimal structural type this package never imports workers-types just to name.
+  const g = globalThis as unknown as { caches?: { default: FetchCacheLike } };
+  return g.caches ? cloudflareCacheBackend(g.caches.default) : memoryCacheBackend();
+}
+
+/** Build the `Db` layer for one request from the Worker bindings — `db.transaction()` disabled (see the module header),
+ *  a `SulukCache` wired in (opt-in per query, zero cost until used). */
+export const DbLive = (env: Bindings): Layer.Layer<Db> =>
+  Layer.succeed(Db, guardTransactions(drizzle(env.DB, { cache: new SulukCache(defaultCacheBackend()) })));
 
 // ── queryOne / queryMany — a MODEL from ONE query: `ok.schema` is DERIVED from the query's projected fields (no hand-written
 //    `TodoItemSchema`), and the SAME query runs per-request. A drizzle db over a fake binding BUILDS the query at module-load

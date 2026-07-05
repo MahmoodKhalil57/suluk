@@ -1,0 +1,56 @@
+# C115 -- operator: "we should bake in drizzle transactions cache and batch-api in suluk/drizzle and suluk/platform
+# packages given our new changes to suluk C99-C113 to super power our model layer as well without defaulting into
+# any features that can make usage more exensive, any opinionated defaults should mean automatic cheaper cost which
+# we should aim for." ADR C115. @>=0.85
+claim c115_atomic_batch_cache_guard_built_scoped_via_research: Bool @>=0.85 = True
+falsified_when c115_atomic_batch_cache_guard_built_scoped_via_research == False
+
+# CRITICAL FINDING (grounds the whole decision): db.transaction() is genuinely broken on real Cloudflare D1 --
+# drizzle-orm's D1 driver issues separate BEGIN/COMMIT/SAVEPOINT .run() calls, each its own round trip, but D1 is a
+# stateless HTTP RPC surface with no session tying two calls together (confirmed via direct source read of
+# drizzle-orm/d1/session.js + drizzle-orm's own GitHub issues #2463/#4212/#758 + Cloudflare's own runtime error
+# text, which redirects to state.storage.transaction() -- a Durable-Object-only API this stack doesn't use). No
+# amount of wrapping fixes this; it is an architectural gap, not a driver bug. @>=0.9
+claim c115_d1_transaction_broken_confirmed_primary_source: Bool @>=0.9 = True
+falsified_when c115_d1_transaction_broken_confirmed_primary_source == False
+
+# SHARPER FINDING: this stack's own local-dev shim (@suluk/cloudflare's d1FromSqlite) runs on a REAL persistent
+# bun:sqlite connection wrapped to look like D1 -- so db.transaction() would silently APPEAR to work in local dev
+# and only break once the exact same code deploys to real D1. A genuine silent dev/prod divergence trap, not just
+# an unsupported feature. @>=0.9
+claim c115_dev_shim_silent_divergence_trap_identified: Bool @>=0.9 = True
+falsified_when c115_dev_shim_silent_divergence_trap_identified == False
+
+# BUILT in @suluk/drizzle: atomicBatch(db,statements) -- a thin, precisely-typed wrapper over db.batch() (fewer
+# round trips than sequential, cheaper by construction, never more expensive). guardTransactions(db) -- shadows the
+# ONE .transaction own-property (Object.defineProperty, not a whole-object Proxy -- avoids this-binding/private-
+# field risk on every other drizzle method) so calling it throws immediately, in dev AND prod alike. SulukCache --
+# a drizzle Cache impl backed by Cloudflare's free caches.default (prod) / an in-memory Map (dev), NO Upstash/new
+# paid dependency; strategy() fixed to "explicit" (never "all"); onMutate a deliberate TTL-only no-op (active
+# invalidation would cost an extra lookup+delete on every write, even ones whose table was never cached). @>=0.9
+claim c115_atomic_batch_guard_cache_built: Bool @>=0.9 = True
+falsified_when c115_atomic_batch_guard_cache_built == False
+
+# WIRED into registry/foundation/app/app.ts's DbLive (the file @suluk/platform's generator delivers into every
+# generated app -- satisfies "bake into suluk/platform" without touching platform's own source): transaction guard
+# unconditional (zero behavior change for correct code, a previously-silent break now fails loud+early); SulukCache
+# wired with an environment-detected backend (typeof caches!=="undefined" -> Cache API; else in-memory Map),
+# strategy:"explicit" so it is inert until a model opts a query in via .$withCache(). atomicBatch re-exported from
+# ../app mirroring the tableZod/tablePolicy convention. NOT adopted into todo (no natural fit -- matches the
+# established discipline of not force-fitting a new capability into the one exemplar module). @>=0.9
+claim c115_wired_into_app_ts_dblive_not_forced_into_todo: Bool @>=0.9 = True
+falsified_when c115_wired_into_app_ts_dblive_not_forced_into_todo == False
+
+# VERIFIED end-to-end via a throwaway scratch package (built, tsc-checked, deleted, never committed) mirroring the
+# REAL generated-app destination layout (src/app.ts, src/db/*, src/models/*, src/services/*, src/routes/*, per
+# registry.json's own path mapping) -- including @cloudflare/workers-types to match a real generated app's tsconfig
+# exactly (types:["node","@cloudflare/workers-types"]), which surfaced + fixed a real globalThis.caches cast
+# ambiguity (DOM lib's CacheStorage vs workers-types') before it could ever reach a real app. @>=0.9
+claim c115_verified_e2e_scratch_harness_matches_real_app_layout: Bool @>=0.9 = True
+falsified_when c115_verified_e2e_scratch_harness_matches_real_app_layout == False
+
+# VERIFIED: full 46-package ecosystem sweep -- zero fail, zero typecheck errors. @suluk/drizzle 105/105 (13 new:
+# batch.test.ts against a real D1-shaped fake driver + guardTransactions regression-proof against both bun:sqlite
+# and D1-shaped dbs; cache.test.ts for both backends + TTL expiry + the onMutate-is-a-no-op invariant). @>=0.9
+claim c115_full_sweep_zero_regression: Bool @>=0.9 = True
+falsified_when c115_full_sweep_zero_regression == False

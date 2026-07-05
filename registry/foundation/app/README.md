@@ -27,9 +27,15 @@ targets Cloudflare Workers (a D1 binding) and provides:
   `app.route("/credits", creditsRoutes())`.
 - **`Db`** — the database as an Effect service (`Context.Tag("Db")` over `DrizzleD1Database`). Every
   feature service depends on it, so services never reach for a global handle.
-- **`DbLive(env)`** — builds the `Db` layer for one request from the Worker bindings
-  (`Layer.succeed(Db, drizzle(env.DB))`). A module's routes provide this + the module's own layer,
-  then run the Effect program.
+- **`DbLive(env)`** — builds the `Db` layer for one request from the Worker bindings. `db.transaction()`
+  is disabled (`@suluk/drizzle`'s `guardTransactions`): it silently "works" against the local dev shim
+  (a real, persistent `bun:sqlite` connection) but throws on real Cloudflare D1 (stateless HTTP — no
+  session ties a `BEGIN` to a later `COMMIT`). A model composing several statements imports
+  `atomicBatch` (re-exported from `../app`) — `db.batch()`, the primitive D1 actually supports, every
+  statement in one round trip. A `SulukCache` is also wired in (Cloudflare's free `caches.default` in
+  prod, an in-memory Map in dev — no Upstash, no new provisioning); it's `strategy:"explicit"`, so it
+  costs nothing until a model opts a specific query in via `.$withCache()`. A module's routes provide
+  `DbLive(env)` + the module's own layer, then run the Effect program.
 - **`Bindings`** — the Worker env interface (`DB: D1Database`, `TRUSTED_ORIGINS?`).
 - **`trustedOrigins(env)`** — parses the comma-separated `TRUSTED_ORIGINS` allowlist; keep it in sync
   with the `trustedOrigins` you pass to auth's `mountAuthRoutes` (one source of truth).

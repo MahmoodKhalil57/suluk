@@ -65,3 +65,9 @@ export { crudHandlers, type CrudHandlers, type CrudHandlerOptions, type CrudDb }
 // once-only WRITE primitives — the race-safe compare-and-set skeleton for money/state-machine paths (normalize the
 // affected-row count across drivers; claim a transition exactly once). The transitions/side-effects stay in the app.
 export { rowsChanged, claimOnce, claimRows, type WriteResult, type ClaimDb } from "./cas";
+// ATOMIC batch writes (C115) — `atomicBatch` wraps `db.batch()`, the cross-driver-SAFE multi-statement primitive;
+// `guardTransactions` disables `db.transaction()` (broken on real D1, silently "works" against the local dev shim).
+export { atomicBatch, guardTransactions, type BatchDb } from "./batch";
+// OPT-IN query cache (C115) — a drizzle `Cache` backed by Cloudflare's free `caches.default` (prod) or an in-memory
+// Map (dev); no Upstash/new paid dependency, `strategy()` fixed to "explicit", `onMutate` a deliberate TTL-only no-op.
+export { SulukCache, memoryCacheBackend, cloudflareCacheBackend, type CacheBackend, type FetchCacheLike } from "./cache";
