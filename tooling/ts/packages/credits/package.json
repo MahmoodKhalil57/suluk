@@ -1,6 +1,6 @@
 {
   "name": "@suluk/credits",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A metered CREDIT LEDGER: append-only transactions, balance, the ATOMIC debit-if-covers (a single conditional INSERT that can never drive the ledger negative under concurrency), the idempotent debit (INSERT OR IGNORE — the money-OUT double-spend guard for partial refunds), per-key spend attribution, the recent-transactions + activity-log query, and aggregate stats. The package OWNS the credit tables; the app injects a Drizzle handle (D1 in prod, bun:sqlite in tests). The money-correctness core, extracted verbatim from a real app (C046). CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"
