@@ -43,9 +43,15 @@ shadcn add MahmoodKhalil57/suluk/todo
   turning the request into SQL (a malformed `filter=`, or an operator invalid for its column's type) falls back to
   an unfiltered, owner-scoped, default-sorted page rather than erroring.
 
-Every operation declares only what's genuinely its own (a request body, a domain error) — the response schema, the
-401/403/404, the summed cost, and the rate-limit all bubble up through `sulukFmt` from the model that owns them.
-Nothing is restated at the service or route layer.
+Every operation declares only what's genuinely its own (a domain error) — the response schema, the path-param and
+request-body schemas, the 401/403/404, the summed cost, and the rate-limit all bubble up through `sulukFmt` from
+the model that owns them. Nothing is restated at the service or route layer: a by-id model declares
+`params: todo.zodSchema.pick({ id: true })` (the SAME nanoid format/description/example the column already
+carries — never a hand-written `id: string`), and a route's controller types its own `run` via `InputOf<typeof
+S.xxx>` (extracted off the service it composes with) instead of importing the model's schema and re-deriving
+`z.infer<typeof X>` by hand. `params`/`body` are auto-parsed, validated, and merged into ONE flat input object at
+the route boundary — a malformed path id is a typed 400 before any handler runs, and a route like `updateTodo`
+just relays the merged `{ id, title?, completed? }` straight through.
 
 - **Only signed-in users** — each route reads the authenticated principal via `roles: ["signed-in"]`, returning a
   typed **401 `UnauthorizedError`** when there is none; an anonymous caller never reaches the data.

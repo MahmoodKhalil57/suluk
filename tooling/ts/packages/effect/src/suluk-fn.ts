@@ -85,6 +85,12 @@ export interface RequestSlice {
   scope?: string;
   scopes?: string[];
   internal?: boolean;
+  /** → `Request.parameterSchema.path` (C118) — a real, validated schema for the route's `:name` path params (e.g.
+   *  `todo.zodSchema.pick({ id: true })`, so the SAME nanoid format/description/example the column already
+   *  carries documents + validates the path segment). ENFORCED at the route boundary: parsed against
+   *  `c.req.param()` before `run` sees it — a malformed value is a typed 400, never reaches the handler.
+   *  Undeclared path params still auto-derive a bare `{type:"string"}` from the URI template (unchanged). */
+  params?: z.ZodTypeAny;
   /** → the request body schema (`Request.contentSchema` / `request.json`). */
   body?: z.ZodTypeAny;
   /** → `Request.parameterSchema.query`. (Path params AUTO-derive from the path template's `:name`.) */
@@ -209,6 +215,7 @@ function mergeSlices(own: RequestSlice, deps: readonly RequestSlice[]): RequestS
     scope: inherit(own.scope, deps, (s) => s.scope),
     scopes: inherit(own.scopes, deps, (s) => s.scopes),
     internal: inherit(own.internal, deps, (s) => s.internal),
+    params: inherit(own.params, deps, (s) => s.params),
     body: inherit(own.body, deps, (s) => s.body),
     query: inherit(own.query, deps, (s) => s.query),
     validateBody: inherit(own.validateBody, deps, (s) => s.validateBody),
@@ -544,6 +551,15 @@ function seedNodeGraph(
   return finalizeGraph(nodes, edges);
 }
 
+/**
+ * A `sulukFn`'s real input (C118): `params` alone, `body` alone, both flattened together (`Params & Body` — a path
+ * id and body fields never collide), or `void` when neither is declared. The SAME merge a route boundary performs
+ * at runtime (parse `params` off `c.req.param()`, `body` off the JSON, spread them together) — one type, one rule.
+ */
+export type MergedInput<Params, Body> = [Params] extends [void]
+  ? [Body] extends [void] ? void : Body
+  : [Body] extends [void] ? Params : Params & Body;
+
 // ── THE CONSTRUCTOR ─────────────────────────────────────────────────────────────────────────────────────────────────────
 
 /**
@@ -554,7 +570,9 @@ function seedNodeGraph(
  * merge. `Errs` types this fn's own declared throws.
  */
 export function sulukFn<
-  In = void,
+  Params = void,
+  Body = void,
+  In = MergedInput<Params, Body>,
   Out = unknown,
   R = never,
   const Errs extends readonly AnyHttpError[] = readonly [],
@@ -569,7 +587,11 @@ export function sulukFn<
   scope?: string;
   scopes?: string[];
   internal?: boolean;
-  body?: z.ZodType<In>;
+  /** → `Request.parameterSchema.path` (C118) — see {@link RequestSlice.params}. Contributes to `In` (merged with
+   *  `body`, if both are declared — {@link MergedInput}); ENFORCED — parsed against `c.req.param()` at the route
+   *  boundary before `run` sees it. */
+  params?: z.ZodType<Params>;
+  body?: z.ZodType<Body>;
   query?: z.ZodTypeAny;
   validateBody?: boolean;
   /** the response schema BEFORE any `view` wrapping — a model's ENTITY schema. Decoupled from `Out`: a list model returns
@@ -635,7 +657,7 @@ export function sulukFn<
   const own: RequestSlice = {
     method: def.method, path: def.path, name: def.name, summary: def.summary, description: def.description,
     tags: def.tags, roles: def.roles, scope: def.scope, scopes: def.scopes, internal: def.internal,
-    body: def.body, query: def.query, validateBody: def.validateBody, ok: def.ok, view: def.view,
+    params: def.params, body: def.body, query: def.query, validateBody: def.validateBody, ok: def.ok, view: def.view,
     errors: nodeErrors, cost: def.cost, rateLimit: def.rateLimit, dedupe: def.dedupe, source: def.source, security: def.security, store: def.store,
     steps: def.step ? (Array.isArray(def.step) ? def.step : [def.step]) : undefined,
     runGraph: def.node
@@ -877,7 +899,17 @@ function raceForQuorum<Out, R>(
 export function sulukFmt<In, Out, R>(a: SulukFn<In, Out, R>): SulukFn<In, Out, R>;
 export function sulukFmt<In, A, Out, R1, R2>(a: SulukFn<In, A, R1>, b: SulukFn<A, Out, R2>): SulukFn<In, Out, R1 | R2>;
 export function sulukFmt<In, A, B, Out, R1, R2, R3>(a: SulukFn<In, A, R1>, b: SulukFn<A, B, R2>, c: SulukFn<B, Out, R3>): SulukFn<In, Out, R1 | R2 | R3>;
-export function sulukFmt(...fns: AnySulukFn[]): AnySulukFn;
+export function sulukFmt<In, A, B, C, Out, R1, R2, R3, R4>(
+  a: SulukFn<In, A, R1>, b: SulukFn<A, B, R2>, c: SulukFn<B, C, R3>, d: SulukFn<C, Out, R4>,
+): SulukFn<In, Out, R1 | R2 | R3 | R4>;
+// C118: this catch-all is intentionally NOT reachable for 1-4 args — TypeScript picks the FIRST overload whose
+// arity+types match, but a plain `(...fns: AnySulukFn[])` matches ANY arg count (AnySulukFn = SulukFn<any,any,any>
+// unifies with anything), so if it were reachable at arity 1-4 it would SILENTLY swallow a real In/Out mismatch
+// between adjacent stages the moment the properly-typed overload above failed to unify — no error, just `any`.
+// Requiring 5 NAMED params before `...rest` means a 1-4-arg call can ONLY match a typed overload (or a real,
+// visible error if the stages genuinely don't compose) — a 5+-stage pipeline is the one case that stays an
+// untyped escape hatch (same as any fixed-arity `pipe`); none exists in this codebase today (grepped for one).
+export function sulukFmt(a: AnySulukFn, b: AnySulukFn, c: AnySulukFn, d: AnySulukFn, e: AnySulukFn, ...rest: AnySulukFn[]): AnySulukFn;
 export function sulukFmt(...fns: AnySulukFn[]): AnySulukFn {
   if (fns.length === 0) throw new Error("sulukFmt: needs at least one sulukFn to run + format.");
   const slice = fns.reduce<RequestSlice>((acc, f) => mergeSlices(acc, [f.slice]), {});
@@ -1275,6 +1307,16 @@ export interface SulukRouteSpec<Fn extends AnySulukFn> {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ReqOf<Fn> = Fn extends SulukFn<any, any, infer R> ? R : never;
 
+/** A suluk function's merged input (C118) — extract a SERVICE's own `In` for a downstream CONTROLLER's `run` to
+ *  annotate against (`run: (ctx, body: InputOf<typeof S.createTodo>) => ...`), so a route types its input off the
+ *  service it composes with instead of re-importing the model's schema and re-deriving `z.infer<typeof X>` by hand. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type InputOf<Fn> = Fn extends SulukFn<infer In, any, any> ? In : never;
+
+/** A controller `run` that only forwards its (already validated/merged — `params`/`body`, C118) input unchanged —
+ *  for the common case where a route restates nothing about the request, just relays it to the service beneath. */
+export const passthrough = <T>(_ctx: ActionCtx, input: T): Effect.Effect<T, never, never> => Effect.succeed(input);
+
 /**
  * Mount a suluk function as a v4 route — project its fully-merged {@link RequestSlice} onto {@link effectRoute} so the HOST
  * (the hono handler) and the API REFERENCE (the derived `DocumentedRoute` → emitV4) come from ONE surface. Everything effectRoute
@@ -1298,9 +1340,12 @@ export function sulukRoute<Fn extends AnySulukFn>(fn: Fn, spec: SulukRouteSpec<F
   // a body on a no-body-default method (DELETE→204) would be dropped; default it to 200 (an explicit status still wins).
   const okStatus = s.ok?.status ?? (okSchema && NO_BODY_DEFAULT_METHOD[method] ? 200 : undefined);
 
-  // request: body → request.json, query → request.query (path params auto-derive from the path template).
+  // request: params → request.params (C118; an undeclared path param still auto-derives a bare string from the
+  // path template), body → request.json, query → request.query.
   const request: RouteContract["request"] | undefined =
-    s.body || s.query ? { ...(s.body ? { json: s.body } : {}), ...(s.query ? { query: s.query } : {}) } : undefined;
+    s.params || s.body || s.query
+      ? { ...(s.params ? { params: s.params } : {}), ...(s.body ? { json: s.body } : {}), ...(s.query ? { query: s.query } : {}) }
+      : undefined;
 
   // cost ← the bubbled SUM + the one worker.request every HTTP call always incurs.
   const cost: RouteContract["cost"] | undefined = s.cost
@@ -1345,22 +1390,33 @@ export function sulukRoute<Fn extends AnySulukFn>(fn: Fn, spec: SulukRouteSpec<F
     ...(runGraph !== undefined ? { runGraph } : {}),
     ok: { ...(okSchema ? { schema: okSchema } : {}), ...(okStatus !== undefined ? { status: okStatus } : {}), ...(s.ok?.description ? { description: s.ok.description } : {}) },
     errors: (s.errors ?? []) as unknown as readonly AnyHttpError[],
-    // The synthesized handler: build the ctx, read the body once (opt-in typed-400 validation), run the function, discharge its
-    // requirement with the real env, and apply the view to shape the wire body.
+    // The synthesized handler: build the ctx, parse params (C118) + read the body once (each opt-in-typed-400
+    // validated), MERGE them into ONE input (params alone / body alone / both spread together — mirrors
+    // {@link MergedInput}). PARAMS ALWAYS WINS on a same-named key: the path is the caller's identity, a request
+    // body is arbitrary and must never silently override it (spread body FIRST, params LAST — Object.assign's
+    // later sources win). Then run the function, discharge its requirement with the real env, apply the view.
     run: ((c: Context, auth: { userId?: string }) =>
       Effect.gen(function* () {
         const ctx: ActionCtx = { c, userId: auth.userId ?? "", param: (n) => c.req.param(n) };
-        let input: unknown = undefined;
+        let paramsPart: Record<string, unknown> | undefined;
+        let bodyPart: Record<string, unknown> | undefined;
+        if (s.params) {
+          const parsed = s.params.safeParse(c.req.param());
+          if (!parsed.success) return yield* new ValidationError({ issues: parsed.error.issues.map((i) => i.message) });
+          paramsPart = parsed.data as Record<string, unknown>;
+        }
         if (s.body) {
           const raw = (yield* Effect.promise(() => c.req.json().catch(() => ({})))) as unknown;
           if (s.validateBody) {
             const parsed = s.body.safeParse(raw);
             if (!parsed.success) return yield* new ValidationError({ issues: parsed.error.issues.map((i) => i.message) });
-            input = parsed.data;
+            bodyPart = parsed.data as Record<string, unknown>;
           } else {
-            input = raw;
+            bodyPart = raw as Record<string, unknown>;
           }
         }
+        const input: unknown =
+          paramsPart && bodyPart ? { ...bodyPart, ...paramsPart } : (paramsPart ?? bodyPart);
         const program = fn.run(ctx, input as never);
         const domain = yield* spec.provide(c.env, program);
         return viewed ? viewed.value(domain) : domain;

@@ -1,0 +1,92 @@
+# C118 -- operator: "cleanup the entire surface area of registry/services/todo... remove all manually written
+# typescript types... instead of having to specify the inputs and their types in query function declaration
+# 'id: string', we should have a separate field called inputSchema where a developer can add the zod validation
+# for the input schema ideally directly inferred from the zod-drizzle schema declaration itself, so we can have it
+# bubble up through service to route and merge types depending on the pipeline." ADR C118. @>=0.85
+claim c118_params_field_real_and_bubbling: Bool @>=0.85 = True
+falsified_when c118_params_field_real_and_bubbling == False
+
+# `params?: z.ZodType<Params>` ADDED to RequestSlice/sulukFn (mirrors body) and to queryOne/queryMany/mutate
+# (registry/foundation/app/app.ts) -- bubbles through mergeSlices via the SAME inherit() helper body/query already
+# use; findTodo/patchTodo/dropTodo declare params: todo.zodSchema.pick({id:true}), the id column's nanoid format/
+# description/example (defined once) becoming both the runtime validator AND the doc's path-param schema.
+# ENFORCED not just declared: sulukRoute's runtime handler parses c.req.param() against it before run() ever sees
+# the input -- a malformed id is a typed 400, never a silent pass-through or a 500. Verified live via a scratch
+# harness mounting the real todo module on a real Hono app + real bun:sqlite. @>=0.9
+claim c118_params_enforced_at_runtime_not_just_typed: Bool @>=0.9 = True
+falsified_when c118_params_enforced_at_runtime_not_just_typed == False
+
+# MergedInput<Params,Body> (Params & Body when both declared, whichever one alone, void when neither) computes the
+# SAME flat shape the runtime actually constructs -- patchTodo's query now destructures {id, ...patch} from ONE
+# flat input, not a hand-nested {id, patch}. Empirically proven via repeated throwaway compile checks (a first
+# attempt with a fake wrapper type gave a false negative; a REAL z.ZodType schema resolved correctly across all 4
+# params/body presence combinations) before being wired into the real framework. @>=0.9
+claim c118_mergedinput_computed_type_matches_runtime_merge: Bool @>=0.9 = True
+falsified_when c118_mergedinput_computed_type_matches_runtime_merge == False
+
+# MERGE-ORDER HARDENING (security-adversary reviewer finding, fixed): params and body were spread body-first-
+# params-last as two independent Object.assign-style parts; restructured to an explicit
+# { ...bodyPart, ...paramsPart } so a same-named key ALWAYS resolves to the PATH value, never a caller-supplied
+# body field. Not exploitable in todo today (no field name collides; zod strips unknown body keys), but now a
+# real, regression-tested guarantee -- a new adversarial test (a body schema that also declares its own `id`)
+# proves the path id, never the body's, governs the resulting write. @>=0.9
+claim c118_params_always_wins_over_body_on_key_collision: Bool @>=0.9 = True
+falsified_when c118_params_always_wins_over_body_on_key_collision == False
+
+# InputOf<Fn> (mirrors the existing ReqOf<Fn>) lets a controller type its run off the SERVICE it composes with
+# (run: (ctx, body: InputOf<typeof S.createTodo>) => passthrough(ctx, body)) -- never importing the model schema
+# or writing z.infer<typeof CreateReq> by hand, closing the operator's 2nd cited violation. This ALSO fixed a real
+# pre-existing layering violation: todo.routes.ts previously imported CreateReq/UpdateReq directly from
+# ../models/todo, bypassing the service layer (routes must import services only). It no longer imports the model
+# at all. `passthrough` names the "relay the merged input" controller body once. @>=0.85
+claim c118_inputof_and_passthrough_close_layering_violation: Bool @>=0.85 = True
+falsified_when c118_inputof_and_passthrough_close_layering_violation == False
+
+# A REAL, PRE-EXISTING type-soundness bug in sulukFmt found while verifying the above (not introduced by this
+# change): the untyped catch-all overload sulukFmt(...fns: AnySulukFn[]) matched ANY arg count, so whenever the
+# properly-typed 1/2/3-arg overloads FAILED TO UNIFY (a genuine Out/In mismatch between adjacent pipeline stages),
+# TypeScript silently fell through to the untyped catch-all instead of reporting an error. Proven via a deliberate
+# test: composing a controller returning a wrong shape with a service expecting a different one produced ZERO
+# compile errors before the fix. This is the load-bearing fix of the whole change -- without it, params/InputOf
+# could be silently defeated by exactly the mismatch class they exist to prevent. @>=0.9
+claim c118_sulukfmt_overload_soundness_hole_found: Bool @>=0.9 = True
+falsified_when c118_sulukfmt_overload_soundness_hole_found == False
+
+# FIXED: added a properly-typed 4-arg sulukFmt overload; restricted the catch-all to require 5 EXPLICIT params
+# before ...rest, so it can never match a 1-4-arg call -- those now MUST go through a sound, specific overload (or
+# a real tsc error). Re-verified: the same deliberate-mismatch test now correctly fails to compile. Grepped the
+# entire repo (tooling/ts/packages/*/src, */test, registry/) for any sulukFmt call with 5+ arguments: NONE exist,
+# so the residual untyped-catch-all gap (a hypothetical 5+-stage pipeline) is currently unreachable, not a live
+# risk. @>=0.9
+claim c118_sulukfmt_soundness_fixed_verified_zero_5arg_callsites: Bool @>=0.9 = True
+falsified_when c118_sulukfmt_soundness_fixed_verified_zero_5arg_callsites == False
+
+# sulukFmt.all (fan-out) does NOT bubble params/body -- confirmed by reading its implementation (constructs its
+# own RequestSlice manually, deliberately omitting them since branches may need different inputs). getTodoDetail
+# (a fan-out over getTodo+countTodos on the same id) therefore declares params: IdParams on its OWN controller,
+# reusing the model's exported schema via the service rather than re-deriving it -- the one place params is stated
+# at more than one layer, a structural necessity of fan-out, not a restatement. @>=0.85
+claim c118_fanout_params_gap_identified_and_worked_around: Bool @>=0.85 = True
+falsified_when c118_fanout_params_gap_identified_and_worked_around == False
+
+# A shared provide helper (registry/foundation/app/app.ts: provide = <X,E>(env,p) =>
+# p.pipe(Effect.provide(DbLive(env)))) replaces the identical hand-declaration every route file previously
+# repeated -- closes the operator's 1st cited violation. @>=0.85
+claim c118_shared_provide_helper_closes_first_violation: Bool @>=0.85 = True
+falsified_when c118_shared_provide_helper_closes_first_violation == False
+
+# A 5-reviewer INDEPENDENT adversarial verification workflow (cleanup-completeness, soundness-adversary,
+# doc-completeness, security-adversary, behavior-parity -- each building its OWN throwaway harness, none trusting
+# prior claims) found ZERO blockers and exactly 2 real findings, both fixed: (1) passthrough was built but never
+# actually adopted -- all 5 todo.routes.ts controllers still hand-wrote Effect.succeed(input); fixed by wiring
+# every controller through passthrough. (2) the params/body merge-order hardening gap (see above). @>=0.9
+claim c118_adversarial_pass_two_findings_both_fixed: Bool @>=0.9 = True
+falsified_when c118_adversarial_pass_two_findings_both_fixed == False
+
+# VERIFIED: @suluk/effect 163/163 tests pass (6 new, up from 157). Full 46-package ecosystem sweep -- zero fail,
+# zero typecheck errors. Re-verified end-to-end (CRUD + fan-out via passthrough, merge-order hardening, malformed-
+# id 400, full OpenAPI doc component schemas) via a fresh scratch package mounting the real, unmodified todo module
+# on a real Hono app + real bun:sqlite, deleted immediately after use, no trace left in git status.
+# @suluk/effect 0.14.2 -> 0.15.0. @>=0.9
+claim c118_full_sweep_and_reverify_clean: Bool @>=0.9 = True
+falsified_when c118_full_sweep_and_reverify_clean == False

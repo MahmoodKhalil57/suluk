@@ -29,7 +29,7 @@ import { drizzle, type DrizzleD1Database } from "drizzle-orm/d1";
 import { z } from "zod";
 import {
   sulukFn, type ActionCtx, type SulukFn, type AnyHttpError, type CostModel, type SulukStore,
-  type SulukRateLimit, type SulukDedupe, type SulukRunNodeKind,
+  type SulukRateLimit, type SulukDedupe, type SulukRunNodeKind, type MergedInput, type ReqOf,
 } from "@suluk/effect";
 import {
   queryZodSchema, queryTable, queryKind, tablePolicy, guardTransactions, SulukCache,
@@ -78,6 +78,12 @@ function defaultCacheBackend(): CacheBackend {
  *  a `SulukCache` wired in (opt-in per query on the READ side; see the module header for the onMutate caveat). */
 export const DbLive = (env: Bindings): Layer.Layer<Db> =>
   Layer.succeed(Db, guardTransactions(drizzle(env.DB, { cache: new SulukCache(defaultCacheBackend()) })));
+
+/** Discharge a route's `Db` requirement with the request's env (C118) — the ONE generic helper every module's
+ *  routes file reuses via `sulukRoute(fn, { provide })`, instead of each hand-writing the same
+ *  `<X,E>(env,p) => p.pipe(Effect.provide(DbLive(env)))` generic signature at its own call site. */
+export const provide = <X, E>(env: Bindings, p: Effect.Effect<X, E, Db>): Effect.Effect<X, E, never> =>
+  p.pipe(Effect.provide(DbLive(env)));
 
 // ── queryOne / queryMany — a MODEL from ONE query: `ok.schema` is DERIVED from the query's projected fields (no hand-written
 //    `TodoItemSchema`), and the SAME query runs per-request. A drizzle db over a fake binding BUILDS the query at module-load
@@ -158,10 +164,14 @@ function nodeOf(def: QueryBase, builtQuery: unknown): { label: string; kind: Sul
 /** A MODEL that returns ONE row — `ok.schema` is DERIVED from the query's projection, the row is returned per-request, and an
  *  absent row FAILS with `orElse` (a by-id 404). The `query` is the single source of the SCHEMA; `orElse` is the single source
  *  of the ERROR — both bubble into the api doc with NOTHING restated (no `ok.schema`, no `errors: […]`). */
-export function queryOne<In, Row, E extends HttpErrorInstance = never>(def: QueryBase & {
+export function queryOne<Params = void, Body = void, In = MergedInput<Params, Body>, Row = unknown, E extends HttpErrorInstance = never>(def: QueryBase & {
+  /** → the request's PATH params (C118) — usually sliced off the table (`todo.zodSchema.pick({ id: true })`), so the
+   *  SAME column format/description/example the entity already carries validates + documents the `:id` segment.
+   *  ENFORCED at the route boundary (parsed off `c.req.param()` before `run` sees it) — never a manual `id: string`. */
+  params?: z.ZodType<Params>;
   /** the input schema (usually `table.zodSchema.pick({…})`) — TYPES the query's input AND becomes the request BODY (validated +
    *  bubbled to the contract), so the input shape + its validation are DERIVED from the db, not restated. Omit for a by-id input. */
-  input?: z.ZodType<In>;
+  input?: z.ZodType<Body>;
   query: (db: DrizzleD1Database, ctx: ActionCtx, input: In) => PromiseLike<Row[]>;
   orElse?: (ctx: ActionCtx, input: In) => E;
 }): SulukFn<In, Row, Db> {
@@ -172,6 +182,7 @@ export function queryOne<In, Row, E extends HttpErrorInstance = never>(def: Quer
     cost: def.cost, step: def.step, store: def.store, errors: errorOf(def.orElse as never), ok: { schema },
     ...policyOf(def, builtQuery),
     ...(node ? { node } : {}),
+    ...(def.params ? { params: def.params } : {}),
     ...(def.input ? { body: def.input, validateBody: true } : {}),
     run: (ctx, input: In) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
       const [row] = yield* Effect.promise(() => def.query(db, ctx, input));
@@ -184,8 +195,9 @@ export function queryOne<In, Row, E extends HttpErrorInstance = never>(def: Quer
 
 /** A MODEL that returns MANY rows — `ok.schema` is DERIVED as the ITEM schema from the query's projection (a route's `listView`
  *  arrays it). The `query` is the single source. */
-export function queryMany<In, Row>(def: QueryBase & {
-  input?: z.ZodType<In>;
+export function queryMany<Params = void, Body = void, In = MergedInput<Params, Body>, Row = unknown>(def: QueryBase & {
+  params?: z.ZodType<Params>;
+  input?: z.ZodType<Body>;
   query: (db: DrizzleD1Database, ctx: ActionCtx, input: In) => PromiseLike<Row[]>;
 }): SulukFn<In, Row[], Db> {
   const builtQuery = def.query(BUILD_DB, DUMMY_CTX, DUMMY_IN as In);
@@ -195,6 +207,7 @@ export function queryMany<In, Row>(def: QueryBase & {
     cost: def.cost, step: def.step, store: def.store, ok: { schema },
     ...policyOf(def, builtQuery),
     ...(node ? { node } : {}),
+    ...(def.params ? { params: def.params } : {}),
     ...(def.input ? { body: def.input, validateBody: true } : {}),
     run: (ctx, input: In): Effect.Effect<Row[], never, Db> => Effect.flatMap(Db, (db) => Effect.promise(() => def.query(db, ctx, input))),
   });
@@ -203,8 +216,9 @@ export function queryMany<In, Row>(def: QueryBase & {
 /** A MUTATION that affects rows and confirms downstream — runs a `.returning()` write; if it touched NO rows, FAILS with
  *  `orElse` (a by-id 404). Like queryOne, the ERROR is DEFINED ONCE in `orElse` and bubbles into the doc (no `errors: […]`).
  *  Sets NO response schema — the wire body is shaped by a following step (e.g. `{ deleted: true }`). Returns void. */
-export function mutate<In, E extends HttpErrorInstance = never>(def: QueryBase & {
-  input?: z.ZodType<In>;
+export function mutate<Params = void, Body = void, In = MergedInput<Params, Body>, E extends HttpErrorInstance = never>(def: QueryBase & {
+  params?: z.ZodType<Params>;
+  input?: z.ZodType<Body>;
   query: (db: DrizzleD1Database, ctx: ActionCtx, input: In) => PromiseLike<{ readonly length: number }>;
   orElse: (ctx: ActionCtx, input: In) => E;
 }): SulukFn<In, void, Db> {
@@ -214,6 +228,7 @@ export function mutate<In, E extends HttpErrorInstance = never>(def: QueryBase &
     cost: def.cost, step: def.step, store: def.store, errors: errorOf(def.orElse as never),
     ...policyOf(def, builtQuery),
     ...(node ? { node } : {}),
+    ...(def.params ? { params: def.params } : {}),
     ...(def.input ? { body: def.input, validateBody: true } : {}),
     run: (ctx, input: In) => Effect.flatMap(Db, (db) => Effect.gen(function* () {
       const rows = yield* Effect.promise(() => def.query(db, ctx, input));

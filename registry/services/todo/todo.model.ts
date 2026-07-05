@@ -9,6 +9,7 @@ import { todo } from "../db/todo";
 const LIST_OPTS = { defaultPerPage: 20, maxPerPage: 100 };
 export const ListTodosQuery = listQuerySchema(todo, LIST_OPTS);
 
+export const IdParams = todo.zodSchema.pick({ id: true });
 export const CreateReq = todo.zodSchema.pick({ title: true });
 export const UpdateReq = todo.zodSchema.pick({ title: true, completed: true }).partial();
 
@@ -21,8 +22,9 @@ const deleteCost = { components: [], infra: { "d1.write": 1 }, settlement: { met
 export const findTodo = queryOne({
   cost: readCost, step: { role: "given", text: "a todo the caller owns exists" },
   store: { key: "todo", params: ["id"] },
-  query: (db, ctx, id: string) => db.select().from(todo).where(owned(ctx.userId, id)).limit(1),
-  orElse: (_ctx, id) => new NotFoundError({ resource: "todo", id }),
+  params: IdParams,
+  query: (db, ctx, { id }) => db.select().from(todo).where(owned(ctx.userId, id)).limit(1),
+  orElse: (_ctx, { id }) => new NotFoundError({ resource: "todo", id }),
 });
 
 export const listTodos = queryMany({
@@ -47,16 +49,18 @@ export const insertTodo = queryOne({
 export const patchTodo = queryOne({
   cost: writeCost, step: { role: "given", text: "a todo the caller owns exists" },
   store: { invalidates: ["todos", "todo"] },
-  query: (db, ctx, { id, patch }: { id: string; patch: z.infer<typeof UpdateReq> }) =>
-    db.update(todo).set({ ...patch, updatedAt: Date.now() }).where(owned(ctx.userId, id)).returning(),
+  params: IdParams,
+  input: UpdateReq,
+  query: (db, ctx, { id, ...patch }) => db.update(todo).set({ ...patch, updatedAt: Date.now() }).where(owned(ctx.userId, id)).returning(),
   orElse: (_ctx, { id }) => new NotFoundError({ resource: "todo", id }),
 });
 
 export const dropTodo = mutate({
   cost: deleteCost, step: { role: "given", text: "a todo the caller owns exists" },
   store: { invalidates: ["todos", "todo"] },
-  query: (db, ctx, id: string) => db.delete(todo).where(owned(ctx.userId, id)).returning({ id: todo.id }),
-  orElse: (_ctx, id) => new NotFoundError({ resource: "todo", id }),
+  params: IdParams,
+  query: (db, ctx, { id }) => db.delete(todo).where(owned(ctx.userId, id)).returning({ id: todo.id }),
+  orElse: (_ctx, { id }) => new NotFoundError({ resource: "todo", id }),
 });
 
 export const countTodos = sulukFn({

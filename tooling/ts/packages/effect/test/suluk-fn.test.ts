@@ -3,7 +3,7 @@ import { Context, Effect, Layer } from "effect";
 import { Hono } from "hono";
 import { z } from "zod";
 import { responseList } from "@suluk/hono";
-import { sulukFn, sulukFmt, view, listView, sulukRoute, NotFoundError, type CostModel } from "../src/index";
+import { sulukFn, sulukFmt, view, listView, sulukRoute, NotFoundError, passthrough, type CostModel, type InputOf } from "../src/index";
 
 /**
  * THE SULUK FUNCTION + `sulukFmt` — every layer (MODEL / SERVICE / ROUTE) is a `sulukFn`; `sulukFmt` RUNS+FORMATS a pipeline of
@@ -308,5 +308,107 @@ describe("sulukFmt — `ok` merges FIELD-BY-FIELD (status/schema/description ind
     const controller = sulukFn({ method: "post", path: "/api/items", roles: ["signed-in"], summary: "Create.", ok: { status: 201 }, run: () => Effect.succeed(undefined) });
     const route = sulukFmt(controller, sulukFmt(model));
     expect(route.slice.ok).toEqual({ status: 201, schema: ItemSchema, description: "The created item." });
+  });
+})
+
+describe("params (C118) — a real, validated path-param schema that bubbles + merges with body, no manual ctx.param()", () => {
+  const IdParams = z.object({ id: z.string().min(3) });
+
+  test("a params-only model's In bubbles to the controller via InputOf — sulukFmt REJECTS a controller that doesn't match it", async () => {
+    const model = sulukFn({ params: IdParams, errors: [NotFoundError], ok: { schema: ItemSchema }, run: (ctx, { id }) => Effect.flatMap(Store, (s) => s.get(id)) });
+    const service = sulukFmt(model);
+    // the controller declares NEITHER params nor body itself (bubbling entirely from the model) — InputOf<typeof
+    // service> is what correctly types run's input, with no re-import/re-derivation of IdParams. Proven not just
+    // "convenient" but load-bearing: sulukFmt's overloads now genuinely reject a controller that DOESN'T match
+    // (see the code-adversary-verified soundness fix below) — bare `run: passthrough` here would fail to compile.
+    const controller = sulukFn({
+      method: "get", path: "/api/items/:id", roles: ["signed-in"], summary: "Get.", view: view("item"),
+      run: (ctx, input: InputOf<typeof service>) => passthrough(ctx, input),
+    });
+    const route = sulukFmt(controller, service);
+    const { contract, handler } = sulukRoute(route, { provide: provideStore(new Map([["abc", { id: "abc", title: "x" }]])) });
+    const res = await mount({ contract, handler }).request("/api/items/abc");
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ item: { id: "abc", title: "x" } });
+  });
+
+  test("params bubbles into the emitted contract's request.params — no path-template guesswork needed", () => {
+    const model = sulukFn({ params: IdParams, ok: { schema: ItemSchema }, run: (ctx, { id }) => Effect.flatMap(Store, (s) => s.get(id)) });
+    const service = sulukFmt(model);
+    const controller = sulukFn({ method: "get", path: "/api/items/:id", roles: ["signed-in"], summary: "Get.", run: (ctx, input: InputOf<typeof service>) => passthrough(ctx, input) });
+    const { contract } = sulukRoute(sulukFmt(controller, service), { provide: provideStore(new Map()) });
+    expect(contract.request?.params).toBe(IdParams);
+  });
+
+  test("a params value failing its schema is a typed 400 — never reaches run", async () => {
+    const model = sulukFn({ params: IdParams, ok: { schema: ItemSchema }, run: (ctx, { id }) => Effect.flatMap(Store, (s) => s.get(id)) });
+    const service = sulukFmt(model);
+    const controller = sulukFn({ method: "get", path: "/api/items/:id", roles: ["signed-in"], summary: "Get.", run: (ctx, input: InputOf<typeof service>) => passthrough(ctx, input) });
+    const { contract, handler } = sulukRoute(sulukFmt(controller, service), { provide: provideStore(new Map()) });
+    const res = await mount({ contract, handler }).request("/api/items/ab"); // "ab" fails IdParams's min(3)
+    expect(res.status).toBe(400);
+  });
+
+  test("params + body on the SAME model merge into one flat object — id (path) alongside patch fields (body)", async () => {
+    const PatchBody = z.object({ title: z.string() }).partial();
+    const rows = new Map([["abc", { id: "abc", title: "old" }]]);
+    const model = sulukFn({
+      params: IdParams, body: PatchBody, validateBody: true, errors: [NotFoundError], ok: { schema: ItemSchema },
+      run: (ctx, { id, title }) => Effect.gen(function* () {
+        const row = yield* Store.pipe(Effect.flatMap((s) => s.get(id)));
+        return { ...row, ...(title !== undefined ? { title } : {}) };
+      }),
+    });
+    const service = sulukFmt(model);
+    const controller = sulukFn({
+      method: "patch", path: "/api/items/:id", roles: ["signed-in"], summary: "Update.", view: view("item"),
+      run: (ctx, input: InputOf<typeof service>) => passthrough(ctx, input),
+    });
+    const route = sulukFmt(controller, service);
+    const { contract, handler } = sulukRoute(route, { provide: provideStore(rows) });
+    expect(contract.request?.params).toBe(IdParams);
+    expect(contract.request?.json).toBe(PatchBody);
+    const res = await mount({ contract, handler }).request("/api/items/abc", { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ title: "new" }) });
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ item: { id: "abc", title: "new" } });
+  });
+
+  test("on a same-named key, PARAMS always wins over a same-named BODY field — the path is authoritative, a caller-supplied body can never override it", async () => {
+    const rows = new Map([["abc", { id: "abc", title: "old" }]]);
+    // a deliberately adversarial body schema that ALSO declares "id" — a real todo module's UpdateReq never does
+    // this (title/completed only), but the merge itself must stay safe even if some future body schema did.
+    const AdversarialBody = z.object({ id: z.string(), title: z.string() }).partial();
+    const model = sulukFn({
+      params: IdParams, body: AdversarialBody, validateBody: true, errors: [NotFoundError], ok: { schema: ItemSchema },
+      run: (ctx, { id, title }) => Effect.gen(function* () {
+        const row = yield* Store.pipe(Effect.flatMap((s) => s.get(id)));
+        return { ...row, ...(title !== undefined ? { title } : {}) };
+      }),
+    });
+    const service = sulukFmt(model);
+    const controller = sulukFn({
+      method: "patch", path: "/api/items/:id", roles: ["signed-in"], summary: "Update.", view: view("item"),
+      run: (ctx, input: InputOf<typeof service>) => passthrough(ctx, input),
+    });
+    const route = sulukFmt(controller, service);
+    const { contract, handler } = sulukRoute(route, { provide: provideStore(rows) });
+    // attacker sends a body with a DIFFERENT id, trying to redirect the update to some other row via the body alone.
+    const res = await mount({ contract, handler }).request("/api/items/abc", { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ id: "someone-elses-row", title: "hijacked" }) });
+    expect(res.status).toBe(200);
+    // the PATH id ("abc") is what was actually updated -- the body's "id" field was silently discarded, never honored.
+    expect(await res.json()).toEqual({ item: { id: "abc", title: "hijacked" } });
+  });
+
+  test("InputOf<typeof service> types a controller's run off the SERVICE — no re-import/re-derivation of the model's schema", () => {
+    const CreateBody = z.object({ title: z.string() });
+    const model = sulukFn({ body: CreateBody, ok: { schema: ItemSchema }, run: (ctx, body) => Effect.flatMap(Store, (s) => s.create(body.title)) });
+    const service = sulukFmt(model);
+    // the annotation below is InputOf<typeof service> — no CreateBody import needed for typing purposes.
+    const controller = sulukFn({
+      method: "post", path: "/api/items", roles: ["signed-in"], summary: "Create.", ok: { status: 201 }, view: view("item"),
+      run: (ctx, body: InputOf<typeof service>) => Effect.succeed(body),
+    });
+    const route = sulukFmt(controller, service);
+    expect(route.slice.body).toBe(CreateBody); // still bubbles the REAL schema value for validation/doc
   });
 })

@@ -25,8 +25,9 @@ You compose these. There is nothing else to learn — the list is deliberately s
 | **`view("todo")` / `listView("todos")`** | a pending response wrap — bound to the model's schema at the route boundary (`{ todo }` / `{ todos: [...] }`) | `@suluk/effect` |
 | **`queryOne` / `queryMany` / `mutate`** | a MODEL from ONE drizzle query — the response schema is DERIVED from the query's projection; the same query runs per-request | your `app.ts` |
 | **`routeGroup("/api/todos")`** | the module ENVELOPE — `.route(...)` as you go; `.ops` → the contract fragment, `.router()` → the mount | `@suluk/hono` |
-| **`table.zodSchema` + `.zod(refine)`** | the SCHEMA SEAM — a column's wire refinement lives WITH its DDL; `pick`/`omit` it for request bodies | `@suluk/drizzle` |
+| **`table.zodSchema` + `.zod(refine)`** | the SCHEMA SEAM — a column's wire refinement lives WITH its DDL; `pick`/`omit` it for request bodies OR path params (`todo.zodSchema.pick({ id: true })`) | `@suluk/drizzle` |
 | **`NotFoundError(...)` etc.** | typed HTTP errors (status + body schema) — each becomes a distinct typed response, never a generic `ProblemDetails` | `@suluk/effect` |
+| **`InputOf<typeof someService>`** | extract a composed `sulukFn`'s input type — type a controller's `run` off the SERVICE it composes with, never re-import the model's schema | `@suluk/effect` |
 
 Plus one direct primitive for one-off routes: **`effectRoute({ … })`** — a single handler → a single route. `sulukRoute`
 projects onto it internally; reach for it directly only when a route has no model/service layering to compose.
@@ -36,22 +37,28 @@ projects onto it internally; reach for it directly only when a route has no mode
 Every layer is a `sulukFn`. Facts live on the **leaf** (the model) and bubble UP, so services and routes restate nothing.
 
 ```
-models   findTodo   = queryOne({ cost: readCost, query: (db,ctx,id) => db.select()…, orElse: () => new NotFoundError(…) })
+models   findTodo   = queryOne({ cost: readCost, params: todo.zodSchema.pick({ id: true }),
+                                  query: (db,ctx,{id}) => db.select()…, orElse: (_ctx,{id}) => new NotFoundError(…) })
              │  ok.schema  ← the query's projected columns (their .zod() refinements)   — no hand-written DTO
+             │  params     ← the SAME id column's nanoid format/description/example    — no hand-written `id: string`
              │  404        ← the orElse factory's class                                  — no `errors: [...]`
              │  cost        DEFINED here                                                  — bubbles up as a SUM
              ▼
-services getTodo    = sulukFmt(findTodo)                        // formats the model; inherits schema+404+cost
+services getTodo    = sulukFmt(findTodo)                        // formats the model; inherits params+schema+404+cost
              ▼
 routes   getTodo    = sulukFmt(
              controller = sulukFn({ method:"get", path:"/api/todos/:id", roles:["signed-in"], view:view("todo"),
-                                    run:(ctx)=>Effect.succeed(ctx.param("id")!) }),   // extracts the input; owns the HTTP identity
-             getTodoService )                                    // everything else BUBBLES: response schema, 404, cost, rate-limit
+                                    run:(ctx, input: InputOf<typeof getTodoService>) => Effect.succeed(input) }),
+             getTodoService )                                    // everything else BUBBLES: params, response schema, 404, cost, rate-limit
          todos.route(sulukRoute(getTodo, { provide }))           // → contract + handler
 ```
 
 `roles: ["signed-in"]` alone derives the scope, the cost's rate-limit settlement, the 401, and the auth guard (C078). The
-controller declares only what is *its* — the HTTP identity and how to pull the service's input off the request.
+controller declares only what is *its* — the HTTP identity. The `:id` path param is auto-parsed off `c.req.param()`,
+validated against `params` (a malformed id is a typed 400 before `run` ever sees it), and handed to `run` as `input` —
+`InputOf<typeof getTodoService>` types that without importing the model's schema or writing `z.infer<typeof X>` by
+hand. A model needing BOTH a path param and a body (e.g. `patchTodo`) declares `params` **and** `input`; the two merge
+into ONE flat object (`{ id, title?, completed? }`, not a nested `{ id, patch }`) — same mechanism, same rule.
 
 ## What bubbles — declare each fact once
 
@@ -64,8 +71,13 @@ the whole route reports:
 | typed errors | the model's `orElse` (or a leaf's `errors`) | **UNION** |
 | cost | the model (`{ infra: { "d1.read": 1 } }`) | **SUM** (the CostModel monoid) |
 | rate-limit | any leaf | **tightest** (most restrictive wins) |
+| path params | the model's `params` (`todo.zodSchema.pick({ id:true })`) | inherited up to the route; parsed + validated automatically |
 | request body | the model's `input` (`todo.zodSchema.pick({ title:true })`) | inherited up to the route |
 | BDD `step` | any layer (`{ role:"given", text:"a todo the caller owns exists" }`) | concat + dedup |
+
+`sulukFmt.all` (fan-out) is the one exception: since branches may need different inputs, it does **not** bubble
+`params`/`body` — a composite route (e.g. `getTodoDetail`, running `getTodo` + `countTodos` on the same id) declares
+`params` on its own controller instead (reusing the model's exported schema, not re-deriving it).
 
 ## What you get for free — all standard, nothing bespoke on the wire
 
