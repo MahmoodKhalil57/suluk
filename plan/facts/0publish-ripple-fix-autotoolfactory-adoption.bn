@@ -1,0 +1,39 @@
+# C113 -- publish the C099-C112 arc (16 packages), fix a real cross-package dependency-range ripple discovered via
+# a real consumer install (17 more packages across 2 waves), adopt in autotoolfactory. ADR C113. @>=0.9
+claim c113_published_arc_fixed_ripple_adopted_autotoolfactory: Bool @>=0.9 = True
+falsified_when c113_published_arc_fixed_ripple_adopted_autotoolfactory == False
+
+# REAL BUG FOUND + DIAGNOSED: the Bash tool does not persist shell env vars between separate invocations --
+# sourcing .env in one call and running npm publish in a later call left NPM_SULUK_TOKEN unset when npm read
+# tooling/ts/.npmrc's own ${NPM_SULUK_TOKEN} interpolation, silently resolving to empty and producing a
+# confusing 401/404 that read exactly like an expired token. Operator confirmed via the npm token UI the token
+# was valid/scoped all along, forcing the correct diagnosis. Fix: source+export+the-npm-command in ONE Bash call.
+# @>=0.9
+claim c113_bash_tool_env_persistence_bug_diagnosed_fixed: Bool @>=0.9 = True
+falsified_when c113_bash_tool_env_persistence_bug_diagnosed_fixed == False
+
+# REAL BUG FOUND + FIXED: a 0.x-semver MINOR bump (core 0.1.14->0.2.0, drizzle 0.8.0->0.9.0) silently fragments
+# the real npm-published ecosystem -- structurally INVISIBLE inside the monorepo (workspace:^ always resolves to
+# local, bypassing semver-range gating entirely) but real on any external npm install, since workspace:^ gets
+# REWRITTEN to a real ^<version> range at pack time and ^0.a.b excludes 0.(a+1).0. Surfaced only when a real
+# consumer (autotoolfactory) hit duplicate-@suluk/core-version type errors. Fix: a generic recursive coherence
+# checker (every published package's declared @suluk/* ranges vs every published package's actual version) found
+# 16 affected packages (wave 2) + 1 second-order case (wave 3, keys->stale better-auth) -- all patch-bumped +
+# republished with NO source change needed (workspace:^ auto-widens at pack time). One pre-existing, unrelated gap
+# (stripe->payments, C048-era, unused downstream) deliberately left alone. @>=0.9
+claim c113_semver_minor_bump_ripple_found_fixed_via_recursive_checker: Bool @>=0.9 = True
+falsified_when c113_semver_minor_bump_ripple_found_fixed_via_recursive_checker == False
+
+# VERIFIED: autotoolfactory regenerated from the INSTALLED @suluk/platform@0.19.0 generator (not hand-edited);
+# tsc 0 errors after the ripple-fix (was 8 errors, all the duplicate-core-version symptom, before it). Two
+# pre-existing gaps (journeys.test.ts BDD-coverage floor; suluk:gate conformance grade C vs floor B) confirmed
+# IDENTICAL before/after via git stash on this exact repo -- not introduced by this adoption. Committed locally
+# in autotoolfactory (no remote there, purely local). @>=0.9
+claim c113_autotoolfactory_adopted_verified_zero_regression: Bool @>=0.9 = True
+falsified_when c113_autotoolfactory_adopted_verified_zero_regression == False
+
+# 33 total packages published across this step (16 direct arc bumps + 16 wave-2 ripple-fixes + 1 wave-3
+# second-order ripple-fix). Full ecosystem re-checked coherent via the same recursive checker after each wave.
+# @>=0.9
+claim c113_33_packages_published_ecosystem_coherent: Bool @>=0.9 = True
+falsified_when c113_33_packages_published_ecosystem_coherent == False
