@@ -1,6 +1,6 @@
 {
   "name": "@suluk/chat",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A contract-driven chat AGENT for any suluk app: an in-page floating assistant that can browse AND act, by running an OpenRouter tool-use loop over the SAME OpenAPI v4 operations (projected via @suluk/mcp, executed in-process via the store's own access gate) \u2014 with the model chosen by @suluk/models, never hardcoded. Ships the server loop (Hono-mountable SSE) + a theme-aware floating widget. CANDIDATE tooling \u2014 NOT official OAS.",
   "publishConfig": {
     "access": "public"

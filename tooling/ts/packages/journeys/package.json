@@ -1,6 +1,6 @@
 {
   "name": "@suluk/journeys",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Intuitive, runnable BDD over a v4 'Suluk' contract. Projects a deterministic Gherkin step VOCABULARY from the contract (Given from x-suluk-access, When from each operation, Then from declared statuses + x-suluk-store + x-suluk-cost), binds authored .feature stories EXACT-or-UNBOUND with outcome steps resolved relative to the scenario's When-subject, and emits a BIDIRECTIONAL tri-state gap report (PARAPHRASE / NEEDS-DEV-GLUE / NEEDS-CONTRACT) + contract->authored coverage holes. A pure function of the document. CANDIDATE tooling. C094: consumes service-authored `x-suluk-scenario` steps + derives negative-path scenarios from domain-error responses.",
   "publishConfig": {
     "access": "public"

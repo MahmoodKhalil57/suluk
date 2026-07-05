@@ -1,6 +1,6 @@
 {
   "name": "@suluk/editor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A fully-static, client-only OpenAPI v4 EDITOR (the editor.scalar.com analog, native v4). Two panes: a CodeMirror source editor + a live API reference rendered by the suluk Scalar fork; diagnostics from @suluk/core + @suluk/harden; 3.1→v4 upgrade via @suluk/openapi-compat; v4 superpowers (cost/access/hardening) in the preview. No server: parse→validate→harden→enrich→re-mount all run in the browser. editorHtml() emits a self-contained page; the built client bundle ships in dist/. CANDIDATE tooling.",
   "publishConfig": {
     "access": "public"
