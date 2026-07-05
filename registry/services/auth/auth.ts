@@ -11,6 +11,7 @@ import { openAPI, mcp } from "better-auth/plugins";
 import { apiKey } from "@better-auth/api-key";
 import { passkey } from "@better-auth/passkey";
 import { drizzle } from "drizzle-orm/d1";
+import { guardTransactions } from "@suluk/drizzle";
 import { Context, Effect, Layer } from "effect";
 import type { Hono, MiddlewareHandler } from "hono";
 import { principalFromSession, verifyApiKey, devLoginHandler, mcpConnectionKeyId, type ApiKeyVerifierLike, type SessionLike, type AppVars } from "@suluk/better-auth";
@@ -54,7 +55,10 @@ export function authDevMock(env: AuthEnv & { ENVIRONMENT?: string }): boolean {
 }
 
 function buildAuth(env: AuthEnv, opts: AuthOptions = {}) {
-  const db = drizzle(env.DB);
+  // guardTransactions (C115, ../foundation/app): Better Auth's own drizzle adapter builds a SEPARATE db instance from
+  // DbLive's, and would otherwise bypass the transaction guard entirely — better-auth's adapter doesn't call
+  // .transaction() today, but this closes the gap the same way for the day it (or a plugin) does.
+  const db = guardTransactions(drizzle(env.DB));
   return betterAuth({
     database: drizzleAdapter(db, { provider: "sqlite", schema }),
     secret: env.BETTER_AUTH_SECRET,

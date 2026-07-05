@@ -6,11 +6,15 @@
  * OFF by default and a query opts in one at a time via `.$withCache()`; this mirrors drizzle's own already
  * cost-conscious default and keeps the "never default into something more expensive" invariant.
  *
- * `onMutate` is a deliberate no-op: actively invalidating on every write would cost an extra lookup+delete on EVERY
- * mutation (including ones whose table was never cached) just to keep a table→keys index current — a real, ongoing
- * cost for a feature that's supposed to be free until opted into. Instead this is a TTL-only cache: an entry expires
- * after `ttlSeconds` on its own. Only opt a query into caching if it can tolerate that staleness window; anything
- * needing strict read-after-write consistency should not be cached at all.
+ * `onMutate` is a deliberate no-op. Note it is NOT gated by `.$withCache()`: once a non-Noop `Cache` is wired into
+ * `drizzle(client, {cache})` at all, drizzle's own session code calls `cache.onMutate(...)` on EVERY insert/update/
+ * delete anywhere in the app, unconditionally — opt-in only gates the READ side (whether a `SELECT` consults/stores
+ * the cache). Actively invalidating there would cost an extra lookup+delete on EVERY mutation (including ones whose
+ * table was never cached by anything) just to keep a table→keys index current — a real, ongoing cost on a path that
+ * already runs regardless. `onMutate` staying a true no-op (not "skipped", genuinely zero work) is what keeps that
+ * unavoidable per-write call cheap; the actual READ cost stays opt-in. Instead this is a TTL-only cache: an entry
+ * expires after `ttlSeconds` on its own. Only opt a query into caching if it can tolerate that staleness window;
+ * anything needing strict read-after-write consistency should not be cached at all.
  */
 import { Cache, type MutationOption } from "drizzle-orm/cache/core";
 

@@ -274,8 +274,12 @@ export function effectRoute<
       const E = (e._tag ? byTag.get(e._tag) : undefined) ?? httpErrorClassOf(e);
       if (E) return c.json(errorBody(e as Record<string, unknown>, E) as never, E.status as never);
     }
-    // an undeclared failure or a DEFECT (a handler can always die) → 500 Problem Details. Surfaced, never swallowed.
-    return c.json(toProblemDetails({ tag: "PayloadOperationError", detail: Cause.pretty(exit.cause) }) as never, 500, {
+    // an undeclared failure or a DEFECT (a handler can always die) → 500 Problem Details. LOGGED server-side, never sent
+    // to the caller — an untyped throw is a defect (mirrors @suluk/hono's onError: "never leak it"). Sending the full
+    // Cause.pretty() (absolute file paths, internal package call sites) to the wire is an information-disclosure bug,
+    // not a debugging feature; a declared error still gets its own typed, detailed body via the branches above.
+    console.error("Unhandled error in effectRoute handler:", Cause.pretty(exit.cause));
+    return c.json(toProblemDetails({ tag: "PayloadOperationError" }) as never, 500, {
       "content-type": PROBLEM_CONTENT_TYPE,
     });
   };

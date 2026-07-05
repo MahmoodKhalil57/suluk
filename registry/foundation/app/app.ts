@@ -18,7 +18,9 @@
  * session ties a BEGIN to a later COMMIT). A model composing several statements reaches for `atomicBatch` (re-exported
  * below) — `db.batch()`, the primitive Cloudflare actually supports, all statements in ONE round trip. `DbLive` also
  * wires a `SulukCache` (Cloudflare's free `caches.default` in prod, an in-memory Map in dev — no Upstash, no new
- * provisioning) — `strategy:"explicit"`, so it costs nothing until a model opts a specific query in via `.$withCache()`.
+ * provisioning) — `strategy:"explicit"`, so the READ side costs nothing until a model opts a specific query in via
+ * `.$withCache()`. (Drizzle itself calls `cache.onMutate(...)` on every write regardless of that opt-in — harmless
+ * here since `SulukCache.onMutate` is a genuine no-op, but worth knowing before giving it real invalidation logic.)
  */
 import { Hono } from "hono";
 import { cors } from "hono/cors";
@@ -73,7 +75,7 @@ function defaultCacheBackend(): CacheBackend {
 }
 
 /** Build the `Db` layer for one request from the Worker bindings — `db.transaction()` disabled (see the module header),
- *  a `SulukCache` wired in (opt-in per query, zero cost until used). */
+ *  a `SulukCache` wired in (opt-in per query on the READ side; see the module header for the onMutate caveat). */
 export const DbLive = (env: Bindings): Layer.Layer<Db> =>
   Layer.succeed(Db, guardTransactions(drizzle(env.DB, { cache: new SulukCache(defaultCacheBackend()) })));
 

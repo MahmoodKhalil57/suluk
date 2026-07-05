@@ -60,10 +60,12 @@ describe("effectRoute — runtime: run the Effect, map success/failure/defect", 
     expect(res.status).toBe(402);
     expect(await res.json()).toEqual({ required: 10, balance: 3 }); // the actual error shape
   });
-  test("a DEFECT (die) → 500 Problem Details, surfaced not swallowed", async () => {
+  test("a DEFECT (die) → 500 Problem Details, surfaced not swallowed, and NEVER leaks the cause to the wire", async () => {
     const res = await mount(() => Effect.die(new Error("boom"))).request("/x", { method: "POST" });
     expect(res.status).toBe(500);
-    expect((await res.json()).status).toBe(500);
+    const body = await res.json();
+    expect(body.status).toBe(500);
+    expect(body.detail).toBeUndefined(); // the stack trace / internal file paths must never reach the client
   });
   test("respond()/Created bubbles a per-request success status up from the handler", async () => {
     const { handler } = effectRoute({ method: "post", summary: "test route", path: "/y", ok: { status: 200, schema: z.object({ id: z.string() }) }, run: () => Effect.succeed(Created({ id: "abc" })) });
@@ -100,6 +102,7 @@ describe("service errors BUBBLE UP — an UNDECLARED tagged httpError renders at
     app.post("/z", handler);
     const res = await app.request("/z", { method: "POST" });
     expect(res.status).toBe(500);
+    expect((await res.json()).detail).toBeUndefined(); // never the raw Error message/stack
   });
 });
 

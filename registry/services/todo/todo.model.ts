@@ -51,26 +51,35 @@ export const findTodo = queryOne({
  *  drizzle/table dependency at that layer); `parseListQuery` + `compileFilter`/`compileSort`/`compileTextSearch`
  *  (all `@suluk/drizzle`, C114) turn it into real, bound SQL. The owner scope (`eq(todo.userId, ctx.userId)`) is
  *  ALWAYS the outermost AND term — a caller-supplied filter can never widen past it (AND of a contradictory
- *  `userId` sub-condition returns EMPTY, never another caller's rows) — never OR'd, never bypassed. A malformed
- *  ADVANCED `filter=` JSON is caught and treated as "no filter" (the same honest-default the SIMPLE mode already
- *  applies to an unrecognized field/op) rather than surfacing as an uncaught 500. Default sort (no `sort` param):
- *  newest first, matching the pre-C114 behavior exactly. */
+ *  `userId` sub-condition returns EMPTY, never another caller's rows) — never OR'd, never bypassed. ANY failure
+ *  turning the request into SQL — malformed advanced `filter=` JSON, OR a syntactically-valid-but-semantically-
+ *  invalid one (an op the target column's dataType doesn't support, e.g. `contains` on a boolean column —
+ *  `compileFilter` deliberately THROWS for that, C114) — is caught HERE (not just around `parseListQuery`) and
+ *  treated as "no filter, default sort, default page" (the same honest-default the SIMPLE mode already applies
+ *  to an unrecognized field/op) rather than surfacing as an uncaught 500. Default sort (no `sort` param): newest
+ *  first, matching the pre-C114 behavior exactly. */
 export const listTodos = queryMany({
   cost: readCost,
   store: { key: "todos" }, // BACKS the `$todos` collection store
   query: (db, ctx, raw: Record<string, string>) => {
-    let lq;
-    try {
-      lq = parseListQuery(raw, todo, LIST_OPTS);
-    } catch {
-      lq = parseListQuery({}, todo, LIST_OPTS); // malformed advanced `filter=` JSON -> ignore it, safe default
-    }
     const owner = eq(todo.userId, ctx.userId);
-    const filterCond = lq.filter ? compileFilter(todo, lq.filter) : undefined;
-    const searchCond = compileTextSearch(todo, lq.q);
-    const where = and(owner, ...([filterCond, searchCond].filter((c): c is SQL => c !== undefined)));
-    const orderCols = lq.sort.length ? compileSort(todo, lq.sort) : [desc(todo.createdAt)];
-    return db.select().from(todo).where(where).orderBy(...orderCols).limit(lq.limit).offset(lq.offset);
+    let where = owner;
+    let orderCols = [desc(todo.createdAt)];
+    let limit = LIST_OPTS.defaultPerPage;
+    let offset = 0;
+    try {
+      const lq = parseListQuery(raw, todo, LIST_OPTS);
+      const filterCond = lq.filter ? compileFilter(todo, lq.filter) : undefined;
+      const searchCond = compileTextSearch(todo, lq.q);
+      where = and(owner, ...([filterCond, searchCond].filter((c): c is SQL => c !== undefined))) ?? owner;
+      if (lq.sort.length) orderCols = compileSort(todo, lq.sort);
+      limit = lq.limit;
+      offset = lq.offset;
+    } catch {
+      // parseListQuery/compileFilter/compileTextSearch/compileSort failed for ANY reason -> ignore the whole
+      // query and fall back to the safe default above (owner-scoped, unfiltered, newest-first). Never a 500.
+    }
+    return db.select().from(todo).where(where).orderBy(...orderCols).limit(limit).offset(offset);
   },
 });
 

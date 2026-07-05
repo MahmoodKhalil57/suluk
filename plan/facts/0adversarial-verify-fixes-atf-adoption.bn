@@ -1,0 +1,52 @@
+# C116 -- operator: "update ATF todo service to use our latest C113 to C115 changes." Adopting into
+# ~/apps/autotoolfactory surfaced 3 real bugs via an 8-agent verify workflow (5 live-HTTP sweeps + 3 adversarial
+# reviewers) against a live bun-dev instance. ADR C116. @>=0.85
+claim c116_adf_adoption_adversarial_verify_found_three_real_bugs: Bool @>=0.85 = True
+falsified_when c116_adf_adoption_adversarial_verify_found_three_real_bugs == False
+
+# BUG 1 (correctness, C114 follow-up), CONFIRMED + FIXED: listTodos's try/catch wrapped only parseListQuery, not
+# the following compileFilter(todo,lq.filter) call -- a filter op valid in the closed 13-op vocabulary but invalid
+# for the target column's dataType (e.g. contains on the boolean completed column) throws an uncaught Error ->
+# unhandled HTTP 500, contradicting the model's own documented "never a 500" guarantee. Reproduced live BEFORE the
+# fix (GET /api/todos?completed__contains=true -> 500) and confirmed fixed AFTER (falls back to unfiltered,
+# owner-scoped rows) via a throwaway bun:sqlite script. Not a cross-user leak (verified). Fix: widen the try/catch
+# to cover parseListQuery + compileFilter + compileTextSearch + compileSort together. @>=0.9
+claim c116_bug1_filter_datatype_mismatch_500_fixed_verified: Bool @>=0.9 = True
+falsified_when c116_bug1_filter_datatype_mismatch_500_fixed_verified == False
+
+# BUG 2 (security/hardening, CROSS-CUTTING, not todo-specific, PRE-DATES C113-115), CONFIRMED + FIXED:
+# effectRoute's defect handler (tooling/ts/packages/effect/src/route.ts) embedded Cause.pretty(exit.cause) --
+# absolute server file paths + internal package call sites -- into the client-facing ProblemDetails `detail`
+# field, unconditionally, every environment, for ANY uncaught defect on ANY route in ANY suluk-built app. Contrasts
+# with @suluk/hono's own on-error.ts, which already has the correct "never leak a defect" policy (log server-side,
+# generic body) -- but sulukRoute/effectRoute's own handler bypasses hono's onError entirely. Fix: mirror hono's
+# policy (console.error server-side, no `detail` to the client). Two existing tests asserted only status===500
+# despite their OWN names claiming "not leaked" -- both strengthened to assert body.detail is undefined.
+# @suluk/effect 0.14.0 -> 0.14.1. @>=0.9
+claim c116_bug2_effect_route_stacktrace_leak_fixed_verified: Bool @>=0.9 = True
+falsified_when c116_bug2_effect_route_stacktrace_leak_fixed_verified == False
+
+# BUG 3 (completeness, C115 follow-up), CONFIRMED + FIXED: registry/services/auth/auth.ts's buildAuth constructs
+# its OWN separate drizzle(env.DB) instance for Better Auth's drizzleAdapter, entirely independent of DbLive's
+# guardTransactions wrapping -- never guarded. Confirmed better-auth's adapter has zero .transaction() call sites
+# today (no active break), but left the same silent-dev/breaks-in-prod trap C115 exists to close, on an equally
+# foundational construction site. Fix: wrap it in guardTransactions(...) too, one line, zero behavior change.
+# @>=0.9
+claim c116_bug3_auth_unguarded_drizzle_instance_fixed: Bool @>=0.9 = True
+falsified_when c116_bug3_auth_unguarded_drizzle_instance_fixed == False
+
+# FLAGGED, NOT FIXED (out of scope, pre-existing, confirmed via git log/status in autotoolfactory to predate this
+# regen entirely): GET /api/openapi.json never reflects a signed-in session caller's real scoped access (always
+# projects the public-only/anonymous surface); GET /api/admin/stats returns 200 with real platform financial
+# aggregates to a FULLY ANONYMOUS caller (the admin scope gate only restricts KEYED callers). Both real information-
+# disclosure-adjacent gaps in the generated app's authorization wiring, worth a deliberate future decision --
+# explicitly surfaced to the operator, not silently dropped. @>=0.85
+claim c116_two_findings_flagged_out_of_scope_not_silently_dropped: Bool @>=0.85 = True
+falsified_when c116_two_findings_flagged_out_of_scope_not_silently_dropped == False
+
+# VERIFIED: full 46-package ecosystem sweep -- zero fail, zero typecheck errors. @suluk/effect 154/154 (2 tests
+# strengthened, not just re-passed). Re-adopted into ~/apps/autotoolfactory: deps updated, regenerated, BOTH
+# live-reproduced bugs re-curled against the running dev server and confirmed fixed, full 8-agent verification
+# workflow re-run clean. @>=0.9
+claim c116_full_sweep_and_atf_reverify_clean: Bool @>=0.9 = True
+falsified_when c116_full_sweep_and_atf_reverify_clean == False
